@@ -30,6 +30,8 @@ namespace Enjoys\Forms;
  * 
  * Class Forms
  * 
+ * @method Traits\Attributes addAttribute(mixed $attributes);
+ * @method Traits\Attributes getAttributes();
  * 
  * @author Enjoys
  * 
@@ -71,7 +73,6 @@ class Forms {
     private string $renderer = 'defaults';
 
     /**
-     * 
      * @param string $method
      * @param string $action
      */
@@ -162,12 +163,12 @@ class Forms {
         $this->elements[] = $element;
         return $element;
     }
-    
+
     /**
      * 
      * @return array
      */
-    public function getElements() : array {
+    public function getElements(): array {
         return $this->elements;
     }
 

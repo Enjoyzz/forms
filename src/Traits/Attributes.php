@@ -27,7 +27,7 @@
 namespace Enjoys\Forms\Traits;
 
 /**
- *
+ * 
  * @author Enjoys
  */
 trait Attributes {
@@ -36,11 +36,11 @@ trait Attributes {
      *
      * @var array
      */
-    protected array $attributes = [];
+    private array $attributes = [];
 
     /**
      * 
-     * @param type $attributes
+     * @param mixed $attributes
      * @return \self
      */
     public function addAttribute(...$attributes): self {
@@ -58,10 +58,15 @@ trait Attributes {
 
     /**
      * 
-     * @param type $name
-     * @param type $value
+     * @param string $name
+     * @param string $value
+     * @return void
      */
-    private function setAttribute($name, $value): void {
+    private function setAttribute(string $name, string $value): void {
+        if (isset($this->attributes[$name]) && in_array($name, ['class'])) {
+            $this->attributes[$name] = $this->attributes[$name] . " " . $value;
+            return;
+        }
         $this->attributes[$name] = $value;
     }
 

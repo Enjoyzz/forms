@@ -29,10 +29,13 @@ namespace Enjoys\Forms;
 /**
  * Class Element
  * 
+ * @method Element addAttribute(mixed $attributes);
+ * @method Element getAttributes();
  * 
  * @author Enjoys
  */
 class Element {
+
 
     use Traits\Attributes;
 
@@ -82,6 +85,8 @@ class Element {
         if (!is_null($title)) {
             $this->setTitle($title);
         }
+        
+        
         
         /** @todo переделать */
         if(isset($_REQUEST[$this->getName()])){
