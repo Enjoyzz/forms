@@ -29,9 +29,8 @@ namespace Enjoys\Forms;
 /**
  * Class Element
  * 
- * @author Enjoys
  * 
- * @mixin Traits\Attributes
+ * @author Enjoys
  */
 class Element {
 
@@ -72,12 +71,6 @@ class Element {
      * @var string|null   
      */
     protected ?string $value;
-
-    /**
-     *
-     * @var string|null  
-     */
-//    protected ?string $html;
 
     /**
      * 
@@ -159,7 +152,7 @@ class Element {
      * @param string $title
      * @return \self
      */
-    public function setTitle(string $title = null): self {
+    public function setTitle(string $title): self {
         $this->title = $title;
         return $this;
     }
@@ -178,8 +171,6 @@ class Element {
         return $this;
     }
 
-    public function getHtml() {
-        return $this->html;
-    }
+
 
 }
