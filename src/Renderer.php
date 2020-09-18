@@ -24,15 +24,26 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Elements;
+namespace Enjoys\Forms;
 
 /**
- * Class Text
+ * Class Renderer
  *
  * @author Enjoys
  */
-class Password extends \Enjoys\Forms\Element {
+class Renderer {
+    
+    protected Forms $form;
+    protected string $html = '';
 
-    protected string $type = 'password';
-
+    public function __construct(Forms $form) {
+        $this->form = $form;
+    }
+    
+    
+    public function __toString() {
+        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';
+    }
+    
+    
 }

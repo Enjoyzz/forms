@@ -24,15 +24,13 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Elements;
+namespace Enjoys\Forms;
 
 /**
- * Class Text
+ * Class Exception
  *
  * @author Enjoys
  */
-class Password extends \Enjoys\Forms\Element {
-
-    protected string $type = 'password';
-
+class Exception extends \Exception{
+   
 }

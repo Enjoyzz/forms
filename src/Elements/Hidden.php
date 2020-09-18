@@ -27,12 +27,22 @@
 namespace Enjoys\Forms\Elements;
 
 /**
- * Class Text
+ * Class Hidden
  *
  * @author Enjoys
+ * 
+ * @mixin \Enjoys\Forms\Element
  */
-class Password extends \Enjoys\Forms\Element {
-
-    protected string $type = 'password';
-
+class Hidden extends \Enjoys\Forms\Element{
+    /**
+     *
+     * @var string 
+     */
+    protected string $type = 'hidden';
+    
+    public function __construct($name, $value) {
+        $this->setName($name);
+        $this->setValue($value);
+    }
+    
 }

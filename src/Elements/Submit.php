@@ -27,12 +27,10 @@
 namespace Enjoys\Forms\Elements;
 
 /**
- * Class Text
+ * Class Submit
  *
  * @author Enjoys
  */
-class Password extends \Enjoys\Forms\Element {
-
-    protected string $type = 'password';
-
+class Submit extends \Enjoys\Forms\Element{
+    protected string $type = 'submit';
 }

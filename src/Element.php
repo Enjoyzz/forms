@@ -24,56 +24,162 @@
  * THE SOFTWARE.
  */
 
-namespace xForms;
+namespace Enjoys\Forms;
 
 /**
  * Class Element
  * 
  * @author Enjoys
+ * 
+ * @mixin Traits\Attributes
  */
-abstract class Element{
-    
-    protected $type = null;
-    protected $name = '';
-    protected $title = '';
-    protected $description= '';
-    protected $html = '';
-    
-    
+class Element {
 
+    use Traits\Attributes;
 
-    public function __construct($name, $title) {
-        $this->setName($name);
-        $this->setTitle($title);
-    }
-    
-    private function setName($name) {
-        $this->name = $name;
-    }   
-    
-    public function getName() {
-        return $this->name;
-    }        
-    
-    private function setTitle($title) {
-        $this->title = $title;
-    }
-    
+    /**
+     *
+     * @var string
+     */
+    protected string $type;
+
+    /**
+     *
+     * @var string|null  
+     */
+    protected ?string $name;
+
+    /**
+     *
+     * @var string|null  
+     */
+    protected ?string $id;
+
+    /**
+     *
+     * @var string|null   
+     */
+    protected ?string $title;
+
+    /**
+     *
+     * @var string|null   
+     */
+    protected ?string $description;
+
+    /**
+     *
+     * @var string|null   
+     */
+    protected ?string $value;
+
+    /**
+     *
+     * @var string|null  
+     */
+//    protected ?string $html;
+
     /**
      * 
-     * @param type $description
-     * @return $this
+     * @param string $name
+     * @param string $title
      */
-    public function setDescription($description) {
-        $this->description = $description;
-        return $this;
-    }    
-    
-    public function addAttribute(...$attributes) {
+    public function __construct(string $name, string $title = null) {
+        $this->setName($name);
+        if (!is_null($title)) {
+            $this->setTitle($title);
+        }
+        
+        /** @todo переделать */
+        if(isset($_REQUEST[$this->getName()])){
+            $this->setValue($_REQUEST[$this->getName()]);
+        }
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return \self
+     */
+    public function setName(string $name): self {
+        $this->name = $name;
+        $this->setId($this->name);
+        $this->setAttribute('name', $this->name);
         return $this;
     }
-    
-    abstract function baseHtmlRender();  
-  
-    
+
+    /**
+     * 
+     * @return string|null
+     */
+    public function getName(): ?string {
+        return $this->name;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return \self
+     */
+    public function setId(string $id): self {
+        $this->id = $id;
+        $this->setAttribute('id', $this->id);
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string|null
+     */
+    public function getId(): ?string {
+        return $this->id;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getType(): string {
+        return $this->type;
+    }
+
+    /**
+     * 
+     * @param string $value
+     * @return \self
+     */
+    public function setValue(string $value): self {
+        $this->value = $value;
+        $this->setAttribute('value', $this->value);
+        return $this;
+    }
+
+    /**
+     * 
+     * @param string $title
+     * @return \self
+     */
+    public function setTitle(string $title = null): self {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getTitle(): string {
+        return $this->title;
+    }
+
+    /**
+     * 
+     * @param string $description
+     * @return \self
+     */
+    public function setDescription(string $description): self {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getHtml() {
+        return $this->html;
+    }
+
 }

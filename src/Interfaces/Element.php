@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace xForms\Interfaces;
+namespace Enjoys\Forms\Interfaces;
 
 /**
  *

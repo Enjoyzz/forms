@@ -24,19 +24,62 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Elements;
+namespace Enjoys\Forms\Traits;
 
 /**
- * Class Text
  *
  * @author Enjoys
- * 
  */
-class Text extends \Enjoys\Forms\Element {
+trait Attributes {
 
     /**
      *
-     * @var string 
+     * @var array
      */
-    protected string $type = 'text';
+    protected array $attributes = [];
+
+    /**
+     * 
+     * @param type $attributes
+     * @return \self
+     */
+    public function addAttribute(...$attributes): self {
+        //dump($attributes);
+        if (is_array($attributes[0])) {
+            foreach ($attributes[0] as $name => $value) {
+                $this->setAttribute($name, $value);
+            }
+            return $this;
+        }
+
+        $this->setAttribute($attributes[0], (isset($attributes[1])) ? $attributes[1] : null );
+        return $this;
+    }
+
+    /**
+     * 
+     * @param type $name
+     * @param type $value
+     */
+    private function setAttribute($name, $value): void {
+        $this->attributes[$name] = $value;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getAttributes(): string {
+        $str = [];
+        foreach ($this->attributes as $key => $value) {
+
+            if (is_null($value)) {
+                $str[] = " {$key}";
+                continue;
+            }
+            $str[] = " {$key}=\"{$value}\"";
+        }
+        return implode("", $str);
+    }
+
 }
