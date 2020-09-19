@@ -29,8 +29,6 @@ namespace Enjoys\Forms;
 /**
  * Class Element
  * 
- * @method Element addAttribute(mixed $attributes);
- * @method Element getAttributes();
  * 
  * @author Enjoys
  */

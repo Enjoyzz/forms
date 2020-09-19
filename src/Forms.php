@@ -30,8 +30,6 @@ namespace Enjoys\Forms;
  * 
  * Class Forms
  * 
- * @method Traits\Attributes addAttribute(mixed $attributes);
- * @method Traits\Attributes getAttributes();
  * 
  * @author Enjoys
  * 

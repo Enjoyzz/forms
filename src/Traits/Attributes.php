@@ -62,7 +62,7 @@ trait Attributes {
      * @param string $value
      * @return void
      */
-    private function setAttribute(string $name, string $value): void {
+    private function setAttribute(string $name, string $value = null): void {
         if (isset($this->attributes[$name]) && in_array($name, ['class'])) {
             $this->attributes[$name] = $this->attributes[$name] . " " . $value;
             return;
