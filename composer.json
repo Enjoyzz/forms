@@ -14,6 +14,11 @@
             "Enjoys\\Forms\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Enjoys\\Forms\\": "tests/"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.0-dev"

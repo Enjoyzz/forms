@@ -44,7 +44,7 @@ class Forms {
      *
      * @var string|null   
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      *
@@ -90,7 +90,7 @@ class Forms {
      * 
      * @return string
      */
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 
@@ -120,7 +120,7 @@ class Forms {
      */
     public function setAction(?string $action): self {
         $this->action = $action;
-        $this->setAttribute('action', $this->action);
+        $this->setAttribute('action', $this->getAction());
         return $this;
     }
 
@@ -146,29 +146,22 @@ class Forms {
     }
 
     /**
-     * @method Elements\Text text(string $name, string $title)
-     * @method Elements\Hidden hidden(string $name, string $value)
-     * @method Elements\Password password(string $name, string $title)
-     * @method Elements\Submit submit(string $name, string $title)
-     *  
-     * @mixin Element
-     */
-    public function __call(string $name, array $arguments): Element {
-        $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
-
-        /** @var Element $element */
-        $element = new $class_name(...$arguments);
-        $this->elements[] = $element;
-        return $element;
-    }
-
-    /**
      * 
      * @return array
      */
     public function getElements(): array {
         return $this->elements;
     }
+    
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return \self
+     */
+    public function addElement(Element $element): self {
+        $this->elements[] = $element;
+        return $this;
+    }    
 
     /**
      * 
@@ -188,14 +181,32 @@ class Forms {
     public function display() {
 
         $renderer = '\\Enjoys\\Forms\\Renderer\\' . \ucfirst($this->renderer);
-        try {
-            if (!class_exists($renderer)) {
-                throw new Exception("Class <b>{$renderer}</b> not found");
-            }
-            return new $renderer($this);
-        } catch (Exception $e) {
-            return $e->getMessage();
+
+        if (!class_exists($renderer)) {
+            throw new Exception("Class <b>{$renderer}</b> not found");
         }
+        return new $renderer($this);
+    }
+
+    /**
+     * @method Elements\Text text(string $name, string $title)
+     * @method Elements\Hidden hidden(string $name, string $value)
+     * @method Elements\Password password(string $name, string $title)
+     * @method Elements\Submit submit(string $name, string $title)
+     *  
+     * @mixin Element
+     */
+    public function __call(string $name, array $arguments) {
+
+
+        $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
+        if (!class_exists($class_name)) {
+            throw new Exception("Class <b>{$class_name}</b> not found at line in Forms\Elements");
+        }
+        /** @var Element $element */
+        $element = new $class_name(...$arguments);
+        $this->addElement($element);
+        return $element;
     }
 
 }

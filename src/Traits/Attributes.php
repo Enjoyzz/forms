@@ -31,6 +31,8 @@ namespace Enjoys\Forms\Traits;
  * @author Enjoys
  */
 trait Attributes {
+    
+
 
     /**
      *
@@ -68,6 +70,13 @@ trait Attributes {
             return;
         }
         $this->attributes[$name] = $value;
+    }
+    
+    public function getAttribute($key) {
+        if(isset($this->attributes[$key])){
+            return $this->attributes[$key];
+        }
+        return false;
     }
 
     /**

@@ -34,16 +34,20 @@ namespace Enjoys\Forms;
 class Renderer {
     
     protected Forms $form;
-    protected string $html = '';
 
     public function __construct(Forms $form) {
         $this->form = $form;
     }
     
-    
-    public function __toString() {
-        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';
+    public function getForm() {
+        return $this->form;
     }
+
+    
+    
+//    public function __toString() {
+//        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';
+//    }
     
     
 }

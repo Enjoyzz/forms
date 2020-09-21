@@ -25,28 +25,30 @@
  */
 
 namespace Enjoys\Forms\Renderer;
+
+use Enjoys\Forms\Interfaces;
 /**
  * Class Bs4
  *
  * @author Enjoys
  */
-class Bs4 extends \Enjoys\Forms\Renderer{
+class Bs4 extends \Enjoys\Forms\Renderer  implements Interfaces\Renderer{
     
-    public function __construct(\Enjoys\Forms\Forms $form) {
-        parent::__construct($form);
-        
-        $this->header();
-        $this->footer();
-    }
-
-    private function header() {
-        $this->html .= "<form{$this->form->getAttributes()}>";
-    }
-    private function footer() {
-        $this->html .= "</form>";
-    }    
-
+//    public function __construct(\Enjoys\Forms\Forms $form) {
+//        parent::__construct($form);
+//        
+//        $this->header();
+//        $this->footer();
+//    }
+//
+//    private function header() {
+//        $this->html .= "<form{$this->form->getAttributes()}>";
+//    }
+//    private function footer() {
+//        $this->html .= "</form>";
+//    }    
+//
     public function __toString() {
-        return $this->html;
+        return '';
     }
 }

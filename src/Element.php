@@ -47,31 +47,31 @@ class Element {
      *
      * @var string|null  
      */
-    protected ?string $name;
+    protected ?string $name = null;
 
     /**
      *
      * @var string|null  
      */
-    protected ?string $id;
+    protected ?string $id = null;
 
     /**
      *
      * @var string|null   
      */
-    protected ?string $title;
+    protected ?string $title = null;
 
     /**
      *
      * @var string|null   
      */
-    protected ?string $description;
+    protected ?string $description = null;
 
     /**
      *
      * @var string|null   
      */
-    protected ?string $value;
+    protected ?string $value = null;
 
     /**
      * 
@@ -160,7 +160,7 @@ class Element {
         return $this;
     }
 
-    public function getTitle(): string {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
@@ -173,6 +173,10 @@ class Element {
         $this->description = $description;
         return $this;
     }
+    
+    public function getDescription(): ?string {
+        return $this->description;
+    }    
 
 
 

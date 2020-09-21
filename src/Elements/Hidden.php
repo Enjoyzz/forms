@@ -33,16 +33,19 @@ namespace Enjoys\Forms\Elements;
  * 
  * @mixin \Enjoys\Forms\Element
  */
-class Hidden extends \Enjoys\Forms\Element{
+class Hidden extends \Enjoys\Forms\Element {
+
     /**
      *
      * @var string 
      */
     protected string $type = 'hidden';
-    
-    public function __construct($name, $value) {
+
+    public function __construct($name, $value = null) {
         $this->setName($name);
-        $this->setValue($value);
+        if (!is_null($value)) {
+            $this->setValue($value);
+        }
     }
-    
+
 }

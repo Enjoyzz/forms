@@ -26,86 +26,94 @@
 
 namespace Enjoys\Forms\Renderer;
 
+use Enjoys\Forms\Interfaces;
+
 /**
  * Class Defaults
  *
  * @author Enjoys
  */
-class Defaults extends \Enjoys\Forms\Renderer {
+class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
 
     private $elements = [];
 
     public function __construct(\Enjoys\Forms\Forms $form) {
         parent::__construct($form);
 
-        $this->elements = $this->form->getElements();
+        $this->setElements($this->getForm()->getElements()) ;
 
-        $this->header();
-        $this->hidden();
-        $this->elements();
-        $this->footer();
-        dump($this->elements);
+
     }
 
-    private function header() {
-        $this->html .= "<form{$this->form->getAttributes()}>\n";
+
+    public function header() {
+        return "<form{$this->form->getAttributes()}>\n";
     }
 
-    private function footer() {
-        $this->html .= "</form>";
+    public function footer() {
+        return "</form>";
     }
 
-    private function hidden() {
-        /** @var \Enjoys\Forms\Element $element */
-        foreach ($this->elements as $key => $element) {
-            if (!($element instanceof \Enjoys\Forms\Elements\Hidden)) {
-                continue;
-            }
-            $this->html .= "<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
-            unset($this->elements[$key]);
-        }
-    }
-
-    private function elements() {
+    public function hidden() {
+        $html = '';
         /** @var \Enjoys\Forms\Element $element */
         foreach ($this->elements as $key => $element) {
             if ($element instanceof \Enjoys\Forms\Elements\Hidden) {
+                $html .= "<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
+                unset($this->elements[$key]);
+            }
+            continue;
+        }
+        return $html;
+    }
+
+    public function elements() {
+        $html = '';
+        /** @var \Enjoys\Forms\Element $element */
+        foreach ($this->elements as $key => $element) {
+            unset($this->elements[$key]);
+            
+            if(!is_object($element)){
                 continue;
             }
-
-            if (
-                    $element instanceof \Enjoys\Forms\Elements\Text ||
-                    $element instanceof \Enjoys\Forms\Elements\Password
-            ) {
-                $this->renderInput($element);
+            
+            switch (\get_class($element)) {
+                case 'Enjoys\Forms\Elements\Text':
+                case 'Enjoys\Forms\Elements\Password':
+                    $html .= $this->renderInput($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Submit':
+                    $html .= $this->renderButton($element);
+                    break;
+                default:
+                    break;
             }
-
-            if (
-                    $element instanceof \Enjoys\Forms\Elements\Submit
-            ) {
-                $this->renderButton($element);
-            }
-
-            unset($this->elements[$key]);
+            
         }
+        
+        return $html;
     }
 
     private function renderInput(\Enjoys\Forms\Element $element) {
-        $this->html .= "
-            <label for=\"{$element->getId()}\">{$element->getTitle()}</label>
-            <input type=\"{$element->getType()}\"{$element->getAttributes()}>
-            
-            ";
+        return "\t<label for=\"{$element->getId()}\">{$element->getTitle()}</label>
+\t<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
     }
-    
+
     private function renderButton(\Enjoys\Forms\Element $element) {
-        $this->html .= "
-            <input type=\"{$element->getType()}\"{$element->getAttributes()}>
-            ";
-    }    
+        return "\t<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
+    }
 
     public function __toString() {
-        return $this->html;
+        $html = '';
+        $html .= $this->header();
+        $html .= $this->hidden();
+        $html .= $this->elements();
+        $html .= $this->footer();
+        return $html;
+    }
+    
+    public function setElements(array $elements) {
+        $this->elements = $elements;
     }
 
 }
