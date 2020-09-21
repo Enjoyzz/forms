@@ -147,6 +147,12 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $this->expectException(\Enjoys\Forms\Exception::class);
         $this->form->invalid();
     }
+    
+    public function test_double_set_elements() {
+        $this->expectException(\Enjoys\Forms\Exception::class);
+        $this->form->text('foo');
+        $this->form->text('foo');
+    }    
 
     public function test_invalid_display() {
         $this->expectException(\Enjoys\Forms\Exception::class);

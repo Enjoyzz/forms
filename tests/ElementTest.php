@@ -52,25 +52,33 @@ class ElementTest extends TestCase{
     
     public function test_setDescription() {
         $this->obj->text('Foo', 'Bar')->setDescription('Zed');
-        $element =  $this->obj->getElements()[0];
+        $elements = $this->obj->getElements();
+        $first_key = \array_key_first($elements);
+        $element =  $elements[$first_key];
         $this->assertSame('Zed',$element->getDescription());
     }
     
     public function test_setTitle() {
         $this->obj->text('Foo', 'Bar')->setTitle('Zed');
-        $element =  $this->obj->getElements()[0];
+        $elements = $this->obj->getElements();
+        $first_key = \array_key_first($elements);
+        $element =  $elements[$first_key];
         $this->assertSame('Zed',$element->getTitle());
     }   
     
     public function test_setId() {
         $this->obj->text('Foo')->setId('Bar');
-        $element =  $this->obj->getElements()[0];
+        $elements = $this->obj->getElements();
+        $first_key = \array_key_first($elements);
+        $element =  $elements[$first_key];
         $this->assertSame('Bar',$element->getId());
     }  
     
     public function test_getType() {
         $this->obj->text('Foo');
-        $element =  $this->obj->getElements()[0];
+        $elements = $this->obj->getElements();
+        $first_key = \array_key_first($elements);
+        $element =  $elements[$first_key];
         $this->assertSame('text',$element->getType());
     }       
 }

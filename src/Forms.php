@@ -159,7 +159,10 @@ class Forms {
      * @return \self
      */
     public function addElement(Element $element): self {
-        $this->elements[] = $element;
+        if(isset($this->elements[$element->getName()])){
+            throw new Exception('Элемент c именем '. $element->getName() .' ('.\get_class($element).') уже был установлен');
+        }
+        $this->elements[$element->getName()] = $element;
         return $this;
     }    
 
@@ -193,6 +196,30 @@ class Forms {
      * @method Elements\Hidden hidden(string $name, string $value)
      * @method Elements\Password password(string $name, string $title)
      * @method Elements\Submit submit(string $name, string $title)
+     * @method Elements\Header header(string $title)
+     * @method Elements\Color color(string $name, string $title)
+     * @method Elements\Date date(string $name, string $title)
+     * @method Elements\Datetime datetime(string $name, string $title)
+     * @method Elements\Datetimelocal datetimelocal(string $name, string $title)
+     * @method Elements\Email email(string $name, string $title)
+     * @method Elements\Number number(string $name, string $title)
+     * @method Elements\Range range(string $name, string $title)
+     * @method Elements\Search search(string $name, string $title)
+     * @method Elements\Tel tel(string $name, string $title)
+     * @method Elements\Time time(string $name, string $title)
+     * @method Elements\Url url(string $name, string $title)
+     * @method Elements\Month month(string $name, string $title)
+     * @method Elements\Week week(string $name, string $title)
+     * @todo Textarea
+     * @todo Select
+     * @todo Buttоn
+     * @todo Datalist
+     * @todo Checkbox
+     * @todo File
+     * @todo Image
+     * @todo Radio
+     * @todo Reset
+     * @todo Captcha
      *  
      * @mixin Element
      */

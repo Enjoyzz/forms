@@ -79,25 +79,65 @@ class DefaultsTest extends TestCase {
     }
 
     public function test_render_element_width_hidden_include_in_element_after_method_hidden() {
-
+       
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
         $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Hidden('foo'));
         $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Submit('bar'));
         $obj->setElements($obj->getForm()->getElements());
      
-        $this->assertSame("\t<input type=\"submit\" id=\"bar\" name=\"bar\">\n", $obj->elements());
+        $this->assertSame("\t<br><input type=\"submit\" id=\"bar\" name=\"bar\">\n", $obj->elements());
     }
 
     public function test_render_text() {
         $this->form->text('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
-        $this->assertSame("\t<label for=\"baz\">bar</label>\n\t<input type=\"text\" id=\"baz\" name=\"foo\">\n", $obj->elements());
+        $this->assertSame("\t<label for=\"baz\">bar</label><br>\n\t<input type=\"text\" id=\"baz\" name=\"foo\"><br>\n\n", $obj->elements());
     }
 
     public function test_render_submit() {
         $this->form->submit('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
-        $this->assertSame("\t<input type=\"submit\" id=\"baz\" name=\"foo\">\n", $obj->elements());
+        $this->assertSame(" <br><input type=\"submit\" id=\"baz\" name=\"foo\"> ", $this->toOneString($obj->elements()));
+    }
+    
+    public function test_footer_with_closeheader() {
+        $this->form->header('foo');
+          $this->form->text('foo2');
+        $this->form->text('foo3');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        $obj->elements();
+        $this->assertSame(" </fieldset> </form>", $this->toOneString($obj->footer()));
+    }
+    
+   public function test_header_after1() {
+        $this->form->header('foo')->closeAfter(1);
+        $this->form->text('foo2');
+        $this->form->text('foo3');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+    
+        $this->assertNotFalse(\stripos($this->toOneString($obj->elements()), "name=\"foo2\"><br> </fieldset>", ));
+    }    
+    
+   public function test_two_header() {
+        $this->form->header('hyt');
+        $this->form->text('foo');
+        $this->form->header('hyz');
+        $this->form->text('bar');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $this->assertNotFalse(\stripos($this->toOneString($obj->elements()), "name=\"foo\"><br> </fieldset> <fieldset>", ));
+    }   
+    
+   public function test_two_header_in_a_row() {
+        $this->form->header('hyt');
+        $this->form->header('hyz');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $this->assertNotFalse(\stripos($this->toOneString($obj->elements()), "</fieldset> <fieldset>", ));
+    }  
+    
+    private function toOneString($multistring) {
+        return preg_replace ('/\s+/', ' ', $multistring);
     }
 
 }

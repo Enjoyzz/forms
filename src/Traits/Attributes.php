@@ -39,6 +39,21 @@ trait Attributes {
      * @var array
      */
     private array $attributes = [];
+    private string $groupAttributes = 'general';
+    
+    public function setGroupAttributes(string $group) {
+        $this->groupAttributes = $group;
+        return $this;
+    }
+    
+//    public function getGroupAttributes() {
+//        return $this->groupAttributes;
+//    }
+    
+    public function resetGroupAttributes() {
+        $this->groupAttributes = 'general';
+        return $this;
+    }
 
     /**
      * 
@@ -65,16 +80,16 @@ trait Attributes {
      * @return void
      */
     private function setAttribute(string $name, string $value = null): void {
-        if (isset($this->attributes[$name]) && in_array($name, ['class'])) {
-            $this->attributes[$name] = $this->attributes[$name] . " " . $value;
+        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
+            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
             return;
         }
-        $this->attributes[$name] = $value;
+        $this->attributes[$this->groupAttributes][$name] = $value;
     }
     
     public function getAttribute($key) {
-        if(isset($this->attributes[$key])){
-            return $this->attributes[$key];
+        if(isset($this->attributes[$this->groupAttributes][$key])){
+            return $this->attributes[$this->groupAttributes][$key];
         }
         return false;
     }
@@ -85,7 +100,10 @@ trait Attributes {
      */
     public function getAttributes(): string {
         $str = [];
-        foreach ($this->attributes as $key => $value) {
+        if(!isset($this->attributes[$this->groupAttributes])){
+            $this->attributes[$this->groupAttributes] = [];
+        }
+        foreach ($this->attributes[$this->groupAttributes] as $key => $value) {
 
             if (is_null($value)) {
                 $str[] = " {$key}";
@@ -94,6 +112,13 @@ trait Attributes {
             $str[] = " {$key}=\"{$value}\"";
         }
         return implode("", $str);
+    }
+    
+    public function removeAttribute($key) : self {
+        if(isset($this->attributes[$this->groupAttributes][$key])){
+            unset($this->attributes[$this->groupAttributes][$key]);
+        }
+        return $this;
     }
 
 }
