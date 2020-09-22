@@ -23,44 +23,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Forms;
+namespace Tests\Enjoys\Forms\Traits;
+
 /**
- * Description of HeaderTest
+ * Description of LabelAttributesTest
  *
  * @author deadl
  */
-class HeaderTest extends \PHPUnit\Framework\TestCase{
-
-    public function test_full_construct() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $this->assertSame('title', $obj->getTitle());
+class LabelAttributesTest extends \PHPUnit\Framework\TestCase {
+    public function test_get_label_attributes() {
+        $form = new \Enjoys\Forms\Forms();
+        $form->radio('1', '1')->addLabelAttribute(['test', 'id' => 'test']);
+        $el = $form->getElements();
+        $this->assertSame('test', $el[1]->getLabelAttribute('id'));
+        $this->assertNull($el[1]->getLabelAttribute('test'));
     }
-    
-    public function test_attr_legend() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addAttribute([
-            'id' => 'test'
-        ]);
-        $this->assertSame('test', $obj->getAttribute('id'));
-    }    
-    
-    public function test_attr_fieldset() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addFieldsetAttribute([
-            'id' => 'test'
-        ]);
-        $this->assertSame('test', $obj->getFieldsetAttribute('id'));
-    }  
-
-   public function test_attr_fieldset_get() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addFieldsetAttribute([
-            'id' => 'test',
-            'disabled' => null
-        ]);
-        $this->assertSame(' id="test" disabled', $obj->getFieldsetAttributes());
-    }      
-
 }

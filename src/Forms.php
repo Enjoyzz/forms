@@ -101,7 +101,9 @@ class Forms {
      */
     public function setName(?string $name): self {
         $this->name = $name;
-        $this->setAttribute('name', $this->name);
+        if (!is_null($name)) {
+            $this->setAttribute('name', $this->name);
+        }
         return $this;
     }
 
@@ -152,19 +154,19 @@ class Forms {
     public function getElements(): array {
         return $this->elements;
     }
-    
+
     /**
      * 
      * @param \Enjoys\Forms\Element $element
      * @return \self
      */
     public function addElement(Element $element): self {
-        if(isset($this->elements[$element->getName()])){
-            throw new Exception('Элемент c именем '. $element->getName() .' ('.\get_class($element).') уже был установлен');
+        if (isset($this->elements[$element->getName()])) {
+            throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
         $this->elements[$element->getName()] = $element;
         return $this;
-    }    
+    }
 
     /**
      * 
@@ -214,10 +216,10 @@ class Forms {
      * @todo Select
      * @todo Buttоn
      * @todo Datalist
-     * @todo Checkbox
+     * @method Elements\Checkbox checkbox(string $name, string $title)
      * @todo File
      * @todo Image
-     * @todo Radio
+     * @method Elements\Radio radio(string $name, string $title)
      * @todo Reset
      * @todo Captcha
      *  

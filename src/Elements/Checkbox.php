@@ -26,11 +26,41 @@
 
 namespace Enjoys\Forms\Elements;
 
+use \Enjoys\Forms\Traits\Fill,
+    \Enjoys\Forms\Interfaces,
+    \Enjoys\Forms\Element;
+
 /**
  * Description of Checkbox
  *
  * @author deadl
  */
-class Checkbox extends \Enjoys\Forms\Element{
-    //put your code here
+class Checkbox extends Element implements Interfaces\Radio_Checkbox {
+
+    use Fill;
+
+    /**
+     *
+     * @var string 
+     */
+    protected string $type = 'checkbox';
+    
+    private static $prefix_id = 'cb_';
+
+    public function __construct(string $name, string $title = null) {
+        parent::__construct($name.'[]', $title);
+        $this->setValue($name);
+        $this->setId($this->getPrefixId() . $name);
+        $this->removeAttribute('name');
+    }
+    
+    public function setPrefixId($prefix) {
+        static::$prefix_id = $prefix;
+        $this->setId(static::$prefix_id . $this->getName());
+        return $this;
+    }
+    
+    public function getPrefixId() {
+        return static::$prefix_id;
+    }    
 }

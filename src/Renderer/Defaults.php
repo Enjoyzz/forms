@@ -107,6 +107,10 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                 case 'Enjoys\Forms\Elements\Header':
                     $html .= $this->renderHeader($element);
                     break;
+                case 'Enjoys\Forms\Elements\Radio':
+                case 'Enjoys\Forms\Elements\Checkbox':
+                    $html .= $this->renderRadioCheckbox($element);
+                    break;
                 default:
                     break;
             }
@@ -120,12 +124,28 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
     }
 
     private function renderInput(\Enjoys\Forms\Element $element) {
-        $html = "\t<label for=\"{$element->getId()}\">{$element->getTitle()}</label><br>
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<input type=\"{$element->getType()}\"{$element->getAttributes()}><br>\n";
-       if(!empty($element->getDescription())){
-           $html .= "\t<small>{$element->getDescription()}</small><br>\n";
-       }
-       return $html."\n";
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "\n";
+    }
+
+    private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
+
+        
+        /** @var \Enjoys\Forms\Element $data */
+        foreach ($element->getElements() as $data) {
+   
+            $html .= "\t<input type=\"{$data->getType()}\" name=\"{$element->getName()}\"{$data->getAttributes()}><label for=\"{$data->getId()}\"{$data->getLabelAttributes()}>{$data->getTitle()}</label><br>\n";
+        }
+
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "\n";
     }
 
     private function renderButton(\Enjoys\Forms\Element $element) {

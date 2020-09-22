@@ -26,8 +26,8 @@
 
 namespace Tests\Enjoys\Forms\Traits;
 
-
 use Enjoys\Forms\Forms;
+
 /**
  * Description of AttributeTest
  *
@@ -50,30 +50,44 @@ class AttributeTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testAddAttribute_arrays() {
-        $this->obj->addAttribute(['first' => 'value1', 'second'=>'value2']);
+        $this->obj->addAttribute(['first' => 'value1', 'second' => 'value2']);
         $this->assertSame('value1', $this->obj->getAttribute('first'));
         $this->assertSame('value2', $this->obj->getAttribute('second'));
     }
-    
+
     public function testAddAttribute_lines() {
-        $this->obj->addAttribute('first','value1');
+        $this->obj->addAttribute('first', 'value1');
         $this->assertSame('value1', $this->obj->getAttribute('first'));
-    }    
-    
-    
+    }
+
     public function testAddAttribute_class() {
-        $this->obj->addAttribute('class','value1')->addAttribute('class','value2');
+        $this->obj->addAttribute('class', 'value1')->addAttribute('class', 'value2');
         $this->assertSame('value1 value2', $this->obj->getAttribute('class'));
-    }   
-    
+    }
+
     public function testAddAttribute_not_class() {
-        $this->obj->addAttribute('something','value1')->addAttribute('something','value2');
+        $this->obj->addAttribute('something', 'value1')->addAttribute('something', 'value2');
         $this->assertSame('value2', $this->obj->getAttribute('something'));
-    }     
-    
+    }
+
     public function testGetAttributes() {
-        $this->obj->addAttribute('something','value1')->addAttribute('something2');
+        $this->obj->addAttribute('something', 'value1')->addAttribute('something2');
         $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
-    }      
+    }
+
+    public function testGetAttributesArray() {
+        $this->obj->addAttribute(['something' => 'value1', 'something2' => null]);
+        $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
+    }
+
+    public function testGetAttributesArray2() {
+        $this->obj->addAttribute(['something' => 'value1', 'something2']);
+        $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
+    }
+    
+    public function test_attr_without_value_get_attr() {
+        $this->obj->addAttribute(['something' => 'value1', 'something2']);
+        $this->assertNull($this->obj->getAttribute('something2'));
+    }    
 
 }

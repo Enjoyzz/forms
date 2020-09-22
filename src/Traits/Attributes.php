@@ -31,8 +31,6 @@ namespace Enjoys\Forms\Traits;
  * @author Enjoys
  */
 trait Attributes {
-    
-
 
     /**
      *
@@ -40,16 +38,16 @@ trait Attributes {
      */
     private array $attributes = [];
     private string $groupAttributes = 'general';
-    
+
     public function setGroupAttributes(string $group) {
         $this->groupAttributes = $group;
         return $this;
     }
-    
+
 //    public function getGroupAttributes() {
 //        return $this->groupAttributes;
 //    }
-    
+
     public function resetGroupAttributes() {
         $this->groupAttributes = 'general';
         return $this;
@@ -64,6 +62,10 @@ trait Attributes {
         //dump($attributes);
         if (is_array($attributes[0])) {
             foreach ($attributes[0] as $name => $value) {
+                if (is_int($name)) {
+                    $name = $value;
+                    $value = null;
+                }
                 $this->setAttribute($name, $value);
             }
             return $this;
@@ -86,9 +88,12 @@ trait Attributes {
         }
         $this->attributes[$this->groupAttributes][$name] = $value;
     }
-    
+
     public function getAttribute($key) {
-        if(isset($this->attributes[$this->groupAttributes][$key])){
+        if (!isset($this->attributes[$this->groupAttributes])) {
+            $this->attributes[$this->groupAttributes] = [];
+        }
+        if (array_key_exists($key, $this->attributes[$this->groupAttributes])) {
             return $this->attributes[$this->groupAttributes][$key];
         }
         return false;
@@ -100,7 +105,7 @@ trait Attributes {
      */
     public function getAttributes(): string {
         $str = [];
-        if(!isset($this->attributes[$this->groupAttributes])){
+        if (!isset($this->attributes[$this->groupAttributes])) {
             $this->attributes[$this->groupAttributes] = [];
         }
         foreach ($this->attributes[$this->groupAttributes] as $key => $value) {
@@ -113,9 +118,9 @@ trait Attributes {
         }
         return implode("", $str);
     }
-    
-    public function removeAttribute($key) : self {
-        if(isset($this->attributes[$this->groupAttributes][$key])){
+
+    public function removeAttribute($key): self {
+        if (isset($this->attributes[$this->groupAttributes][$key])) {
             unset($this->attributes[$this->groupAttributes][$key]);
         }
         return $this;

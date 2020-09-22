@@ -35,7 +35,7 @@ namespace Enjoys\Forms;
 class Element {
 
 
-    use Traits\Attributes;
+    use Traits\Attributes, Traits\LabelAttributes;
 
     /**
      *
@@ -83,13 +83,7 @@ class Element {
         if (!is_null($title)) {
             $this->setTitle($title);
         }
-        
-        
-        
-        /** @todo переделать */
-        if(isset($_REQUEST[$this->getName()])){
-            $this->setValue($_REQUEST[$this->getName()]);
-        }
+
     }
 
     /**

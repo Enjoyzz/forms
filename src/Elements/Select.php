@@ -23,44 +23,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Forms;
+namespace Enjoys\Forms\Elements;
+
 /**
- * Description of HeaderTest
+ * Description of Select
  *
  * @author deadl
  */
-class HeaderTest extends \PHPUnit\Framework\TestCase{
-
-    public function test_full_construct() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $this->assertSame('title', $obj->getTitle());
-    }
+class Select extends \Enjoys\Forms\Element{
     
-    public function test_attr_legend() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addAttribute([
-            'id' => 'test'
-        ]);
-        $this->assertSame('test', $obj->getAttribute('id'));
-    }    
-    
-    public function test_attr_fieldset() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addFieldsetAttribute([
-            'id' => 'test'
-        ]);
-        $this->assertSame('test', $obj->getFieldsetAttribute('id'));
-    }  
-
-   public function test_attr_fieldset_get() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addFieldsetAttribute([
-            'id' => 'test',
-            'disabled' => null
-        ]);
-        $this->assertSame(' id="test" disabled', $obj->getFieldsetAttributes());
-    }      
-
 }
