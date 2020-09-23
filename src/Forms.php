@@ -26,6 +26,8 @@
 
 namespace Enjoys\Forms;
 
+ use\Enjoys\Helpers\Math;
+
 /**
  * 
  * Class Forms
@@ -259,7 +261,7 @@ class Forms {
         $element = new \Enjoys\Forms\Elements\File($name, $title);
         $this->addAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
-        $this->setMaxFileSize(\Enjoys\Helpers\Math::parseSize(ini_get('upload_max_filesize')), false);
+        $this->setMaxFileSize(Math::iniSize2bytes(ini_get('upload_max_filesize')), false);
         $this->addElement($element);
         return $element;
     }
