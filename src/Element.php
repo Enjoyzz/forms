@@ -172,6 +172,10 @@ class Element {
         return $this->description;
     }    
 
+    
+    public function setDefault(array $data) {
+        
+    }
 
 
 }

@@ -26,7 +26,7 @@
 
 namespace Enjoys\Forms;
 
- use\Enjoys\Helpers\Math;
+use \Enjoys\Helpers\Math;
 
 /**
  * 
@@ -38,7 +38,8 @@ namespace Enjoys\Forms;
  */
 class Forms {
 
-    use Traits\Attributes;
+    use Traits\Attributes,
+        \Enjoys\Traits\HttpRequest;
 
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
 
@@ -71,20 +72,28 @@ class Forms {
      * @var string
      */
     private string $renderer = 'defaults';
+    private $defaults;
 
     /**
      * @param string $method
      * @param string $action
      */
     public function __construct(string $method = null, string $action = null) {
-
-
-        if (!is_null($method)) {
-            $this->setMethod($method);
-        }
+        $this->HttpRequest();
+        dump($this->request->get());
 
         if (!is_null($action)) {
             $this->setAction($action);
+        }
+    }
+
+    public function setDefaults(array $defaults) {
+        $this->defaults = $defaults;
+        if ($this->is_submited()) {
+            unset($this->defaults);
+            foreach ($this->request as $key => $items) {
+                $this->defaults['vars'][$key] = $items;
+            }
         }
     }
 
@@ -247,6 +256,7 @@ class Forms {
         }
         /** @var Element $element */
         $element = new $class_name(...$arguments);
+        $element->setDefault($this->defaults);
         $this->addElement($element);
         return $element;
     }
@@ -261,7 +271,7 @@ class Forms {
         $element = new \Enjoys\Forms\Elements\File($name, $title);
         $this->addAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
-        $this->setMaxFileSize(Math::iniSize2bytes(ini_get('upload_max_filesize')), false);
+        $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
         $this->addElement($element);
         return $element;
     }
