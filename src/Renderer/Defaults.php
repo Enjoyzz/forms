@@ -99,6 +99,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                 case 'Enjoys\Forms\Elements\Url':
                 case 'Enjoys\Forms\Elements\Month':
                 case 'Enjoys\Forms\Elements\Week':
+                case 'Enjoys\Forms\Elements\File':
                     $html .= $this->renderInput($element);
                     break;
                 case 'Enjoys\Forms\Elements\Submit':
@@ -135,10 +136,10 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
     private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
 
-        
+
         /** @var \Enjoys\Forms\Element $data */
         foreach ($element->getElements() as $data) {
-   
+
             $html .= "\t<input type=\"{$data->getType()}\" name=\"{$element->getName()}\"{$data->getAttributes()}><label for=\"{$data->getId()}\"{$data->getLabelAttributes()}>{$data->getTitle()}</label><br>\n";
         }
 

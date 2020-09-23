@@ -54,8 +54,15 @@ class DefaultsTest extends TestCase {
 
         $this->form->hidden('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
-        $this->assertSame("<input type=\"hidden\" id=\"baz\" name=\"foo\" value=\"bar\">\n", $obj->hidden());
+        $this->assertSame("<input type=\"hidden\" name=\"foo\" value=\"bar\" id=\"baz\">\n", $obj->hidden());
     }
+    
+    public function test_render_hidden2() {
+
+        $this->form->hidden('foo', 'bar');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        $this->assertSame("<input type=\"hidden\" name=\"foo\" value=\"bar\">\n", $obj->hidden());
+    }    
 
     public function test_render_element_width_invalid_element() {
 

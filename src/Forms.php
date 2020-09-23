@@ -161,11 +161,23 @@ class Forms {
      * @return \self
      */
     public function addElement(Element $element): self {
-        if (isset($this->elements[$element->getName()])) {
+        if ($this->elementExists($element->getName())) {
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
         $this->elements[$element->getName()] = $element;
         return $this;
+    }
+
+    public function removeElement($elementName): self {
+        if ($this->elementExists($elementName)) {
+            unset($this->elements[$elementName]);
+        }
+
+        return $this;
+    }
+
+    private function elementExists($name) {
+        return isset($this->elements[$name]);
     }
 
     /**
@@ -217,7 +229,6 @@ class Forms {
      * @todo Buttоn
      * @todo Datalist
      * @method Elements\Checkbox checkbox(string $name, string $title)
-     * @todo File
      * @todo Image
      * @method Elements\Radio radio(string $name, string $title)
      * @todo Reset
@@ -236,6 +247,30 @@ class Forms {
         $element = new $class_name(...$arguments);
         $this->addElement($element);
         return $element;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param string $title
+     * @return \Enjoys\Forms\Elements\File
+     */
+    public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File {
+        $element = new \Enjoys\Forms\Elements\File($name, $title);
+        $this->addAttribute('enctype', 'multipart/form-data');
+        $this->setMethod('post');
+        $this->setMaxFileSize(\Enjoys\Helpers\Math::parseSize(ini_get('upload_max_filesize')), false);
+        $this->addElement($element);
+        return $element;
+    }
+
+    public function setMaxFileSize(int $bytes, $removeElement = true) {
+        if ($removeElement === true) {
+            $this->removeElement('MAX_FILE_SIZE');
+        }
+        if (!$this->elementExists('MAX_FILE_SIZE')) {
+            $this->addElement(new Elements\Hidden('MAX_FILE_SIZE', $bytes));
+        }
     }
 
 }

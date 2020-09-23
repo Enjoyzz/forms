@@ -171,5 +171,12 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $this->form->password('baz');
         $this->assertCount(3, $this->form->getElements());
     }
+    
+    public function test_remove_elements() {
+        $this->form->text('foo');
+        $this->form->hidden('bar');
+        $this->form->removeElement('foo');
+        $this->assertCount(1, $this->form->getElements());
+    }    
 
 }

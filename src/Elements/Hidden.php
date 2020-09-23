@@ -46,6 +46,7 @@ class Hidden extends \Enjoys\Forms\Element {
         if (!is_null($value)) {
             $this->setValue($value);
         }
+        $this->removeAttribute('id');
     }
 
 }
