@@ -34,8 +34,8 @@ namespace Enjoys\Forms;
  */
 class Element {
 
-
-    use Traits\Attributes, Traits\LabelAttributes;
+    use Traits\Attributes,
+        Traits\LabelAttributes;
 
     /**
      *
@@ -83,7 +83,6 @@ class Element {
         if (!is_null($title)) {
             $this->setTitle($title);
         }
-
     }
 
     /**
@@ -139,6 +138,9 @@ class Element {
      * @return \self
      */
     public function setValue(string $value): self {
+        if($this->getAttribute('value') !== false){
+            return $this;
+        }
         $this->value = $value;
         $this->setAttribute('value', $this->value);
         return $this;
@@ -167,15 +169,15 @@ class Element {
         $this->description = $description;
         return $this;
     }
-    
+
     public function getDescription(): ?string {
         return $this->description;
-    }    
-
-    
-    public function setDefault(array $data) {
-        
     }
 
+    public function setDefault(array $data) {
+        if (isset($data[$this->getName()])) {
+            $this->setValue($data[$this->getName()]);
+        }
+    }
 
 }

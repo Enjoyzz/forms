@@ -39,9 +39,11 @@ use \Enjoys\Helpers\Math;
 class Forms {
 
     use Traits\Attributes,
-        \Enjoys\Traits\HttpRequest;
+        \Enjoys\Traits\Request;
 
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
+    const _TOKEN_CSRF_ = '_token_csrf';
+    const _TOKEN_SUBMIT_ = '_token_submit';
 
     /**
      *
@@ -59,7 +61,7 @@ class Forms {
      *
      * @var string|null   
      */
-    private ?string $action;
+    private ?string $action = null;
 
     /**
      *
@@ -72,29 +74,101 @@ class Forms {
      * @var string
      */
     private string $renderer = 'defaults';
-    private $defaults;
+
+    /**
+     *
+     * @var array
+     */
+    private $defaults = [];
+    private string $token_submit = '';
+    private bool $submited_form = false;
 
     /**
      * @param string $method
      * @param string $action
      */
     public function __construct(string $method = null, string $action = null) {
-        $this->HttpRequest();
-        dump($this->request->get());
+
+        $this->initRequest();
+
+
+        if (!is_null($method)) {
+            $this->setMethod($method);
+        }
 
         if (!is_null($action)) {
             $this->setAction($action);
         }
+        
+        $this->setTokenSubmit();
+        $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit));
+
+        $this->checkSubmittedFrom();        
     }
 
+    private function setTokenSubmit() {
+        $this->token_submit = md5($this->getName() . $this->getAction());
+    }
+ 
     public function setDefaults(array $defaults) {
         $this->defaults = $defaults;
-        if ($this->is_submited()) {
-            unset($this->defaults);
-            foreach ($this->request as $key => $items) {
-                $this->defaults['vars'][$key] = $items;
+        if ($this->isSubmited()) {
+            $this->defaults = [];
+            $method = \strtolower($this->getMethod());
+
+            foreach ($this->request->$method() as $key => $items) {
+                $this->defaults[$key] = $items;
             }
         }
+        return $this;
+    }
+
+    public function isSubmited(): bool {
+        return $this->submited_form;
+    }
+
+    private $csrf_key;
+
+    public function getCsrfKey() {
+        return $this->csrf_key;
+    }
+
+    /**
+     * Включает защиту от CSRF.
+     * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
+     * @param <type> $flag true or false
+     */
+    public function csrf($flag = true) {
+
+        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
+            $this->removeElement(self::_TOKEN_CSRF_);
+            return $this;
+        }
+
+
+        if ($flag === false) {
+            $this->removeElement(self::_TOKEN_CSRF_);
+            return $this;
+        }
+
+        // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
+        $this->csrf_key = '#$' . session_id();
+        $hash = crypt($this->csrf_key);
+        $this->addElement(new Elements\Hidden(self::_TOKEN_CSRF_, $hash), true);
+        //hash_equals($request->post('_token_csrf'), crypt($form->getCsrfKey(), $request->post('_token_csrf')))
+        //$this->addRule(self::$CSRFField, 'CSRF Attack detected', 'csrf', $hash);
+        // }
+        return $this;
+    }
+
+    private function checkSubmittedFrom() {
+        $method = \strtolower($this->getMethod());
+        if ($this->request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
+            $this->submited_form = true;
+            return;
+        }
+        $this->submited_form = false;
+        return;
     }
 
     /**
@@ -122,7 +196,7 @@ class Forms {
      * 
      * @return string
      */
-    public function getAction(): string {
+    public function getAction(): ?string {
         return $this->action;
     }
 
@@ -155,6 +229,13 @@ class Forms {
             $this->method = \strtoupper($method);
         }
         $this->setAttribute('method', $this->method);
+
+        if (in_array($this->getMethod(), ['POST'])) {
+            $this->csrf();
+        }
+
+        $this->checkSubmittedFrom();
+
         return $this;
     }
 
@@ -171,8 +252,8 @@ class Forms {
      * @param \Enjoys\Forms\Element $element
      * @return \self
      */
-    public function addElement(Element $element): self {
-        if ($this->elementExists($element->getName())) {
+    public function addElement(Element $element, $rewrite = false): self {
+        if ($rewrite === false && $this->elementExists($element->getName())) {
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
         $this->elements[$element->getName()] = $element;
@@ -187,7 +268,7 @@ class Forms {
         return $this;
     }
 
-    private function elementExists($name) {
+    private function elementExists($name): bool {
         return isset($this->elements[$name]);
     }
 
@@ -236,7 +317,7 @@ class Forms {
      * @method Elements\Month month(string $name, string $title)
      * @method Elements\Week week(string $name, string $title)
      * @todo Textarea
-     * @todo Select
+     * @method Elements\Select select(string $name, string $title)
      * @todo Buttоn
      * @todo Datalist
      * @method Elements\Checkbox checkbox(string $name, string $title)

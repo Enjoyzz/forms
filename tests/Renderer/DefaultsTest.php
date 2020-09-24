@@ -44,6 +44,7 @@ class DefaultsTest extends TestCase {
 
     protected function setUp(): void {
         $this->form = new Forms();
+        $this->form->removeElement('_token_submit');
     }
 
     protected function tearDown(): void {
@@ -92,7 +93,7 @@ class DefaultsTest extends TestCase {
         $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Submit('bar'));
         $obj->setElements($obj->getForm()->getElements());
 
-        $this->assertSame("\t<br><input type=\"submit\" id=\"bar\" name=\"bar\">\n", $obj->elements());
+        $this->assertSame("\t<br><br><input type=\"submit\" id=\"bar\" name=\"bar\">\n", $obj->elements());
     }
 
     public function test_render_text() {
@@ -110,7 +111,7 @@ class DefaultsTest extends TestCase {
     public function test_render_submit() {
         $this->form->submit('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
-        $this->assertSame(" <br><input type=\"submit\" id=\"baz\" name=\"foo\"> ", $this->toOneString($obj->elements()));
+        $this->assertSame(" <br><br><input type=\"submit\" id=\"baz\" name=\"foo\"> ", $this->toOneString($obj->elements()));
     }
 
     public function test_footer_with_closeheader() {

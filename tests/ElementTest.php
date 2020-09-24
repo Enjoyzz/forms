@@ -44,6 +44,8 @@ class ElementTest extends TestCase{
 
     protected function setUp(): void {
         $this->obj = new Forms();
+        $this->obj->removeElement(Forms::_TOKEN_SUBMIT_);
+        $this->obj->removeElement(Forms::_TOKEN_CSRF_);
     }
 
     protected function tearDown(): void {

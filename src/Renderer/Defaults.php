@@ -112,6 +112,9 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                 case 'Enjoys\Forms\Elements\Checkbox':
                     $html .= $this->renderRadioCheckbox($element);
                     break;
+                case 'Enjoys\Forms\Elements\Select':
+                    $html .= $this->renderSelect($element);
+                    break;                
                 default:
                     break;
             }
@@ -148,9 +151,27 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
         }
         return $html . "\n";
     }
+    
+    private function renderSelect(\Enjoys\Forms\Elements\Select $element) {
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+\t<select{$element->getAttributes()}><br>\n";
+
+
+        /** @var \Enjoys\Forms\Elements\Option $option */
+        foreach ($element->getElements() as $option) {
+
+            $html .= "\t<option{$option->getAttributes()}>{$option->getTitle()}</option><br>\n";
+        }
+        $html .= "</select>";
+        
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "\n";
+    }    
 
     private function renderButton(\Enjoys\Forms\Element $element) {
-        return "\t<br><input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
+        return "\t<br><br><input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
     }
 
     private function renderHeader(\Enjoys\Forms\Elements\Header $element) {

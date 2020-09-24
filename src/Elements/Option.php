@@ -26,53 +26,20 @@
 
 namespace Enjoys\Forms\Elements;
 
-use \Enjoys\Forms\Traits\Fill,
-    \Enjoys\Forms\Interfaces,
-    \Enjoys\Forms\Element;
-
 /**
- * Description of Select
+ * Description of Option
  *
  * @author deadl
  */
-class Select extends Element {
+class Option extends \Enjoys\Forms\Element {
 
-    use Fill;
-
-    /**
-     *
-     * @var string 
-     */
     protected string $type = 'option';
-    
+
     public function __construct(string $name, string $title = null) {
         parent::__construct($name, $title);
-       // $this->setIndexKeyFill('value');
+        $this->setValue($name);
+        $this->setId($name);
+        $this->removeAttribute('name');
     }
-
-
-    public function addAttribute(...$attributes): self {
-        parent::addAttribute(...$attributes);
-        if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
-
-            $id = false;
-            if ($this->getName() != $this->getId()) {
-                $id = $this->getId();
-            }
-            $name = $this->getName();
-
-            $this->setName($this->getName() . '[]');
-            if ($id !== false) {
-                $this->setId($id);
-            }
-        }
-        return $this;
-    }
-    
-    public function setDefault(array $data) {
-        if (isset($data[$this->getName()])) {
-            //$this->setValue($data[$this->getName()]);
-        }
-    }    
 
 }

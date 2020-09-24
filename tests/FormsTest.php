@@ -45,6 +45,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
     protected function setUp(): void {
         $this->form = new Forms();
+        $this->form->removeElement('_token_submit');
     }
 
     protected function tearDown(): void {

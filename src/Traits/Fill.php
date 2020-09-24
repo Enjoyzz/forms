@@ -37,6 +37,16 @@ trait Fill {
      * @var array 
      */
     private $elements = [];
+    private $index_key;
+
+
+    private function getIndexKey() {
+        return $this->index_key;
+    }
+    
+    private function setIndexKeyFill($index_key) {
+        $this->index_key = $index_key;
+    }
 
     /**
      * 
@@ -44,7 +54,11 @@ trait Fill {
      * @return $this
      */
     public function fill(array $data) {
+        
         foreach ($data as $value => $title) {
+            
+            $index_key = $this->getIndexKey();
+
             $attributes = [];
 
             $_title = $title;
@@ -62,13 +76,20 @@ trait Fill {
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
             $element = new $class($value, $_title);
             $element->addAttribute($attributes);
-            
+
             // Если в атррибутах есть `id` вызываем setId() 
             if (isset($attributes['id'])) {
                 $element->setId($attributes['id']);
             }
+
             //dump($element->getAttribute('disabled'));
+            
+            if($index_key){
+                $this->elements[$$index_key] = $element;
+                continue;
+            }
             $this->elements[] = $element;
+
         }
         return $this;
     }
@@ -77,7 +98,7 @@ trait Fill {
      * 
      * @return array
      */
-    public function getElements() : array {
+    public function getElements(): array {
         return $this->elements;
     }
 
