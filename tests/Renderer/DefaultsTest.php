@@ -111,7 +111,7 @@ class DefaultsTest extends TestCase {
     public function test_render_submit() {
         $this->form->submit('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
-        $this->assertSame(" <br><br><input type=\"submit\" id=\"baz\" name=\"foo\"> ", $this->toOneString($obj->elements()));
+        $this->assertSame(" <br><br><input type=\"submit\" id=\"baz\" name=\"foo\" value=\"bar\"> ", $this->toOneString($obj->elements()));
     }
 
     public function test_footer_with_closeheader() {

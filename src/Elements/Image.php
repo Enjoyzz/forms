@@ -27,27 +27,15 @@
 namespace Enjoys\Forms\Elements;
 
 /**
- * Description of Option
+ * Description of Image
  *
  * @author deadl
  */
-class Option extends \Enjoys\Forms\Element {
+class Image extends \Enjoys\Forms\Element{
 
-    protected string $type = 'option';
-
-    public function __construct(string $name, string $title = null) {
-        parent::__construct($name, $title);
-        $this->setValue($name);
-        $this->setId($name);
-        $this->removeAttribute('name');
-    }
-
-    public function setDefault(array $defaults) {
-
-        if (in_array($this->getAttribute('value'), $defaults)) {
-
-            $this->addAttribute('selected');
-        }
-    }
-
+    /**
+     *
+     * @var string 
+     */
+    protected string $type = 'image';
 }

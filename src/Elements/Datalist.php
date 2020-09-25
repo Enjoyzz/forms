@@ -26,59 +26,24 @@
 
 namespace Enjoys\Forms\Elements;
 
-use \Enjoys\Forms\Traits\Fill,
-    \Enjoys\Forms\Interfaces,
-    \Enjoys\Forms\Element;
+use \Enjoys\Forms\Traits\Fill;
 
 /**
- * Description of Checkbox
+ * Description of Datalist
  *
  * @author deadl
  */
-class Checkbox extends Element implements Interfaces\Radio_Checkbox {
+class Datalist extends \Enjoys\Forms\Element {
 
     use Fill;
 
-    /**
-     *
-     * @var string 
-     */
-    protected string $type = 'checkbox';
-    private static $prefix_id = 'cb_';
-    protected array $defaults = [];
+    protected string $type = 'option';
 
     public function __construct(string $name, string $title = null) {
-        $construct_name = $name;
-        if (\substr($name, -2) !== '[]') {
-            $construct_name = $name . '[]';
-        }
-        parent::__construct($construct_name, $title);
-        $this->setValue($name);
-        $this->setId($this->getPrefixId() . $name);
-        $this->removeAttribute('name');
-    }
-
-    public function setPrefixId($prefix) {
-        static::$prefix_id = $prefix;
-        $this->setId(static::$prefix_id . $this->getName());
-        return $this;
-    }
-
-    public function getPrefixId() {
-        return static::$prefix_id;
-    }
-
-    public function setDefault(array $data) {
-
-        if (in_array($this->getAttribute('value'), $data)) {
-            $this->addAttribute('checked');
-            return;
-        }
-
-        $_default_name = \substr($this->getName(), 0, -2);
-        if (isset($data[$_default_name])) {
-            $this->defaults = (array) $data[$_default_name];
-        }
+        parent::__construct($name, $title);
+        // $this->setIndexKeyFill('value');
+        $this->addAttribute('list', $this->getId());
+        $this->removeAttribute('id');
     }
 
 }

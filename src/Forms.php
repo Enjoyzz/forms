@@ -316,14 +316,14 @@ class Forms {
      * @method Elements\Url url(string $name, string $title)
      * @method Elements\Month month(string $name, string $title)
      * @method Elements\Week week(string $name, string $title)
-     * @todo Textarea
+     * @method Elements\Textarea textarea(string $name, string $title)
      * @method Elements\Select select(string $name, string $title)
-     * @todo Buttоn
-     * @todo Datalist
+     * @method Elements\Button button(string $name, string $title)
+     * @method Elements\Datalist datalist(string $name, string $title)
      * @method Elements\Checkbox checkbox(string $name, string $title)
-     * @todo Image
+     * @method Elements\Image image(string $name, string $title)
      * @method Elements\Radio radio(string $name, string $title)
-     * @todo Reset
+     * @method Elements\Reset reset(string $name, string $title)
      * @todo Captcha
      *  
      * @mixin Element

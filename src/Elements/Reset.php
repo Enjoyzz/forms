@@ -27,13 +27,13 @@
 namespace Enjoys\Forms\Elements;
 
 /**
- * Class Submit
+ * Class Reset
  *
  * @author Enjoys
  */
-class Submit extends \Enjoys\Forms\Element {
+class Reset extends \Enjoys\Forms\Element {
 
-    protected string $type = 'submit';
+    protected string $type = 'reset';
 
     public function __construct(string $name, string $title = null) {
         parent::__construct($name, $title);

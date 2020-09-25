@@ -27,27 +27,12 @@
 namespace Enjoys\Forms\Elements;
 
 /**
- * Description of Option
+ * Description of Button
  *
  * @author deadl
  */
-class Option extends \Enjoys\Forms\Element {
+class Button extends \Enjoys\Forms\Element {
 
-    protected string $type = 'option';
 
-    public function __construct(string $name, string $title = null) {
-        parent::__construct($name, $title);
-        $this->setValue($name);
-        $this->setId($name);
-        $this->removeAttribute('name');
-    }
-
-    public function setDefault(array $defaults) {
-
-        if (in_array($this->getAttribute('value'), $defaults)) {
-
-            $this->addAttribute('selected');
-        }
-    }
 
 }

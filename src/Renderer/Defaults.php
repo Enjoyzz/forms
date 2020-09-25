@@ -102,8 +102,10 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                 case 'Enjoys\Forms\Elements\File':
                     $html .= $this->renderInput($element);
                     break;
+                case 'Enjoys\Forms\Elements\Image':
                 case 'Enjoys\Forms\Elements\Submit':
-                    $html .= $this->renderButton($element);
+                case 'Enjoys\Forms\Elements\Reset':
+                    $html .= $this->renderInputButton($element);
                     break;
                 case 'Enjoys\Forms\Elements\Header':
                     $html .= $this->renderHeader($element);
@@ -114,6 +116,15 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                     break;
                 case 'Enjoys\Forms\Elements\Select':
                     $html .= $this->renderSelect($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Textarea':
+                    $html .= $this->renderTextarea($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Button':
+                    $html .= $this->renderButton($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Datalist':
+                    $html .= $this->renderDatalist($element);
                     break;                
                 default:
                     break;
@@ -136,6 +147,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
         return $html . "\n";
     }
 
+
+
     private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
 
@@ -151,7 +164,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
         }
         return $html . "\n";
     }
-    
+
     private function renderSelect(\Enjoys\Forms\Elements\Select $element) {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<select{$element->getAttributes()}><br>\n";
@@ -163,14 +176,51 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
             $html .= "\t<option{$option->getAttributes()}>{$option->getTitle()}</option><br>\n";
         }
         $html .= "</select>";
-        
+
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "\n";
+    }
+    
+    private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element) {
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+\t<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">\n";
+
+
+        /** @var \Enjoys\Forms\Elements\Option $option */
+        foreach ($element->getElements() as $option) {
+
+            $html .= "\t<option value=\"{$option->getTitle()}\">\n";
+        }
+        $html .= "</datalist>";
+
         if (!empty($element->getDescription())) {
             $html .= "\t<small>{$element->getDescription()}</small><br>\n";
         }
         return $html . "\n";
     }    
 
-    private function renderButton(\Enjoys\Forms\Element $element) {
+    private function renderTextarea(\Enjoys\Forms\Elements\Textarea $element) {
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+\t<textarea{$element->getAttributes()}>{$element->getValue()}</textarea><br>\n";
+
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "\n";
+    }
+
+    private function renderButton(\Enjoys\Forms\Elements\Button $element) {
+        $html = "\t<button{$element->getAttributes()}>{$element->getTitle()}</button><br>\n";
+
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "\n";
+    }
+
+    private function renderInputButton(\Enjoys\Forms\Element $element) {
         return "\t<br><br><input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
     }
 
