@@ -44,12 +44,12 @@ class Select extends Element {
      * @var string 
      */
     protected string $type = 'option';
-    
+    protected array $defaults = [];
+
     public function __construct(string $name, string $title = null) {
         parent::__construct($name, $title);
-       // $this->setIndexKeyFill('value');
+        // $this->setIndexKeyFill('value');
     }
-
 
     public function addAttribute(...$attributes): self {
         parent::addAttribute(...$attributes);
@@ -68,11 +68,12 @@ class Select extends Element {
         }
         return $this;
     }
-    
+
     public function setDefault(array $data) {
-        if (isset($data[$this->getName()])) {
-            //$this->setValue($data[$this->getName()]);
-        }
-    }    
+        $this->defaults = [
+            'name' => $this->getName(),
+            'data' => $data
+        ];
+    }
 
 }

@@ -54,7 +54,7 @@ trait Fill {
      * @return $this
      */
     public function fill(array $data) {
-        
+
         foreach ($data as $value => $title) {
             
             $index_key = $this->getIndexKey();
@@ -74,6 +74,7 @@ trait Fill {
             }
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
+        
             $element = new $class($value, $_title);
             $element->addAttribute($attributes);
 
@@ -81,9 +82,13 @@ trait Fill {
             if (isset($attributes['id'])) {
                 $element->setId($attributes['id']);
             }
+            
+            if(property_exists($this, 'defaults')){
+                $element->setDefault($this->defaults);
+            }
 
             //dump($element->getAttribute('disabled'));
-            
+         
             if($index_key){
                 $this->elements[$$index_key] = $element;
                 continue;

@@ -42,4 +42,18 @@ class Option extends \Enjoys\Forms\Element {
         $this->removeAttribute('name');
     }
 
+    public function setDefault(array $data) {
+
+        if (isset($data['data'][$data['name']])) {
+            $_defaults = $data['data'][$data['name']];
+            if(!is_array($_defaults)){
+                $_defaults = (array) $_defaults;
+            }
+            if (in_array($this->getAttribute('value'), $_defaults)) {
+
+                $this->addAttribute('selected');
+            }
+        }
+    }
+
 }
