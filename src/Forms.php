@@ -365,5 +365,13 @@ class Forms {
             $this->addElement(new Elements\Hidden('MAX_FILE_SIZE', $bytes));
         }
     }
+    
+    public function captcha($captcha = 'defaults') {
+        $class_name = \ucfirst($captcha);
+        $class = "\Enjoys\Forms\Captcha\\".$class_name."\\".$class_name;
+        $element = new $class();
+        $this->addElement($element);    
+        return $element;
+    }
 
 }

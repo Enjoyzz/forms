@@ -125,8 +125,13 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                     break;
                 case 'Enjoys\Forms\Elements\Datalist':
                     $html .= $this->renderDatalist($element);
-                    break;                
+                    break;     
                 default:
+          
+                    if($element instanceof \Enjoys\Forms\Interfaces\Captcha){
+                       
+                         $html .= "<br>".$element->renderHtml();
+                    }
                     break;
             }
             //dump($this->close_headertag_after);
