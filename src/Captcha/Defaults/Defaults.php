@@ -40,16 +40,17 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
     private $code = '';
     private $img;
 
-    public function __construct() {
+    public function __construct($rule_message = null) {
         parent::__construct('captcha_defaults');
 
         $this->addAttribute([
             'type' => 'text',
             'autocomplete' => 'off'
         ]);
-        $this->addRuleMessage('не веррно введен код');
 
-        $this->addRule('captcha', $this->getRuleMessage());
+
+
+        $this->addRule('captcha', $rule_message);
     }
 
     public function validate($value) {
@@ -61,12 +62,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
     }
 
     public function renderHtml() {
-
-
-
         $this->initCaptcha();
-
-
 
         Session::set([
             $this->getName() => $this->getCode()

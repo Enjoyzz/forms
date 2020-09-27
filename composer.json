@@ -9,7 +9,8 @@
     ],
     "require": {
         "phpunit/phpunit": "^9.3",
-        "enjoys/framework": "@dev"
+        "enjoys/framework": "@dev",
+        "guzzlehttp/guzzle": "^7.1.0"
     },
     "autoload": {
         "psr-4": {

@@ -324,7 +324,6 @@ class Forms {
      * @method Elements\Image image(string $name, string $title)
      * @method Elements\Radio radio(string $name, string $title)
      * @method Elements\Reset reset(string $name, string $title)
-     * @todo Captcha
      *  
      * @mixin Element
      */
@@ -342,6 +341,10 @@ class Forms {
         return $element;
     }
     
+    /**
+     * 
+     * @return boolean
+     */
     public function validate() {
         if(!$this->isSubmited()){
             return false;
@@ -365,6 +368,11 @@ class Forms {
         return $element;
     }
 
+    /**
+     * 
+     * @param int $bytes
+     * @param type $removeElement
+     */
     public function setMaxFileSize(int $bytes, $removeElement = true) {
         if ($removeElement === true) {
             $this->removeElement('MAX_FILE_SIZE');
@@ -374,9 +382,15 @@ class Forms {
         }
     }
     
-    public function captcha($captcha = 'Defaults') : Element{
+    /**
+     * 
+     * @param type $captcha
+     * @param type $rule_message
+     * @return \Enjoys\Forms\Element
+     */
+    public function captcha($captcha = 'Defaults', $rule_message = null) : Element{
         $class = "\Enjoys\Forms\Captcha\\".$captcha."\\".$captcha;
-        $element = new $class();
+        $element = new $class($rule_message);
         $element->setDefault($this->defaults);
         $this->addElement($element);    
         return $element;

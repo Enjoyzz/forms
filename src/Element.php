@@ -175,39 +175,74 @@ class Element {
         return $this;
     }
 
+    /**
+     * 
+     * @return string|null
+     */
     public function getDescription(): ?string {
         return $this->description;
     }
 
+    /**
+     * 
+     * @param array $data
+     */
     public function setDefault(array $data) {
         if (isset($data[$this->getName()])) {
             $this->setValue($data[$this->getName()]);
         }
     }
 
+    /**
+     * 
+     * @param type $rule
+     * @param type $message
+     * @param type $arguments
+     * @return $this
+     */
     public function addRule($rule, $message = null, ...$arguments) {
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
         $this->rules[] = new $class($message, $this, ...$arguments);
         return $this;
     }
 
+    /**
+     * 
+     * @param type $message
+     * @return $this
+     */
     public function addRuleMessage($message) {
         $this->rule_message = $message;
         return $this;
     }
     
+    /**
+     * 
+     * @return type
+     */
     public function getRuleMessage() {
         return $this->rule_message;
     }    
 
+    /**
+     * 
+     */
     public function setRuleError() {
         $this->rule_error = true;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function isRuleError() {
         return $this->rule_error;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function getRules() {
         return $this->rules;
     }

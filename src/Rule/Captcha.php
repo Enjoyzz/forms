@@ -35,8 +35,18 @@ class Captcha implements \Enjoys\Forms\Interfaces\Rule {
 
     use \Enjoys\Forms\Traits\Attributes;
 
+    /**
+     *
+     * @var type 
+     */
     private $message = '';
 
+    /**
+     * 
+     * @param string $message
+     * @param \Enjoys\Forms\Element $element
+     * @param type $attributes
+     */
     public function __construct($message, \Enjoys\Forms\Element $element, ...$attributes) {
         if (is_null($message)) {
             $message = 'не веррно введен код';
@@ -46,14 +56,27 @@ class Captcha implements \Enjoys\Forms\Interfaces\Rule {
         $this->addAttribute($attributes);
     }
 
+    /**
+     * 
+     * @param type $message
+     */
     private function setMessage($message) {
         $this->message = $message;
     }
 
+    /**
+     * 
+     * @return type
+     */
     private function getMessage() {
         return $this->message;
     }
 
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return boolean
+     */
     public function validate(\Enjoys\Forms\Element $element) {
 
         if (!$element->validate($element->getAttribute('value'))) {
