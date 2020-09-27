@@ -72,6 +72,11 @@ class Element {
      * @var string|null   
      */
     protected ?string $value = null;
+//    protected Validator $rule;
+
+    protected $rules = [];
+    private $rule_message = null;
+    private $rule_error = false;
 
     /**
      * 
@@ -138,7 +143,7 @@ class Element {
      * @return \self
      */
     public function setValue(string $value): self {
-        if($this->getAttribute('value') !== false){
+        if ($this->getAttribute('value') !== false) {
             return $this;
         }
         $this->value = $value;
@@ -178,6 +183,33 @@ class Element {
         if (isset($data[$this->getName()])) {
             $this->setValue($data[$this->getName()]);
         }
+    }
+
+    public function addRule($rule, $message = null, ...$arguments) {
+        $class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
+        $this->rules[] = new $class($message, $this, ...$arguments);
+        return $this;
+    }
+
+    public function addRuleMessage($message) {
+        $this->rule_message = $message;
+        return $this;
+    }
+    
+    public function getRuleMessage() {
+        return $this->rule_message;
+    }    
+
+    public function setRuleError() {
+        $this->rule_error = true;
+    }
+
+    public function isRuleError() {
+        return $this->rule_error;
+    }
+
+    public function getRules() {
+        return $this->rules;
     }
 
 }

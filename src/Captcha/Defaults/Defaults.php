@@ -26,6 +26,8 @@
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
+use Enjoys\Base\Session\Session as Session;
+
 /**
  * Description of Defaults
  *
@@ -34,30 +36,49 @@ namespace Enjoys\Forms\Captcha\Defaults;
 class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces\Captcha {
 
     use \Enjoys\Traits\Options;
-    
-    private $html;
-    private $rule;
-    private $error;
+
     private $code = '';
     private $img;
 
     public function __construct() {
-       
-        $this->setName('captcha_defaults');
+        parent::__construct('captcha_defaults');
+
         $this->addAttribute([
             'type' => 'text',
             'autocomplete' => 'off'
         ]);
-    }
-    
+        $this->addRuleMessage('не веррно введен код');
 
+        $this->addRule('captcha', $this->getRuleMessage());
+    }
+
+    public function validate($value) {
+        //_var_dump(Session::get($this->getName()), $value);
+        if (Session::get($this->getName()) !== $value) {
+            return false;
+        }
+        return true;
+    }
 
     public function renderHtml() {
+
+
+
         $this->initCaptcha();
-        
-       // return $this->getOption('test');
-        return '<img src="data:image/jpeg;base64,'.$this->get_base64image().'" /><br /><input'.$this->getAttributes().'>';
-        
+
+
+
+        Session::set([
+            $this->getName() => $this->getCode()
+        ]);
+        $html = '';
+
+        if ($this->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$this->getRuleMessage()}</p>";
+        }
+        $html .= '<img src="data:image/jpeg;base64,' . $this->get_base64image() . '" /><br /><input' . $this->getAttributes() . '>';
+
+        return $html;
     }
 
     public function initCaptcha() {
@@ -119,7 +140,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
                 $y = (($height * 1) / 4) - rand(0, $height * 0.1);
 
             // Запоминаем символ в переменной $code
-          
+
             $this->code .= $letter;
             // Изменяем регистр символа
             if ($h == rand(0, 1))
@@ -132,7 +153,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         //$_SESSION['code'] = $code;
         // Выводим изображение
         // header ("Content-type: image/jpeg");
-  
+
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Cache-Control: post-check=0, pre-check=0', FALSE);

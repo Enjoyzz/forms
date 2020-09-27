@@ -341,6 +341,13 @@ class Forms {
         $this->addElement($element);
         return $element;
     }
+    
+    public function validate() {
+        if(!$this->isSubmited()){
+            return false;
+        }
+        return Validator::check($this->getElements());
+    }
 
     /**
      * 
@@ -353,6 +360,7 @@ class Forms {
         $this->addAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
+        $element->setDefault($this->defaults);
         $this->addElement($element);
         return $element;
     }
@@ -366,12 +374,14 @@ class Forms {
         }
     }
     
-    public function captcha($captcha = 'defaults') {
-        $class_name = \ucfirst($captcha);
-        $class = "\Enjoys\Forms\Captcha\\".$class_name."\\".$class_name;
+    public function captcha($captcha = 'Defaults') : Element{
+        $class = "\Enjoys\Forms\Captcha\\".$captcha."\\".$captcha;
         $element = new $class();
+        $element->setDefault($this->defaults);
         $this->addElement($element);    
         return $element;
     }
+    
+
 
 }

@@ -125,12 +125,11 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
                     break;
                 case 'Enjoys\Forms\Elements\Datalist':
                     $html .= $this->renderDatalist($element);
-                    break;     
+                    break;
                 default:
-          
-                    if($element instanceof \Enjoys\Forms\Interfaces\Captcha){
-                       
-                         $html .= "<br>".$element->renderHtml();
+
+                    if ($element instanceof \Enjoys\Forms\Interfaces\Captcha) {
+                        $html .= $this->renderCaptcha($element);
                     }
                     break;
             }
@@ -143,16 +142,28 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
         return $html;
     }
 
+    private function renderCaptcha(Interfaces\Captcha $element) {
+        $html = '';
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
+        $html .= "<br>" . $element->renderHtml();
+        if (!empty($element->getDescription())) {
+            $html .= "\t<br><small>{$element->getDescription()}</small><br>\n";
+        }        
+        return $html;
+    }
+
     private function renderInput(\Enjoys\Forms\Element $element) {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html = '';
+        if ($element->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$element->getRuleMessage()}</p>";
+        }
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<input type=\"{$element->getType()}\"{$element->getAttributes()}><br>\n";
         if (!empty($element->getDescription())) {
             $html .= "\t<small>{$element->getDescription()}</small><br>\n";
         }
         return $html . "\n";
     }
-
-
 
     private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
@@ -187,7 +198,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
         }
         return $html . "\n";
     }
-    
+
     private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element) {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">\n";
@@ -204,7 +215,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
             $html .= "\t<small>{$element->getDescription()}</small><br>\n";
         }
         return $html . "\n";
-    }    
+    }
 
     private function renderTextarea(\Enjoys\Forms\Elements\Textarea $element) {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
