@@ -153,8 +153,10 @@ class Forms {
 
         // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
         $this->csrf_key = '#$' . session_id();
-        $hash = crypt($this->csrf_key);
-        $this->addElement(new Elements\Hidden(self::_TOKEN_CSRF_, $hash), true);
+        $hash = crypt($this->csrf_key, \bin2hex(\random_bytes(32)));
+        $element = new Elements\Hidden(self::_TOKEN_CSRF_, $hash);
+        //$element->addRule('csrf', 'CSRF Attack detected');
+        $this->addElement($element, true);
         //hash_equals($request->post('_token_csrf'), crypt($form->getCsrfKey(), $request->post('_token_csrf')))
         //$this->addRule(self::$CSRFField, 'CSRF Attack detected', 'csrf', $hash);
         // }

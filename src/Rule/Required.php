@@ -54,6 +54,7 @@ class Required implements \Enjoys\Forms\Interfaces\Rule {
     }
 
     public function validate(\Enjoys\Forms\Element $element) {
+        dump($element);
         if (!$this->check($element->getAttribute('value'))) {
             $element->addRuleMessage($this->getMessage());
             $element->setRuleError();
