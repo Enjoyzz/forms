@@ -31,9 +31,20 @@ namespace Tests\Enjoys\Forms\Captcha\Defaults;
  *
  * @author Enjoys
  */
-class DefaultsTest extends \PHPUnit\Framework\TestCase{
-//    public function test1() {
-//        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
-//        $captcha->renderHtml();
-//    }
+class DefaultsTest extends \PHPUnit\Framework\TestCase {
+
+    public function test1() {
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $captcha->setOption('foo', 'v_foo');
+        $captcha->setOptions([
+            'bar' => 'v_bar',
+            'baz' => 'v_baz'
+        ]);
+        $this->assertArrayHasKey('foo', $captcha->getOptions());
+        $this->assertArrayHasKey('bar', $captcha->getOptions());
+        $this->assertEquals('v_baz', $captcha->getOption('baz'));
+        $this->assertEquals('text', $captcha->getAttribute('type'));
+        $this->assertEquals('off', $captcha->getAttribute('autocomplete'));
+    }
+
 }
