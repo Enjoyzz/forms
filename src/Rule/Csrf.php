@@ -24,28 +24,51 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms;
+namespace Enjoys\Forms\Rule;
 
 /**
- * Description of Validator
+ * Description of Required
  *
  * @author deadl
  */
-class Validator {
+class Csrf implements \Enjoys\Forms\Interfaces\Rule {
 
-    static public function check($elements) {
-        $_validate = true;
-        /** @var \Enjoys\Forms\Element $element */
-        foreach ($elements as $element) {
-            /** @var \Enjoys\Forms\Interfaces\Rule $rule */
-            foreach ($element->getRules() as $rule) {
+    use \Enjoys\Forms\Traits\Attributes;
 
-                if (!$rule->validate($element)) {
-                    $_validate = false;
-                }
-            }
+    private $message = '';
+    private $csrf_key;
+
+    public function __construct($message, \Enjoys\Forms\Element $element, ...$attributes) {
+        if(is_null($message)){
+            $message = 'CSRF Attack detected';
         }
-        return $_validate;
+     
+        $this->setMessage($message);
+        $this->addAttribute(...$attributes);
+    }
+
+    private function setMessage($message) {
+        $this->message = $message;
+    }
+
+    private function getMessage() {
+        return $this->message;
+    }
+
+    public function validate(\Enjoys\Forms\Element $element) {
+ 
+        if (!$this->check($element->getAttribute('value'))) {
+            $element->addRuleMessage($this->getMessage());
+            $element->setRuleError();
+            die($this->getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    function check($value) {
+        return hash_equals($value, crypt($this->getAttribute('csrf_key'), $value));
     }
 
 }

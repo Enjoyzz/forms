@@ -48,6 +48,8 @@ class Element {
      * @var string|null  
      */
     protected ?string $name = null;
+    
+    protected ?string $validate_name = null;
 
     /**
      *
@@ -109,6 +111,15 @@ class Element {
     public function getName(): ?string {
         return $this->name;
     }
+    
+    public function setValidateName(string $name): self {
+        $this->validate_name = $name;
+        return $this;
+    }  
+    
+    public function getValidateName(): ?string {
+        return $this->validate_name;
+    }    
 
     /**
      * 

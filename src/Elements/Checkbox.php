@@ -56,6 +56,7 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox {
         $this->setValue($name);
         $this->setId($this->getPrefixId() . $name);
         $this->removeAttribute('name');
+        $this->setValidateName($name);
     }
 
     public function setPrefixId($prefix) {
@@ -80,5 +81,7 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox {
             $this->defaults = (array) $data[$_default_name];
         }
     }
+    
+  
 
 }

@@ -166,7 +166,11 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
     }
 
     private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
+        $html = '';
+       if ($element->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$element->getRuleMessage()}</p>";
+        }        
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
 
 
         /** @var \Enjoys\Forms\Element $data */

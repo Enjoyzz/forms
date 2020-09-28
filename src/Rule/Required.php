@@ -54,8 +54,8 @@ class Required implements \Enjoys\Forms\Interfaces\Rule {
     }
 
     public function validate(\Enjoys\Forms\Element $element) {
-        dump($element);
-        if (!$this->check($element->getAttribute('value'))) {
+        $request = new \Enjoys\Base\Request();
+        if (!$this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), '')))) {
             $element->addRuleMessage($this->getMessage());
             $element->setRuleError();
             return false;
@@ -64,7 +64,7 @@ class Required implements \Enjoys\Forms\Interfaces\Rule {
         return true;
     }
 
-    function check($value) {
+    private function check($value) {
 
         if (is_array($value)) {
             return count($value) > 0;

@@ -67,6 +67,8 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         Session::set([
             $this->getName() => $this->getCode()
         ]);
+        
+        //dump(Session::get($this->getName()));
         $html = '';
 
         if ($this->isRuleError()) {
@@ -77,7 +79,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         return $html;
     }
 
-    public function initCaptcha() {
+    private function initCaptcha() {
 
         // Ширина изображения
         $width = $this->getOption('width', 150);
@@ -150,10 +152,10 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         // Выводим изображение
         // header ("Content-type: image/jpeg");
 
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', FALSE);
-        header('Pragma: no-cache');
+//        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+//        header('Cache-Control: no-store, no-cache, must-revalidate');
+//        header('Cache-Control: post-check=0, pre-check=0', FALSE);
+//        header('Pragma: no-cache');
         // imagejpeg($this->img, XE_ROOTPATH.'/captcha.jpg', '80');
     }
 
@@ -161,7 +163,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         return $this->code;
     }
 
-    function get_base64image() {
+    private function get_base64image() {
         ob_start();
         imagejpeg($this->img, null, '80');
         $img_data = ob_get_contents();

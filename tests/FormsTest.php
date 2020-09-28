@@ -50,6 +50,9 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
     protected function tearDown(): void {
         $this->form = null;
+
+        unset($_POST);
+        unset($_GET);
     }
 
     public function testSetRenderer() {
@@ -148,12 +151,12 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $this->expectException(\Enjoys\Forms\Exception::class);
         $this->form->invalid();
     }
-    
+
     public function test_double_set_elements() {
         $this->expectException(\Enjoys\Forms\Exception::class);
         $this->form->text('foo');
         $this->form->text('foo');
-    }    
+    }
 
     public function test_invalid_display() {
         $this->expectException(\Enjoys\Forms\Exception::class);
@@ -165,19 +168,90 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $result = $this->form->setRenderer('defaults')->display();
         $this->assertTrue($result instanceof \Enjoys\Forms\Renderer\Defaults);
     }
-    
+
     public function test_count_elements() {
         $this->form->text('foo');
         $this->form->hidden('bar');
         $this->form->password('baz');
         $this->assertCount(3, $this->form->getElements());
     }
-    
+
     public function test_remove_elements() {
         $this->form->text('foo');
         $this->form->hidden('bar');
         $this->form->removeElement('foo');
         $this->assertCount(1, $this->form->getElements());
+    }
+
+    public function test_set_default() {
+        $this->form->setDefaults([
+            'foo' => 'bar'
+        ]);
+        $element = $this->form->text('foo');
+        $this->assertSame('bar', $element->getAttribute('value'));
+    }
+
+    public function test_set_default2() {
+        $this->form->setDefaults([
+            'foo' => 'bar'
+        ]);
+        $element = $this->form->text('foo')->setName('baz');
+        $this->assertSame('bar', $element->getAttribute('value'));
+    }
+
+    public function test_set_isSubmit() {
+
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+        unset($_GET);
+        $_GET['foo'] = 'baz';
+        $form->setDefaults([
+            'foo' => 'bar'
+        ]);
+
+        $element = $form->text('foo');
+
+        $this->assertSame('baz', $element->getAttribute('value'));
+    }
+
+    public function test_set_default3() {
+        $this->markTestSkipped();
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+
+        unset($_GET);
+        $_GET['zed'] = 'baz';
+
+        $form->setDefaults([
+            'foo' => 'bar'
+        ]);
+
+        $element = $form->text('foo')->addAttribute([
+            'name' => 'zed',
+        ]);
+
+        $this->assertSame('baz', $element->getAttribute('value'));
+    }
+
+
+    
+    public function test_set_default5() {
+        $_GET['foo'] = 'bar';
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+
+        $form->setDefaults([]);
+        $element = $form->text('foo');
+        $this->assertSame('bar', $element->getAttribute('value'));
     }    
 
 }
