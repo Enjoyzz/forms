@@ -65,8 +65,6 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         $this->generateCode();
         $img = $this->createImage($this->getCode(), $this->getOption('width', 150), $this->getOption('height', 50));
 
-
-
         //dump(Session::get($this->getName()));
         $html = '';
 

@@ -91,32 +91,31 @@ class Forms {
 
         $this->initRequest();
 
+        $this->setTokenSubmit();
+        $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit));
 
-        if (!is_null($method)) {
-            $this->setMethod($method);
-        }
+
+        $this->setMethod($method);
+
 
         if (!is_null($action)) {
             $this->setAction($action);
         }
-        
-        
-        
-        $this->setTokenSubmit();
-        $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit));
 
-        $this->checkSubmittedFrom();   
+
+
+
         
-        $this->setDefaults($this->defaults);
     }
 
     private function setTokenSubmit() {
         $this->token_submit = md5($this->getName() . $this->getAction());
     }
- 
+
     public function setDefaults(array $defaults) {
 
         $this->defaults = $defaults;
+
         if ($this->isSubmited()) {
             $this->defaults = [];
             $method = \strtolower($this->getMethod());
@@ -125,16 +124,12 @@ class Forms {
                 $this->defaults[$key] = $items;
             }
         }
-        
-//        dump($this->defaults);
         return $this;
     }
 
     public function isSubmited(): bool {
         return $this->submited_form;
     }
-
-
 
     /**
      * Включает защиту от CSRF.
@@ -231,7 +226,7 @@ class Forms {
      * @param string $method
      * @return $this
      */
-    public function setMethod(string $method): self {
+    public function setMethod(?string $method): self {
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
         }
@@ -242,6 +237,12 @@ class Forms {
         }
 
         $this->checkSubmittedFrom();
+        
+        $this->setDefaults($this->defaults);
+        
+        if(is_null($method)){
+            $this->removeAttribute('method');
+        }
 
         return $this;
     }
@@ -343,17 +344,18 @@ class Forms {
         }
         /** @var Element $element */
         $element = new $class_name(...$arguments);
+      //  dump($element);
         $element->setDefault($this->defaults);
         $this->addElement($element);
         return $element;
     }
-    
+
     /**
      * 
      * @return boolean
      */
     public function validate() {
-        if(!$this->isSubmited()){
+        if (!$this->isSubmited()) {
             return false;
         }
         return Validator::check($this->getElements());
@@ -388,23 +390,21 @@ class Forms {
             $this->addElement(new Elements\Hidden('MAX_FILE_SIZE', $bytes));
         }
     }
-    
+
     /**
      * 
      * @param type $captcha
      * @param type $rule_message
      * @return \Enjoys\Forms\Element
      */
-    public function captcha($captcha = 'Defaults', $rule_message = null) : Element{
-        $class = "\Enjoys\Forms\Captcha\\".$captcha."\\".$captcha;
+    public function captcha($captcha = 'Defaults', $rule_message = null): Element {
+        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
         /** @var \Enjoys\Forms\Element $element */
         $element = new $class($rule_message);
-        
+
         $element->setDefault($this->defaults);
-        $this->addElement($element);    
+        $this->addElement($element);
         return $element;
     }
-    
-
 
 }

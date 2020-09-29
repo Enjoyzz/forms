@@ -31,32 +31,20 @@ namespace Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class Csrf implements \Enjoys\Forms\Interfaces\Rule {
+class Csrf extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
 
-    use \Enjoys\Forms\Traits\Attributes;
-
-    private $message = '';
     private $csrf_key;
 
-    public function __construct($message, \Enjoys\Forms\Element $element, ...$attributes) {
-        if(is_null($message)){
+    public function __construct(string $message = null, array $attributes = []) {
+        if (is_null($message)) {
             $message = 'CSRF Attack detected';
         }
-     
-        $this->setMessage($message);
-        $this->addAttribute(...$attributes);
-    }
 
-    private function setMessage($message) {
-        $this->message = $message;
-    }
-
-    private function getMessage() {
-        return $this->message;
+        parent::__construct($message, $attributes);
     }
 
     public function validate(\Enjoys\Forms\Element $element) {
- 
+
         if (!$this->check($element->getAttribute('value'))) {
             $element->addRuleMessage($this->getMessage());
             $element->setRuleError();
@@ -67,7 +55,7 @@ class Csrf implements \Enjoys\Forms\Interfaces\Rule {
         return true;
     }
 
-    function check($value) {
+    private function check($value) {
         return hash_equals($value, crypt($this->getAttribute('csrf_key'), $value));
     }
 

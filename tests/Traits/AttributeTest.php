@@ -88,6 +88,15 @@ class AttributeTest extends \PHPUnit\Framework\TestCase {
     public function test_attr_without_value_get_attr() {
         $this->obj->addAttribute(['something' => 'value1', 'something2']);
         $this->assertNull($this->obj->getAttribute('something2'));
-    }    
+    }   
+    
+    public function test_get_attr_unseted() {
+        $this->assertFalse($this->obj->getAttribute('something2'));
+        $this->obj->setGroupAttributes('test');
+        $this->assertFalse($this->obj->getAttribute('something2'));
+        $this->obj->resetGroupAttributes();
+    }        
+    
+
 
 }

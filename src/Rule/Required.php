@@ -31,30 +31,19 @@ namespace Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class Required implements \Enjoys\Forms\Interfaces\Rule {
+class Required extends \Enjoys\Forms\Rule  implements \Enjoys\Forms\Interfaces\Rule {
 
-    use \Enjoys\Forms\Traits\Attributes;
-
-    private $message = '';
-
-    public function __construct($message, \Enjoys\Forms\Element $element, ...$attributes) {
-        if(is_null($message)){
-            $message = $element->getTitle() . ' - обязательно для запонения';
+    public function __construct(string $message = null, array $attributes = []) {
+        if (is_null($message)) {
+            $message = 'Обязательно для заполнения, или выбора';
         }
-        $this->setMessage($message);
-        $this->addAttribute($attributes);
-    }
-
-    private function setMessage($message) {
-        $this->message = $message;
-    }
-
-    private function getMessage() {
-        return $this->message;
+        parent::__construct($message, $attributes);
     }
 
     public function validate(\Enjoys\Forms\Element $element) {
+    
         $request = new \Enjoys\Base\Request();
+        
         if (!$this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), '')))) {
             $element->addRuleMessage($this->getMessage());
             $element->setRuleError();

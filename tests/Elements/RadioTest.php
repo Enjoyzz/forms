@@ -57,6 +57,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
 
     private function filldata() {
         $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj->setPrefixId('rb_');
         $obj->fill([
             'v1' => 't1',
             'v2' => [

@@ -87,6 +87,7 @@ class Element {
      */
     public function __construct(string $name, string $title = null) {
         $this->setName($name);
+        
         if (!is_null($title)) {
             $this->setTitle($title);
         }
@@ -101,6 +102,7 @@ class Element {
         $this->name = $name;
         $this->setId($this->name);
         $this->setAttribute('name', $this->name);
+        $this->setValidateName($this->name);
         return $this;
     }
 
@@ -199,21 +201,24 @@ class Element {
      * @param array $data
      */
     public function setDefault(array $data) {
-        if (isset($data[$this->getName()])) {
-            $this->setValue($data[$this->getName()]);
+//        dump($data);
+//        dump($this->getValidateName());
+        if (isset($data[$this->getValidateName()])) {
+            $this->setValue($data[$this->getValidateName()]);
         }
     }
+    
 
     /**
      * 
-     * @param type $rule
-     * @param type $message
-     * @param type $arguments
+     * @param string $rule
+     * @param string $message
+     * @param array $arguments
      * @return $this
      */
-    public function addRule($rule, $message = null, ...$arguments) {
+    public function addRule(string $rule, string $message = null, array $arguments = []) {
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
-        $this->rules[] = new $class($message, $this, ...$arguments);
+        $this->rules[] = new $class($message, $arguments);
         return $this;
     }
 

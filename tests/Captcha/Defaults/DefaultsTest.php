@@ -88,18 +88,17 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
 
         $img = $method->invoke($obj, 'test', 200, 100);
         $this->assertIsResource($img);
-        
+
         $this->assertEquals(200, \imagesx($img));
         $this->assertEquals(100, \imagesy($img));
-        
+
         return $img;
     }
-    
+
     /**
      * @depends test_createImg
      */
-    public function test_get_base64image($img)
-    {
+    public function test_get_base64image($img) {
         $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults();
         $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'get_base64image');
 
@@ -107,7 +106,20 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
         $size = \getimagesizefromstring($result);
         $this->assertEquals(200, $size[0]);
         $this->assertEquals(100, $size[1]);
-    }    
+    }
+
+    public function test_renderHtml() {
+        $this->markTestIncomplete();
+        $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults('code invalid-');
+        $html = $obj->renderHtml();
+        $this->assertEquals(6, \strlen($obj->getCode()));
+        $this->assertStringContainsString('img src="data:image/jpeg;base64,', $html);
+        $this->assertStringContainsString('<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $html);
+        \Enjoys\Forms\Validator::check($obj);
+        
+        $html = $obj->renderHtml();
+        $this->assertStringContainsString('<p style="color: red">code invalid</p>', $html);
+    }
 
     /**
      * getPrivateMethod

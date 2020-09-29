@@ -217,8 +217,29 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('baz', $element->getAttribute('value'));
     }
 
-    public function test_set_default3() {
-        $this->markTestSkipped();
+    public function test_set_default3_0() {
+        $this->markTestSkipped('Не работает случай когда name меняется');
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+        
+
+        
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+
+        $_GET['zed'] = 'baz';
+
+        $form->setDefaults([
+            'foo' => 'bar'
+        ]);
+
+        $element = $form->text('foo')->setName('zed');
+
+        $this->assertSame('baz', $element->getAttribute('value'));
+    }
+    
+    public function test_set_default3_1() {
+        $this->markTestSkipped('Не работает случай когда name меняется');
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
@@ -236,11 +257,9 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
             'name' => 'zed',
         ]);
 
-        $this->assertSame('baz', $element->getAttribute('value'));
+        $this->assertSame('bazh', $element->getAttribute('value'));
     }
 
-
-    
     public function test_set_default5() {
         $_GET['foo'] = 'bar';
         $form = $this->getMockBuilder(Forms::class)
@@ -252,6 +271,21 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $form->setDefaults([]);
         $element = $form->text('foo');
         $this->assertSame('bar', $element->getAttribute('value'));
-    }    
+    }
+
+    public function test_set_default6() {
+        $_POST['foo'] = 'barx';
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+
+        $form->setMethod('post');
+
+       
+
+        $element = $form->text('foo');
+        $this->assertSame('barx', $element->getAttribute('value'));
+    }
 
 }

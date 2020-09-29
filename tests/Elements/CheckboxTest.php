@@ -57,6 +57,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase {
 
     private function filldata() {
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj->setPrefixId('cb_');
         $obj->fill([
             'v1' => 't1',
             'v2' => [

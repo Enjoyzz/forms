@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,36 +24,30 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
+namespace Enjoys\Forms;
 
 /**
- * Description of Captcha
+ * Class Rule
  *
- * @author deadl
+ * @author Enjoys
  */
-class Captcha extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
+class Rule {
 
-    public function __construct(string $message = null, array $attributes = []) {
-        if (is_null($message)) {
-            $message = 'Не верно введен код';
-        }
-        parent::__construct($message, $attributes);
+    use \Enjoys\Forms\Traits\Attributes;
+
+    private $message = '';
+
+    public function __construct($message = null, $attributes) {
+        $this->setMessage($message);
+        $this->addAttribute($attributes);
     }
 
-    /**
-     * 
-     * @param \Enjoys\Forms\Element $element
-     * @return boolean
-     */
-    public function validate(\Enjoys\Forms\Element $element) {
+    protected function setMessage($message) {
+        $this->message = $message;
+    }
 
-        if (!$element->validate($element->getAttribute('value'))) {
-            $element->addRuleMessage($this->getMessage());
-            $element->setRuleError();
-            return false;
-        }
-
-        return true;
+    protected function getMessage() {
+        return $this->message;
     }
 
 }

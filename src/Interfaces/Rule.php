@@ -31,6 +31,6 @@ namespace Enjoys\Forms\Interfaces;
  * @author deadl
  */
 interface Rule {
-    public function __construct($message, \Enjoys\Forms\Element $element, ...$attributes);
+    public function __construct(string $message = null, array $attributes = []);
     public function validate(\Enjoys\Forms\Element $element);
 }
