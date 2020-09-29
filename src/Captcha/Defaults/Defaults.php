@@ -114,7 +114,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         $figures = ['50', '70', '90', '110', '130', '150', '170', '190', '210'];
 
         foreach ($letters as $letter) {
-            $x++;
+            
             //Ориентир
             $h = 1;
             //Рисуем
@@ -144,6 +144,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
             }
             // Выводим символ на изображение
             imagestring($img, 6, $x, $y, $letter, $color);
+            $x++;
         }
 
         return $img;

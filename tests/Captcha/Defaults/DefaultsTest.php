@@ -26,12 +26,27 @@
 
 namespace Tests\Enjoys\Forms\Captcha\Defaults;
 
+use \Enjoys\Base\Session\Session;
+
+Session::start();
+
 /**
  * Class DefaultsTest
  *
  * @author Enjoys
  */
 class DefaultsTest extends \PHPUnit\Framework\TestCase {
+
+    public function setUp(): void {
+        // Session::start();
+        Session::set([
+            'captcha_defaults' => 'testcode'
+        ]);
+    }
+
+    public function tearDown(): void {
+        Session::delete('captcha_defaults');
+    }
 
     public function test1() {
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
@@ -45,6 +60,69 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('v_baz', $captcha->getOption('baz'));
         $this->assertEquals('text', $captcha->getAttribute('type'));
         $this->assertEquals('off', $captcha->getAttribute('autocomplete'));
+    }
+
+    public function test_validate() {
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $this->assertSame('captcha_defaults', $captcha->getName());
+        $this->assertTrue($captcha->validate('testcode'));
+        $this->assertFalse($captcha->validate('testcode_fail'));
+    }
+
+    public function test_generateCode() {
+
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $captcha->setOptions([
+            'size' => 5
+        ]);
+
+        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'generateCode');
+        $method->invoke($captcha);
+
+        $this->assertEquals(5, \strlen($captcha->getCode()));
+    }
+
+    public function test_createImg() {
+        $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'createImage');
+
+        $img = $method->invoke($obj, 'test', 200, 100);
+        $this->assertIsResource($img);
+        
+        $this->assertEquals(200, \imagesx($img));
+        $this->assertEquals(100, \imagesy($img));
+        
+        return $img;
+    }
+    
+    /**
+     * @depends test_createImg
+     */
+    public function test_get_base64image($img)
+    {
+        $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'get_base64image');
+
+        $result = \base64_decode($method->invoke($obj, $img));
+        $size = \getimagesizefromstring($result);
+        $this->assertEquals(200, $size[0]);
+        $this->assertEquals(100, $size[1]);
+    }    
+
+    /**
+     * getPrivateMethod
+     *
+     * @author	Joe Sexton <joe@webtipblog.com>
+     * @param 	string $className
+     * @param 	string $methodName
+     * @return	\ReflectionMethod
+     */
+    public function getPrivateMethod($className, $methodName) {
+        $reflector = new \ReflectionClass($className);
+        $method = $reflector->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method;
     }
 
 }
