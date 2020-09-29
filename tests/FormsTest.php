@@ -218,7 +218,6 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function test_set_default3_0() {
-        $this->markTestSkipped('Не работает случай когда name меняется');
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
@@ -227,7 +226,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         
         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
-        $_GET['zed'] = 'baz';
+        $_GET['zed'] = 'bazd';
 
         $form->setDefaults([
             'foo' => 'bar'
@@ -235,18 +234,18 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
         $element = $form->text('foo')->setName('zed');
 
-        $this->assertSame('baz', $element->getAttribute('value'));
+        $this->assertSame('bazd', $element->getAttribute('value'));
     }
     
     public function test_set_default3_1() {
-        $this->markTestSkipped('Не работает случай когда name меняется');
+        $this->markTestSkipped('Не работает случай когда name не через setName а через addAttribute');
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
 
         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
-        unset($_GET);
+  
         $_GET['zed'] = 'baz';
 
         $form->setDefaults([

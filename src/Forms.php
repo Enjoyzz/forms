@@ -263,6 +263,8 @@ class Forms {
         if ($rewrite === false && $this->elementExists($element->getName())) {
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
+
+        $element->setDefault($this->defaults);
         $this->elements[$element->getName()] = $element;
         return $this;
     }
@@ -342,12 +344,9 @@ class Forms {
             throw new Exception("Class <b>{$class_name}</b> not found at line in Forms\Elements");
         }
         /** @var Element $element */
-        $element = (new $class_name(...$arguments))->setDefault($this->defaults);
-        //_var_dump($element);
-
+        $element = new $class_name(...$arguments);
         $this->addElement($element);
-
-        return $element->setDefault($this->defaults);
+        return $element;
     }
 
     /**
@@ -372,7 +371,6 @@ class Forms {
         $this->addAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
-        $element->setDefault($this->defaults);
         $this->addElement($element);
         return $element;
     }
@@ -401,8 +399,6 @@ class Forms {
         $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
         /** @var \Enjoys\Forms\Element $element */
         $element = new $class($rule_message);
-
-        $element->setDefault($this->defaults);
         $this->addElement($element);
         return $element;
     }

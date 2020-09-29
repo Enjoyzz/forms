@@ -79,6 +79,8 @@ class Element implements Interfaces\Element{
     protected $rules = [];
     private $rule_message = null;
     private $rule_error = false;
+    
+    private array $defaults = [];
 
     /**
      * 
@@ -103,6 +105,10 @@ class Element implements Interfaces\Element{
         $this->setId($this->name);
         $this->setAttribute('name', $this->name);
         $this->setValidateName($this->name);
+        
+        if(!empty($this->defaults)){
+            $this->setDefault($this->defaults);
+        }
         return $this;
     }
 
@@ -202,13 +208,14 @@ class Element implements Interfaces\Element{
      * @return \self
      */
     public function setDefault(array $data) : self {
-//        dump($data);
-//        dump($this->getValidateName());
+        $this->defaults = $data;
         if (isset($data[$this->getValidateName()])) {
             $this->setValue($data[$this->getValidateName()]);
         }
         return $this;
     }
+    
+
     
 
     /**
@@ -264,5 +271,8 @@ class Element implements Interfaces\Element{
     public function getRules() {
         return $this->rules;
     }
+    
+    
+    
 
 }
