@@ -27,6 +27,7 @@
 namespace Enjoys\Forms;
 
 use \Enjoys\Helpers\Math;
+use \Enjoys\Forms\Interfaces;
 
 /**
  * 
@@ -101,11 +102,6 @@ class Forms {
         if (!is_null($action)) {
             $this->setAction($action);
         }
-
-
-
-
-        
     }
 
     private function setTokenSubmit() {
@@ -236,13 +232,15 @@ class Forms {
             $this->csrf();
         }
 
-        $this->checkSubmittedFrom();
-        
-        $this->setDefaults($this->defaults);
-        
-        if(is_null($method)){
+
+
+        if (is_null($method)) {
             $this->removeAttribute('method');
         }
+
+        $this->checkSubmittedFrom();
+
+        $this->setDefaults($this->defaults);
 
         return $this;
     }
@@ -261,6 +259,7 @@ class Forms {
      * @return \self
      */
     public function addElement(Element $element, $rewrite = false): self {
+        // dump($element);
         if ($rewrite === false && $this->elementExists($element->getName())) {
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
@@ -343,11 +342,12 @@ class Forms {
             throw new Exception("Class <b>{$class_name}</b> not found at line in Forms\Elements");
         }
         /** @var Element $element */
-        $element = new $class_name(...$arguments);
-      //  dump($element);
-        $element->setDefault($this->defaults);
+        $element = (new $class_name(...$arguments))->setDefault($this->defaults);
+        //_var_dump($element);
+
         $this->addElement($element);
-        return $element;
+
+        return $element->setDefault($this->defaults);
     }
 
     /**

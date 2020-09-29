@@ -65,18 +65,20 @@ class Radio extends Element implements Interfaces\Radio_Checkbox {
         return static::$prefix_id;
     }
 
-    public function setDefault(array $data) {
+    public function setDefault(array $data)  : self {
 
 
         if (in_array($this->getAttribute('value'), $data)) {
             $this->addAttribute('checked');
-            return;
+            return $this;
         }
 
 
         if (isset($data[$this->getName()])) {
             $this->defaults = (array) $data[$this->getName()];
         }
+        
+        return $this;
     }
 
 }

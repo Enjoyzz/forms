@@ -32,9 +32,5 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface Element {
 
-    public function baseHtmlRender();
 
-    public function setDescription($description);
-
-    public function addAttribute(...$attributes);
 }

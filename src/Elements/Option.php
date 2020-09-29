@@ -42,12 +42,13 @@ class Option extends \Enjoys\Forms\Element {
         $this->removeAttribute('name');
     }
 
-    public function setDefault(array $defaults) {
+    public function setDefault(array $defaults) :self {
 
         if (in_array($this->getAttribute('value'), $defaults)) {
 
             $this->addAttribute('selected');
         }
+        return $this;
     }
 
 }

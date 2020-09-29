@@ -69,10 +69,11 @@ class Select extends Element {
         return $this;
     }
 
-    public function setDefault(array $data) {
+    public function setDefault(array $data) : self{
         if (isset($data[$this->getName()])) {
             $this->defaults  = (array) $data[$this->getName()];
         }
+        return $this;
 
     }
 

@@ -32,7 +32,7 @@ namespace Enjoys\Forms;
  * 
  * @author Enjoys
  */
-class Element {
+class Element implements Interfaces\Element{
 
     use Traits\Attributes,
         Traits\LabelAttributes;
@@ -199,13 +199,15 @@ class Element {
     /**
      * 
      * @param array $data
+     * @return \self
      */
-    public function setDefault(array $data) {
+    public function setDefault(array $data) : self {
 //        dump($data);
 //        dump($this->getValidateName());
         if (isset($data[$this->getValidateName()])) {
             $this->setValue($data[$this->getValidateName()]);
         }
+        return $this;
     }
     
 
