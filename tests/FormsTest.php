@@ -226,7 +226,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         
         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
-        $_GET['zed'] = 'bazd';
+        $_GET['zed'] = 'anystring';
 
         $form->setDefaults([
             'foo' => 'bar'
@@ -234,11 +234,10 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
         $element = $form->text('foo')->setName('zed');
 
-        $this->assertSame('bazd', $element->getAttribute('value'));
+        $this->assertSame('anystring', $element->getAttribute('value'));
     }
     
     public function test_set_default3_1() {
-        $this->markTestSkipped('Не работает случай когда name не через setName а через addAttribute');
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
@@ -246,7 +245,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
   
-        $_GET['zed'] = 'baz';
+        $_GET['zed'] = 'anystring';
 
         $form->setDefaults([
             'foo' => 'bar'
@@ -256,7 +255,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
             'name' => 'zed',
         ]);
 
-        $this->assertSame('bazh', $element->getAttribute('value'));
+        $this->assertSame('anystring', $element->getAttribute('value'));
     }
 
     public function test_set_default5() {

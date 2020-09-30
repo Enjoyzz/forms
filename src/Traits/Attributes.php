@@ -84,10 +84,18 @@ trait Attributes {
     private function setAttribute(string $name, string $value = null): void {
         $name = \trim($name);
         
-        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
-            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
-            return;
-        }
+//        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
+//            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
+//            return;
+//        }
+//       
+//        if(in_array($name, ['name'])){
+//            if(isset($this->attributes[$this->groupAttributes][$name]) && $this->attributes[$this->groupAttributes][$name] != $value){
+//                $this->attributes[$this->groupAttributes][$name] = $value;
+//                $this->setName($value);
+//            }
+//        }
+        
         $this->attributes[$this->groupAttributes][$name] = $value;
     }
 

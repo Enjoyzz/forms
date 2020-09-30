@@ -61,6 +61,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testAddAttribute_class() {
+        //$this->markTestSkipped('test invalid! why? in project work all right!!');
         $this->obj->addAttribute('class', 'value1')->addAttribute('class', 'value2');
         $this->assertSame('value1 value2', $this->obj->getAttribute('class'));
     }
