@@ -64,9 +64,18 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
 
     public function test_validate() {
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+
         $this->assertSame('captcha_defaults', $captcha->getName());
-        $this->assertTrue($captcha->validate('testcode'));
-        $this->assertFalse($captcha->validate('testcode_fail'));
+        $this->assertFalse($captcha->getAttribute('value'));
+
+        $captcha->setValue('testcode');
+        $this->assertSame('testcode', $captcha->getAttribute('value'));
+        $this->assertTrue($captcha->validate());
+
+        $captcha->removeAttribute('value');
+        $captcha->setValue('testcode_fail');
+        $this->assertSame('testcode_fail', $captcha->getAttribute('value'));
+        $this->assertFalse($captcha->validate());
     }
 
     public function test_generateCode() {
@@ -109,14 +118,20 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function test_renderHtml() {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults('code invalid-');
+        // $this->markTestIncomplete();
+        $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults('code invalid');
+
         $html = $obj->renderHtml();
         $this->assertEquals(6, \strlen($obj->getCode()));
         $this->assertStringContainsString('img src="data:image/jpeg;base64,', $html);
         $this->assertStringContainsString('<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $html);
-        \Enjoys\Forms\Validator::check($obj);
-        
+
+        $obj->setValue('code_fail');
+
+        foreach ($obj->getRules() as $rule) {
+            $rule->validate($obj);
+        }
+
         $html = $obj->renderHtml();
         $this->assertStringContainsString('<p style="color: red">code invalid</p>', $html);
     }

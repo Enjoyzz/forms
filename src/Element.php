@@ -32,7 +32,7 @@ namespace Enjoys\Forms;
  * 
  * @author Enjoys
  */
-class Element implements Interfaces\Element{
+class Element implements Interfaces\Element {
 
     use Traits\Attributes,
         Traits\LabelAttributes;
@@ -48,7 +48,6 @@ class Element implements Interfaces\Element{
      * @var string|null  
      */
     protected ?string $name = null;
-    
     protected ?string $validate_name = null;
 
     /**
@@ -77,9 +76,8 @@ class Element implements Interfaces\Element{
 //    protected Validator $rule;
 
     protected $rules = [];
-    private $rule_message = null;
+    private $rule_error_message = null;
     private $rule_error = false;
-    
     private array $defaults = [];
 
     /**
@@ -89,12 +87,12 @@ class Element implements Interfaces\Element{
      */
     public function __construct(string $name, string $title = null) {
         $this->setName($name);
-        
+
         if (!is_null($title)) {
             $this->setTitle($title);
         }
     }
-    
+
     /**
      * 
      * @param string $name
@@ -103,21 +101,21 @@ class Element implements Interfaces\Element{
      */
     private function setAttribute(string $name, string $value = null): void {
         $name = \trim($name);
-        
+
         if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
             $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
             return;
         }
-       
-        if(in_array($name, ['name'])){
-            if(isset($this->attributes[$this->groupAttributes][$name]) && $this->attributes[$this->groupAttributes][$name] != $value){
+
+        if (in_array($name, ['name'])) {
+            if (isset($this->attributes[$this->groupAttributes][$name]) && $this->attributes[$this->groupAttributes][$name] != $value) {
                 $this->attributes[$this->groupAttributes][$name] = $value;
                 $this->setName($value);
             }
         }
-        
+
         $this->attributes[$this->groupAttributes][$name] = $value;
-    }    
+    }
 
     /**
      * 
@@ -129,8 +127,8 @@ class Element implements Interfaces\Element{
         $this->setId($this->name);
         $this->setAttribute('name', $this->name);
         $this->setValidateName($this->name);
-        
-        if(!empty($this->defaults)){
+
+        if (!empty($this->defaults)) {
             $this->setDefault($this->defaults);
         }
         return $this;
@@ -143,15 +141,15 @@ class Element implements Interfaces\Element{
     public function getName(): ?string {
         return $this->name;
     }
-    
+
     public function setValidateName(string $name): self {
         $this->validate_name = $name;
         return $this;
-    }  
-    
+    }
+
     public function getValidateName(): ?string {
         return $this->validate_name;
-    }    
+    }
 
     /**
      * 
@@ -231,16 +229,13 @@ class Element implements Interfaces\Element{
      * @param array $data
      * @return \self
      */
-    public function setDefault(array $data) : self {
+    public function setDefault(array $data): self {
         $this->defaults = $data;
         if (isset($data[$this->getValidateName()])) {
             $this->setValue($data[$this->getValidateName()]);
         }
         return $this;
     }
-    
-
-    
 
     /**
      * 
@@ -257,27 +252,14 @@ class Element implements Interfaces\Element{
 
     /**
      * 
-     * @param type $message
-     * @return $this
      */
-    public function addRuleMessage($message) {
-        $this->rule_message = $message;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    public function getRuleMessage() {
-        return $this->rule_message;
-    }    
-
-    /**
-     * 
-     */
-    public function setRuleError() {
+    public function setRuleError($message) {
         $this->rule_error = true;
+        $this->rule_error_message = $message;
+    }
+
+    public function getRuleErrorMessage() {
+        return $this->rule_error_message;
     }
 
     /**
@@ -295,8 +277,5 @@ class Element implements Interfaces\Element{
     public function getRules() {
         return $this->rules;
     }
-    
-    
-    
 
 }

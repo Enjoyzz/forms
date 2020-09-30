@@ -40,13 +40,12 @@ class Required extends \Enjoys\Forms\Rule  implements \Enjoys\Forms\Interfaces\R
         parent::__construct($message, $attributes);
     }
 
-    public function validate(\Enjoys\Forms\Element $element) {
+    public function validate(\Enjoys\Forms\Element &$element) {
     
         $request = new \Enjoys\Base\Request();
         
         if (!$this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), '')))) {
-            $element->addRuleMessage($this->getMessage());
-            $element->setRuleError();
+            $element->setRuleError($this->getMessage());
             return false;
         }
 

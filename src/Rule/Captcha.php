@@ -45,11 +45,10 @@ class Captcha extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rul
      * @param \Enjoys\Forms\Element $element
      * @return boolean
      */
-    public function validate(\Enjoys\Forms\Element $element) {
+    public function validate(\Enjoys\Forms\Element &$element) {
 
-        if (!$element->validate($element->getAttribute('value'))) {
-            $element->addRuleMessage($this->getMessage());
-            $element->setRuleError();
+        if (!$element->validate()) {
+            $element->setRuleError($this->getMessage());
             return false;
         }
 

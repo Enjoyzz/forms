@@ -32,5 +32,5 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface Rule {
     public function __construct(string $message = null, array $attributes = []);
-    public function validate(\Enjoys\Forms\Element $element);
+    public function validate(\Enjoys\Forms\Element &$element);
 }

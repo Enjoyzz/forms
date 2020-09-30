@@ -43,11 +43,10 @@ class Csrf extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
         parent::__construct($message, $attributes);
     }
 
-    public function validate(\Enjoys\Forms\Element $element) {
+    public function validate(\Enjoys\Forms\Element &$element) {
 
         if (!$this->check($element->getAttribute('value'))) {
-            $element->addRuleMessage($this->getMessage());
-            $element->setRuleError();
+            $element->setRuleError($this->getMessage());
             die($this->getMessage());
             return false;
         }

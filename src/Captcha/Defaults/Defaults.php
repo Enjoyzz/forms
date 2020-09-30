@@ -53,9 +53,9 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         $this->addRule('captcha', $rule_message);
     }
 
-    public function validate($value) {
+    public function validate() {
         //_var_dump(Session::get($this->getName()), $value);
-        if (Session::get($this->getName()) !== $value) {
+        if (Session::get($this->getValidateName()) !== $this->getAttribute('value')) {
             return false;
         }
         return true;
@@ -69,7 +69,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         $html = '';
 
         if ($this->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$this->getRuleMessage()}</p>";
+            $html .= "<p style=\"color: red\">{$this->getRuleErrorMessage()}</p>";
         }
         $html .= '<img src="data:image/jpeg;base64,' . $this->get_base64image($img) . '" /><br /><input' . $this->getAttributes() . '>';
 
