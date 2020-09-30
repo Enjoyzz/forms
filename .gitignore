@@ -5,4 +5,4 @@
 /nbproject/private/
 /tests/coverage/
 /coverage/
-/.phpunit.result.cache
+/*.cache

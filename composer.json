@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "php": "^7.4",
         "phpunit/phpunit": "^9.3",
         "enjoys/framework": "@dev",
         "guzzlehttp/guzzle": "^7.1.0"
