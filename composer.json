@@ -9,9 +9,11 @@
     ],
     "require": {
         "php": "^7.4",
-        "phpunit/phpunit": "^9.3",
         "enjoys/framework": "@dev",
         "guzzlehttp/guzzle": "^7.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {
@@ -23,15 +25,10 @@
             "Tests\\Enjoys\\Forms\\": "tests/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.0-dev"
-        }
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "D:\\Enjoys\\framework"
+    "repositories": {
+        "enjoys/framework": {
+            "type": "vcs",
+            "url": "git@github.com:Enjoyzz/framework.git"
         } 
-    ]
+    }
 }
