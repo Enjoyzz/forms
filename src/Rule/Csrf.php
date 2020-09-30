@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Rule;
  */
 class Csrf extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
 
-    private $csrf_key;
+  
 
     public function __construct(string $message = null, array $attributes = []) {
         if (is_null($message)) {
@@ -44,10 +44,10 @@ class Csrf extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
     }
 
     public function validate(\Enjoys\Forms\Element &$element) {
-
-        if (!$this->check($element->getAttribute('value'))) {
+        $request = new \Enjoys\Base\Request();
+        if (!$this->check($request->post($element->getValidateName()))) {
             $element->setRuleError($this->getMessage());
-            die($this->getMessage());
+           // throw new \Enjoys\Forms\Exception($this->getMessage());
             return false;
         }
 

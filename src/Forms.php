@@ -395,7 +395,10 @@ class Forms {
      * @param type $rule_message
      * @return \Enjoys\Forms\Element
      */
-    public function captcha($captcha = 'Defaults', $rule_message = null): Element {
+    public function captcha($captcha = null, $rule_message = null): Element {
+        if(is_null($captcha)){
+            $captcha = 'Defaults';
+        }
         $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
         /** @var \Enjoys\Forms\Element $element */
         $element = new $class($rule_message);
