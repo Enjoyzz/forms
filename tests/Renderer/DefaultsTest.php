@@ -186,8 +186,33 @@ class DefaultsTest extends TestCase {
         $this->assertSame("8d81691b697ccc5e78694363601e4525", md5($this->toOneString($obj->elements())));
     }
     
+    public function test_input_error_rule() {
+
+        \Enjoys\Forms\Validator::check([
+            $this->form->text('foo')->addRule('required', 'input_error')
+        ]);
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        $this->assertStringContainsString('<p style="color: red">input_error</p>', $obj->elements());
+     
+    }
+    
+    
+    public function test_checkbox_error_rule() {
+
+        \Enjoys\Forms\Validator::check([
+            $this->form->checkbox('foot')->addRule('required', 'checkbox_error')
+        ]);
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        $this->assertStringContainsString('<p style="color: red">checkbox_error</p>', $obj->elements());
+     
+    }    
+    
     private function toOneString($multistring) {
         return preg_replace('/\s+/', ' ', $multistring);
     }
+    
+    
+    
+    
 
 }

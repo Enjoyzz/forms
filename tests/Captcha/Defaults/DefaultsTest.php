@@ -77,6 +77,8 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('testcode_fail', $captcha->getAttribute('value'));
         $this->assertFalse($captcha->validate());
     }
+    
+    
 
     public function test_generateCode() {
 

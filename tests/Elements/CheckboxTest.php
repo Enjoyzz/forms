@@ -196,5 +196,17 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertCount(2, $obj->getElements());
     }
+    
+    public function test_setDefault() {
+        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj->setDefault(['name' => [
+                1, 2
+        ]]);
+        $obj->fill([1, 2, 3]);
+        $elements = $obj->getElements();
+        $this->assertFalse($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[1]->getAttribute('checked'));
+        $this->assertNull($elements[2]->getAttribute('checked'));
+    }    
 
 }

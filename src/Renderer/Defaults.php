@@ -155,7 +155,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
     private function renderInput(\Enjoys\Forms\Element $element) {
         $html = '';
         if ($element->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$element->getRuleMessage()}</p>";
+            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }
         $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<input type=\"{$element->getType()}\"{$element->getAttributes()}><br>\n";
@@ -168,7 +168,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
     private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
         $html = '';
        if ($element->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$element->getRuleMessage()}</p>";
+            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }        
         $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
 
