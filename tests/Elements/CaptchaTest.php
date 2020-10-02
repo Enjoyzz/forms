@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,38 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
+namespace Tests\Enjoys\Forms\Elements;
 
 /**
- * Description of Captcha
+ * Class CaptchaTest
  *
- * @author deadl
+ * @author Enjoys
  */
-class Captcha extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
+class CaptchaTest extends \PHPUnit\Framework\TestCase {
+    
+    use \Tests\Enjoys\Forms\Reflection;
 
-    public function __construct(string $message = null, array $attributes = []) {
-//        if (is_null($message)) {
-//            $message = 'Не верно введен код';
-//        }
-        parent::__construct($message, $attributes);
+    public function test_init_captcha() {
+        $form = new \Enjoys\Forms\Forms();
+        $element = $form->captcha();
+        $this->assertTrue($element instanceof \Enjoys\Forms\Captcha\Defaults\Defaults);
     }
 
-    /**
-     * 
-     * @param \Enjoys\Forms\Element $element
-     * @return boolean
-     */
-    public function validate(\Enjoys\Forms\Element &$element) {
-
-        if (!$element->validate()) {
-           // $element->setRuleError($this->getMessage());
-            return false;
-        }
-
-        return true;
+    public function test_init_captcha_set_rule_message() {
+        $form = new \Enjoys\Forms\Forms();
+        $element = $form->captcha(null, 'test');
+        $rule = $element->getRules()[1];
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Captcha::class, 'getMessage');
+        $this->assertSame('test', $method->invoke($rule));
     }
+    
+    
+    public function test_init_captcha_third_party() {
+        $this->expectException(\Enjoys\Forms\Exception::class);
+ 
+        $form = new \Enjoys\Forms\Forms();       
+        $element = $form->captcha('AnotherCaptchaDriver');
+        
+    }    
 
 }

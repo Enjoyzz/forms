@@ -207,6 +207,44 @@ class DefaultsTest extends TestCase {
      
     }    
     
+    public function test_rendererTextarea() {
+        $this->form->textarea('foo', 'byz')->setValue('bar')->setDescription('zed');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $this->assertStringContainsString('<label for="foo">byz</label><br> <textarea id="foo" name="foo">bar</textarea><br> <small>zed</small><br> ', $this->toOneString($obj->elements()));
+    }
+    
+    public function test_rendererDatalist() {
+        $this->form->datalist('foo', 'byz')->fill(['bar', 'baz'])->setDescription('zed');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $this->assertStringContainsString('<label for="foo">byz</label><br> <input name="foo" list="foo"><datalist id="foo"> <option value="bar"> <option value="baz"> </datalist> <small>zed</small><br>', $this->toOneString($obj->elements()));
+    }   
+    
+    public function test_renderSelect() {
+        $this->form->select('foo', 'byz')->fill(['bar', 'baz'])->setDescription('zed');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $this->assertStringContainsString('<label for="foo">byz</label><br> <select id="foo" name="foo"><br> <option id="0" value="0">bar</option><br> <option id="1" value="1">baz</option><br> </select> <small>zed</small><br>', $this->toOneString($obj->elements()));
+    }    
+    
+    public function test_renderButton() {
+        $this->form->button('foo', '<b>test</b>')->setDescription('zed');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $this->assertStringContainsString('<button id="foo" name="foo"><b>test</b></button><br> <small>zed</small>', $this->toOneString($obj->elements()));
+    }   
+    
+    public function test_renderCaptcha_default() {
+        $this->form->captcha()->setDescription('foo');
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
+        $string = $this->toOneString($obj->elements());
+        $this->assertStringContainsString('<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $string);
+        $this->assertStringContainsString('<label for="captcha_defaults"></label><br><br><img src="data:image/jpeg;base64', $string);
+        $this->assertStringContainsString('<small>foo</small>', $string);
+    }       
+    
     private function toOneString($multistring) {
         return preg_replace('/\s+/', ' ', $multistring);
     }

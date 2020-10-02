@@ -249,6 +249,10 @@ class Element implements Interfaces\Element {
         $this->rules[] = new $class($message, $arguments);
         return $this;
     }
+    
+//    public function getRule($d) {
+//        return $this->rules[];
+//    }    
 
     /**
      * 
@@ -257,6 +261,7 @@ class Element implements Interfaces\Element {
         $this->rule_error = true;
         $this->rule_error_message = $message;
     }
+    
 
     public function getRuleErrorMessage() {
         return $this->rule_error_message;

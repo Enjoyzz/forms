@@ -38,33 +38,51 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
     private $privatekey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private $publickey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
     private $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+    private $error_codes = [
+        'missing-input-secret' => 'The secret parameter is missing.',
+        'invalid-input-secret' => 'The secret parameter is invalid or malformed.',
+        'missing-input-response' => 'The response parameter is missing.',
+        'invalid-input-response' => 'The response parameter is invalid or malformed.',
+        'bad-request' => 'The request is invalid or malformed.',
+        'timeout-or-duplicate' => 'The response is no longer valid: either is too old or has been used previously.',
+    ];
 
     public function __construct($rule_message = null) {
-        parent::__construct('captcha_defaults');
-
-        $this->addAttribute([
-            'type' => 'text',
-            'autocomplete' => 'off'
-        ]);
-
-
-
+        parent::__construct('recaptcha2');
         $this->addRule('captcha', $rule_message);
     }
 
-    public function validate($value) {
+    public function validate() {
         $request = new \Enjoys\Base\Request();
         $data = array(
-            'secret' => $this->getOption('privatekey', $this->privatekey),
+            'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privatekey)),
             'response' => $request->post('g-recaptcha-response', $request->get('g-recaptcha-response'))
         );
-        
+
+
+        $client = new \GuzzleHttp\Client();
+        $response = json_decode($client->request('POST', $this->getOption('verify_url', $this->verify_url), [
+                    'form_params' => $data
+                ])->getBody()->getContents());
+
+
+        if ($response->success === false) {
+            $errors = [];
+            foreach ($response->{'error-codes'} as $error) {
+                $errors[] = $this->error_codes[$error];
+            }
+            $this->setRuleError(implode(', ', $errors));
+            return false;
+        }
         return true;
     }
 
     public function renderHtml() {
         $html = "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>";
-        $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->publickey)}\"> </div>";
+        if ($this->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$this->getRuleErrorMessage()}</p>";
+        }
+        $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->getOption('publickey', $this->publickey))}\"> </div>";
         return $html;
     }
 

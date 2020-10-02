@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,24 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
+namespace Tests\Enjoys\Forms\Elements;
 
 /**
- * Description of Captcha
+ * Class CsrfTest
  *
- * @author deadl
+ * @author Enjoys
  */
-class Captcha extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
-
-    public function __construct(string $message = null, array $attributes = []) {
-//        if (is_null($message)) {
-//            $message = 'Не верно введен код';
-//        }
-        parent::__construct($message, $attributes);
+class CsrfTest extends \PHPUnit\Framework\TestCase{
+    public function test_disable_csrf() {
+        $form = new \Enjoys\Forms\Forms('post');
+        $this->assertTrue($form->getElements()[\Enjoys\Forms\Forms::_TOKEN_CSRF_] instanceof \Enjoys\Forms\Elements\Hidden);
+        $form->csrf(false);
+        $this->assertNull($form->getElements()[\Enjoys\Forms\Forms::_TOKEN_CSRF_]);
     }
-
-    /**
-     * 
-     * @param \Enjoys\Forms\Element $element
-     * @return boolean
-     */
-    public function validate(\Enjoys\Forms\Element &$element) {
-
-        if (!$element->validate()) {
-           // $element->setRuleError($this->getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
+    
+    public function test_disable_csrf_for_get() {
+        $form = new \Enjoys\Forms\Forms();
+        $form->csrf();
+        $this->assertNull($form->getElements()[\Enjoys\Forms\Forms::_TOKEN_CSRF_]);
+    }    
 }

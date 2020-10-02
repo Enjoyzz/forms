@@ -39,6 +39,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
 
     private $code = '';
     private $img;
+    private $rule_message;
 
     public function __construct($rule_message = null) {
         parent::__construct('captcha_defaults');
@@ -49,13 +50,16 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         ]);
 
 
+        $this->rule_message = $rule_message;
+        
         $this->addRule('required');
-        $this->addRule('captcha', $rule_message);
+        $this->addRule('captcha', $this->rule_message);
     }
 
     public function validate() {
         //_var_dump(Session::get($this->getName()), $value);
         if (Session::get($this->getValidateName()) !== $this->getAttribute('value')) {
+            $this->setRuleError($this->rule_message);
             return false;
         }
         return true;

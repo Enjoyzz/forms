@@ -28,6 +28,7 @@ namespace Enjoys\Forms;
 
 use \Enjoys\Helpers\Math;
 use \Enjoys\Forms\Interfaces;
+use \Enjoys\Forms\Exception;
 
 /**
  * 
@@ -90,22 +91,20 @@ class Forms {
      */
     public function __construct(string $method = null, string $action = null) {
 
+        if (!is_null($action)) {
+            $this->setAction($action);
+        }
+
         $this->initRequest();
 
         $this->setTokenSubmit();
         $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit));
 
-
         $this->setMethod($method);
-
-
-        if (!is_null($action)) {
-            $this->setAction($action);
-        }
     }
 
     private function setTokenSubmit() {
-        $this->token_submit = md5($this->getName() . $this->getAction());
+        $this->token_submit = md5($this->getAction());
     }
 
     public function setDefaults(array $defaults) {
@@ -298,6 +297,7 @@ class Forms {
      */
     public function display() {
 
+
         $renderer = '\\Enjoys\\Forms\\Renderer\\' . \ucfirst($this->renderer);
 
         if (!class_exists($renderer)) {
@@ -390,22 +390,27 @@ class Forms {
     }
 
     /**
+     * @todo Возможно вынести в отдельно в Elements
      * 
      * @param type $captcha
      * @param type $rule_message
      * @return \Enjoys\Forms\Element
      */
     public function captcha($captcha = null, $rule_message = null): Element {
-        if(is_null($captcha)){
+        if (is_null($captcha)) {
             $captcha = 'Defaults';
         }
         $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
+
+        if (!class_exists($class)) {
+            throw new Exception("Class <b>{$class}</b> not found");
+        }
         /** @var \Enjoys\Forms\Element $element */
         $element = new $class($rule_message);
         $this->addElement($element);
         return $element;
     }
-    
+
     /**
      * 
      * @param string $name
@@ -414,13 +419,13 @@ class Forms {
      */
     private function setAttribute(string $name, string $value = null): void {
         $name = \trim($name);
-        
+
         if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
             $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
             return;
         }
-       
+
         $this->attributes[$this->groupAttributes][$name] = $value;
-    }       
+    }
 
 }

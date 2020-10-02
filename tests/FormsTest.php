@@ -36,6 +36,8 @@ use Enjoys\Forms\Forms
  * @author deadl
  */
 class FormsTest extends \PHPUnit\Framework\TestCase {
+    
+    use Reflection;
 
     /**
      *
@@ -221,9 +223,9 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
-        
 
-        
+
+
         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
         $_GET['zed'] = 'anystring';
@@ -236,7 +238,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertSame('anystring', $element->getAttribute('value'));
     }
-    
+
     public function test_set_default3_1() {
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
@@ -244,7 +246,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
-  
+
         $_GET['zed'] = 'anystring';
 
         $form->setDefaults([
@@ -276,14 +278,53 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
-         $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
 
         $form->setMethod('post');
 
-       
+
 
         $element = $form->text('foo');
         $this->assertSame('barx', $element->getAttribute('value'));
     }
+
+    public function test_validate_false() {
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+        $form->expects($this->once())->method('isSubmited')->will($this->returnValue(false));
+        $this->assertFalse($form->validate());
+
+    }
+    
+    public function test_validate_false_after_submit() {
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+        $form->text('foo')->addRule('required');
+        $this->assertFalse($form->validate());
+    }    
+
+    public function test_validate_true() {
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+        $this->assertTrue($form->validate());
+    }
+    
+    public function test_checkSubmittedFrom_true() {
+        $_GET[Forms::_TOKEN_SUBMIT_] = 'bf6813c2bc0becb369a8d8367b6b77db';
+        $form = new Forms('get', '/test.php');
+        $this->assertTrue($form->isSubmited());
+    }    
+    
+    public function test_checkSubmittedFrom_false() {
+        $_GET[Forms::_TOKEN_SUBMIT_] = 'bf6813c2bc0becb369a8d8367b6b77db';
+        $form = new Forms('get', '/test.php#');
+        $this->assertFalse($form->isSubmited());
+    }    
+    
 
 }

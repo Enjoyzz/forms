@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,32 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
+namespace Tests\Enjoys\Forms\Captcha\reCaptcha;
 
 /**
- * Description of Captcha
+ * Class reCaptchaTest
  *
- * @author deadl
+ * @author Enjoys
  */
-class Captcha extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
+class reCaptchaTest extends \PHPUnit\Framework\TestCase {
 
-    public function __construct(string $message = null, array $attributes = []) {
-//        if (is_null($message)) {
-//            $message = 'Не верно введен код';
-//        }
-        parent::__construct($message, $attributes);
+    private function toOneString($multistring) {
+        return preg_replace('/\s+/', ' ', $multistring);
     }
 
-    /**
-     * 
-     * @param \Enjoys\Forms\Element $element
-     * @return boolean
-     */
-    public function validate(\Enjoys\Forms\Element &$element) {
+    public function test_init() {
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $this->assertTrue($captcha instanceof \Enjoys\Forms\Captcha\reCaptcha\reCaptcha);
+    }
 
-        if (!$element->validate()) {
-           // $element->setRuleError($this->getMessage());
-            return false;
-        }
+    public function test_init_add_rule() {
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $this->assertCount(1, $captcha->getRules());
+    }
 
-        return true;
+    public function test_render() {
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
 }
