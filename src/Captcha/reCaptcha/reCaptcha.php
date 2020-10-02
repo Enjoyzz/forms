@@ -54,18 +54,20 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
 
     public function validate() {
         $request = new \Enjoys\Base\Request();
+        $client = $this->getGuzzleClient();
+        
         $data = array(
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privatekey)),
             'response' => $request->post('g-recaptcha-response', $request->get('g-recaptcha-response'))
         );
 
 
-        $client = new \GuzzleHttp\Client();
+        
         $response = json_decode($client->request('POST', $this->getOption('verify_url', $this->verify_url), [
                     'form_params' => $data
                 ])->getBody()->getContents());
 
-
+var_dump($response);
         if ($response->success === false) {
             $errors = [];
             foreach ($response->{'error-codes'} as $error) {
@@ -75,6 +77,10 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
             return false;
         }
         return true;
+    }
+    
+    private function getGuzzleClient() {
+        return new \GuzzleHttp\Client();
     }
 
     public function renderHtml() {

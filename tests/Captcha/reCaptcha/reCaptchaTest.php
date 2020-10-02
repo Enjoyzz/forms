@@ -52,4 +52,26 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
         $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
+    public function test_validate() {
+ $captcha = $this->getMockBuilder(\Enjoys\Forms\Captcha\reCaptcha\reCaptcha::class)
+         ->addMethods(['getGuzzleClient'])
+         ->getMock();
+ 
+        $guzzle = $this->getMockBuilder(\GuzzleHttp\Client::class)->addMethods(['getContents'])->getMock();
+//        $guzzle->expects($this->once())->method('request')->will($this->returnSelf());
+//        $guzzle->expects($this->once())->method('getBody')->will($this->returnSelf());
+        $guzzle->expects($this->once())->method('getContents')->will($this->returnValue(\json_encode([
+                    'success' => false,
+                    'error-codes' =>
+                    [
+                        0 => 'missing-input-response',
+                    ],
+        ])));
+       
+        $captcha->expects($this->once())->method('getGuzzleClient')->willReturn($guzzle);
+
+        $this->assertSame('dfgdfg',$captcha->validate());
+        $this->assertFalse($captcha->validate());
+    }
+
 }
