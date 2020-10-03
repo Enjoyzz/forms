@@ -252,6 +252,12 @@ class Forms {
         return $this->elements;
     }
 
+    public function addElements(array $elements): void {
+        foreach ($elements as $element) {
+            $this->addElement($element);
+        }
+    }
+
     /**
      * 
      * @param \Enjoys\Forms\Element $element
@@ -405,13 +411,11 @@ class Forms {
         if (!class_exists($class)) {
             throw new Exception("Class <b>{$class}</b> not found");
         }
- 
+
         /** @var \Enjoys\Forms\Interfaces\Captcha $element */
         $element = new $class($rule_message);
         $this->addElement($element);
         return $element;
     }
-
-
 
 }
