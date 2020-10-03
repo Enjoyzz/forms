@@ -52,7 +52,7 @@ class Select extends Element {
     }
 
     public function addAttribute(...$attributes): self {
-        parent::addAttribute(...$attributes);
+        parent::addAttributes(...$attributes);
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
 
             $id = false;

@@ -40,7 +40,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase{
     
     public function test_attr_legend() {
         $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->addAttribute([
+        $obj->addAttributes([
             'id' => 'test'
         ]);
         $this->assertSame('test', $obj->getAttribute('id'));

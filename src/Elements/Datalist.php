@@ -42,7 +42,7 @@ class Datalist extends \Enjoys\Forms\Element {
     public function __construct(string $name, string $title = null) {
         parent::__construct($name, $title);
         // $this->setIndexKeyFill('value');
-        $this->addAttribute('list', $this->getId());
+        $this->addAttributes('list', $this->getId());
         $this->removeAttribute('id');
     }
 

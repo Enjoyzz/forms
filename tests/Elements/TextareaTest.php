@@ -43,9 +43,9 @@ class TextareaTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('text', $el->getValue());
         $el->setValue('text2');
         $this->assertEquals('text2', $el->getValue());
-        $el->addAttribute(['class' => 'textarea_class']);
+        $el->addAttributes(['class' => 'textarea_class']);
         $this->assertEquals('textarea_class', $el->getAttribute('class'));
-        $el->addAttribute(['class' => 'textarea_class2']);
+        $el->addAttributes(['class' => 'textarea_class2']);
         $this->assertEquals('textarea_class textarea_class2', $el->getAttribute('class'));
     }
 

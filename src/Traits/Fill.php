@@ -76,7 +76,7 @@ trait Fill {
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
         
             $element = new $class($value, $_title);
-            $element->addAttribute($attributes);
+            $element->addAttributes($attributes);
 
             // Если в атррибутах есть `id` вызываем setId() 
             if (isset($attributes['id'])) {

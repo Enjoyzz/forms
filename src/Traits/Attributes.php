@@ -58,7 +58,7 @@ trait Attributes {
      * @param mixed $attributes
      * @return \self
      */
-    public function addAttribute(...$attributes): self {
+    public function addAttributes(...$attributes): self {
         //dump($attributes);
         if (is_array($attributes[0])) {
             foreach ($attributes[0] as $name => $value) {
