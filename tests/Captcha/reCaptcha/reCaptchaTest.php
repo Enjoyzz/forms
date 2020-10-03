@@ -33,6 +33,33 @@ namespace Tests\Enjoys\Forms\Captcha\reCaptcha;
  */
 class reCaptchaTest extends \PHPUnit\Framework\TestCase {
 
+    private function getHttpClient($contentType, $responseBody, $extraHeaders = [])
+    {
+        $extraHeaders['Content-Type'] = $contentType;
+
+        $response = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)->setMethods(['hasHeader', 'getHeader', 'getBody'])->getMock();
+        $response->expects($this->any())->method('hasHeader')->will($this->returnCallback(function ($headerName) use ($extraHeaders) {
+            return \array_key_exists($headerName, $extraHeaders);
+        }));
+        $response->expects($this->any())->method('getHeader')->will($this->returnCallback(function ($headerName) use ($extraHeaders) {
+            return [$extraHeaders[$headerName]];
+        }));
+
+        $stream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)->disableOriginalConstructor()->setMethods(['__toString', 'getContents'])->getMock();
+        $stream->expects($this->any())->method('__toString')->willReturn($responseBody);
+        $response->expects($this->any())->method('getBody')->willReturn($stream);
+        $stream->expects($this->any())->method('getContents')->willReturn($responseBody);
+
+        $http = $this->getMockBuilder(\GuzzleHttp\Client::class)->setMethods(['request'])->getMock();
+        $http->expects($this->any())->method('request')->will($this->returnCallback(function ($method, $address, array $options) use ($response) {
+            $this->lastRequestOptions = $options;
+
+            return $response;
+        }));
+
+        return $http;
+    }
+
     private function toOneString($multistring) {
         return preg_replace('/\s+/', ' ', $multistring);
     }
@@ -52,26 +79,54 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
         $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
-    public function test_validate() {
- $captcha = $this->getMockBuilder(\Enjoys\Forms\Captcha\reCaptcha\reCaptcha::class)
-         ->addMethods(['getGuzzleClient'])
-         ->getMock();
- 
-        $guzzle = $this->getMockBuilder(\GuzzleHttp\Client::class)->addMethods(['getContents'])->getMock();
-//        $guzzle->expects($this->once())->method('request')->will($this->returnSelf());
-//        $guzzle->expects($this->once())->method('getBody')->will($this->returnSelf());
-        $guzzle->expects($this->once())->method('getContents')->will($this->returnValue(\json_encode([
+    public function test_validate_success() {
+        $responseBody = \json_encode([
+                    'success' => true,
+        ]);
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+
+        $captcha->setOptions([
+            'httpClient' => $this->getHttpClient('text/plain', $responseBody)
+        ]);
+
+        $this->assertTrue($captcha->validate());
+    }
+    
+    public function test_validate_false() {
+        $responseBody = \json_encode([
                     'success' => false,
                     'error-codes' =>
                     [
                         0 => 'missing-input-response',
                     ],
-        ])));
-       
-        $captcha->expects($this->once())->method('getGuzzleClient')->willReturn($guzzle);
+        ]);
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
 
-        $this->assertSame('dfgdfg',$captcha->validate());
+        $captcha->setOptions([
+            'httpClient' => $this->getHttpClient('text/plain', $responseBody)
+        ]);
+
         $this->assertFalse($captcha->validate());
-    }
+        $this->assertEquals('The response parameter is missing.', $captcha->getRuleErrorMessage());
+    }    
+    
+    public function test_validate_false_render() {
+        $responseBody = \json_encode([
+                    'success' => false,
+                    'error-codes' =>
+                    [
+                        0 => 'missing-input-response',
+                        1 => 'invalid-input-secret'
+                    ],
+        ]);
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+
+        $captcha->setOptions([
+            'httpClient' => $this->getHttpClient('text/plain', $responseBody)
+        ]);
+        $captcha->validate();
+        $html = $captcha->renderHtml();
+        $this->assertStringContainsString('<p style="color: red">The response parameter is missing., The secret parameter is invalid or malformed.</p>', $html);
+    }        
 
 }

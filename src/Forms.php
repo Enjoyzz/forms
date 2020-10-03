@@ -394,7 +394,7 @@ class Forms {
      * 
      * @param type $captcha
      * @param type $rule_message
-     * @return \Enjoys\Forms\Element
+     * @return \Enjoys\Forms\Interfaces\Captcha
      */
     public function captcha($captcha = null, $rule_message = null): Element {
         if (is_null($captcha)) {
@@ -405,7 +405,8 @@ class Forms {
         if (!class_exists($class)) {
             throw new Exception("Class <b>{$class}</b> not found");
         }
-        /** @var \Enjoys\Forms\Element $element */
+ 
+        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
         $element = new $class($rule_message);
         $this->addElement($element);
         return $element;

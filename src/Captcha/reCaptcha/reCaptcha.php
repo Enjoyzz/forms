@@ -33,7 +33,8 @@ namespace Enjoys\Forms\Captcha\reCaptcha;
  */
 class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces\Captcha {
 
-    use \Enjoys\Traits\Options;
+    use \Enjoys\Traits\Options,
+        \Enjoys\Traits\Request;
 
     private $privatekey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private $publickey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
@@ -50,27 +51,30 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
     public function __construct($rule_message = null) {
         parent::__construct('recaptcha2');
         $this->addRule('captcha', $rule_message);
+        $this->initRequest();
     }
 
     public function validate() {
-        $request = new \Enjoys\Base\Request();
-        $client = $this->getGuzzleClient();
-        
+
+        $client = $this->getOption('httpClient', $this->getGuzzleClient());
+
         $data = array(
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privatekey)),
-            'response' => $request->post('g-recaptcha-response', $request->get('g-recaptcha-response'))
+            'response' => $this->request->post('g-recaptcha-response', $this->request->get('g-recaptcha-response'))
         );
 
 
-        
-        $response = json_decode($client->request('POST', $this->getOption('verify_url', $this->verify_url), [
-                    'form_params' => $data
-                ])->getBody()->getContents());
 
-var_dump($response);
-        if ($response->success === false) {
+        $response = $client->request('POST', $this->getOption('verify_url', $this->verify_url), [
+            'form_params' => $data
+        ]);
+
+        $responseBody = json_decode($response->getBody()->getContents());
+
+
+        if ($responseBody->success === false) {
             $errors = [];
-            foreach ($response->{'error-codes'} as $error) {
+            foreach ($responseBody->{'error-codes'} as $error) {
                 $errors[] = $this->error_codes[$error];
             }
             $this->setRuleError(implode(', ', $errors));
@@ -78,7 +82,7 @@ var_dump($response);
         }
         return true;
     }
-    
+
     private function getGuzzleClient() {
         return new \GuzzleHttp\Client();
     }
