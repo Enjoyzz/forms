@@ -69,7 +69,7 @@ class Radio extends Element implements Interfaces\Radio_Checkbox {
 
 
         if (in_array($this->getAttribute('value'), $data)) {
-            $this->addAttribute('checked');
+            $this->addAttributes('checked');
             return $this;
         }
 

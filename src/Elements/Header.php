@@ -55,7 +55,7 @@ class Header extends \Enjoys\Forms\Element {
 
     public function addFieldsetAttribute(...$attributes) {
         $this->setGroupAttributes('FieldsetAttribute');
-        $this->addAttribute(...$attributes);
+        $this->addAttributes(...$attributes);
         $this->resetGroupAttributes();
 
         return $this;

@@ -58,7 +58,7 @@ trait Attributes {
      * @param mixed $attributes
      * @return \self
      */
-    public function addAttribute(...$attributes): self {
+    public function addAttributes(...$attributes): self {
         //dump($attributes);
         if (is_array($attributes[0])) {
             foreach ($attributes[0] as $name => $value) {
@@ -83,19 +83,19 @@ trait Attributes {
      */
     private function setAttribute(string $name, string $value = null): void {
         $name = \trim($name);
-        
-//        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
-//            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
-//            return;
-//        }
-//       
-//        if(in_array($name, ['name'])){
-//            if(isset($this->attributes[$this->groupAttributes][$name]) && $this->attributes[$this->groupAttributes][$name] != $value){
-//                $this->attributes[$this->groupAttributes][$name] = $value;
-//                $this->setName($value);
-//            }
-//        }
-        
+
+        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
+            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
+            return;
+        }
+
+        if (in_array($name, ['name'])) {
+            if (isset($this->attributes[$this->groupAttributes][$name]) && $this->attributes[$this->groupAttributes][$name] != $value) {
+                $this->attributes[$this->groupAttributes][$name] = $value;
+                $this->setName($value);
+            }
+        }
+
         $this->attributes[$this->groupAttributes][$name] = $value;
     }
 

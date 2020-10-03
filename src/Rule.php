@@ -39,7 +39,7 @@ class Rule {
 
     public function __construct($message = null, $attributes) {
         $this->setMessage($message);
-        $this->addAttribute($attributes);
+        $this->addAttributes($attributes);
     }
 
     protected function setMessage($message) {

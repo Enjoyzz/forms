@@ -151,7 +151,7 @@ class DefaultsTest extends TestCase {
     }
 
     public function test_radio() {
-        $this->form->radio('name', 'title')->addLabelAttribute('accesskey', 'x')->setPrefixId('rb_')->fill([
+        $this->form->radio('name', 'title')->addLabelAttributes('accesskey', 'x')->setPrefixId('rb_')->fill([
             'val1' => 'text1',
             'val3' => [
                 'text3',
@@ -169,7 +169,7 @@ class DefaultsTest extends TestCase {
     }
 
     public function test_checkbox() {
-        $this->form->checkbox('name', 'title')->addLabelAttribute('accesskey', 'x')->setPrefixId('rb_')->fill([
+        $this->form->checkbox('name', 'title')->addLabelAttributes('accesskey', 'x')->setPrefixId('rb_')->fill([
             'val1' => 'text1',
             'val3' => [
                 'text3',

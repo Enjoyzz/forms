@@ -368,7 +368,7 @@ class Forms {
      */
     public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File {
         $element = new \Enjoys\Forms\Elements\File($name, $title);
-        $this->addAttribute('enctype', 'multipart/form-data');
+        $this->addAttributes('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
         $this->addElement($element);
@@ -412,21 +412,6 @@ class Forms {
         return $element;
     }
 
-    /**
-     * 
-     * @param string $name
-     * @param string $value
-     * @return void
-     */
-    private function setAttribute(string $name, string $value = null): void {
-        $name = \trim($name);
 
-        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
-            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
-            return;
-        }
-
-        $this->attributes[$this->groupAttributes][$name] = $value;
-    }
 
 }
