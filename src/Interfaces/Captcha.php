@@ -31,6 +31,5 @@ namespace Enjoys\Forms\Interfaces;
  * @author deadl
  */
 interface Captcha {
-   
     public function renderHtml();
 }

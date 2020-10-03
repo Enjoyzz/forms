@@ -34,7 +34,7 @@ namespace Tests\Enjoys\Forms\Traits;
 class LabelAttributesTest extends \PHPUnit\Framework\TestCase {
     public function test_get_label_attributes() {
         $form = new \Enjoys\Forms\Forms();
-        $form->radio('1', '1')->addLabelAttributes(['test', 'id' => 'test']);
+        $form->radio('1', '1')->addLabelAttribute(['test', 'id' => 'test']);
         $el = $form->getElements();
         $this->assertSame('test', $el[1]->getLabelAttribute('id'));
         $this->assertNull($el[1]->getLabelAttribute('test'));

@@ -32,9 +32,9 @@ namespace Enjoys\Forms\Traits;
  */
 trait LabelAttributes {
     
-    public function addLabelAttributes(...$attributes) {
+    public function addLabelAttribute(...$attributes) {
         $this->setGroupAttributes('LabelAttribute');
-        $this->addAttributes(...$attributes);
+        $this->addAttribute(...$attributes);
         $this->resetGroupAttributes();
 
         return $this;

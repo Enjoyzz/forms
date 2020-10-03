@@ -253,7 +253,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
             'foo' => 'bar'
         ]);
 
-        $element = $form->text('foo')->addAttributes([
+        $element = $form->text('foo')->addAttribute([
             'name' => 'zed',
         ]);
 

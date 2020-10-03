@@ -30,7 +30,6 @@ use Enjoys\Base\Session\Session as Session;
 
 /**
  * Description of Defaults
- * 
  *
  * @author deadl
  */
@@ -45,14 +44,11 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
     public function __construct($rule_message = null) {
         parent::__construct('captcha_defaults');
 
-        $this->addAttributes([
+        $this->addAttribute([
             'type' => 'text',
             'autocomplete' => 'off'
         ]);
 
-        if (is_null($rule_message)) {
-            $rule_message = 'Не верно введен код';
-        }        
 
         $this->rule_message = $rule_message;
         

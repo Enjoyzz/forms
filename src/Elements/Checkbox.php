@@ -72,7 +72,7 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox {
     public function setDefault(array $data) : self{
 
         if (in_array($this->getAttribute('value'), $data)) {
-            $this->addAttributes('checked');
+            $this->addAttribute('checked');
             return $this;
         }
 

@@ -46,7 +46,7 @@ class Option extends \Enjoys\Forms\Element {
 
         if (in_array($this->getAttribute('value'), $defaults)) {
 
-            $this->addAttributes('selected');
+            $this->addAttribute('selected');
         }
         return $this;
     }

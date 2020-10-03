@@ -251,12 +251,6 @@ class Forms {
     public function getElements(): array {
         return $this->elements;
     }
-    
-    public function addElements(array $elements) {
-        foreach ($elements as $element) {
-            $this->addElement($element);
-        }
-    }
 
     /**
      * 
@@ -374,7 +368,7 @@ class Forms {
      */
     public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File {
         $element = new \Enjoys\Forms\Elements\File($name, $title);
-        $this->addAttributes('enctype', 'multipart/form-data');
+        $this->addAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
         $this->addElement($element);
@@ -400,7 +394,7 @@ class Forms {
      * 
      * @param type $captcha
      * @param type $rule_message
-     * @mixed \Enjoys\Forms\Interfaces\Captcha
+     * @return \Enjoys\Forms\Interfaces\Captcha
      */
     public function captcha($captcha = null, $rule_message = null): Element {
         if (is_null($captcha)) {
