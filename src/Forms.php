@@ -399,10 +399,10 @@ class Forms {
      * @todo Возможно вынести в отдельно в Elements
      * 
      * @param type $captcha
-     * @param type $rule_message
+     * @param type $message
      * @return \Enjoys\Forms\Interfaces\Captcha
      */
-    public function captcha($captcha = null, $rule_message = null): Element {
+    public function captcha($captcha = null, $message = null): Element {
         if (is_null($captcha)) {
             $captcha = 'Defaults';
         }
@@ -413,7 +413,7 @@ class Forms {
         }
 
         /** @var \Enjoys\Forms\Interfaces\Captcha $element */
-        $element = new $class($rule_message);
+        $element = new $class($message);
         $this->addElement($element);
         return $element;
     }

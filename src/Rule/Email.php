@@ -26,27 +26,11 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\RuleBase,
-    Enjoys\Forms\Interfaces\Rule;
-
 /**
- * Description of Captcha
- * 
- * Captcha element will automatically set the rule(s)
- * $form->captcha(); 
- * Enjoy!
+ * Description of Email
  *
  * @author deadl
  */
-class Captcha extends RuleBase implements Rule {
-
-    /**
-     * 
-     * @param \Enjoys\Forms\Element $element
-     * @return boolean
-     */
-    public function validate(\Enjoys\Forms\Element $element): bool {
-        return $element->validate();
-    }
-
+class Email {
+    //put your code here
 }

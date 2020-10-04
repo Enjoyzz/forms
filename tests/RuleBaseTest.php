@@ -24,46 +24,17 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
-
-use Enjoys\Forms\RuleBase,
-    Enjoys\Forms\Interfaces\Rule;
+namespace Tests\Enjoys\Forms;
 
 /**
- * Description of Required
+ * Description of RuleBaseTest
  *
- * $form->text($name, $title)->addRule('required');
- * $form->text($name, $title)->addRule('required', $message);
- * 
  * @author deadl
  */
-class Required extends RuleBase implements Rule {
-
-    public function setMessage(?string $message): void {
-        if (is_null($message)) {
-            $message = 'Обязательно для заполнения, или выбора';
-        }     
-        parent::setMessage($message);
+class RuleBaseTest extends \PHPUnit\Framework\TestCase{
+    public function test_getParams() {
+        $obj = new \Enjoys\Forms\RuleBase('test', [1]);
+       $this->assertEquals([1], $obj->getParams());
+        $this->assertNull($obj->getParam('test'));
     }
-
-    public function validate(\Enjoys\Forms\Element $element): bool {
-
-        $request = new \Enjoys\Base\Request();
-
-        if (!$this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), '')))) {
-            $element->setRuleError($this->getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
-    private function check($value) {
-
-        if (is_array($value)) {
-            return count($value) > 0;
-        }
-        return trim($value) != '';
-    }
-
 }

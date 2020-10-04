@@ -26,7 +26,9 @@
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
-use Enjoys\Base\Session\Session as Session;
+use Enjoys\Base\Session\Session as Session,
+    Enjoys\Forms\Element,
+    Enjoys\Forms\Interfaces;
 
 /**
  * Description of Defaults
@@ -34,7 +36,7 @@ use Enjoys\Base\Session\Session as Session;
  *
  * @author deadl
  */
-class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces\Captcha {
+class Defaults extends Element implements Interfaces\Captcha {
 
     use \Enjoys\Traits\Options;
 
@@ -42,7 +44,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
     private $img;
     private $rule_message;
 
-    public function __construct($rule_message = null) {
+    public function __construct($message = null) {
         parent::__construct('captcha_defaults');
 
         $this->addAttributes([
@@ -50,12 +52,12 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
             'autocomplete' => 'off'
         ]);
 
-        if (is_null($rule_message)) {
-            $rule_message = 'Не верно введен код';
-        }        
+        if (is_null($message)) {
+            $message = 'Не верно введен код';
+        }
 
-        $this->rule_message = $rule_message;
-        
+        $this->rule_message = $message;
+
         $this->addRule('required');
         $this->addRule('captcha', $this->rule_message);
     }
@@ -120,7 +122,7 @@ class Defaults extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces
         $figures = ['50', '70', '90', '110', '130', '150', '170', '190', '210'];
 
         foreach ($letters as $letter) {
-            
+
             //Ориентир
             $h = 1;
             //Рисуем

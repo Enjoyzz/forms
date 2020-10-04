@@ -219,12 +219,12 @@ class Element implements Interfaces\Element {
      * 
      * @param string $rule
      * @param string $message
-     * @param array $arguments
+     * @param array $params
      * @return $this
      */
-    public function addRule(string $rule, string $message = null, array $arguments = []) {
+    public function addRule(string $rule, ?string $message = null,  $params = []) {
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
-        $this->rules[] = new $class($message, $arguments);
+        $this->rules[] = new $class($message, $params);
         return $this;
     }
     

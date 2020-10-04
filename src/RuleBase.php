@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,26 +27,47 @@
 namespace Enjoys\Forms;
 
 /**
- * Class Rule
+ * Description of RuleBase
  *
- * @author Enjoys
+ * @author deadl
  */
-class Rule {
+class RuleBase {
 
-    use \Enjoys\Forms\Traits\Attributes;
+    private $message;
+    private $params = [];
 
-    private $message = '';
-
-    public function __construct($message = null, $attributes) {
+    public function __construct(?string $message = null, $params = []) {
+        $this->setParams($params);
         $this->setMessage($message);
-        $this->addAttributes($attributes);
     }
 
-    protected function setMessage($message) {
+    public function setParams($params) {
+       
+        if (is_array($params)) {
+            $this->params = $params;
+            return;
+        }
+        $this->params[] = $params;
+    }
+
+    public function getParams() {
+        return $this->params;
+    }
+
+    public function getParam($key) {
+        if (isset($this->params[$key])) {
+            return $this->params[$key];
+        }
+        return null;
+    }
+
+    public function setMessage(?string $message): void {
+
         $this->message = $message;
     }
 
-    protected function getMessage() {
+    public function getMessage(): ?string {
+
         return $this->message;
     }
 

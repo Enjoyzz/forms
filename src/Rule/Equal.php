@@ -30,19 +30,20 @@ use Enjoys\Forms\RuleBase,
     Enjoys\Forms\Interfaces\Rule;
 
 /**
- * Description of Required
+ * Description of Equal
  *
- * $form->text($name, $title)->addRule('required');
- * $form->text($name, $title)->addRule('required', $message);
+ * $form->text($name, $title)->addRule('equal', $message, ['expect']); or
+ * $form->text($name, $title)->addRule('equal', $message, (array) 'expect'); or
+ * $form->text($name, $title)->addRule('equal', $message, ['expect', 1, '255']);
  * 
  * @author deadl
  */
-class Required extends RuleBase implements Rule {
+class Equal extends RuleBase implements Rule {
 
     public function setMessage(?string $message): void {
         if (is_null($message)) {
-            $message = 'Обязательно для заполнения, или выбора';
-        }     
+            $message = 'Допустимые значения (указаны через запятую): ' . \implode(', ', $this->getParams());
+        }
         parent::setMessage($message);
     }
 
@@ -50,7 +51,7 @@ class Required extends RuleBase implements Rule {
 
         $request = new \Enjoys\Base\Request();
 
-        if (!$this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), '')))) {
+        if (false === $this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), null)))) {
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -59,11 +60,18 @@ class Required extends RuleBase implements Rule {
     }
 
     private function check($value) {
-
-        if (is_array($value)) {
-            return count($value) > 0;
+        if (is_null($value)) {
+            return true;
         }
-        return trim($value) != '';
+        if (is_array($value)) {
+            foreach ($value as $_val) {
+                if (false === $this->check($_val)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return array_search(\trim($value), $this->getParams());
     }
 
 }

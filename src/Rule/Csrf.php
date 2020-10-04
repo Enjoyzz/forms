@@ -26,36 +26,54 @@
 
 namespace Enjoys\Forms\Rule;
 
+use Enjoys\Forms\RuleBase,
+    Enjoys\Forms\Interfaces\Rule;
+
 /**
  * Description of Required
  *
- * @author deadl
+ * Csrf element will automatically set the rule(s)
+ * and the form itself determines when csrf is needed
+ * 
+ * @author Enjoys
  */
-class Csrf extends \Enjoys\Forms\Rule implements \Enjoys\Forms\Interfaces\Rule {
+class Csrf extends RuleBase implements Rule {
 
-  
-
-    public function __construct(string $message = null, array $attributes = []) {
+    /**
+     * 
+     * @param string|null $message
+     * @return void
+     */
+    public function setMessage(?string $message): void {
         if (is_null($message)) {
             $message = 'CSRF Attack detected';
         }
-
-        parent::__construct($message, $attributes);
+        parent::setMessage($message);
     }
 
-    public function validate(\Enjoys\Forms\Element &$element) {
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return bool
+     */
+    public function validate(\Enjoys\Forms\Element $element): bool {
         $request = new \Enjoys\Base\Request();
         if (!$this->check($request->post($element->getValidateName()))) {
             $element->setRuleError($this->getMessage());
-           // throw new \Enjoys\Forms\Exception($this->getMessage());
+            // throw new \Enjoys\Forms\Exception($this->getMessage());
             return false;
         }
 
         return true;
     }
 
+    /**
+     * 
+     * @param type $value
+     * @return type
+     */
     private function check($value) {
-        return hash_equals($value, crypt($this->getAttribute('csrf_key'), $value));
+        return hash_equals($value, crypt($this->getParam('csrf_key'), $value));
     }
 
 }
