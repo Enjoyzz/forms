@@ -31,14 +31,15 @@ use \Enjoys\Forms\Interfaces;
 use \Enjoys\Forms\Exception;
 
 /**
- * 
+ *
  * Class Forms
- * 
- * 
+ *
+ *
  * @author Enjoys
- * 
+ *
  */
-class Forms {
+class Forms
+{
 
     use Traits\Attributes,
         \Enjoys\Traits\Request;
@@ -49,25 +50,25 @@ class Forms {
 
     /**
      *
-     * @var string|null   
+     * @var string|null
      */
     private ?string $name = null;
 
     /**
      *
-     * @var string POST|GET 
+     * @var string POST|GET
      */
     private $method = 'GET';
 
     /**
      *
-     * @var string|null   
+     * @var string|null
      */
     private ?string $action = null;
 
     /**
      *
-     * @var array objects \Enjoys\Forms\Element 
+     * @var array objects \Enjoys\Forms\Element
      */
     private array $elements = [];
 
@@ -169,7 +170,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getName(): ?string {
@@ -177,7 +178,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @return $this
      */
@@ -190,7 +191,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getAction(): ?string {
@@ -209,7 +210,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getMethod(): string {
@@ -217,7 +218,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @param string $method
      * @return $this
      */
@@ -232,7 +233,6 @@ class Forms {
         }
 
 
-
         if (is_null($method)) {
             $this->removeAttribute('method');
         }
@@ -245,7 +245,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getElements(): array {
@@ -259,7 +259,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @return \self
      */
@@ -287,7 +287,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @param string $renderer
      * @return $this
      */
@@ -297,7 +297,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @return Renderer
      * @throws Exception
      */
@@ -339,7 +339,7 @@ class Forms {
      * @method Elements\Image image(string $name, string $title)
      * @method Elements\Radio radio(string $name, string $title)
      * @method Elements\Reset reset(string $name, string $title)
-     *  
+     *
      * @mixin Element
      */
     public function __call(string $name, array $arguments) {
@@ -356,7 +356,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function validate() {
@@ -367,7 +367,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @param string $title
      * @return \Enjoys\Forms\Elements\File
@@ -382,7 +382,7 @@ class Forms {
     }
 
     /**
-     * 
+     *
      * @param int $bytes
      * @param type $removeElement
      */
@@ -396,13 +396,13 @@ class Forms {
     }
 
     /**
-     * @todo Возможно вынести в отдельно в Elements
      * 
-     * @param type $captcha
-     * @param type $message
+     * @param string|null $captcha
+     * @param string|null $message
      * @return \Enjoys\Forms\Interfaces\Captcha
+     * @throws Exception
      */
-    public function captcha($captcha = null, $message = null): Element {
+    public function captcha(?string $captcha = null, ?string $message = null): \Enjoys\Forms\Interfaces\Captcha {
         if (is_null($captcha)) {
             $captcha = 'Defaults';
         }
