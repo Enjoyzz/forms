@@ -127,25 +127,6 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
         $captcha->validate();
         $html = $captcha->renderHtml();
         $this->assertStringContainsString('<p style="color: red">The response parameter is missing., The secret parameter is invalid or malformed.</p>', $html);
-    }   
-    
-    public function test_validate_false_render_width_setLanguage() {
-        $responseBody = \json_encode([
-                    'success' => false,
-                    'error-codes' =>
-                    [
-                        0 => 'missing-input-response',
-                        1 => 'invalid-input-secret'
-                    ],
-        ]);
-        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
-        $captcha->setLanguage('ru');
-        $captcha->setOptions([
-            'httpClient' => $this->getHttpClient('text/plain', $responseBody)
-        ]);
-        $captcha->validate();
-        $html = $captcha->renderHtml();
-        $this->assertStringContainsString('<p style="color: red">Параметр ответа отсутствует., Секретный параметр является недопустимым или искаженным.</p>', $html);
-    }      
+    }        
 
 }
