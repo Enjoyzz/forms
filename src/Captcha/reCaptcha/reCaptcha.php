@@ -53,6 +53,15 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
         $this->addRule('captcha', $rule_message);
         $this->initRequest();
     }
+    
+    public function setLanguage($lang) {
+        $file_language = __DIR__.'/lang/'.\strtolower($lang).'.php';
+        
+        if(file_exists($file_language)){
+            $this->error_codes = include $file_language;
+        }
+        return $this;
+    }
 
     public function validate() {
 
