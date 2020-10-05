@@ -35,7 +35,8 @@ use Enjoys\Forms\Forms
  *
  * @author deadl
  */
-class FormsTest extends \PHPUnit\Framework\TestCase {
+class FormsTest extends \PHPUnit\Framework\TestCase
+{
 
     use Reflection;
 
@@ -286,6 +287,37 @@ class FormsTest extends \PHPUnit\Framework\TestCase {
 
         $element = $form->text('foo');
         $this->assertSame('barx', $element->getAttribute('value'));
+    }
+
+    public function test_set_default7_array() {
+        $_POST['foo']['var1'] = 'barx';
+        $_POST['foo']['var2'] = 'bzzz';
+        $_POST['foo'][0] = 'qwerty';
+        $_POST['foo']['var3'] = '12345';
+        $_POST['bar'] = 'rrrrr';
+        $_POST['xyz'][2] = 'asdfg';
+         $_GET['xyz'] = 'valid';
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+
+        $form->setMethod('post');
+
+        $element1 = $form->text('foo[var1]')->setValidateName('foo');
+        $element2 = $form->text('foo[var2]')->setValidateName('foo');
+        $element3 = $form->text('foo[var3]');
+        $element4 = $form->text('foo[]');
+        $element5 = $form->text('bar');
+        $element6 = $form->text('xyz');
+
+        $this->assertSame('barx', $element1->getAttribute('value'));
+        $this->assertSame('bzzz', $element2->getAttribute('value'));
+        $this->assertSame('12345', $element3->getAttribute('value'));
+        $this->assertSame('qwerty', $element4->getAttribute('value'));
+        $this->assertSame('rrrrr', $element5->getAttribute('value'));
+        $this->assertFalse($element6->getAttribute('value'));
+        $this->assertSame('rrrrr', $element5->getAttribute('value'));
     }
 
     public function test_validate_false() {

@@ -32,7 +32,8 @@ namespace Enjoys\Forms;
  * 
  * @author Enjoys
  */
-class Element implements Interfaces\Element {
+class Element implements Interfaces\Element
+{
 
     use Traits\Attributes,
         Traits\LabelAttributes;
@@ -93,8 +94,6 @@ class Element implements Interfaces\Element {
         }
     }
 
-
-
     /**
      * 
      * @param string $name
@@ -106,9 +105,6 @@ class Element implements Interfaces\Element {
         $this->setAttribute('name', $this->name);
         $this->setValidateName($this->name);
 
-        if (!empty($this->defaults)) {
-            $this->setDefault($this->defaults);
-        }
         return $this;
     }
 
@@ -122,6 +118,9 @@ class Element implements Interfaces\Element {
 
     public function setValidateName(string $name): self {
         $this->validate_name = $name;
+        if (!empty($this->defaults)) {
+            $this->setDefault($this->defaults);
+        }
         return $this;
     }
 
@@ -209,8 +208,26 @@ class Element implements Interfaces\Element {
      */
     public function setDefault(array $data): self {
         $this->defaults = $data;
-        if (isset($data[$this->getValidateName()])) {
-            $this->setValue($data[$this->getValidateName()]);
+        $value = '';
+
+
+        parse_str($this->getValidateName(), $validate_name);
+        $validate_name = array_key_first($validate_name);
+
+        if (isset($this->defaults[$validate_name])) {
+            $value = $this->defaults[$validate_name];
+            if (is_array($value)) {
+                parse_str($this->getName(), $parsed_name);
+
+                if (is_array(current($parsed_name))) {
+
+                    $key = key(current($parsed_name));
+                    $value = $value[$key];
+                }
+            }
+            if (is_string($value)) {
+                $this->setValue($value);
+            }
         }
         return $this;
     }
@@ -222,12 +239,12 @@ class Element implements Interfaces\Element {
      * @param array $params
      * @return $this
      */
-    public function addRule(string $rule, ?string $message = null,  $params = []) {
+    public function addRule(string $rule, ?string $message = null, $params = []) {
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
         $this->rules[] = new $class($message, $params);
         return $this;
     }
-    
+
 //    public function getRule($d) {
 //        return $this->rules[];
 //    }    
@@ -239,7 +256,6 @@ class Element implements Interfaces\Element {
         $this->rule_error = true;
         $this->rule_error_message = $message;
     }
-    
 
     public function getRuleErrorMessage() {
         return $this->rule_error_message;
