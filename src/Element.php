@@ -206,30 +206,71 @@ class Element implements Interfaces\Element
      * @param array $data
      * @return \self
      */
+//    public function setDefault(array $data): self {
+//        $this->defaults = $data;
+//        $value = '';
+//
+//
+//        parse_str($this->getValidateName(), $validate_name);
+//        $validate_name = array_key_first($validate_name);
+//
+//        if (isset($this->defaults[$validate_name])) {
+//            $value = $this->defaults[$validate_name];
+//            if (is_array($value)) {
+//                parse_str($this->getName(), $parsed_name);
+//
+//                if (is_array(current($parsed_name))) {
+//
+//                    $key = key(current($parsed_name));
+//                    $value = $value[$key];
+//                }
+//            }
+//            if (is_string($value)) {
+//                $this->setValue($value);
+//            }
+//        }
+//        return $this;
+//    }
+
     public function setDefault(array $data): self {
         $this->defaults = $data;
-        $value = '';
-
-
-        parse_str($this->getValidateName(), $validate_name);
-        $validate_name = array_key_first($validate_name);
-
-        if (isset($this->defaults[$validate_name])) {
-            $value = $this->defaults[$validate_name];
-            if (is_array($value)) {
-                parse_str($this->getName(), $parsed_name);
-
-                if (is_array(current($parsed_name))) {
-
-                    $key = key(current($parsed_name));
-                    $value = $value[$key];
-                }
-            }
+        parse_str($this->getName(), $parsed_name);
+        if (is_array(current($parsed_name))) {
+            $value = $this->getStringValueForSetDefault(current($parsed_name), key($parsed_name), $this->defaults);
             if (is_string($value)) {
                 $this->setValue($value);
+                return $this;
+            }
+        }
+
+        $key = array_key_first($parsed_name);
+        if (isset($this->defaults[$key])) {
+            $value = $this->defaults[$key];
+            if (is_string($value)) {
+                $this->setValue($value);
+                return $this;
             }
         }
         return $this;
+    }
+
+    private function getStringValueForSetDefault($_array, $key, $defaults) {
+ 
+        dump($defaults[$key]);
+       if (is_array(current($_array))) {
+           return $this->getStringValueForSetDefault(current($_array), key($_array), $defaults[$key]) ;
+       }
+
+       $_key = array_key_first($_array);
+
+        if (isset($defaults[$_key])) {
+            $value = $defaults[$_key];
+            if (is_string($value)) {
+                return $value;
+            }
+        }
+        
+        return null;
     }
 
     /**
