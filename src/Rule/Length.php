@@ -26,11 +26,96 @@
 
 namespace Enjoys\Forms\Rule;
 
+use Enjoys\Forms\RuleBase;
+use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Exception;
+
 /**
  * Description of Length
  *
- * @author deadl
+ * @author Enjoys
  */
-class Length {
-    //put your code here
+class Length extends RuleBase implements Rule
+{
+
+    private $operatorToMethodTranslation = [
+        '==' => 'equal',
+        '!=' => 'notEqual',
+        '>' => 'greaterThan',
+        '<' => 'lessThan',
+        '>=' => 'greaterThanOrEqual',
+        '<=' => 'lessThanOrEqual',
+    ];
+
+    public function setMessage(?string $message): void {
+        if (is_null($message)) {
+            $message = 'Ошибка ввода';
+        }
+        parent::setMessage($message);
+    }
+
+    public function validate(\Enjoys\Forms\Element $element): bool {
+        $request = new \Enjoys\Base\Request();
+        $input_value = $request->post($element->getValidateName(), $request->get($element->getValidateName(), ''));
+        if (!$this->check($input_value)) {
+            $element->setRuleError($this->getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    private function check($value) {
+        if(is_array($value)){
+            return true;
+        }
+        
+        $length = \mb_strlen($value, 'UTF-8');
+        if (empty($value)) {
+            return true;
+        }
+
+        foreach ($this->getParams() as $operator => $threshold) {
+            $method = 'unknown';
+
+            if (isset($this->operatorToMethodTranslation[$operator])) {
+                $method = $this->operatorToMethodTranslation[$operator];
+            }
+
+            if (!method_exists(Length::class, $method)) {
+                throw new \Exception('Unknown Compare Operator.');
+            }
+
+            if (!$this->$method($length, $threshold)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function equal($value, $threshold) {
+        return $value == $threshold;
+    }
+
+    private function notEqual($value, $threshold) {
+        return $value != $threshold;
+    }
+
+    private function greaterThan($value, $threshold) {
+        return $value > $threshold;
+    }
+
+    private function lessThan($value, $threshold) {
+        return $value < $threshold;
+    }
+
+    private function greaterThanOrEqual($value, $threshold) {
+        return $value >= $threshold;
+    }
+
+    private function lessThanOrEqual($value, $threshold) {
+        return $value <= $threshold;
+    }
+
 }
