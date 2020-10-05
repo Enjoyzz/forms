@@ -32,8 +32,7 @@ namespace Enjoys\Forms;
  * 
  * @author Enjoys
  */
-class Element implements Interfaces\Element
-{
+class Element implements Interfaces\Element {
 
     use Traits\Attributes,
         Traits\LabelAttributes;
@@ -201,76 +200,56 @@ class Element implements Interfaces\Element
         return $this->description;
     }
 
+
+
     /**
      * 
      * @param array $data
      * @return \self
      */
-//    public function setDefault(array $data): self {
-//        $this->defaults = $data;
-//        $value = '';
-//
-//
-//        parse_str($this->getValidateName(), $validate_name);
-//        $validate_name = array_key_first($validate_name);
-//
-//        if (isset($this->defaults[$validate_name])) {
-//            $value = $this->defaults[$validate_name];
-//            if (is_array($value)) {
-//                parse_str($this->getName(), $parsed_name);
-//
-//                if (is_array(current($parsed_name))) {
-//
-//                    $key = key(current($parsed_name));
-//                    $value = $value[$key];
-//                }
-//            }
-//            if (is_string($value)) {
-//                $this->setValue($value);
-//            }
-//        }
-//        return $this;
-//    }
-
     public function setDefault(array $data): self {
         $this->defaults = $data;
-        parse_str($this->getName(), $parsed_name);
-        if (is_array(current($parsed_name))) {
-            $value = $this->getStringValueForSetDefault(current($parsed_name), key($parsed_name), $this->defaults);
-            if (is_string($value)) {
-                $this->setValue($value);
-                return $this;
-            }
+
+        $value = $this->getStringValueForSetDefault($this->getName(), $data);
+
+        if (is_string($value)) {
+            $this->setValue($value);
+            
         }
 
-        $key = array_key_first($parsed_name);
-        if (isset($this->defaults[$key])) {
-            $value = $this->defaults[$key];
-            if (is_string($value)) {
-                $this->setValue($value);
-                return $this;
-            }
-        }
         return $this;
     }
 
-    private function getStringValueForSetDefault($_array, $key, $defaults) {
- 
-        dump($defaults[$key]);
-       if (is_array(current($_array))) {
-           return $this->getStringValueForSetDefault(current($_array), key($_array), $defaults[$key]) ;
-       }
+    /**
+     * 
+     * @param type $path
+     * @param type $data
+     * @return boolean
+     */
+    private function getStringValueForSetDefault(string $path, array $data) {
 
-       $_key = array_key_first($_array);
+        preg_match_all("/^([\w\d]*)|\[['\"]*(|[a-z0-9_-]+)['\"]*\]/i", $path, $matches);
 
-        if (isset($defaults[$_key])) {
-            $value = $defaults[$_key];
-            if (is_string($value)) {
-                return $value;
+        if (count($matches[0]) > 0) {
+            //$i = 0;
+            foreach ($matches[0] as $key) {
+                $key = str_replace(['[', ']', '"', '\''], [''], $key);
+                
+                if(empty($key)){                    
+                    $key = 0;
+                }
+                
+                if (isset($data[$key])) {
+                    $data = $data[$key];
+                } else {
+                    return false;
+                }
             }
+        } 
+
+        if (!is_array($data)) {
+            return $data;
         }
-        
-        return null;
     }
 
     /**

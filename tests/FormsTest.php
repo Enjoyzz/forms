@@ -290,13 +290,13 @@ class FormsTest extends \PHPUnit\Framework\TestCase
     }
 
     public function test_set_default7_array() {
+        //$this->markTestSkipped('не доработан фунционал');
         $_POST['foo']['var1'] = 'barx';
         $_POST['foo']['var2'] = 'bzzz';
         $_POST['foo'][0] = 'qwerty';
         $_POST['foo']['var3'] = '12345';
         $_POST['bar'] = 'rrrrr';
-        $_POST['xyz'][2] = 'asdfg';
-         $_GET['xyz'] = 'valid';
+        $_POST['xyz'][0] = 'valid';
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
@@ -304,8 +304,8 @@ class FormsTest extends \PHPUnit\Framework\TestCase
 
         $form->setMethod('post');
 
-        $element1 = $form->text('foo[var1]')->setValidateName('foo');
-        $element2 = $form->text('foo[var2]')->setValidateName('foo');
+        $element1 = $form->text('foo[var1]');
+        $element2 = $form->text('foo[var2]');
         $element3 = $form->text('foo[var3]');
         $element4 = $form->text('foo[]');
         $element5 = $form->text('bar');
@@ -317,7 +317,6 @@ class FormsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('qwerty', $element4->getAttribute('value'));
         $this->assertSame('rrrrr', $element5->getAttribute('value'));
         $this->assertFalse($element6->getAttribute('value'));
-        $this->assertSame('rrrrr', $element5->getAttribute('value'));
     }
 
     public function test_validate_false() {
@@ -366,5 +365,46 @@ class FormsTest extends \PHPUnit\Framework\TestCase
         //more submit_token
         $this->assertCount(3, $form->getElements());
     }
+    
+    /**
+     * @dataProvider dataStringValueForSetDefault
+     */
+    public function test_getStringValueForSetDefault($path, $expect) {
+        $arrays = [
+            'foo' => [
+                'bar' => 'bar1',
+                'name' => 'myname',
+                4,
+                'test' => [
+                    '3' => 55
+                ]
+            ],
+            'notarray' => 'yahoo',
+            'array' => [
+                
+            ]
+        ];
+        $element = new \Enjoys\Forms\Element('test', 'test');
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Element::class, 'getStringValueForSetDefault');
+        $result = $method->invokeArgs($element, [
+            $path,
+            $arrays
+        ]);
+        $this->assertEquals($expect, $result);
+    }
+    
+    public function dataStringValueForSetDefault() {
+        return [
+            ['foo[bar]', 'bar1'],
+            ['foo[name]', 'myname'],
+            ['foo[]', 4],
+            ['foo[0]', 4],
+            ['foo[test][3]', 55],
+            ['foo[test][3]', '55'],
+            ['notarray', 'yahoo'],
+            ['array', false],
+            ['/invalide_string/', false],
+        ];
+    }    
 
 }
