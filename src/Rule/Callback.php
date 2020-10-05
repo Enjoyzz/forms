@@ -34,62 +34,64 @@ use Enjoys\Forms\RuleBase,
  * Description of Callback
  *
  * @example Callback class
- * 
-  class Check {
-  public function _check() {
-  return false;
-  }
-  }
-  $form ->text('foo')
-  ->addRule('callback', null, [
-  [
-  new Check(),
-  '_check'
-  ]
-  ]);
+ * class Check {
+ *      public function _check() {
+ *          return false;
+ *      }
+ * }
+ * $form ->text('foo')
+ *       ->addRule('callback', null, [
+ *              [
+ *                  new Check(),
+ *                  '_check'
+ *              ]
+ *      ]);
  * 
  * @example Call static method
  * 
-  class ClassTest {
-  static public function isCheck() {
-  return false;
-  }
-  }
-  $form->text('foo')->addRule('callback', null, 'ClassTest::isCheck');
+ * class ClassTest {
+ *      static public function isCheck() {
+ *          return false;
+ *      }
+ * }
+ * $form->text('foo')->addRule('callback', null, 'ClassTest::isCheck');
  * 
  * 
  * @example Callback function
  * 
-  function check() {
-  return false;
-  }
-  $form->text('foo')
-  ->addRule('callback', null, 'check');
+ * function check() {
+ *      return false;
+ * }
+ * $form->text('foo')->addRule('callback', null, 'check');
  *  
  * 
  * @example Callback closure function (anonimous)
  * 
-  $form->text('foo')
-  ->addRule('callback', null, function () {
-  return false;
-  });
+ * $form->text('foo')->addRule('callback', null, function () {
+ *      return false;
+ * });
  * 
  * 
  * @example Callback anonimous class
  * 
-  $form->text('foo')
-  ->addRule('callback', null, new class {
-  public $execute = 'test';
-  public function test() {
-  return false;
-  }
-  });
+ *  $form->text('foo')->addRule('callback', null, new class {
+ *      public $execute = 'test';
+ *      public function test() {
+ *          return false;
+ *      }
+ *  });
  * 
  * 
  * @author deadl
  */
-class Callback extends RuleBase implements Rule {
+class Callback extends RuleBase implements Rule
+{
 
+    /**
+     * 
+     * @param string|null $message
+     * @return void
+     */
     public function setMessage(?string $message): void {
         if (is_null($message)) {
             $message = 'Ошибка';
@@ -97,6 +99,11 @@ class Callback extends RuleBase implements Rule {
         parent::setMessage($message);
     }
 
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return bool
+     */
     public function validate(\Enjoys\Forms\Element $element): bool {
         if ($this->check() === false) {
             $element->setRuleError($this->getMessage());
@@ -105,6 +112,10 @@ class Callback extends RuleBase implements Rule {
         return true;
     }
 
+    /**
+     * 
+     * @return callback
+     */
     private function check() {
         $callback = $this->getParam(0);
 
