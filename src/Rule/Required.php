@@ -49,7 +49,9 @@ class Required extends RuleBase implements Rule {
     public function validate(\Enjoys\Forms\Element $element): bool {
 
         $request = new \Enjoys\Base\Request();
-
+        dump($request->post());
+        dump($request->get());
+dump($element->getStringValueForSetDefault($element->getName(), $request->get()));
         if (!$this->check($request->post($element->getName(), $request->get($element->getName(), '')))) {
             $element->setRuleError($this->getMessage());
             return false;
@@ -59,7 +61,7 @@ class Required extends RuleBase implements Rule {
     }
 
     private function check($value) {
-
+dump($value);
         if (is_array($value)) {
             return count($value) > 0;
         }

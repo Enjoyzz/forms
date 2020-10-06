@@ -32,6 +32,12 @@ namespace Enjoys\Forms;
  * @author deadl
  */
 class RuleBase {
+    
+    /**
+     * @since 0.0.7
+     * @todo Надо подумать оставить или нет, может быть вынести в другое место
+     */
+    public const _REQUIRED_ = 'required';
 
     private $message;
     private $params = [];
