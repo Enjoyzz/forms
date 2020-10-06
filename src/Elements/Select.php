@@ -54,16 +54,19 @@ class Select extends Element {
     public function addAttributes(...$attributes): self {
         parent::addAttributes(...$attributes);
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
+            $_id = $this->getId();
             $this->setName($this->getName() . '[]');
+            //т.к. id уже переписан ,восстанавливаем его
+            $this->setId($_id);
         }
         return $this;
     }
 
     public function setDefault() : self{
-        $data = \Enjoys\Forms\Forms::getDefaults();
-        if (isset($data[$this->getName()])) {
-            $this->defaults  = (array) $data[$this->getName()];
-        }
+//        $data = \Enjoys\Forms\Forms::getDefaults();
+//        if (isset($data[$this->getName()])) {
+//            $this->defaults  = (array) $data[$this->getName()];
+//        }
         return $this;
 
     }

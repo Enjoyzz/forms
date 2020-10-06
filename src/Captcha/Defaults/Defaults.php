@@ -64,7 +64,7 @@ class Defaults extends Element implements Interfaces\Captcha {
 
     public function validate() {
         //_var_dump(Session::get($this->getName()), $value);
-        if (Session::get($this->getValidateName()) !== $this->getAttribute('value')) {
+        if (Session::get($this->getName()) !== $this->getAttribute('value')) {
             $this->setRuleError($this->rule_message);
             return false;
         }

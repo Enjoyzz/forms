@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Rule;
  *
  * @author Enjoys
  */
-class RequiredTest extends \PHPUnit\Framework\TestCase {
+class RequiredTest  {
 
     public function tearDown(): void {
         unset($_POST);

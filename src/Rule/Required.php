@@ -50,7 +50,7 @@ class Required extends RuleBase implements Rule {
 
         $request = new \Enjoys\Base\Request();
 
-        if (!$this->check($request->post($element->getValidateName(), $request->get($element->getValidateName(), '')))) {
+        if (!$this->check($request->post($element->getName(), $request->get($element->getName(), '')))) {
             $element->setRuleError($this->getMessage());
             return false;
         }

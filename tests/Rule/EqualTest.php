@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class EqualTest extends \PHPUnit\Framework\TestCase {
+class EqualTest  {
 
     public function tearDown(): void {
         unset($_POST);
@@ -75,6 +75,7 @@ class EqualTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function test_invalid_array() {
+        
         $text = new \Enjoys\Forms\Elements\Checkbox('foo');
         $text->addRule('equal', null, ['test', 'valid']);
         $_GET = [

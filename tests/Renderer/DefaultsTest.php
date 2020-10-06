@@ -169,6 +169,7 @@ class DefaultsTest extends TestCase {
     }
 
     public function test_checkbox() {
+        $this->markTestSkipped();
         $this->form->checkbox('name', 'title')->addLabelAttributes('accesskey', 'x')->setPrefixId('rb_')->fill([
             'val1' => 'text1',
             'val3' => [

@@ -31,7 +31,8 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class CheckboxTest extends \PHPUnit\Framework\TestCase {
+class CheckboxTest extends \PHPUnit\Framework\TestCase
+{
 
     public function test_title() {
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
@@ -196,17 +197,38 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertCount(2, $obj->getElements());
     }
-    
+
     public function test_setDefault() {
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
-        $obj->setDefault(['name' => [
-                1, 2
-        ]]);
-        $obj->fill([1, 2, 3]);
+        $form = new \Enjoys\Forms\Forms();
+        $form->setDefaults([
+            'name' => [
+                0 => [
+                    1, 2
+                ]
+            ]
+        ]);
+        $obj = $form->checkbox('name', 'title')->fill([1, 2, 3]);
         $elements = $obj->getElements();
         $this->assertFalse($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertNull($elements[2]->getAttribute('checked'));
+    }
+    
+    public function test_setDefault_simple() {
+        $form = new \Enjoys\Forms\Forms();
+        $form->setDefaults([
+            'name' => ['baaa']
+        ]);
+        $radio = $form->checkbox('name', 'title')->fill([
+            'val1' => 'Hello',
+            'baaa' => 'Hello2',
+            'aggg' => 5,
+        ]);
+        $elements = $radio->getElements();
+        $this->assertFalse($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[1]->getAttribute('checked'));
+        $this->assertFalse($elements[2]->getAttribute('checked'));
     }    
+    
 
 }

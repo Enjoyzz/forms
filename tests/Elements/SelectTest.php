@@ -31,7 +31,8 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class SelectTest extends \PHPUnit\Framework\TestCase {
+class SelectTest extends \PHPUnit\Framework\TestCase
+{
 
     public function test_title() {
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
@@ -151,7 +152,15 @@ class SelectTest extends \PHPUnit\Framework\TestCase {
     public function test_multiple_name_add_array() {
 
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
-        $obj->addAttribute('multiple');
+        $obj->addAttributes('multiple');
+
+        $this->assertSame('name[]', $obj->getName());
+        $this->assertSame('name', $obj->getId());
+    }
+    public function test_multiple_name_add_array_1_2() {
+
+        $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
+        $obj->addAttributes('multiple');
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name[]', $obj->getId());
@@ -160,25 +169,41 @@ class SelectTest extends \PHPUnit\Framework\TestCase {
     public function test_multiple_name_add_array2() {
 
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
-        $obj->addAttribute('multiple');
-        $obj->addAttribute('disabled');
+        $obj->addAttributes('multiple');
+        $obj->addAttributes('disabled');
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name[]', $obj->getId());
+        $this->assertSame('name', $obj->getId());
     }
 
-    public function test_multiple_id() {
+    public function test_multiple_id_begin_id() {
 
-        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
         $obj->setId('test');
-        $obj->addAttribute('multiple');
+        $obj->addAttributes('multiple');
         $this->assertSame('test', $obj->getId());
     }
 
-    public function test_multiple_id2() {
+    public function test_multiple_id_begin_id2() {
 
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
-        $obj->addAttribute('multiple');
+        $obj->setId('test');
+        $obj->addAttributes('multiple');
+        $this->assertSame('test', $obj->getId());
+    }
+
+    public function test_multiple_begin_multiple() {
+
+        $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
+        $obj->addAttributes('multiple');
+        $obj->setId('test');
+        $this->assertSame('test', $obj->getId());
+    }
+
+    public function test_multiple_begin_multiple2() {
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
+        $obj->addAttributes('multiple');
         $obj->setId('test');
         $this->assertSame('test', $obj->getId());
     }

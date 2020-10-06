@@ -26,14 +26,18 @@
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Forms;
+use Enjoys\Forms\Traits\Fill;
+
 /**
  * Description of Option
  *
  * @author deadl
  */
-class Option extends \Enjoys\Forms\Element {
+class Option extends Element {
     
-    use \Enjoys\Forms\Traits\Fill;
+    use Fill;
 
     protected string $type = 'option';
 
@@ -46,8 +50,8 @@ class Option extends \Enjoys\Forms\Element {
 
     public function setDefault() :self {
 
-      $value = $this->getStringValueForSetDefault($this->getParentName(), \Enjoys\Forms\Forms::getDefaults());
-       // dump($this->getParentName());
+      $value = $this->getStringValueForSetDefault($this->getParentName(), Forms::getDefaults());
+     
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->addAttributes('selected');

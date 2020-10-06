@@ -70,16 +70,21 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox {
 
     public function setDefault() : self{
 
-        if (in_array($this->getAttribute('value'), \Enjoys\Forms\Forms::getDefaults())) {
-            $this->addAttributes('checked');
-            return $this;
+        $value = $this->getStringValueForSetDefault($this->getParentName(), \Enjoys\Forms\Forms::getDefaults());
+
+        if (is_array($value)) {
+            if (in_array($this->getAttribute('value'), $value)) {
+                $this->addAttributes('checked');
+                return $this;
+            }
         }
 
-        $_default_name = \substr($this->getName(), 0, -2);
-        if (isset($data[$_default_name])) {
-            $this->defaults = (array) $data[$_default_name];
+        if (is_string($value) || is_numeric($value)) {
+            if ($this->getAttribute('value') == $value) {
+                $this->addAttributes('checked');
+                return $this;
+            }
         }
-        
         return $this;
     }
     
