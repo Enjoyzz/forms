@@ -26,16 +26,21 @@
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Traits\Attributes;
+use Enjoys\Forms\Traits\LabelAttributes;
+
 /**
  * Class Element
  * 
  * 
  * @author Enjoys
  */
-class Element implements Interfaces\Element {
+class Element implements Interfaces\Element
+{
 
-    use Traits\Attributes,
-        Traits\LabelAttributes;
+    use Attributes,
+        LabelAttributes;
 
     /**
      *
@@ -48,7 +53,7 @@ class Element implements Interfaces\Element {
      * @var string|null  
      */
     protected ?string $name = null;
-    protected ?string $validate_name = null;
+//    protected ?string $validate_name = null;
 
     /**
      *
@@ -102,7 +107,8 @@ class Element implements Interfaces\Element {
         $this->name = $name;
         $this->setId($this->name);
         $this->setAttribute('name', $this->name);
-        $this->setValidateName($this->name);
+
+        $this->setDefault();
 
         return $this;
     }
@@ -115,17 +121,17 @@ class Element implements Interfaces\Element {
         return $this->name;
     }
 
-    public function setValidateName(string $name): self {
-        $this->validate_name = $name;
-        if (!empty($this->defaults)) {
-            $this->setDefault($this->defaults);
-        }
-        return $this;
-    }
-
-    public function getValidateName(): ?string {
-        return $this->validate_name;
-    }
+//    public function setValidateName(string $name): self {
+//        $this->validate_name = $name;
+//        //if (!empty($this->defaults)) {
+//            $this->setDefault();
+//        //}
+//        return $this;
+//    }
+//
+//    public function getValidateName(): ?string {
+//        return $this->validate_name;
+//    }
 
     /**
      * 
@@ -200,23 +206,16 @@ class Element implements Interfaces\Element {
         return $this->description;
     }
 
-
-
     /**
      * 
      * @param array $data
      * @return \self
      */
-    public function setDefault(array $data): self {
-        $this->defaults = $data;
-
-        $value = $this->getStringValueForSetDefault($this->getName(), $data);
-
-        if (is_string($value)) {
+    public function setDefault(): self {
+        $value = $this->getStringValueForSetDefault($this->getName(), Forms::getDefaults());
+        if (is_string($value) || is_numeric($value)) {
             $this->setValue($value);
-            
         }
-
         return $this;
     }
 
@@ -226,7 +225,7 @@ class Element implements Interfaces\Element {
      * @param type $data
      * @return boolean
      */
-    private function getStringValueForSetDefault(string $path, array $data) {
+    final protected function getStringValueForSetDefault(string $path, array $data) {
 
         preg_match_all("/^([\w\d]*)|\[['\"]*(|[a-z0-9_-]+)['\"]*\]/i", $path, $matches);
 
@@ -234,22 +233,21 @@ class Element implements Interfaces\Element {
             //$i = 0;
             foreach ($matches[0] as $key) {
                 $key = str_replace(['[', ']', '"', '\''], [''], $key);
-                
-                if(empty($key)){                    
+
+                if (empty($key)) {
                     $key = 0;
                 }
-                
+
                 if (isset($data[$key])) {
                     $data = $data[$key];
                 } else {
                     return false;
                 }
             }
-        } 
-
-        if (!is_array($data)) {
-            return $data;
         }
+
+
+        return $data;
     }
 
     /**

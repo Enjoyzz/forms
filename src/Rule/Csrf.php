@@ -58,7 +58,7 @@ class Csrf extends RuleBase implements Rule {
      */
     public function validate(\Enjoys\Forms\Element $element): bool {
         $request = new \Enjoys\Base\Request();
-        if (!$this->check($request->post($element->getValidateName()))) {
+        if (!$this->check($request->post($element->getName()))) {
             $element->setRuleError($this->getMessage());
             // throw new \Enjoys\Forms\Exception($this->getMessage());
             return false;

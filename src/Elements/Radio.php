@@ -26,9 +26,11 @@
 
 namespace Enjoys\Forms\Elements;
 
-use \Enjoys\Forms\Traits\Fill,
-    \Enjoys\Forms\Interfaces,
-    \Enjoys\Forms\Element;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Forms;
+use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Traits\Fill;
+use function dump;
 
 /**
  * Class Radio
@@ -36,7 +38,8 @@ use \Enjoys\Forms\Traits\Fill,
  * @author Enjoys
  * 
  */
-class Radio extends Element implements Interfaces\Radio_Checkbox {
+class Radio extends Element implements Interfaces\Radio_Checkbox
+{
 
     use Fill;
 
@@ -65,19 +68,24 @@ class Radio extends Element implements Interfaces\Radio_Checkbox {
         return static::$prefix_id;
     }
 
-    public function setDefault(array $data)  : self {
+    public function setDefault(): self {
 
 
-        if (in_array($this->getAttribute('value'), $data)) {
-            $this->addAttributes('checked');
-            return $this;
+        $value = $this->getStringValueForSetDefault($this->getParentName(), Forms::getDefaults());
+
+        if (is_array($value)) {
+            if (in_array($this->getAttribute('value'), $value)) {
+                $this->addAttributes('checked');
+                return $this;
+            }
         }
 
-
-        if (isset($data[$this->getName()])) {
-            $this->defaults = (array) $data[$this->getName()];
+        if (is_string($value) || is_numeric($value)) {
+            if ($this->getAttribute('value') == $value) {
+                $this->addAttributes('checked');
+                return $this;
+            }
         }
-        
         return $this;
     }
 

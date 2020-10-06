@@ -51,25 +51,16 @@ class Select extends Element {
         // $this->setIndexKeyFill('value');
     }
 
-    public function addAttribute(...$attributes): self {
+    public function addAttributes(...$attributes): self {
         parent::addAttributes(...$attributes);
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
-
-            $id = false;
-            if ($this->getName() != $this->getId()) {
-                $id = $this->getId();
-            }
-            $name = $this->getName();
-
             $this->setName($this->getName() . '[]');
-            if ($id !== false) {
-                $this->setId($id);
-            }
         }
         return $this;
     }
 
-    public function setDefault(array $data) : self{
+    public function setDefault() : self{
+        $data = \Enjoys\Forms\Forms::getDefaults();
         if (isset($data[$this->getName()])) {
             $this->defaults  = (array) $data[$this->getName()];
         }

@@ -82,7 +82,7 @@ class Forms
      *
      * @var array
      */
-    private $defaults = [];
+    private static $defaults = [];
     private string $token_submit = '';
     private bool $submited_form = false;
 
@@ -110,17 +110,21 @@ class Forms
 
     public function setDefaults(array $defaults) {
 
-        $this->defaults = $defaults;
+        static::$defaults = $defaults;
 
         if ($this->isSubmited()) {
-            $this->defaults = [];
+            static::$defaults = [];
             $method = \strtolower($this->getMethod());
 
             foreach ($this->request->$method() as $key => $items) {
-                $this->defaults[$key] = $items;
+                static::$defaults[$key] = $items;
             }
         }
         return $this;
+    }
+    
+    public static function getDefaults() {
+        return static::$defaults;
     }
 
     public function isSubmited(): bool {
@@ -239,7 +243,7 @@ class Forms
 
         $this->checkSubmittedFrom();
 
-        $this->setDefaults($this->defaults);
+        $this->setDefaults(static::$defaults);
 
         return $this;
     }
@@ -269,7 +273,7 @@ class Forms
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
 
-        $element->setDefault($this->defaults);
+       // $element->setDefault($this->defaults);
         $this->elements[$element->getName()] = $element;
         return $this;
     }

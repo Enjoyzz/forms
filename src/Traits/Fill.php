@@ -37,15 +37,24 @@ trait Fill {
      * @var array 
      */
     private $elements = [];
-    private $index_key;
+    private $indexKey;
+    private string $parentName = '';
 
 
     private function getIndexKey() {
-        return $this->index_key;
+        return $this->indexKey;
     }
     
     private function setIndexKeyFill($index_key) {
-        $this->index_key = $index_key;
+        $this->indexKey = $index_key;
+    }
+    
+    public function setParentName(string $parentName) {
+        $this->parentName = $parentName;
+    }
+    
+    private function getParentName() {
+        return $this->parentName;
     }
 
     /**
@@ -76,6 +85,8 @@ trait Fill {
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
         
             $element = new $class($value, $_title);
+           
+            $element->setParentName($this->getName());
             $element->addAttributes($attributes);
 
             // Если в атррибутах есть `id` вызываем setId() 
@@ -84,7 +95,7 @@ trait Fill {
             }
             
             if(property_exists($this, 'defaults')){
-                $element->setDefault($this->defaults);
+                $element->setDefault(\Enjoys\Forms\Forms::getDefaults());
             }
 
             //dump($element->getAttribute('disabled'));
