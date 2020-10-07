@@ -202,9 +202,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         $form = new \Enjoys\Forms\Forms();
         $form->setDefaults([
             'name' => [
-         
-                    1, 2
-          
+                1, 2
             ]
         ]);
         $obj = $form->checkbox('name', 'title')->fill([1, 2, 3]);
