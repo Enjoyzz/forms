@@ -236,14 +236,29 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $form->setDefaults([
             'name' => [1, 2]
         ]);
+        $select = $form->select('name[]', 'title')->fill([
+            1, 2, 3
+        ]);
+
+        /** @var \Enjoys\Forms\Elements\Select $select */
+        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+    }
+    
+    public function test_defaults3() {
+        $form = new \Enjoys\Forms\Forms();
+        $form->setDefaults([
+            'name' => [1, 2]
+        ]);
         $form->select('name', 'title')->fill([
             1, 2, 3
         ]);
 
         /** @var \Enjoys\Forms\Elements\Select $select */
         $select = $form->getElements()['name'];
-        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+        $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
+        $this->assertFalse($select->getElements()[2]->getAttribute('selected'));
     }
+    
 
 }

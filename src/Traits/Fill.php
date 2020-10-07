@@ -39,7 +39,7 @@ trait Fill {
     private $elements = [];
     private $indexKey;
     private string $parentName = '';
-
+    private int $counterId = 0;
 
     private function getIndexKey() {
         return $this->indexKey;
@@ -55,6 +55,14 @@ trait Fill {
     
     private function getParentName() {
         return $this->parentName;
+    }    
+    
+    public function setCounterId(int $counterId) {
+        $this->counterId = $counterId;
+    }    
+    
+    private function getCounterId() {
+        return $this->counterId;
     }
 
     /**
@@ -87,6 +95,8 @@ trait Fill {
             $element = new $class($value, $_title);
            
             $element->setParentName($this->getName());
+            $element->setCounterId(\count($this->elements));
+            
             $element->addAttributes($attributes);
 
             // Если в атррибутах есть `id` вызываем setId() 

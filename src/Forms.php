@@ -47,6 +47,7 @@ class Forms
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     const _TOKEN_CSRF_ = '_token_csrf';
     const _TOKEN_SUBMIT_ = '_token_submit';
+    const _FLAG_FORMMETHOD_ = '_form_method';
 
     /**
      *
@@ -115,6 +116,10 @@ class Forms
         if ($this->isSubmited()) {
             static::$defaults = [];
             $method = \strtolower($this->getMethod());
+            
+            //записываем флаг/значение каким методом отправлена форма
+            static::$defaults[self::_FLAG_FORMMETHOD_] = $method;
+            
 
             foreach ($this->request->$method() as $key => $items) {
                 static::$defaults[$key] = $items;

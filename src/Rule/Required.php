@@ -26,8 +26,11 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\RuleBase,
-    Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Base\Request;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Forms;
+use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\RuleBase;
 
 /**
  * Description of Required
@@ -46,13 +49,18 @@ class Required extends RuleBase implements Rule {
         parent::setMessage($message);
     }
 
-    public function validate(\Enjoys\Forms\Element $element): bool {
+    public function validate(Element $element): bool {
 
-        $request = new \Enjoys\Base\Request();
-        dump($request->post());
-        dump($request->get());
-dump($element->getStringValueForSetDefault($element->getName(), $request->get()));
-        if (!$this->check($request->post($element->getName(), $request->get($element->getName(), '')))) {
+        $request = new Request();
+        
+        $_method = 'get';
+        if(isset(Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_])){
+            $_method = Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_];
+        }
+
+        $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$_method());
+
+        if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -61,7 +69,7 @@ dump($element->getStringValueForSetDefault($element->getName(), $request->get())
     }
 
     private function check($value) {
-dump($value);
+
         if (is_array($value)) {
             return count($value) > 0;
         }

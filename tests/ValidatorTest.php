@@ -34,14 +34,16 @@ namespace Tests\Enjoys\Forms;
 class ValidatorTest extends \PHPUnit\Framework\TestCase {
 
     public function tearDown(): void {
-         unset($_POST);
-         unset($_GET);
+        $_GET = [];
+        $_POST = [];
     }
 
     public function test_validate() {
-
-
-        $_POST = [
+        $form = $this->getMockBuilder(Forms::class)
+                ->setMethods(['isSubmited'])
+                ->getMock();
+        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
+        $_GET = [
             'foo' => 'foo', 'food' => 'food'
         ];
         $element1 = new \Enjoys\Forms\Elements\Text('foo');

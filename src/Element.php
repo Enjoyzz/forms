@@ -212,7 +212,14 @@ class Element implements Interfaces\Element
      * @return \self
      */
     public function setDefault(): self {
-        $value = $this->getStringValueForSetDefault($this->getName(), Forms::getDefaults());
+        $value = \Enjoys\Helpers\Arrays::getValueByIndexPath($this->getName(), Forms::getDefaults());
+
+        if (is_array($value)) {
+
+             $this->setValue($value[0]);
+               
+        }
+
         if (is_string($value) || is_numeric($value)) {
             $this->setValue($value);
         }
@@ -225,30 +232,30 @@ class Element implements Interfaces\Element
      * @param type $data
      * @return boolean
      */
-    final protected function getStringValueForSetDefault(string $path, array $data) {
-
-        preg_match_all("/^([\w\d]*)|\[['\"]*(|[a-z0-9_-]+)['\"]*\]/i", $path, $matches);
-
-        if (count($matches[0]) > 0) {
-            //$i = 0;
-            foreach ($matches[0] as $key) {
-                $key = str_replace(['[', ']', '"', '\''], [''], $key);
-
-                if (empty($key)) {
-                    $key = 0;
-                }
-
-                if (isset($data[$key])) {
-                    $data = $data[$key];
-                } else {
-                    return false;
-                }
-            }
-        }
-
-
-        return $data;
-    }
+//    final protected function getStringValueForSetDefault(string $path, array $data) {
+//
+//        preg_match_all("/^([\w\d]*)|\[['\"]*(|[a-z0-9_-]+)['\"]*\]/i", $path, $matches);
+//
+//        if (count($matches[0]) > 0) {
+//            //$i = 0;
+//            foreach ($matches[0] as $key) {
+//                $key = str_replace(['[', ']', '"', '\''], [''], $key);
+//
+//                if (empty($key)) {
+//                    $key = 0;
+//                }
+//
+//                if (isset($data[$key])) {
+//                    $data = $data[$key];
+//                } else {
+//                    return false;
+//                }
+//            }
+//        }
+//
+//
+//        return $data;
+//    }
 
     /**
      * 

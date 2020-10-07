@@ -49,6 +49,8 @@ class DefaultsTest extends TestCase {
 
     protected function tearDown(): void {
         $this->form = null;
+        $_GET = [];
+        $_POST = [];
     }
 
     public function test_render_hidden() {

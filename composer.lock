@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c982ed0d2fe2667bad6354ff2ec1a90f",
+    "content-hash": "2e2f9b20cbeea1874e14baf8690dfd1e",
     "packages": [
         {
             "name": "enjoys/framework",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:Enjoyzz/framework.git",
-                "reference": "eeed617e3a73371d8a7d9a6ce8229400a990beb8"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Enjoyzz/framework/zipball/eeed617e3a73371d8a7d9a6ce8229400a990beb8",
-                "reference": "eeed617e3a73371d8a7d9a6ce8229400a990beb8",
-                "shasum": ""
+                "type": "path",
+                "url": "D:/Enjoys/framework",
+                "reference": "16e4dc9e189a7048d5c3d3923ecc0d21d8019979"
             },
             "require": {
                 "gabrielelana/byte-units": "0.5.0"
@@ -50,11 +44,9 @@
                 }
             ],
             "description": "framework",
-            "support": {
-                "source": "https://github.com/Enjoyzz/framework/tree/master",
-                "issues": "https://github.com/Enjoyzz/framework/issues"
-            },
-            "time": "2020-10-05T18:51:02+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "gabrielelana/byte-units",
@@ -1993,16 +1985,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "2.2.2",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "e494dcaeb89d1458c9ccd8c819745245a1669aea"
+                "reference": "fa592377f3923946cb90bf1f6a71ba2e5f229909"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/e494dcaeb89d1458c9ccd8c819745245a1669aea",
-                "reference": "e494dcaeb89d1458c9ccd8c819745245a1669aea",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/fa592377f3923946cb90bf1f6a71ba2e5f229909",
+                "reference": "fa592377f3923946cb90bf1f6a71ba2e5f229909",
                 "shasum": ""
             },
             "require": {
@@ -2014,7 +2006,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2035,7 +2027,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2020-09-28T06:01:38+00:00"
+            "time": "2020-10-06T08:41:03+00:00"
         },
         {
             "name": "sebastian/version",

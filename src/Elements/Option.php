@@ -29,6 +29,7 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Forms;
 use Enjoys\Forms\Traits\Fill;
+use Enjoys\Helpers\Arrays;
 
 /**
  * Description of Option
@@ -50,7 +51,7 @@ class Option extends Element {
 
     public function setDefault() :self {
 
-      $value = $this->getStringValueForSetDefault($this->getParentName(), Forms::getDefaults());
+      $value = Arrays::getValueByIndexPath($this->getParentName(), Forms::getDefaults());
      
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {

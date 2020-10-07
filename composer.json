@@ -26,6 +26,10 @@
         }
     },
     "repositories": {
+        "enjoys/framework/local": {
+            "type": "path",
+            "url": "D:\\Enjoys\\framework"
+        } ,
         "enjoys/framework": {
             "type": "vcs",
             "url": "git@github.com:Enjoyzz/framework.git"

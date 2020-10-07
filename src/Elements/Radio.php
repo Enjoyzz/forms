@@ -30,7 +30,7 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Forms;
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Traits\Fill;
-use function dump;
+use Enjoys\Helpers\Arrays;
 
 /**
  * Class Radio
@@ -71,7 +71,7 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
     public function setDefault(): self {
 
 
-        $value = $this->getStringValueForSetDefault($this->getParentName(), Forms::getDefaults());
+        $value = Arrays::getValueByIndexPath($this->getParentName(), Forms::getDefaults());
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {

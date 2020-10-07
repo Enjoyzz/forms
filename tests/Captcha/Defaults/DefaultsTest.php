@@ -120,7 +120,7 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function test_renderHtml() {
-        // $this->markTestIncomplete();
+     
         $obj = new \Enjoys\Forms\Captcha\Defaults\Defaults('code invalid');
 
         $html = $obj->renderHtml();

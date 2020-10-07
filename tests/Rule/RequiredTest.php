@@ -26,40 +26,46 @@
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Validator;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class RequiredTest
  *
  * @author Enjoys
  */
-class RequiredTest  {
+class RequiredTest extends TestCase
+{
 
     public function tearDown(): void {
-        unset($_POST);
-        unset($_GET);
+        $_GET = [];
+        $_POST = [];
     }
 
     public function test_required_() {
         $_GET = [
             'name' => [1, 2]
         ];
-        $element = new \Enjoys\Forms\Elements\Checkbox('name');
+        $element = new Checkbox('name');
         $element->addRule('required');
-        $this->assertTrue(\Enjoys\Forms\Validator::check([$element]));
+        $this->assertTrue(Validator::check([$element]));
     }
 
     public function test_required_2() {
         $_GET = [
             'name' => []
         ];
-        $element = new \Enjoys\Forms\Elements\Checkbox('name');
+        $element = new Checkbox('name');
         $element->addRule('required');
-        $this->assertFalse(\Enjoys\Forms\Validator::check([$element]));
+        $this->assertFalse(Validator::check([$element]));
     }
-    
+
     public function test_required_3() {
-        $element = new \Enjoys\Forms\Elements\Checkbox('name');
+
+        $element = new Checkbox('name');
         $element->addRule('required');
-        $this->assertFalse(\Enjoys\Forms\Validator::check([$element]));
-    }    
+        $this->assertFalse(Validator::check([$element]));
+    }
 
 }
