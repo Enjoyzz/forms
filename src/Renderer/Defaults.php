@@ -33,7 +33,8 @@ use Enjoys\Forms\Interfaces;
  *
  * @author Enjoys
  */
-class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
+class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
+{
 
     private $elements = [];
     private $open_header = false;
@@ -148,7 +149,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
         $html .= "<br>" . $element->renderHtml();
         if (!empty($element->getDescription())) {
             $html .= "\t<br><small>{$element->getDescription()}</small><br>\n";
-        }        
+        }
         return $html;
     }
 
@@ -167,9 +168,9 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
 
     private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
         $html = '';
-       if ($element->isRuleError()) {
+        if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
-        }        
+        }
         $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
 
 
@@ -186,7 +187,11 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer {
     }
 
     private function renderSelect(\Enjoys\Forms\Elements\Select $element) {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html = '';
+        if ($element->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
+        }
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<select{$element->getAttributes()}><br>\n";
 
 

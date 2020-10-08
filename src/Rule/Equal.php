@@ -26,8 +26,12 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\RuleBase,
-    Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Base\Request;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Forms;
+use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\RuleBase;
+use Enjoys\Helpers\Arrays;
 
 /**
  * Description of Equal
@@ -38,7 +42,8 @@ use Enjoys\Forms\RuleBase,
  * 
  * @author deadl
  */
-class Equal extends RuleBase implements Rule {
+class Equal extends RuleBase implements Rule
+{
 
     public function setMessage(?string $message): void {
         if (is_null($message)) {
@@ -47,11 +52,20 @@ class Equal extends RuleBase implements Rule {
         parent::setMessage($message);
     }
 
-    public function validate(\Enjoys\Forms\Element $element): bool {
+    public function validate(Element $element): bool {
 
-        $request = new \Enjoys\Base\Request();
+        $request = new Request();
 
-        if (false === $this->check($request->post($element->getName(), $request->get($element->getName(), null)))) {
+        $_method = 'get';
+        if (isset(Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_])) {
+            $_method = Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_];
+        }
+        
+      //  var_dump($element->getName());
+
+        $_value = Arrays::getValueByIndexPath($element->getName(), $request->$_method());
+
+        if (false === $this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -60,17 +74,19 @@ class Equal extends RuleBase implements Rule {
     }
 
     private function check($value) {
-        if (is_null($value)) {
+        
+        if ($value === false) {
             return true;
         }
-        if (is_array($value)) {
+       if (is_array($value)) {
+    
             foreach ($value as $_val) {
                 if (false === $this->check($_val)) {
                     return false;
                 }
             }
             return true;
-        }
+       }
         return array_search(\trim($value), $this->getParams());
     }
 

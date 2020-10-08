@@ -26,50 +26,56 @@
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Elements\Hidden;
+use Enjoys\Forms\Forms;
+use Enjoys\Forms\Rule\Csrf;
+use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\Reflection;
+
 /**
  * Description of CsrfTest
  *
  * @author deadl
  */
-class CsrfTest extends \PHPUnit\Framework\TestCase {
-    
-    use \Tests\Enjoys\Forms\Reflection;
-    
+class CsrfTest extends TestCase
+{
+
+    use Reflection;
+
     public function test_create_rule() {
-        $obj = new \Enjoys\Forms\Rule\Csrf();
+        $obj = new Csrf();
         $method = $this->getPrivateMethod('\Enjoys\Forms\Rule\Csrf', 'getMessage');
         $this->assertStringContainsString('CSRF Attack detected', $method->invoke($obj));
     }
-    
+
     public function test_validate() {
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
-        $element = new \Enjoys\Forms\Elements\Hidden('token', $hash);
+        $element = new Hidden(Forms::_TOKEN_CSRF_, $hash);
         unset($_POST);
-        $_POST['token'] = $hash;
-        $obj = new \Enjoys\Forms\Rule\Csrf(null, [
+        $_POST[Forms::_TOKEN_CSRF_] = $hash;
+        $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
 
         //$this->assertSame('d',$obj);
         $this->assertTrue($obj->validate($element));
-     //   $this->expectException(\Enjoys\Forms\Exception::class);
+        //   $this->expectException(\Enjoys\Forms\Exception::class);
     }
-    
+
     public function test_non_validate() {
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
-        $element = new \Enjoys\Forms\Elements\Hidden('token', $hash);
+        $element = new Hidden(Forms::_TOKEN_CSRF_, $hash);
         unset($_POST);
-        $_POST['token'] = 'faketoken';
-        $obj = new \Enjoys\Forms\Rule\Csrf(null, [
+        $_POST[Forms::_TOKEN_CSRF_] = 'faketoken';
+        $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
 
         //$this->assertSame('d',$obj);
         $this->assertFalse($obj->validate($element));
-     //   $this->expectException(\Enjoys\Forms\Exception::class);
-    }    
-    
- 
+        //   $this->expectException(\Enjoys\Forms\Exception::class);
+    }
+
 }
