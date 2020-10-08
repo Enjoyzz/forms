@@ -108,12 +108,11 @@ class Forms
 
         $this->setMethod($method);
     }
-    
+
     public function __destruct() {
         static::$counterForms = 0;
         static::$defaults = [];
     }
-
 
     public function getFormCount() {
         return $this->formCount;
@@ -146,6 +145,10 @@ class Forms
         return self::$defaults;
     }
 
+    /**
+     * 
+     * @return bool
+     */
     public function isSubmited(): bool {
         return $this->submited_form;
     }

@@ -36,6 +36,8 @@ Session::start();
  * @author Enjoys
  */
 class DefaultsTest extends \PHPUnit\Framework\TestCase {
+    
+
 
     public function setUp(): void {
         // Session::start();
@@ -67,13 +69,16 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertSame('captcha_defaults', $captcha->getName());
         $this->assertFalse($captcha->getAttribute('value'));
-
-        $captcha->setValue('testcode');
+        
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Captcha\Defaults\Defaults::class, 'setValue');
+        $method->invokeArgs($captcha, ['testcode']);
+        //$captcha->setValue('testcode');
         $this->assertSame('testcode', $captcha->getAttribute('value'));
         $this->assertTrue($captcha->validate());
 
         $captcha->removeAttribute('value');
-        $captcha->setValue('testcode_fail');
+        $method->invokeArgs($captcha, ['testcode_fail']);
+        //$captcha->setValue('testcode_fail');
         $this->assertSame('testcode_fail', $captcha->getAttribute('value'));
         $this->assertFalse($captcha->validate());
     }
@@ -128,7 +133,9 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase {
         $this->assertStringContainsString('img src="data:image/jpeg;base64,', $html);
         $this->assertStringContainsString('<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $html);
 
-        $obj->setValue('code_fail');
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Captcha\Defaults\Defaults::class, 'setValue');
+        $method->invokeArgs($obj, ['code_fail']);
+        //$obj->setValue('code_fail');
 
         foreach ($obj->getRules() as $rule) {
             $rule->validate($obj);

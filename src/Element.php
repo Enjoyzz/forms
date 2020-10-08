@@ -165,7 +165,7 @@ class Element implements Interfaces\Element
      * @param string $value
      * @return \self
      */
-    public function setValue(string $value): self {
+    protected function setValue(string $value): self {
         if ($this->getAttribute('value') !== false) {
             return $this;
         }
