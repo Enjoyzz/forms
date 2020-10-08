@@ -52,7 +52,9 @@ class FormsTest extends \PHPUnit\Framework\TestCase
     }
 
     protected function tearDown(): void {
+        // $this->form->resetCounterForms();
         $this->form = null;
+
         $_POST = [];
         $_GET = [];
     }
@@ -329,13 +331,13 @@ class FormsTest extends \PHPUnit\Framework\TestCase
     }
 
     public function test_validate_false_after_submit() {
-       
+
         $form = $this->getMockBuilder(Forms::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
-      
+
         $form->expects($this->once())->method('isSubmited')->will($this->returnValue(true));
-        
+
         $form->text('foo')->addRule('required');
         $this->assertFalse($form->validate());
     }
@@ -349,7 +351,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase
     }
 
     public function test_checkSubmittedFrom_true() {
-        $_GET[Forms::_TOKEN_SUBMIT_] = 'bf6813c2bc0becb369a8d8367b6b77db';
+        $_GET[Forms::_TOKEN_SUBMIT_] = 'dbbff54be9a5b45d7db694dce78b2da9';
         $form = new Forms('get', '/test.php');
         $this->assertTrue($form->isSubmited());
     }
@@ -368,6 +370,34 @@ class FormsTest extends \PHPUnit\Framework\TestCase
         ]);
         //more submit_token
         $this->assertCount(3, $form->getElements());
+    }
+
+    public function test_formCount_1_0() {
+        $this->form = null;
+        $form1 = new Forms();
+        $this->assertSame(1, $form1->getFormCount());
+    }
+
+    public function test_formCount_1_1() {
+        $this->form = null;
+        $form1 = new Forms();
+        $this->assertNotSame(2, $form1->getFormCount());
+    }
+
+    public function test_formCount_2_0() {
+        $this->form = null;
+        $form1 = new Forms();
+        $form2 = new Forms();
+        $this->assertSame(1, $form1->getFormCount());
+        $this->assertSame(2, $form2->getFormCount());
+    }
+
+    public function test_formCount_2_1() {
+        $this->form = null;
+        $form1 = new Forms();
+        $form2 = new Forms();
+        $this->assertNotSame(2, $form1->getFormCount());
+        $this->assertNotSame(1, $form2->getFormCount());
     }
 
 }

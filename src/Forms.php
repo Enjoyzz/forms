@@ -83,15 +83,19 @@ class Forms
      *
      * @var array
      */
-    private static $defaults = [];
+    static private $defaults = [];
     private string $token_submit = '';
     private bool $submited_form = false;
+    static private int $counterForms = 0;
+    private int $formCount = 0;
 
     /**
      * @param string $method
      * @param string $action
      */
     public function __construct(string $method = null, string $action = null) {
+
+        $this->formCount = ++static::$counterForms;
 
         if (!is_null($action)) {
             $this->setAction($action);
@@ -104,32 +108,42 @@ class Forms
 
         $this->setMethod($method);
     }
+    
+    public function __destruct() {
+        static::$counterForms = 0;
+        static::$defaults = [];
+    }
+
+
+    public function getFormCount() {
+        return $this->formCount;
+    }
 
     private function setTokenSubmit() {
-        $this->token_submit = md5($this->getAction());
+        $this->token_submit = md5($this->getAction() . $this->getFormCount());
     }
 
     public function setDefaults(array $defaults) {
 
-        static::$defaults = $defaults;
+        self::$defaults = $defaults;
 
         if ($this->isSubmited()) {
-            static::$defaults = [];
+            self::$defaults = [];
             $method = \strtolower($this->getMethod());
-            
+
             //записываем флаг/значение каким методом отправлена форма
-            static::$defaults[self::_FLAG_FORMMETHOD_] = $method;
-            
+            self::$defaults[self::_FLAG_FORMMETHOD_] = $method;
+
 
             foreach ($this->request->$method() as $key => $items) {
-                static::$defaults[$key] = $items;
+                self::$defaults[$key] = $items;
             }
         }
         return $this;
     }
-    
+
     public static function getDefaults() {
-        return static::$defaults;
+        return self::$defaults;
     }
 
     public function isSubmited(): bool {
@@ -248,7 +262,7 @@ class Forms
 
         $this->checkSubmittedFrom();
 
-        $this->setDefaults(static::$defaults);
+        $this->setDefaults(self::$defaults);
 
         return $this;
     }
@@ -278,7 +292,7 @@ class Forms
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
 
-       // $element->setDefault($this->defaults);
+        // $element->setDefault($this->defaults);
         $this->elements[$element->getName()] = $element;
         return $this;
     }
