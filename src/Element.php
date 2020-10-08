@@ -29,6 +29,7 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\LabelAttributes;
+use Enjoys\Helpers\Arrays;
 
 /**
  * Class Element
@@ -78,12 +79,24 @@ class Element implements Interfaces\Element
      * @var string|null   
      */
     protected ?string $value = null;
-//    protected Validator $rule;
 
-    protected $rules = [];
-    private $rule_error_message = null;
-    private $rule_error = false;
-    private array $defaults = [];
+    /**
+     *
+     * @var string|null    
+     */
+    private ?string $rule_error_message = null;
+
+    /**
+     *
+     * @var bool 
+     */
+    private bool $rule_error = false;
+
+    /**
+     *
+     * @var array 
+     */
+    protected array $rules = [];
 
     /**
      * 
@@ -120,18 +133,6 @@ class Element implements Interfaces\Element
     public function getName(): ?string {
         return $this->name;
     }
-
-//    public function setValidateName(string $name): self {
-//        $this->validate_name = $name;
-//        //if (!empty($this->defaults)) {
-//            $this->setDefault();
-//        //}
-//        return $this;
-//    }
-//
-//    public function getValidateName(): ?string {
-//        return $this->validate_name;
-//    }
 
     /**
      * 
@@ -184,6 +185,10 @@ class Element implements Interfaces\Element
         return $this;
     }
 
+    /**
+     * 
+     * @return string|null
+     */
     public function getTitle(): ?string {
         return $this->title;
     }
@@ -207,17 +212,18 @@ class Element implements Interfaces\Element
     }
 
     /**
-     * 
-     * @param array $data
+     * @uses \Enjoys\Forms\Forms::getDefaults()
+     * @uses \Enjoys\Helpers\Arrays::getValueByIndexPath()
      * @return \self
      */
     public function setDefault(): self {
-        $value = \Enjoys\Helpers\Arrays::getValueByIndexPath($this->getName(), Forms::getDefaults());
+
+
+        $value = Arrays::getValueByIndexPath($this->getName(), Forms::getDefaults());
 
         if (is_array($value)) {
 
-             $this->setValue($value[0]);
-               
+            $this->setValue($value[0]);
         }
 
         if (is_string($value) || is_numeric($value)) {
@@ -225,37 +231,6 @@ class Element implements Interfaces\Element
         }
         return $this;
     }
-
-    /**
-     * 
-     * @param type $path
-     * @param type $data
-     * @return boolean
-     */
-//    final protected function getStringValueForSetDefault(string $path, array $data) {
-//
-//        preg_match_all("/^([\w\d]*)|\[['\"]*(|[a-z0-9_-]+)['\"]*\]/i", $path, $matches);
-//
-//        if (count($matches[0]) > 0) {
-//            //$i = 0;
-//            foreach ($matches[0] as $key) {
-//                $key = str_replace(['[', ']', '"', '\''], [''], $key);
-//
-//                if (empty($key)) {
-//                    $key = 0;
-//                }
-//
-//                if (isset($data[$key])) {
-//                    $data = $data[$key];
-//                } else {
-//                    return false;
-//                }
-//            }
-//        }
-//
-//
-//        return $data;
-//    }
 
     /**
      * 
@@ -270,35 +245,39 @@ class Element implements Interfaces\Element
         return $this;
     }
 
-//    public function getRule($d) {
-//        return $this->rules[];
-//    }    
+//    public function getRule(Rule $rule) {}    
 
     /**
      * 
+     * @param string|null $message
+     * @return void
      */
-    public function setRuleError($message) {
+    public function setRuleError(?string $message): void {
         $this->rule_error = true;
         $this->rule_error_message = $message;
     }
 
-    public function getRuleErrorMessage() {
+    /**
+     * 
+     * @return string|null
+     */
+    public function getRuleErrorMessage(): ?string {
         return $this->rule_error_message;
     }
 
     /**
      * 
-     * @return type
+     * @return bool
      */
-    public function isRuleError() {
+    public function isRuleError(): bool {
         return $this->rule_error;
     }
 
     /**
      * 
-     * @return type
+     * @return array
      */
-    public function getRules() {
+    public function getRules(): array {
         return $this->rules;
     }
 

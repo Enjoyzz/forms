@@ -26,9 +26,10 @@
 
 namespace Enjoys\Forms;
 
-use \Enjoys\Helpers\Math;
-use \Enjoys\Forms\Interfaces;
-use \Enjoys\Forms\Exception;
+use Enjoys\Forms\Exception;
+use Enjoys\Forms\Traits\Attributes;
+use Enjoys\Helpers\Math;
+use Enjoys\Traits\Request;
 
 /**
  *
@@ -41,8 +42,8 @@ use \Enjoys\Forms\Exception;
 class Forms
 {
 
-    use Traits\Attributes,
-        \Enjoys\Traits\Request;
+    use Attributes,
+        Request;
 
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     const _TOKEN_CSRF_ = '_token_csrf';
@@ -286,7 +287,7 @@ class Forms
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return \self
      */
     public function addElement(Element $element, $rewrite = false): self {
