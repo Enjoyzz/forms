@@ -26,9 +26,8 @@
 
 namespace Enjoys\Forms\Elements;
 
-use \Enjoys\Forms\Traits\Fill,
-    \Enjoys\Forms\Interfaces,
-    \Enjoys\Forms\Element;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Traits\Fill;
 
 /**
  * Description of Select

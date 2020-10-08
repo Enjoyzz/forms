@@ -157,6 +157,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getId());
     }
+
     public function test_multiple_name_add_array_1_2() {
 
         $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
@@ -244,7 +245,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($select->getElements()[1]->getAttribute('selected'));
         $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
-    
+
     public function test_defaults3() {
         $form = new \Enjoys\Forms\Forms();
         $form->setDefaults([
@@ -259,6 +260,40 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
         $this->assertFalse($select->getElements()[2]->getAttribute('selected'));
     }
-    
+
+    public function test_defaults4_attr_before_fill() {
+        $form = new \Enjoys\Forms\Forms();
+        $form->setDefaults([
+            'name2' => [0, 2]
+        ]);
+        $form->select('name2', 'title')
+                ->addAttributes('multiple')
+                ->fill([1, 2, 3])
+        ;
+
+        /** @var \Enjoys\Forms\Elements\Select $select */
+        $select = $form->getElements()['name2'];
+        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
+        $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+    }
+
+    public function test_defaults4_attr_after_fill() {
+        $this->markTestSkipped('Не корректно работает');
+        $form = new \Enjoys\Forms\Forms();
+        $form->setDefaults([
+            'name2' => [0, 2]
+        ]);
+        $form->select('name2', 'title')
+                ->fill([1, 2, 3])
+                ->addAttributes('multiple')
+        ;
+
+        /** @var \Enjoys\Forms\Elements\Select $select */
+        $select = $form->getElements()['name2'];
+        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
+        $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+    }
 
 }
