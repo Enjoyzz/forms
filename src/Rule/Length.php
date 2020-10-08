@@ -26,9 +26,10 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\RuleBase;
+use Enjoys\Base\Request;
+use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Rule;
-use Enjoys\Forms\Exception;
+use Enjoys\Forms\RuleBase;
 
 /**
  * Description of Length
@@ -54,9 +55,19 @@ class Length extends RuleBase implements Rule
         parent::setMessage($message);
     }
 
-    public function validate(\Enjoys\Forms\Element $element): bool {
-        $request = new \Enjoys\Base\Request();
-        $input_value = $request->post($element->getValidateName(), $request->get($element->getValidateName(), ''));
+    public function validate(Element $element): bool {
+        $request = new Request();
+
+        $_method = 'get';
+        if (isset(\Enjoys\Forms\Forms::getDefaults()[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_])) {
+            $_method = \Enjoys\Forms\Forms::getDefaults()[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_];
+        }
+        
+      //  var_dump($element->getName());
+
+        $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$_method());
+        
+        $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
         if (!$this->check($input_value)) {
             $element->setRuleError($this->getMessage());
             return false;
@@ -70,7 +81,7 @@ class Length extends RuleBase implements Rule
             return true;
         }
         
-        $length = \mb_strlen($value, 'UTF-8');
+        $length = \mb_strlen(\trim($value), 'UTF-8');
         if (empty($value)) {
             return true;
         }
