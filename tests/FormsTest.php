@@ -351,7 +351,7 @@ class FormsTest extends \PHPUnit\Framework\TestCase
     }
 
     public function test_checkSubmittedFrom_true() {
-        $_GET[Forms::_TOKEN_SUBMIT_] = 'dbbff54be9a5b45d7db694dce78b2da9';
+        $_GET[Forms::_TOKEN_SUBMIT_] = '0f62a94b667c962f7108e0c2dbc0c34a';
         $form = new Forms('get', '/test.php');
         $this->assertTrue($form->isSubmited());
     }

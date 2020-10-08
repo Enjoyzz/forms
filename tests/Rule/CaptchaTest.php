@@ -26,33 +26,38 @@
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Captcha\Defaults\Defaults;
+use Enjoys\Forms\Rule\Captcha;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class CaptchaTest
  *
  * @author Enjoys
  */
-class CaptchaTest extends \PHPUnit\Framework\TestCase {
+class CaptchaTest extends TestCase
+{
 
     public function test_validate_success() {
-        $mock_element = $this->getMockBuilder(\Enjoys\Forms\Captcha\Defaults\Defaults::class)
+        $mock_element = $this->getMockBuilder(Defaults::class)
                 ->setMethods(['validate'])
                 ->getMock();
         $mock_element->expects($this->any())->method('validate')->will($this->returnValue(true));
-        
-        
-        $rule = new \Enjoys\Forms\Rule\Captcha();
+
+
+        $rule = new Captcha();
         $this->assertTrue($rule->validate($mock_element));
     }
-    
+
     public function test_validate_fail() {
-        $mock_element = $this->getMockBuilder(\Enjoys\Forms\Captcha\Defaults\Defaults::class)
+        $mock_element = $this->getMockBuilder(Defaults::class)
                 ->setMethods(['validate'])
                 ->getMock();
         $mock_element->expects($this->any())->method('validate')->will($this->returnValue(false));
-        
-        
-        $rule = new \Enjoys\Forms\Rule\Captcha();
+
+
+        $rule = new Captcha();
         $this->assertFalse($rule->validate($mock_element));
-    }    
+    }
 
 }

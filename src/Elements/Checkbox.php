@@ -37,7 +37,8 @@ use Enjoys\Helpers\Arrays;
  *
  * @author deadl
  */
-class Checkbox extends Element implements Interfaces\Radio_Checkbox {
+class Checkbox extends Element implements Interfaces\Radio_Checkbox
+{
 
     use Fill;
 
@@ -70,13 +71,11 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox {
         return static::$prefix_id;
     }
 
-    public function setDefault() : self{
+    public function setDefault(): self {
 
         $value = Arrays::getValueByIndexPath($this->getParentName(), Forms::getDefaults());
 
-     
         if (is_array($value)) {
-     
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->addAttributes('checked');
                 return $this;
@@ -91,7 +90,5 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox {
         }
         return $this;
     }
-    
-  
 
 }

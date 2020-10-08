@@ -26,9 +26,9 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\RuleBase,
-    Enjoys\Forms\Interfaces\Rule,
-    Enjoys\Forms\Exception;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\RuleBase;
 
 /**
  * Description of Callback
@@ -101,10 +101,10 @@ class Callback extends RuleBase implements Rule
 
     /**
      * 
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return bool
      */
-    public function validate(\Enjoys\Forms\Element $element): bool {
+    public function validate(Element $element): bool {
         if ($this->check() === false) {
             $element->setRuleError($this->getMessage());
             return false;

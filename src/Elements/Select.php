@@ -56,6 +56,7 @@ class Select extends Element {
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
             $_id = $this->getId();
             $this->setName($this->getName() . '[]');
+            $this->setParentName($this->getName());
             //т.к. id уже переписан ,восстанавливаем его
             $this->setId($_id);
         }
@@ -63,12 +64,7 @@ class Select extends Element {
     }
 
     public function setDefault() : self{
-//        $data = \Enjoys\Forms\Forms::getDefaults();
-//        if (isset($data[$this->getName()])) {
-//            $this->defaults  = (array) $data[$this->getName()];
-//        }
         return $this;
-
     }
 
 }

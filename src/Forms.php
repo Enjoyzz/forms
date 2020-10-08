@@ -104,8 +104,9 @@ class Forms
 
         $this->initRequest();
 
-        $this->setTokenSubmit();
-        $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit));
+
+
+
 
         $this->setMethod($method);
     }
@@ -115,12 +116,51 @@ class Forms
         static::$defaults = [];
     }
 
+    /**
+     *
+     * @param string $method
+     * @return $this
+     */
+    public function setMethod(?string $method): self {
+        if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
+            $this->method = \strtoupper($method);
+        }
+
+        $this->generateTokenSubmit();
+        $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit), true);
+
+        $this->setAttribute('method', $this->method);
+
+        if (in_array($this->getMethod(), ['POST'])) {
+            $this->csrf();
+        }
+
+
+        if (is_null($method)) {
+            $this->removeAttribute('method');
+        }
+
+        $this->checkSubmittedFrom();
+
+        $this->setDefaults(self::$defaults);
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getMethod(): string {
+        return $this->method;
+    }
+
     public function getFormCount() {
         return $this->formCount;
     }
 
-    private function setTokenSubmit() {
-        $this->token_submit = md5($this->getAction() . $this->getFormCount());
+    private function generateTokenSubmit() {
+        $this->token_submit = md5($this->getAction() . $this->getFormCount() . $this->getMethod());
     }
 
     public function setDefaults(array $defaults) {
@@ -233,41 +273,6 @@ class Forms
     public function setAction(?string $action): self {
         $this->action = $action;
         $this->setAttribute('action', $this->getAction());
-        return $this;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getMethod(): string {
-        return $this->method;
-    }
-
-    /**
-     *
-     * @param string $method
-     * @return $this
-     */
-    public function setMethod(?string $method): self {
-        if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
-            $this->method = \strtoupper($method);
-        }
-        $this->setAttribute('method', $this->method);
-
-        if (in_array($this->getMethod(), ['POST'])) {
-            $this->csrf();
-        }
-
-
-        if (is_null($method)) {
-            $this->removeAttribute('method');
-        }
-
-        $this->checkSubmittedFrom();
-
-        $this->setDefaults(self::$defaults);
-
         return $this;
     }
 
