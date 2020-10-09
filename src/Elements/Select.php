@@ -43,7 +43,6 @@ class Select extends Element {
      * @var string 
      */
     protected string $type = 'option';
-    protected array $defaults = [];
 
     public function __construct(string $name, string $title = null) {
         parent::__construct($name, $title);

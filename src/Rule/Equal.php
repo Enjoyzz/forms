@@ -57,8 +57,8 @@ class Equal extends RuleBase implements Rule
         $request = new Request();
 
         $_method = 'get';
-        if (isset(Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_])) {
-            $_method = Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_];
+        if (isset($this->defaults[Forms::_FLAG_FORMMETHOD_])) {
+            $_method = $this->defaults[Forms::_FLAG_FORMMETHOD_];
         }
         
       //  var_dump($element->getName());

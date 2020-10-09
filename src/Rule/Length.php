@@ -59,8 +59,8 @@ class Length extends RuleBase implements Rule
         $request = new Request();
 
         $_method = 'get';
-        if (isset(\Enjoys\Forms\Forms::getDefaults()[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_])) {
-            $_method = \Enjoys\Forms\Forms::getDefaults()[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_];
+        if (isset($this->defaults[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_])) {
+            $_method = $this->defaults[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_];
         }
         
       //  var_dump($element->getName());

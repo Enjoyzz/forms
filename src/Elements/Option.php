@@ -51,7 +51,7 @@ class Option extends Element {
 
     public function setDefault() :self {
 
-      $value = Arrays::getValueByIndexPath($this->getParentName(), Forms::getDefaults());
+      $value = Arrays::getValueByIndexPath($this->getParentName(), $this->defaults);
      
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {

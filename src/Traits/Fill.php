@@ -93,7 +93,7 @@ trait Fill {
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
         
             $element = new $class($value, $_title);
-           
+       
             $element->setParentName($this->getName());
             $element->setCounterId(\count($this->elements));
             
@@ -104,9 +104,11 @@ trait Fill {
                 $element->setId($attributes['id']);
             }
             
-            if(property_exists($this, 'defaults')){
-                $element->setDefault(\Enjoys\Forms\Forms::getDefaults());
+       
+            if($this->formDefaults instanceof \Enjoys\Forms\FormDefaults){
+                $element->setFormDefaults($this->formDefaults);
             }
+        
 
             //dump($element->getAttribute('disabled'));
          

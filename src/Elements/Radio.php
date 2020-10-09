@@ -49,7 +49,7 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
      */
     protected string $type = 'radio';
     private static $prefix_id = 'rb_';
-    protected array $defaults = [];
+    
 
     public function __construct(string $name, string $title = null) {
         parent::__construct($name, $title);
@@ -70,7 +70,7 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
 
     public function setDefault(): self {
 
-        $value = Arrays::getValueByIndexPath($this->getParentName(), Forms::getDefaults());
+        $value = Arrays::getValueByIndexPath($this->getParentName(), $this->defaults);
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {

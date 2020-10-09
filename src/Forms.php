@@ -84,7 +84,7 @@ class Forms
      *
      * @var array
      */
-    static private $defaults = [];
+    private array $defaults = [];
     private string $token_submit = '';
     private bool $submited_form = false;
     static private int $counterForms = 0;
@@ -95,6 +95,8 @@ class Forms
      * @param string $action
      */
     public function __construct(string $method = null, string $action = null) {
+
+
 
         $this->formCount = ++static::$counterForms;
 
@@ -113,7 +115,7 @@ class Forms
 
     public function __destruct() {
         static::$counterForms = 0;
-        static::$defaults = [];
+        //static::$defaults = [];
     }
 
     /**
@@ -142,7 +144,7 @@ class Forms
 
         $this->checkSubmittedFrom();
 
-        $this->setDefaults(self::$defaults);
+        $this->setDefaults($this->defaults);
 
         return $this;
     }
@@ -165,25 +167,13 @@ class Forms
 
     public function setDefaults(array $defaults) {
 
-        self::$defaults = $defaults;
+        $this->defaults = $defaults;
 
-        if ($this->isSubmited()) {
-            self::$defaults = [];
-            $method = \strtolower($this->getMethod());
-
-            //записываем флаг/значение каким методом отправлена форма
-            self::$defaults[self::_FLAG_FORMMETHOD_] = $method;
-
-
-            foreach ($this->request->$method() as $key => $items) {
-                self::$defaults[$key] = $items;
-            }
-        }
         return $this;
     }
 
-    public static function getDefaults() {
-        return self::$defaults;
+    public function getDefaults() {
+        return $this->defaults;
     }
 
     /**
@@ -201,25 +191,21 @@ class Forms
      */
     public function csrf($flag = true) {
 
-        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
+        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']) || $flag === false) {
             $this->removeElement(self::_TOKEN_CSRF_);
             return $this;
         }
 
 
-        if ($flag === false) {
-            $this->removeElement(self::_TOKEN_CSRF_);
-            return $this;
-        }
 
         // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
         $csrf_key = '#$' . session_id();
         $hash = crypt($csrf_key);
-        $element = new Elements\Hidden(self::_TOKEN_CSRF_, $hash);
-        $element->addRule('csrf', 'CSRF Attack detected', [
-            'csrf_key' => $csrf_key
-        ]);
-        $this->addElement($element, true);
+        $this->hidden(self::_TOKEN_CSRF_, $hash)
+                ->addRule('csrf', 'CSRF Attack detected', [
+                    'csrf_key' => $csrf_key]);
+
+
         //hash_equals($request->post('_token_csrf'), crypt($form->getCsrfKey(), $request->post('_token_csrf')))
         //$this->addRule(self::$CSRFField, 'CSRF Attack detected', 'csrf', $hash);
         // }
@@ -301,7 +287,8 @@ class Forms
             throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
 
-        // $element->setDefault($this->defaults);
+
+        $element->setFormDefaults(new FormDefaults($this->defaults, $this));
         $this->elements[$element->getName()] = $element;
         return $this;
     }

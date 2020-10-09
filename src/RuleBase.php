@@ -31,8 +31,9 @@ namespace Enjoys\Forms;
  *
  * @author deadl
  */
-class RuleBase {
-    
+class RuleBase
+{
+
     /**
      * @since 0.0.7
      * @todo Надо подумать оставить или нет, может быть вынести в другое место
@@ -41,14 +42,19 @@ class RuleBase {
 
     private $message;
     private $params = [];
+    private $formDefaults = [];
 
     public function __construct(?string $message = null, $params = []) {
         $this->setParams($params);
         $this->setMessage($message);
     }
 
+    public function setFormDefaults(FormDefaults $formDefaults) {
+        $this->formDefaults = $formDefaults;
+    }
+
     public function setParams($params) {
-       
+
         if (is_array($params)) {
             $this->params = $params;
             return;

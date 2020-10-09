@@ -48,7 +48,7 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox
      */
     protected string $type = 'checkbox';
     private static $prefix_id = 'cb_';
-    protected array $defaults = [];
+
 
     public function __construct(string $name, string $title = null) {
         $construct_name = $name;
@@ -72,9 +72,13 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox
     }
 
     public function setDefault(): self {
-
-        $value = Arrays::getValueByIndexPath($this->getParentName(), Forms::getDefaults());
-
+        
+        if($this->formDefaults === null){
+            return $this;
+        }
+       
+        $value = $this->formDefaults->getValue($this->getParentName());
+ 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->addAttributes('checked');

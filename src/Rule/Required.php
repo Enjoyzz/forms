@@ -50,16 +50,23 @@ class Required extends RuleBase implements Rule {
     }
 
     public function validate(Element $element): bool {
-
-        $request = new Request();
         
-        $_method = 'get';
-        if(isset(Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_])){
-            $_method = Forms::getDefaults()[Forms::_FLAG_FORMMETHOD_];
-        }
+  
 
-        $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$_method());
-
+        $request = new \Enjoys\Forms\Http\Request();
+        
+//        $_method = 'get';
+//        if(isset($this->formDefaults[Forms::_FLAG_FORMMETHOD_])){
+//            $_method = $this->formDefaults[Forms::_FLAG_FORMMETHOD_];
+//        }
+       
+        $method = $request->getMethod();
+        dump($method);
+        dump($request->$method());
+        
+        $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$method());
+        $_value = $this->formDefaults->getValue($element->getName());
+dump($_value);
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;

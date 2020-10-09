@@ -97,6 +97,12 @@ class Element implements Interfaces\Element
      * @var array 
      */
     protected array $rules = [];
+    
+    /**
+     *
+     * @var \Enjoys\Forms\FormDefaults|null
+     */
+    protected FormDefaults $formDefaults;
 
     /**
      * 
@@ -210,16 +216,29 @@ class Element implements Interfaces\Element
     public function getDescription(): ?string {
         return $this->description;
     }
+    
+    /**
+     * 
+     * @param \Enjoys\Forms\FormDefaults $defaults
+     */
+    public function setFormDefaults(FormDefaults $defaults) {
+        $this->formDefaults = $defaults;
+        $this->setDefault();
+    }
+  
 
     /**
-     * @uses \Enjoys\Forms\Forms::getDefaults()
      * @uses \Enjoys\Helpers\Arrays::getValueByIndexPath()
      * @return \self
      */
-    public function setDefault(): self {
+    protected function setDefault(): self {
+        if($this->formDefaults === null){
+            return $this;
+        }
 
 
-        $value = Arrays::getValueByIndexPath($this->getName(), Forms::getDefaults());
+        //$value = Arrays::getValueByIndexPath($this->getName(), $this->formDefaults->get());
+        $value = $this->formDefaults->getValue($this->getName());
 
         if (is_array($value)) {
 
@@ -234,14 +253,17 @@ class Element implements Interfaces\Element
 
     /**
      * 
-     * @param string $rule
+     * @param string $ruleName
      * @param string $message
      * @param array $params
      * @return $this
      */
-    public function addRule(string $rule, ?string $message = null, $params = []) {
-        $class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
-        $this->rules[] = new $class($message, $params);
+    public function addRule(string $ruleName, ?string $message = null, $params = []) {
+        $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
+        
+        $rule = new $class($message, $params);
+        $rule->setFormDefaults($this->formDefaults);
+        $this->rules[] = $rule;
         return $this;
     }
 
