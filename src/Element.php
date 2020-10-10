@@ -109,7 +109,10 @@ class Element implements Interfaces\Element
      * @param string $name
      * @param string $title
      */
-    public function __construct(string $name, string $title = null) {
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null) {
+
+        $this->formDefaults = $formDefaults;
+
         $this->setName($name);
 
         if (!is_null($title)) {
@@ -232,9 +235,6 @@ class Element implements Interfaces\Element
      * @return \self
      */
     protected function setDefault(): self {
-        if($this->formDefaults === null){
-            return $this;
-        }
 
 
         //$value = Arrays::getValueByIndexPath($this->getName(), $this->formDefaults->get());

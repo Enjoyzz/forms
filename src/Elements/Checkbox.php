@@ -49,16 +49,15 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox
     protected string $type = 'checkbox';
     private static $prefix_id = 'cb_';
 
-
-    public function __construct(string $name, string $title = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
         $construct_name = $name;
         if (\substr($name, -2) !== '[]') {
             $construct_name = $name . '[]';
         }
-        parent::__construct($construct_name, $title);
+        parent::__construct($formDefaults, $construct_name, $title);
         $this->setValue($name);
         $this->setId($this->getPrefixId() . $name);
-        $this->removeAttribute('name');
+        $this->removeAttribute('name');        
     }
 
     public function setPrefixId($prefix) {
@@ -72,13 +71,9 @@ class Checkbox extends Element implements Interfaces\Radio_Checkbox
     }
 
     public function setDefault(): self {
-        
-        if($this->formDefaults === null){
-            return $this;
-        }
-       
+
         $value = $this->formDefaults->getValue($this->getParentName());
- 
+
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->addAttributes('checked');

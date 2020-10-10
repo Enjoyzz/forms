@@ -39,7 +39,7 @@ use Enjoys\Traits\Request;
  * @author Enjoys
  *
  */
-class Forms
+class Form
 {
 
     use Attributes,
@@ -84,7 +84,7 @@ class Forms
      *
      * @var array
      */
-    private array $defaults = [];
+    private FormDefaults $formDefaults;
     private string $token_submit = '';
     private bool $submited_form = false;
     static private int $counterForms = 0;
@@ -96,9 +96,9 @@ class Forms
      */
     public function __construct(string $method = null, string $action = null) {
 
-
-
         $this->formCount = ++static::$counterForms;
+        
+        $this->setMethod($method);
 
         if (!is_null($action)) {
             $this->setAction($action);
@@ -108,9 +108,15 @@ class Forms
 
 
 
+        
 
-
-        $this->setMethod($method);
+        $this->generateTokenSubmit();
+        $this->addElement(new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_SUBMIT_, $this->token_submit), true);
+        $this->checkSubmittedFrom();
+        
+        $this->formDefaults = new FormDefaults([], $this);
+        
+        $this->setFormDefaults($this->formDefaults);
     }
 
     public function __destruct() {
@@ -119,34 +125,23 @@ class Forms
     }
 
     /**
-     *
-     * @param string $method
-     * @return $this
+     * 
+     * @param string|null $method
+     * @return void
      */
-    public function setMethod(?string $method): self {
+    private function setMethod(?string $method): void {
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
         }
-
-        $this->generateTokenSubmit();
-        $this->addElement(new Elements\Hidden(self::_TOKEN_SUBMIT_, $this->token_submit), true);
-
         $this->setAttribute('method', $this->method);
 
         if (in_array($this->getMethod(), ['POST'])) {
             $this->csrf();
         }
 
-
         if (is_null($method)) {
             $this->removeAttribute('method');
         }
-
-        $this->checkSubmittedFrom();
-
-        $this->setDefaults($this->defaults);
-
-        return $this;
     }
 
     /**
@@ -165,15 +160,19 @@ class Forms
         $this->token_submit = md5($this->getAction() . $this->getFormCount() . $this->getMethod());
     }
 
-    public function setDefaults(array $defaults) {
+    public function setFormDefaults(FormDefaults $formDefaults) {
 
-        $this->defaults = $defaults;
+        $this->formDefaults = $formDefaults;
 
         return $this;
     }
 
-    public function getDefaults() {
-        return $this->defaults;
+    /**
+     * 
+     * @return \Enjoys\Forms\FormDefaults
+     */
+    public function getFormDefaults(): FormDefaults {
+        return $this->formDefaults;
     }
 
     /**
@@ -201,8 +200,8 @@ class Forms
         // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
         $csrf_key = '#$' . session_id();
         $hash = crypt($csrf_key);
-        $this->hidden(self::_TOKEN_CSRF_, $hash)
-                ->addRule('csrf', 'CSRF Attack detected', [
+        $csrf = new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_CSRF_, $hash);
+        $csrf->addRule('csrf', 'CSRF Attack detected', [
                     'csrf_key' => $csrf_key]);
 
 
@@ -235,11 +234,14 @@ class Forms
      * @param string $name
      * @return $this
      */
-    public function setName(?string $name): self {
+    public function setName(?string $name = null): self {
         $this->name = $name;
-        if (!is_null($name)) {
-            $this->setAttribute('name', $this->name);
+        $this->setAttribute('name', $this->name);
+        
+        if (is_null($name)) {
+            $this->removeAttribute('name');
         }
+
         return $this;
     }
 
@@ -256,9 +258,14 @@ class Forms
      * @param string $action
      * @return $this
      */
-    public function setAction(?string $action): self {
+    public function setAction(?string $action = null): self {
         $this->action = $action;
         $this->setAttribute('action', $this->getAction());
+        
+        if(is_null($action)){
+            $this->removeAttribute('action');
+        }
+        
         return $this;
     }
 
@@ -270,11 +277,7 @@ class Forms
         return $this->elements;
     }
 
-    public function addElements(array $elements): void {
-        foreach ($elements as $element) {
-            $this->addElement($element);
-        }
-    }
+   
 
     /**
      *
@@ -282,13 +285,9 @@ class Forms
      * @return \self
      */
     public function addElement(Element $element, $rewrite = false): self {
-        // dump($element);
         if ($rewrite === false && $this->elementExists($element->getName())) {
-            throw new Exception('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
+            throw new Exception\ExceptionElement('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
-
-
-        $element->setFormDefaults(new FormDefaults($this->defaults, $this));
         $this->elements[$element->getName()] = $element;
         return $this;
     }
@@ -326,7 +325,7 @@ class Forms
         $renderer = '\\Enjoys\\Forms\\Renderer\\' . \ucfirst($this->renderer);
 
         if (!class_exists($renderer)) {
-            throw new Exception("Class <b>{$renderer}</b> not found");
+            throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");
         }
         return new $renderer($this);
     }
@@ -366,10 +365,11 @@ class Forms
 
         $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
         if (!class_exists($class_name)) {
-            throw new Exception("Class <b>{$class_name}</b> not found at line in Forms\Elements");
+            throw new Exception\ExceptionElement("Class <b>{$class_name}</b> not found at line in Forms\Elements");
         }
+        //dump($this->formDefaults);
         /** @var Element $element */
-        $element = new $class_name(...$arguments);
+        $element = new $class_name($this->formDefaults, ...$arguments);
         $this->addElement($element);
         return $element;
     }

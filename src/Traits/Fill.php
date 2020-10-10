@@ -92,7 +92,7 @@ trait Fill {
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
         
-            $element = new $class($value, $_title);
+            $element = new $class($this->formDefaults, $value, $_title);
        
             $element->setParentName($this->getName());
             $element->setCounterId(\count($this->elements));

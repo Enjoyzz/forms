@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,40 +23,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-namespace Enjoys\Forms\Elements;
-
+namespace Enjoys\Forms\Exception;
 /**
- * Class Hidden
+ * Description of ExceptionRenderer
  *
- * @author Enjoys
- * 
- * @mixin \Enjoys\Forms\Element
+ * @author deadl
  */
-class Hidden extends \Enjoys\Forms\Element
+class ExceptionRenderer extends \Enjoys\Forms\Exception
 {
-
-    /**
-     *
-     * @var string 
-     */
-    protected string $type = 'hidden';
-
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $value = null) {
-
-        parent::__construct($formDefaults, $name, null);
-
-        if (!is_null($value)) {
-            $this->setValue($value);
-        }
-        $this->removeAttribute('id');
-    }
-
-//    public function __fconstruct($name, $value = null) {
-//        $this->setName($name);
-//        if (!is_null($value)) {
-//            $this->setValue($value);
-//        }
-//        $this->removeAttribute('id');
-//    }
+    //put your code here
 }

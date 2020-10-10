@@ -33,9 +33,9 @@ namespace Enjoys\Forms;
  */
 class Renderer {
     
-    protected Forms $form;
+    protected Form $form;
 
-    public function __construct(Forms $form) {
+    public function __construct(Form $form) {
         $this->form = $form;
     }
     

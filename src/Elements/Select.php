@@ -44,9 +44,9 @@ class Select extends Element {
      */
     protected string $type = 'option';
 
-    public function __construct(string $name, string $title = null) {
-        parent::__construct($name, $title);
-        // $this->setIndexKeyFill('value');
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+        parent::__construct($formDefaults, $name, $title);
+         // $this->setIndexKeyFill('value');
     }
 
     public function addAttributes(...$attributes): self {

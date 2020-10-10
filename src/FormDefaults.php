@@ -39,7 +39,7 @@ class FormDefaults
 
     private $defaults = [];
 
-    public function __construct(array $data, Forms $form) {
+    public function __construct(array $data, Form $form) {
         $this->defaults = $data;
         $request = new Http\Request();
 
@@ -48,7 +48,7 @@ class FormDefaults
             $method = \strtolower($form->getMethod());
 
             //записываем флаг/значение каким методом отправлена форма
-            $this->defaults[Forms::_FLAG_FORMMETHOD_] = $method;
+            $this->defaults[Form::_FLAG_FORMMETHOD_] = $method;
 
 
             foreach ($request->$method() as $key => $items) {

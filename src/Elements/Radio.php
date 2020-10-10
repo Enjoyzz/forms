@@ -51,11 +51,16 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
     private static $prefix_id = 'rb_';
     
 
-    public function __construct(string $name, string $title = null) {
-        parent::__construct($name, $title);
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+        parent::__construct($formDefaults, $name, $title);
         $this->setValue($name);
         $this->setId($this->getPrefixId() . $name);
-        $this->removeAttribute('name');
+        $this->removeAttribute('name');        
+    }
+    
+    public function __constructd(string $name, string $title = null) {
+        parent::__construct($name, $title);
+
     }
 
     public function setPrefixId($prefix) {
@@ -70,7 +75,8 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
 
     public function setDefault(): self {
 
-        $value = Arrays::getValueByIndexPath($this->getParentName(), $this->defaults);
+       // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
+        $value = $this->formDefaults->getValue($this->getParentName());
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {

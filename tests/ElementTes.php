@@ -29,7 +29,7 @@ namespace Tests\Enjoys\Forms;
 
 use \PHPUnit\Framework\TestCase,
     Enjoys\Forms\Element,
-    Enjoys\Forms\Forms;
+    Enjoys\Forms\Form;
 /**
  * Description of ElementTest
  *
@@ -43,9 +43,9 @@ class ElementTest extends TestCase{
     protected $obj;
 
     protected function setUp(): void {
-        $this->obj = new Forms();
-        $this->obj->removeElement(Forms::_TOKEN_SUBMIT_);
-        $this->obj->removeElement(Forms::_TOKEN_CSRF_);
+        $this->obj = new Form();
+        $this->obj->removeElement(Form::_TOKEN_SUBMIT_);
+        $this->obj->removeElement(Form::_TOKEN_CSRF_);
     }
 
     protected function tearDown(): void {

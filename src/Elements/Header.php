@@ -37,7 +37,14 @@ class Header extends \Enjoys\Forms\Element {
 
     private $closeAfterCountElements = 0;
 
-    public function __construct($title) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+        parent::__construct($formDefaults, $name, $title);
+        $this->setTitle($title);
+        $this->setName(\uniqid('header'));
+        $this->removeAttribute('name');
+        $this->removeAttribute('id');        
+    }
+    public function __constructs($title) {
         //parent::__construct($name, $title)
         $this->setTitle($title);
         $this->setName(\uniqid('header'));

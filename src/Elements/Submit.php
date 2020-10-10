@@ -35,11 +35,12 @@ class Submit extends \Enjoys\Forms\Element {
 
     protected string $type = 'submit';
 
-    public function __construct(string $name, string $title = null) {
-        parent::__construct($name, $title);
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+        parent::__construct($formDefaults, $name, $title);
         if (!is_null($title)) {
             $this->setValue($title);
         }
     }
+ 
 
 }

@@ -33,15 +33,15 @@ use \Enjoys\Forms\Traits\Fill;
  *
  * @author deadl
  */
-class Datalist extends \Enjoys\Forms\Element {
+class Datalist extends \Enjoys\Forms\Element
+{
 
     use Fill;
 
     protected string $type = 'option';
 
-    public function __construct(string $name, string $title = null) {
-        parent::__construct($name, $title);
-        // $this->setIndexKeyFill('value');
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+        parent::__construct($formDefaults, $name, $title);
         $this->addAttributes('list', $this->getId());
         $this->removeAttribute('id');
     }
