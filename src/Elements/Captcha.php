@@ -37,32 +37,41 @@ class Captcha extends \Enjoys\Forms\Element
     private $captcha;
     private $captchaName;
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $captcha = null, string $message = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $captcha = null, string $message = null)
+    {
         if (is_null($captcha)) {
             $captcha = 'Defaults';
         }
         $this->captchaName = $captcha;
-        parent::__construct($formDefaults, $captcha, $message);
+        parent::__construct($formDefaults, $this->captchaName);
+
         $this->captcha = $this->getCaptcha($message);
     }
 
-    public function setOptions(array $options) {
+    public function setOptions(array $options)
+    {
         $this->captcha->setOptions($options);
+        return $this;
     }
 
-    public function setOption($name, $value) {
+    public function setOption($name, $value)
+    {
         $this->captcha->setOption($name, $value);
+        return $this;
     }
 
-    public function renderHtml() {
+    public function renderHtml()
+    {
         return $this->captcha->renderHtml();
     }
 
-    public function validate() {
+    public function validate()
+    {
         return $this->captcha->validate();
     }
 
-    private function getCaptcha(string $message = null) {
+    private function getCaptcha(string $message = null)
+    {
 
         $class = "\Enjoys\Forms\Captcha\\" . $this->captchaName . "\\" . $this->captchaName;
 

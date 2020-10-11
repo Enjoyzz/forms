@@ -93,11 +93,8 @@ class Form
      * @param string $method
      * @param string $action
      */
-    public function __construct(string $method = null, string $action = null) {
-
-        $this->formDefaults = new FormDefaults([], $this);
-        // $this->getRequest();
-
+    public function __construct(string $method = null, string $action = null)
+    {
         $this->formCount = ++static::$counterForms;
 
         $this->setMethod($method);
@@ -105,18 +102,13 @@ class Form
         if (!is_null($action)) {
             $this->setAction($action);
         }
-
-
-        
-
-        
-
+        $this->formDefaults = new FormDefaults([], $this);
         $this->setFormDefaults($this->formDefaults);
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         static::$counterForms = 0;
-        //static::$defaults = [];
     }
 
     /**
@@ -124,7 +116,8 @@ class Form
      * @param string|null $method
      * @return void
      */
-    private function setMethod(?string $method): void {
+    private function setMethod(?string $method): void
+    {
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
         }
@@ -139,8 +132,8 @@ class Form
         }
 
         $this->generateTokenSubmit();
-        $this->addElement(new Elements\Hidden($this->formDefaults, self::_TOKEN_SUBMIT_, $this->token_submit), true);
-        
+        $this->addElement(new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_SUBMIT_, $this->token_submit), true);
+
         $this->checkSubmittedFrom(new Http\Request());
     }
 
@@ -148,19 +141,23 @@ class Form
      *
      * @return string
      */
-    public function getMethod(): string {
+    public function getMethod(): string
+    {
         return $this->method;
     }
 
-    public function getFormCount() {
+    public function getFormCount()
+    {
         return $this->formCount;
     }
 
-    private function generateTokenSubmit() {
+    private function generateTokenSubmit()
+    {
         $this->token_submit = md5($this->getAction() . $this->getFormCount() . $this->getMethod());
     }
 
-    public function setFormDefaults(FormDefaults $formDefaults) {
+    public function setFormDefaults(FormDefaults $formDefaults)
+    {
 
         $this->formDefaults = $formDefaults;
 
@@ -171,7 +168,8 @@ class Form
      * 
      * @return \Enjoys\Forms\FormDefaults
      */
-    public function getFormDefaults(): FormDefaults {
+    public function getFormDefaults(): FormDefaults
+    {
         return $this->formDefaults;
     }
 
@@ -179,7 +177,8 @@ class Form
      * 
      * @return bool
      */
-    public function isSubmited(): bool {
+    public function isSubmited(): bool
+    {
         return $this->submited_form;
     }
 
@@ -188,7 +187,8 @@ class Form
      * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
      * @param <type> $flag true or false
      */
-    public function csrf($flag = true) {
+    public function csrf($flag = true)
+    {
         if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']) || $flag === false) {
             $this->removeElement(self::_TOKEN_CSRF_);
             return $this;
@@ -210,7 +210,8 @@ class Form
         return $this;
     }
 
-    private function checkSubmittedFrom(Interfaces\Request $request) {
+    private function checkSubmittedFrom(Interfaces\Request $request)
+    {
         $method = \strtolower($this->getMethod());
         //dump($method);
         if ($request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
@@ -225,7 +226,8 @@ class Form
      *
      * @return string
      */
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
@@ -234,7 +236,8 @@ class Form
      * @param string $name
      * @return $this
      */
-    public function setName(?string $name = null): self {
+    public function setName(?string $name = null): self
+    {
         $this->name = $name;
         $this->setAttribute('name', $this->name);
 
@@ -249,7 +252,8 @@ class Form
      *
      * @return string
      */
-    public function getAction(): ?string {
+    public function getAction(): ?string
+    {
         return $this->action;
     }
 
@@ -258,7 +262,8 @@ class Form
      * @param string $action
      * @return $this
      */
-    public function setAction(?string $action = null): self {
+    public function setAction(?string $action = null): self
+    {
         $this->action = $action;
         $this->setAttribute('action', $this->getAction());
 
@@ -273,7 +278,8 @@ class Form
      *
      * @return array
      */
-    public function getElements(): array {
+    public function getElements(): array
+    {
         return $this->elements;
     }
 
@@ -282,7 +288,8 @@ class Form
      * @param Element $element
      * @return \self
      */
-    public function addElement(Element $element, $rewrite = false): self {
+    public function addElement(Element $element, $rewrite = false): self
+    {
         if ($rewrite === false && $this->elementExists($element->getName())) {
             throw new Exception\ExceptionElement('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
@@ -290,7 +297,8 @@ class Form
         return $this;
     }
 
-    public function removeElement($elementName): self {
+    public function removeElement($elementName): self
+    {
         if ($this->elementExists($elementName)) {
             unset($this->elements[$elementName]);
         }
@@ -298,7 +306,8 @@ class Form
         return $this;
     }
 
-    private function elementExists($name): bool {
+    private function elementExists($name): bool
+    {
         return isset($this->elements[$name]);
     }
 
@@ -307,7 +316,8 @@ class Form
      * @param string $renderer
      * @return $this
      */
-    public function setRenderer(string $renderer): self {
+    public function setRenderer(string $renderer): self
+    {
         $this->renderer = $renderer;
         return $this;
     }
@@ -317,7 +327,8 @@ class Form
      * @return Renderer
      * @throws Exception
      */
-    public function display() {
+    public function display()
+    {
 
         $renderer = '\\Enjoys\\Forms\\Renderer\\' . \ucfirst($this->renderer);
 
@@ -328,36 +339,38 @@ class Form
     }
 
     /**
-     * @method Elements\Text text(string $name, string $title)
-     * @method Elements\Hidden hidden(string $name, string $value)
-     * @method Elements\Password password(string $name, string $title)
-     * @method Elements\Submit submit(string $name, string $title)
-     * @method Elements\Header header(string $title)
-     * @method Elements\Color color(string $name, string $title)
-     * @method Elements\Date date(string $name, string $title)
-     * @method Elements\Datetime datetime(string $name, string $title)
-     * @method Elements\Datetimelocal datetimelocal(string $name, string $title)
-     * @method Elements\Email email(string $name, string $title)
-     * @method Elements\Number number(string $name, string $title)
-     * @method Elements\Range range(string $name, string $title)
-     * @method Elements\Search search(string $name, string $title)
-     * @method Elements\Tel tel(string $name, string $title)
-     * @method Elements\Time time(string $name, string $title)
-     * @method Elements\Url url(string $name, string $title)
-     * @method Elements\Month month(string $name, string $title)
-     * @method Elements\Week week(string $name, string $title)
-     * @method Elements\Textarea textarea(string $name, string $title)
-     * @method Elements\Select select(string $name, string $title)
-     * @method Elements\Button button(string $name, string $title)
-     * @method Elements\Datalist datalist(string $name, string $title)
-     * @method Elements\Checkbox checkbox(string $name, string $title)
-     * @method Elements\Image image(string $name, string $title)
-     * @method Elements\Radio radio(string $name, string $title)
-     * @method Elements\Reset reset(string $name, string $title)
+     * @method Elements\Text text(string $name, string $title = null)
+     * @method Elements\Hidden hidden(string $name, string $value = null)
+     * @method Elements\Password password(string $name, string $title = null)
+     * @method Elements\Submit submit(string $name, string $title = null)
+     * @method Elements\Header header(string $title = null)
+     * @method Elements\Color color(string $name, string $title = null)
+     * @method Elements\Date date(string $name, string $title = null)
+     * @method Elements\Datetime datetime(string $name, string $title = null)
+     * @method Elements\Datetimelocal datetimelocal(string $name, string $title = null)
+     * @method Elements\Email email(string $name, string $title = null)
+     * @method Elements\Number number(string $name, string $title = null)
+     * @method Elements\Range range(string $name, string $title = null)
+     * @method Elements\Search search(string $name, string $title = null)
+     * @method Elements\Tel tel(string $name, string $title = null)
+     * @method Elements\Time time(string $name, string $title = null)
+     * @method Elements\Url url(string $name, string $title = null)
+     * @method Elements\Month month(string $name, string $title = null)
+     * @method Elements\Week week(string $name, string $title = null)
+     * @method Elements\Textarea textarea(string $name, string $title = null)
+     * @method Elements\Select select(string $name, string $title = null)
+     * @method Elements\Button button(string $name, string $title = null)
+     * @method Elements\Datalist datalist(string $name, string $title = null)
+     * @method Elements\Checkbox checkbox(string $name, string $title = null)
+     * @method Elements\Image image(string $name, string $title = null)
+     * @method Elements\Radio radio(string $name, string $title = null)
+     * @method Elements\Reset reset(string $name, string $title = null)
+     * @method Elements\Captcha captcha(string $captchaName = null, string $message = null)
      *
      * @mixin Element
      */
-    public function __call(string $name, array $arguments) {
+    public function __call(string $name, array $arguments)
+    {
 
 
         $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
@@ -367,7 +380,7 @@ class Form
         //dump($this->formDefaults);
         /** @var Element $element */
         $element = new $class_name($this->formDefaults, ...$arguments);
-       // dump($element);
+        // dump($element);
         $this->addElement($element);
         return $element;
     }
@@ -376,11 +389,12 @@ class Form
      *
      * @return boolean
      */
-    public function validate() {
+    public function validate()
+    {
         if (!$this->isSubmited()) {
             return false;
         }
-      //  dump($this->getElements());
+        //  dump($this->getElements());
         return Validator::check($this->getElements());
     }
 
@@ -390,7 +404,8 @@ class Form
      * @param string $title
      * @return \Enjoys\Forms\Elements\File
      */
-    public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File {
+    public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File
+    {
         $element = new \Enjoys\Forms\Elements\File($this->formDefaults, $name, $title);
         $this->addAttributes('enctype', 'multipart/form-data');
         $this->setMethod('post');
@@ -404,7 +419,8 @@ class Form
      * @param int $bytes
      * @param type $removeElement
      */
-    public function setMaxFileSize(int $bytes, $removeElement = true) {
+    public function setMaxFileSize(int $bytes, $removeElement = true)
+    {
         if ($removeElement === true) {
             $this->removeElement('MAX_FILE_SIZE');
         }
@@ -412,28 +428,5 @@ class Form
             $this->addElement(new Elements\Hidden($this->formDefaults, 'MAX_FILE_SIZE', $bytes));
         }
     }
-
-    /**
-     * 
-     * @param string|null $captcha
-     * @param string|null $message
-     * @return \Enjoys\Forms\Interfaces\Captcha
-     * @throws Exception
-     */
-//    public function captcha(?string $captcha = null, ?string $message = null): \Enjoys\Forms\Interfaces\Captcha {
-//        if (is_null($captcha)) {
-//            $captcha = 'Defaults';
-//        }
-//        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
-//
-//        if (!class_exists($class)) {
-//            throw new Exception("Class <b>{$class}</b> not found");
-//        }
-//
-//        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
-//        $element = new $class($message);
-//        $this->addElement($element);
-//        return $element;
-//    }
 
 }
