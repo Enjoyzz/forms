@@ -209,7 +209,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         if (!empty($element->getDescription())) {
             $html .= "\t<small>{$element->getDescription()}</small><br>\n";
         }
-        return $html . "\n";
+        return $html . "<br>\n";
     }
 
     private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element) {

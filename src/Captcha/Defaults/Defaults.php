@@ -42,8 +42,7 @@ class Defaults implements Interfaces\Captcha
     use \Enjoys\Traits\Options;
 
     private $code = '';
-    private $img;
-    private $rule_message;
+    private $ruleMessage;
     private $element;
 
     public function __construct($element, $message = null) {
@@ -58,10 +57,10 @@ class Defaults implements Interfaces\Captcha
             $message = 'Не верно введен код';
         }
 
-        $this->rule_message = $message;
+        $this->ruleMessage = $message;
 
         //$this->element->addRule('required');
-        $this->element->addRule('captcha', $this->rule_message);
+        $this->element->addRule('captcha', $this->ruleMessage);
     }
 
     public function validate() {
@@ -71,7 +70,7 @@ class Defaults implements Interfaces\Captcha
         $value = \Enjoys\Helpers\Arrays::getValueByIndexPath($this->element->getName(), $request->$method());
         //_var_dump(Session::get($this->element->getName()), $value);
         if (Session::get($this->element->getName()) !== $value) {
-            $this->element->setRuleError($this->rule_message);
+            $this->element->setRuleError($this->ruleMessage);
             return false;
         }
         return true;
@@ -87,7 +86,7 @@ class Defaults implements Interfaces\Captcha
         if ($this->element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
         }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->get_base64image($img) . '" /><br /><input' . $this->element->getAttributes() . '>';
+        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $this->element->getAttributes() . '>';
 
         return $html;
     }
@@ -164,7 +163,7 @@ class Defaults implements Interfaces\Captcha
         return $img;
     }
 
-    private function get_base64image($img) {
+    private function getBase64Image($img) {
         ob_start();
         imagejpeg($img, null, '80');
         $img_data = ob_get_contents();
