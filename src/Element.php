@@ -236,7 +236,6 @@ class Element implements Interfaces\Element
      */
     protected function setDefault(): self {
 
-
         //$value = Arrays::getValueByIndexPath($this->getName(), $this->formDefaults->get());
         $value = $this->formDefaults->getValue($this->getName());
 
