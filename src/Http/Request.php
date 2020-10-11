@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation;
  *
  * @author Enjoys
  */
-class Request extends HttpFoundation\Request
+class Request extends HttpFoundation\Request implements \Enjoys\Forms\Interfaces\Request
 {
 
     public function __construct(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null) {

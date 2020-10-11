@@ -36,18 +36,20 @@ use Enjoys\Base\Session\Session as Session,
  *
  * @author deadl
  */
-class Defaults extends Element implements Interfaces\Captcha {
+class Defaults extends Element implements Interfaces\Captcha
+{
 
     use \Enjoys\Traits\Options;
 
     private $code = '';
     private $img;
     private $rule_message;
+    private $element;
 
-    public function __construct($message = null) {
-        parent::__construct('captcha_defaults');
+    public function __construct($element, $message = null) {
+        $this->element = $element;
 
-        $this->addAttributes([
+        $this->element->addAttributes([
             'type' => 'text',
             'autocomplete' => 'off'
         ]);
@@ -58,14 +60,14 @@ class Defaults extends Element implements Interfaces\Captcha {
 
         $this->rule_message = $message;
 
-        $this->addRule('required');
-        $this->addRule('captcha', $this->rule_message);
+        $this->element->addRule('required');
+        $this->element->addRule('captcha', $this->rule_message);
     }
 
     public function validate() {
         //_var_dump(Session::get($this->getName()), $value);
-        if (Session::get($this->getName()) !== $this->getAttribute('value')) {
-            $this->setRuleError($this->rule_message);
+        if (Session::get($this->element->getName()) !== $this->element->getAttribute('value')) {
+            $this->element->setRuleError($this->rule_message);
             return false;
         }
         return true;
@@ -78,10 +80,10 @@ class Defaults extends Element implements Interfaces\Captcha {
         //dump(Session::get($this->getName()));
         $html = '';
 
-        if ($this->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$this->getRuleErrorMessage()}</p>";
+        if ($this->element->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
         }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->get_base64image($img) . '" /><br /><input' . $this->getAttributes() . '>';
+        $html .= '<img src="data:image/jpeg;base64,' . $this->get_base64image($img) . '" /><br /><input' . $this->element->getAttributes() . '>';
 
         return $html;
     }
@@ -98,7 +100,7 @@ class Defaults extends Element implements Interfaces\Captcha {
         }
         $this->code = $code;
         Session::set([
-            $this->getName() => $this->code
+            $this->element->getName() => $this->code
         ]);
     }
 

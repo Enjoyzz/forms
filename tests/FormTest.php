@@ -44,7 +44,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $form = new Form();
         $this->assertEquals('GET', $form->getMethod());
     }
-    
+
     public function data_init_form_1_1() {
         return [
             ['get', 'GET'],
@@ -54,7 +54,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
             ['pOSt', 'POST'],
             ['something', 'GET']
         ];
-    }     
+    }
+
     /**
      * 
      * @dataProvider data_init_form_1_1
@@ -63,7 +64,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $form = new \Enjoys\Forms\Form($method);
         $this->assertEquals($expected, $form->getMethod());
     }
-    
+
     public function test_setName_1_0() {
         $form = new Form();
         $form->setName('test_form');
@@ -73,7 +74,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $form->getName());
         $this->assertEquals(false, $form->getAttribute('name'));
     }
-    
+
     public function test_setAction_1_0() {
         $form = new Form('post', 'test.php');
         $this->assertEquals('test.php', $form->getAction());
@@ -85,27 +86,27 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $form->getAction());
         $this->assertEquals(false, $form->getAttribute('action'));
     }
-    
+
     public function test_Renderer_1_0() {
         $form = new Form();
         $form->setRenderer('defaults');
         $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
-    }    
-    
+    }
+
     public function test_Renderer_1_1() {
         $this->expectException(\Enjoys\Forms\Exception\ExceptionRenderer::class);
         $form = new Form();
         $form->setRenderer('invalid');
         $form->display();
-      //  $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
-    }     
-    
+        //  $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
+    }
+
     public function test_Call_1_0() {
         $form = new Form();
         $element = $form->text('foo');
         $this->assertEquals(true, $element instanceof \Enjoys\Forms\Element);
-    }        
-    
+    }
+
     /**
      * @expectedException \Enjoys\Forms\Exception\ExceptionElement
      */
@@ -113,16 +114,16 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
         $form = new Form();
         $form->invalid();
-      //  $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
-    }      
-    
+        //  $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
+    }
+
     public function test_addElement_1_0() {
         $form = new Form();
         $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([], $form), 'foo');
         $form->addElement($element);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
     }
-    
+
     /**
      * @expectedException \Enjoys\Forms\Exception\ExceptionElement
      */
@@ -132,30 +133,111 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $form->text('foo');
         $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([], $form), 'foo');
         $form->addElement($element);
-    }   
-    
+    }
+
     public function test_addElement_1_2() {
         $form = new Form();
         $form->text('foo');
         $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([], $form), 'foo');
         $form->addElement($element, true);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
-    }   
-    
+    }
+
     public function test_removeElement_1_0() {
         $form = new Form();
         $form->text('foo');
         $this->assertEquals(true, isset($form->getElements()['foo']));
         $form->removeElement('foo');
         $this->assertEquals(true, !isset($form->getElements()['foo']));
-    }        
+    }
 
-   
+    public function test_getFormDefaults_1_0() {
+        $form = new Form();
+        $form->setFormDefaults(new \Enjoys\Forms\FormDefaults([
+                    'foo' => 'bar'
+                        ], $form));
+        $this->assertEquals(true, $form->getFormDefaults() instanceof \Enjoys\Forms\FormDefaults);
+    }
 
-//    public function testSetRenderer() {
-//        $obj = $this->form->setRenderer('notfound');
-//        $this->assertObjectHasAttribute('renderer', $obj);
-//    }
+    public function test_removeCsrf() {
+        $form = new Form();
+        $form->csrf();
+        $this->assertEquals(true, !isset($form->getElements()[Form::_TOKEN_CSRF_]));
+    }
+
+    public function test_initCsrf() {
+        $form = new Form('post');
+        $this->assertEquals(true, isset($form->getElements()[Form::_TOKEN_CSRF_]));
+    }
+
+    public function test_checkSubmittedFrom_1_0() {
+        $request = new \Enjoys\Forms\Http\Request([
+            Form::_TOKEN_SUBMIT_ => '2fd7d78a07c754c821de3f00b96a19b1',
+            'foo' => 'baz'
+        ]);
+
+
+        $form = new Form();
+        $method = $this->getPrivateMethod(Form::class, 'checkSubmittedFrom');
+        $method->invokeArgs($form, [
+            $request
+        ]);
+
+        //$this->assertEquals('', $form->getElements()[Form::_TOKEN_SUBMIT_]->getAttribute('value'));
+        $this->assertEquals(true, $form->isSubmited());
+    }
+
+    public function test_checkSubmittedFrom_1_1() {
+        $request = new \Enjoys\Forms\Http\Request([
+            Form::_TOKEN_SUBMIT_ => 'invalid',
+            'foo' => 'baz'
+        ]);
+
+
+        $form = new Form();
+        $method = $this->getPrivateMethod(Form::class, 'checkSubmittedFrom');
+        $method->invokeArgs($form, [
+            $request
+        ]);
+
+        //$this->assertEquals('', $form->getElements()[Form::_TOKEN_SUBMIT_]->getAttribute('value'));
+        $this->assertEquals(false, $form->isSubmited());
+    }
+
+    public function test_validate_1_0() {
+        $form = new Form();
+        $this->assertEquals(false, $form->validate());
+    }
+
+    public function test_validate_1_1() {
+        $request = new \Enjoys\Forms\Http\Request([
+            Form::_TOKEN_SUBMIT_ => '2fd7d78a07c754c821de3f00b96a19b1',
+            'foo' => 'baz'
+        ]);
+
+
+        $form = new Form();
+        $method = $this->getPrivateMethod(Form::class, 'checkSubmittedFrom');
+        $method->invokeArgs($form, [
+            $request
+        ]);
+        $this->assertEquals(true, $form->validate());
+    }
+    
+    public function test_init_file_1_0() {
+        $form = new Form('get');
+        $form->file('myfile');
+        $this->assertEquals('POST', $form->getMethod());
+        $this->assertEquals('multipart/form-data', $form->getAttribute('enctype'));
+        $method = $this->getPrivateMethod(Form::class, 'elementExists');
+        $this->assertEquals(true, $method->invokeArgs($form, ['MAX_FILE_SIZE']));
+    }  
+    
+    public function test_setMaxFileSize() {
+        $form = new Form();
+        $form->setMaxFileSize('10000');
+        $this->assertEquals('10000', $form->getElements()['MAX_FILE_SIZE']->getAttribute('value'));
+    }
 //
 //    public function testGetElements() {
 //
@@ -166,7 +248,6 @@ class FormTest extends \PHPUnit\Framework\TestCase
 //        $this->assertSame('/action.php', $this->form->setAction('/action.php')->getAttribute('action'));
 //    }
 //
-
 //
 //    /**
 //     * 
@@ -473,5 +554,4 @@ class FormTest extends \PHPUnit\Framework\TestCase
 //        $this->assertNotSame(2, $form1->getFormCount());
 //        $this->assertNotSame(1, $form2->getFormCount());
 //    }
-
 }

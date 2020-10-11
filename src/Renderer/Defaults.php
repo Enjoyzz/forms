@@ -127,11 +127,14 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 case 'Enjoys\Forms\Elements\Datalist':
                     $html .= $this->renderDatalist($element);
                     break;
+                case 'Enjoys\Forms\Elements\Captcha':
+                    $html .= $this->renderCaptcha($element);
+                    break;
                 default:
 
-                    if ($element instanceof \Enjoys\Forms\Interfaces\Captcha) {
-                        $html .= $this->renderCaptcha($element);
-                    }
+//                    if ($element instanceof \Enjoys\Forms\Interfaces\Captcha) {
+//                        $html .= $this->renderCaptcha($element);
+//                    }
                     break;
             }
             //dump($this->close_headertag_after);
@@ -143,7 +146,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    private function renderCaptcha(Interfaces\Captcha $element) {
+    private function renderCaptcha($element) {
+       // dump($element);
         $html = '';
         $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
         $html .= "<br>" . $element->renderHtml();

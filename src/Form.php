@@ -42,8 +42,7 @@ use Enjoys\Traits\Request;
 class Form
 {
 
-    use Attributes,
-        Request;
+    use Attributes;
 
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     const _TOKEN_CSRF_ = '_token_csrf';
@@ -96,26 +95,22 @@ class Form
      */
     public function __construct(string $method = null, string $action = null) {
 
+        $this->formDefaults = new FormDefaults([], $this);
+        // $this->getRequest();
+
         $this->formCount = ++static::$counterForms;
-        
+
         $this->setMethod($method);
 
         if (!is_null($action)) {
             $this->setAction($action);
         }
 
-        $this->initRequest();
-
-
 
         
 
-        $this->generateTokenSubmit();
-        $this->addElement(new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_SUBMIT_, $this->token_submit), true);
-        $this->checkSubmittedFrom();
         
-        $this->formDefaults = new FormDefaults([], $this);
-        
+
         $this->setFormDefaults($this->formDefaults);
     }
 
@@ -135,13 +130,18 @@ class Form
         }
         $this->setAttribute('method', $this->method);
 
+        if (is_null($method)) {
+            $this->removeAttribute('method');
+        }
+
         if (in_array($this->getMethod(), ['POST'])) {
             $this->csrf();
         }
 
-        if (is_null($method)) {
-            $this->removeAttribute('method');
-        }
+        $this->generateTokenSubmit();
+        $this->addElement(new Elements\Hidden($this->formDefaults, self::_TOKEN_SUBMIT_, $this->token_submit), true);
+        
+        $this->checkSubmittedFrom(new Http\Request());
     }
 
     /**
@@ -189,7 +189,6 @@ class Form
      * @param <type> $flag true or false
      */
     public function csrf($flag = true) {
-
         if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']) || $flag === false) {
             $this->removeElement(self::_TOKEN_CSRF_);
             return $this;
@@ -202,18 +201,19 @@ class Form
         $hash = crypt($csrf_key);
         $csrf = new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_CSRF_, $hash);
         $csrf->addRule('csrf', 'CSRF Attack detected', [
-                    'csrf_key' => $csrf_key]);
+            'csrf_key' => $csrf_key]);
 
-
+        $this->addElement($csrf, true);
         //hash_equals($request->post('_token_csrf'), crypt($form->getCsrfKey(), $request->post('_token_csrf')))
         //$this->addRule(self::$CSRFField, 'CSRF Attack detected', 'csrf', $hash);
         // }
         return $this;
     }
 
-    private function checkSubmittedFrom() {
+    private function checkSubmittedFrom(Interfaces\Request $request) {
         $method = \strtolower($this->getMethod());
-        if ($this->request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
+        dump($method);
+        if ($request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
             $this->submited_form = true;
             return;
         }
@@ -237,7 +237,7 @@ class Form
     public function setName(?string $name = null): self {
         $this->name = $name;
         $this->setAttribute('name', $this->name);
-        
+
         if (is_null($name)) {
             $this->removeAttribute('name');
         }
@@ -261,11 +261,11 @@ class Form
     public function setAction(?string $action = null): self {
         $this->action = $action;
         $this->setAttribute('action', $this->getAction());
-        
-        if(is_null($action)){
+
+        if (is_null($action)) {
             $this->removeAttribute('action');
         }
-        
+
         return $this;
     }
 
@@ -276,8 +276,6 @@ class Form
     public function getElements(): array {
         return $this->elements;
     }
-
-   
 
     /**
      *
@@ -320,7 +318,6 @@ class Form
      * @throws Exception
      */
     public function display() {
-
 
         $renderer = '\\Enjoys\\Forms\\Renderer\\' . \ucfirst($this->renderer);
 
@@ -370,6 +367,7 @@ class Form
         //dump($this->formDefaults);
         /** @var Element $element */
         $element = new $class_name($this->formDefaults, ...$arguments);
+       // dump($element);
         $this->addElement($element);
         return $element;
     }
@@ -382,6 +380,7 @@ class Form
         if (!$this->isSubmited()) {
             return false;
         }
+        dump($this->getElements());
         return Validator::check($this->getElements());
     }
 
@@ -392,7 +391,7 @@ class Form
      * @return \Enjoys\Forms\Elements\File
      */
     public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File {
-        $element = new \Enjoys\Forms\Elements\File($name, $title);
+        $element = new \Enjoys\Forms\Elements\File($this->formDefaults, $name, $title);
         $this->addAttributes('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
@@ -410,7 +409,7 @@ class Form
             $this->removeElement('MAX_FILE_SIZE');
         }
         if (!$this->elementExists('MAX_FILE_SIZE')) {
-            $this->addElement(new Elements\Hidden('MAX_FILE_SIZE', $bytes));
+            $this->addElement(new Elements\Hidden($this->formDefaults, 'MAX_FILE_SIZE', $bytes));
         }
     }
 
@@ -421,20 +420,20 @@ class Form
      * @return \Enjoys\Forms\Interfaces\Captcha
      * @throws Exception
      */
-    public function captcha(?string $captcha = null, ?string $message = null): \Enjoys\Forms\Interfaces\Captcha {
-        if (is_null($captcha)) {
-            $captcha = 'Defaults';
-        }
-        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
-
-        if (!class_exists($class)) {
-            throw new Exception("Class <b>{$class}</b> not found");
-        }
-
-        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
-        $element = new $class($message);
-        $this->addElement($element);
-        return $element;
-    }
+//    public function captcha(?string $captcha = null, ?string $message = null): \Enjoys\Forms\Interfaces\Captcha {
+//        if (is_null($captcha)) {
+//            $captcha = 'Defaults';
+//        }
+//        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
+//
+//        if (!class_exists($class)) {
+//            throw new Exception("Class <b>{$class}</b> not found");
+//        }
+//
+//        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
+//        $element = new $class($message);
+//        $this->addElement($element);
+//        return $element;
+//    }
 
 }
