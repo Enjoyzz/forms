@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -31,15 +33,16 @@ namespace Enjoys\Forms\Captcha\reCaptcha;
  *
  * @author deadl
  */
-class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interfaces\Captcha {
+class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
+{
 
     use \Enjoys\Traits\Options,
         \Enjoys\Traits\Request;
 
-    private $privatekey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
-    private $publickey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
-    private $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
-    private $error_codes = [
+    private $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
+    private $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
+    private $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    private $errorCodes = [
         'missing-input-secret' => 'The secret parameter is missing.',
         'invalid-input-secret' => 'The secret parameter is invalid or malformed.',
         'missing-input-response' => 'The response parameter is missing.',
@@ -47,34 +50,40 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
         'bad-request' => 'The request is invalid or malformed.',
         'timeout-or-duplicate' => 'The response is no longer valid: either is too old or has been used previously.',
     ];
+    private $element;
 
-    public function __construct($rule_message = null) {
-        parent::__construct('recaptcha2');
-        $this->addRule('captcha', $rule_message);
-        $this->initRequest();
+    public function __construct($element, $message = null)
+    {
+        $this->element = $element;
+        $this->element->setName('recaptcha2');
+        $this->element->addRule('captcha', $message);
     }
-    
-    public function setLanguage($lang) {
-        $file_language = __DIR__.'/lang/'.\strtolower($lang).'.php';
-        
-        if(file_exists($file_language)){
-            $this->error_codes = include $file_language;
+
+    public function renderHtml(): string
+    {
+        $html = "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>";
+        if ($this->element->isRuleError()) {
+            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
         }
-        return $this;
+        $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->getOption('publickey', $this->publicKey))}\"> </div>";
+        return $html;
     }
 
-    public function validate() {
+    public function validate()
+    {
+
+        $request = new \Enjoys\Forms\Http\Request();
 
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 
         $data = array(
-            'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privatekey)),
-            'response' => $this->request->post('g-recaptcha-response', $this->request->get('g-recaptcha-response'))
+            'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
+            'response' => $request->post('g-recaptcha-response', $request->get('g-recaptcha-response'))
         );
 
 
 
-        $response = $client->request('POST', $this->getOption('verify_url', $this->verify_url), [
+        $response = $client->request('POST', $this->getOption('verify_url', $this->verifyUrl), [
             'form_params' => $data
         ]);
 
@@ -84,25 +93,41 @@ class reCaptcha extends \Enjoys\Forms\Element implements \Enjoys\Forms\Interface
         if ($responseBody->success === false) {
             $errors = [];
             foreach ($responseBody->{'error-codes'} as $error) {
-                $errors[] = $this->error_codes[$error];
+                $errors[] = $this->errorCodes[$error];
             }
-            $this->setRuleError(implode(', ', $errors));
+            $this->element->setRuleError(implode(', ', $errors));
             return false;
         }
         return true;
     }
 
-    private function getGuzzleClient() {
-        return new \GuzzleHttp\Client();
+    public function setOptions(array $options = [])
+    {
+        foreach ($options as $key => $value) {
+            $this->setOption($key, $value);
+
+            switch ($key) {
+                case 'language':
+                    $this->setLanguage($value);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    public function renderHtml() {
-        $html = "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>";
-        if ($this->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$this->getRuleErrorMessage()}</p>";
+    private function setLanguage($lang)
+    {
+        $file_language = __DIR__ . '/lang/' . \strtolower($lang) . '.php';
+
+        if (file_exists($file_language)) {
+            $this->errorCodes = include $file_language;
         }
-        $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->getOption('publickey', $this->publickey))}\"> </div>";
-        return $html;
+    }
+
+    private function getGuzzleClient()
+    {
+        return new \GuzzleHttp\Client();
     }
 
 }

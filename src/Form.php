@@ -212,7 +212,7 @@ class Form
 
     private function checkSubmittedFrom(Interfaces\Request $request) {
         $method = \strtolower($this->getMethod());
-        dump($method);
+        //dump($method);
         if ($request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
             $this->submited_form = true;
             return;
@@ -380,7 +380,7 @@ class Form
         if (!$this->isSubmited()) {
             return false;
         }
-        dump($this->getElements());
+      //  dump($this->getElements());
         return Validator::check($this->getElements());
     }
 

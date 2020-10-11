@@ -36,7 +36,7 @@ use Enjoys\Base\Session\Session as Session,
  *
  * @author deadl
  */
-class Defaults extends Element implements Interfaces\Captcha
+class Defaults implements Interfaces\Captcha
 {
 
     use \Enjoys\Traits\Options;
@@ -48,7 +48,7 @@ class Defaults extends Element implements Interfaces\Captcha
 
     public function __construct($element, $message = null) {
         $this->element = $element;
-
+        $this->element->setName('captcha_defaults');
         $this->element->addAttributes([
             'type' => 'text',
             'autocomplete' => 'off'
@@ -60,13 +60,17 @@ class Defaults extends Element implements Interfaces\Captcha
 
         $this->rule_message = $message;
 
-        $this->element->addRule('required');
+        //$this->element->addRule('required');
         $this->element->addRule('captcha', $this->rule_message);
     }
 
     public function validate() {
-        //_var_dump(Session::get($this->getName()), $value);
-        if (Session::get($this->element->getName()) !== $this->element->getAttribute('value')) {
+
+        $request = new \Enjoys\Forms\Http\Request();
+        $method = $request->getMethod();
+        $value = \Enjoys\Helpers\Arrays::getValueByIndexPath($this->element->getName(), $request->$method());
+        //_var_dump(Session::get($this->element->getName()), $value);
+        if (Session::get($this->element->getName()) !== $value) {
             $this->element->setRuleError($this->rule_message);
             return false;
         }

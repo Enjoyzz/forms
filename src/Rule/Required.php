@@ -61,12 +61,12 @@ class Required extends RuleBase implements Rule {
 //        }
        
         $method = $request->getMethod();
-        dump($method);
-        dump($request->$method());
+      //  dump($method);
+       // dump($request->$method());
         
         $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$method());
-        $_value = $this->formDefaults->getValue($element->getName());
-dump($_value);
+        //$_value = $this->formDefaults->getValue($element->getName());
+//dump($_value);
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;
