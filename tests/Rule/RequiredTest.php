@@ -38,32 +38,41 @@ use PHPUnit\Framework\TestCase;
 class RequiredTest extends TestCase
 {
 
-    public function tearDown(): void {
+    public function tearDown(): void
+    {
         $_GET = [];
         $_POST = [];
     }
 
-    public function test_required_() {
+    private function getFormDefaults($data = [])
+    {
+        return new \Enjoys\Forms\FormDefaults($data, new \Enjoys\Forms\Form());
+    }
+
+    public function test_required_()
+    {
         $_GET = [
             'name' => [1, 2]
         ];
-        $element = new Checkbox('name');
+        $element = new Checkbox($this->getFormDefaults(), 'name');
         $element->addRule('required');
         $this->assertTrue(Validator::check([$element]));
     }
 
-    public function test_required_2() {
+    public function test_required_2()
+    {
         $_GET = [
             'name' => []
         ];
-        $element = new Checkbox('name');
+        $element = new Checkbox($this->getFormDefaults(), 'name');
         $element->addRule('required');
         $this->assertFalse(Validator::check([$element]));
     }
 
-    public function test_required_3() {
+    public function test_required_3()
+    {
 
-        $element = new Checkbox('name');
+        $element = new Checkbox($this->getFormDefaults(), 'name');
         $element->addRule('required');
         $this->assertFalse(Validator::check([$element]));
     }

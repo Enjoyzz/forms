@@ -143,9 +143,10 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
         ]);
         $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
 
-        $captcha->setOption('language', 'ru');
+
         $captcha->setOptions([
-            'httpClient' => $this->getHttpClient('text/plain', $responseBody)
+            'httpClient' => $this->getHttpClient('text/plain', $responseBody),
+            'language' => 'ru'
         ]);
         $captcha->validate();
         $html = $captcha->renderHtml();

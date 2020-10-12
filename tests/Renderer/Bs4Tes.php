@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  */
 
-
 namespace Tests\Enjoys\Forms\Renderer;
 
 use \PHPUnit\Framework\TestCase,
@@ -35,32 +34,39 @@ use \PHPUnit\Framework\TestCase,
  *
  * @author deadl
  */
-class Bs4Test extends TestCase{
+class Bs4Test extends TestCase
+{
+
     /**
      *
      * @var  Enjoys\Forms\Forms $form 
      */
     protected $form;
 
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         $this->form = new Forms();
     }
 
-    protected function tearDown(): void {
+    protected function tearDown(): void
+    {
         $this->form = null;
     }
 
-    public function test_bs4class() {
+    public function test_bs4class()
+    {
 
         //$this->form->hidden('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Bs4($this->form);
         $this->assertTrue($obj instanceof \Enjoys\Forms\Renderer\Bs4);
     }
-    
-    public function test_tostring() {
+
+    public function test_tostring()
+    {
 
         //$this->form->hidden('foo', 'bar')->setId('baz');
         $obj = new \Enjoys\Forms\Renderer\Bs4($this->form);
-        $this->assertSame('',$obj->__toString());
-    }    
+        $this->assertSame('', $obj->__toString());
+    }
+
 }

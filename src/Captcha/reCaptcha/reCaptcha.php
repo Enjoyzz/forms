@@ -101,21 +101,11 @@ class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
         return true;
     }
 
-    public function setOptions(array $options = [])
-    {
-        foreach ($options as $key => $value) {
-            $this->setOption($key, $value);
 
-            switch ($key) {
-                case 'language':
-                    $this->setLanguage($value);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
+    /**
+     * Used across setOption()
+     * @param type $lang
+     */
     private function setLanguage($lang)
     {
         $file_language = __DIR__ . '/lang/' . \strtolower($lang) . '.php';
