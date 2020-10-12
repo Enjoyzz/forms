@@ -26,7 +26,7 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\RuleBase,
+use Enjoys\Forms\Rules,
     Enjoys\Forms\Interfaces\Rule;
 
 /**
@@ -37,7 +37,7 @@ use Enjoys\Forms\RuleBase,
  * 
  * @author Enjoys
  */
-class Csrf extends RuleBase implements Rule {
+class Csrf extends Rules implements Rule {
 
     /**
      * 
@@ -58,7 +58,7 @@ class Csrf extends RuleBase implements Rule {
      */
     public function validate(\Enjoys\Forms\Element $element): bool {
         $request = new \Enjoys\Base\Request();
-        if (!$this->check($request->post(\Enjoys\Forms\Forms::_TOKEN_CSRF_))) {
+        if (!$this->check($request->post(\Enjoys\Forms\Form::_TOKEN_CSRF_))) {
             $element->setRuleError($this->getMessage());
             // throw new \Enjoys\Forms\Exception($this->getMessage());
             return false;

@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +24,22 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
-
-use Enjoys\Forms\Rules,
-    Enjoys\Forms\Interfaces\Rule;
+namespace Tests\Enjoys\Forms;
 
 /**
- * Description of Captcha
- * 
- * Captcha element will automatically set the rule(s)
- * $form->captcha(); 
- * Enjoy!
+ * Class RendererTest
  *
- * @author deadl
+ * @author Enjoys
  */
-class Captcha extends Rules implements Rule {
+class RendererTest extends \PHPUnit\Framework\TestCase
+{
 
-    /**
-     * 
-     * @param \Enjoys\Forms\Element $element
-     * @return boolean
-     */
-    public function validate(\Enjoys\Forms\Element $element): bool {
-        return $element->validate();
+    public function test_consctruct()
+    {
+        $renderer = new \Enjoys\Forms\Renderer(
+                (new \Enjoys\Forms\Form())->setName('myform')
+        );
+        $this->assertEquals('myform', $renderer->getForm()->getName());
     }
 
 }

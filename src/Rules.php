@@ -31,27 +31,41 @@ namespace Enjoys\Forms;
  *
  * @author deadl
  */
-class RuleBase
+class Rules
 {
+    const CALLBACK = 'callback';
+    const CAPTCHA = 'captcha';
+    const CSRF = 'csrf';
+    const EMAIL = 'email';
+    const EQUAL = 'equal';
+    const LENGTH = 'length';
+    const REGEXP = 'regexp';
+    const REQUIRED = 'required';
 
     /**
-     * @since 0.0.7
-     * @todo Надо подумать оставить или нет, может быть вынести в другое место
+     *
+     * @var string|null 
      */
-    const _REQUIRED_ = 'required';
-
-    private $message;
-    private $params = [];
-    private $formDefaults = [];
+    private ?string $message;
+    private array $params = [];
+    /**
+     * @deprecated since version 2.0.1-alpha
+     * @var \Enjoys\Forms\FormDefaults 
+     */
+    private FormDefaults $formDefaults;
 
     public function __construct(?string $message = null, $params = []) {
         $this->setParams($params);
         $this->setMessage($message);
     }
 
-    public function setFormDefaults(FormDefaults $formDefaults) {
-        $this->formDefaults = $formDefaults;
-    }
+    /**
+     * @deprecated since version 2.0.1-alpha
+     * @param \Enjoys\Forms\FormDefaults $formDefaults
+     */
+//    public function setFormDefaults(FormDefaults $formDefaults) {
+//        $this->formDefaults = $formDefaults;
+//    }
 
     public function setParams($params) {
 

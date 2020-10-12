@@ -23,29 +23,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Forms;
+namespace Tests\Enjoys\Forms\Traits;
+
 /**
- * Description of HiddenTest
+ * Description of LabelAttributesTest
  *
  * @author deadl
  */
-class HiddenTest extends \PHPUnit\Framework\TestCase{
-    
-    /**
-     * @dataProvider dataForConstruct
-     */
-    public function test_full_construct($name, $value, $expectName, $expectValue) {
-        $obj = new \Enjoys\Forms\Elements\Hidden($name, $value);
-        $this->assertSame($expectName, $obj->getAttribute('name'));
-        $this->assertSame($expectValue, $obj->getAttribute('value'));
-    }
-    
-    public function dataForConstruct() {
-        return [
-            ['name', 'value', 'name', 'value'],
-            ['name', null, 'name', false]
-        ];
+class LabelAttributesTest extends \PHPUnit\Framework\TestCase {
+    public function test_get_label_attributes() {
+        $form = new \Enjoys\Forms\Form();
+        $form->radio('1', '1')->addLabelAttributes(['test', 'id' => 'test']);
+        $el = $form->getElements();
+        $this->assertSame('test', $el[1]->getLabelAttribute('id'));
+        $this->assertNull($el[1]->getLabelAttribute('test'));
     }
 }

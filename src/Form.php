@@ -103,7 +103,7 @@ class Form
             $this->setAction($action);
         }
         $this->formDefaults = new FormDefaults([], $this);
-        $this->setFormDefaults($this->formDefaults);
+        $this->setDefaults([]);
     }
 
     public function __destruct()
@@ -156,10 +156,10 @@ class Form
         $this->token_submit = md5($this->getAction() . $this->getFormCount() . $this->getMethod());
     }
 
-    public function setFormDefaults(FormDefaults $formDefaults)
+    public function setDefaults(array $defaultsData)
     {
 
-        $this->formDefaults = $formDefaults;
+        $this->formDefaults = new FormDefaults($defaultsData, $this);
 
         return $this;
     }
@@ -413,6 +413,7 @@ class Form
         $this->addElement($element);
         return $element;
     }
+    
 
     /**
      *

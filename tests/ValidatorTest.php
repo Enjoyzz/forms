@@ -31,50 +31,63 @@ namespace Tests\Enjoys\Forms;
  *
  * @author Enjoys
  */
-class ValidatorTest extends \PHPUnit\Framework\TestCase {
+class ValidatorTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function tearDown(): void {
+    //  private $request;
+    public function setUp(): void
+    {
+        // $this->request
+    }
+
+    public function tearDown(): void
+    {
         $_GET = [];
         $_POST = [];
     }
 
-//    public function test_validate() {
-//        $form = $this->getMockBuilder(Forms::class)
-//                ->setMethods(['isSubmited'])
-//                ->getMock();
-//        $form->expects($this->any())->method('isSubmited')->will($this->returnValue(true));
-//        $_GET = [
-//            'foo' => 'foo', 'food' => 'food'
-//        ];
-//        $element1 = new \Enjoys\Forms\Elements\Text('foo');
-//        $element1->addRule('required');
-//        $element2 = new \Enjoys\Forms\Elements\Text('food');
-//        $element2->addRule('required');
-//        $this->assertTrue(\Enjoys\Forms\Validator::check([$element1, $element2]));
-//    }
-
-    public function test_validate2() {
-
+    public function test_validate_true()
+    {
+        $form = new \Enjoys\Forms\Form();
         $_GET = [
-            'food' => 'food'
+            'foo' => 'v_foo',
+            'bar' => 'v_bar'
+        ];
+        $elements = [
+            $form->text('foo')->addRule('required'),
+            $form->text('bar')->addRule('required'),
         ];
 
+        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
+    }
+
+    public function test_validate_false()
+    {
         $form = new \Enjoys\Forms\Form();
-        $element = $form->text('foo');
-        $element->addRule('required');
+        $_GET = [
+            'foo' => 'v_foo',
+        ];
+        $elements = [
+            $form->text('foo')->addRule('required'),
+            $form->text('bar')->addRule('required'),
+        ];
 
-        $element2 = $form->text('food');
-        $element2->addRule('required');
-
-        $this->assertFalse(\Enjoys\Forms\Validator::check([$element, $element2]));
+        $this->assertFalse(\Enjoys\Forms\Validator::check($elements));
     }
 
-    public function test_validate3() {
-        $element = new \Enjoys\Forms\Elements\Text('foo');
-        $this->assertTrue(\Enjoys\Forms\Validator::check([$element]));
+    public function test_validate_without_rules()
+    {
+        $form = new \Enjoys\Forms\Form();
+        $elements = [
+            $form->text('foo'),
+            $form->text('bar'),
+        ];
+
+        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
     }
 
-    public function test_validate4() {
+    public function test_validate_without_elements()
+    {
         $this->assertTrue(\Enjoys\Forms\Validator::check([]));
     }
 

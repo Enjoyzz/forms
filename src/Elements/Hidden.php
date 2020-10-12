@@ -52,11 +52,4 @@ class Hidden extends \Enjoys\Forms\Element
         $this->removeAttribute('id');
     }
 
-//    public function __fconstruct($name, $value = null) {
-//        $this->setName($name);
-//        if (!is_null($value)) {
-//            $this->setValue($value);
-//        }
-//        $this->removeAttribute('id');
-//    }
 }

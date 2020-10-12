@@ -27,16 +27,26 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 /**
- * Class ResetTest
+ * Class TextareaTest
  *
  * @author Enjoys
  */
-class ResetTest extends \PHPUnit\Framework\TestCase {
+class TextareaTest extends \PHPUnit\Framework\TestCase {
 
-    public function test_init_datalist() {
-        $el = new \Enjoys\Forms\Elements\Reset('foo', 'title1');
-        $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Reset);
-        $this->assertEquals('title1', $el->getAttribute('value'));
+    public function test_init_textarea() {
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo', 'title1');
+        $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Textarea);
+        $this->assertEquals('foo', $el->getName());
+//        $this->assertEquals('foo', $el->getValidateName());
+        $this->assertEquals('title1', $el->getTitle());
+        $el->setValue('text');
+        $this->assertEquals('text', $el->getValue());
+        $el->setValue('text2');
+        $this->assertEquals('text2', $el->getValue());
+        $el->addAttributes(['class' => 'textarea_class']);
+        $this->assertEquals('textarea_class', $el->getAttribute('class'));
+        $el->addAttributes(['class' => 'textarea_class2']);
+        $this->assertEquals('textarea_class textarea_class2', $el->getAttribute('class'));
     }
 
 }

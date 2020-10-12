@@ -23,18 +23,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+namespace Tests\Enjoys\Forms\Elements;
 
-namespace Tests\Enjoys\Forms;
-
+use Enjoys\Forms\Forms;
 /**
- * Description of RuleBaseTest
+ * Description of HiddenTest
  *
  * @author deadl
  */
-class RuleBaseTest extends \PHPUnit\Framework\TestCase{
-    public function test_getParams() {
-        $obj = new \Enjoys\Forms\RuleBase('test', [1]);
-       $this->assertEquals([1], $obj->getParams());
-        $this->assertNull($obj->getParam('test'));
+class HiddenTest extends \PHPUnit\Framework\TestCase{
+    
+    /**
+     * @dataProvider dataForConstruct
+     */
+    public function test_full_construct($name, $value, $expectName, $expectValue) {
+        $obj = new \Enjoys\Forms\Elements\Hidden(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), $name, $value);
+        $this->assertSame($expectName, $obj->getAttribute('name'));
+        $this->assertSame($expectValue, $obj->getAttribute('value'));
+        $this->assertSame(false, $obj->getAttribute('id'));
+    }
+    
+    public function dataForConstruct() {
+        return [
+            ['name', 'value', 'name', 'value'],
+            ['name', null, 'name', false]
+        ];
     }
 }

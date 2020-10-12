@@ -261,7 +261,7 @@ class Element implements Interfaces\Element
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
         
         $rule = new $class($message, $params);
-        $rule->setFormDefaults($this->formDefaults);
+       // $rule->setFormDefaults($this->formDefaults);
         $this->rules[] = $rule;
         return $this;
     }

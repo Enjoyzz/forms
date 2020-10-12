@@ -37,7 +37,9 @@ use \PHPUnit\Framework\TestCase,
  */
 class ElementTest extends TestCase
 {
+
     use Reflection;
+
     /**
      *
      * @var  Enjoys\Forms\Forms $form 
@@ -77,7 +79,7 @@ class ElementTest extends TestCase
         $text = $this->obj->text('Foo');
         $this->assertEquals('text', $text->getType());
     }
-    
+
     public function test_setValue_1_0()
     {
         $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'test');
@@ -85,42 +87,55 @@ class ElementTest extends TestCase
         $method->invokeArgs($element, ['foo']);
         $method->invokeArgs($element, ['bar']);
         $this->assertEquals('foo', $element->getAttribute('value'));
-    }    
-    
-    public function test_setTitle_1_0() {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
-        $this->assertEquals('Bar',$element->getTitle());
-        $element->setTitle('Baz');
-        $this->assertEquals('Baz',$element->getTitle());
-    }       
+    }
 
-    public function test_setDescription_1_0() {
+    public function test_setTitle_1_0()
+    {
+        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
+        $this->assertEquals('Bar', $element->getTitle());
+        $element->setTitle('Baz');
+        $this->assertEquals('Baz', $element->getTitle());
+    }
+
+    public function test_setDescription_1_0()
+    {
         $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
         $element->setDescription('Zed');
         $this->assertEquals('Zed', $element->getDescription());
     }
-    
+
     public function test_setFormDefaults_1_0()
     {
         $element = new Element(new \Enjoys\Forms\FormDefaults([], $this->obj), 'Foo', 'Bar');
         $element->setFormDefaults(new \Enjoys\Forms\FormDefaults([
-            'Foo' => 'newvalue'
-        ], $this->obj));
+                    'Foo' => 'newvalue'
+                        ], $this->obj));
         $this->assertEquals('newvalue', $element->getAttribute('value'));
-        
     }
-    
+
     public function test_setFormDefaults_1_1()
     {
-        $this->markTestIncomplete();
-        $element = $this->obj->text('Foo', 'Bar');
-        $element->setFormDefaults(new \Enjoys\Forms\FormDefaults([
+        $this->obj->setDefaults([
             'Foo' => [
                 'first_string', 'second_string'
             ]
-        ], $this->obj));
+        ]);
+        $element = $this->obj->text('Foo[]', 'Bar');
         $this->assertEquals('first_string', $element->getAttribute('value'));
-        
-    }    
-  
+    }
+
+    public function test_addRule_1_0()
+    {
+        $element = $this->obj->text('Foo', 'Bar')->addRule(\Enjoys\Forms\Rules::REQUIRED, 'will be required');
+        $this->assertEquals('will be required', $element->getRules()[0]->getMessage());
+    }
+
+    public function test_setRuleMessage_1_0()
+    {
+        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
+        $element->setRuleError('rule message error');
+        $this->assertEquals('rule message error', $element->getRuleErrorMessage());
+        $this->assertEquals(true, $element->isRuleError());
+    }
+
 }

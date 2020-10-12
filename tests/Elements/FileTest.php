@@ -34,7 +34,7 @@ namespace Tests\Enjoys\Forms\Elements;
 class FileTest extends \PHPUnit\Framework\TestCase {
 
     public function test_max_file_size() {
-        $form = new \Enjoys\Forms\Forms();
+        $form = new \Enjoys\Forms\Form();
         $form->setMaxFileSize(25);
         $elements = $form->getElements()['MAX_FILE_SIZE'];
         $this->assertSame('25', $elements->getAttribute('value'));
@@ -56,7 +56,7 @@ class FileTest extends \PHPUnit\Framework\TestCase {
 //    }
     
     public function test_enctype_method() {
-        $form = new \Enjoys\Forms\Forms();
+        $form = new \Enjoys\Forms\Form();
         $form->file(1, 1);
         $this->assertSame('POST', $form->getAttribute('method'));
         $this->assertSame('multipart/form-data', $form->getAttribute('enctype'));

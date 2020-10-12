@@ -24,19 +24,28 @@
  * THE SOFTWARE.
  */
 
-namespace Tests\Enjoys\Forms\Traits;
+namespace Tests\Enjoys\Forms;
 
 /**
- * Description of LabelAttributesTest
+ * Description of RuleBaseTest
  *
  * @author deadl
  */
-class LabelAttributesTest extends \PHPUnit\Framework\TestCase {
-    public function test_get_label_attributes() {
-        $form = new \Enjoys\Forms\Forms();
-        $form->radio('1', '1')->addLabelAttributes(['test', 'id' => 'test']);
-        $el = $form->getElements();
-        $this->assertSame('test', $el[1]->getLabelAttribute('id'));
-        $this->assertNull($el[1]->getLabelAttribute('test'));
+class RulesTest extends \PHPUnit\Framework\TestCase{
+    public function test_setParams_1_0() {
+        $rules = new \Enjoys\Forms\Rules('message', [1]);
+        $this->assertEquals([1], $rules->getParams());
+        $this->assertEquals('message', $rules->getMessage());
+        $this->assertNull($rules->getParam('test'));
+    }
+    public function test_setParams_1_1() {
+        $rules = new \Enjoys\Forms\Rules('message', 'param');
+        $this->assertEquals(['param'], $rules->getParams());
+    }
+    public function test_setParams_1_2() {
+        $rules = new \Enjoys\Forms\Rules('message', [
+            'key_param' => 'value_param'
+        ]);
+        $this->assertEquals('value_param', $rules->getParam('key_param'));
     }
 }

@@ -26,7 +26,7 @@
 
 namespace Tests\Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\Form;
 
 /**
  * Description of AttributeTest
@@ -42,7 +42,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase {
     protected $obj;
 
     protected function setUp(): void {
-        $this->obj = new Forms();
+        $this->obj = new Form();
     }
 
     protected function tearDown(): void {

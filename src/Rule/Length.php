@@ -29,14 +29,14 @@ namespace Enjoys\Forms\Rule;
 use Enjoys\Base\Request;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Rule;
-use Enjoys\Forms\RuleBase;
+use Enjoys\Forms\Rules;
 
 /**
  * Description of Length
  *
  * @author Enjoys
  */
-class Length extends RuleBase implements Rule
+class Length extends Rules implements Rule
 {
 
     private $operatorToMethodTranslation = [

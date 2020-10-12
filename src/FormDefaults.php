@@ -39,7 +39,8 @@ class FormDefaults
 
     private $defaults = [];
 
-    public function __construct(array $data, Form $form) {
+    public function __construct(array $data, Form $form)
+    {
         $this->defaults = $data;
         $request = new Http\Request();
 
@@ -57,83 +58,22 @@ class FormDefaults
         }
     }
 
-    public function getDefaults() {
+    public function getDefaults()
+    {
         return $this->get();
     }
 
-    public function getValue($param) {
+    public function getValue($param)
+    {
         return $this->get($param);
     }
 
-    private function get($param = null) {
+    private function get($param = null)
+    {
         if ($param === null) {
             return $this->defaults;
         }
-
-        //return $this->getValueByIndexPath($param, $this->defaults);
-        return $this->getValueByIndexPath($param, $this->defaults);
+        return Http\Request::getValueByIndexPath($param, $this->defaults);
     }
-
-    
-    public function getValueByIndexPath(string $indexPath, array $data = [], int $counterId = 0) {
-        
-        $empty_key = 0;
-        
-        preg_match_all("/^([\w\d]*)|\[['\"]*(|[a-z0-9_-]+)['\"]*\]/i", $indexPath, $matches);
-        $last_key = array_key_last($matches[0]);
-
-
- 
-        if (count($matches[0]) > 0 && !empty($matches[0][0])) {
-
-            foreach ($matches[0] as $identify => $key) {
-                
-                if(!is_array($data)){
-                    return false;
-                }
-
-                $key = str_replace(['[', ']', '"', '\''], [], $key);
-
-                //если последняя и key пустой [] вернуть все
-                if ($identify == $last_key && in_array($key, ['', 0], true)) {
-
-                    if (isset($data[0]) && \count($data) > 1) {
-
-                        break;
-                    }
-                }
-
-                if ($key === '') {
-                    $key = $counterId;
-                }
-
-                if (!isset($data[$key])) {
-                    return false;
-                }
-
-
-
-
-
-
-                if ($identify == $last_key && $key !== '') {
-
-
-                    if (is_array($data[$key])) {
-                        return false;
-                    }
-                }
-
-                    $data = $data[$key];
-            }
-
-            return $data;
-        }
-
-
-        return false;
-    }
-
-
 
 }

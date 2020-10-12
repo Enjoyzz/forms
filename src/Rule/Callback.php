@@ -28,7 +28,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Rule;
-use Enjoys\Forms\RuleBase;
+use Enjoys\Forms\Rules;
 
 /**
  * Description of Callback
@@ -84,7 +84,7 @@ use Enjoys\Forms\RuleBase;
  * 
  * @author deadl
  */
-class Callback extends RuleBase implements Rule
+class Callback extends Rules implements Rule
 {
 
     /**

@@ -26,28 +26,47 @@
 
 namespace Tests\Enjoys\Forms\Traits;
 
-
-
 /**
  * Class FillTest
  *
  * @author Enjoys
  */
-class FillTest extends \PHPUnit\Framework\TestCase {
+class FillTest extends \PHPUnit\Framework\TestCase
+{
 
     use \Tests\Enjoys\Forms\Reflection;
-    
-    public function test_setIndexKeyFill() {
-        $radio = new \Enjoys\Forms\Elements\Radio('foo');
+
+    public function test_setIndexKeyFill()
+    {
+        $radio = new \Enjoys\Forms\Elements\Radio(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Radio::class, 'setIndexKeyFill');
         $method->invokeArgs($radio, ['value']);
         $radio->fill(['test' => 1, 'foz' => 2, 'baz' => 3]);
         $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Radio::class, 'getIndexKey');
         $this->assertEquals('value', $method->invoke($radio));
-        
+
         $this->assertArrayHasKey('test', $radio->getElements());
         $this->assertArrayHasKey('foz', $radio->getElements());
         $this->assertArrayHasKey('baz', $radio->getElements());
+    }
+
+    public function test_fill_with_attributes()
+    {
+        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
+        $select->fill(['test' => ['title1', [
+                    'disabled'
+                ]], 'foz' => [2, [
+                    'id' => 'newfoz'
+                ]], 'baz' => 3]);
+        $this->assertEquals(null, $select->getElements()[0]->getAttribute('disabled'));
+        $this->assertEquals(false, $select->getElements()[1]->getAttribute('disabled'));
+        $this->assertEquals('newfoz', $select->getElements()[1]->getAttribute('id'));
+        
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Option::class, 'getParentName');
+        $this->assertEquals('foo', $method->invoke($select->getElements()[2]));
+        
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Option::class, 'getCounterId');
+        $this->assertEquals(1, $method->invoke($select->getElements()[1]));
     }
 
 }

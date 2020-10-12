@@ -58,11 +58,6 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
         $this->removeAttribute('name');        
     }
     
-    public function __constructd(string $name, string $title = null) {
-        parent::__construct($name, $title);
-
-    }
-
     public function setPrefixId($prefix) {
         static::$prefix_id = $prefix;
         $this->setId(static::$prefix_id . $this->getName());

@@ -23,44 +23,63 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Forms;
+
 /**
  * Description of HeaderTest
  *
  * @author deadl
  */
-class HeaderTest extends \PHPUnit\Framework\TestCase{
+class HeaderTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function test_full_construct() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
+    private function getFormDefaults($data = [])
+    {
+        return new \Enjoys\Forms\FormDefaults($data, new \Enjoys\Forms\Form());
+    }
+
+    public function test_full_construct()
+    {
+        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
         $this->assertSame('title', $obj->getTitle());
     }
-    
-    public function test_attr_legend() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
+
+    public function test_attr_legend()
+    {
+        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
         $obj->addAttributes([
             'id' => 'test'
         ]);
         $this->assertSame('test', $obj->getAttribute('id'));
-    }    
-    
-    public function test_attr_fieldset() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
+    }
+
+    public function test_attr_fieldset()
+    {
+        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
         $obj->addFieldsetAttribute([
             'id' => 'test'
         ]);
         $this->assertSame('test', $obj->getFieldsetAttribute('id'));
-    }  
+    }
 
-   public function test_attr_fieldset_get() {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
+    public function test_attr_fieldset_get()
+    {
+        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
         $obj->addFieldsetAttribute([
             'id' => 'test',
             'disabled' => null
         ]);
         $this->assertSame(' id="test" disabled', $obj->getFieldsetAttributes());
-    }      
+    }
+    
+    public function test_close_after()
+    {
+        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
+        $obj->closeAfter(5);
+        $this->assertSame(5, $obj->getCloseAfterCountElements());
+    }    
 
 }

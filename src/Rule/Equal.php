@@ -30,7 +30,7 @@ use Enjoys\Base\Request;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Forms;
 use Enjoys\Forms\Interfaces\Rule;
-use Enjoys\Forms\RuleBase;
+use Enjoys\Forms\Rules;
 use Enjoys\Helpers\Arrays;
 
 /**
@@ -42,7 +42,7 @@ use Enjoys\Helpers\Arrays;
  * 
  * @author deadl
  */
-class Equal extends RuleBase implements Rule
+class Equal extends Rules implements Rule
 {
 
     public function setMessage(?string $message): void {

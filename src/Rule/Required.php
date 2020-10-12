@@ -26,11 +26,10 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Base\Request;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\Http\Request;
 use Enjoys\Forms\Interfaces\Rule;
-use Enjoys\Forms\RuleBase;
+use Enjoys\Forms\Rules;
 
 /**
  * Description of Required
@@ -40,43 +39,31 @@ use Enjoys\Forms\RuleBase;
  * 
  * @author deadl
  */
-class Required extends RuleBase implements Rule {
+class Required extends Rules implements Rule
+{
 
-    public function setMessage(?string $message): void {
+    public function setMessage(?string $message): void
+    {
         if (is_null($message)) {
             $message = 'Обязательно для заполнения, или выбора';
-        }     
+        }
         parent::setMessage($message);
     }
 
-    public function validate(Element $element): bool {
-        
-  
-
-        $request = new \Enjoys\Forms\Http\Request();
-        
-//        $_method = 'get';
-//        if(isset($this->formDefaults[Forms::_FLAG_FORMMETHOD_])){
-//            $_method = $this->formDefaults[Forms::_FLAG_FORMMETHOD_];
-//        }
-       
+    public function validate(Element $element): bool
+    {
+        $request = new Request();
         $method = $request->getMethod();
-      //  dump($method);
-       // dump($request->$method());
-        
-        $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$method());
-        //$_value = $this->formDefaults->getValue($element->getName());
-//dump($_value);
+        $_value = $request::getValueByIndexPath($element->getName(), $request->$method());
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;
         }
-
         return true;
     }
 
-    private function check($value) {
-
+    private function check($value)
+    {
         if (is_array($value)) {
             return count($value) > 0;
         }

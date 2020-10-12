@@ -6,7 +6,7 @@ use Enjoys\Forms\FormDefaults;
 
 $form = new Form();
 
-$form->setFormDefaults(new FormDefaults([
+$form->setDefaults(new FormDefaults([
     'myname' => 'Вася',
     'sex' => 'man',
     'family_status' => 'married',
