@@ -44,8 +44,8 @@ class EqualTest extends TestCase
         $_POST = [];
     }
 
-    public function test_valid() {
-        $text = new Text('foo');
+    public function test_validate() {
+        $text = new Text(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, ['test']);
         $_GET = [
             'foo' => 'test'
@@ -54,7 +54,7 @@ class EqualTest extends TestCase
     }
 
     public function test_valid2() {
-        $text = new Text('foo');
+         $text = new Text(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, ['test', 'valid']);
         $_GET = [
             'foo' => 'valid'
@@ -63,7 +63,7 @@ class EqualTest extends TestCase
     }
 
     public function test_valid3() {
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, ['test', 2]);
         $_GET = [
             'foo' => ['2']
@@ -72,7 +72,7 @@ class EqualTest extends TestCase
     }
 
     public function test_valid3_1() {
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, ['test', 2]);
         $_GET = [
             'foo' => ['test']
@@ -81,7 +81,7 @@ class EqualTest extends TestCase
     }
 
     public function test_valid_4_1() {
-        $text = new Checkbox('bar[][][]');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'bar[][][]');
         $text->addRule('equal', null, ['test', 2]);
         $_GET = [
             'bar' => ['test']
@@ -90,7 +90,7 @@ class EqualTest extends TestCase
     }
 
     public function test_invalid_4_1() {
-        $text = new Checkbox('bar[][][]');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'bar[][][]');
         $text->addRule('equal', null, ['test', 2]);
         $_GET = [
             'bar' => [
@@ -105,7 +105,7 @@ class EqualTest extends TestCase
     }
 
     public function test_valid_empty() {
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, ['test', 'valid']);
 //        $_GET = [
 //            'foo' => ['valid']
@@ -115,7 +115,7 @@ class EqualTest extends TestCase
 
     public function test_invalid_array() {
 
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, ['test', 'valid']);
         $_GET = [
             'foo' => ['invalid']
@@ -125,7 +125,7 @@ class EqualTest extends TestCase
 
     public function test_invalid_array2() {
 
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, [1]);
         $_GET = [
             'foo' => [0]
@@ -135,7 +135,7 @@ class EqualTest extends TestCase
 
     public function test_invalid_array3() {
 
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, [1]);
         $_GET = [
             'foo' => [
@@ -147,7 +147,7 @@ class EqualTest extends TestCase
     
     public function test_valid_array3() {
 
-        $text = new Checkbox('foo');
+        $text = new Checkbox(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
         $text->addRule('equal', null, [1,2,3]);
         $_GET = [
             'foo' => [
@@ -161,7 +161,7 @@ class EqualTest extends TestCase
         $_GET = [
             'name' => 'fail'
         ];
-        $element = new Text('name');
+        $element = new Text(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'name');
         $element->addRule('equal', null, ['test']);
         $this->assertFalse(Validator::check([$element]));
     }

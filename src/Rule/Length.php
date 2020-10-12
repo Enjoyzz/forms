@@ -26,7 +26,7 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Base\Request;
+
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Rule;
 use Enjoys\Forms\Rules;
@@ -56,19 +56,16 @@ class Length extends Rules implements Rule
     }
 
     public function validate(Element $element): bool {
-        $request = new Request();
-
-        $_method = 'get';
-        if (isset($this->defaults[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_])) {
-            $_method = $this->defaults[\Enjoys\Forms\Forms::_FLAG_FORMMETHOD_];
-        }
+        
+        $request = new \Enjoys\Forms\Http\Request();
+        $method = $request->getMethod();
         
       //  var_dump($element->getName());
 
-        $_value = \Enjoys\Helpers\Arrays::getValueByIndexPath($element->getName(), $request->$_method());
+        $value = $request::getValueByIndexPath($element->getName(), $request->$method());
         
-        $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
-        if (!$this->check($input_value)) {
+       // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
+        if (!$this->check($value)) {
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -94,7 +91,7 @@ class Length extends Rules implements Rule
             }
 
             if (!method_exists(Length::class, $method)) {
-                throw new \Exception('Unknown Compare Operator.');
+                throw new \Enjoys\Forms\Exception\ExceptionRule('Unknown Compare Operator.');
             }
 
             if (!$this->$method($length, $threshold)) {

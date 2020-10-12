@@ -54,18 +54,11 @@ class Equal extends Rules implements Rule
 
     public function validate(Element $element): bool {
 
-        $request = new Request();
+        $request = new \Enjoys\Forms\Http\Request();
+        $method = $request->getMethod();
+        $value = $request::getValueByIndexPath($element->getName(), $request->$method());
 
-        $_method = 'get';
-        if (isset($this->defaults[Forms::_FLAG_FORMMETHOD_])) {
-            $_method = $this->defaults[Forms::_FLAG_FORMMETHOD_];
-        }
-        
-      //  var_dump($element->getName());
-
-        $_value = Arrays::getValueByIndexPath($element->getName(), $request->$_method());
-
-        if (false === $this->check($_value)) {
+        if (false === $this->check($value)) {
             $element->setRuleError($this->getMessage());
             return false;
         }

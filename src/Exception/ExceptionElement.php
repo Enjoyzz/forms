@@ -31,7 +31,7 @@ namespace Enjoys\Forms\Exception;
  *
  * @author deadl
  */
-class ExceptionElement extends \Enjoys\Forms\Exception
+class ExceptionElement extends Exception
 {
     //put your code here
 }

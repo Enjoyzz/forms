@@ -27,13 +27,14 @@
 namespace Enjoys\Forms\Renderer;
 
 use Enjoys\Forms\Interfaces;
+
 /**
  * Class Bs4
  *
  * @author Enjoys
  */
-class Bs4 extends \Enjoys\Forms\Renderer  implements Interfaces\Renderer{
-    
+class Bs4 //extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
+{
 //    public function __construct(\Enjoys\Forms\Forms $form) {
 //        parent::__construct($form);
 //        
@@ -48,7 +49,7 @@ class Bs4 extends \Enjoys\Forms\Renderer  implements Interfaces\Renderer{
 //        $this->html .= "</form>";
 //    }    
 //
-    public function __toString() {
-        return '';
-    }
+//    public function __toString() {
+//        return '';
+//    }
 }

@@ -34,35 +34,40 @@ namespace Tests\Enjoys\Forms\Rule;
 class LengthTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function tearDown(): void {
+    use \Tests\Enjoys\Forms\Reflection;
+
+    public function tearDown(): void
+    {
         $_GET = [];
         $_POST = [];
+    }
+
+    private function getFormDefaults($data = [])
+    {
+        return new \Enjoys\Forms\FormDefaults($data, new \Enjoys\Forms\Form());
     }
 
     /**
      * 
      * @dataProvider dataForTest_1_1
      */
-    public function test_1_1($value, $expect) {
-        switch ($expect) {
-            case true:
-                $assert = 'assertTrue';
-                break;
-            case false:
-                $assert = 'assertFalse';
-                break;
-        }
-        $text = new \Enjoys\Forms\Elements\Text('foo');
-        $text->addRule('length', null, [
-            '>' => 5
-        ]);
+    public function test_1_1_validate_test($value, $expect)
+    {
         $_GET = [
             'foo' => $value
         ];
-        $this->$assert(\Enjoys\Forms\Validator::check([$text]));
+
+        $text = new \Enjoys\Forms\Elements\Text($this->getFormDefaults(), 'foo');
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
+            '>' => 5
+        ]);
+
+        //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
+        $this->assertEquals($expect, $rule->validate($text));
     }
 
-    public function dataForTest_1_1() {
+    public function dataForTest_1_1()
+    {
         return [
             ['test12', true],
             ['123 45', true],
@@ -73,30 +78,22 @@ class LengthTest extends \PHPUnit\Framework\TestCase
             [[], true],
         ];
     }
+
     /**
      * 
      * @dataProvider dataForTest_1_2
      */
-    public function test_1_2($value, $expect) {
-        switch ($expect) {
-            case true:
-                $assert = 'assertTrue';
-                break;
-            case false:
-                $assert = 'assertFalse';
-                break;
-        }
-        $text = new \Enjoys\Forms\Elements\Text('foo');
-        $text->addRule('length', null, [
+    public function test_1_2($value, $expect)
+    {
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
             '<' => 5
         ]);
-        $_GET = [
-            'foo' => $value
-        ];
-        $this->$assert(\Enjoys\Forms\Validator::check([$text]));
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
-    public function dataForTest_1_2() {
+    public function dataForTest_1_2()
+    {
         return [
             ['test1', false],
             ['123 45', false],
@@ -108,66 +105,49 @@ class LengthTest extends \PHPUnit\Framework\TestCase
             [[], true],
         ];
     }
+
     /**
      * 
      * @dataProvider dataForTest_2_1
      */
-    public function test_2_1($value, $expect) {
-        switch ($expect) {
-            case true:
-                $assert = 'assertTrue';
-                break;
-            case false:
-                $assert = 'assertFalse';
-                break;
-        }
-        $text = new \Enjoys\Forms\Elements\Text('foo');
-        $text->addRule('length', null, [
+    public function test_2_1($value, $expect)
+    {
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
             '>=' => 5
         ]);
-        $_GET = [
-            'foo' => $value
-        ];
-        $this->$assert(\Enjoys\Forms\Validator::check([$text]));
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
-    public function dataForTest_2_1() {
+    public function dataForTest_2_1()
+    {
         return [
             ['test12', true],
             ['123 45', true],
             ['привет', true],
             ['кот23', true],
             ['', true],
-            [[], true],
+            [[1, 2], true],
             ['      ', false],
             ['1234', false],
-            
         ];
-    }    
+    }
+
     /**
      * 
      * @dataProvider dataForTest_2_2
      */
-    public function test_2_2($value, $expect) {
-        switch ($expect) {
-            case true:
-                $assert = 'assertTrue';
-                break;
-            case false:
-                $assert = 'assertFalse';
-                break;
-        }
-        $text = new \Enjoys\Forms\Elements\Text('foo');
-        $text->addRule('length', null, [
+    public function test_2_2($value, $expect)
+    {
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
             '<=' => 5
         ]);
-        $_GET = [
-            'foo' => $value
-        ];
-        $this->$assert(\Enjoys\Forms\Validator::check([$text]));
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
-    public function dataForTest_2_2() {
+    public function dataForTest_2_2()
+    {
         return [
             ['test12', false],
             ['123 45', false],
@@ -177,34 +157,24 @@ class LengthTest extends \PHPUnit\Framework\TestCase
             [[], true],
             ['      ', true],
             ['1234', true],
-            
         ];
-    }   
-    
-        /**
+    }
+
+    /**
      * 
      * @dataProvider dataForTest_3_1
      */
-    public function test_3_1($value, $expect) {
-        switch ($expect) {
-            case true:
-                $assert = 'assertTrue';
-                break;
-            case false:
-                $assert = 'assertFalse';
-                break;
-        }
-        $text = new \Enjoys\Forms\Elements\Text('foo');
-        $text->addRule('length', null, [
+    public function test_3_1($value, $expect)
+    {
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
             '==' => 5
         ]);
-        $_GET = [
-            'foo' => $value
-        ];
-        $this->$assert(\Enjoys\Forms\Validator::check([$text]));
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
-    public function dataForTest_3_1() {
+    public function dataForTest_3_1()
+    {
         return [
             ['test12', false],
             ['123 45', false],
@@ -214,33 +184,24 @@ class LengthTest extends \PHPUnit\Framework\TestCase
             [[], true],
             ['      ', false],
             ['1234', false],
-            
         ];
-    }   
-        /**
+    }
+
+    /**
      * 
      * @dataProvider dataForTest_3_2
      */
-    public function test_3_2($value, $expect) {
-        switch ($expect) {
-            case true:
-                $assert = 'assertTrue';
-                break;
-            case false:
-                $assert = 'assertFalse';
-                break;
-        }
-        $text = new \Enjoys\Forms\Elements\Text('foo');
-        $text->addRule('length', null, [
+    public function test_3_2($value, $expect)
+    {
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
             '!=' => 5
         ]);
-        $_GET = [
-            'foo' => $value
-        ];
-        $this->$assert(\Enjoys\Forms\Validator::check([$text]));
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
-    public function dataForTest_3_2() {
+    public function dataForTest_3_2()
+    {
         return [
             ['test12', true],
             ['123 45', true],
@@ -250,7 +211,45 @@ class LengthTest extends \PHPUnit\Framework\TestCase
             [[], true],
             ['      ', true],
             ['1234', true],
-            
         ];
-    }   
+    }
+
+    /**
+     * 
+     * @dataProvider dataForTest_3_3
+     */
+    public function test_3_3($value, $expect)
+    {
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
+            '!=' => 5
+        ]);
+
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
+    }
+
+    public function dataForTest_3_3()
+    {
+        return [
+            ['test12', true],
+            ['123 45', true],
+            ['привет', true],
+            ['кот23', false],
+            ['', true],
+            [[], true],
+            ['      ', true],
+            ['1234', true],
+        ];
+    }
+
+    public function test_invalid_operator()
+    {
+        $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
+        $rule = new \Enjoys\Forms\Rule\Length(null, [
+            '!==' => 5
+        ]);
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method->invokeArgs($rule, ['test']);
+    }
+
 }

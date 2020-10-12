@@ -24,13 +24,42 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms;
+namespace Tests\Enjoys\Forms\Rule;
+
+use Enjoys\Forms\Captcha\Defaults\Defaults;
+use Enjoys\Forms\Rule\Captcha;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Class Exception
+ * Class CaptchaTest
  *
  * @author Enjoys
  */
-class Exception extends \Exception{
-   
+class CaptchaTest extends TestCase
+{
+
+    public function test_validate_success()
+    {
+        $mock_element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        $mock_element->expects($this->any())->method('validate')->will($this->returnValue(true));
+
+
+        $rule = new Captcha();
+        $this->assertTrue($rule->validate($mock_element));
+    }
+
+    public function test_validate_fail()
+    {
+        $mock_element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        $mock_element->expects($this->any())->method('validate')->will($this->returnValue(false));
+
+
+        $rule = new Captcha();
+        $this->assertFalse($rule->validate($mock_element));
+    }
+
 }

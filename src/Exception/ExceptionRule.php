@@ -23,13 +23,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Enjoys\Forms\Exception;
+
 /**
- * Description of ExceptionRenderer
+ * Description of ExceptionRule
  *
  * @author deadl
  */
-class ExceptionRenderer extends Exception
+class ExceptionRule extends Exception
 {
     //put your code here
 }

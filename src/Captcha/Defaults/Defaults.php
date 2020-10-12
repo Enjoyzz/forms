@@ -26,9 +26,11 @@
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
-use Enjoys\Base\Session\Session as Session,
-    Enjoys\Forms\Element,
-    Enjoys\Forms\Interfaces;
+use Enjoys\Base\Session\Session as Session;
+use Enjoys\Forms\Http\Request;
+use Enjoys\Forms\Interfaces;
+use Enjoys\Helpers\Arrays;
+use Enjoys\Traits\Options;
 
 /**
  * Description of Defaults
@@ -39,7 +41,7 @@ use Enjoys\Base\Session\Session as Session,
 class Defaults implements Interfaces\Captcha
 {
 
-    use \Enjoys\Traits\Options;
+    use Options;
 
     private $code = '';
     private $ruleMessage;
@@ -65,9 +67,9 @@ class Defaults implements Interfaces\Captcha
 
     public function validate() {
 
-        $request = new \Enjoys\Forms\Http\Request();
+        $request = new Request();
         $method = $request->getMethod();
-        $value = \Enjoys\Helpers\Arrays::getValueByIndexPath($this->element->getName(), $request->$method());
+        $value = $request::getValueByIndexPath($this->element->getName(), $request->$method());
         //_var_dump(Session::get($this->element->getName()), $value);
         if (Session::get($this->element->getName()) !== $value) {
             $this->element->setRuleError($this->ruleMessage);

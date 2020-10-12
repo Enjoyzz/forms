@@ -27,21 +27,37 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 /**
- * Class CsrfTest
+ * Class CaptchaTest
  *
  * @author Enjoys
  */
-class CsrfTest extends \PHPUnit\Framework\TestCase{
-    public function test_disable_csrf() {
-        $form = new \Enjoys\Forms\Forms('post');
-        $this->assertTrue($form->getElements()[\Enjoys\Forms\Forms::_TOKEN_CSRF_] instanceof \Enjoys\Forms\Elements\Hidden);
-        $form->csrf(false);
-        $this->assertNull($form->getElements()[\Enjoys\Forms\Forms::_TOKEN_CSRF_]);
+class CaptchaTest extends \PHPUnit\Framework\TestCase
+{
+
+    use \Tests\Enjoys\Forms\Reflection;
+
+    public function test_init_captcha()
+    {
+        $form = new \Enjoys\Forms\Form();
+        $element = $form->captcha();
+        $this->assertTrue($element instanceof \Enjoys\Forms\Elements\Captcha);
     }
-    
-    public function test_disable_csrf_for_get() {
-        $form = new \Enjoys\Forms\Forms();
-        $form->csrf();
-        $this->assertNull($form->getElements()[\Enjoys\Forms\Forms::_TOKEN_CSRF_]);
-    }    
+
+    public function test_init_captcha_set_rule_message()
+    {
+        $form = new \Enjoys\Forms\Form();
+        $element = $form->captcha('defaults', 'test');
+        $rule = $element->getRules()[0];
+        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Captcha::class, 'getMessage');
+        $this->assertSame('test', $method->invoke($rule));
+    }
+
+    public function test_init_captcha_third_party()
+    {
+        $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
+
+        $form = new \Enjoys\Forms\Form();
+        $element = $form->captcha('AnotherCaptchaDriver');
+    }
+
 }

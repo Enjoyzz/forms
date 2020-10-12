@@ -27,7 +27,8 @@
 namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Elements\Hidden;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\Form;
+use Enjoys\Forms\FormDefaults;
 use Enjoys\Forms\Rule\Csrf;
 use PHPUnit\Framework\TestCase;
 use Tests\Enjoys\Forms\Reflection;
@@ -42,18 +43,20 @@ class CsrfTest extends TestCase
 
     use Reflection;
 
-    public function test_create_rule() {
+    public function test_create_rule()
+    {
         $obj = new Csrf();
         $method = $this->getPrivateMethod('\Enjoys\Forms\Rule\Csrf', 'getMessage');
         $this->assertStringContainsString('CSRF Attack detected', $method->invoke($obj));
     }
 
-    public function test_validate() {
+    public function test_validate()
+    {
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
-        $element = new Hidden(Forms::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(new FormDefaults([], new Form()), Form::_TOKEN_CSRF_, $hash);
         unset($_POST);
-        $_POST[Forms::_TOKEN_CSRF_] = $hash;
+        $_POST[Form::_TOKEN_CSRF_] = $hash;
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
@@ -63,12 +66,13 @@ class CsrfTest extends TestCase
         //   $this->expectException(\Enjoys\Forms\Exception::class);
     }
 
-    public function test_non_validate() {
+    public function test_non_validate()
+    {
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
-        $element = new Hidden(Forms::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(new FormDefaults([], new Form()), Form::_TOKEN_CSRF_, $hash);
         unset($_POST);
-        $_POST[Forms::_TOKEN_CSRF_] = 'faketoken';
+        $_POST[Form::_TOKEN_CSRF_] = 'faketoken';
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);

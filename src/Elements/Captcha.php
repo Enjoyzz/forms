@@ -35,17 +35,14 @@ class Captcha extends \Enjoys\Forms\Element
 {
 
     private $captcha;
-    private $captchaName;
 
     public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $captcha = null, string $message = null)
     {
         if (is_null($captcha)) {
             $captcha = 'Defaults';
         }
-        $this->captchaName = $captcha;
-        parent::__construct($formDefaults, $this->captchaName);
-
-        $this->captcha = $this->getCaptcha($message);
+        parent::__construct($formDefaults, \uniqid('captcha'));
+        $this->captcha = $this->getCaptcha($captcha, $message);
     }
 
     public function setOptions(array $options)
@@ -59,6 +56,16 @@ class Captcha extends \Enjoys\Forms\Element
         $this->captcha->setOption($name, $value);
         return $this;
     }
+    
+    public function getOptions()
+    {
+        return $this->captcha->getOptions();
+    }
+    
+    public function getOption($param, $default = null)
+    {
+        return $this->captcha->getOption($param, $default);
+    }    
 
     public function renderHtml()
     {
@@ -70,13 +77,13 @@ class Captcha extends \Enjoys\Forms\Element
         return $this->captcha->validate();
     }
 
-    private function getCaptcha(string $message = null)
+    private function getCaptcha($captcha, string $message = null)
     {
 
-        $class = "\Enjoys\Forms\Captcha\\" . $this->captchaName . "\\" . $this->captchaName;
+        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
 
         if (!class_exists($class)) {
-            throw new \Enjoys\Forms\Exception("Class <b>{$class}</b> not found");
+            throw new \Enjoys\Forms\Exception\ExceptionElement("Class <b>{$class}</b> not found");
         }
 
         /** @var \Enjoys\Forms\Interfaces\Captcha $element */

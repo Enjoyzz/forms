@@ -24,40 +24,33 @@
  * THE SOFTWARE.
  */
 
-namespace Tests\Enjoys\Forms\Rule;
+namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Captcha\Defaults\Defaults;
-use Enjoys\Forms\Rule\Captcha;
+use Enjoys\Forms\Elements\Hidden;
+use Enjoys\Forms\Form;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class CaptchaTest
+ * Class CsrfTest
  *
  * @author Enjoys
  */
-class CaptchaTest extends TestCase
+class CsrfTest extends TestCase
 {
 
-    public function test_validate_success() {
-        $mock_element = $this->getMockBuilder(Defaults::class)
-                ->setMethods(['validate'])
-                ->getMock();
-        $mock_element->expects($this->any())->method('validate')->will($this->returnValue(true));
-
-
-        $rule = new Captcha();
-        $this->assertTrue($rule->validate($mock_element));
+    public function test_disable_csrf()
+    {
+        $form = new Form('post');
+        $this->assertTrue($form->getElements()[Form::_TOKEN_CSRF_] instanceof Hidden);
+        $form->csrf(false);
+        $this->assertNull($form->getElements()[Form::_TOKEN_CSRF_]);
     }
 
-    public function test_validate_fail() {
-        $mock_element = $this->getMockBuilder(Defaults::class)
-                ->setMethods(['validate'])
-                ->getMock();
-        $mock_element->expects($this->any())->method('validate')->will($this->returnValue(false));
-
-
-        $rule = new Captcha();
-        $this->assertFalse($rule->validate($mock_element));
+    public function test_disable_csrf_for_get()
+    {
+        $form = new Form();
+        $form->csrf();
+        $this->assertNull($form->getElements()[Form::_TOKEN_CSRF_]);
     }
 
 }

@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Enjoys\Forms\Exception;
+
 /**
- * Description of ExceptionRenderer
+ * Class Exception
  *
- * @author deadl
+ * @author Enjoys
  */
-class ExceptionRenderer extends Exception
-{
-    //put your code here
+class Exception extends \Exception{
+   
 }

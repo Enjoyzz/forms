@@ -25,7 +25,7 @@
 
 namespace Tests\Enjoys\Forms\Rule;
 
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +40,7 @@ class CallbackTest extends TestCase
     private $element;
 
     public function setUp(): void {
-        $form = new Forms();
+        $form = new Form();
         $this->element = $form->text('foo');
     }
 

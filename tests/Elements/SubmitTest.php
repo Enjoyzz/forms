@@ -27,35 +27,16 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 /**
- * Class CaptchaTest
+ * Class SubmitTest
  *
  * @author Enjoys
  */
-class CaptchaTest extends \PHPUnit\Framework\TestCase {
-    
-    use \Tests\Enjoys\Forms\Reflection;
+class SubmitTest extends \PHPUnit\Framework\TestCase {
 
-    public function test_init_captcha() {
-        $form = new \Enjoys\Forms\Forms();
-        $element = $form->captcha();
-        $this->assertTrue($element instanceof \Enjoys\Forms\Captcha\Defaults\Defaults);
+    public function test_init() {
+        $el = new \Enjoys\Forms\Elements\Submit(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo', 'title1');
+        $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Submit);
+        $this->assertEquals('title1', $el->getAttribute('value'));
     }
-
-    public function test_init_captcha_set_rule_message() {
-        $form = new \Enjoys\Forms\Forms();
-        $element = $form->captcha(null, 'test');
-        $rule = $element->getRules()[1];
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Captcha::class, 'getMessage');
-        $this->assertSame('test', $method->invoke($rule));
-    }
-    
-    
-    public function test_init_captcha_third_party() {
-        $this->expectException(\Enjoys\Forms\Exception::class);
- 
-        $form = new \Enjoys\Forms\Forms();       
-        $element = $form->captcha('AnotherCaptchaDriver');
-        
-    }    
 
 }
