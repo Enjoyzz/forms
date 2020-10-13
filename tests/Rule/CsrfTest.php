@@ -55,12 +55,15 @@ class CsrfTest extends TestCase
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
         $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
-        unset($_POST);
-        $_POST[Form::_TOKEN_CSRF_] = $hash;
+
+
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
 
+        $obj->initRequest(new \Enjoys\Forms\Http\Request([], [
+                    Form::_TOKEN_CSRF_ => $hash
+        ]));
         //$this->assertSame('d',$obj);
         $this->assertTrue($obj->validate($element));
         //   $this->expectException(\Enjoys\Forms\Exception::class);
@@ -71,12 +74,13 @@ class CsrfTest extends TestCase
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
         $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
-        unset($_POST);
-        $_POST[Form::_TOKEN_CSRF_] = 'faketoken';
+
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
-
+        $obj->initRequest(new \Enjoys\Forms\Http\Request([], [
+                    Form::_TOKEN_CSRF_ => 'faketoken'
+        ]));
         //$this->assertSame('d',$obj);
         $this->assertFalse($obj->validate($element));
         //   $this->expectException(\Enjoys\Forms\Exception::class);

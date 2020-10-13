@@ -74,27 +74,27 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
         $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
                 ->disableOriginalConstructor()
                 ->getMock();
-        
+
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults($element);
         $captcha->setOptions([
             'size' => 5
         ]);
-        
+
         $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'generateCode');
         $method->invoke($captcha);
 
         $this->assertEquals(5, \strlen($captcha->getCode()));
     }
-    
+
     public function test_createImg()
     {
-        
+
         $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
                 ->disableOriginalConstructor()
                 ->getMock();
-        
+
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults($element);
-        
+
         $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'createImage');
 
         $img = $method->invoke($captcha, 'test', 200, 100);
@@ -114,9 +114,9 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
         $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
                 ->disableOriginalConstructor()
                 ->getMock();
-        
+
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults($element);
-        
+
 
         $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'getBase64Image');
 
@@ -124,52 +124,37 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
         $size = \getimagesizefromstring($result);
         $this->assertEquals(200, $size[0]);
         $this->assertEquals(100, $size[1]);
-    }    
-    
+    }
+
     public function test_renderHtml()
     {
         $element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'defaults');
-        
-        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults($element);
+        $element->initRequest(new \Enjoys\Forms\Http\Request([
+                    'captcha_defaults' => 'testcode_fail'
+        ]));
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults($element, 'code invalid');
+        $captcha->validate();
+
         $html = $captcha->renderHtml();
         $this->assertEquals(6, \strlen($captcha->getCode()));
         $this->assertStringContainsString('img src="data:image/jpeg;base64,', $html);
         $this->assertStringContainsString('<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $html);
+        $this->assertStringContainsString('<p style="color: red">code invalid</p>', $html);
+    }
 
-//        $method = $this->getPrivateMethod(\Enjoys\Forms\Captcha\Defaults\Defaults::class, 'setValue');
-//        $method->invokeArgs($obj, ['code_fail']);
-//        //$obj->setValue('code_fail');
-//
-//        foreach ($obj->getRules() as $rule) {
-//            $rule->validate($obj);
-//        }
-//
-//        $html = $obj->renderHtml();
-//        $this->assertStringContainsString('<p style="color: red">code invalid</p>', $html);
-    }    
+    public function test_validate()
+    {
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'defaults');
+        $captcha->initRequest(new \Enjoys\Forms\Http\Request([
+                    'captcha_defaults' => 'testcode'
+        ]));
+        $this->assertSame('captcha_defaults', $captcha->getName());
+        $this->assertTrue($captcha->validate());
 
-//    public function test_validate()
-//    {
-//        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'defaults');
-//
-//        $this->assertSame('captcha_defaults', $captcha->getName());
-//        $this->assertFalse($captcha->getAttribute('value'));
-//
-//        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Captcha::class, 'setValue');
-//        $method->invokeArgs($captcha, ['testcode']);
-//        //$captcha->setValue('testcode');
-//        $this->assertSame('testcode', $captcha->getAttribute('value'));
-//        $this->assertTrue($captcha->validate());
-//
-//        $captcha->removeAttribute('value');
-//        $method->invokeArgs($captcha, ['testcode_fail']);
-//        //$captcha->setValue('testcode_fail');
-//        $this->assertSame('testcode_fail', $captcha->getAttribute('value'));
-//        $this->assertFalse($captcha->validate());
-//    }
-
-
-
-
+        $captcha->initRequest(new \Enjoys\Forms\Http\Request([
+                    'captcha_defaults' => 'testcode_fail'
+        ]));
+        $this->assertFalse($captcha->validate());
+    }
 
 }

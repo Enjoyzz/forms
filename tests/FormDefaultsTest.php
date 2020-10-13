@@ -36,10 +36,7 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
 
     use Reflection;
 
-    public function tearDown(): void
-    {
-        $_GET = [];
-    }
+
 
     public function test_construct_with_submitted()
     {

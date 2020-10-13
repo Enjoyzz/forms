@@ -134,7 +134,7 @@ class Form
         $this->generateTokenSubmit();
         $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->token_submit), true);
 
-        $this->checkSubmittedFrom(new Http\Request());
+        $this->checkSubmittedFrom();
     }
 
     /**
@@ -222,11 +222,11 @@ class Form
         return $this;
     }
 
-    private function checkSubmittedFrom(Interfaces\Request $request)
+    private function checkSubmittedFrom()
     {
         $method = \strtolower($this->getMethod());
         //dump($method);
-        if ($request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
+        if ($this->request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
             $this->submited_form = true;
             return;
         }

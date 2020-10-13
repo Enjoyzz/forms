@@ -40,20 +40,24 @@ class FileTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('25', $elements->getAttribute('value'));
     }
 
-//    public function test_max_file_size2() {
-//        $form = new \Enjoys\Forms\Forms();
-//        $form->file(1, 1);
-//        $elements = $form->getElements()['MAX_FILE_SIZE'];
-//        $this->assertSame('52428800', $elements->getAttribute('value'));
-//    }
+    public function test_max_file_size2() {
+        $form = new \Enjoys\Forms\Form();
+        $form->file(1, 1);
+        $elements = $form->getElements()['MAX_FILE_SIZE'];
+        $this->assertSame('52428800', $elements->getAttribute('value'));
+    }
 
-//    public function test_max_file_size3() {
-//        $form = new \Enjoys\Forms\Forms();
-//        $form->file(1, 1);
-//        $form->setMaxFileSize(25, false);
-//        $elements = $form->getElements()['MAX_FILE_SIZE'];
-//        $this->assertSame('1048576', $elements->getAttribute('value'));
-//    }
+    public function test_max_file_size3() {
+        $form = new \Enjoys\Forms\Form();
+        $form->file(1, 1);
+        $form->setMaxFileSize(25, true);
+        $form->setMaxFileSize(150, false);
+        $elements = $form->getElements()['MAX_FILE_SIZE'];
+        $this->assertSame('25', $elements->getAttribute('value'));
+        $form->setMaxFileSize(150, true);
+        $elements = $form->getElements()['MAX_FILE_SIZE'];
+        $this->assertSame('150', $elements->getAttribute('value'));
+    }
     
     public function test_enctype_method() {
         $form = new \Enjoys\Forms\Form();

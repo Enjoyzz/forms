@@ -34,18 +34,6 @@ namespace Tests\Enjoys\Forms;
 class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
-    //  private $request;
-    public function setUp(): void
-    {
-        // $this->request
-    }
-
-    public function tearDown(): void
-    {
-        $_GET = [];
-        $_POST = [];
-    }
-
     public function test_validate_true()
     {
         $form = new \Enjoys\Forms\Form(null, null, new \Enjoys\Forms\Http\Request([
@@ -63,10 +51,10 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_false()
     {
-        $form = new \Enjoys\Forms\Form();
-        $_GET = [
-            'foo' => 'v_foo',
-        ];
+        $form = new \Enjoys\Forms\Form(null, null, new \Enjoys\Forms\Http\Request([
+                    'foo' => 'v_foo',
+        ]));
+
         $elements = [
             $form->text('foo')->addRule('required'),
             $form->text('bar')->addRule('required'),

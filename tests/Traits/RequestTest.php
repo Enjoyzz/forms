@@ -24,54 +24,23 @@
  * THE SOFTWARE.
  */
 
-namespace Tests\Enjoys\Forms\Rule;
+namespace Tests\Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Elements\Checkbox;
-use Enjoys\Forms\Validator;
+use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Traits\Request;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class RequiredTest
+ * Class RequestTest
  *
  * @author Enjoys
  */
-class RequiredTest extends TestCase
+class RequestTest extends TestCase
 {
-
- 
-
-    private function getFormDefaults($data = [])
+    use Request;
+    
+    public function test_getRequest()
     {
-        return new \Enjoys\Forms\FormDefaults($data);
+        $this->assertInstanceOf(Interfaces\Request::class, $this->getRequest());
     }
-
-    public function test_required_()
-    {
-
-        $element = new Checkbox($this->getFormDefaults(), 'name');
-        $element->initRequest(new \Enjoys\Forms\Http\Request([
-            'name' => [1, 2]
-        ]));
-        $element->addRule('required');
-        $this->assertTrue(Validator::check([$element]));
-    }
-
-    public function test_required_2()
-    {
-        $element = new Checkbox($this->getFormDefaults(), 'name');
-        $element->initRequest(new \Enjoys\Forms\Http\Request([
-            'name' => []
-        ]));
-        $element->addRule('required');
-        $this->assertFalse(Validator::check([$element]));
-    }
-
-    public function test_required_3()
-    {
-
-        $element = new Checkbox($this->getFormDefaults(), 'name');
-        $element->addRule('required');
-        $this->assertFalse(Validator::check([$element]));
-    }
-
 }

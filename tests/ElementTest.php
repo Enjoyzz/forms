@@ -60,7 +60,7 @@ class ElementTest extends TestCase
 
     public function test_setName_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo');
         $this->assertEquals('Foo', $element->getName());
         $element->setName('Baz');
         $this->assertEquals('Baz', $element->getName());
@@ -68,7 +68,7 @@ class ElementTest extends TestCase
 
     public function test_setId_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo');
         $this->assertEquals('Foo', $element->getId());
         $element->setId('Baz');
         $this->assertEquals('Baz', $element->getId());
@@ -82,7 +82,7 @@ class ElementTest extends TestCase
 
     public function test_setValue_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'test');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'test');
         $method = $this->getPrivateMethod(Element::class, 'setValue');
         $method->invokeArgs($element, ['foo']);
         $method->invokeArgs($element, ['bar']);
@@ -91,7 +91,7 @@ class ElementTest extends TestCase
 
     public function test_setTitle_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo', 'Bar');
         $this->assertEquals('Bar', $element->getTitle());
         $element->setTitle('Baz');
         $this->assertEquals('Baz', $element->getTitle());
@@ -99,17 +99,17 @@ class ElementTest extends TestCase
 
     public function test_setDescription_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo', 'Bar');
         $element->setDescription('Zed');
         $this->assertEquals('Zed', $element->getDescription());
     }
 
     public function test_setFormDefaults_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], $this->obj), 'Foo', 'Bar');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo', 'Bar');
         $element->setFormDefaults(new \Enjoys\Forms\FormDefaults([
                     'Foo' => 'newvalue'
-                        ], $this->obj));
+        ]));
         $this->assertEquals('newvalue', $element->getAttribute('value'));
     }
 
@@ -132,7 +132,7 @@ class ElementTest extends TestCase
 
     public function test_setRuleMessage_1_0()
     {
-        $element = new Element(new \Enjoys\Forms\FormDefaults([], new Form()), 'Foo', 'Bar');
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo', 'Bar');
         $element->setRuleError('rule message error');
         $this->assertEquals('rule message error', $element->getRuleErrorMessage());
         $this->assertEquals(true, $element->isRuleError());

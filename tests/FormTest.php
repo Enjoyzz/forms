@@ -129,7 +129,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_addElement_1_0()
     {
         $form = new Form();
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([], $form), 'foo');
+        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'foo');
         $form->addElement($element);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
     }
@@ -142,7 +142,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
         $form = new Form();
         $form->text('foo');
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([], $form), 'foo');
+        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'foo');
         $form->addElement($element);
     }
 
@@ -150,7 +150,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     {
         $form = new Form();
         $form->text('foo');
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([], $form), 'foo');
+        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'foo');
         $form->addElement($element, true);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
     }
@@ -186,37 +186,23 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
     public function test_checkSubmittedFrom_1_0()
     {
-        $request = new \Enjoys\Forms\Http\Request([
-            Form::_TOKEN_SUBMIT_ => '2fd7d78a07c754c821de3f00b96a19b1',
-            'foo' => 'baz'
-        ]);
-
-
-        $form = new Form();
+        $form = new Form(null, null, new \Enjoys\Forms\Http\Request([
+                    Form::_TOKEN_SUBMIT_ => '2fd7d78a07c754c821de3f00b96a19b1',
+                    'foo' => 'baz'
+        ]));
         $method = $this->getPrivateMethod(Form::class, 'checkSubmittedFrom');
-        $method->invokeArgs($form, [
-            $request
-        ]);
-
-        //$this->assertEquals('', $form->getElements()[Form::_TOKEN_SUBMIT_]->getAttribute('value'));
+        $method->invoke($form);
         $this->assertEquals(true, $form->isSubmited());
     }
 
     public function test_checkSubmittedFrom_1_1()
     {
-        $request = new \Enjoys\Forms\Http\Request([
-            Form::_TOKEN_SUBMIT_ => 'invalid',
-            'foo' => 'baz'
-        ]);
-
-
-        $form = new Form();
+        $form = new Form(null, null, new \Enjoys\Forms\Http\Request([
+                    Form::_TOKEN_SUBMIT_ => 'invalid',
+                    'foo' => 'baz'
+        ]));
         $method = $this->getPrivateMethod(Form::class, 'checkSubmittedFrom');
-        $method->invokeArgs($form, [
-            $request
-        ]);
-
-        //$this->assertEquals('', $form->getElements()[Form::_TOKEN_SUBMIT_]->getAttribute('value'));
+        $method->invoke($form);
         $this->assertEquals(false, $form->isSubmited());
     }
 
@@ -228,17 +214,13 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_1_1()
     {
-        $request = new \Enjoys\Forms\Http\Request([
-            Form::_TOKEN_SUBMIT_ => '2fd7d78a07c754c821de3f00b96a19b1',
-            'foo' => 'baz'
-        ]);
-
-
-        $form = new Form();
+        $form = new Form(null, null, new \Enjoys\Forms\Http\Request([
+                    Form::_TOKEN_SUBMIT_ => '2fd7d78a07c754c821de3f00b96a19b1',
+                    'foo' => 'baz'
+        ]));
         $method = $this->getPrivateMethod(Form::class, 'checkSubmittedFrom');
-        $method->invokeArgs($form, [
-            $request
-        ]);
+        $method->invoke($form);
+
         $this->assertEquals(true, $form->validate());
     }
 
@@ -476,7 +458,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
 //        $this->assertFalse($element6->getAttribute('value'));
 //    }
 
-    public function test_validate_false() {
+    public function test_validate_false()
+    {
         $form = $this->getMockBuilder(Form::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();
@@ -484,7 +467,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($form->validate());
     }
 
-    public function test_validate_false_after_submit() {
+    public function test_validate_false_after_submit()
+    {
 
         $form = $this->getMockBuilder(Form::class)
                 ->setMethods(['isSubmited'])
@@ -496,7 +480,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($form->validate());
     }
 
-    public function test_validate_true() {
+    public function test_validate_true()
+    {
         $form = $this->getMockBuilder(Form::class)
                 ->setMethods(['isSubmited'])
                 ->getMock();

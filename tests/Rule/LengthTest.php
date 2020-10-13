@@ -36,12 +36,6 @@ class LengthTest extends \PHPUnit\Framework\TestCase
 
     use \Tests\Enjoys\Forms\Reflection;
 
-    public function tearDown(): void
-    {
-        $_GET = [];
-        $_POST = [];
-    }
-
     private function getFormDefaults($data = [])
     {
         return new \Enjoys\Forms\FormDefaults($data);
@@ -53,14 +47,14 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_1_1_validate_test($value, $expect)
     {
-        $_GET = [
-            'foo' => $value
-        ];
-
         $text = new \Enjoys\Forms\Elements\Text($this->getFormDefaults(), 'foo');
+
         $rule = new \Enjoys\Forms\Rule\Length(null, [
             '>' => 5
         ]);
+        $rule->initRequest(new \Enjoys\Forms\Http\Request([
+                    'foo' => $value
+        ]));
 
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));
