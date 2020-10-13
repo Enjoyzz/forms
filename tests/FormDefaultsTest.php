@@ -44,7 +44,7 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
     public function test_construct_with_submitted()
     {
 
-        $form = new \Enjoys\Forms\Form('post');
+        $form = new \Enjoys\Forms\Form();
         
 
         $submited_form = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'submited_form');
