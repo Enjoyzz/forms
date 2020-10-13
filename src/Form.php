@@ -40,14 +40,13 @@ use Enjoys\Helpers\Math;
  */
 class Form
 {
+    use Traits\Attributes;
+    use Traits\Request;
 
-    use Traits\Attributes,
-        Traits\Request;
-
-    const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
-    const _TOKEN_CSRF_ = '_token_csrf';
-    const _TOKEN_SUBMIT_ = '_token_submit';
-    const _FLAG_FORMMETHOD_ = '_form_method';
+    private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
+    public const _TOKEN_CSRF_ = '_token_csrf';
+    public const _TOKEN_SUBMIT_ = '_token_submit';
+    public const _FLAG_FORMMETHOD_ = '_form_method';
 
     /**
      *
@@ -86,7 +85,7 @@ class Form
     private FormDefaults $formDefaults;
     private string $token_submit = '';
     private bool $submited_form = false;
-    static private int $counterForms = 0;
+    private static int $counterForms = 0;
     private int $formCount = 0;
 
     /**
@@ -112,7 +111,6 @@ class Form
     }
 
     /**
-     * 
      * @param string|null $method
      * @return void
      */
@@ -177,7 +175,6 @@ class Form
     }
 
     /**
-     * 
      * @return \Enjoys\Forms\FormDefaults
      */
     public function getFormDefaults(): FormDefaults
@@ -186,7 +183,6 @@ class Form
     }
 
     /**
-     * 
      * @return bool
      */
     public function isSubmited(): bool
@@ -441,5 +437,4 @@ class Form
             $this->addElement(new Elements\Hidden($this->formDefaults, 'MAX_FILE_SIZE', $bytes));
         }
     }
-
 }
