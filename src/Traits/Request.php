@@ -34,15 +34,18 @@ trait Request {
 
     /**
      *
-     * @var  \Enjoys\Base\Request
+     * @var  \Enjoys\Forms\Interfaces\Request
      */
-    private $request;
+    protected $request;
 
     /**
      * @see InitHttpReques
      */
     function getRequest(\Enjoys\Forms\Interfaces\Request $request = null) {
-        $this->initRequest($request);
+        if($this->request === null){
+            $this->initRequest($request);
+        }
+        return $this->request;
     }
 
     /**

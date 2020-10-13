@@ -33,6 +33,9 @@ namespace Enjoys\Forms;
  */
 class Rules
 {
+
+    use Traits\Request;
+
     const CALLBACK = 'callback';
     const CAPTCHA = 'captcha';
     const CSRF = 'csrf';
@@ -48,13 +51,17 @@ class Rules
      */
     private ?string $message;
     private array $params = [];
+
     /**
      * @deprecated since version 2.0.1-alpha
      * @var \Enjoys\Forms\FormDefaults 
      */
     private FormDefaults $formDefaults;
 
-    public function __construct(?string $message = null, $params = []) {
+    public function __construct(?string $message = null, $params = [])
+    {
+        $this->initRequest();
+
         $this->setParams($params);
         $this->setMessage($message);
     }
@@ -67,7 +74,8 @@ class Rules
 //        $this->formDefaults = $formDefaults;
 //    }
 
-    public function setParams($params) {
+    public function setParams($params)
+    {
 
         if (is_array($params)) {
             $this->params = $params;
@@ -76,23 +84,27 @@ class Rules
         $this->params[] = $params;
     }
 
-    public function getParams() {
+    public function getParams()
+    {
         return $this->params;
     }
 
-    public function getParam($key) {
+    public function getParam($key)
+    {
         if (isset($this->params[$key])) {
             return $this->params[$key];
         }
         return null;
     }
 
-    public function setMessage(?string $message): void {
+    public function setMessage(?string $message): void
+    {
 
         $this->message = $message;
     }
 
-    public function getMessage(): ?string {
+    public function getMessage(): ?string
+    {
 
         return $this->message;
     }

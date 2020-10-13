@@ -6,14 +6,14 @@ use Enjoys\Forms\FormDefaults;
 
 $form = new Form();
 
-$form->setDefaults(new FormDefaults([
+$form->setDefaults([
     'myname' => 'Вася',
     'sex' => 'man',
     'family_status' => 'married',
     'intresting' => [
         'computer', 'music'
     ],
-], $form));
+]);
 
 $form->text('myname', 'Имя');
 $form->text('mysurname', 'Фамилия');

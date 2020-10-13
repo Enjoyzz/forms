@@ -52,9 +52,9 @@ class Required extends Rules implements Rule
 
     public function validate(Element $element): bool
     {
-        $request = new Request();
-        $method = $request->getMethod();
-        $_value = $request::getValueByIndexPath($element->getName(), $request->$method());
+
+        $method = $this->request->getMethod();
+        $_value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;

@@ -36,15 +36,23 @@ use Symfony\Component\HttpFoundation;
 class Request extends HttpFoundation\Request implements \Enjoys\Forms\Interfaces\Request
 {
 
-    public function __construct(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null)
+    public function __construct(
+            ?array $query = null,
+            ?array $request = null,
+            ?array $attributes = null,
+            ?array $cookies = null,
+            ?array $files = null,
+            ?array $server = null,
+            $content = null
+    )
     {
         parent::__construct(
-                (empty($query)) ? $_GET : $query,
-                (empty($request)) ? $_POST : $request,
-                (empty($attributes)) ? [] : $attributes,
-                (empty($cookies)) ? $_COOKIE : $cookies,
-                (empty($files)) ? $_FILES : $files,
-                (empty($server)) ? $_SERVER : $server,
+                $query ?? $_GET,
+                $request ?? $_POST,
+                $attributes ?? [],
+                $cookies ?? $_COOKIE,
+                $files ?? $_FILES,
+                $server ?? $_SERVER,
                 $content
         );
     }

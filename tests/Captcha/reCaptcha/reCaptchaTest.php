@@ -65,17 +65,17 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function test_init() {
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
         $this->assertInstanceOf('\Enjoys\Forms\Elements\Captcha', $captcha);
     }
 
     public function test_init_add_rule() {
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
         $this->assertCount(1, $captcha->getRules());
     }
 
     public function test_render() {
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
         $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
@@ -83,7 +83,7 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
         $responseBody = \json_encode([
                     'success' => true,
         ]);
-        $captcha_element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha_element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
         $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha($captcha_element);
 
         $captcha->setOptions([
@@ -101,7 +101,7 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
                         0 => 'missing-input-response',
                     ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
 
 
         $captcha->setOptions([
@@ -121,7 +121,7 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
                         1 => 'invalid-input-secret'
                     ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
 
 
         $captcha->setOptions([
@@ -141,7 +141,7 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase {
                         1 => 'invalid-input-secret'
                     ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'reCaptcha');
 
 
         $captcha->setOptions([

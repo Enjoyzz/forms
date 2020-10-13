@@ -48,11 +48,11 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_true()
     {
-        $form = new \Enjoys\Forms\Form();
-        $_GET = [
-            'foo' => 'v_foo',
-            'bar' => 'v_bar'
-        ];
+        $form = new \Enjoys\Forms\Form(null, null, new \Enjoys\Forms\Http\Request([
+                    'foo' => 'v_foo',
+                    'bar' => 'v_bar'
+        ]));
+
         $elements = [
             $form->text('foo')->addRule('required'),
             $form->text('bar')->addRule('required'),

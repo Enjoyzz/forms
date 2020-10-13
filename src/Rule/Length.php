@@ -26,7 +26,6 @@
 
 namespace Enjoys\Forms\Rule;
 
-
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Rule;
 use Enjoys\Forms\Rules;
@@ -48,23 +47,24 @@ class Length extends Rules implements Rule
         '<=' => 'lessThanOrEqual',
     ];
 
-    public function setMessage(?string $message): void {
+    public function setMessage(?string $message): void
+    {
         if (is_null($message)) {
             $message = 'Ошибка ввода';
         }
         parent::setMessage($message);
     }
 
-    public function validate(Element $element): bool {
-        
-        $request = new \Enjoys\Forms\Http\Request();
-        $method = $request->getMethod();
-        
-      //  var_dump($element->getName());
+    public function validate(Element $element): bool
+    {
 
-        $value = $request::getValueByIndexPath($element->getName(), $request->$method());
-        
-       // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
+        $method = $this->request->getMethod();
+
+        //  var_dump($element->getName());
+
+        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
+
+        // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
         if (!$this->check($value)) {
             $element->setRuleError($this->getMessage());
             return false;
@@ -73,11 +73,12 @@ class Length extends Rules implements Rule
         return true;
     }
 
-    private function check($value) {
-        if(is_array($value)){
+    private function check($value)
+    {
+        if (is_array($value)) {
             return true;
         }
-        
+
         $length = \mb_strlen(\trim($value), 'UTF-8');
         if (empty($value)) {
             return true;
@@ -102,27 +103,33 @@ class Length extends Rules implements Rule
         return true;
     }
 
-    private function equal($value, $threshold) {
+    private function equal($value, $threshold)
+    {
         return $value == $threshold;
     }
 
-    private function notEqual($value, $threshold) {
+    private function notEqual($value, $threshold)
+    {
         return $value != $threshold;
     }
 
-    private function greaterThan($value, $threshold) {
+    private function greaterThan($value, $threshold)
+    {
         return $value > $threshold;
     }
 
-    private function lessThan($value, $threshold) {
+    private function lessThan($value, $threshold)
+    {
         return $value < $threshold;
     }
 
-    private function greaterThanOrEqual($value, $threshold) {
+    private function greaterThanOrEqual($value, $threshold)
+    {
         return $value >= $threshold;
     }
 
-    private function lessThanOrEqual($value, $threshold) {
+    private function lessThanOrEqual($value, $threshold)
+    {
         return $value <= $threshold;
     }
 

@@ -54,7 +54,7 @@ class CsrfTest extends TestCase
     {
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
-        $element = new Hidden(new FormDefaults([], new Form()), Form::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
         unset($_POST);
         $_POST[Form::_TOKEN_CSRF_] = $hash;
         $obj = new Csrf(null, [
@@ -70,7 +70,7 @@ class CsrfTest extends TestCase
     {
         $csrf_key = 'test';
         $hash = crypt($csrf_key);
-        $element = new Hidden(new FormDefaults([], new Form()), Form::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
         unset($_POST);
         $_POST[Form::_TOKEN_CSRF_] = 'faketoken';
         $obj = new Csrf(null, [

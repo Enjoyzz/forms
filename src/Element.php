@@ -41,7 +41,7 @@ class Element implements Interfaces\Element
 {
 
     use Attributes,
-        LabelAttributes;
+        LabelAttributes, Traits\Request;
 
     /**
      *
@@ -110,7 +110,9 @@ class Element implements Interfaces\Element
      * @param string $title
      */
     public function __construct(FormDefaults $formDefaults, string $name, string $title = null) {
-
+        
+        $this->initRequest();
+        
         $this->formDefaults = $formDefaults;
 
         $this->setName($name);
@@ -261,7 +263,8 @@ class Element implements Interfaces\Element
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
         
         $rule = new $class($message, $params);
-       // $rule->setFormDefaults($this->formDefaults);
+        $rule->initRequest($this->request);
+        
         $this->rules[] = $rule;
         return $this;
     }

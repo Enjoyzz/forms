@@ -67,9 +67,9 @@ class Defaults implements Interfaces\Captcha
 
     public function validate() {
 
-        $request = new Request();
-        $method = $request->getMethod();
-        $value = $request::getValueByIndexPath($this->element->getName(), $request->$method());
+   
+        $method = $this->element->getRequest()->getMethod();
+        $value = $this->element->getRequest()::getValueByIndexPath($this->element->getName(), $this->element->getRequest()->$method());
         //_var_dump(Session::get($this->element->getName()), $value);
         if (Session::get($this->element->getName()) !== $value) {
             $this->element->setRuleError($this->ruleMessage);

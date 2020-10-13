@@ -38,7 +38,7 @@ class FillTest extends \PHPUnit\Framework\TestCase
 
     public function test_setIndexKeyFill()
     {
-        $radio = new \Enjoys\Forms\Elements\Radio(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
+        $radio = new \Enjoys\Forms\Elements\Radio(new \Enjoys\Forms\FormDefaults([]), 'foo');
         $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Radio::class, 'setIndexKeyFill');
         $method->invokeArgs($radio, ['value']);
         $radio->fill(['test' => 1, 'foz' => 2, 'baz' => 3]);
@@ -52,7 +52,7 @@ class FillTest extends \PHPUnit\Framework\TestCase
 
     public function test_fill_with_attributes()
     {
-        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo');
+        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\FormDefaults([]), 'foo');
         $select->fill(['test' => ['title1', [
                     'disabled'
                 ]], 'foz' => [2, [

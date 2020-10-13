@@ -45,18 +45,19 @@ use Enjoys\Helpers\Arrays;
 class Equal extends Rules implements Rule
 {
 
-    public function setMessage(?string $message): void {
+    public function setMessage(?string $message): void
+    {
         if (is_null($message)) {
             $message = 'Допустимые значения (указаны через запятую): ' . \implode(', ', $this->getParams());
         }
         parent::setMessage($message);
     }
 
-    public function validate(Element $element): bool {
+    public function validate(Element $element): bool
+    {
 
-        $request = new \Enjoys\Forms\Http\Request();
-        $method = $request->getMethod();
-        $value = $request::getValueByIndexPath($element->getName(), $request->$method());
+        $method = $this->request->getMethod();
+        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
 
         if (false === $this->check($value)) {
             $element->setRuleError($this->getMessage());
@@ -66,20 +67,21 @@ class Equal extends Rules implements Rule
         return true;
     }
 
-    private function check($value) {
-        
+    private function check($value)
+    {
+
         if ($value === false) {
             return true;
         }
-       if (is_array($value)) {
-    
+        if (is_array($value)) {
+
             foreach ($value as $_val) {
                 if (false === $this->check($_val)) {
                     return false;
                 }
             }
             return true;
-       }
+        }
         return array_search(\trim($value), $this->getParams());
     }
 

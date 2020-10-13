@@ -132,7 +132,7 @@ class Form
         }
 
         $this->generateTokenSubmit();
-        $this->addElement(new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_SUBMIT_, $this->token_submit), true);
+        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->token_submit), true);
 
         $this->checkSubmittedFrom(new Http\Request());
     }
@@ -211,7 +211,7 @@ class Form
         // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
         $csrf_key = '#$' . session_id();
         $hash = crypt($csrf_key);
-        $csrf = new Elements\Hidden(new FormDefaults([], $this), self::_TOKEN_CSRF_, $hash);
+        $csrf = new Elements\Hidden(new FormDefaults([]), self::_TOKEN_CSRF_, $hash);
         $csrf->addRule('csrf', 'CSRF Attack detected', [
             'csrf_key' => $csrf_key]);
 
@@ -305,6 +305,7 @@ class Form
         if ($rewrite === false && $this->elementExists($element->getName())) {
             throw new Exception\ExceptionElement('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
         }
+        $element->initRequest($this->request);
         $this->elements[$element->getName()] = $element;
         return $this;
     }

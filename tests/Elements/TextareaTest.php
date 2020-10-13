@@ -34,7 +34,7 @@ namespace Tests\Enjoys\Forms\Elements;
 class TextareaTest extends \PHPUnit\Framework\TestCase {
 
     public function test_init_textarea() {
-        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo', 'title1');
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([]), 'foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Textarea);
         $this->assertEquals('foo', $el->getName());
 //        $this->assertEquals('foo', $el->getValidateName());

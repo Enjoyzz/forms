@@ -72,13 +72,13 @@ class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
     public function validate()
     {
 
-        $request = new \Enjoys\Forms\Http\Request();
+       
 
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 
         $data = array(
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
-            'response' => $request->post('g-recaptcha-response', $request->get('g-recaptcha-response'))
+            'response' => $this->element->getRequest()->post('g-recaptcha-response', $this->element->getRequest()->get('g-recaptcha-response'))
         );
 
 

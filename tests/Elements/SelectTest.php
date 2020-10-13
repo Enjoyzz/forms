@@ -36,7 +36,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
     private function getFormDefaults($data = [])
     {
-        return new \Enjoys\Forms\FormDefaults($data, new \Enjoys\Forms\Form());
+        return new \Enjoys\Forms\FormDefaults($data);
     }
     
     public function test_title() {

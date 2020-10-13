@@ -34,7 +34,7 @@ namespace Tests\Enjoys\Forms\Elements;
 class SubmitTest extends \PHPUnit\Framework\TestCase {
 
     public function test_init() {
-        $el = new \Enjoys\Forms\Elements\Submit(new \Enjoys\Forms\FormDefaults([], new \Enjoys\Forms\Form()), 'foo', 'title1');
+        $el = new \Enjoys\Forms\Elements\Submit(new \Enjoys\Forms\FormDefaults([]), 'foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Submit);
         $this->assertEquals('title1', $el->getAttribute('value'));
     }
