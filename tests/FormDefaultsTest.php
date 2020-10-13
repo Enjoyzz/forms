@@ -33,6 +33,7 @@ namespace Tests\Enjoys\Forms;
  */
 class FormDefaultsTest extends \PHPUnit\Framework\TestCase
 {
+    use Reflection;
     
     public function tearDown(): void
     {
@@ -43,23 +44,18 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getMockBuilder(\Enjoys\Forms\Form::class)
                 ->disableOriginalConstructor()
-                ->onlyMethods(['isSubmited', 'getMethod'])
+                ->onlyMethods(['isSubmited', 'getMethod', 'setDefaults', 'getFormDefaults'])
                 ->getMock();
         $form->method('isSubmited')->will($this->returnValue(true));
         $form->method('getMethod')->will($this->returnValue('GET'));
-        
-        $_GET = [
-            'data' => 'changeddata'
-        ];    
-        
-        $defaults = new \Enjoys\Forms\FormDefaults([
+        $property = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'request');
+        $property->setValue($form, new \Enjoys\Forms\Http\Request(['data' => 'changeddata'], []));
+
+        $form->setDefaults([
             'data' => 'data'
-        ], $form);
-        
-        
-    
-       
-        $this->assertEquals('changeddata', $defaults->getValue('data'));
+        ]);
+
+        $this->assertEquals('changeddata', $form->getFormDefaults()->getDefaults());
         
     }
     public function test_construct_with_notsubmitted()

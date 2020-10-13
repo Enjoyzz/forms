@@ -39,23 +39,23 @@ class FormDefaults
 
     private $defaults = [];
 
-    public function __construct(array $data, Form $form)
+    public function __construct(array $data)
     {
         $this->defaults = $data;
-        $request = new Http\Request();
-
-        if ($form->isSubmited()) {
-            $this->defaults = [];
-            $method = \strtolower($form->getMethod());
-
-            //записываем флаг/значение каким методом отправлена форма
-            $this->defaults[Form::_FLAG_FORMMETHOD_] = $method;
-
-
-            foreach ($request->$method() as $key => $items) {
-                $this->defaults[$key] = $items;
-            }
-        }
+//        $request = new Http\Request();
+//
+//        if ($form->isSubmited()) {
+//            $this->defaults = [];
+//            $method = \strtolower($form->getMethod());
+//
+//            //записываем флаг/значение каким методом отправлена форма
+//            $this->defaults[Form::_FLAG_FORMMETHOD_] = $method;
+//
+//
+//            foreach ($request->$method() as $key => $items) {
+//                $this->defaults[$key] = $items;
+//            }
+//        }
     }
 
     public function getDefaults()

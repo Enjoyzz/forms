@@ -27,9 +27,9 @@
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Exception;
-use Enjoys\Forms\Traits\Attributes;
+use Enjoys\Forms\Traits;
 use Enjoys\Helpers\Math;
-use Enjoys\Traits\Request;
+
 
 /**
  *
@@ -42,7 +42,7 @@ use Enjoys\Traits\Request;
 class Form
 {
 
-    use Attributes;
+    use Traits\Attributes, Traits\Request;
 
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     const _TOKEN_CSRF_ = '_token_csrf';
@@ -93,8 +93,9 @@ class Form
      * @param string $method
      * @param string $action
      */
-    public function __construct(string $method = null, string $action = null)
+    public function __construct(string $method = null, string $action = null, Interfaces\Request $request = null)
     {
+        $this->initRequest($request);
         $this->formCount = ++static::$counterForms;
 
         $this->setMethod($method);
@@ -102,7 +103,6 @@ class Form
         if (!is_null($action)) {
             $this->setAction($action);
         }
-        $this->formDefaults = new FormDefaults([], $this);
         $this->setDefaults([]);
     }
 
@@ -158,9 +158,23 @@ class Form
 
     public function setDefaults(array $defaultsData)
     {
+        if ($this->isSubmited()) {
+            $defaultsData = [];
+            $method = \strtolower($this->getMethod());
 
-        $this->formDefaults = new FormDefaults($defaultsData, $this);
+            //записываем флаг/значение каким методом отправлена форма
+            $defaultsData[Form::_FLAG_FORMMETHOD_] = $method;
 
+
+            foreach ($this->request->$method() as $key => $items) {
+                if(in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])){
+                    continue;
+                }
+                $defaultsData[$key] = $items;
+            }
+            
+        }        
+        $this->formDefaults = new FormDefaults($defaultsData);
         return $this;
     }
 
