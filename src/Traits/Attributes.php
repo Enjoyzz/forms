@@ -38,11 +38,11 @@ trait Attributes
      * @var array
      */
     private array $attributes = [];
-    private string $groupAttributes = 'general';
+    private string $groupAttr = 'general';
 
     public function setGroupAttributes(string $group)
     {
-        $this->groupAttributes = $group;
+        $this->groupAttr = $group;
         return $this;
     }
 
@@ -52,7 +52,7 @@ trait Attributes
 
     public function resetGroupAttributes()
     {
-        $this->groupAttributes = 'general';
+        $this->groupAttr = 'general';
         return $this;
     }
 
@@ -89,28 +89,31 @@ trait Attributes
     {
         $name = \trim($name);
 
-        if (isset($this->attributes[$this->groupAttributes][$name]) && in_array($name, ['class'])) {
-            $this->attributes[$this->groupAttributes][$name] = $this->attributes[$this->groupAttributes][$name] . " " . $value;
+        if (isset($this->attributes[$this->groupAttr][$name]) && in_array($name, ['class'])) {
+            $this->attributes[$this->groupAttr][$name] = $this->attributes[$this->groupAttr][$name] . " " . $value;
             return;
         }
 
         if (in_array($name, ['name'])) {
-            if (isset($this->attributes[$this->groupAttributes][$name]) && $this->attributes[$this->groupAttributes][$name] != $value) {
-                $this->attributes[$this->groupAttributes][$name] = $value;
+            if (
+                    isset($this->attributes[$this->groupAttr][$name])
+                    && $this->attributes[$this->groupAttr][$name] != $value
+            ) {
+                $this->attributes[$this->groupAttr][$name] = $value;
                 $this->setName($value);
             }
         }
 
-        $this->attributes[$this->groupAttributes][$name] = $value;
+        $this->attributes[$this->groupAttr][$name] = $value;
     }
 
     public function getAttribute($key)
     {
-        if (!isset($this->attributes[$this->groupAttributes])) {
-            $this->attributes[$this->groupAttributes] = [];
+        if (!isset($this->attributes[$this->groupAttr])) {
+            $this->attributes[$this->groupAttr] = [];
         }
-        if (array_key_exists($key, $this->attributes[$this->groupAttributes])) {
-            return $this->attributes[$this->groupAttributes][$key];
+        if (array_key_exists($key, $this->attributes[$this->groupAttr])) {
+            return $this->attributes[$this->groupAttr][$key];
         }
         return false;
     }
@@ -122,10 +125,10 @@ trait Attributes
     public function getAttributes(): string
     {
         $str = [];
-        if (!isset($this->attributes[$this->groupAttributes])) {
-            $this->attributes[$this->groupAttributes] = [];
+        if (!isset($this->attributes[$this->groupAttr])) {
+            $this->attributes[$this->groupAttr] = [];
         }
-        foreach ($this->attributes[$this->groupAttributes] as $key => $value) {
+        foreach ($this->attributes[$this->groupAttr] as $key => $value) {
             if (is_null($value)) {
                 $str[] = " {$key}";
                 continue;
@@ -137,8 +140,8 @@ trait Attributes
 
     public function removeAttribute($key): self
     {
-        if (isset($this->attributes[$this->groupAttributes][$key])) {
-            unset($this->attributes[$this->groupAttributes][$key]);
+        if (isset($this->attributes[$this->groupAttr][$key])) {
+            unset($this->attributes[$this->groupAttr][$key]);
         }
         return $this;
     }

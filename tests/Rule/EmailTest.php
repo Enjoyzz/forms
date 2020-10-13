@@ -24,48 +24,35 @@
  * THE SOFTWARE.
  */
 
-namespace Enjoys\Forms\Rule;
+declare(strict_types=1);
+
+namespace Tests\Enjoys\Forms\Rule;
 
 /**
- * Description of Email
+ * Description of EmailTest
  *
  * @author deadl
  */
-class Email extends \Enjoys\Forms\Rules implements \Enjoys\Forms\Interfaces\Rule
+class EmailTest extends \PHPUnit\Framework\TestCase
 {
 
-//    private $idn_to_ascii = false;
-
-    public function setMessage(?string $message): void
+    /**
+     * @dataProvider data_for_test_validate
+     */
+    public function test_validate($name, $request, $expect)
     {
-        if (is_null($message)) {
-            $message = 'Не правильно введен email';
-        }
-        parent::setMessage($message);
+        $text = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), $name);
+        $text->initRequest(new \Enjoys\Forms\Http\Request($request));
+        $text->addRule(\Enjoys\Forms\Rules::EMAIL);
+        $this->assertEquals($expect, \Enjoys\Forms\Validator::check([$text]));
     }
 
-    public function validate(\Enjoys\Forms\Element $element): bool
+    public function data_for_test_validate()
     {
-
-        $method = $this->request->getMethod();
-        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
-        if (!$this->check(\trim($value))) {
-            $element->setRuleError($this->getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    private function check($value)
-    {
-        if (empty($value)) {
-            return true;
-        }
-
-//        if ($this->idn_to_ascii === true) {
-//            $value = idn_to_ascii($value);
-//        }
-
-        return filter_var($value, \FILTER_VALIDATE_EMAIL);
+        return [
+            ['foo', ['foo' => 'test@test.com'], true],
+            ['foo', ['foo' => 'test@localhost'], false],
+            ['foo', ['foo' => '    '], true],
+        ];
     }
 }

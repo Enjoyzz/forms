@@ -27,7 +27,6 @@
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Http\Request;
 use Enjoys\Forms\Interfaces\Rule;
 use Enjoys\Forms\Rules;
 

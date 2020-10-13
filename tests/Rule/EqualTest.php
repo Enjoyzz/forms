@@ -44,7 +44,7 @@ class EqualTest extends TestCase
      */
     public function test_validate($type, $name, $request, $rule, $expect)
     {
-        $class = "Enjoys\Forms\Elements\\".$type;
+        $class = "Enjoys\Forms\Elements\\" . $type;
         $text = new $class(new \Enjoys\Forms\FormDefaults([]), $name);
         $text->initRequest(new \Enjoys\Forms\Http\Request($request));
         $text->addRule('equal', null, $rule);
@@ -64,11 +64,8 @@ class EqualTest extends TestCase
             ['Checkbox', 'foo', ['foo' => ['invalid']], ['test', 'valid'], false],
             ['Checkbox', 'foo', ['foo' => [0]], [1], false],
             ['Checkbox', 'foo', ['foo' => [1, 2]], [1], false], //
-            ['Checkbox', 'foo', ['foo' => [1, 3]], [1, 2, 3], true], 
-            ['Text', 'name', ['name' => 'fail'], ['test'], false], 
+            ['Checkbox', 'foo', ['foo' => [1, 3]], [1, 2, 3], true],
+            ['Text', 'name', ['name' => 'fail'], ['test'], false],
         ];
     }
-
-
-
 }

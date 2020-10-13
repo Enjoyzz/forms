@@ -65,14 +65,6 @@ class Rules
         $this->setMessage($message);
     }
 
-    /**
-     * @deprecated since version 2.0.1-alpha
-     * @param \Enjoys\Forms\FormDefaults $formDefaults
-     */
-//    public function setFormDefaults(FormDefaults $formDefaults) {
-//        $this->formDefaults = $formDefaults;
-//    }
-
     public function setParams($params)
     {
 
