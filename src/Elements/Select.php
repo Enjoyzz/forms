@@ -34,22 +34,24 @@ use Enjoys\Forms\Traits\Fill;
  *
  * @author deadl
  */
-class Select extends Element {
-
+class Select extends Element
+{
     use Fill;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'option';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    {
         parent::__construct($formDefaults, $name, $title);
          // $this->setIndexKeyFill('value');
     }
 
-    public function addAttributes(...$attributes): self {
+    public function addAttributes(...$attributes): self
+    {
         parent::addAttributes(...$attributes);
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
             $_id = $this->getId();
@@ -61,8 +63,8 @@ class Select extends Element {
         return $this;
     }
 
-    public function setDefault() : self{
+    public function setDefault(): self
+    {
         return $this;
     }
-
 }

@@ -30,7 +30,8 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author deadl
  */
-interface Rule {
+interface Rule
+{
 
     public function __construct(string $message = null);
 

@@ -30,6 +30,7 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author deadl
  */
-interface Radio_Checkbox {
+interface RadioCheckbox
+{
  
 }

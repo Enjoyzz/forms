@@ -36,7 +36,7 @@ use Enjoys\Forms\Rules;
  *
  * $form->text($name, $title)->addRule('required');
  * $form->text($name, $title)->addRule('required', $message);
- * 
+ *
  * @author deadl
  */
 class Required extends Rules implements Rule
@@ -69,5 +69,4 @@ class Required extends Rules implements Rule
         }
         return trim($value) != '';
     }
-
 }

@@ -30,13 +30,14 @@ namespace Enjoys\Forms\Elements;
  * Class Tel
  *
  * @author Enjoys
- * 
+ *
  */
-class Tel extends \Enjoys\Forms\Element {
+class Tel extends \Enjoys\Forms\Element
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'tel';
 }

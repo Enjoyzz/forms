@@ -35,9 +35,8 @@ namespace Enjoys\Forms\Captcha\reCaptcha;
  */
 class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
 {
-
-    use \Enjoys\Traits\Options,
-        \Enjoys\Traits\Request;
+    use \Enjoys\Traits\Options;
+    use \Enjoys\Traits\Request;
 
     private $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
@@ -119,5 +118,4 @@ class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
     {
         return new \GuzzleHttp\Client();
     }
-
 }

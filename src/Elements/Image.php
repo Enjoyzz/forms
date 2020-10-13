@@ -31,11 +31,12 @@ namespace Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class Image extends \Enjoys\Forms\Element{
+class Image extends \Enjoys\Forms\Element
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'image';
 }

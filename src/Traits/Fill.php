@@ -30,50 +30,57 @@ namespace Enjoys\Forms\Traits;
  *
  * @author deadl
  */
-trait Fill {
+trait Fill
+{
 
     /**
      *
-     * @var array 
+     * @var array
      */
     private $elements = [];
     private $indexKey;
     private string $parentName = '';
     private int $counterId = 0;
 
-    private function getIndexKey() {
+    private function getIndexKey()
+    {
         return $this->indexKey;
     }
     
-    private function setIndexKeyFill($index_key) {
+    private function setIndexKeyFill($index_key)
+    {
         $this->indexKey = $index_key;
     }
     
-    public function setParentName(string $parentName) {
+    public function setParentName(string $parentName)
+    {
         $this->parentName = $parentName;
     }
     
-    private function getParentName() {
+    private function getParentName()
+    {
         return $this->parentName;
-    }    
+    }
     
-    public function setCounterId(int $counterId) {
+    public function setCounterId(int $counterId)
+    {
         $this->counterId = $counterId;
-    }    
+    }
     
-    private function getCounterId() {
+    private function getCounterId()
+    {
         return $this->counterId;
     }
 
     /**
-     * 
+     *
      * @param array $data
      * @return $this
      */
-    public function fill(array $data) {
+    public function fill(array $data)
+    {
 
         foreach ($data as $value => $title) {
-            
             $index_key = $this->getIndexKey();
 
             $attributes = [];
@@ -82,7 +89,6 @@ trait Fill {
             //$attributes['value'] = $value;
 
             if (is_array($title)) {
-
                 $_title = $title[0];
 
                 if (isset($title[1]) && is_array($title[1])) {
@@ -99,35 +105,34 @@ trait Fill {
             
             $element->addAttributes($attributes);
 
-            // Если в атррибутах есть `id` вызываем setId() 
+            // Если в атррибутах есть `id` вызываем setId()
             if (isset($attributes['id'])) {
                 $element->setId($attributes['id']);
             }
             
        
-            if($this->formDefaults instanceof \Enjoys\Forms\FormDefaults){
+            if ($this->formDefaults instanceof \Enjoys\Forms\FormDefaults) {
                 $element->setFormDefaults($this->formDefaults);
             }
         
 
             //dump($element->getAttribute('disabled'));
          
-            if($index_key){
+            if ($index_key) {
                 $this->elements[$$index_key] = $element;
                 continue;
             }
             $this->elements[] = $element;
-
         }
         return $this;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getElements(): array {
+    public function getElements(): array
+    {
         return $this->elements;
     }
-
 }

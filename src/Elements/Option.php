@@ -36,23 +36,25 @@ use Enjoys\Helpers\Arrays;
  *
  * @author deadl
  */
-class Option extends Element {
-    
+class Option extends Element
+{
     use Fill;
 
     protected string $type = 'option';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    {
         parent::__construct($formDefaults, $name, $title);
         $this->setValue($name);
         $this->setId($name);
-        $this->removeAttribute('name');        
+        $this->removeAttribute('name');
     }
 
-    public function setDefault() :self {
+    public function setDefault(): self
+    {
 
       //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-      $value = $this->formDefaults->getValue($this->getParentName());
+        $value = $this->formDefaults->getValue($this->getParentName());
      
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
@@ -69,5 +71,4 @@ class Option extends Element {
         }
         return $this;
     }
-
 }

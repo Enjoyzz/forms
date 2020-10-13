@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  */
 namespace Enjoys\Forms\Exception;
+
 /**
  * Description of ExceptionRenderer
  *

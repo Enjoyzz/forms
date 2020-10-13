@@ -31,7 +31,8 @@ namespace Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class Button extends \Enjoys\Forms\Element {
+class Button extends \Enjoys\Forms\Element
+{
 
 
 

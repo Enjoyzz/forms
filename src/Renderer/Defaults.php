@@ -171,7 +171,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element)
+    private function renderRadioCheckbox(Interfaces\RadioCheckbox $element)
     {
         $html = '';
         if ($element->isRuleError()) {
@@ -182,7 +182,6 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
         /** @var \Enjoys\Forms\Element $data */
         foreach ($element->getElements() as $data) {
-
             $html .= "\t<input type=\"{$data->getType()}\" name=\"{$element->getName()}\"{$data->getAttributes()}><label for=\"{$data->getId()}\"{$data->getLabelAttributes()}>{$data->getTitle()}</label><br>\n";
         }
 
@@ -204,7 +203,6 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
         /** @var \Enjoys\Forms\Elements\Option $option */
         foreach ($element->getElements() as $option) {
-
             $html .= "\t<option{$option->getAttributes()}>{$option->getTitle()}</option><br>\n";
         }
         $html .= "</select>";
@@ -223,7 +221,6 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
         /** @var \Enjoys\Forms\Elements\Option $option */
         foreach ($element->getElements() as $option) {
-
             $html .= "\t<option value=\"{$option->getTitle()}\">\n";
         }
         $html .= "</datalist>";
@@ -294,5 +291,4 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     {
         $this->elements = $elements;
     }
-
 }

@@ -39,7 +39,7 @@ use Enjoys\Helpers\Arrays;
  * $form->text($name, $title)->addRule('equal', $message, ['expect']); or
  * $form->text($name, $title)->addRule('equal', $message, (array) 'expect'); or
  * $form->text($name, $title)->addRule('equal', $message, ['expect', 1, '255']);
- * 
+ *
  * @author deadl
  */
 class Equal extends Rules implements Rule
@@ -74,7 +74,6 @@ class Equal extends Rules implements Rule
             return true;
         }
         if (is_array($value)) {
-
             foreach ($value as $_val) {
                 if (false === $this->check($_val)) {
                     return false;
@@ -84,5 +83,4 @@ class Equal extends Rules implements Rule
         }
         return array_search(\trim($value), $this->getParams());
     }
-
 }

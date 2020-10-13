@@ -31,16 +31,16 @@ namespace Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class Reset extends \Enjoys\Forms\Element {
+class Reset extends \Enjoys\Forms\Element
+{
 
     protected string $type = 'reset';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    {
         parent::__construct($formDefaults, $name, $title);
         if (!is_null($title)) {
             $this->setValue($title);
         }
     }
- 
-
 }

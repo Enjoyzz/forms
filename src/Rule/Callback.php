@@ -46,53 +46,54 @@ use Enjoys\Forms\Rules;
  *                  '_check'
  *              ]
  *      ]);
- * 
+ *
  * @example Call static method
- * 
+ *
  * class ClassTest {
  *      static public function isCheck() {
  *          return false;
  *      }
  * }
  * $form->text('foo')->addRule('callback', null, 'ClassTest::isCheck');
- * 
- * 
+ *
+ *
  * @example Callback function
- * 
+ *
  * function check() {
  *      return false;
  * }
  * $form->text('foo')->addRule('callback', null, 'check');
- *  
- * 
+ *
+ *
  * @example Callback closure function (anonimous)
- * 
+ *
  * $form->text('foo')->addRule('callback', null, function () {
  *      return false;
  * });
- * 
- * 
+ *
+ *
  * @example Callback anonimous class
- * 
+ *
  *  $form->text('foo')->addRule('callback', null, new class {
  *      public $execute = 'test';
  *      public function test() {
  *          return false;
  *      }
  *  });
- * 
- * 
+ *
+ *
  * @author deadl
  */
 class Callback extends Rules implements Rule
 {
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return void
      */
-    public function setMessage(?string $message): void {
+    public function setMessage(?string $message): void
+    {
         if (is_null($message)) {
             $message = 'Ошибка';
         }
@@ -100,11 +101,12 @@ class Callback extends Rules implements Rule
     }
 
     /**
-     * 
+     *
      * @param Element $element
      * @return bool
      */
-    public function validate(Element $element): bool {
+    public function validate(Element $element): bool
+    {
         if ($this->check() === false) {
             $element->setRuleError($this->getMessage());
             return false;
@@ -113,10 +115,11 @@ class Callback extends Rules implements Rule
     }
 
     /**
-     * 
+     *
      * @return callback
      */
-    private function check() {
+    private function check()
+    {
         $callback = $this->getParam(0);
 
         if ($callback instanceof \Closure) {
@@ -135,5 +138,4 @@ class Callback extends Rules implements Rule
         array_shift($params);
         return call_user_func($callback, ...$params);
     }
-
 }

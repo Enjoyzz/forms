@@ -31,6 +31,7 @@ namespace Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class Email {
+class Email
+{
     //put your code here
 }

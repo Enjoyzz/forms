@@ -65,7 +65,7 @@ class Captcha extends \Enjoys\Forms\Element
     public function getOption($param, $default = null)
     {
         return $this->captcha->getOption($param, $default);
-    }    
+    }
 
     public function renderHtml()
     {
@@ -89,5 +89,4 @@ class Captcha extends \Enjoys\Forms\Element
         /** @var \Enjoys\Forms\Interfaces\Captcha $element */
         return new $class($this, $message);
     }
-
 }

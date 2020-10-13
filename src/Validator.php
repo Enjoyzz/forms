@@ -31,15 +31,16 @@ namespace Enjoys\Forms;
  *
  * @author deadl
  */
-class Validator {
+class Validator
+{
 
-    static public function check($elements) {
+    public static function check($elements)
+    {
         $_validate = true;
         /** @var \Enjoys\Forms\Element $element */
         foreach ($elements as $element) {
             /** @var \Enjoys\Forms\Interfaces\Rule $rule */
             foreach ($element->getRules() as $rule) {
-
                 if (!$rule->validate($element)) {
                     $_validate = false;
                 }
@@ -47,5 +48,4 @@ class Validator {
         }
         return $_validate;
     }
-
 }

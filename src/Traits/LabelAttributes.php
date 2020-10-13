@@ -30,9 +30,11 @@ namespace Enjoys\Forms\Traits;
  *
  * @author deadl
  */
-trait LabelAttributes {
+trait LabelAttributes
+{
     
-    public function addLabelAttributes(...$attributes) {
+    public function addLabelAttributes(...$attributes)
+    {
         $this->setGroupAttributes('LabelAttribute');
         $this->addAttributes(...$attributes);
         $this->resetGroupAttributes();
@@ -40,7 +42,8 @@ trait LabelAttributes {
         return $this;
     }
 
-    public function getLabelAttributes(): string {
+    public function getLabelAttributes(): string
+    {
         $this->setGroupAttributes('LabelAttribute');
         $attributes = $this->getAttributes();
         $this->resetGroupAttributes();
@@ -49,15 +52,16 @@ trait LabelAttributes {
     }
     
     /**
-     * 
+     *
      * @param type $key
      * @return string|null|bool
      */
-    public function getLabelAttribute($key) {
+    public function getLabelAttribute($key)
+    {
         $this->setGroupAttributes('LabelAttribute');
         $attribute = $this->getAttribute($key);
         $this->resetGroupAttributes();
         // dump($attributes);
         return $attribute;
-    } 
+    }
 }

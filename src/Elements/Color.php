@@ -30,13 +30,14 @@ namespace Enjoys\Forms\Elements;
  * Class Color
  *
  * @author Enjoys
- * 
+ *
  */
-class Color extends \Enjoys\Forms\Element {
+class Color extends \Enjoys\Forms\Element
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'color';
 }

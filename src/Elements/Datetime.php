@@ -30,13 +30,14 @@ namespace Enjoys\Forms\Elements;
  * Class Datetime
  *
  * @author Enjoys
- * 
+ *
  */
-class Datetime extends \Enjoys\Forms\Element {
+class Datetime extends \Enjoys\Forms\Element
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'datetime';
 }

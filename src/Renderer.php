@@ -31,15 +31,18 @@ namespace Enjoys\Forms;
  *
  * @author Enjoys
  */
-class Renderer {
+class Renderer
+{
     
     protected Form $form;
 
-    public function __construct(Form $form) {
+    public function __construct(Form $form)
+    {
         $this->form = $form;
     }
     
-    public function getForm() {
+    public function getForm()
+    {
         return $this->form;
     }
 
@@ -48,6 +51,4 @@ class Renderer {
 //    public function __toString() {
 //        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';
 //    }
-    
-    
 }

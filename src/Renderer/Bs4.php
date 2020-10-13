@@ -37,7 +37,7 @@ class Bs4 //extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 {
 //    public function __construct(\Enjoys\Forms\Forms $form) {
 //        parent::__construct($form);
-//        
+//
 //        $this->header();
 //        $this->footer();
 //    }
@@ -47,7 +47,7 @@ class Bs4 //extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 //    }
 //    private function footer() {
 //        $this->html .= "</form>";
-//    }    
+//    }
 //
 //    public function __toString() {
 //        return '';

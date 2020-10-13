@@ -33,15 +33,15 @@ use Enjoys\Helpers\Arrays;
 
 /**
  * Class Element
- * 
- * 
+ *
+ *
  * @author Enjoys
  */
 class Element implements Interfaces\Element
 {
-
-    use Attributes,
-        LabelAttributes, Traits\Request;
+    use Attributes;
+    use LabelAttributes;
+    use Traits\Request;
 
     /**
      *
@@ -51,50 +51,50 @@ class Element implements Interfaces\Element
 
     /**
      *
-     * @var string|null  
+     * @var string|null
      */
     protected ?string $name = null;
 //    protected ?string $validate_name = null;
 
     /**
      *
-     * @var string|null  
+     * @var string|null
      */
     protected ?string $id = null;
 
     /**
      *
-     * @var string|null   
+     * @var string|null
      */
     protected ?string $title = null;
 
     /**
      *
-     * @var string|null   
+     * @var string|null
      */
     protected ?string $description = null;
 
     /**
      *
-     * @var string|null   
+     * @var string|null
      */
     protected ?string $value = null;
 
     /**
      *
-     * @var string|null    
+     * @var string|null
      */
     private ?string $rule_error_message = null;
 
     /**
      *
-     * @var bool 
+     * @var bool
      */
     private bool $rule_error = false;
 
     /**
      *
-     * @var array 
+     * @var array
      */
     protected array $rules = [];
     
@@ -105,11 +105,12 @@ class Element implements Interfaces\Element
     protected FormDefaults $formDefaults;
 
     /**
-     * 
+     *
      * @param string $name
      * @param string $title
      */
-    public function __construct(FormDefaults $formDefaults, string $name, string $title = null) {
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
+    {
         
         $this->initRequest();
         
@@ -123,11 +124,12 @@ class Element implements Interfaces\Element
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @return \self
      */
-    public function setName(string $name): self {
+    public function setName(string $name): self
+    {
         $this->name = $name;
         $this->setId($this->name);
         $this->setAttribute('name', $this->name);
@@ -138,46 +140,51 @@ class Element implements Interfaces\Element
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @return \self
      */
-    public function setId(string $id): self {
+    public function setId(string $id): self
+    {
         $this->id = $id;
         $this->setAttribute('id', $this->id);
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
-    public function getId(): ?string {
+    public function getId(): ?string
+    {
         return $this->id;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public function getType(): string {
+    public function getType(): string
+    {
         return $this->type;
     }
 
     /**
-     * 
+     *
      * @param string $value
      * @return \self
      */
-    protected function setValue(string $value): self {
+    protected function setValue(string $value): self
+    {
         if ($this->getAttribute('value') !== false) {
             return $this;
         }
@@ -187,46 +194,51 @@ class Element implements Interfaces\Element
     }
 
     /**
-     * 
+     *
      * @param string $title
      * @return \self
      */
-    public function setTitle(string $title): self {
+    public function setTitle(string $title): self
+    {
         $this->title = $title;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
-    public function getTitle(): ?string {
+    public function getTitle(): ?string
+    {
         return $this->title;
     }
 
     /**
-     * 
+     *
      * @param string $description
      * @return \self
      */
-    public function setDescription(string $description): self {
+    public function setDescription(string $description): self
+    {
         $this->description = $description;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
-    public function getDescription(): ?string {
+    public function getDescription(): ?string
+    {
         return $this->description;
     }
     
     /**
-     * 
+     *
      * @param \Enjoys\Forms\FormDefaults $defaults
      */
-    public function setFormDefaults(FormDefaults $defaults) {
+    public function setFormDefaults(FormDefaults $defaults)
+    {
         $this->formDefaults = $defaults;
         $this->setDefault();
     }
@@ -236,13 +248,13 @@ class Element implements Interfaces\Element
      * @uses \Enjoys\Helpers\Arrays::getValueByIndexPath()
      * @return \self
      */
-    protected function setDefault(): self {
+    protected function setDefault(): self
+    {
 
         //$value = Arrays::getValueByIndexPath($this->getName(), $this->formDefaults->get());
         $value = $this->formDefaults->getValue($this->getName());
 
         if (is_array($value)) {
-
             $this->setValue($value[0]);
         }
 
@@ -253,13 +265,14 @@ class Element implements Interfaces\Element
     }
 
     /**
-     * 
+     *
      * @param string $ruleName
      * @param string $message
      * @param array $params
      * @return $this
      */
-    public function addRule(string $ruleName, ?string $message = null, $params = []) {
+    public function addRule(string $ruleName, ?string $message = null, $params = [])
+    {
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
         
         $rule = new $class($message, $params);
@@ -269,40 +282,43 @@ class Element implements Interfaces\Element
         return $this;
     }
 
-//    public function getRule(Rule $rule) {}    
+//    public function getRule(Rule $rule) {}
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return void
      */
-    public function setRuleError(?string $message): void {
+    public function setRuleError(?string $message): void
+    {
         $this->rule_error = true;
         $this->rule_error_message = $message;
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
-    public function getRuleErrorMessage(): ?string {
+    public function getRuleErrorMessage(): ?string
+    {
         return $this->rule_error_message;
     }
 
     /**
-     * 
+     *
      * @return bool
      */
-    public function isRuleError(): bool {
+    public function isRuleError(): bool
+    {
         return $this->rule_error;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getRules(): array {
+    public function getRules(): array
+    {
         return $this->rules;
     }
-
 }

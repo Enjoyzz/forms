@@ -31,7 +31,7 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author deadl
  */
-interface Renderer {
+interface Renderer
+{
     public function __toString();
-
 }

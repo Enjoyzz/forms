@@ -30,13 +30,14 @@ namespace Enjoys\Forms\Elements;
  * Class Search
  *
  * @author Enjoys
- * 
+ *
  */
-class Search extends \Enjoys\Forms\Element {
+class Search extends \Enjoys\Forms\Element
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'search';
 }

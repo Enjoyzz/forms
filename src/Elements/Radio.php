@@ -36,39 +36,42 @@ use Enjoys\Helpers\Arrays;
  * Class Radio
  *
  * @author Enjoys
- * 
+ *
  */
-class Radio extends Element implements Interfaces\Radio_Checkbox
+class Radio extends Element implements Interfaces\RadioCheckbox
 {
-
     use Fill;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'radio';
     private static $prefix_id = 'rb_';
     
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    {
         parent::__construct($formDefaults, $name, $title);
         $this->setValue($name);
         $this->setId($this->getPrefixId() . $name);
-        $this->removeAttribute('name');        
+        $this->removeAttribute('name');
     }
     
-    public function setPrefixId($prefix) {
+    public function setPrefixId($prefix)
+    {
         static::$prefix_id = $prefix;
         $this->setId(static::$prefix_id . $this->getName());
         return $this;
     }
 
-    public function getPrefixId() {
+    public function getPrefixId()
+    {
         return static::$prefix_id;
     }
 
-    public function setDefault(): self {
+    public function setDefault(): self
+    {
 
        // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
         $value = $this->formDefaults->getValue($this->getParentName());
@@ -88,5 +91,4 @@ class Radio extends Element implements Interfaces\Radio_Checkbox
         }
         return $this;
     }
-
 }

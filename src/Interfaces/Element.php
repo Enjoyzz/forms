@@ -30,7 +30,8 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author Enjoys
  */
-interface Element {
+interface Element
+{
 
 
 }

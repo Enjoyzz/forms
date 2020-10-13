@@ -31,8 +31,8 @@ namespace Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class Password extends \Enjoys\Forms\Element {
+class Password extends \Enjoys\Forms\Element
+{
 
     protected string $type = 'password';
-
 }

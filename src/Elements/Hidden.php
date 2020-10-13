@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Elements;
  * Class Hidden
  *
  * @author Enjoys
- * 
+ *
  * @mixin \Enjoys\Forms\Element
  */
 class Hidden extends \Enjoys\Forms\Element
@@ -38,11 +38,12 @@ class Hidden extends \Enjoys\Forms\Element
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'hidden';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $value = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $value = null)
+    {
 
         parent::__construct($formDefaults, $name, null);
 
@@ -51,5 +52,4 @@ class Hidden extends \Enjoys\Forms\Element
         }
         $this->removeAttribute('id');
     }
-
 }

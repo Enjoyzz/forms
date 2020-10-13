@@ -31,6 +31,7 @@ namespace Enjoys\Forms\Exception;
  *
  * @author Enjoys
  */
-class Exception extends \Exception{
+class Exception extends \Exception
+{
    
 }

@@ -33,28 +33,27 @@ namespace Enjoys\Forms;
  */
 class Rules
 {
-
     use Traits\Request;
 
-    const CALLBACK = 'callback';
-    const CAPTCHA = 'captcha';
-    const CSRF = 'csrf';
-    const EMAIL = 'email';
-    const EQUAL = 'equal';
-    const LENGTH = 'length';
-    const REGEXP = 'regexp';
-    const REQUIRED = 'required';
+    public const CALLBACK = 'callback';
+    public const CAPTCHA = 'captcha';
+    public const CSRF = 'csrf';
+    public const EMAIL = 'email';
+    public const EQUAL = 'equal';
+    public const LENGTH = 'length';
+    public const REGEXP = 'regexp';
+    public const REQUIRED = 'required';
 
     /**
      *
-     * @var string|null 
+     * @var string|null
      */
     private ?string $message;
     private array $params = [];
 
     /**
      * @deprecated since version 2.0.1-alpha
-     * @var \Enjoys\Forms\FormDefaults 
+     * @var \Enjoys\Forms\FormDefaults
      */
     private FormDefaults $formDefaults;
 
@@ -108,5 +107,4 @@ class Rules
 
         return $this->message;
     }
-
 }

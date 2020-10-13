@@ -26,7 +26,7 @@
 
 namespace Enjoys\Forms\Elements;
 
-use \Enjoys\Forms\Traits\Fill;
+use Enjoys\Forms\Traits\Fill;
 
 /**
  * Description of Datalist
@@ -35,15 +35,14 @@ use \Enjoys\Forms\Traits\Fill;
  */
 class Datalist extends \Enjoys\Forms\Element
 {
-
     use Fill;
 
     protected string $type = 'option';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    {
         parent::__construct($formDefaults, $name, $title);
         $this->addAttributes('list', $this->getId());
         $this->removeAttribute('id');
     }
-
 }

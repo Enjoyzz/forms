@@ -30,7 +30,8 @@ namespace Enjoys\Forms\Traits;
  *
  * @author deadl
  */
-trait Request {
+trait Request
+{
 
     /**
      *
@@ -41,18 +42,19 @@ trait Request {
     /**
      * @see InitHttpReques
      */
-    function getRequest(\Enjoys\Forms\Interfaces\Request $request = null) {
-        if($this->request === null){
+    public function getRequest(\Enjoys\Forms\Interfaces\Request $request = null)
+    {
+        if ($this->request === null) {
             $this->initRequest($request);
         }
         return $this->request;
     }
 
     /**
-     * 
+     *
      */
-    function initRequest(\Enjoys\Forms\Interfaces\Request $request = null) {
+    public function initRequest(\Enjoys\Forms\Interfaces\Request $request = null)
+    {
         $this->request = $request ?? new \Enjoys\Forms\Http\Request();
     }
-
 }

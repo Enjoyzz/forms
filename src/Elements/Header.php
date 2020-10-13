@@ -30,30 +30,35 @@ namespace Enjoys\Forms\Elements;
  * Description of Header
  *
  * @author deadl
- * 
+ *
  * @mixin \Enjoys\Forms\Element
  */
-class Header extends \Enjoys\Forms\Element {
+class Header extends \Enjoys\Forms\Element
+{
 
     private $closeAfterCountElements = 0;
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title) {
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title)
+    {
         parent::__construct($formDefaults, \uniqid('header'), $title);
         $this->setTitle($title);
         $this->removeAttribute('name');
-        $this->removeAttribute('id');        
+        $this->removeAttribute('id');
     }
  
 
-    public function closeAfter(int $countElements) {
+    public function closeAfter(int $countElements)
+    {
         $this->closeAfterCountElements = $countElements;
     }
 
-    public function getCloseAfterCountElements() {
+    public function getCloseAfterCountElements()
+    {
         return $this->closeAfterCountElements;
     }
 
-    public function addFieldsetAttribute(...$attributes) {
+    public function addFieldsetAttribute(...$attributes)
+    {
         $this->setGroupAttributes('FieldsetAttribute');
         $this->addAttributes(...$attributes);
         $this->resetGroupAttributes();
@@ -61,7 +66,8 @@ class Header extends \Enjoys\Forms\Element {
         return $this;
     }
 
-    public function getFieldsetAttributes(): string {
+    public function getFieldsetAttributes(): string
+    {
         $this->setGroupAttributes('FieldsetAttribute');
         $attributes = $this->getAttributes();
         $this->resetGroupAttributes();
@@ -69,12 +75,12 @@ class Header extends \Enjoys\Forms\Element {
         return $attributes;
     }
     
-    public function getFieldsetAttribute($key): string {
+    public function getFieldsetAttribute($key): string
+    {
         $this->setGroupAttributes('FieldsetAttribute');
         $attribute = $this->getAttribute($key);
         $this->resetGroupAttributes();
         // dump($attributes);
         return $attribute;
-    }    
-
+    }
 }

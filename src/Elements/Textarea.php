@@ -31,21 +31,23 @@ namespace Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class Textarea extends \Enjoys\Forms\Element {
+class Textarea extends \Enjoys\Forms\Element
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'textarea';
 
-    public function setValue(string $value): self {
+    public function setValue(string $value): self
+    {
         $this->value = $value;
         return $this;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
-
 }

@@ -30,7 +30,8 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author deadl
  */
-interface Captcha {
+interface Captcha
+{
    
     public function renderHtml();
     public function validate();

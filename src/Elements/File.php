@@ -31,16 +31,15 @@ namespace Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class File extends \Enjoys\Forms\Element{
+class File extends \Enjoys\Forms\Element
+{
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $type = 'file';
     
 //    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
 //        parent::__construct($formDefaults, $name, $title);
 //    }
-    
- 
 }

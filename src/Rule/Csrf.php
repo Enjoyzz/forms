@@ -26,25 +26,27 @@
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\Rules,
-    Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Rules;
+use Enjoys\Forms\Interfaces\Rule;
 
 /**
  * Description of Required
  *
  * Csrf element will automatically set the rule(s)
  * and the form itself determines when csrf is needed
- * 
+ *
  * @author Enjoys
  */
-class Csrf extends Rules implements Rule {
+class Csrf extends Rules implements Rule
+{
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return void
      */
-    public function setMessage(?string $message): void {
+    public function setMessage(?string $message): void
+    {
         if (is_null($message)) {
             $message = 'CSRF Attack detected';
         }
@@ -52,11 +54,12 @@ class Csrf extends Rules implements Rule {
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @return bool
      */
-    public function validate(\Enjoys\Forms\Element $element): bool {
+    public function validate(\Enjoys\Forms\Element $element): bool
+    {
         if (!$this->check($this->request->post(\Enjoys\Forms\Form::_TOKEN_CSRF_))) {
             $element->setRuleError($this->getMessage());
             // throw new \Enjoys\Forms\Exception($this->getMessage());
@@ -67,12 +70,12 @@ class Csrf extends Rules implements Rule {
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return type
      */
-    private function check($value) {
+    private function check($value)
+    {
         return hash_equals($value, crypt($this->getParam('csrf_key'), $value));
     }
-
 }

@@ -31,6 +31,7 @@ namespace Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class Regexp {
+class Regexp
+{
     //put your code here
 }
