@@ -30,7 +30,6 @@ use Enjoys\Forms\Exception;
 use Enjoys\Forms\Traits;
 use Enjoys\Helpers\Math;
 
-
 /**
  *
  * Class Forms
@@ -42,7 +41,8 @@ use Enjoys\Helpers\Math;
 class Form
 {
 
-    use Traits\Attributes, Traits\Request;
+    use Traits\Attributes,
+        Traits\Request;
 
     const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     const _TOKEN_CSRF_ = '_token_csrf';
@@ -167,13 +167,11 @@ class Form
 
 
             foreach ($this->request->$method() as $key => $items) {
-                if(in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])){
-                    continue;
+                if (!in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
+                    $defaultsData[$key] = $items;
                 }
-                $defaultsData[$key] = $items;
             }
-            
-        }        
+        }
         $this->formDefaults = new FormDefaults($defaultsData);
         return $this;
     }
@@ -427,7 +425,6 @@ class Form
         $this->addElement($element);
         return $element;
     }
-    
 
     /**
      *

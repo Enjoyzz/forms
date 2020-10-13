@@ -33,21 +33,23 @@ namespace Tests\Enjoys\Forms;
  */
 class FormDefaultsTest extends \PHPUnit\Framework\TestCase
 {
+
     use Reflection;
-    
+
     public function tearDown(): void
     {
         $_GET = [];
     }
-    
+
     public function test_construct_with_submitted()
     {
-        $form = $this->getMockBuilder(\Enjoys\Forms\Form::class)
-                ->disableOriginalConstructor()
-                ->onlyMethods(['isSubmited', 'getMethod', 'setDefaults', 'getFormDefaults'])
-                ->getMock();
-        $form->method('isSubmited')->will($this->returnValue(true));
-        $form->method('getMethod')->will($this->returnValue('GET'));
+
+        $form = new \Enjoys\Forms\Form('post');
+        
+
+        $submited_form = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'submited_form');
+        $submited_form->setValue($form, true);
+
         $property = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'request');
         $property->setValue($form, new \Enjoys\Forms\Http\Request(['data' => 'changeddata'], []));
 
@@ -55,9 +57,12 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
             'data' => 'data'
         ]);
 
-        $this->assertEquals('changeddata', $form->getFormDefaults()->getDefaults());
-        
+        //$property->getValue($form)->get()
+        $formDefaults = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'formDefaults');
+
+        $this->assertEquals('changeddata', $formDefaults->getValue($form)->getValue('data'));
     }
+
     public function test_construct_with_notsubmitted()
     {
         $form = $this->getMockBuilder(\Enjoys\Forms\Form::class)
@@ -66,14 +71,14 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
                 ->getMock();
         $form->method('isSubmited')->will($this->returnValue(false));
         $form->method('getMethod')->will($this->returnValue('GET'));
-        
+
         $defaults = new \Enjoys\Forms\FormDefaults([
             'data' => 'data'
-        ], $form);
+                ], $form);
 
-       
+
         $this->assertEquals('data', $defaults->getValue('data'));
-        
     }
+
     //put your code here
 }
