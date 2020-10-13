@@ -36,6 +36,7 @@ use \Enjoys\Forms\Form;
  */
 class DefaultsTest extends TestCase
 {
+
     use \Tests\Enjoys\Forms\Reflection;
 
     /**
@@ -54,14 +55,14 @@ class DefaultsTest extends TestCase
     {
         $this->form = null;
     }
-    
+
     public function test_render_header()
     {
 
- 
+
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form->setAction('test'));
         $this->assertSame("<form action=\"test\"> </form>", $this->toOneString($obj->__toString()));
-    }    
+    }
 
     public function test_render_hidden()
     {
@@ -223,7 +224,7 @@ class DefaultsTest extends TestCase
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
         $this->assertStringContainsString('<p style="color: red">checkbox_error</p>', $obj->elements());
     }
-    
+
     public function test_select_error_rule()
     {
 

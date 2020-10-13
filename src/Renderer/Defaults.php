@@ -41,17 +41,20 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private $count_valid_element = 0;
     private $close_headertag_after = 0;
 
-    public function __construct(\Enjoys\Forms\Form $form) {
+    public function __construct(\Enjoys\Forms\Form $form)
+    {
         parent::__construct($form);
 
         $this->setElements($this->getForm()->getElements());
     }
 
-    public function header() {
+    public function header()
+    {
         return "<form{$this->form->getAttributes()}>\n";
     }
 
-    public function footer() {
+    public function footer()
+    {
         $html = '';
         if ($this->open_header === true) {
             $html .= "\t</fieldset>\n";
@@ -60,7 +63,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    public function hidden() {
+    public function hidden()
+    {
         $html = '';
         /** @var \Enjoys\Forms\Element $element */
         foreach ($this->elements as $key => $element) {
@@ -73,7 +77,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    public function elements() {
+    public function elements()
+    {
         $html = '';
         /** @var \Enjoys\Forms\Element $element */
         foreach ($this->elements as $key => $element) {
@@ -131,13 +136,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                     $html .= $this->renderCaptcha($element);
                     break;
                 default:
-
-//                    if ($element instanceof \Enjoys\Forms\Interfaces\Captcha) {
-//                        $html .= $this->renderCaptcha($element);
-//                    }
                     break;
             }
-            //dump($this->close_headertag_after);
             if ($this->count_valid_element == $this->close_headertag_after) {
                 $html .= $this->renderHeaderCloseTag();
             }
@@ -146,8 +146,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    private function renderCaptcha($element) {
-       // dump($element);
+    private function renderCaptcha($element)
+    {
         $html = '';
         $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
         $html .= "<br>" . $element->renderHtml();
@@ -157,7 +157,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    private function renderInput(\Enjoys\Forms\Element $element) {
+    private function renderInput(\Enjoys\Forms\Element $element)
+    {
         $html = '';
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
@@ -170,7 +171,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element) {
+    private function renderRadioCheckbox(Interfaces\Radio_Checkbox $element)
+    {
         $html = '';
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
@@ -190,7 +192,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderSelect(\Enjoys\Forms\Elements\Select $element) {
+    private function renderSelect(\Enjoys\Forms\Elements\Select $element)
+    {
         $html = '';
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
@@ -212,7 +215,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "<br>\n";
     }
 
-    private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element) {
+    private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element)
+    {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">\n";
 
@@ -230,7 +234,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderTextarea(\Enjoys\Forms\Elements\Textarea $element) {
+    private function renderTextarea(\Enjoys\Forms\Elements\Textarea $element)
+    {
         $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
 \t<textarea{$element->getAttributes()}>{$element->getValue()}</textarea><br>\n";
 
@@ -240,7 +245,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderButton(\Enjoys\Forms\Elements\Button $element) {
+    private function renderButton(\Enjoys\Forms\Elements\Button $element)
+    {
         $html = "\t<button{$element->getAttributes()}>{$element->getTitle()}</button><br>\n";
 
         if (!empty($element->getDescription())) {
@@ -249,11 +255,13 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderInputButton(\Enjoys\Forms\Element $element) {
+    private function renderInputButton(\Enjoys\Forms\Element $element)
+    {
         return "\t<br><br><input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
     }
 
-    private function renderHeader(\Enjoys\Forms\Elements\Header $element) {
+    private function renderHeader(\Enjoys\Forms\Elements\Header $element)
+    {
         if ($element->getCloseAfterCountElements() > 0) {
             $this->close_headertag_after = $this->count_valid_element + $element->getCloseAfterCountElements();
         }
@@ -266,12 +274,14 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    private function renderHeaderCloseTag() {
+    private function renderHeaderCloseTag()
+    {
         $this->open_header = false;
         return "\t</fieldset>\n";
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         $html = '';
         $html .= $this->header();
         $html .= $this->hidden();
@@ -280,7 +290,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    public function setElements(array $elements) {
+    public function setElements(array $elements)
+    {
         $this->elements = $elements;
     }
 
