@@ -36,6 +36,7 @@ use \Enjoys\Forms\Form;
  */
 class DefaultsTest extends TestCase
 {
+    use \Tests\Enjoys\Forms\Reflection;
 
     /**
      *
@@ -53,6 +54,14 @@ class DefaultsTest extends TestCase
     {
         $this->form = null;
     }
+    
+    public function test_render_header()
+    {
+
+ 
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form->setAction('test'));
+        $this->assertSame("<form action=\"test\"> </form>", $this->toOneString($obj->__toString()));
+    }    
 
     public function test_render_hidden()
     {
@@ -73,23 +82,17 @@ class DefaultsTest extends TestCase
     public function test_render_element_width_invalid_element()
     {
 
-        $form = $this->getMockBuilder(Forms::class)
-                ->disableOriginalConstructor()
-                ->getMock();
 
-        $form->elements[] = 'invalid';
-//        $form->elements[] = new \Enjoys\Forms\Elements\Hidden('foo');
-//        $form->elements[] = new \Enjoys\Forms\Elements\Text('bar');
-//        $form->elements[] = new \Enjoys\Forms\Elements\Password('baz');
-
-        $form->expects($this->once())
-                ->method('getElements')
-                ->will($this->returnValue($form->elements));
+        $elements[] = 'invalid';
+        $elements[] = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'bar');
+        $elements[] = new \Enjoys\Forms\Elements\Password(new \Enjoys\Forms\FormDefaults([]), 'baz');
 
 
-//        $this->_getInnerPropertyValueByReflection($form);
-        $obj = new \Enjoys\Forms\Renderer\Defaults($form);
-        $this->assertSame("<form>\n</form>", $obj->__toString());
+        $obj = new \Enjoys\Forms\Renderer\Defaults(new Form());
+        $obj->setElements($elements);
+        $obj->elements();
+        $valideElementsCnt = $this->getPrivateProperty(\Enjoys\Forms\Renderer\Defaults::class, 'count_valid_element');
+        $this->assertEquals("2", $valideElementsCnt->getValue($obj));
     }
 
     public function test_render_element_width_hidden_include_in_element_after_method_hidden()
@@ -219,6 +222,16 @@ class DefaultsTest extends TestCase
         ]);
         $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
         $this->assertStringContainsString('<p style="color: red">checkbox_error</p>', $obj->elements());
+    }
+    
+    public function test_select_error_rule()
+    {
+
+        \Enjoys\Forms\Validator::check([
+            $this->form->select('foot')->addRule('required', 'select_error')
+        ]);
+        $obj = new \Enjoys\Forms\Renderer\Defaults($this->form);
+        $this->assertStringContainsString('<p style="color: red">select_error</p>', $obj->elements());
     }
 
     public function test_rendererTextarea()
