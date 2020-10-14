@@ -43,7 +43,8 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private $count_valid_element = 0;
     private $close_headertag_after = 0;
 
-    public function __construct(\Enjoys\Forms\Form $form)
+
+    public function __construct(\Enjoys\Forms\Form $form, ?array $options = null)
     {
         parent::__construct($form);
 

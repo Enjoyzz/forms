@@ -45,7 +45,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     // private $prepare;
 
-    public function __construct(\Enjoys\Forms\Form $form)
+    public function __construct(\Enjoys\Forms\Form $form, ?array $options = null)
     {
         parent::__construct($form);
         // $this->prepare = new Prepare\Elements();
@@ -171,24 +171,36 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderInput(\Enjoys\Forms\Element $element)
     {
-
-        return [
-            'error' => ($element->isRuleError()) ? $element->getRuleErrorMessage() : null,
-            'label' => "<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>",
-            'body' => "<input type=\"{$element->getType()}\"{$element->getAttributes()}>",
-            'decription' => (!empty($element->getDescription())) ? $element->getDescription() : null
-        ];
-
-        $html = '';
-        if ($element->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
-        }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
-\t<input type=\"{$element->getType()}\"{$element->getAttributes()}><br>\n";
+        $_description = '';
         if (!empty($element->getDescription())) {
-            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+            $_description = "<small id=\"{$element->getId()}Help\" class=\"form-text text-muted\">{$element->getDescription()}</small>";
+            $element->addAttributes([
+                'aria-describedby' => $element->getId() . "Help"
+            ]);
         }
-        return $html . "\n";
+        
+        $_validation = '';
+        if ($element->isRuleError()) {
+            $element->addAttributes([
+                'class' => 'is-invalid'
+            ]);
+            $_validation .= "<div class=\"invalid-feedback\">{$element->getRuleErrorMessage()}</div>";
+        }
+
+        $element->addAttributes('class', 'form-control');
+        $html = '';
+
+        $html .= "
+      
+      
+            <div class=\"form-group\">
+                <label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>
+                <input type=\"{$element->getType()}\"{$element->getAttributes()}>";
+        
+         $html .= $_validation;   
+        $html .= $_description;
+
+        return $html . "</div>";
     }
 
     private function renderRadioCheckbox(Interfaces\RadioCheckbox $element)
@@ -213,24 +225,26 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderSelect(\Enjoys\Forms\Elements\Select $element)
     {
+        $element->addAttributes('class', 'form-control');
+        
         $html = '';
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
-\t<select{$element->getAttributes()}><br>\n";
+        $html .= "<div class=\"form-group\">
+            <label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>
+            <select{$element->getAttributes()}>";
 
-
-        /** @var \Enjoys\Forms\Elements\Option $option */
+            /** @var \Enjoys\Forms\Elements\Option $option */
         foreach ($element->getElements() as $option) {
-            $html .= "\t<option{$option->getAttributes()}>{$option->getTitle()}</option><br>\n";
+            $html .= "<option{$option->getAttributes()}>{$option->getTitle()}</option>\n";
         }
         $html .= "</select>";
 
         if (!empty($element->getDescription())) {
             $html .= "\t<small>{$element->getDescription()}</small><br>\n";
         }
-        return $html . "<br>\n";
+        return $html . "</div>\n";
     }
 
     private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element)
@@ -264,6 +278,9 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderButton(\Enjoys\Forms\Elements\Button $element)
     {
+        $element->addAttributes([
+            'class' => 'btn btn-primary'
+        ]);
         $html = "\t<button{$element->getAttributes()}>{$element->getTitle()}</button><br>\n";
 
         if (!empty($element->getDescription())) {
@@ -274,6 +291,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderInputButton(\Enjoys\Forms\Element $element)
     {
+
         return "\t<br><br><input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
     }
 

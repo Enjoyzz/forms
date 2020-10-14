@@ -45,7 +45,7 @@ class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     
    // private $prepare;
 
-    public function __construct(\Enjoys\Forms\Form $form)
+    public function __construct(\Enjoys\Forms\Form $form, ?array $options = null)
     {
         parent::__construct($form);
        // $this->prepare = new Prepare\Elements();

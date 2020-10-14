@@ -354,7 +354,7 @@ class Form
      * @return Renderer
      * @throws Exception
      */
-    public function display()
+    public function display(?array $options = null)
     {
 
         $rendererName = \ucfirst($this->renderer);
@@ -363,7 +363,7 @@ class Form
         if (!class_exists($renderer)) {
             throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");
         }
-        return new $renderer($this);
+        return new $renderer($this, $options);
     }
 
     /**
