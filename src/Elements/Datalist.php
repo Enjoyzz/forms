@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Traits\Fill;

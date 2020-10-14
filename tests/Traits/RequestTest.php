@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Tests\Enjoys\Forms\Traits;
 
 use Enjoys\Forms\Interfaces;
@@ -38,7 +40,7 @@ use PHPUnit\Framework\TestCase;
 class RequestTest extends TestCase
 {
     use Request;
-    
+
     public function test_getRequest()
     {
         $this->assertInstanceOf(Interfaces\Request::class, $this->getRequest());

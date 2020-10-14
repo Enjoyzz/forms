@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Traits;
 
 /**
@@ -98,7 +100,7 @@ trait Fill
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
         
-            $element = new $class($this->formDefaults, $value, $_title);
+            $element = new $class($this->formDefaults, (string) $value, (string) $_title);
        
             $element->setParentName($this->getName());
             $element->setCounterId(\count($this->elements));

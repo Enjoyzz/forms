@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Exception;
@@ -97,11 +99,22 @@ class Form
         $this->initRequest($request);
         $this->formCount = ++static::$counterForms;
 
-        $this->setMethod($method);
+        if (!is_null($method)) {
+            $this->setMethod($method);
+        }
+
+        if (in_array($this->getMethod(), ['POST'])) {
+            $this->csrf();
+        }
 
         if (!is_null($action)) {
             $this->setAction($action);
         }
+
+        $this->initTokentSubmit();
+
+        $this->checkSubmittedFrom();
+
         $this->setDefaults([]);
     }
 
@@ -111,26 +124,25 @@ class Form
     }
 
     /**
-     * @param string|null $method
+     * @param string $method
      * @return void
      */
-    private function setMethod(?string $method): void
+    private function setMethod(string $method): void
     {
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
         }
         $this->setAttribute('method', $this->method);
 
-        if (is_null($method)) {
-            $this->removeAttribute('method');
-        }
+//        if (is_null($method)) {
+//            $this->removeAttribute('method');
+//        }
 
         if (in_array($this->getMethod(), ['POST'])) {
             $this->csrf();
         }
 
-        $this->generateTokenSubmit();
-        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->token_submit), true);
+        $this->initTokentSubmit();
 
         $this->checkSubmittedFrom();
     }
@@ -216,6 +228,12 @@ class Form
         //$this->addRule(self::$CSRFField, 'CSRF Attack detected', 'csrf', $hash);
         // }
         return $this;
+    }
+
+    private function initTokentSubmit()
+    {
+        $this->generateTokenSubmit();
+        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->token_submit), true);
     }
 
     private function checkSubmittedFrom()
@@ -434,7 +452,7 @@ class Form
             $this->removeElement('MAX_FILE_SIZE');
         }
         if (!$this->elementExists('MAX_FILE_SIZE')) {
-            $this->addElement(new Elements\Hidden($this->formDefaults, 'MAX_FILE_SIZE', $bytes));
+            $this->addElement(new Elements\Hidden($this->formDefaults, 'MAX_FILE_SIZE', (string) $bytes));
         }
     }
 }

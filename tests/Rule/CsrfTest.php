@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Elements\Hidden;

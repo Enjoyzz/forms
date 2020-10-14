@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Traits;
 
 /**
@@ -35,14 +37,15 @@ trait Request
 
     /**
      *
-     * @var  \Enjoys\Forms\Interfaces\Request
+     * @var  Request
      */
-    protected $request;
+    protected ?\Enjoys\Forms\Interfaces\Request $request = null;
 
     /**
-     * @see InitHttpReques
+     * @param \Enjoys\Forms\Interfaces\Request $request
+     * @return \Enjoys\Forms\Interfaces\Request
      */
-    public function getRequest(\Enjoys\Forms\Interfaces\Request $request = null)
+    public function getRequest(\Enjoys\Forms\Interfaces\Request $request = null): \Enjoys\Forms\Interfaces\Request
     {
         if ($this->request === null) {
             $this->initRequest($request);
@@ -51,9 +54,10 @@ trait Request
     }
 
     /**
-     *
+     * @param \Enjoys\Forms\Interfaces\Request $request
+     * @return void
      */
-    public function initRequest(\Enjoys\Forms\Interfaces\Request $request = null)
+    public function initRequest(\Enjoys\Forms\Interfaces\Request $request = null): void
     {
         $this->request = $request ?? new \Enjoys\Forms\Http\Request();
     }

@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
@@ -66,6 +68,6 @@ class Required extends Rules implements Rule
         if (is_array($value)) {
             return count($value) > 0;
         }
-        return trim($value) != '';
+        return \trim((string) $value) != '';
     }
 }

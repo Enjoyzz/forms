@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Captcha\Defaults;
 
 use Enjoys\Base\Session\Session as Session;
@@ -129,7 +131,7 @@ class Defaults implements Interfaces\Captcha
         // Накладываем защитный код
         $x = 0;
         $letters = \str_split($code);
-        $figures = ['50', '70', '90', '110', '130', '150', '170', '190', '210'];
+        $figures = [50, 70, 90, 110, 130, 150, 170, 190, 210];
 
         foreach ($letters as $letter) {
             //Ориентир
@@ -146,15 +148,15 @@ class Defaults implements Interfaces\Captcha
 
             // Формируем координаты для вывода символа
             if (empty($x)) {
-                $x = $width * 0.08;
+                $x = (int) ($width * 0.08);
             } else {
-                $x = $x + ($width * 0.8) / \count($letters) + \rand(0, $width * 0.01);
+                $x = (int) ($x + ($width * 0.8) / \count($letters) + \rand(0, (int) ($width * 0.01)));
             }
 
             if ($h == rand(1, 2)) {
-                $y = (($height * 1) / 4) + \rand(0, $height * 0.1);
+                $y = (int) ((($height * 1) / 4) + \rand(0, (int) ($height * 0.1)));
             } else {
-                $y = (($height * 1) / 4) - \rand(0, $height * 0.1);
+                $y = (int) ((($height * 1) / 4) - \rand(0, (int) ($height * 0.1)));
             }
 
 
@@ -173,7 +175,7 @@ class Defaults implements Interfaces\Captcha
     private function getBase64Image($img)
     {
         \ob_start();
-        \imagejpeg($img, null, '80');
+        \imagejpeg($img, null, 80);
         $img_data = \ob_get_contents();
         \ob_end_clean();
         return \base64_encode($img_data);

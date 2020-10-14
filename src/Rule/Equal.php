@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Base\Request;
@@ -81,6 +83,6 @@ class Equal extends Rules implements Rule
             }
             return true;
         }
-        return array_search(\trim($value), $this->getParams());
+        return array_search(\trim((string) $value), $this->getParams());
     }
 }

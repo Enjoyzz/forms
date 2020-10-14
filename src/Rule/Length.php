@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+declare(strict_types=1);
+
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
@@ -79,7 +81,7 @@ class Length extends Rules implements Rule
             return true;
         }
 
-        $length = \mb_strlen(\trim($value), 'UTF-8');
+        $length = \mb_strlen(\trim((string) $value), 'UTF-8');
         if (empty($value)) {
             return true;
         }
