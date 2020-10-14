@@ -43,6 +43,8 @@ class Element implements Interfaces\Element
 {
     use Attributes;
     use LabelAttributes;
+    use Traits\ValidAttributes;
+    use Traits\DescAttributes;
     use Traits\Request;
 
     /**

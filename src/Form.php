@@ -358,7 +358,7 @@ class Form
     {
 
         $rendererName = \ucfirst($this->renderer);
-        $renderer = '\\Enjoys\\Forms\\Renderer\\Providers\\' . $rendererName .'\\'.$rendererName;
+        $renderer = '\\Enjoys\\Forms\\Renderer\\Providers\\' . $rendererName . '\\' . $rendererName;
 
         if (!class_exists($renderer)) {
             throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");

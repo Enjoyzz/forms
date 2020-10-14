@@ -171,36 +171,18 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderInput(\Enjoys\Forms\Element $element)
     {
-        $_description = '';
-        if (!empty($element->getDescription())) {
-            $_description = "<small id=\"{$element->getId()}Help\" class=\"form-text text-muted\">{$element->getDescription()}</small>";
-            $element->addAttributes([
-                'aria-describedby' => $element->getId() . "Help"
-            ]);
-        }
-        
-        $_validation = '';
-        if ($element->isRuleError()) {
-            $element->addAttributes([
-                'class' => 'is-invalid'
-            ]);
-            $_validation .= "<div class=\"invalid-feedback\">{$element->getRuleErrorMessage()}</div>";
-        }
-
-        $element->addAttributes('class', 'form-control');
+        $prepare = new Prepare\Input($element);
+        //  $element = $prepare->get();
         $html = '';
-
-        $html .= "
-      
-      
-            <div class=\"form-group\">
-                <label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>
-                <input type=\"{$element->getType()}\"{$element->getAttributes()}>";
+        $html .= "<div class=\"form-group\">";
+        $html .= $prepare->label;
+        $html .= $prepare->body;
+        $html .= $prepare->validation;
+        $html .= $prepare->description;
+        $html .= "</div>";
         
-         $html .= $_validation;   
-        $html .= $_description;
-
-        return $html . "</div>";
+       // dump($prepare);
+        return $html;
     }
 
     private function renderRadioCheckbox(Interfaces\RadioCheckbox $element)
@@ -226,7 +208,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private function renderSelect(\Enjoys\Forms\Elements\Select $element)
     {
         $element->addAttributes('class', 'form-control');
-        
+
         $html = '';
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
@@ -235,7 +217,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             <label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>
             <select{$element->getAttributes()}>";
 
-            /** @var \Enjoys\Forms\Elements\Option $option */
+        /** @var \Enjoys\Forms\Elements\Option $option */
         foreach ($element->getElements() as $option) {
             $html .= "<option{$option->getAttributes()}>{$option->getTitle()}</option>\n";
         }
