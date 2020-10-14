@@ -79,12 +79,14 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
-    public function elements()
+    public function elements(?array $elements = null)
     {
+        $elements ??= $this->elements;
+        
         $html = '';
         /** @var \Enjoys\Forms\Element $element */
-        foreach ($this->elements as $key => $element) {
-            unset($this->elements[$key]);
+        foreach ($elements as $key => $element) {
+            unset($elements[$key]);
 
             if (!($element instanceof \Enjoys\Forms\Element)) {
                 continue;
@@ -136,6 +138,9 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                     break;
                 case 'Enjoys\Forms\Elements\Captcha':
                     $html .= $this->renderCaptcha($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Group':
+                    $html .= $this->renderGroup($element);
                     break;
                 default:
                     break;
@@ -273,6 +278,28 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html;
     }
 
+    
+    private function renderGroup(\Enjoys\Forms\Elements\Group $element)
+    {
+        $html = '';
+//        if ($element->isRuleError()) {
+//            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
+//        }
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>\n";
+
+
+        /** @var \Enjoys\Forms\Elements\Option $option */
+       // foreach (as $element) {
+            $html .=  $this->elements($element->getElements());
+      //  }
+//        $html .= "</select>";
+
+        if (!empty($element->getDescription())) {
+            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+        }
+        return $html . "<br>\n";
+    }    
+    
     private function renderHeaderCloseTag()
     {
         $this->open_header = false;
@@ -284,7 +311,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         $html = '';
         $html .= $this->header();
         $html .= $this->hidden();
-        $html .= $this->elements();
+        $html .= $this->elements($this->elements);
         $html .= $this->footer();
         return $html;
     }
