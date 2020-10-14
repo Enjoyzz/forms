@@ -26,7 +26,7 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Renderer\Providers\Bs4;
 
 use Enjoys\Forms\Interfaces;
 

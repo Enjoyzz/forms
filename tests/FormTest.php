@@ -96,7 +96,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     {
         $form = new Form();
         $form->setRenderer('defaults');
-        $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
+        $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Providers\Defaults\Defaults);
     }
 
     public function test_Renderer_1_1()

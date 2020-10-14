@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Tests\Enjoys\Forms\Renderer;
+namespace Tests\Enjoys\Forms\Renderer\Providers\Bs4;
 
 use \PHPUnit\Framework\TestCase,
     Enjoys\Forms\Forms;
