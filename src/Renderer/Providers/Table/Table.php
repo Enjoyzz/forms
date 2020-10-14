@@ -43,12 +43,12 @@ class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private $count_valid_element = 0;
     private $close_headertag_after = 0;
     
-    private $prepare;
+   // private $prepare;
 
     public function __construct(\Enjoys\Forms\Form $form)
     {
         parent::__construct($form);
-        $this->prepare = new Prepare\Elements();
+       // $this->prepare = new Prepare\Elements();
         $this->setElements($this->form->getElements());
     }
 
@@ -95,64 +95,64 @@ class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             }
             
            // dump($element);
-            $this->prepare->addElement($element);
+        //    $this->prepare->addElement($element);
 
-//            $this->count_valid_element++;
-//            switch (\get_class($element)) {
-//                case 'Enjoys\Forms\Elements\Text':
-//                case 'Enjoys\Forms\Elements\Password':
-//                case 'Enjoys\Forms\Elements\Color':
-//                case 'Enjoys\Forms\Elements\Date':
-//                case 'Enjoys\Forms\Elements\Datetime':
-//                case 'Enjoys\Forms\Elements\Datetimelocal':
-//                case 'Enjoys\Forms\Elements\Email':
-//                case 'Enjoys\Forms\Elements\Number':
-//                case 'Enjoys\Forms\Elements\Range':
-//                case 'Enjoys\Forms\Elements\Search':
-//                case 'Enjoys\Forms\Elements\Tel':
-//                case 'Enjoys\Forms\Elements\Time':
-//                case 'Enjoys\Forms\Elements\Url':
-//                case 'Enjoys\Forms\Elements\Month':
-//                case 'Enjoys\Forms\Elements\Week':
-//                case 'Enjoys\Forms\Elements\File':
-//                    $html .= $this->renderInput($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Image':
-//                case 'Enjoys\Forms\Elements\Submit':
-//                case 'Enjoys\Forms\Elements\Reset':
-//                    $html .= $this->renderInputButton($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Header':
-//                    $html .= $this->renderHeader($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Radio':
-//                case 'Enjoys\Forms\Elements\Checkbox':
-//                    $html .= $this->renderRadioCheckbox($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Select':
-//                    $html .= $this->renderSelect($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Textarea':
-//                    $html .= $this->renderTextarea($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Button':
-//                    $html .= $this->renderButton($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Datalist':
-//                    $html .= $this->renderDatalist($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Captcha':
-//                    $html .= $this->renderCaptcha($element);
-//                    break;
-//                case 'Enjoys\Forms\Elements\Group':
-//                    $html .= $this->renderGroup($element);
-//                    break;
-//                default:
-//                    break;
-//            }
-//            if ($this->count_valid_element == $this->close_headertag_after) {
-//                $html .= $this->renderHeaderCloseTag();
-//            }
+            $this->count_valid_element++;
+            switch (\get_class($element)) {
+                case 'Enjoys\Forms\Elements\Text':
+                case 'Enjoys\Forms\Elements\Password':
+                case 'Enjoys\Forms\Elements\Color':
+                case 'Enjoys\Forms\Elements\Date':
+                case 'Enjoys\Forms\Elements\Datetime':
+                case 'Enjoys\Forms\Elements\Datetimelocal':
+                case 'Enjoys\Forms\Elements\Email':
+                case 'Enjoys\Forms\Elements\Number':
+                case 'Enjoys\Forms\Elements\Range':
+                case 'Enjoys\Forms\Elements\Search':
+                case 'Enjoys\Forms\Elements\Tel':
+                case 'Enjoys\Forms\Elements\Time':
+                case 'Enjoys\Forms\Elements\Url':
+                case 'Enjoys\Forms\Elements\Month':
+                case 'Enjoys\Forms\Elements\Week':
+                case 'Enjoys\Forms\Elements\File':
+                    $html .= $this->renderInput($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Image':
+                case 'Enjoys\Forms\Elements\Submit':
+                case 'Enjoys\Forms\Elements\Reset':
+                    $html .= $this->renderInputButton($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Header':
+                    $html .= $this->renderHeader($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Radio':
+                case 'Enjoys\Forms\Elements\Checkbox':
+                    $html .= $this->renderRadioCheckbox($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Select':
+                    $html .= $this->renderSelect($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Textarea':
+                    $html .= $this->renderTextarea($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Button':
+                    $html .= $this->renderButton($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Datalist':
+                    $html .= $this->renderDatalist($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Captcha':
+                    $html .= $this->renderCaptcha($element);
+                    break;
+                case 'Enjoys\Forms\Elements\Group':
+                    $html .= $this->renderGroup($element);
+                    break;
+                default:
+                    break;
+            }
+            if ($this->count_valid_element == $this->close_headertag_after) {
+                $html .= $this->renderHeaderCloseTag();
+            }
         }
 
         return $html;
@@ -316,8 +316,8 @@ class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         $html = '';
         $html .= $this->header();
         $html .= $this->hidden();
-        $this->elements($this->elements);
-        dump($this->prepare->getElements());
+        $html .= $this->elements($this->elements);
+       // dump($this->prepare->getElements());
         $html .= $this->footer();
         return $html;
     }
