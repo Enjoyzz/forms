@@ -33,41 +33,21 @@ namespace Enjoys\Forms\Renderer\Providers\Bs4\Prepare;
  *
  * @author Enjoys
  */
-class Input extends \Enjoys\Forms\Renderer\Prepare
+class File extends Input
 {
 
+    public function __construct(\Enjoys\Forms\Element $element)
+    {
+        $element->addAttributes('class', 'custom-file-input');
+        $element->addLabelAttributes('class', 'custom-file-label');
+        parent::__construct($element);
+        
+    }
 
     protected function body()
     {
-        $this->el->addAttributes('class', 'form-control');
+        
         $this->body = "<input type=\"{$this->el->getType()}\"{$this->el->getAttributes()}>";
     }
 
-    protected function description()
-    {
-        $this->el->addDescAttributes([
-            'id' => $this->el->getId() . 'Help',
-            'class' => 'form-text text-muted'
-        ]);
-        $this->el->addAttributes([
-            'aria-describedby' => $this->el->getDescAttribute('id')
-        ]);
-        
-        parent::description();
-    }
-
-    protected function validation()
-    {
-
-        if ($this->el->isRuleError()) {
-            $this->el->addAttributes([
-                'class' => 'is-invalid'
-            ]);
-            $this->el->addValidAttributes([
-                'class' => 'invalid-feedback'
-            ]);
-        }
-        
-        parent::validation();
-    }
 }

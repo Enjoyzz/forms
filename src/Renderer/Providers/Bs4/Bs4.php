@@ -114,8 +114,10 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 case 'Enjoys\Forms\Elements\Url':
                 case 'Enjoys\Forms\Elements\Month':
                 case 'Enjoys\Forms\Elements\Week':
-                case 'Enjoys\Forms\Elements\File':
                     $html .= $this->renderInput($element);
+                    break;
+                case 'Enjoys\Forms\Elements\File':
+                    $html .= $this->renderFile($element);
                     break;
                 case 'Enjoys\Forms\Elements\Image':
                 case 'Enjoys\Forms\Elements\Submit':
@@ -172,6 +174,21 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private function renderInput(\Enjoys\Forms\Element $element)
     {
         $prepare = new Prepare\Input($element);
+        //  $element = $prepare->get();
+        $html = '';
+        $html .= "<div class=\"form-group\">";
+        $html .= $prepare->label;
+        $html .= $prepare->body;
+        $html .= $prepare->validation;
+        $html .= $prepare->description;
+        $html .= "</div>";
+        
+       // dump($prepare);
+        return $html;
+    }
+    private function renderFile(\Enjoys\Forms\Elements\File $element)
+    {
+        $prepare = new Prepare\File($element);
         //  $element = $prepare->get();
         $html = '';
         $html .= "<div class=\"form-group\">";

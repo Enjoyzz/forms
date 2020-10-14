@@ -26,136 +26,71 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Prepare;
+namespace Enjoys\Forms\Renderer;
 
 /**
  * Class Elements
  *
  * @author Enjoys
  */
-class Elements
+abstract class Prepare
 {
 
-    private $elements = [];
+    protected $description = null;
+    protected $body = null;
+    protected $validation = null;
+    protected $label = null;
 
-    public function __construct()
+    /**
+     * @var \Enjoys\Forms\Element 
+     */
+    protected \Enjoys\Forms\Element $el;
+
+    public function __construct(\Enjoys\Forms\Element $element)
     {
-        
+        $this->el = $element;
+
+        $this->description();
+        $this->validation();
+        $this->label();
+        $this->body();
+    }
+
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
+        return null;
     }
     
-    public function getElements()
+    protected function body()
     {
-        return $this->elements;
+        
     }
 
-    public function addElement(\Enjoys\Forms\Element $element)
+    protected function description()
     {
-        switch (\get_class($element)) {
-            case 'Enjoys\Forms\Elements\Text':
-            case 'Enjoys\Forms\Elements\Password':
-            case 'Enjoys\Forms\Elements\Color':
-            case 'Enjoys\Forms\Elements\Date':
-            case 'Enjoys\Forms\Elements\Datetime':
-            case 'Enjoys\Forms\Elements\Datetimelocal':
-            case 'Enjoys\Forms\Elements\Email':
-            case 'Enjoys\Forms\Elements\Number':
-            case 'Enjoys\Forms\Elements\Range':
-            case 'Enjoys\Forms\Elements\Search':
-            case 'Enjoys\Forms\Elements\Tel':
-            case 'Enjoys\Forms\Elements\Time':
-            case 'Enjoys\Forms\Elements\Url':
-            case 'Enjoys\Forms\Elements\Month':
-            case 'Enjoys\Forms\Elements\Week':
-            case 'Enjoys\Forms\Elements\File':
-                $this->elements[] = $this->prepareInput($element);
-                break;
-            case 'Enjoys\Forms\Elements\Image':
-            case 'Enjoys\Forms\Elements\Submit':
-            case 'Enjoys\Forms\Elements\Reset':
-                $this->elements[] = $this->prepareInputButton($element);
-                break;
-            case 'Enjoys\Forms\Elements\Header':
-                $this->elements[] = $this->prepareHeader($element);
-                break;
-            case 'Enjoys\Forms\Elements\Radio':
-            case 'Enjoys\Forms\Elements\Checkbox':
-                $this->elements[] = $this->prepareRadioCheckbox($element);
-                break;
-            case 'Enjoys\Forms\Elements\Select':
-                $this->elements[] = $this->prepareSelect($element);
-                break;
-            case 'Enjoys\Forms\Elements\Textarea':
-                $this->elements[] = $this->prepareTextarea($element);
-                break;
-            case 'Enjoys\Forms\Elements\Button':
-                $this->elements[] = $this->prepareButton($element);
-                break;
-            case 'Enjoys\Forms\Elements\Datalist':
-                $this->elements[] = $this->prepareDatalist($element);
-                break;
-            case 'Enjoys\Forms\Elements\Captcha':
-                $this->elements[] = $this->prepareCaptcha($element);
-                break;
-            case 'Enjoys\Forms\Elements\Group':
-                $this->elements[] = $this->prepareGroup($element);
-                break;
-            default:
-                break;
+        if (empty($this->el->getDescription())) {
+            return;
         }
+        $this->description = "<small{$this->el->getDescAttributes()}>{$this->el->getDescription()}</small>";
     }
 
-    private function prepareInput($element)
+    protected function validation()
     {
-       // dump($element);
-        $element->addAttributes([
-            'class' => 'test test2'
-        ]);
-        return [
-            
-            'error' => ($element->isRuleError()) ? $element->getRuleErrorMessage() : null,
-            'label' => "<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>",
-            'body' => "<input type=\"{$element->getType()}\"{$element->getAttributes()}>",
-            'decription' => (!empty($element->getDescription())) ? $element->getDescription() : null
-        ];
+        if (!$this->el->isRuleError()) {
+            return;
+        }
+        $this->validation = "<div{$this->el->getValidAttributes()}>{$this->el->getRuleErrorMessage()}</div>";
     }
 
-    private function prepareInputButton($element)
+    protected function label()
     {
-        
-    }
+        if (empty($this->el->getTitle())) {
+            return;
+        }
 
-    private function prepareHeader($element)
-    {
-        
-    }
-
-    private function prepareRadioCheckbox($element)
-    {
-        
-    }
-
-    private function prepareSelect($element)
-    {
-        
-    }
-
-    private function prepareTextarea($element)
-    {
-        
-    }
-
-    private function prepareButton($element)
-    {
-        
-    }
-
-    private function prepareDatalist($element)
-    {
-        
-    }
-
-    private function prepareCaptcha($element)
-    {
-        
+        $this->label = "<label for=\"{$this->el->getId()}\"{$this->el->getLabelAttributes()}>{$this->el->getTitle()}</label>";
     }
 }
