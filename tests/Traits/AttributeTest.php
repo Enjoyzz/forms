@@ -33,7 +33,8 @@ use Enjoys\Forms\Form;
  *
  * @author deadl
  */
-class AttributeTest extends \PHPUnit\Framework\TestCase {
+class AttributeTest extends \PHPUnit\Framework\TestCase
+{
 
     /**
      *
@@ -41,63 +42,111 @@ class AttributeTest extends \PHPUnit\Framework\TestCase {
      */
     protected $obj;
 
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         $this->obj = new Form();
     }
 
-    protected function tearDown(): void {
+    protected function tearDown(): void
+    {
         $this->obj = null;
     }
 
-    public function testAddAttribute_arrays() {
-        $this->obj->addAttributes(['first' => 'value1', 'second' => 'value2']);
+    public function testAddAttribute_arrays()
+    {
+        $this->obj->setAttributes(['first' => 'value1', 'second' => 'value2']);
         $this->assertSame('value1', $this->obj->getAttribute('first'));
         $this->assertSame('value2', $this->obj->getAttribute('second'));
     }
 
-    public function testAddAttribute_lines() {
-        $this->obj->addAttributes('first', 'value1');
+    public function testAddAttribute_lines()
+    {
+        $this->obj->setAttribute('first', 'value1');
         $this->assertSame('value1', $this->obj->getAttribute('first'));
     }
 
-    public function testAddAttribute_class() {
+    public function testAddAttribute_class()
+    {
         //$this->markTestSkipped('test invalid! why? in project work all right!!');
-        $this->obj->addAttributes('class', 'value1')->addAttributes('class', 'value2');
-        $this->assertSame('value1 value2', $this->obj->getAttribute('class'));
+        $this->obj->setAttribute('class', 'value1')->setAttribute('class', 'value2');
+        $this->assertSame(['value1', 'value2'], $this->obj->getAttribute('class'));
     }
 
-    public function testAddAttribute_not_class() {
-        $this->obj->addAttributes('something', 'value1')->addAttributes('something', 'value2');
+    public function testAddAttribute_not_class()
+    {
+        $this->obj->setAttribute('something', 'value1')->setAttribute('something', 'value2');
         $this->assertSame('value2', $this->obj->getAttribute('something'));
     }
 
-    public function testGetAttributes() {
-        $this->obj->addAttributes('something', 'value1')->addAttributes('something2');
+    public function testGetAttributes()
+    {
+        $this->obj->setAttribute('something', 'value1')->setAttribute('something2');
         $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
     }
 
-    public function testGetAttributesArray() {
-        $this->obj->addAttributes(['something' => 'value1', 'something2' => null]);
+    public function testGetAttributesArray()
+    {
+        $this->obj->setAttributes(['something' => 'value1', 'something2' => null]);
         $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
     }
 
-    public function testGetAttributesArray2() {
-        $this->obj->addAttributes(['something' => 'value1', 'something2']);
+    public function testGetAttributesArray2()
+    {
+        $this->obj->setAttributes(['something' => 'value1', 'something2']);
         $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
+    }
+
+    public function testGetAttributesClassMany()
+    {
+        $this->obj->setAttributes(['class' => 'value1'])->setAttributes(['class' => 'value2']);
+        $this->assertStringContainsString('class="value1 value2"', $this->obj->getAttributes());
+    }
+
+    public function testGetAttributesClassMany2()
+    {
+        $this->obj->setAttributes(['class' => 'value1'])->setAttributes(['class' => 'value1']);
+        $this->assertStringContainsString('class="value1"', $this->obj->getAttributes());
+    }
+
+    public function testGetAttributesClassMany3()
+    {
+        $this->obj
+                ->setAttribute('class', 'value5')
+                ->setAttribute('class', 'value5');
+        $this->assertStringContainsString('class="value5"', $this->obj->getAttributes());
     }
     
-    public function test_attr_without_value_get_attr() {
-        $this->obj->addAttributes(['something' => 'value1', 'something2']);
+    public function testGetAttributesClassMany4()
+    {
+        $this->obj->addClass('test1')->addClass('test2 test3');
+        $this->assertEquals(['test1', 'test2', 'test3'], $this->obj->getAttribute('class'));
+    }
+
+    public function test_addClass_removeClass()
+    {
+        $this->obj->removeClass('not-isset-class');
+        $this->assertEquals('', $this->obj->getAttributes());
+
+        $this->obj
+                ->addClass(5)
+                ->addClass('test-class');
+        $this->assertStringContainsString('class="5 test-class"', $this->obj->getAttributes());
+        $this->obj->removeClass('test-class');
+        $this->assertStringContainsString('class="5"', $this->obj->getAttributes());
+        $this->obj->removeClass(5);
+        $this->assertEquals('', $this->obj->getAttributes());
+    }
+
+    public function test_attr_without_value_get_attr()
+    {
+        $this->obj->setAttributes(['something' => 'value1', 'something2']);
         $this->assertNull($this->obj->getAttribute('something2'));
-    }   
-    
-    public function test_get_attr_unseted() {
-        $this->assertFalse($this->obj->getAttribute('something2'));
-        $this->obj->setGroupAttributes('test');
-        $this->assertFalse($this->obj->getAttribute('something2'));
-        $this->obj->resetGroupAttributes();
-    }        
-    
+    }
 
-
+    public function test_get_attr_unseted()
+    {
+        $this->obj->setAttribute('something2', true);
+        $this->assertEquals(true, $this->obj->getAttribute('something2'));
+        $this->assertEquals(false, $this->obj->getAttribute('something2', 'test'));
+    }
 }

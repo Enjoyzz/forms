@@ -38,30 +38,35 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     {
         return new \Enjoys\Forms\FormDefaults($data);
     }
-    
-    public function test_title() {
+
+    public function test_title()
+    {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $this->assertSame('title', $obj->getTitle());
     }
 
-    public function test_title2() {
+    public function test_title2()
+    {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->setTitle('title2');
         $this->assertSame('title2', $obj->getTitle());
     }
 
-    public function test_name() {
+    public function test_name()
+    {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $this->assertSame('name', $obj->getName());
     }
 
-    public function test_name2() {
+    public function test_name2()
+    {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->setName('name[]');
         $this->assertSame('name[]', $obj->getName());
     }
 
-    private function filldata() {
+    private function filldata()
+    {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->fill([
             'v1' => 't1',
@@ -77,7 +82,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         return $elements;
     }
 
-    public function test_fill() {
+    public function test_fill()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
@@ -85,7 +91,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('t1', $v1->getTitle());
     }
 
-    public function test_fill3() {
+    public function test_fill3()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v1 */
@@ -93,7 +100,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('v1', $v1->getId());
     }
 
-    public function test_fill4() {
+    public function test_fill4()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
@@ -101,7 +109,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('t2', $v2->getTitle());
     }
 
-    public function test_fill5() {
+    public function test_fill5()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
@@ -109,7 +118,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('v2', $v2->getName());
     }
 
-    public function test_fill6() {
+    public function test_fill6()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
@@ -117,7 +127,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('i2', $v2->getId());
     }
 
-    public function test_fill7() {
+    public function test_fill7()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
@@ -126,7 +137,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($v2->getAttribute('id'));
     }
 
-    public function test_count_option_element() {
+    public function test_count_option_element()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->fill([
@@ -136,7 +148,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(3, $obj->getElements());
     }
 
-    public function test_count_option_element2() {
+    public function test_count_option_element2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->fill([
@@ -146,7 +159,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(3, $obj->getElements());
     }
 
-    public function test_count_option_element3() {
+    public function test_count_option_element3()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->fill([1])->fill([1]);
@@ -154,74 +168,83 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(2, $obj->getElements());
     }
 
-    public function test_multiple_name_add_array() {
+    public function test_multiple_name_add_array()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $obj->addAttributes('multiple');
+        $obj->setAttributes(['multiple']);
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getId());
     }
 
-    public function test_multiple_name_add_array_1_2() {
+    public function test_multiple_name_add_array_1_2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name[]', 'title');
-        $obj->addAttributes('multiple');
+        $obj->setAttributes(['multiple']);
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name[]', $obj->getId());
     }
 
-    public function test_multiple_name_add_array2() {
+    public function test_multiple_name_add_array2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $obj->addAttributes('multiple');
-        $obj->addAttributes('disabled');
+        $obj->setAttributes(['multiple']);
+        $obj->setAttribute('disabled');
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getId());
     }
 
-    public function test_multiple_id_begin_id() {
+    public function test_multiple_id_begin_id()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name[]', 'title');
         $obj->setId('test');
-        $obj->addAttributes('multiple');
+        $obj->setAttributes(['multiple']);
         $this->assertSame('test', $obj->getId());
     }
 
-    public function test_multiple_id_begin_id2() {
+    public function test_multiple_id_begin_id2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->setId('test');
-        $obj->addAttributes('multiple');
+        $obj->setAttributes(['multiple']);
         $this->assertSame('test', $obj->getId());
     }
 
-    public function test_multiple_begin_multiple() {
+    public function test_multiple_begin_multiple()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name[]', 'title');
-        $obj->addAttributes('multiple');
+        $obj->setAttributes(['multiple']);
         $obj->setId('test');
         $this->assertSame('test', $obj->getId());
     }
 
-    public function test_multiple_begin_multiple2() {
+    public function test_multiple_begin_multiple2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $obj->addAttributes('multiple');
+        $obj->setAttributes(['multiple']);
         $obj->setId('test');
         $this->assertSame('test', $obj->getId());
     }
 
-    public function test_id() {
+    public function test_id()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
         $obj->setId('test');
         $this->assertSame('test', $obj->getId());
     }
 
-    public function test_defaults1() {
+    public function test_defaults1()
+    {
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
             'name' => 2
@@ -237,7 +260,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($option->getAttribute('selected'));
     }
 
-    public function test_defaults2() {
+    public function test_defaults2()
+    {
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
             'name' => [1, 2]
@@ -251,7 +275,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
 
-    public function test_defaults3() {
+    public function test_defaults3()
+    {
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
             'name' => [1, 2]
@@ -266,13 +291,14 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($select->getElements()[2]->getAttribute('selected'));
     }
 
-    public function test_defaults4_attr_before_fill() {
+    public function test_defaults4_attr_before_fill()
+    {
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
             'name2' => [0, 2]
         ]);
         $form->select('name2', 'title')
-                ->addAttributes('multiple')
+                ->setAttributes(['multiple'])
                 ->fill([1, 2, 3])
         ;
 
@@ -283,7 +309,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
 
-    public function test_defaults4_attr_after_fill() {
+    public function test_defaults4_attr_after_fill()
+    {
         $this->markTestSkipped('Не корректно работает, тест выше, почти такое же корректно работает');
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
@@ -300,5 +327,4 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
         $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
-
 }

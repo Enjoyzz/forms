@@ -35,35 +35,31 @@ namespace Enjoys\Forms\Traits;
 trait ValidAttributes
 {
     
-    public function addValidAttributes(...$attributes)
+     public function addValidAttributes($attributes)
     {
-        $this->setGroupAttributes('ValidAttribute');
-        $this->addAttributes(...$attributes);
-        $this->resetGroupAttributes();
-
+        $this->setAttributes($attributes, 'ValidAttributes');
         return $this;
     }
 
     public function getValidAttributes(): string
     {
-        $this->setGroupAttributes('ValidAttribute');
-        $attributes = $this->getAttributes();
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attributes;
+        return $this->getAttributes('ValidAttributes');
     }
-    
-    /**
-     *
-     * @param type $key
-     * @return string|null|bool
-     */
+
     public function getValidAttribute($key)
     {
-        $this->setGroupAttributes('ValidAttribute');
-        $attribute = $this->getAttribute($key);
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attribute;
+        return$this->getAttribute($key, 'ValidAttributes');
+    }
+
+    public function addValidClass($class)
+    {
+        $this->addClass($class, 'ValidAttributes');
+        return $this;
+    }
+
+    public function removeValidClass($classValue)
+    {
+        $this->removeClass($classValue, 'ValidAttributes');
+        return $this;
     }
 }

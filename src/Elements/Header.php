@@ -47,7 +47,6 @@ class Header extends \Enjoys\Forms\Element
         $this->removeAttribute('name');
         $this->removeAttribute('id');
     }
- 
 
     public function closeAfter(int $countElements)
     {
@@ -59,30 +58,31 @@ class Header extends \Enjoys\Forms\Element
         return $this->closeAfterCountElements;
     }
 
-    public function addFieldsetAttribute(...$attributes)
+    public function addFieldsetAttributes($attributes)
     {
-        $this->setGroupAttributes('FieldsetAttribute');
-        $this->addAttributes(...$attributes);
-        $this->resetGroupAttributes();
-
+        $this->setAttributes($attributes, 'FieldsetAttributes');
         return $this;
     }
 
     public function getFieldsetAttributes(): string
     {
-        $this->setGroupAttributes('FieldsetAttribute');
-        $attributes = $this->getAttributes();
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attributes;
+        return $this->getAttributes('FieldsetAttributes');
     }
-    
-    public function getFieldsetAttribute($key): string
+
+    public function getFieldsetAttribute($key)
     {
-        $this->setGroupAttributes('FieldsetAttribute');
-        $attribute = $this->getAttribute($key);
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attribute;
+        return$this->getAttribute($key, 'FieldsetAttributes');
+    }
+
+    public function addFieldsetClass($class)
+    {
+        $this->addClass($class, 'FieldsetAttributes');
+        return $this;
+    }
+
+    public function removeFieldsetClass($classValue)
+    {
+        $this->removeClass($classValue, 'FieldsetAttributes');
+        return $this;
     }
 }

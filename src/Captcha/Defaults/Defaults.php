@@ -50,7 +50,7 @@ class Defaults implements Interfaces\Captcha
     {
         $this->element = $element;
         $this->element->setName('captcha_defaults');
-        $this->element->addAttributes([
+        $this->element->setAttributes([
             'type' => 'text',
             'autocomplete' => 'off'
         ]);

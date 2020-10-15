@@ -354,7 +354,7 @@ class Form
      * @return Renderer
      * @throws Exception
      */
-    public function display(?array $options = null)
+    public function display(array $options = [])
     {
 
         $rendererName = \ucfirst($this->renderer);
@@ -435,7 +435,7 @@ class Form
     public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File
     {
         $element = new \Enjoys\Forms\Elements\File($this->formDefaults, $name, $title);
-        $this->addAttributes('enctype', 'multipart/form-data');
+        $this->setAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
         $this->addElement($element);

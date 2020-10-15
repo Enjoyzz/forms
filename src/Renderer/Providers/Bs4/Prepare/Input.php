@@ -37,11 +37,7 @@ class Input extends \Enjoys\Forms\Renderer\Prepare
 {
 
 
-    protected function body()
-    {
-        $this->el->addAttributes('class', 'form-control');
-        $this->body = "<input type=\"{$this->el->getType()}\"{$this->el->getAttributes()}>";
-    }
+
 
     protected function description()
     {
@@ -49,7 +45,7 @@ class Input extends \Enjoys\Forms\Renderer\Prepare
             'id' => $this->el->getId() . 'Help',
             'class' => 'form-text text-muted'
         ]);
-        $this->el->addAttributes([
+        $this->el->setAttributes([
             'aria-describedby' => $this->el->getDescAttribute('id')
         ]);
         
@@ -60,7 +56,7 @@ class Input extends \Enjoys\Forms\Renderer\Prepare
     {
 
         if ($this->el->isRuleError()) {
-            $this->el->addAttributes([
+            $this->el->setAttributes([
                 'class' => 'is-invalid'
             ]);
             $this->el->addValidAttributes([

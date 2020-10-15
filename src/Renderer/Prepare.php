@@ -33,64 +33,98 @@ namespace Enjoys\Forms\Renderer;
  *
  * @author Enjoys
  */
-abstract class Prepare
+class Prepare
 {
 
-    protected $description = null;
-    protected $body = null;
-    protected $validation = null;
-    protected $label = null;
+//    protected $description = null;
+//    protected $body = null;
+//    protected $validation = null;
+//    protected $label = null;
+//
+//    /**
+//     * @var \Enjoys\Forms\Element 
+//     */
+//    protected \Enjoys\Forms\Element $el;
+//    protected array $rendererOptions = [];
+//
+//    public function __construct(\Enjoys\Forms\Element $element, $rendererOptions)
+//    {
+//        $this->el = $element;
+//        $this->rendererOptions = $rendererOptions;
+//
+//        $this->description();
+//        $this->validation();
+//        $this->label();
+//        $this->body();
+//    }
+//
+//    public function __get($name)
+//    {
+//        if (property_exists($this, $name)) {
+//            return $this->$name;
+//        }
+//        return null;
+//    }
+//    
+//    protected function body()
+//    {
+//        
+//    }
 
-    /**
-     * @var \Enjoys\Forms\Element 
-     */
-    protected \Enjoys\Forms\Element $el;
-
-    public function __construct(\Enjoys\Forms\Element $element)
+    public static function getHtmlDescription(\Enjoys\Forms\Element $element, $containerTag = 'small', $extra_before = '', $extra_after = '')
     {
-        $this->el = $element;
-
-        $this->description();
-        $this->validation();
-        $this->label();
-        $this->body();
-    }
-
-    public function __get($name)
-    {
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        }
-        return null;
-    }
-    
-    protected function body()
-    {
-        
-    }
-
-    protected function description()
-    {
-        if (empty($this->el->getDescription())) {
+        if (empty($element->getDescription())) {
             return;
         }
-        $this->description = "<small{$this->el->getDescAttributes()}>{$this->el->getDescription()}</small>";
+        return "<{$containerTag}{$element->getDescAttributes()}>{$extra_before}{$element->getDescription()}{$extra_after}</{$containerTag}>";
     }
 
-    protected function validation()
+    public static function getHtmlValidation(\Enjoys\Forms\Element $element, $containerTag = 'div', $extra_before = '', $extra_after = '')
     {
-        if (!$this->el->isRuleError()) {
+        if (!$element->isRuleError()) {
             return;
         }
-        $this->validation = "<div{$this->el->getValidAttributes()}>{$this->el->getRuleErrorMessage()}</div>";
+        return "<{$containerTag}{$element->getValidAttributes()}>{$extra_before}{$element->getRuleErrorMessage()}{$extra_after}</{$containerTag}>";
     }
 
-    protected function label()
+    public static function getHtmlLabel(\Enjoys\Forms\Element $element, $extra_before = '', $extra_after = '')
     {
-        if (empty($this->el->getTitle())) {
+        if (empty($element->getTitle())) {
             return;
         }
 
-        $this->label = "<label for=\"{$this->el->getId()}\"{$this->el->getLabelAttributes()}>{$this->el->getTitle()}</label>";
+        return "<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$extra_before}{$element->getTitle()}{$extra_after}</label>";
+    }
+
+    public static function getHtmlBody(\Enjoys\Forms\Element $element, $extra_before = '', $extra_after = '')
+    {
+
+        switch (\get_class($element)) {
+            case 'Enjoys\Forms\Elements\Text':
+            case 'Enjoys\Forms\Elements\Password':
+            case 'Enjoys\Forms\Elements\Color':
+            case 'Enjoys\Forms\Elements\Date':
+            case 'Enjoys\Forms\Elements\Datetime':
+            case 'Enjoys\Forms\Elements\Datetimelocal':
+            case 'Enjoys\Forms\Elements\Email':
+            case 'Enjoys\Forms\Elements\Number':
+            case 'Enjoys\Forms\Elements\Range':
+            case 'Enjoys\Forms\Elements\Search':
+            case 'Enjoys\Forms\Elements\Tel':
+            case 'Enjoys\Forms\Elements\Time':
+            case 'Enjoys\Forms\Elements\Url':
+            case 'Enjoys\Forms\Elements\Month':
+            case 'Enjoys\Forms\Elements\Week':
+            case 'Enjoys\Forms\Elements\File':
+            case 'Enjoys\Forms\Elements\Radio':
+            case 'Enjoys\Forms\Elements\Checkbox':
+                return "{$extra_before}<input type=\"{$element->getType()}\"{$element->getAttributes()}>{$extra_after}";
+            case 'Enjoys\Forms\Elements\Textarea':
+                return "{$extra_before}<textarea{$element->getAttributes()}>{$element->getValue()}</textarea>{$extra_after}";
+            case 'Enjoys\Forms\Elements\Button':
+                return "{$extra_before}<button{$element->getAttributes()}>{$element->getTitle()}</button>{$extra_after}";
+            default:
+                return;
+        }
     }
 }

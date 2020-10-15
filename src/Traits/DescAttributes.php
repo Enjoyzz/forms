@@ -34,36 +34,32 @@ namespace Enjoys\Forms\Traits;
  */
 trait DescAttributes
 {
-    
-    public function addDescAttributes(...$attributes)
-    {
-        $this->setGroupAttributes('DescAttribute');
-        $this->addAttributes(...$attributes);
-        $this->resetGroupAttributes();
 
+    public function addDescAttributes($attributes)
+    {
+        $this->setAttributes($attributes, 'DescAttribute');
         return $this;
     }
 
     public function getDescAttributes(): string
     {
-        $this->setGroupAttributes('DescAttribute');
-        $attributes = $this->getAttributes();
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attributes;
+        return $this->getAttributes('DescAttribute');
     }
-    
-    /**
-     *
-     * @param type $key
-     * @return string|null|bool
-     */
+
     public function getDescAttribute($key)
     {
-        $this->setGroupAttributes('DescAttribute');
-        $attribute = $this->getAttribute($key);
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attribute;
+        return$this->getAttribute($key, 'DescAttribute');
+    }
+
+    public function addDescClass($class)
+    {
+        $this->addClass($class, 'DescAttribute');
+        return $this;
+    }
+
+    public function removeDescClass($classValue)
+    {
+        $this->removeClass($classValue, 'DescAttribute');
+        return $this;
     }
 }

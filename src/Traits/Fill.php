@@ -105,7 +105,7 @@ trait Fill
             $element->setParentName($this->getName());
             $element->setCounterId(\count($this->elements));
             
-            $element->addAttributes($attributes);
+            $element->setAttributes($attributes);
 
             // Если в атррибутах есть `id` вызываем setId()
             if (isset($attributes['id'])) {

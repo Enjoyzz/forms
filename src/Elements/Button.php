@@ -36,6 +36,14 @@ namespace Enjoys\Forms\Elements;
 class Button extends \Enjoys\Forms\Element
 {
 
-
+    /**
+     * @deprecated unused in this element
+     * @param string $description
+     * @return \Enjoys\Forms\Element
+     */
+    public function setDescription(string $description): \Enjoys\Forms\Element
+    {
+        return $this;
+    }
 
 }

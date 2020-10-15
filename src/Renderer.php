@@ -37,10 +37,12 @@ class Renderer
 {
     
     protected Form $form;
+    protected array $rendererOptions;
 
-    public function __construct(Form $form)
+    public function __construct(Form $form, array $options = [])
     {
         $this->form = $form;
+        $this->rendererOptions = $options;
     }
     
     public function getForm()

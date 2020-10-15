@@ -52,9 +52,9 @@ class Select extends Element
          // $this->setIndexKeyFill('value');
     }
 
-    public function addAttributes(...$attributes): self
+    public function setAttributes(array $attributes, string $namespace = 'general'): self
     {
-        parent::addAttributes(...$attributes);
+        parent::setAttributes($attributes, $namespace);
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
             $_id = $this->getId();
             $this->setName($this->getName() . '[]');

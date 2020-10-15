@@ -38,7 +38,7 @@ class File extends Input
 
     public function __construct(\Enjoys\Forms\Element $element)
     {
-        $element->addAttributes('class', 'custom-file-input');
+        $element->setAttributes('class', 'custom-file-input');
         $element->addLabelAttributes('class', 'custom-file-label');
         parent::__construct($element);
         

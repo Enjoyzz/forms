@@ -44,7 +44,7 @@ class Datalist extends \Enjoys\Forms\Element
     public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
     {
         parent::__construct($formDefaults, $name, $title);
-        $this->addAttributes('list', $this->getId());
+        $this->setAttribute('list', $this->getId());
         $this->removeAttribute('id');
     }
 }

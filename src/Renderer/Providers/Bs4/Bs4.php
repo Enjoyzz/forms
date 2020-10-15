@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Providers\Bs4;
 
 use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Renderer\Prepare;
 
 /**
  * Class Bs4
@@ -45,15 +46,20 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     // private $prepare;
 
-    public function __construct(\Enjoys\Forms\Form $form, ?array $options = null)
+    public function __construct(\Enjoys\Forms\Form $form, array $options = null)
     {
-        parent::__construct($form);
+        parent::__construct($form, $options);
         // $this->prepare = new Prepare\Elements();
         $this->setElements($this->form->getElements());
+
+        if ($this->rendererOptions['inline'] === true) {
+            $this->form->addClass('form-inline');
+        }
     }
 
     public function header()
     {
+
         return "<form{$this->form->getAttributes()}>\n";
     }
 
@@ -114,40 +120,39 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 case 'Enjoys\Forms\Elements\Url':
                 case 'Enjoys\Forms\Elements\Month':
                 case 'Enjoys\Forms\Elements\Week':
-                    $html .= $this->renderInput($element);
+                case 'Enjoys\Forms\Elements\Textarea':
+                    $elementsHtml[] = $this->renderInput($element);
                     break;
                 case 'Enjoys\Forms\Elements\File':
-                    $html .= $this->renderFile($element);
+                    $elementsHtml[] = $this->renderFile($element);
                     break;
                 case 'Enjoys\Forms\Elements\Image':
                 case 'Enjoys\Forms\Elements\Submit':
                 case 'Enjoys\Forms\Elements\Reset':
-                    $html .= $this->renderInputButton($element);
+                    $elementsHtml[] = $this->renderInputButton($element);
                     break;
                 case 'Enjoys\Forms\Elements\Header':
-                    $html .= $this->renderHeader($element);
+                    $elementsHtml[] = $this->renderHeader($element);
                     break;
                 case 'Enjoys\Forms\Elements\Radio':
                 case 'Enjoys\Forms\Elements\Checkbox':
-                    $html .= $this->renderRadioCheckbox($element);
+                    $elementsHtml[] = $this->renderRadioCheckbox($element);
                     break;
                 case 'Enjoys\Forms\Elements\Select':
-                    $html .= $this->renderSelect($element);
+                    $elementsHtml[] = $this->renderSelect($element);
                     break;
-                case 'Enjoys\Forms\Elements\Textarea':
-                    $html .= $this->renderTextarea($element);
-                    break;
+
                 case 'Enjoys\Forms\Elements\Button':
-                    $html .= $this->renderButton($element);
+                    $elementsHtml[] = $this->renderButton($element);
                     break;
                 case 'Enjoys\Forms\Elements\Datalist':
-                    $html .= $this->renderDatalist($element);
+                    $elementsHtml[] = $this->renderDatalist($element);
                     break;
                 case 'Enjoys\Forms\Elements\Captcha':
-                    $html .= $this->renderCaptcha($element);
+                    $elementsHtml[] = $this->renderCaptcha($element);
                     break;
                 case 'Enjoys\Forms\Elements\Group':
-                    $html .= $this->renderGroup($element);
+                    $elementsHtml[] = $this->renderGroup($element);
                     break;
                 default:
                     break;
@@ -157,7 +162,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             }
         }
 
-        return $html;
+        return $elementsHtml;
     }
 
     private function renderCaptcha($element)
@@ -173,58 +178,126 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderInput(\Enjoys\Forms\Element $element)
     {
-        $prepare = new Prepare\Input($element);
-        //  $element = $prepare->get();
-        $html = '';
-        $html .= "<div class=\"form-group\">";
-        $html .= $prepare->label;
-        $html .= $prepare->body;
-        $html .= $prepare->validation;
-        $html .= $prepare->description;
-        $html .= "</div>";
-        
-       // dump($prepare);
-        return $html;
+        $element->setAttributes([
+            'class' => 'form-control'
+        ]);
+
+        if (!empty($element->getDescription())) {
+            $element->addDescAttributes([
+                'id' => $element->getId() . 'Help',
+                'class' => 'form-text text-muted'
+            ]);
+            $element->setAttributes([
+                'aria-describedby' => $element->getDescAttribute('id')
+            ]);
+        }
+
+        if ($element->isRuleError()) {
+            $element->setAttributes([
+                'class' => 'is-invalid'
+            ]);
+            $element->addValidAttributes([
+                'class' => 'invalid-feedback'
+            ]);
+        }
+
+        return Prepare::getHtmlLabel($element)
+                . Prepare::getHtmlBody($element)
+                . Prepare::getHtmlDescription($element)
+                . Prepare::getHtmlValidation($element);
     }
-    private function renderFile(\Enjoys\Forms\Elements\File $element)
+
+    private function renderFile(\Enjoys\Forms\Element $element)
     {
-        $prepare = new Prepare\File($element);
-        //  $element = $prepare->get();
-        $html = '';
-        $html .= "<div class=\"form-group\">";
-        $html .= $prepare->label;
-        $html .= $prepare->body;
-        $html .= $prepare->validation;
-        $html .= $prepare->description;
-        $html .= "</div>";
-        
-       // dump($prepare);
-        return $html;
+        $element->setAttributes([
+            'class' => 'form-control-file'
+        ]);
+
+        if (!empty($element->getDescription())) {
+            $element->addDescAttributes([
+                'id' => $element->getId() . 'Help',
+                'class' => 'form-text text-muted'
+            ]);
+            $element->setAttributes([
+                'aria-describedby' => $element->getDescAttribute('id')
+            ]);
+        }
+
+        if ($element->isRuleError()) {
+            $element->setAttributes([
+                'class' => 'is-invalid'
+            ]);
+            $element->addValidAttributes([
+                'class' => 'invalid-feedback'
+            ]);
+        }
+
+        return Prepare::getHtmlLabel($element)
+                . Prepare::getHtmlBody($element)
+                . Prepare::getHtmlDescription($element)
+                . Prepare::getHtmlValidation($element);
     }
 
     private function renderRadioCheckbox(Interfaces\RadioCheckbox $element)
     {
-        $html = '';
-        if ($element->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
-        }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
 
+
+        if (!empty($element->getDescription())) {
+            $element->addDescAttributes([
+                'id' => $element->getId() . 'Help',
+                'class' => 'form-text text-muted'
+            ]);
+            $element->setAttributes([
+                'aria-describedby' => $element->getDescAttribute('id')
+            ]);
+        }
+
+        if ($element->isRuleError()) {
+            $element->addValidAttributes([
+                'class' => 'invalid-feedback',
+                'style' => 'display: block;'
+            ]);
+        }
+        $return = '';
+        $return .= Prepare::getHtmlLabel($element);
 
         /** @var \Enjoys\Forms\Element $data */
         foreach ($element->getElements() as $data) {
-            $html .= "\t<input type=\"{$data->getType()}\" name=\"{$element->getName()}\"{$data->getAttributes()}><label for=\"{$data->getId()}\"{$data->getLabelAttributes()}>{$data->getTitle()}</label><br>\n";
-        }
+            $data->addClass('form-check-input');
+            $data->addLabelClass('form-check-label');
+            $data->setAttributes([
+                'name' => $element->getName()
+            ]);
 
-        if (!empty($element->getDescription())) {
-            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
+            if (empty($data->getTitle())) {
+                $data->addClass('position-static');
+            }
+
+            $data->addClass('form-check', 'checkBox');
+            if ($this->rendererOptions['checkbox_inline'] === true) {
+                $data->addClass('form-check-inline', 'checkBox');
+            }
+
+            if ($element->isRuleError()) {
+                $data->addClass('is-invalid');
+            }
+
+            $return .= "<div{$data->getAttributes('checkBox')}>";
+
+            $return .= Prepare::getHtmlBody($data);
+            $return .= Prepare::getHtmlLabel($data);
+            $return .= '</div>';
         }
-        return $html . "\n";
+        $return .= Prepare::getHtmlDescription($element)
+                . Prepare::getHtmlValidation($element)
+        ;
+
+        return $return;
     }
 
     private function renderSelect(\Enjoys\Forms\Elements\Select $element)
     {
-        $element->addAttributes('class', 'form-control');
+        $element->addClass('form-control');
 
         $html = '';
         if ($element->isRuleError()) {
@@ -264,28 +337,13 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         return $html . "\n";
     }
 
-    private function renderTextarea(\Enjoys\Forms\Elements\Textarea $element)
-    {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
-\t<textarea{$element->getAttributes()}>{$element->getValue()}</textarea><br>\n";
-
-        if (!empty($element->getDescription())) {
-            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
-        }
-        return $html . "\n";
-    }
-
     private function renderButton(\Enjoys\Forms\Elements\Button $element)
     {
-        $element->addAttributes([
+        $element->setAttributes([
             'class' => 'btn btn-primary'
         ]);
-        $html = "\t<button{$element->getAttributes()}>{$element->getTitle()}</button><br>\n";
 
-        if (!empty($element->getDescription())) {
-            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
-        }
-        return $html . "\n";
+        return Prepare::getHtmlBody($element);
     }
 
     private function renderInputButton(\Enjoys\Forms\Element $element)
@@ -340,7 +398,12 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         $html = '';
         $html .= $this->header();
         $html .= $this->hidden();
-        $html .= $this->elements($this->elements);
+
+        foreach ($this->elements($this->elements) as $data) {
+            $html .= '<div class="form-group">';
+            $html .= $data;
+            $html .= '</div>';
+        }
         // dump($this->prepare->getElements());
         $html .= $this->footer();
         return $html;

@@ -40,82 +40,85 @@ trait Attributes
      * @var array
      */
     private array $attributes = [];
-    private string $groupAttr = 'general';
 
-    public function setGroupAttributes(string $group)
-    {
-        $this->groupAttr = $group;
-        return $this;
-    }
-
-//    public function getGroupAttributes() {
-//        return $this->groupAttributes;
-//    }
-
-    public function resetGroupAttributes()
-    {
-        $this->groupAttr = 'general';
-        return $this;
-    }
 
     /**
      *
      * @param mixed $attributes
      * @return \self
      */
-    public function addAttributes(...$attributes): self
+    public function setAttributes(array $attributes, string $namespace = 'general'): self
     {
-        //dump($attributes);
-        if (is_array($attributes[0])) {
-            foreach ($attributes[0] as $name => $value) {
-                if (is_int($name)) {
-                    $name = $value;
-                    $value = null;
-                }
-                $this->setAttribute($name, $value);
-            }
-            return $this;
-        }
 
-        $this->setAttribute($attributes[0], (isset($attributes[1])) ? $attributes[1] : null);
+        foreach ($attributes as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $_value) {
+                    $this->setAttribute($key, $value, $namespace);
+                }
+            }
+            if (is_int($key)) {
+                $key = $value;
+                $value = null;
+            }
+            $this->setAttribute($key, $value, $namespace);
+        }
         return $this;
+        //dump($attributes);
+//        if (is_array($attributes[0])) {
+//            foreach ($attributes[0] as $name => $value) {
+//                if (is_int($name)) {
+//                    $name = $value;
+//                    $value = null;
+//                }
+//                $this->setAttribute($name, $value);
+//            }
+//            return $this;
+//        }
+//
+//        $this->setAttribute($attributes[0], (isset($attributes[1])) ? $attributes[1] : null);
+//        return $this;
     }
 
     /**
-     *
+     * 
      * @param string $name
      * @param string $value
-     * @return void
+     * @param string $namespace
+     * @return \self
      */
-    private function setAttribute(string $name, string $value = null): void
+    public function setAttribute(string $name, string $value = null, string $namespace = 'general'): self
     {
+
         $name = \trim($name);
 
-        if (isset($this->attributes[$this->groupAttr][$name]) && in_array($name, ['class'])) {
-            $this->attributes[$this->groupAttr][$name] = $this->attributes[$this->groupAttr][$name] . " " . $value;
-            return;
+        if (in_array($name, ['class'])) {
+            if (in_array($value, (array) $this->attributes[$namespace][$name])) {
+                return $this;
+            }
+            $this->attributes[$namespace][$name][] = $value;
+            return $this;
         }
 
         if (in_array($name, ['name'])) {
             if (
-                    isset($this->attributes[$this->groupAttr][$name])
-                    && $this->attributes[$this->groupAttr][$name] != $value
+                    isset($this->attributes[$namespace][$name]) && $this->attributes[$namespace][$name] != $value
             ) {
-                $this->attributes[$this->groupAttr][$name] = $value;
+                $this->attributes[$namespace][$name] = $value;
                 $this->setName($value);
             }
         }
 
-        $this->attributes[$this->groupAttr][$name] = $value;
+        $this->attributes[$namespace][$name] = $value;
+        return $this;
     }
 
-    public function getAttribute($key)
+    public function getAttribute($key, $namespace = 'general')
     {
-        if (!isset($this->attributes[$this->groupAttr])) {
-            $this->attributes[$this->groupAttr] = [];
+        if (!isset($this->attributes[$namespace])) {
+            $this->attributes[$namespace] = [];
         }
-        if (array_key_exists($key, $this->attributes[$this->groupAttr])) {
-            return $this->attributes[$this->groupAttr][$key];
+        if (array_key_exists($key, $this->attributes[$namespace])) {
+            return $this->attributes[$namespace][$key];
         }
         return false;
     }
@@ -124,26 +127,63 @@ trait Attributes
      *
      * @return string
      */
-    public function getAttributes(): string
+    public function getAttributes($namespace = 'general'): string
     {
         $str = [];
-        if (!isset($this->attributes[$this->groupAttr])) {
-            $this->attributes[$this->groupAttr] = [];
+        if (!isset($this->attributes[$namespace])) {
+            $this->attributes[$namespace] = [];
         }
-        foreach ($this->attributes[$this->groupAttr] as $key => $value) {
+        foreach ($this->attributes[$namespace] as $key => $value) {
+            if (is_array($value)) {
+                if (empty($value)) {
+                    continue;
+                }
+                $str[] = " {$key}=\"" . \implode(" ", $value) . "\"";
+                continue;
+            }
+
             if (is_null($value)) {
                 $str[] = " {$key}";
                 continue;
             }
+
+
             $str[] = " {$key}=\"{$value}\"";
         }
         return implode("", $str);
     }
 
-    public function removeAttribute($key): self
+    public function removeAttribute($key, $namespace = 'general'): self
     {
-        if (isset($this->attributes[$this->groupAttr][$key])) {
-            unset($this->attributes[$this->groupAttr][$key]);
+        if (isset($this->attributes[$namespace][$key])) {
+            unset($this->attributes[$namespace][$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * Не протестирована, может вести себя не корректно
+     * @param mixed $class
+     * @return $this
+     */
+    public function addClass($class, $namespace = 'general')
+    {
+        $values = explode(" ", (string) $class);
+        foreach ($values as $value) {
+            $this->setAttribute('class', (string) $value, $namespace);
+        }
+        
+        return $this;
+    }
+
+    public function removeClass($classValue, $namespace = 'general')
+    {
+        if (!isset($this->attributes[$namespace]['class'])) {
+            return $this;
+        }
+
+        if (false !== $key = array_search($classValue, (array) $this->attributes[$namespace]['class'])) {
+            unset($this->attributes[$namespace]['class'][$key]);
         }
         return $this;
     }

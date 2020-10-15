@@ -34,36 +34,32 @@ namespace Enjoys\Forms\Traits;
  */
 trait LabelAttributes
 {
-    
-    public function addLabelAttributes(...$attributes)
-    {
-        $this->setGroupAttributes('LabelAttribute');
-        $this->addAttributes(...$attributes);
-        $this->resetGroupAttributes();
 
+    public function addLabelAttributes(array $attributes)
+    {
+        $this->setAttributes($attributes, 'LabelAttributes');
         return $this;
     }
 
     public function getLabelAttributes(): string
     {
-        $this->setGroupAttributes('LabelAttribute');
-        $attributes = $this->getAttributes();
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attributes;
+        return $this->getAttributes('LabelAttributes');
     }
-    
-    /**
-     *
-     * @param type $key
-     * @return string|null|bool
-     */
+
     public function getLabelAttribute($key)
     {
-        $this->setGroupAttributes('LabelAttribute');
-        $attribute = $this->getAttribute($key);
-        $this->resetGroupAttributes();
-        // dump($attributes);
-        return $attribute;
+        return$this->getAttribute($key, 'LabelAttributes');
+    }
+
+    public function addLabelClass($class)
+    {
+        $this->addClass($class, 'LabelAttributes');
+        return $this;
+    }
+
+    public function removeLabelClass($classValue)
+    {
+        $this->removeClass($classValue, 'LabelAttributes');
+        return $this;
     }
 }

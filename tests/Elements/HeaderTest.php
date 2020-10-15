@@ -50,7 +50,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     public function test_attr_legend()
     {
         $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
-        $obj->addAttributes([
+        $obj->setAttributes([
             'id' => 'test'
         ]);
         $this->assertSame('test', $obj->getAttribute('id'));
@@ -59,7 +59,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     public function test_attr_fieldset()
     {
         $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
-        $obj->addFieldsetAttribute([
+        $obj->addFieldsetAttributes([
             'id' => 'test'
         ]);
         $this->assertSame('test', $obj->getFieldsetAttribute('id'));
@@ -68,7 +68,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     public function test_attr_fieldset_get()
     {
         $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
-        $obj->addFieldsetAttribute([
+        $obj->addFieldsetAttributes([
             'id' => 'test',
             'disabled' => null
         ]);
