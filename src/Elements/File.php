@@ -41,6 +41,14 @@ class File extends \Enjoys\Forms\Element
      * @var string
      */
     protected string $type = 'file';
+    
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    {
+        parent::__construct($formDefaults, $name, $title);
+        $this->addRule(\Enjoys\Forms\Rules::UPLOAD, null, [
+            'system'
+        ]);
+    }
 
     /**
      *

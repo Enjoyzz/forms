@@ -48,7 +48,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function test_post()
     {
         $request = new \Enjoys\Forms\Http\Request([], [
-             'foo' => 'bar'
+            'foo' => 'bar'
         ]);
         $this->assertEquals(['foo' => 'bar'], $request->post());
         $this->assertEquals('bar', $request->post('foo'));
@@ -115,19 +115,19 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             ['fff[0]', 1], //11
             ['foo[test][3]', 55],
             ['foo[test][3]', '55'],
-            ['arrays', false],
+            ['arrays', []],
             ['bar', 'test'],
             ['bar[]', false],
             ['bar[][]', false],
-            ['bars', false],
+            ['bars', ['test']],
             ['bars[]', 'test'],
             ['bars[][]', false],
-            ['baz', false],
+            ['baz', [[['ddd']]]],
             ['baz[]', false],
             ['baz[][]', false],
             ['baz[][][]', 'ddd'],
             ['test[][][0]', 25],
-            ['fff', false],
+            ['fff', [1,2]],
             ['foo[]', [
                     'bar' => 'bar1',
                     'name' => 'myname',
@@ -141,5 +141,4 @@ class RequestTest extends \PHPUnit\Framework\TestCase
                 ]], //16
         ];
     }
-
 }

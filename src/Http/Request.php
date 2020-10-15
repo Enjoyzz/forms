@@ -83,6 +83,11 @@ class Request extends HttpFoundation\Request implements \Enjoys\Forms\Interfaces
 
         if (count($matches[0]) > 0 && !empty($matches[0][0])) {
             foreach ($matches[0] as $identify => $key) {
+                
+                if($key == $indexPath && isset($data[$key])){
+                    return $data[$key];
+                }                
+                
                 if (!is_array($data)) {
                     return false;
                 }

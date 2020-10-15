@@ -298,8 +298,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
         /** @var \Enjoys\Forms\Elements\Select $select */
         $select = $form->getElements()['name'];
-        $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
-        $this->assertFalse($select->getElements()[2]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
 
     public function test_defaults4_attr_before_fill()
