@@ -177,6 +177,17 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getId());
     }
+    
+    
+    public function test_multiple_name_add_array_2_1()
+    {
+
+        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+        $obj->setMultiple();
+
+        $this->assertSame('name[]', $obj->getName());
+        $this->assertSame('name', $obj->getId());
+    }
 
     public function test_multiple_name_add_array_1_2()
     {

@@ -51,6 +51,12 @@ class Select extends Element
         parent::__construct($formDefaults, $name, $title);
          // $this->setIndexKeyFill('value');
     }
+    
+    public function setMultiple()
+    {
+        $this->setAttributes(['multiple']);
+        return $this;
+    }
 
     public function setAttributes(array $attributes, string $namespace = 'general'): self
     {

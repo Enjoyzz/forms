@@ -261,10 +261,10 @@ class DefaultsTest extends TestCase
 
     public function test_renderButton()
     {
-        $this->form->button('foo', '<b>test</b>')->setDescription('zed');
+        $this->form->button('foo', '<b>test</b>');
         $obj = new \Enjoys\Forms\Renderer\Providers\Defaults\Defaults($this->form);
         //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
-        $this->assertStringContainsString('<button id="foo" name="foo"><b>test</b></button><br> <small>zed</small>', $this->toOneString($obj->elements()));
+        $this->assertStringContainsString('<button id="foo" name="foo"><b>test</b></button><br>', $this->toOneString($obj->elements()));
     }
 
     public function test_renderCaptcha_default()
