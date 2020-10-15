@@ -41,18 +41,27 @@ use Enjoys\Helpers\Arrays;
 class Upload extends Rules implements Rule
 {
 
-    private $allowedRules = [
-        'required',
-        'maxsize',
-        'extensions',
+    private $systemErrorMessage = [
+        'unknown' => "Unknown upload error",
+        \UPLOAD_ERR_INI_SIZE => "Размер принятого файла превысил максимально допустимый размер, который задан директивой upload_max_filesize конфигурационного файла php.ini.",
+        \UPLOAD_ERR_FORM_SIZE => "Размер загружаемого файла превысил значение MAX_FILE_SIZE, указанное в HTML-форме.",
+        \UPLOAD_ERR_PARTIAL => "Загружаемый файл был получен только частично.",
+        \UPLOAD_ERR_NO_FILE => "Файл не был загружен",
+        //Добавлено в PHP 5.0.3.
+        \UPLOAD_ERR_NO_TMP_DIR => "Отсутствует временная папка.",
+        //Добавлено в PHP 5.1.0.
+        \UPLOAD_ERR_CANT_WRITE => "Не удалось записать файл на диск.",
+        //Добавлено в PHP 5.2.0.
+        \UPLOAD_ERR_EXTENSION => "File upload stopped by extension",
     ];
 
     public function validate(Element $element): bool
     {
 
-        // dump($this->request->files->get($element->getName()));
-        //$method = $this->request->get();
+// dump($this->request->files->get($element->getName()));
+//$method = $this->request->get();
         $value = $this->request::getValueByIndexPath($element->getName(), $_FILES);
+
 
         if (false === $this->check($value, $element)) {
 
@@ -72,28 +81,66 @@ class Upload extends Rules implements Rule
                 $ruleOpts = null;
             }
 
-            if (in_array($rule, $this->allowedRules)) {
-                $method = 'check' . \ucfirst($rule);
-            }
-
+            $method = 'check' . \ucfirst($rule);
             if (!method_exists(Upload::class, $method)) {
-                throw new \Enjoys\Forms\Exception\ExceptionRule('Unknown Upload Rule.');
+                throw new \Enjoys\Forms\Exception\ExceptionRule(\sprintf('Unknown Upload Rule [%s]', 'check' . \ucfirst($rule)));
             }
-            if (!$this->$method($ruleOpts, $element)) {
+            if (!$this->$method($value, $ruleOpts, $element)) {
                 return false;
             }
         }
         return true;
     }
 
-    private function checkRequired($message, Element $element)
+    private function checkSystem($value, $message, Element $element)
     {
+        if (!in_array($value['error'], array(\UPLOAD_ERR_OK, \UPLOAD_ERR_NO_FILE))) {
+            $message = $this->systemErrorMessage['unknown'];
+            if (isset($this->systemErrorMessage[$value['error']])) {
+                $message = $this->systemErrorMessage[$value['error']];
+            }
+            $this->setMessage($message);
+
+            $element->setRuleError($this->getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private function checkRequired($value, $message, Element $element)
+    {
+
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
         }
-        parent::setMessage($message);
+        $this->setMessage($message);
+        if ($value['error'] == \UPLOAD_ERR_NO_FILE) {
+            $element->setRuleError($this->getMessage());
+            return false;
+        }
+        return true;
+    }
 
-        $element->setRuleError($this->getMessage());
-        return false;
+    private function checkMaxsize($value, $params, Element $element)
+    {
+
+//dump($value);
+//dump($params);
+
+        $threshold_size = $params;
+        $message = null;
+
+        if (is_null($message)) {
+            $message = 'Размер файла превышает допустимый размер';
+        }
+        $this->setMessage($message);
+        if (
+                $value['error'] == \UPLOAD_ERR_FORM_SIZE ||
+                $value['size'] > $threshold_size
+        ) {
+            $element->setRuleError($this->getMessage());
+            return false;
+        }
+        return true;
     }
 }
