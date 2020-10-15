@@ -35,13 +35,27 @@ namespace Enjoys\Forms\Elements;
  */
 class File extends \Enjoys\Forms\Element
 {
+
     /**
      *
      * @var string
      */
     protected string $type = 'file';
-    
-//    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null) {
-//        parent::__construct($formDefaults, $name, $title);
-//    }
+
+    /**
+     *
+     * @param string $ruleName
+     * @param string $message
+     * @param array $params
+     * @return $this
+     */
+    public function addRule(string $ruleName, ?string $message = null, $params = [])
+    {
+        if (\strtolower($ruleName) !== \strtolower(\Enjoys\Forms\Rules::UPLOAD)) {
+            throw new \Enjoys\Forms\Exception\ExceptionRule(
+                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, \Enjoys\Forms\Rules::UPLOAD)
+            );
+        }
+        return parent::addRule($ruleName, $message, $params);
+    }
 }

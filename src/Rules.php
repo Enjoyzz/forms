@@ -45,6 +45,7 @@ class Rules
     public const LENGTH = 'length';
     public const REGEXP = 'regexp';
     public const REQUIRED = 'required';
+    public const UPLOAD = 'upload';
 
     /**
      *
