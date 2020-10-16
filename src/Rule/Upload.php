@@ -57,17 +57,10 @@ class Upload extends Rules implements Rule
 
     public function validate(Element $element): bool
     {
-
-// dump($this->request->files->get($element->getName()));
-//$method = $this->request->get();
-        $value = $this->request::getValueByIndexPath($element->getName(), $_FILES);
-
-
+         $value = $this->request::getValueByIndexPath($element->getName(), $this->request->files());
         if (false === $this->check($value, $element)) {
-
             return false;
         }
-
         return true;
     }
 
@@ -75,12 +68,10 @@ class Upload extends Rules implements Rule
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
             $method = 'unknown';
-
             if (is_int($rule) && is_string($ruleOpts)) {
                 $rule = $ruleOpts;
                 $ruleOpts = null;
             }
-
             $method = 'check' . \ucfirst($rule);
             if (!method_exists(Upload::class, $method)) {
                 throw new \Enjoys\Forms\Exception\ExceptionRule(\sprintf('Unknown Upload Rule [%s]', 'check' . \ucfirst($rule)));
@@ -92,21 +83,38 @@ class Upload extends Rules implements Rule
         return true;
     }
 
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile  $value
+     * @param mixed $message
+     * @param \Enjoys\Forms\Element $element
+     * @return boolean
+     */
     private function checkSystem($value, $message, Element $element)
     {
-        if (!in_array($value['error'], array(\UPLOAD_ERR_OK, \UPLOAD_ERR_NO_FILE))) {
+        if($value === false){
+            return true;
+        }
+        
+        if (!in_array($value->getError(), array(\UPLOAD_ERR_OK, \UPLOAD_ERR_NO_FILE))) {
             $message = $this->systemErrorMessage['unknown'];
             if (isset($this->systemErrorMessage[$value['error']])) {
                 $message = $this->systemErrorMessage[$value['error']];
             }
             $this->setMessage($message);
-
             $element->setRuleError($this->getMessage());
             return false;
         }
         return true;
     }
 
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
+     * @param string $message
+     * @param Element $element
+     * @return boolean
+     */
     private function checkRequired($value, $message, Element $element)
     {
 
@@ -114,30 +122,65 @@ class Upload extends Rules implements Rule
             $message = 'Выберите файл для загрузки';
         }
         $this->setMessage($message);
-        if ($value['error'] == \UPLOAD_ERR_NO_FILE) {
+        if ($value->getError() == \UPLOAD_ERR_NO_FILE) {
             $element->setRuleError($this->getMessage());
             return false;
         }
         return true;
     }
 
-    private function checkMaxsize($value, $params, Element $element)
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
+     * @param type $ruleOpts
+     * @param Element $element
+     * @return boolean
+     */
+    private function checkMaxsize($value, $ruleOpts, Element $element)
     {
-
-//dump($value);
-//dump($params);
-
-        $threshold_size = $params;
-        $message = null;
+        if($value === false){
+            return true;
+        }
+        
+        list($threshold_size, $message) = (array) $ruleOpts;
+        $threshold_size = (int) $threshold_size;
 
         if (is_null($message)) {
-            $message = 'Размер файла превышает допустимый размер';
+            $message = 'Размер файла (' . \ByteUnits\Binary::bytes($value->getSize())->format(0, " ") . ')'
+                    . ' превышает допустимый размер: ' . \ByteUnits\Binary::bytes($threshold_size)->format(0, " ");
         }
-        $this->setMessage($message);
-        if (
-                $value['error'] == \UPLOAD_ERR_FORM_SIZE ||
-                $value['size'] > $threshold_size
-        ) {
+        $this->setMessage((string) $message);
+
+        if ($value->getSize() > $threshold_size) {
+            $element->setRuleError($this->getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
+     * @param type $ruleOpts
+     * @param Element $element
+     * @return boolean
+     */
+    private function checkExtensions($value, $ruleOpts, Element $element)
+    {
+        if($value === false){
+            return true;
+        }
+        
+        list($extensions, $message) = (array) $ruleOpts;
+        $expected_extensions = \array_map('trim', \explode(",", $extensions));
+        $extension = $value->getClientOriginalExtension();
+        
+        if (is_null($message)) {
+            $message = 'Загрузка файлов с расширением .'.$extension.' запрещена';
+        }
+        $this->setMessage((string) $message);
+
+        if (!in_array($extension, $expected_extensions)) {
             $element->setRuleError($this->getMessage());
             return false;
         }

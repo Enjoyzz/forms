@@ -73,6 +73,14 @@ class Request extends HttpFoundation\Request implements \Enjoys\Forms\Interfaces
         }
         return $this->request->get($key, $default);
     }
+    
+    public function files($key = null, $default = null)
+    {
+        if ($key === null) {
+            return $this->files->all();
+        }
+        return $this->files->get($key, $default);
+    }    
 
     public static function getValueByIndexPath(string $indexPath, array $data = [], int $counterId = 0)
     {
