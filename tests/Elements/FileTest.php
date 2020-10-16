@@ -65,5 +65,11 @@ class FileTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('POST', $form->getAttribute('method'));
         $this->assertSame('multipart/form-data', $form->getAttribute('enctype'));
     }    
+    
+    public function test_invalid_add_rule() {
+        $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
+        $form = new \Enjoys\Forms\Form();
+        $form->file(1)->addRule(\Enjoys\Forms\Rules::REQUIRED);
+    }        
 
 }

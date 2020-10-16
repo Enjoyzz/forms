@@ -149,4 +149,24 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(true, $this->obj->getAttribute('something2'));
         $this->assertEquals(false, $this->obj->getAttribute('something2', 'test'));
     }
+    
+   public function test_set_attr_where_value_is_array()
+    {
+        $this->obj->setAttributes([
+            'class' => [
+                'test',
+                'test-2'
+            ]
+        ]);
+        $this->assertEquals(['test', 'test-2'], $this->obj->getAttribute('class'));
+        
+        $this->obj->setAttributes([
+            'something' => [
+                'test',
+                'test-2'
+            ]
+        ]);
+        
+        $this->assertEquals('test-2', $this->obj->getAttribute('something'));
+    }    
 }

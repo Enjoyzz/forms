@@ -361,7 +361,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         if ($this->open_header === true) {
             $html .= "\t</fieldset>";
         }
-        $html .= "\t<fieldset{$element->getFieldsetAttributes()}>\n\t<legend{$element->getAttributes()}>{$element->getTitle()}</legend>\n";
+        $html .= "\t<fieldset{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_FIELDSET)}>\n\t<legend{$element->getAttributes()}>{$element->getTitle()}</legend>\n";
         $this->open_header = true;
         return $html;
     }

@@ -57,32 +57,4 @@ class Header extends \Enjoys\Forms\Element
     {
         return $this->closeAfterCountElements;
     }
-
-    public function addFieldsetAttributes($attributes)
-    {
-        $this->setAttributes($attributes, 'FieldsetAttributes');
-        return $this;
-    }
-
-    public function getFieldsetAttributes(): string
-    {
-        return $this->getAttributes('FieldsetAttributes');
-    }
-
-    public function getFieldsetAttribute($key)
-    {
-        return$this->getAttribute($key, 'FieldsetAttributes');
-    }
-
-    public function addFieldsetClass($class)
-    {
-        $this->addClass($class, 'FieldsetAttributes');
-        return $this;
-    }
-
-    public function removeFieldsetClass($classValue)
-    {
-        $this->removeClass($classValue, 'FieldsetAttributes');
-        return $this;
-    }
 }

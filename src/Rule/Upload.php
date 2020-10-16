@@ -57,7 +57,7 @@ class Upload extends Rules implements Rule
 
     public function validate(Element $element): bool
     {
-         $value = $this->request::getValueByIndexPath($element->getName(), $this->request->files());
+        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->files());
         if (false === $this->check($value, $element)) {
             return false;
         }
@@ -92,14 +92,14 @@ class Upload extends Rules implements Rule
      */
     private function checkSystem($value, $message, Element $element)
     {
-        if($value === false){
+        if ($value === false) {
             return true;
         }
-        
+
         if (!in_array($value->getError(), array(\UPLOAD_ERR_OK, \UPLOAD_ERR_NO_FILE))) {
             $message = $this->systemErrorMessage['unknown'];
-            if (isset($this->systemErrorMessage[$value['error']])) {
-                $message = $this->systemErrorMessage[$value['error']];
+            if (isset($this->systemErrorMessage[$value->getError()])) {
+                $message = $this->systemErrorMessage[$value->getError()];
             }
             $this->setMessage($message);
             $element->setRuleError($this->getMessage());
@@ -117,7 +117,9 @@ class Upload extends Rules implements Rule
      */
     private function checkRequired($value, $message, Element $element)
     {
-
+        if ($value === false) {
+            return false;
+        }
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
         }
@@ -138,10 +140,10 @@ class Upload extends Rules implements Rule
      */
     private function checkMaxsize($value, $ruleOpts, Element $element)
     {
-        if($value === false){
+        if ($value === false) {
             return true;
         }
-        
+
         list($threshold_size, $message) = (array) $ruleOpts;
         $threshold_size = (int) $threshold_size;
 
@@ -167,16 +169,16 @@ class Upload extends Rules implements Rule
      */
     private function checkExtensions($value, $ruleOpts, Element $element)
     {
-        if($value === false){
+        if ($value === false) {
             return true;
         }
-        
+
         list($extensions, $message) = (array) $ruleOpts;
         $expected_extensions = \array_map('trim', \explode(",", $extensions));
         $extension = $value->getClientOriginalExtension();
-        
+
         if (is_null($message)) {
-            $message = 'Загрузка файлов с расширением .'.$extension.' запрещена';
+            $message = 'Загрузка файлов с расширением .' . $extension . ' запрещена';
         }
         $this->setMessage((string) $message);
 

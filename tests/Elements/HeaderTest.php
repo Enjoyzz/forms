@@ -59,20 +59,20 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     public function test_attr_fieldset()
     {
         $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
-        $obj->addFieldsetAttributes([
+        $obj->setAttributes([
             'id' => 'test'
-        ]);
-        $this->assertSame('test', $obj->getFieldsetAttribute('id'));
+        ], \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET);
+        $this->assertSame('test', $obj->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET));
     }
 
     public function test_attr_fieldset_get()
     {
         $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
-        $obj->addFieldsetAttributes([
+        $obj->setAttributes([
             'id' => 'test',
             'disabled' => null
-        ]);
-        $this->assertSame(' id="test" disabled', $obj->getFieldsetAttributes());
+        ], \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET);
+        $this->assertSame(' id="test" disabled', $obj->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_FIELDSET));
     }
     
     public function test_close_after()
