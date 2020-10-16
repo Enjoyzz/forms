@@ -50,6 +50,10 @@ class Form
     public const _TOKEN_SUBMIT_ = '_token_submit';
     public const _FLAG_FORMMETHOD_ = '_form_method';
 
+    
+    public const ATTRIBUTES_DESC = '_desc_attributes_';
+    public const ATTRIBUTES_VALIDATE = '_validate_attributes_';
+    public const ATTRIBUTES_LABEL = '_label_attributes_';
     /**
      *
      * @var string|null

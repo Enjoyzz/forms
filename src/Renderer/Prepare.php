@@ -76,7 +76,7 @@ class Prepare
         if (empty($element->getDescription())) {
             return;
         }
-        return "<{$containerTag}{$element->getDescAttributes()}>{$extra_before}{$element->getDescription()}{$extra_after}</{$containerTag}>";
+        return "<{$containerTag}{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_DESC)}>{$extra_before}{$element->getDescription()}{$extra_after}</{$containerTag}>";
     }
 
     public static function getHtmlValidation(\Enjoys\Forms\Element $element, $containerTag = 'div', $extra_before = '', $extra_after = '')
@@ -84,7 +84,7 @@ class Prepare
         if (!$element->isRuleError()) {
             return;
         }
-        return "<{$containerTag}{$element->getValidAttributes()}>{$extra_before}{$element->getRuleErrorMessage()}{$extra_after}</{$containerTag}>";
+        return "<{$containerTag}{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_VALIDATE)}>{$extra_before}{$element->getRuleErrorMessage()}{$extra_after}</{$containerTag}>";
     }
 
     public static function getHtmlLabel(\Enjoys\Forms\Element $element, $extra_before = '', $extra_after = '')
@@ -93,7 +93,7 @@ class Prepare
             return;
         }
 
-        return "<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$extra_before}{$element->getTitle()}{$extra_after}</label>";
+        return "<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$extra_before}{$element->getTitle()}{$extra_after}</label>";
     }
 
     public static function getHtmlBody(\Enjoys\Forms\Element $element, $extra_before = '', $extra_after = '')

@@ -41,12 +41,12 @@ class Input extends \Enjoys\Forms\Renderer\Prepare
 
     protected function description()
     {
-        $this->el->addDescAttributes([
+        $this->el->setAttributes([
             'id' => $this->el->getId() . 'Help',
             'class' => 'form-text text-muted'
-        ]);
+        ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
         $this->el->setAttributes([
-            'aria-describedby' => $this->el->getDescAttribute('id')
+            'aria-describedby' => $this->el->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
         ]);
         
         parent::description();
@@ -59,9 +59,9 @@ class Input extends \Enjoys\Forms\Renderer\Prepare
             $this->el->setAttributes([
                 'class' => 'is-invalid'
             ]);
-            $this->el->addValidAttributes([
+            $this->el->setAttributes([
                 'class' => 'invalid-feedback'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
         }
         
         parent::validation();

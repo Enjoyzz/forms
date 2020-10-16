@@ -157,7 +157,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private function renderCaptcha($element)
     {
         $html = '';
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>";
         $html .= "<br>" . $element->renderHtml();
         if (!empty($element->getDescription())) {
             $html .= "\t<br><small>{$element->getDescription()}</small><br>\n";
@@ -171,7 +171,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>
 \t<input type=\"{$element->getType()}\"{$element->getAttributes()}><br>\n";
         if (!empty($element->getDescription())) {
             $html .= "\t<small>{$element->getDescription()}</small><br>\n";
@@ -185,12 +185,12 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>";
 
 
         /** @var \Enjoys\Forms\Element $data */
         foreach ($element->getElements() as $data) {
-            $html .= "\t<input type=\"{$data->getType()}\" name=\"{$element->getName()}\"{$data->getAttributes()}><label for=\"{$data->getId()}\"{$data->getLabelAttributes()}>{$data->getTitle()}</label><br>\n";
+            $html .= "\t<input type=\"{$data->getType()}\" name=\"{$element->getName()}\"{$data->getAttributes()}><label for=\"{$data->getId()}\"{$data->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$data->getTitle()}</label><br>\n";
         }
 
         if (!empty($element->getDescription())) {
@@ -205,7 +205,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         if ($element->isRuleError()) {
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>
 \t<select{$element->getAttributes()}><br>\n";
 
 
@@ -223,7 +223,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element)
     {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>
 \t<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">\n";
 
 
@@ -241,7 +241,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderTextarea(\Enjoys\Forms\Elements\Textarea $element)
     {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>
 \t<textarea{$element->getAttributes()}>{$element->getValue()}</textarea><br>\n";
 
         if (!empty($element->getDescription())) {
@@ -286,7 +286,7 @@ class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 //        if ($element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>\n";
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>\n";
 
 
         /** @var \Enjoys\Forms\Elements\Option $option */

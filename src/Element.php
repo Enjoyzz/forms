@@ -30,7 +30,6 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Traits\Attributes;
-use Enjoys\Forms\Traits\LabelAttributes;
 use Enjoys\Helpers\Arrays;
 
 /**
@@ -42,9 +41,6 @@ use Enjoys\Helpers\Arrays;
 class Element implements Interfaces\Element
 {
     use Attributes;
-    use LabelAttributes;
-    use Traits\ValidAttributes;
-    use Traits\DescAttributes;
     use Traits\Request;
 
     /**

@@ -168,7 +168,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     private function renderCaptcha($element)
     {
         $html = '';
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>";
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>";
         $html .= "<br>" . $element->renderHtml();
         if (!empty($element->getDescription())) {
             $html .= "\t<br><small>{$element->getDescription()}</small><br>\n";
@@ -183,12 +183,12 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         ]);
 
         if (!empty($element->getDescription())) {
-            $element->addDescAttributes([
+            $element->setAttributes([
                 'id' => $element->getId() . 'Help',
                 'class' => 'form-text text-muted'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
             $element->setAttributes([
-                'aria-describedby' => $element->getDescAttribute('id')
+                'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
             ]);
         }
 
@@ -196,9 +196,9 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             $element->setAttributes([
                 'class' => 'is-invalid'
             ]);
-            $element->addValidAttributes([
+            $element->setAttributes([
                 'class' => 'invalid-feedback'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
         }
 
         return Prepare::getHtmlLabel($element)
@@ -214,12 +214,12 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         ]);
 
         if (!empty($element->getDescription())) {
-            $element->addDescAttributes([
+            $element->setAttributes([
                 'id' => $element->getId() . 'Help',
                 'class' => 'form-text text-muted'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
             $element->setAttributes([
-                'aria-describedby' => $element->getDescAttribute('id')
+                'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
             ]);
         }
 
@@ -227,9 +227,9 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             $element->setAttributes([
                 'class' => 'is-invalid'
             ]);
-            $element->addValidAttributes([
+            $element->setAttributes([
                 'class' => 'invalid-feedback'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
         }
 
         return Prepare::getHtmlLabel($element)
@@ -243,20 +243,20 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
 
         if (!empty($element->getDescription())) {
-            $element->addDescAttributes([
+            $element->setAttributes([
                 'id' => $element->getId() . 'Help',
                 'class' => 'form-text text-muted'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
             $element->setAttributes([
-                'aria-describedby' => $element->getDescAttribute('id')
+                'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
             ]);
         }
 
         if ($element->isRuleError()) {
-            $element->addValidAttributes([
+            $element->setAttributes([
                 'class' => 'invalid-feedback',
                 'style' => 'display: block;'
-            ]);
+            ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
         }
         $return = '';
         $return .= Prepare::getHtmlLabel($element);
@@ -264,7 +264,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         /** @var \Enjoys\Forms\Element $data */
         foreach ($element->getElements() as $data) {
             $data->addClass('form-check-input');
-            $data->addLabelClass('form-check-label');
+            $data->addClass('form-check-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
             $data->setAttributes([
                 'name' => $element->getName()
             ]);
@@ -304,7 +304,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
         }
         $html .= "<div class=\"form-group\">
-            <label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label>
+            <label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label>
             <select{$element->getAttributes()}>";
 
         /** @var \Enjoys\Forms\Elements\Option $option */
@@ -321,7 +321,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element)
     {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>
+        $html = "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>
 \t<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">\n";
 
 
@@ -372,7 +372,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 //        if ($element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= "\t<label for=\"{$element->getId()}\"{$element->getLabelAttributes()}>{$element->getTitle()}</label><br>\n";
+        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>\n";
 
 
         /** @var \Enjoys\Forms\Elements\Option $option */
