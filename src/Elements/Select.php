@@ -49,18 +49,11 @@ class Select extends Element
     public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
     {
         parent::__construct($formDefaults, $name, $title);
-         // $this->setIndexKeyFill('value');
-    }
-    
-    public function setMultiple()
-    {
-        $this->setAttributes(['multiple']);
-        return $this;
+        // $this->setIndexKeyFill('value');
     }
 
-    public function setAttributes(array $attributes, string $namespace = 'general'): self
+    private function isMultiple()
     {
-        parent::setAttributes($attributes, $namespace);
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
             $_id = $this->getId();
             $this->setName($this->getName() . '[]');
@@ -68,6 +61,25 @@ class Select extends Element
             //т.к. id уже переписан ,восстанавливаем его
             $this->setId($_id);
         }
+    }
+
+    public function setAttribute(string $name, string $value = null, string $namespace = 'general'): self
+    {
+        parent::setAttribute($name, $value, $namespace);
+        $this->isMultiple();
+        return $this;
+    }
+
+    public function setMultiple()
+    {
+        $this->setAttribute('multiple');
+        return $this;
+    }
+
+    public function setAttributes(array $attributes, string $namespace = 'general'): self
+    {
+        parent::setAttributes($attributes, $namespace);
+        $this->isMultiple();
         return $this;
     }
 

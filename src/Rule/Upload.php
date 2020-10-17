@@ -57,8 +57,8 @@ class Upload extends Rules implements Rule
 
     public function validate(Element $element): bool
     {
-        var_dump($this->request->files());
         $value = \Enjoys\Forms\Http\Request::getValueByIndexPath($element->getName(), $this->request->files());
+
         if (false === $this->check($value, $element)) {
             return false;
         }
@@ -118,13 +118,17 @@ class Upload extends Rules implements Rule
      */
     private function checkRequired($value, $message, Element $element)
     {
-        if ($value === false) {
-            return false;
-        }
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
         }
         $this->setMessage($message);
+
+        if ($value === false) {
+            $element->setRuleError($this->getMessage());
+            return false;
+        }
+
+
         if ($value->getError() == \UPLOAD_ERR_NO_FILE) {
             $element->setRuleError($this->getMessage());
             return false;

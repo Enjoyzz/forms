@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,44 +26,14 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Providers\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Prepare;
 
 /**
- * Class Input
+ * Description of Checkbox
  *
- * @author Enjoys
+ * @author deadl
  */
-class Input extends \Enjoys\Forms\Renderer\Prepare
+class Checkbox extends Radio
 {
-
-
-
-
-    protected function description()
-    {
-        $this->el->setAttributes([
-            'id' => $this->el->getId() . 'Help',
-            'class' => 'form-text text-muted'
-        ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
-        $this->el->setAttributes([
-            'aria-describedby' => $this->el->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
-        ]);
-        
-        parent::description();
-    }
-
-    protected function validation()
-    {
-
-        if ($this->el->isRuleError()) {
-            $this->el->setAttributes([
-                'class' => 'is-invalid'
-            ]);
-            $this->el->setAttributes([
-                'class' => 'invalid-feedback'
-            ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
-        }
-        
-        parent::validation();
-    }
+    //put your code here
 }

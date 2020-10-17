@@ -26,51 +26,17 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
-
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
-use Enjoys\Forms\Traits\Fill;
-use Enjoys\Helpers\Arrays;
+namespace Enjoys\Forms\Renderer\Bs4\Prepare;
 
 /**
- * Description of Option
+ * Description of Header
  *
  * @author deadl
  */
-class Option extends Element
+class Header extends \Enjoys\Forms\Renderer\RenderBase
 {
-    use Fill;
-
-    protected string $type = 'option';
-
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+  public function render()
     {
-        parent::__construct($formDefaults, $name, $title);
-        $this->setValue($name);
-        $this->setId($name);
-        $this->removeAttribute('name');
-    }
-
-    public function setDefault(): self
-    {
-
-      //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-        $value = $this->formDefaults->getValue($this->getParentName());
-
-        if (is_array($value)) {
-            if (in_array($this->getAttribute('value'), $value)) {
-                $this->setAttribute('selected');
-                return $this;
-            }
-        }
-
-        if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value') == $value) {
-                $this->setAttribute('selected');
-                return $this;
-            }
-        }
-        return $this;
+        return "<div{$this->element->getAttributes()}>{$this->element->getTitle()}</div>";
     }
 }

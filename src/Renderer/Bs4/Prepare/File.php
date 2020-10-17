@@ -26,7 +26,7 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Providers\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Prepare;
 
 /**
  * Class Input
@@ -36,18 +36,10 @@ namespace Enjoys\Forms\Renderer\Providers\Bs4\Prepare;
 class File extends Input
 {
 
-    public function __construct(\Enjoys\Forms\Element $element)
+    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
-        $element->setAttribute('class', 'custom-file-input');
-        $element->setAttribute('class', 'custom-file-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        parent::__construct($element);
-        
+        parent::__construct($element, $renderOptions);
+        $this->element->removeClass('form-control');
+        $this->element->addClass('form-control-file');
     }
-
-    protected function body()
-    {
-        
-        $this->body = "<input type=\"{$this->el->getType()}\"{$this->el->getAttributes()}>";
-    }
-
 }

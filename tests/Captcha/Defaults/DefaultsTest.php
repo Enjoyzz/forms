@@ -139,7 +139,8 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(6, \strlen($captcha->getCode()));
         $this->assertStringContainsString('img src="data:image/jpeg;base64,', $html);
         $this->assertStringContainsString('<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $html);
-        $this->assertStringContainsString('<p style="color: red">code invalid</p>', $html);
+        $this->assertEquals('code invalid', $element->getRuleErrorMessage());
+//        $this->assertStringContainsString('<p style="color: red">code invalid</p>', $html);
     }
 
     public function test_validate()

@@ -63,9 +63,9 @@ class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
     public function renderHtml(): string
     {
         $html = "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>";
-        if ($this->element->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
-        }
+//        if ($this->element->isRuleError()) {
+//            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
+//        }
         $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->getOption('publickey', $this->publicKey))}\"> </div>";
         return $html;
     }

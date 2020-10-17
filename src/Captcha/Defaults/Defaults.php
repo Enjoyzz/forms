@@ -87,9 +87,9 @@ class Defaults implements Interfaces\Captcha
         //dump(Session::get($this->getName()));
         $html = '';
 
-        if ($this->element->isRuleError()) {
-            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
-        }
+//        if ($this->element->isRuleError()) {
+//            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
+//        }
         $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $this->element->getAttributes() . '>';
 
         return $html;

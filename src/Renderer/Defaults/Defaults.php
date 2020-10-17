@@ -26,30 +26,29 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Providers\Table;
+namespace Enjoys\Forms\Renderer\Defaults;
 
 use Enjoys\Forms\Interfaces;
 
 /**
- * Class Table
+ * Class Defaults
  *
  * @author Enjoys
  */
-class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
+class Defaults extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 {
 
     private $elements = [];
     private $open_header = false;
     private $count_valid_element = 0;
     private $close_headertag_after = 0;
-    
-   // private $prepare;
+
 
     public function __construct(\Enjoys\Forms\Form $form, ?array $options = null)
     {
         parent::__construct($form);
-       // $this->prepare = new Prepare\Elements();
-        $this->setElements($this->form->getElements());
+
+        $this->setElements($this->getForm()->getElements());
     }
 
     public function header()
@@ -93,9 +92,6 @@ class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
             if (!($element instanceof \Enjoys\Forms\Element)) {
                 continue;
             }
-            
-           // dump($element);
-        //    $this->prepare->addElement($element);
 
             $this->count_valid_element++;
             switch (\get_class($element)) {
@@ -317,7 +313,6 @@ class Table extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         $html .= $this->header();
         $html .= $this->hidden();
         $html .= $this->elements($this->elements);
-       // dump($this->prepare->getElements());
         $html .= $this->footer();
         return $html;
     }
