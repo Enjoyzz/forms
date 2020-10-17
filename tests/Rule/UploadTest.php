@@ -41,19 +41,27 @@ use PHPUnit\Framework\TestCase;
 class UploadTest extends TestCase
 {
     use \Tests\Enjoys\Forms\Reflection;
-    
+
     public function test_validate_uploadrule()
     {
-        $this->markTestIncomplete();
-        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
-        
         $fileElement = new \Enjoys\Forms\Elements\File(new \Enjoys\Forms\FormDefaults([]), 'foo');
         
-        $requestMock->method('files')->will($this->returnCallback(function() use ($fileElement) {
-            return ['food' => $fileElement];
-        }));
-                
+        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
+        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
+        $requestMock->expects($this->any())->method('files')->will($this->returnCallback(fn() => ['foo' => $uploadFile]));
+        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+            'required'
+        ]);
+        $uploadRule->initRequest($requestMock);
+        $this->assertEquals(true, $uploadRule->validate($fileElement));
+    }
+    public function test_validate_uploadrule2()
+    {
+        $fileElement = new \Enjoys\Forms\Elements\File(new \Enjoys\Forms\FormDefaults([]), 'foo');
         
+        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
+        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
+        $requestMock->expects($this->any())->method('files')->will($this->returnCallback(fn() => ['food' => $uploadFile]));
         $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
             'required'
         ]);
@@ -259,10 +267,11 @@ class UploadTest extends TestCase
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     $uploadFile, $fileElement
         ]));
-        
+
         $privateProperty = $this->getPrivateProperty(\Enjoys\Forms\Rule\Upload::class, 'systemErrorMessage');
         $this->assertEquals($privateProperty->getValue($uploadRule)[\UPLOAD_ERR_FORM_SIZE], $fileElement->getRuleErrorMessage());
     }
+
     public function test_checkSystem4()
     {
         $fileElement = new \Enjoys\Forms\Elements\File(new \Enjoys\Forms\FormDefaults([]), 'foo');
@@ -275,8 +284,8 @@ class UploadTest extends TestCase
                     $uploadFile, $fileElement
         ]));
     }
-    
-  public function test_checkUnknown()
+
+    public function test_checkUnknown()
     {
         $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
         $fileElement = new \Enjoys\Forms\Elements\File(new \Enjoys\Forms\FormDefaults([]), 'foo');
@@ -286,5 +295,5 @@ class UploadTest extends TestCase
         ]);
         $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
         $testedMethod->invokeArgs($uploadRule, [$uploadFile, $fileElement]);
-    }    
+    }
 }
