@@ -35,12 +35,6 @@ namespace Enjoys\Forms\Renderer;
  */
 class RenderBase
 {
-
-//    protected $description = null;
-//    protected $body = null;
-//    protected $validation = null;
-//    protected $label = null;
-
     protected \Enjoys\Forms\Element $element;
     protected $renderOptions = [];
 
@@ -85,29 +79,10 @@ class RenderBase
         return "<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label>";
     }
 
-    protected function renderBody($element)
+    protected function renderBody(\Enjoys\Forms\Element $element)
     {
 
         switch (\get_class($element)) {
-            case 'Enjoys\Forms\Elements\Text':
-            case 'Enjoys\Forms\Elements\Password':
-            case 'Enjoys\Forms\Elements\Color':
-            case 'Enjoys\Forms\Elements\Date':
-            case 'Enjoys\Forms\Elements\Datetime':
-            case 'Enjoys\Forms\Elements\Datetimelocal':
-            case 'Enjoys\Forms\Elements\Email':
-            case 'Enjoys\Forms\Elements\Number':
-            case 'Enjoys\Forms\Elements\Range':
-            case 'Enjoys\Forms\Elements\Search':
-            case 'Enjoys\Forms\Elements\Tel':
-            case 'Enjoys\Forms\Elements\Time':
-            case 'Enjoys\Forms\Elements\Url':
-            case 'Enjoys\Forms\Elements\Month':
-            case 'Enjoys\Forms\Elements\Week':
-            case 'Enjoys\Forms\Elements\File':
-            case 'Enjoys\Forms\Elements\Radio':
-            case 'Enjoys\Forms\Elements\Checkbox':
-                return "<input type=\"{$element->getType()}\"{$element->getAttributes()}>";
             case 'Enjoys\Forms\Elements\Textarea':
                 return "<textarea{$element->getAttributes()}>{$element->getValue()}</textarea>";
             case 'Enjoys\Forms\Elements\Button':
@@ -119,7 +94,7 @@ class RenderBase
             case 'Enjoys\Forms\Elements\Header':
                 return $element->getTitle();
             default:
-                return;
+                return "<input type=\"{$element->getType()}\"{$element->getAttributes()}>";
         }
     }
 }

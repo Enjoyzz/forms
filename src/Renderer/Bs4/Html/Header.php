@@ -26,37 +26,17 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Captcha
+ * Description of Header
  *
  * @author deadl
  */
-class Captcha extends \Enjoys\Forms\Renderer\RenderBase
+class Header extends \Enjoys\Forms\Renderer\RenderBase
 {
-    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
+  public function render()
     {
-        parent::__construct($element, $renderOptions);
-      //  $this->element->addClass('form-control');
-
-        if (!empty($this->element->getDescription())) {
-            $this->element->setAttributes([
-                'id' => $this->element->getId() . 'Help',
-                'class' => 'form-text text-muted'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
-            $this->element->setAttributes([
-                'aria-describedby' => $this->element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
-            ]);
-        }
-
-        if ($this->element->isRuleError()) {
-            $this->element->setAttributes([
-                'class' => 'is-invalid'
-            ]);
-            $this->element->setAttributes([
-                'class' => 'invalid-feedback d-block'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
-        }        
+        return "<div{$this->element->getAttributes()}>{$this->element->getTitle()}</div>";
     }
 }

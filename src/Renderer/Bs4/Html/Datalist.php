@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,24 +26,32 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Class Input
+ * Description of Datalist
  *
- * @author Enjoys
+ * @author deadl
  */
-class Button extends \Enjoys\Forms\Renderer\RenderBase
+class Datalist extends Input
 {
-
-    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
-    {
-        parent::__construct($element, $renderOptions);
-        $this->element->addClass('btn btn-primary');
-    }
-    
     public function render()
     {
-        return $this->renderBody($this->element);
+        return
+                $this->renderLabel($this->element) .
+                $this->renderDatalist($this->element) .
+                $this->renderDescription($this->element) .
+                $this->renderValidation($this->element) .
+                '';
+    }
+
+    protected function renderDatalist($element)
+    {
+        $return = "<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">";
+        foreach ($element->getElements() as $data) {
+            $return .= "<option value=\"{$data->getTitle()}\">";
+        }
+        $return .= "</datalist>";
+        return $return;
     }
 }

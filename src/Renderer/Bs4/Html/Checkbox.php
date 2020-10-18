@@ -26,56 +26,32 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Radio
+ * Description of Checkbox
  *
  * @author deadl
  */
-class Radio extends \Enjoys\Forms\Renderer\RenderBase
+class Checkbox extends Radio
 {
-
-    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
-    {
-        parent::__construct($element, $renderOptions);
-        
-        if (!empty($this->element->getDescription())) {
-            $this->element->setAttributes([
-                'id' => $this->element->getId() . 'Help',
-                'class' => 'form-text text-muted'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
-            $this->element->setAttributes([
-                'aria-describedby' => $this->element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
-            ]);
-        }
-
-        if ($this->element->isRuleError()) {
-            $this->element->setAttributes([
-                'class' => 'is-invalid'
-            ]);
-            $this->element->setAttributes([
-                'class' => 'invalid-feedback d-block'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
-        }
-    }
 
     public function render()
     {
         return
                 $this->renderLabel($this->element) .
-                $this->renderRadio($this->element) .
+                (($this->renderOptions['custom-checkbox'] === true) ? $this->renderCustomCheckbox($this->element) : $this->renderRadio($this->element)) .
                 $this->renderDescription($this->element) .
                 $this->renderValidation($this->element) .
                 '';
     }
 
-    protected function renderRadio($element)
+    protected function renderCustomCheckbox($element)
     {
         $return = '';
         foreach ($element->getElements() as $data) {
-            $data->addClass('form-check-input');
-            $data->addClass('form-check-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+            $data->addClass('custom-control-input');
+            $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
             $data->setAttributes([
                 'name' => $element->getName()
             ]);
@@ -84,9 +60,9 @@ class Radio extends \Enjoys\Forms\Renderer\RenderBase
                 $data->addClass('position-static');
             }
 
-            $data->addClass('form-check', 'checkBox');
-            if ($this->rendererOptions['checkbox_inline'] === true) {
-                $data->addClass('form-check-inline', 'checkBox');
+            $data->addClass('custom-control custom-checkbox', 'checkBox');
+            if ($this->renderOptions['checkbox_inline'] === true) {
+                $data->addClass('custom-control-inline', 'checkBox');
             }
 
             if ($element->isRuleError()) {

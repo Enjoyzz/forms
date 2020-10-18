@@ -26,14 +26,17 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Checkbox
+ * Description of InputButton
  *
  * @author deadl
  */
-class Checkbox extends Radio
+class InputButton extends \Enjoys\Forms\Renderer\RenderBase
 {
-    //put your code here
+    public function render()
+    {
+        return $this->renderBody($this->element);
+    }
 }

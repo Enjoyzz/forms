@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,25 +26,33 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Class Reset
+ * Description of Group
  *
- * @author Enjoys
+ * @author deadl
  */
-class Reset extends \Enjoys\Forms\Element
+class Group
 {
-
-    protected string $type = 'reset';
-
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name = null, string $title = null)
+    private $element;
+    private $renderer;
+    
+    public function __construct($element, $renderer)
     {
-        $name ??= uniqid('reset');
-        
-        parent::__construct($formDefaults, $name, $title);
-        if (!is_null($title)) {
-            $this->setValue($title);
-        }
+        $this->element = $element;
+        $this->renderer = $renderer;
     }
+    
+    public function render(){
+        //dump($element->elements($element->getElements()));
+        $return = "<div class=\"form-row\">";
+        foreach ($this->renderer->elements($this->element->getElements()) as $data) {
+
+            $return .= "<div class=\"col\">{$data->render()}</div>";
+        }
+        $return .= "</div>";
+        return $return;
+    }
+    
 }

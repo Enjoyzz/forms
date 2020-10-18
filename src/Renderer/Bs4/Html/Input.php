@@ -26,25 +26,19 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Class Reset
+ * Class Input
  *
  * @author Enjoys
  */
-class Reset extends \Enjoys\Forms\Element
+class Input extends \Enjoys\Forms\Renderer\RenderBase
 {
 
-    protected string $type = 'reset';
-
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name = null, string $title = null)
+    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
-        $name ??= uniqid('reset');
-        
-        parent::__construct($formDefaults, $name, $title);
-        if (!is_null($title)) {
-            $this->setValue($title);
-        }
+        parent::__construct($element, $renderOptions);
+        $this->element->addClass('form-control');
     }
 }

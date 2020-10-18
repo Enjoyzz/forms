@@ -26,17 +26,20 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Header
+ * Description of Captcha
  *
  * @author deadl
  */
-class Header extends \Enjoys\Forms\Renderer\RenderBase
+class Captcha extends \Enjoys\Forms\Renderer\RenderBase
 {
-  public function render()
+    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
-        return "<div{$this->element->getAttributes()}>{$this->element->getTitle()}</div>";
+        parent::__construct($element, $renderOptions);
+      //  $this->element->addClass('form-control');
+
+      
     }
 }

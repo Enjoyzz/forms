@@ -33,6 +33,14 @@ use Enjoys\Forms\Renderer\RenderBase;
 
 /**
  * Class Bs4
+ * 
+ * $form->setRenderer('bs4');
+ * $form->display([
+ *      'inline' => true|false,
+ *      'custom-radio' => true|false,
+ *      'custom-checkbox' => true|false,
+ *      'checkbox_inline' => true|false,
+ * ]);
  *
  * @author Enjoys
  */
@@ -40,27 +48,41 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 {
 
     private $elements = [];
-    private $open_header = false;
     private $count_valid_element = 0;
-    private $close_headertag_after = 0;
 
     // private $prepare;
 
     public function __construct(\Enjoys\Forms\Form $form, array $options = null)
     {
         parent::__construct($form, $options);
-        // $this->prepare = new Prepare\Elements();
+        // $this->prepare = new Html\Elements();
         $this->setElements($this->form->getElements());
 
         if ($this->rendererOptions['inline'] === true) {
             $this->form->addClass('form-inline');
         }
     }
-    
-   public function setElements(array $elements)
+
+    public function __toString()
+    {
+        $html = '';
+        $html .= $this->header();
+        $html .= $this->hidden();
+
+        foreach ($this->elements($this->elements) as $data) {
+            $html .= '<div class="form-group">';
+            $html .= $data->render();
+            $html .= '</div>';
+        }
+        // dump($this->prepare->getElements());
+        $html .= $this->footer();
+        return $html;
+    }
+
+    public function setElements(array $elements)
     {
         $this->elements = $elements;
-    }    
+    }
 
     public function header()
     {
@@ -70,12 +92,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     public function footer()
     {
-        $html = '';
-        if ($this->open_header === true) {
-            $html .= "\t</fieldset>\n";
-        }
-        $html .= "</form>";
-        return $html;
+        return "</form>";
     }
 
     public function hidden()
@@ -95,8 +112,8 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     public function elements(?array $elements = null)
     {
         $elements ??= $this->elements;
+        $html = [];
 
-        $html = '';
         /** @var \Enjoys\Forms\Element $element */
         foreach ($elements as $key => $element) {
             unset($elements[$key]);
@@ -105,8 +122,28 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 continue;
             }
 
-            // dump($element);
-            //    $this->prepare->addElement($element);
+            if ($this->rendererOptions['inline'] === true) {
+                $element->addClass('sr-only', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+            }
+
+            if (!empty($element->getDescription())) {
+                $element->setAttributes([
+                    'id' => $element->getId() . 'Help',
+                    'class' => 'form-text text-muted'
+                        ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
+                $element->setAttributes([
+                    'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
+                ]);
+            }
+
+            if ($element->isRuleError()) {
+                $element->setAttributes([
+                    'class' => 'is-invalid'
+                ]);
+                $element->setAttributes([
+                    'class' => 'invalid-feedback d-block'
+                        ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
+            }
 
             $this->count_valid_element++;
             switch (\get_class($element)) {
@@ -125,126 +162,51 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 case 'Enjoys\Forms\Elements\Url':
                 case 'Enjoys\Forms\Elements\Month':
                 case 'Enjoys\Forms\Elements\Week':
-                    $elementsHtml[] = new Prepare\Input($element, $this->rendererOptions);
+                    $html[] = new Html\Input($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Textarea':
-                    $elementsHtml[] = new Prepare\Textarea($element, $this->rendererOptions);
+                    $html[] = new Html\Textarea($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\File':
-                    $elementsHtml[] = new Prepare\File($element, $this->rendererOptions);
+                    $html[] = new Html\File($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Image':
+                    $html[] = new Html\Image($element, $this->rendererOptions);
+                    break;
                 case 'Enjoys\Forms\Elements\Submit':
+                    $html[] = new Html\Submit($element, $this->rendererOptions);
+                    break;
                 case 'Enjoys\Forms\Elements\Reset':
-                   // $elementsHtml[] = $this->renderInputButton($element);
+                    $html[] = new Html\Reset($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Header':
-                  $elementsHtml[] = new Prepare\Header($element, $this->rendererOptions);
+                    $html[] = new Html\Header($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Radio':
-                    $elementsHtml[] = new Prepare\Radio($element, $this->rendererOptions);
+                    $html[] = new Html\Radio($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Checkbox':
-                    $elementsHtml[] = new Prepare\Checkbox($element, $this->rendererOptions);
+                    $html[] = new Html\Checkbox($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Select':
-                   $elementsHtml[] = new Prepare\Select($element, $this->rendererOptions);
+                    $html[] = new Html\Select($element, $this->rendererOptions);
                     break;
-
                 case 'Enjoys\Forms\Elements\Button':
-                   $elementsHtml[] = new Prepare\Button($element, $this->rendererOptions);
+                    $html[] = new Html\Button($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Datalist':
-                  //  $elementsHtml[] = $this->renderDatalist($element);
+                    $html[] = new Html\Datalist($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Captcha':
-                  $elementsHtml[] = new Prepare\Captcha($element, $this->rendererOptions);
+                    $html[] = new Html\Captcha($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Group':
-                  //  $elementsHtml[] = $this->renderGroup($element);
+                    $html[] = new Html\Group($element, $this);
                     break;
                 default:
                     break;
             }
-            if ($this->count_valid_element == $this->close_headertag_after) {
-                $html .= $this->renderHeaderCloseTag();
-            }
         }
-
-        return $elementsHtml;
-    }
-
-
-
-
-    private function renderDatalist(\Enjoys\Forms\Elements\Datalist $element)
-    {
-        $html = "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>
-\t<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">\n";
-
-
-        /** @var \Enjoys\Forms\Elements\Option $option */
-        foreach ($element->getElements() as $option) {
-            $html .= "\t<option value=\"{$option->getTitle()}\">\n";
-        }
-        $html .= "</datalist>";
-
-        if (!empty($element->getDescription())) {
-            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
-        }
-        return $html . "\n";
-    }
-
-
-
-    private function renderInputButton(\Enjoys\Forms\Element $element)
-    {
-
-        return "\t<br><br><input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
-    }
-
-//    private function renderGroup(\Enjoys\Forms\Elements\Group $element)
-//    {
-//        $html = '';
-////        if ($element->isRuleError()) {
-////            $html .= "<p style=\"color: red\">{$element->getRuleErrorMessage()}</p>";
-////        }
-//        $html .= "\t<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label><br>\n";
-//
-//
-//        /** @var \Enjoys\Forms\Elements\Option $option */
-//        foreach ($element->getElements() as $element) {
-//            $html .= $this->elements([$element]);
-//        }
-////        $html .= "</select>";
-//
-//        if (!empty($element->getDescription())) {
-//            $html .= "\t<small>{$element->getDescription()}</small><br>\n";
-//        }
-//        return $html . "<br>\n";
-//    }
-
-    private function renderHeaderCloseTag()
-    {
-        $this->open_header = false;
-        return "\t</fieldset>\n";
-    }
-
-    public function __toString()
-    {
-        $html = '';
-        $html .= $this->header();
-        $html .= $this->hidden();
-
-        foreach ($this->elements($this->elements) as $data) {
-            $html .= '<div class="form-group">';
-            $html .= $data->render();
-            $html .= '</div>';
-        }
-        // dump($this->prepare->getElements());
-        $html .= $this->footer();
         return $html;
     }
-
- 
 }

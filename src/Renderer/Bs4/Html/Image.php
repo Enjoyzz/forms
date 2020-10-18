@@ -26,33 +26,14 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Select
+ * Description of Image
  *
  * @author deadl
  */
-class Select extends Input
+class Image extends InputButton
 {
-    public function render()
-    {
-        return
-                $this->renderLabel($this->element) .
-                $this->renderOptions($this->element) .
-                $this->renderDescription($this->element) .
-                $this->renderValidation($this->element) .
-                '';
-    }
-
-    protected function renderOptions($element)
-    {
-        $return = "<select{$element->getAttributes()}>";
-        foreach ($element->getElements() as $data) {
-
-            $return .= $this->renderBody($data);
-        }
-        $return .= "</select>";
-        return $return;
-    }
+   
 }

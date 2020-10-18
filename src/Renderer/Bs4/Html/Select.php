@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,38 +26,33 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Prepare;
+namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Class Input
+ * Description of Select
  *
- * @author Enjoys
+ * @author deadl
  */
-class Input extends \Enjoys\Forms\Renderer\RenderBase
+class Select extends Input
 {
-
-    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
+    public function render()
     {
-        parent::__construct($element, $renderOptions);
-        $this->element->addClass('form-control');
+        return
+                $this->renderLabel($this->element) .
+                $this->renderOptions($this->element) .
+                $this->renderDescription($this->element) .
+                $this->renderValidation($this->element) .
+                '';
+    }
 
-        if (!empty($this->element->getDescription())) {
-            $this->element->setAttributes([
-                'id' => $this->element->getId() . 'Help',
-                'class' => 'form-text text-muted'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
-            $this->element->setAttributes([
-                'aria-describedby' => $this->element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
-            ]);
+    protected function renderOptions($element)
+    {
+        $return = "<select{$element->getAttributes()}>";
+        foreach ($element->getElements() as $data) {
+
+            $return .= $this->renderBody($data);
         }
-
-        if ($this->element->isRuleError()) {
-            $this->element->setAttributes([
-                'class' => 'is-invalid'
-            ]);
-            $this->element->setAttributes([
-                'class' => 'invalid-feedback'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
-        }        
+        $return .= "</select>";
+        return $return;
     }
 }
