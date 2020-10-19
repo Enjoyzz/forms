@@ -26,20 +26,33 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Html;
+namespace Enjoys\Forms\Renderer\Table\Html;
 
 /**
- * Description of Captcha
+ * Description of Group
  *
  * @author deadl
  */
-class Captcha extends \Enjoys\Forms\Renderer\RenderBase
+class Group
 {
-//    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
-//    {
-//        parent::__construct($element, $renderOptions);
-//      //  $this->element->addClass('form-control');
-//
-//      
-//    }
+    private $element;
+    private $renderer;
+    
+    public function __construct($element, $renderer)
+    {
+        $this->element = $element;
+        $this->renderer = $renderer;
+    }
+    
+    public function render(){
+        //dump($element->elements($element->getElements()));
+        $return = "<td></td><td><table><tr>";
+        foreach ($this->renderer->elements($this->element->getElements()) as $data) {
+
+            $return .= "<td>{$data->render()}</td>";
+        }
+        $return .= "</tr></table></td>";
+        return $return;
+    }
+    
 }

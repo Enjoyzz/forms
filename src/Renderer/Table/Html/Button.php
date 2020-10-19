@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,19 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Html;
+namespace Enjoys\Forms\Renderer\Table\Html;
 
 /**
- * Description of Captcha
+ * Class Input
  *
- * @author deadl
+ * @author Enjoys
  */
-class Captcha extends \Enjoys\Forms\Renderer\RenderBase
+class Button extends \Enjoys\Forms\Renderer\RenderBase
 {
-//    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
-//    {
-//        parent::__construct($element, $renderOptions);
-//      //  $this->element->addClass('form-control');
-//
-//      
-//    }
+
+
+    public function render()
+    {
+       return '<td></td><td>'.$this->renderBody($this->element).'</td>';
+    }
 }

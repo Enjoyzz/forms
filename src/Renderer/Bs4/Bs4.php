@@ -28,11 +28,29 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bs4;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Hidden;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces;
-use Enjoys\Forms\Renderer\RenderBase;
+use Enjoys\Forms\Renderer;
+use Enjoys\Forms\Renderer\Bs4\Html\Button;
+use Enjoys\Forms\Renderer\Bs4\Html\Captcha;
+use Enjoys\Forms\Renderer\Bs4\Html\Checkbox;
+use Enjoys\Forms\Renderer\Bs4\Html\Datalist;
+use Enjoys\Forms\Renderer\Bs4\Html\File;
+use Enjoys\Forms\Renderer\Bs4\Html\Group;
+use Enjoys\Forms\Renderer\Bs4\Html\Header;
+use Enjoys\Forms\Renderer\Bs4\Html\Image;
+use Enjoys\Forms\Renderer\Bs4\Html\Input;
+use Enjoys\Forms\Renderer\Bs4\Html\Radio;
+use Enjoys\Forms\Renderer\Bs4\Html\Reset;
+use Enjoys\Forms\Renderer\Bs4\Html\Select;
+use Enjoys\Forms\Renderer\Bs4\Html\Submit;
 
 /**
  * Class Bs4
+ * 
+ * <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
  * 
  * $form->setRenderer('bs4');
  * $form->display([
@@ -44,7 +62,7 @@ use Enjoys\Forms\Renderer\RenderBase;
  *
  * @author Enjoys
  */
-class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
+class Bs4 extends Renderer implements Interfaces\Renderer
 {
 
     private $elements = [];
@@ -52,7 +70,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
 
     // private $prepare;
 
-    public function __construct(\Enjoys\Forms\Form $form, array $options = null)
+    public function __construct(Form $form, array $options = null)
     {
         parent::__construct($form, $options);
         // $this->prepare = new Html\Elements();
@@ -98,9 +116,9 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
     public function hidden()
     {
         $html = '';
-        /** @var \Enjoys\Forms\Element $element */
+        /** @var Element $element */
         foreach ($this->elements as $key => $element) {
-            if ($element instanceof \Enjoys\Forms\Elements\Hidden) {
+            if ($element instanceof Hidden) {
                 $html .= "<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
                 unset($this->elements[$key]);
             }
@@ -114,25 +132,25 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
         $elements ??= $this->elements;
         $html = [];
 
-        /** @var \Enjoys\Forms\Element $element */
+        /** @var Element $element */
         foreach ($elements as $key => $element) {
             unset($elements[$key]);
 
-            if (!($element instanceof \Enjoys\Forms\Element)) {
+            if (!($element instanceof Element)) {
                 continue;
             }
 
             if ($this->rendererOptions['inline'] === true) {
-                $element->addClass('sr-only', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+                $element->addClass('sr-only', Form::ATTRIBUTES_LABEL);
             }
 
             if (!empty($element->getDescription())) {
                 $element->setAttributes([
                     'id' => $element->getId() . 'Help',
                     'class' => 'form-text text-muted'
-                        ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
+                        ], Form::ATTRIBUTES_DESC);
                 $element->setAttributes([
-                    'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
+                    'aria-describedby' => $element->getAttribute('id', Form::ATTRIBUTES_DESC)
                 ]);
             }
 
@@ -142,7 +160,7 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 ]);
                 $element->setAttributes([
                     'class' => 'invalid-feedback d-block'
-                        ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
+                        ], Form::ATTRIBUTES_VALIDATE);
             }
 
             $this->count_valid_element++;
@@ -162,46 +180,46 @@ class Bs4 extends \Enjoys\Forms\Renderer implements Interfaces\Renderer
                 case 'Enjoys\Forms\Elements\Url':
                 case 'Enjoys\Forms\Elements\Month':
                 case 'Enjoys\Forms\Elements\Week':
-                    $html[] = new Html\Input($element, $this->rendererOptions);
+                    $html[] = new Input($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Textarea':
                     $html[] = new Html\Textarea($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\File':
-                    $html[] = new Html\File($element, $this->rendererOptions);
+                    $html[] = new File($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Image':
-                    $html[] = new Html\Image($element, $this->rendererOptions);
+                    $html[] = new Image($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Submit':
-                    $html[] = new Html\Submit($element, $this->rendererOptions);
+                    $html[] = new Submit($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Reset':
-                    $html[] = new Html\Reset($element, $this->rendererOptions);
+                    $html[] = new Reset($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Header':
-                    $html[] = new Html\Header($element, $this->rendererOptions);
+                    $html[] = new Header($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Radio':
-                    $html[] = new Html\Radio($element, $this->rendererOptions);
+                    $html[] = new Radio($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Checkbox':
-                    $html[] = new Html\Checkbox($element, $this->rendererOptions);
+                    $html[] = new Checkbox($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Select':
-                    $html[] = new Html\Select($element, $this->rendererOptions);
+                    $html[] = new Select($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Button':
-                    $html[] = new Html\Button($element, $this->rendererOptions);
+                    $html[] = new Button($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Datalist':
-                    $html[] = new Html\Datalist($element, $this->rendererOptions);
+                    $html[] = new Datalist($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Captcha':
-                    $html[] = new Html\Captcha($element, $this->rendererOptions);
+                    $html[] = new Captcha($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Group':
-                    $html[] = new Html\Group($element, $this);
+                    $html[] = new Group($element, $this);
                     break;
                 default:
                     break;

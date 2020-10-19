@@ -26,20 +26,22 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Html;
+namespace Enjoys\Forms\Renderer\Table\Html;
 
 /**
- * Description of Captcha
+ * Description of Layout
  *
  * @author deadl
  */
-class Captcha extends \Enjoys\Forms\Renderer\RenderBase
+class Layout extends \Enjoys\Forms\Renderer\RenderBase
 {
-//    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
-//    {
-//        parent::__construct($element, $renderOptions);
-//      //  $this->element->addClass('form-control');
-//
-//      
-//    }
+    public function render()
+    {
+        return
+                '<td valign="top" witdh=30%><b>'.$this->renderLabel($this->element) . '</b></td>' .
+                '<td valign="top" width=70%>'.$this->renderBody($this->element) .
+                $this->renderDescription($this->element, 'div') .
+                $this->renderValidation($this->element) .
+                '</td>';
+    }
 }
