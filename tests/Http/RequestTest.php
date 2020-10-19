@@ -55,6 +55,14 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $request->post('notisset'));
         $this->assertEquals('baz', $request->post('notisset', 'baz'));
     }
+    
+//    public function test_files()
+//    {
+//        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
+//        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
+//        $requestMock->expects($this->any())->method('files')->will($this->returnCallback(fn() => ['food' => $uploadFile]));
+//         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\File\UploadedFile', $requestMock->files('food'));  
+//    }
 
     /**
      * @dataProvider dataStringValueForSetDefault

@@ -139,5 +139,13 @@ class ElementTest extends TestCase
         $this->assertEquals('rule message error', $element->getRuleErrorMessage());
         $this->assertEquals(true, $element->isRuleError());
     }
+    
+    public function test_isrequired()
+    {
+        $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo', 'Bar');
+        $this->assertEquals(false, $element->isRequired());
+        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $this->assertEquals(true, $element->isRequired());
+    }
 
 }

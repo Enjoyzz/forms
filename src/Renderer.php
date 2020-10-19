@@ -36,6 +36,10 @@ namespace Enjoys\Forms;
 class Renderer
 {
     
+    public const BOOTSTRAP4 = 'bs4';
+    public const BOOTSTRAP3 = 'bs3';
+    public const BOOTSTRAP2 = 'bs2';
+    
     protected Form $form;
     protected array $rendererOptions;
 

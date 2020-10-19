@@ -79,6 +79,7 @@ class Element implements Interfaces\Element
      * @var string|null
      */
     protected ?string $value = null;
+    protected bool $required = false;
 
     /**
      *
@@ -97,7 +98,7 @@ class Element implements Interfaces\Element
      * @var array
      */
     protected array $rules = [];
-    
+
     /**
      *
      * @var \Enjoys\Forms\FormDefaults|null
@@ -111,9 +112,9 @@ class Element implements Interfaces\Element
      */
     public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
     {
-        
+
         $this->initRequest();
-        
+
         $this->formDefaults = $formDefaults;
 
         $this->setName($name);
@@ -232,7 +233,7 @@ class Element implements Interfaces\Element
     {
         return $this->description;
     }
-    
+
     /**
      *
      * @param \Enjoys\Forms\FormDefaults $defaults
@@ -242,7 +243,6 @@ class Element implements Interfaces\Element
         $this->formDefaults = $defaults;
         $this->setDefault();
     }
-  
 
     /**
      * @uses \Enjoys\Helpers\Arrays::getValueByIndexPath()
@@ -274,15 +274,29 @@ class Element implements Interfaces\Element
     public function addRule(string $ruleName, ?string $message = null, $params = [])
     {
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
-        
+
         $rule = new $class($message, $params);
         $rule->initRequest($this->request);
-        
+
+        if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {
+            $this->required = true;
+        }
+
         $this->rules[] = $rule;
         return $this;
     }
 
 //    public function getRule(Rule $rule) {}
+
+
+    /**
+     * 
+     * @return bool
+     */
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
 
     /**
      *

@@ -165,26 +165,6 @@ class Bs4 extends Renderer implements Interfaces\Renderer
 
             $this->count_valid_element++;
             switch (\get_class($element)) {
-                case 'Enjoys\Forms\Elements\Text':
-                case 'Enjoys\Forms\Elements\Password':
-                case 'Enjoys\Forms\Elements\Color':
-                case 'Enjoys\Forms\Elements\Date':
-                case 'Enjoys\Forms\Elements\Datetime':
-                case 'Enjoys\Forms\Elements\Datetimelocal':
-                case 'Enjoys\Forms\Elements\Email':
-                case 'Enjoys\Forms\Elements\Number':
-                case 'Enjoys\Forms\Elements\Range':
-                case 'Enjoys\Forms\Elements\Search':
-                case 'Enjoys\Forms\Elements\Tel':
-                case 'Enjoys\Forms\Elements\Time':
-                case 'Enjoys\Forms\Elements\Url':
-                case 'Enjoys\Forms\Elements\Month':
-                case 'Enjoys\Forms\Elements\Week':
-                    $html[] = new Input($element, $this->rendererOptions);
-                    break;
-                case 'Enjoys\Forms\Elements\Textarea':
-                    $html[] = new Html\Textarea($element, $this->rendererOptions);
-                    break;
                 case 'Enjoys\Forms\Elements\File':
                     $html[] = new File($element, $this->rendererOptions);
                     break;
@@ -222,6 +202,7 @@ class Bs4 extends Renderer implements Interfaces\Renderer
                     $html[] = new Group($element, $this);
                     break;
                 default:
+                    $html[] = new Input($element, $this->rendererOptions);
                     break;
             }
         }

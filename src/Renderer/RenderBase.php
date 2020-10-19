@@ -70,13 +70,17 @@ class RenderBase
         return "<{$containerTag}{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
     }
 
-    protected function renderLabel($element)
+    protected function renderLabel($element, $star = "&nbsp;<sup>*</sup>")
     {
         if (empty($element->getTitle())) {
             return;
         }
+        
+        if(!$element->isRequired()){
+            $star = "";
+        }
 
-        return "<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}</label>";
+        return "<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}{$star}</label>";
     }
 
     protected function renderBody(\Enjoys\Forms\Element $element)
