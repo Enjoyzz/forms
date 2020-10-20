@@ -401,6 +401,7 @@ class Form
      * @method Elements\Radio radio(string $name, string $title = null)
      * @method Elements\Reset reset(string $name, string $title = null)
      * @method Elements\Captcha captcha(string $captchaName = null, string $message = null)
+     * @method Elements\Group group(string $title = null, array $elements = null)
      *
      * @mixin Element
      */
