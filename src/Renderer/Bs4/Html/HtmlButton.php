@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,30 +29,21 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Select
+ * Class Input
  *
- * @author deadl
+ * @author Enjoys
  */
-class Select extends Input
+class HtmlButton extends \Enjoys\Forms\Renderer\LayoutBase
 {
+
+    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
+    {
+        parent::__construct($element, $renderOptions);
+        $this->element->addClass('btn btn-primary');
+    }
+    
     public function render()
     {
-        return
-                $this->renderLabel($this->element) .
-                $this->renderOptions($this->element) .
-                $this->renderDescription($this->element) .
-                $this->renderValidation($this->element) .
-                '';
-    }
-
-    protected function renderOptions($element)
-    {
-        $return = "<select{$element->getAttributes()}>";
-        foreach ($element->getElements() as $data) {
-
-            $return .= $this->renderBody($data);
-        }
-        $return .= "</select>";
-        return $return;
+        return $this->renderBody($this->element);
     }
 }

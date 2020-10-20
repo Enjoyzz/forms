@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,15 +29,17 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Reset
+ * Class Input
  *
- * @author deadl
+ * @author Enjoys
  */
-class Reset extends InputButton
+class HtmlFile extends HtmlInput
 {
+
     public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
         parent::__construct($element, $renderOptions);
-        $this->element->addClass('btn btn-secondary');
+        $this->element->removeClass('form-control');
+        $this->element->addClass('form-control-file');
     }
 }

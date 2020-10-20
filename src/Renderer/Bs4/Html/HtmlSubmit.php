@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  *
  * @author deadl
  */
-class Submit extends InputButton
+class HtmlSubmit extends HtmlInputButton
 {
     public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {

@@ -33,19 +33,19 @@ use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Renderer;
-use Enjoys\Forms\Renderer\Bs4\Html\Button;
-use Enjoys\Forms\Renderer\Bs4\Html\Captcha;
-use Enjoys\Forms\Renderer\Bs4\Html\Checkbox;
-use Enjoys\Forms\Renderer\Bs4\Html\Datalist;
-use Enjoys\Forms\Renderer\Bs4\Html\File;
-use Enjoys\Forms\Renderer\Bs4\Html\Group;
-use Enjoys\Forms\Renderer\Bs4\Html\Header;
-use Enjoys\Forms\Renderer\Bs4\Html\Image;
-use Enjoys\Forms\Renderer\Bs4\Html\Input;
-use Enjoys\Forms\Renderer\Bs4\Html\Radio;
-use Enjoys\Forms\Renderer\Bs4\Html\Reset;
-use Enjoys\Forms\Renderer\Bs4\Html\Select;
-use Enjoys\Forms\Renderer\Bs4\Html\Submit;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlButton;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlCaptcha;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlCheckbox;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlDatalist;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlFile;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlGroup;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlHeader;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlImage;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlInput;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlRadio;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlReset;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlSelect;
+use Enjoys\Forms\Renderer\Bs4\Html\HtmlSubmit;
 
 /**
  * Class Bs4
@@ -166,43 +166,43 @@ class Bs4 extends Renderer implements Interfaces\Renderer
             $this->count_valid_element++;
             switch (\get_class($element)) {
                 case 'Enjoys\Forms\Elements\File':
-                    $html[] = new File($element, $this->rendererOptions);
+                    $html[] = new HtmlFile($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Image':
-                    $html[] = new Image($element, $this->rendererOptions);
+                    $html[] = new HtmlImage($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Submit':
-                    $html[] = new Submit($element, $this->rendererOptions);
+                    $html[] = new HtmlSubmit($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Reset':
-                    $html[] = new Reset($element, $this->rendererOptions);
+                    $html[] = new HtmlReset($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Header':
-                    $html[] = new Header($element, $this->rendererOptions);
+                    $html[] = new HtmlHeader($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Radio':
-                    $html[] = new Radio($element, $this->rendererOptions);
+                    $html[] = new HtmlRadio($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Checkbox':
-                    $html[] = new Checkbox($element, $this->rendererOptions);
+                    $html[] = new HtmlCheckbox($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Select':
-                    $html[] = new Select($element, $this->rendererOptions);
+                    $html[] = new HtmlSelect($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Button':
-                    $html[] = new Button($element, $this->rendererOptions);
+                    $html[] = new HtmlButton($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Datalist':
-                    $html[] = new Datalist($element, $this->rendererOptions);
+                    $html[] = new HtmlDatalist($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Captcha':
-                    $html[] = new Captcha($element, $this->rendererOptions);
+                    $html[] = new HtmlCaptcha($element, $this->rendererOptions);
                     break;
                 case 'Enjoys\Forms\Elements\Group':
-                    $html[] = new Group($element, $this);
+                    $html[] = new HtmlGroup($element, $this);
                     break;
                 default:
-                    $html[] = new Input($element, $this->rendererOptions);
+                    $html[] = new HtmlInput($element, $this->rendererOptions);
                     break;
             }
         }

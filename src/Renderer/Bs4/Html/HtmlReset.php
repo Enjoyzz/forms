@@ -29,29 +29,15 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Datalist
+ * Description of Reset
  *
  * @author deadl
  */
-class Datalist extends Input
+class HtmlReset extends HtmlInputButton
 {
-    public function render()
+    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
-        return
-                $this->renderLabel($this->element) .
-                $this->renderDatalist($this->element) .
-                $this->renderDescription($this->element) .
-                $this->renderValidation($this->element) .
-                '';
-    }
-
-    protected function renderDatalist($element)
-    {
-        $return = "<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">";
-        foreach ($element->getElements() as $data) {
-            $return .= "<option value=\"{$data->getTitle()}\">";
-        }
-        $return .= "</datalist>";
-        return $return;
+        parent::__construct($element, $renderOptions);
+        $this->element->addClass('btn btn-secondary');
     }
 }

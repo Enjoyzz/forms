@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer\Table\Html;
  *
  * @author Enjoys
  */
-class Button extends \Enjoys\Forms\Renderer\RenderBase
+class Button extends \Enjoys\Forms\Renderer\LayoutBase
 {
 
 

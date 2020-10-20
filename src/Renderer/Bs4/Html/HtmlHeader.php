@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 Enjoys.
+ * Copyright 2020 deadl.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,17 +29,14 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Class Input
+ * Description of Header
  *
- * @author Enjoys
+ * @author deadl
  */
-class File extends Input
+class HtmlHeader extends \Enjoys\Forms\Renderer\LayoutBase
 {
-
-    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
+  public function render()
     {
-        parent::__construct($element, $renderOptions);
-        $this->element->removeClass('form-control');
-        $this->element->addClass('form-control-file');
+        return "<div{$this->element->getAttributes()}>{$this->element->getTitle()}</div>";
     }
 }

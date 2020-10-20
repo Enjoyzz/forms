@@ -29,11 +29,14 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Image
+ * Description of InputButton
  *
  * @author deadl
  */
-class Image extends InputButton
+class HtmlInputButton extends \Enjoys\Forms\Renderer\LayoutBase
 {
-   
+    public function render()
+    {
+        return $this->renderBody($this->element);
+    }
 }

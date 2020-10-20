@@ -79,4 +79,27 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(\Enjoys\Forms\Validator::check([]));
     }
 
+    public function test_validate_groups_true()
+    {
+        $request = new \Enjoys\Forms\Http\Request([
+            'foo' => 'v_foo',
+        ]);
+        $form = new \Enjoys\Forms\Form(null, null, $request);
+        $group = $form->group();
+        $group->textarea('bararea');
+        $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $this->assertEquals(true, \Enjoys\Forms\Validator::check($form->getElements()));
+    }
+
+    public function test_validate_groups_false()
+    {
+        $request = new \Enjoys\Forms\Http\Request([
+            'food' => 'v_foo',
+        ]);
+        $form = new \Enjoys\Forms\Form(null, null, $request);
+        $group = $form->group();
+        $group->textarea('bararea');
+        $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $this->assertEquals(false, \Enjoys\Forms\Validator::check($form->getElements()));
+    }
 }

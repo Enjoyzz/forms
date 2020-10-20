@@ -29,51 +29,30 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Checkbox
+ * Description of Select
  *
  * @author deadl
  */
-class Checkbox extends Radio
+class HtmlSelect extends HtmlInput
 {
-
     public function render()
     {
         return
                 $this->renderLabel($this->element) .
-                (($this->renderOptions['custom-checkbox'] === true) ? $this->renderCustomCheckbox($this->element) : $this->renderRadio($this->element)) .
+                $this->renderOptions($this->element) .
                 $this->renderDescription($this->element) .
                 $this->renderValidation($this->element) .
                 '';
     }
 
-    protected function renderCustomCheckbox($element)
+    protected function renderOptions($element)
     {
-        $return = '';
+        $return = "<select{$element->getAttributes()}>";
         foreach ($element->getElements() as $data) {
-            $data->addClass('custom-control-input');
-            $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-            $data->setAttributes([
-                'name' => $element->getName()
-            ]);
 
-            if (empty($data->getTitle())) {
-                $data->addClass('position-static');
-            }
-
-            $data->addClass('custom-control custom-checkbox', 'checkBox');
-            if ($this->renderOptions['checkbox_inline'] === true) {
-                $data->addClass('custom-control-inline', 'checkBox');
-            }
-
-            if ($element->isRuleError()) {
-                $data->addClass('is-invalid');
-            }
-
-            $return .= "<div{$data->getAttributes('checkBox')}>";
             $return .= $this->renderBody($data);
-            $return .= $this->renderLabel($data);
-            $return .= '</div>';
         }
+        $return .= "</select>";
         return $return;
     }
 }

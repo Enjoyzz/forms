@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer;
  *
  * @author Enjoys
  */
-class RenderBase
+class LayoutBase
 {
     protected \Enjoys\Forms\Element $element;
     protected $renderOptions = [];

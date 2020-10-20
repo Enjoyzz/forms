@@ -42,8 +42,8 @@ class Validator
         /** @var \Enjoys\Forms\Element $element */
         foreach ($elements as $element) {
             if($element instanceof Elements\Group){
-                self::check($element->getElements());
-                continue;
+               $_validate = (!self::check($element->getElements())) ? false : $_validate;
+               continue;
             }
             /** @var \Enjoys\Forms\Interfaces\Rule $rule */
             foreach ($element->getRules() as $rule) {

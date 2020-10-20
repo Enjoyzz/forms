@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,14 +29,16 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of InputButton
+ * Class Input
  *
- * @author deadl
+ * @author Enjoys
  */
-class InputButton extends \Enjoys\Forms\Renderer\RenderBase
+class HtmlInput extends \Enjoys\Forms\Renderer\LayoutBase
 {
-    public function render()
+
+    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
-        return $this->renderBody($this->element);
+        parent::__construct($element, $renderOptions);
+        $this->element->addClass('form-control');
     }
 }

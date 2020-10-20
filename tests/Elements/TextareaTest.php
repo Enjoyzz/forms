@@ -48,5 +48,20 @@ class TextareaTest extends \PHPUnit\Framework\TestCase {
         $el->setAttributes(['class' => 'textarea_class2']);
         $this->assertEquals(['textarea_class', 'textarea_class2'], $el->getAttribute('class'));
     }
+    
+    public function test_setCols(){
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $el->setCols(5);
+        $this->assertEquals('5', $el->getAttribute('cols'));
+        $el->setCols('25');
+        $this->assertEquals('25', $el->getAttribute('cols'));
+    }
+    public function test_setRows(){
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $el->setRows(50);
+        $this->assertEquals('50', $el->getAttribute('rows'));
+        $el->setRows('250');
+        $this->assertEquals('250', $el->getAttribute('rows'));
+    }
 
 }

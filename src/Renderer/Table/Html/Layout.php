@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer\Table\Html;
  *
  * @author deadl
  */
-class Layout extends \Enjoys\Forms\Renderer\RenderBase
+class Layout extends \Enjoys\Forms\Renderer\LayoutBase
 {
     public function render()
     {

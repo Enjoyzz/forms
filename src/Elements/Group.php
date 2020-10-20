@@ -41,6 +41,11 @@ class Group extends \Enjoys\Forms\Element
     public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title = null, array $elements = [])
     {
         parent::__construct($formDefaults, \uniqid('group'), $title);
+        foreach ($elements as $element) {
+            if($element instanceof \Enjoys\Forms\Element){
+                $this->addElement($element);
+            }
+        }
     }
 
     public function __call(string $name, array $arguments)
@@ -51,12 +56,14 @@ class Group extends \Enjoys\Forms\Element
         }
         /** @var Element $element */
         $element = new $class_name($this->formDefaults, ...$arguments);
+        
         $this->addElement($element);
         return $element;
     }
 
     public function addElement(\Enjoys\Forms\Element $element): self
     {
+        $element->initRequest($this->getRequest());
         $this->elements[$element->getName()] = $element;
         return $this;
     }

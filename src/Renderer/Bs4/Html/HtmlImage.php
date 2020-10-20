@@ -29,14 +29,11 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
 /**
- * Description of Header
+ * Description of Image
  *
  * @author deadl
  */
-class Header extends \Enjoys\Forms\Renderer\RenderBase
+class HtmlImage extends HtmlInputButton
 {
-  public function render()
-    {
-        return "<div{$this->element->getAttributes()}>{$this->element->getTitle()}</div>";
-    }
+   
 }
