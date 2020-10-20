@@ -52,4 +52,26 @@ class Textarea extends \Enjoys\Forms\Element
     {
         return $this->value;
     }
+
+    /**
+     * rows Высота поля в строках текста.
+     * @param string|int $rows
+     * @return \self
+     */
+    public function setRows($rows): self
+    {
+        $this->setAttribute('rows', (string) $rows);
+        return $this;
+    }
+
+    /**
+     * cols Ширина поля в символах.
+     * @param string|int $cols
+     * @return \self
+     */
+    public function setCols($cols): self
+    {
+        $this->setAttribute('cols', (string) $cols);
+        return $this;
+    }
 }

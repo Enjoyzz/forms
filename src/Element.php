@@ -280,6 +280,7 @@ class Element implements Interfaces\Element
 
         if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {
             $this->required = true;
+            //$this->setAttribute('required');
         }
 
         $this->rules[] = $rule;
