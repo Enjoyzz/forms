@@ -35,11 +35,14 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  */
 class HtmlSelect extends HtmlInput
 {
+
     public function render()
     {
         return
                 $this->renderLabel($this->element) .
+                "<select{$this->element->getAttributes()}>" .
                 $this->renderOptions($this->element) .
+                "</select>" .
                 $this->renderDescription($this->element) .
                 $this->renderValidation($this->element) .
                 '';
@@ -47,12 +50,17 @@ class HtmlSelect extends HtmlInput
 
     protected function renderOptions($element)
     {
-        $return = "<select{$element->getAttributes()}>";
+        $return = "";
         foreach ($element->getElements() as $data) {
-
+           
+            if($data instanceof \Enjoys\Forms\Elements\Optgroup){
+                $return .= "<optgroup{$data->getAttributes()}>";
+                $return .= $this->renderOptions($data);
+                $return .= "</optgroup>";
+                continue;
+            }
             $return .= $this->renderBody($data);
         }
-        $return .= "</select>";
         return $return;
     }
 }

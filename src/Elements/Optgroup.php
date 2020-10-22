@@ -34,42 +34,71 @@ use Enjoys\Forms\Traits\Fill;
 use Enjoys\Helpers\Arrays;
 
 /**
- * Description of Option
+ * Description of Optgroup
  *
+ * variant 1
+ * $form->select('foo', 'bar')
+ *      ->optgroup(
+ *          'group1', 
+ *          [1, 2, 3],
+ *          ['class' => 'text-danger']
+ *      )->optgroup(
+ *          'group2', 
+ *          [4, 5, 6]
+ *      );
+ *  
+ * variant 2
+ * $select = $form->select('foo', 'bar');
+ * $dataGroup = [
+ *      'Города' => [
+ *          'vrn' => 'Воронеж',
+ *          'msk' => 'Москва',
+ *      ],
+ *      'Страны' => [
+ *          'ru' => 'Russia',
+ *          'de' => [
+ *              'Germany', [
+ *                  'disabled'
+ *                  ]
+ *              ],
+ *          'usa' => [
+                'USA', [
+ *                  'class' => 'h1 text-danger'
+ *                  ]
+ *          ],
+ *      ]
+ * ];
+ * 
+ * foreach ($dataGroup as $optgroup => $filldata) {
+ *      $select->optgroup($optgroup, $filldata);
+ * }
+ * //можно также продолжить заполнять select option'ами без optgroup
+ * $select->fill([
+ *      1, 2, 3
+ * ]);
+ * 
+ * @since 2.0.4
  * @author deadl
  */
-class Option extends Element
+class Optgroup extends Element
 {
     use Fill;
 
     protected string $type = 'option';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title, string $parentName)
     {
-        parent::__construct($formDefaults, $name, $title);
-        $this->setValue($name);
-        $this->setId($name);
+        parent::__construct($formDefaults, \uniqid('optgroup'), $title);
+        $this->setAttributes([
+            'label' => $title
+        ]);
+        $this->setName($parentName);
         $this->removeAttribute('name');
+        $this->removeAttribute('id');
     }
 
     public function setDefault(): self
     {
-
-      //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-        $value = $this->formDefaults->getValue($this->getParentName());
-        if (is_array($value)) {
-            if (in_array($this->getAttribute('value'), $value)) {
-                $this->setAttribute('selected');
-                return $this;
-            }
-        }
-
-        if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value') == $value) {
-                $this->setAttribute('selected');
-                return $this;
-            }
-        }
         return $this;
     }
 }

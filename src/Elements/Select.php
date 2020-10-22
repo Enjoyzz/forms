@@ -87,4 +87,14 @@ class Select extends Element
     {
         return $this;
     }
+    
+    public function optgroup(string $title = null, array $data = [], $attributes = [])
+    {
+        $optgroup = new Optgroup($this->formDefaults, $title, $this->getName());
+        $optgroup->setAttributes($attributes);
+        $optgroup->fill($data);
+        
+        $this->elements[] = $optgroup;
+        return $this;
+    }
 }
