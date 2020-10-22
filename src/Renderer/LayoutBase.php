@@ -93,8 +93,8 @@ class LayoutBase
                 return "<button{$element->getAttributes()}>{$element->getTitle()}</button>";
             case 'Enjoys\Forms\Elements\Option':
                 return "<option{$element->getAttributes()}>{$element->getTitle()}</option>";
-            case 'Enjoys\Forms\Elements\Optgroup':
-                return;
+//            case 'Enjoys\Forms\Elements\Optgroup':
+//                return;
             case 'Enjoys\Forms\Elements\Captcha':
                 return $element->renderHtml();
             case 'Enjoys\Forms\Elements\Header':

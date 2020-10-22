@@ -88,9 +88,17 @@ class Select extends Element
         return $this;
     }
     
-    public function optgroup(string $title = null, array $data = [], $attributes = [])
+    /**
+     * @since 2.4.0
+     * 
+     * @param string $label Аттрибут label для optgroup
+     * @param array $data Массив для заполнения в функции fill()
+     * @param array $attributes Аттрибуты для optgroup (id и name аттрибуты автоматически удалены)
+     * @return \self
+     */
+    public function optgroup(string $label = null, array $data = [], array $attributes = []): self
     {
-        $optgroup = new Optgroup($this->formDefaults, $title, $this->getName());
+        $optgroup = new Optgroup($this->formDefaults, $label, $this->getName());
         $optgroup->setAttributes($attributes);
         $optgroup->fill($data);
         

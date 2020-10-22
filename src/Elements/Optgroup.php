@@ -77,7 +77,7 @@ use Enjoys\Helpers\Arrays;
  *      1, 2, 3
  * ]);
  * 
- * @since 2.0.4
+ * @since 2.4.0
  * @author deadl
  */
 class Optgroup extends Element

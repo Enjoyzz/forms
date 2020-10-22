@@ -177,8 +177,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getId());
     }
-    
-    
+
     public function test_multiple_name_add_array_2_1()
     {
 
@@ -337,5 +336,17 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($select->getElements()[0]->getAttribute('selected'));
         $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
         $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+    }
+
+    public function test_optgroup()
+    {
+        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\FormDefaults([]), 'name');
+        $select->optgroup('foo', [
+            1, 2, 3
+        ]);
+  
+        $this->assertInstanceOf('\Enjoys\Forms\Elements\Optgroup', $select->getElements()[0]);
+        $options = $select->getElements()[0]->getElements();
+        $this->assertInstanceOf('\Enjoys\Forms\Elements\Option', $options[0]);
     }
 }
