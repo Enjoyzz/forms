@@ -209,9 +209,9 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3]);
         $elements = $radio->getElements();
-        $this->assertFalse($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertNull($elements[2]->getAttribute('checked'));
+        $this->assertFalse($elements[2]->getAttribute('checked'));
     }
     
     public function test_setDefault_2() {
@@ -221,9 +221,9 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         ]);
         $radio = $form->radio('name[]', 'title')->fill([1, 2, 3]);
         $elements = $radio->getElements();
-        $this->assertFalse($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertNull($elements[2]->getAttribute('checked'));
+        $this->assertFalse($elements[2]->getAttribute('checked'));
     }    
     
     public function test_setDefault_simple() {
@@ -234,8 +234,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $radio = $form->radio('name', 'title')->fill([1, 2, 3]);
         $elements = $radio->getElements();
         $this->assertFalse($elements[0]->getAttribute('checked'));
-        $this->assertFalse($elements[1]->getAttribute('checked'));
-        $this->assertNull($elements[2]->getAttribute('checked'));
+        $this->assertNull($elements[1]->getAttribute('checked'));
+        $this->assertFalse($elements[2]->getAttribute('checked'));
     }    
 
 }

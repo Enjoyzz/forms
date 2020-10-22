@@ -231,9 +231,9 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         ]);
         $obj = $form->checkbox('name', 'title')->fill([1, 2, 3]);
         $elements = $obj->getElements();
-        $this->assertFalse($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertNull($elements[2]->getAttribute('checked'));
+        $this->assertFalse($elements[2]->getAttribute('checked'));
     }
 
     public function test_setDefault_simple()

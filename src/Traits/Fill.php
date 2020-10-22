@@ -75,7 +75,13 @@ trait Fill
     }
 
     /**
-     *
+     * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
+     * т.е. [1,2] значения будут 1 и 2 сответсвенно, а не 0 и 1 как раньше.
+     * Чтобы использовать число в качестве value отличное от title, необходимо
+     * в массиве конуретно указать значение key. Например ["40 " => test] (обратите внимание на пробел).
+     * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять 
+     * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
+     * 
      * @param array $data
      * @return $this
      */
@@ -83,12 +89,22 @@ trait Fill
     {
 
         foreach ($data as $value => $title) {
+            
             $index_key = $this->getIndexKey();
 
             $attributes = [];
 
             $_title = $title;
-            //$attributes['value'] = $value;
+            
+            /** @since 2.0.4 */
+            if(is_string($value)){
+                $value = \trim($value);
+            }
+            
+            /** @since 2.0.4 */
+            if(is_int($value)){
+                $value = $title;
+            }
 
             if (is_array($title)) {
                 $_title = $title[0];

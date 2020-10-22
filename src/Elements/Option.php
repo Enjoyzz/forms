@@ -57,7 +57,6 @@ class Option extends Element
 
       //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
         $value = $this->formDefaults->getValue($this->getParentName());
-
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');

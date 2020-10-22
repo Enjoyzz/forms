@@ -26,41 +26,37 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Html;
+namespace Enjoys\Forms\Elements;
+
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Forms;
+use Enjoys\Forms\Traits\Fill;
+use Enjoys\Helpers\Arrays;
 
 /**
- * Description of Select
+ * Description of Optgroup
  *
  * @author deadl
  */
-class HtmlSelect extends HtmlInput
+class Optgroup extends Element
 {
+    use Fill;
 
-    public function render()
+    protected string $type = 'option';
+
+    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title, string $parentName)
     {
-        return
-                $this->renderLabel($this->element) .
-                "<select{$this->element->getAttributes()}>" .
-                $this->renderOptions($this->element) .
-                "</select>" .
-                $this->renderDescription($this->element) .
-                $this->renderValidation($this->element) .
-                '';
+        parent::__construct($formDefaults, \uniqid('optgroup'), $title);
+        $this->setAttributes([
+            'label' => $title
+        ]);
+        $this->setName($parentName);
+        $this->removeAttribute('name');
+        $this->removeAttribute('id');
     }
 
-    protected function renderOptions($element)
+    public function setDefault(): self
     {
-        $return = "";
-        foreach ($element->getElements() as $data) {
-           
-            if($data instanceof \Enjoys\Forms\Elements\Optgroup){
-                $return .= "<optgroup{$data->getAttributes()}>";
-                $return .= $this->renderOptions($data);
-                $return .= "</optgroup>";
-                continue;
-            }
-            $return .= $this->renderBody($data);
-        }
-        return $return;
+        return $this;
     }
 }

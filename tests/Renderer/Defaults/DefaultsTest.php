@@ -256,7 +256,7 @@ class DefaultsTest extends TestCase
         $this->form->select('foo', 'byz')->fill(['bar', 'baz'])->setDescription('zed');
         $obj = new \Enjoys\Forms\Renderer\Defaults\Defaults($this->form);
         //$this->assertSame("\t</fieldset>\n</form>", preg_replace ('/\s+/', ' ', $obj->elements()));
-        $this->assertStringContainsString('<label for="foo">byz</label><br> <select id="foo" name="foo"><br> <option id="0" value="0">bar</option><br> <option id="1" value="1">baz</option><br> </select> <small>zed</small><br>', $this->toOneString($obj->elements()));
+        $this->assertStringContainsString('<label for="foo">byz</label><br> <select id="foo" name="foo"><br> <option id="bar" value="bar">bar</option><br> <option id="baz" value="baz">baz</option><br> </select> <small>zed</small><br>', $this->toOneString($obj->elements()));
     }
 
     public function test_renderButton()

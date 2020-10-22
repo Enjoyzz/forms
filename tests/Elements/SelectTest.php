@@ -267,7 +267,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         /** @var \Enjoys\Forms\Elements\Select $select */
         $select = $form->getElements()['name'];
         /** @var \Enjoys\Forms\Elements\Option $option */
-        $option = $select->getElements()[2];
+        $option = $select->getElements()[1];
         $this->assertNull($option->getAttribute('selected'));
     }
 
@@ -282,8 +282,8 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         ]);
 
         /** @var \Enjoys\Forms\Elements\Select $select */
+        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
         $this->assertNull($select->getElements()[1]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
 
     public function test_defaults3()
@@ -298,15 +298,15 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
         /** @var \Enjoys\Forms\Elements\Select $select */
         $select = $form->getElements()['name'];
+        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
         $this->assertNull($select->getElements()[1]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
 
     public function test_defaults4_attr_before_fill()
     {
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
-            'name2' => [0, 2]
+            'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')
                 ->setAttributes(['multiple'])
