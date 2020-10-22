@@ -96,12 +96,12 @@ trait Fill
 
             $_title = $title;
             
-            /** @since 2.0.4 */
+            /** @since 2.4.0 */
             if(is_string($value)){
                 $value = \trim($value);
             }
             
-            /** @since 2.0.4 */
+            /** @since 2.4.0 */
             if(is_int($value)){
                 $value = $title;
             }
