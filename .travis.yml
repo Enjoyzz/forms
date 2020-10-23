@@ -1,7 +1,6 @@
 language: php
 php:
  - 7.4
- - hhvm
   
 before_script:
  - composer install
@@ -18,7 +17,3 @@ cache:
   
 after_success:
   - travis_retry php vendor/bin/php-coveralls
-  
-notifications:
- email: 
-  - deadly.info@gmail.com
