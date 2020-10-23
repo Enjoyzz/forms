@@ -61,23 +61,9 @@ trait Attributes
                 $key = $value;
                 $value = null;
             }
-            $this->setAttribute($key, $value, $namespace);
+            $this->setAttribute((string) $key, $value, $namespace);
         }
         return $this;
-        //dump($attributes);
-//        if (is_array($attributes[0])) {
-//            foreach ($attributes[0] as $name => $value) {
-//                if (is_int($name)) {
-//                    $name = $value;
-//                    $value = null;
-//                }
-//                $this->setAttribute($name, $value);
-//            }
-//            return $this;
-//        }
-//
-//        $this->setAttribute($attributes[0], (isset($attributes[1])) ? $attributes[1] : null);
-//        return $this;
     }
 
     /**
