@@ -43,14 +43,14 @@ class CsrfTest extends TestCase
         $form = new Form('post');
         $this->assertTrue($form->getElements()[Form::_TOKEN_CSRF_] instanceof Hidden);
         $form->csrf(false);
-        $this->assertNull($form->getElements()[Form::_TOKEN_CSRF_]);
+        $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
     }
 
     public function test_disable_csrf_for_get()
     {
         $form = new Form();
         $form->csrf();
-        $this->assertNull($form->getElements()[Form::_TOKEN_CSRF_]);
+        $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
     }
 
 }
