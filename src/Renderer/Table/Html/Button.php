@@ -39,6 +39,6 @@ class Button extends \Enjoys\Forms\Renderer\LayoutBase
 
     public function render()
     {
-       return '<td></td><td>'.$this->renderBody($this->element).'</td>';
+        return '<td></td><td>' . $this->renderBody($this->element) . '</td>';
     }
 }

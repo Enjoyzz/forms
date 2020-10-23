@@ -38,8 +38,8 @@ class Datalist extends Layout
     public function render()
     {
         return
-                '<td valign="top" witdh=30%><b>'.$this->renderLabel($this->element) . '</b></td>' .
-                '<td valign="top" width=70%>'.$this->renderDatalist($this->element) .
+                '<td valign="top" witdh=30%><b>' . $this->renderLabel($this->element) . '</b></td>' .
+                '<td valign="top" width=70%>' . $this->renderDatalist($this->element) .
                 $this->renderDescription($this->element, 'div') .
                 $this->renderValidation($this->element) .
                 '</td>';

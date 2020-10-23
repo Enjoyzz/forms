@@ -44,15 +44,14 @@ class Group
         $this->renderer = $renderer;
     }
     
-    public function render(){
+    public function render()
+    {
         //dump($element->elements($element->getElements()));
         $return = "<td></td><td><table><tr>";
         foreach ($this->renderer->elements($this->element->getElements()) as $data) {
-
             $return .= "<td>{$data->render()}</td>";
         }
         $return .= "</tr></table></td>";
         return $return;
     }
-    
 }

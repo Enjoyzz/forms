@@ -38,8 +38,8 @@ class Select extends Layout
     public function render()
     {
         return
-                '<td valign="top" witdh=30%><b>'.$this->renderLabel($this->element) . '</b></td>' .
-                '<td valign="top" width=70%>'.$this->renderOptions($this->element) .
+                '<td valign="top" witdh=30%><b>' . $this->renderLabel($this->element) . '</b></td>' .
+                '<td valign="top" width=70%>' . $this->renderOptions($this->element) .
                 $this->renderDescription($this->element, 'div') .
                 $this->renderValidation($this->element) .
                 '</td>';
@@ -49,7 +49,6 @@ class Select extends Layout
     {
         $return = "<select{$element->getAttributes()}>";
         foreach ($element->getElements() as $data) {
-
             $return .= $this->renderBody($data);
         }
         $return .= "</select>";

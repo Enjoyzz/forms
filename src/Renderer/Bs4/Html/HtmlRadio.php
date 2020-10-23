@@ -40,7 +40,6 @@ class HtmlRadio extends \Enjoys\Forms\Renderer\LayoutBase
     {
         parent::__construct($element, $renderOptions);
         if ($this->renderOptions['checkbox_inline'] === true) {
-
             $this->element->addClass('d-block', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         }
     }

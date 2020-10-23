@@ -61,7 +61,7 @@ trait Attributes
                 $key = $value;
                 $value = null;
             }
-            $this->setAttribute($key,  $value, $namespace);
+            $this->setAttribute($key, $value, $namespace);
         }
         return $this;
         //dump($attributes);
@@ -81,7 +81,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @param string $value
      * @param string $namespace

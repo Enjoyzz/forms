@@ -45,5 +45,4 @@ class Button extends \Enjoys\Forms\Element
     {
         return $this;
     }
-
 }

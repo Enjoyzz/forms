@@ -76,7 +76,7 @@ class LayoutBase
             return;
         }
         
-        if(!$element->isRequired()){
+        if (!$element->isRequired()) {
             $star = "";
         }
 

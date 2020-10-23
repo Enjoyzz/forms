@@ -44,13 +44,13 @@ class HtmlGroup extends \Enjoys\Forms\Renderer\LayoutBase
        // $this->element->addClass('d-block', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
     }
     
-    public function render(){
+    public function render()
+    {
         //dump($element->elements($element->getElements()));
           $return .= $this->renderLabel($this->element);
         $return .= "<div class=\"form-row\">";
       
         foreach ($this->renderer->elements($this->element->getElements()) as $data) {
-
             $return .= "<div class=\"col\">{$data->render()}</div>";
         }
         
@@ -58,5 +58,4 @@ class HtmlGroup extends \Enjoys\Forms\Renderer\LayoutBase
         $return .= $this->renderDescription($this->element);
         return $return;
     }
-    
 }

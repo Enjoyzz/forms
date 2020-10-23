@@ -38,8 +38,8 @@ class Radio extends Layout
     public function render()
     {
         return
-                '<td valign="top" witdh=30%><b>'.$this->renderLabel($this->element) . '</b></td>' .
-                '<td valign="top" width=70%>'.$this->renderRadio($this->element) .
+                '<td valign="top" witdh=30%><b>' . $this->renderLabel($this->element) . '</b></td>' .
+                '<td valign="top" width=70%>' . $this->renderRadio($this->element) .
                 $this->renderDescription($this->element) .
                 $this->renderValidation($this->element) .
                 '</td>';
@@ -60,5 +60,4 @@ class Radio extends Layout
         }
         return $return;
     }
-
 }

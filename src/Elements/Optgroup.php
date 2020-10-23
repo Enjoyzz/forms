@@ -39,14 +39,14 @@ use Enjoys\Helpers\Arrays;
  * variant 1
  * $form->select('foo', 'bar')
  *      ->optgroup(
- *          'group1', 
+ *          'group1',
  *          [1, 2, 3],
  *          ['class' => 'text-danger']
  *      )->optgroup(
- *          'group2', 
+ *          'group2',
  *          [4, 5, 6]
  *      );
- *  
+ *
  * variant 2
  * $select = $form->select('foo', 'bar');
  * $dataGroup = [
@@ -68,7 +68,7 @@ use Enjoys\Helpers\Arrays;
  *          ],
  *      ]
  * ];
- * 
+ *
  * foreach ($dataGroup as $optgroup => $filldata) {
  *      $select->optgroup($optgroup, $filldata);
  * }
@@ -76,7 +76,7 @@ use Enjoys\Helpers\Arrays;
  * $select->fill([
  *      1, 2, 3
  * ]);
- * 
+ *
  * @since 2.4.0
  * @author deadl
  */

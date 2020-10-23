@@ -35,7 +35,7 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  */
 class HtmlHeader extends \Enjoys\Forms\Renderer\LayoutBase
 {
-  public function render()
+    public function render()
     {
         return "<div{$this->element->getAttributes()}>{$this->element->getTitle()}</div>";
     }

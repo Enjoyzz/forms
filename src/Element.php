@@ -291,7 +291,7 @@ class Element implements Interfaces\Element
 
 
     /**
-     * 
+     *
      * @return bool
      */
     public function isRequired(): bool

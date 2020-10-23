@@ -61,7 +61,7 @@ class File extends \Enjoys\Forms\Element
     {
         if (\strtolower($ruleName) !== \strtolower(\Enjoys\Forms\Rules::UPLOAD)) {
             throw new \Enjoys\Forms\Exception\ExceptionRule(
-                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, \Enjoys\Forms\Rules::UPLOAD)
+                \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, \Enjoys\Forms\Rules::UPLOAD)
             );
         }
         return parent::addRule($ruleName, $message, $params);

@@ -90,7 +90,7 @@ class Select extends Element
     
     /**
      * @since 2.4.0
-     * 
+     *
      * @param string $label Аттрибут label для optgroup
      * @param array $data Массив для заполнения в функции fill()
      * @param array $attributes Аттрибуты для optgroup (id и name аттрибуты автоматически удалены)

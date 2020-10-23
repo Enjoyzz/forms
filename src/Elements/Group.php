@@ -42,7 +42,7 @@ class Group extends \Enjoys\Forms\Element
     {
         parent::__construct($formDefaults, \uniqid('group'), $title);
         foreach ($elements as $element) {
-            if($element instanceof \Enjoys\Forms\Element){
+            if ($element instanceof \Enjoys\Forms\Element) {
                 $this->addElement($element);
             }
         }

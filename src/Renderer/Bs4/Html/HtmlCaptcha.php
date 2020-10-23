@@ -40,6 +40,6 @@ class HtmlCaptcha extends \Enjoys\Forms\Renderer\LayoutBase
 //        parent::__construct($element, $renderOptions);
 //      //  $this->element->addClass('form-control');
 //
-//      
+//
 //    }
 }

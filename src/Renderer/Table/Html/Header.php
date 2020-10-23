@@ -35,7 +35,7 @@ namespace Enjoys\Forms\Renderer\Table\Html;
  */
 class Header extends Layout
 {
-  public function render()
+    public function render()
     {
         return "<td{$this->element->getAttributes()}><h3>{$this->element->getTitle()}</h3></td>";
     }

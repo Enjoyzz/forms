@@ -85,7 +85,7 @@ class Upload extends Rules implements Rule
     }
 
     /**
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile  $value
      * @param mixed $message
      * @param \Enjoys\Forms\Element $element
@@ -110,7 +110,7 @@ class Upload extends Rules implements Rule
     }
 
     /**
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
      * @param string $message
      * @param Element $element
@@ -137,7 +137,7 @@ class Upload extends Rules implements Rule
     }
 
     /**
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
      * @param type $ruleOpts
      * @param Element $element
@@ -166,7 +166,7 @@ class Upload extends Rules implements Rule
     }
 
     /**
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
      * @param type $ruleOpts
      * @param Element $element

@@ -80,7 +80,7 @@ class Request extends HttpFoundation\Request implements \Enjoys\Forms\Interfaces
             return $this->files->all();
         }
         return $this->files->get($key, $default);
-    }    
+    }
 
     public static function getValueByIndexPath(string $indexPath, array $data = [], int $counterId = 0)
     {
@@ -91,10 +91,9 @@ class Request extends HttpFoundation\Request implements \Enjoys\Forms\Interfaces
 
         if (count($matches[0]) > 0 && !empty($matches[0][0])) {
             foreach ($matches[0] as $identify => $key) {
-                
-                if($key == $indexPath && isset($data[$key])){
+                if ($key == $indexPath && isset($data[$key])) {
                     return $data[$key];
-                }                
+                }
                 
                 if (!is_array($data)) {
                     return false;

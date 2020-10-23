@@ -44,7 +44,7 @@ use Enjoys\Forms\Renderer\Table\Html\Select;
 
 /**
  * Class Table
- * 
+ *
  * $form->setRenderer('table');
 
  *
