@@ -44,7 +44,7 @@ class FileTest extends \PHPUnit\Framework\TestCase {
         $form = new \Enjoys\Forms\Form();
         $form->file(1, 1);
         $elements = $form->getElements()['MAX_FILE_SIZE'];
-        $this->assertSame('52428800', $elements->getAttribute('value'));
+        $this->assertSame((string) \Enjoys\Forms\Form::phpIniSize2bytes(ini_get('upload_max_filesize')), $elements->getAttribute('value'));
     }
 
     public function test_max_file_size3() {
