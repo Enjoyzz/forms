@@ -1,6 +1,7 @@
 {
     "name": "enjoys/forms",
     "description": "forms",
+    "license": "MIT",
     "authors": [
         {
             "name": "Enjoys",
@@ -9,9 +10,8 @@
     ],
     "require": {
         "php": "^7.4",
-        "enjoys/framework": "@dev",
-        "guzzlehttp/guzzle": "^7.1.0",
-        "symfony/http-foundation": "v5.1.7"
+        "guzzlehttp/guzzle": "^7.1",
+        "symfony/http-foundation": "^5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4",
@@ -26,15 +26,5 @@
         "psr-4": {
             "Tests\\Enjoys\\Forms\\": "tests/"
         }
-    },
-    "repositories": {
-        "enjoys/framework/local": {
-            "type": "path",
-            "url": "D:\\Enjoys\\framework"
-        } ,
-        "enjoys/framework": {
-            "type": "vcs",
-            "url": "git@github.com:Enjoyzz/framework.git"
-        } 
     }
 }
