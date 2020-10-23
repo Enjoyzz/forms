@@ -31,7 +31,6 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Exception;
 use Enjoys\Forms\Traits;
-use Enjoys\Helpers\Math;
 
 /**
  *
