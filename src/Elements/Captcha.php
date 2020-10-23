@@ -28,17 +28,21 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Exception\ExceptionElement;
+use Enjoys\Forms\FormDefaults;
+
 /**
  * Description of Captcha
  *
  * @author deadl
  */
-class Captcha extends \Enjoys\Forms\Element
+class Captcha extends Element
 {
 
     private $captcha;
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $captcha = null, string $message = null)
+    public function __construct(FormDefaults $formDefaults, string $captcha = null, string $message = null)
     {
         if (is_null($captcha)) {
             $captcha = 'Defaults';
@@ -85,10 +89,15 @@ class Captcha extends \Enjoys\Forms\Element
         $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
 
         if (!class_exists($class)) {
-            throw new \Enjoys\Forms\Exception\ExceptionElement("Class <b>{$class}</b> not found");
+            throw new ExceptionElement("Class <b>{$class}</b> not found");
         }
 
         /** @var \Enjoys\Forms\Interfaces\Captcha $element */
         return new $class($this, $message);
+    }
+    
+    public function baseHtml()
+    {
+         return $this->renderHtml();
     }
 }

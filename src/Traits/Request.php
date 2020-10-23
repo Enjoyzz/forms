@@ -40,6 +40,7 @@ trait Request
      * @var  Request
      */
     protected ?\Enjoys\Forms\Interfaces\Request $request = null;
+    protected string $requestClass;
 
     /**
      * @param \Enjoys\Forms\Interfaces\Request $request

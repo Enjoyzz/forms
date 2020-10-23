@@ -29,10 +29,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\FormDefaults;
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Helpers\Arrays;
 
 /**
  * Description of Checkbox
@@ -50,7 +49,7 @@ class Checkbox extends Element implements Interfaces\RadioCheckbox
     protected string $type = 'checkbox';
     private static $prefix_id = 'cb_';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
     {
         $construct_name = $name;
         if (\substr($name, -2) !== '[]') {

@@ -28,8 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Rules;
 
 /**
  * Description of Captcha
@@ -45,10 +46,10 @@ class Captcha extends Rules implements Rule
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return boolean
      */
-    public function validate(\Enjoys\Forms\Element $element): bool
+    public function validate(Element $element): bool
     {
         return $element->validate();
     }

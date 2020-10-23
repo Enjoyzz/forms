@@ -28,8 +28,10 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Rules;
 
 /**
  * Description of Required
@@ -57,12 +59,12 @@ class Csrf extends Rules implements Rule
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return bool
      */
-    public function validate(\Enjoys\Forms\Element $element): bool
+    public function validate(Element $element): bool
     {
-        if (!$this->check($this->request->post(\Enjoys\Forms\Form::_TOKEN_CSRF_))) {
+        if (!$this->check($this->request->post(Form::_TOKEN_CSRF_))) {
             $element->setRuleError($this->getMessage());
             // throw new \Enjoys\Forms\Exception($this->getMessage());
             return false;

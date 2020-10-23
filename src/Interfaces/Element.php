@@ -34,6 +34,5 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface Element
 {
-
-
+    public function baseHtml();
 }

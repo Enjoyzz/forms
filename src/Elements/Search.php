@@ -28,13 +28,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+
 /**
  * Class Search
  *
  * @author Enjoys
  *
  */
-class Search extends \Enjoys\Forms\Element
+class Search extends Element
 {
 
     /**

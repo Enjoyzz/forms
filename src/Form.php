@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Elements;
 use Enjoys\Forms\Exception;
 use Enjoys\Forms\Traits;
 use Enjoys\Helpers\Math;
@@ -89,7 +90,7 @@ class Form
 
     /**
      *
-     * @var \Enjoys\Forms\FormDefaults
+     * @var FormDefaults
      */
     private FormDefaults $formDefaults;
     
@@ -221,7 +222,7 @@ class Form
     }
 
     /**
-     * @return \Enjoys\Forms\FormDefaults
+     * @return FormDefaults
      */
     public function getFormDefaults(): FormDefaults
     {
@@ -467,9 +468,9 @@ class Form
      * @param string $title
      * @return \Enjoys\Forms\Elements\File
      */
-    public function file(string $name, string $title = null): \Enjoys\Forms\Elements\File
+    public function file(string $name, string $title = null): Elements\File
     {
-        $element = new \Enjoys\Forms\Elements\File($this->formDefaults, $name, $title);
+        $element = new Elements\File($this->formDefaults, $name, $title);
         $this->setAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
         $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);

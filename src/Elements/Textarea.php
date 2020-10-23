@@ -28,12 +28,14 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+
 /**
  * Description of Textarea
  *
  * @author deadl
  */
-class Textarea extends \Enjoys\Forms\Element
+class Textarea extends Element
 {
 
     /**
@@ -73,5 +75,9 @@ class Textarea extends \Enjoys\Forms\Element
     {
         $this->setAttribute('cols', (string) $cols);
         return $this;
+    }
+    
+    public function baseHtml(){
+        return "<textarea{$this->getAttributes()}>{$this->getValue()}</textarea>";
     }
 }

@@ -28,8 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Base\Request;
-use Enjoys\Helpers\Arrays;
+use Enjoys\Forms\Http\Request;
 
 /**
  * Class Defaults
@@ -44,20 +43,6 @@ class FormDefaults
     public function __construct(array $data)
     {
         $this->defaults = $data;
-//        $request = new Http\Request();
-//
-//        if ($form->isSubmited()) {
-//            $this->defaults = [];
-//            $method = \strtolower($form->getMethod());
-//
-//            //записываем флаг/значение каким методом отправлена форма
-//            $this->defaults[Form::_FLAG_FORMMETHOD_] = $method;
-//
-//
-//            foreach ($request->$method() as $key => $items) {
-//                $this->defaults[$key] = $items;
-//            }
-//        }
     }
 
     public function getDefaults()
@@ -75,6 +60,6 @@ class FormDefaults
         if ($param === null) {
             return $this->defaults;
         }
-        return Http\Request::getValueByIndexPath($param, $this->defaults);
+        return Request::getValueByIndexPath($param, $this->defaults);
     }
 }

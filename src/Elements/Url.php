@@ -28,13 +28,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+
 /**
  * Class Url
  *
  * @author Enjoys
  *
  */
-class Url extends \Enjoys\Forms\Element
+class Url extends Element
 {
 
     /**

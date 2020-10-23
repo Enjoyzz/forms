@@ -29,9 +29,8 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\FormDefaults;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Helpers\Arrays;
 
 /**
  * Description of Optgroup
@@ -86,7 +85,7 @@ class Optgroup extends Element
 
     protected string $type = 'option';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title, string $parentName)
+    public function __construct(FormDefaults $formDefaults, string $title, string $parentName)
     {
         parent::__construct($formDefaults, \uniqid('optgroup'), $title);
         $this->setAttributes([
@@ -100,5 +99,11 @@ class Optgroup extends Element
     public function setDefault(): self
     {
         return $this;
+    }
+    
+    
+    public function baseHtml()
+    {
+        return;
     }
 }

@@ -28,6 +28,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Interfaces;
 
+use Enjoys\Forms\Element;
+
 /**
  *
  * @author deadl
@@ -37,7 +39,7 @@ interface Rule
 
     public function __construct(string $message = null);
 
-    public function validate(\Enjoys\Forms\Element $element): bool;
+    public function validate(Element $element): bool;
 
     public function setMessage(?string $message): void;
 

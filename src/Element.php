@@ -342,4 +342,9 @@ class Element implements Interfaces\Element
     {
         return $this->rules;
     }
+    
+    public function baseHtml()
+    {
+        return "<input type=\"{$this->getType()}\"{$this->getAttributes()}>";
+    }
 }

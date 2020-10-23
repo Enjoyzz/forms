@@ -28,17 +28,20 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\FormDefaults;
+
 /**
  * Class Reset
  *
  * @author Enjoys
  */
-class Reset extends \Enjoys\Forms\Element
+class Reset extends Element
 {
 
     protected string $type = 'reset';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name = null, string $title = null)
+    public function __construct(FormDefaults $formDefaults, string $name = null, string $title = null)
     {
         $name ??= uniqid('reset');
         

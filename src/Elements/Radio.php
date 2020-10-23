@@ -29,10 +29,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\FormDefaults;
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Helpers\Arrays;
 
 /**
  * Class Radio
@@ -52,7 +51,7 @@ class Radio extends Element implements Interfaces\RadioCheckbox
     private static $prefix_id = 'rb_';
     
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
     {
         parent::__construct($formDefaults, $name, $title);
         $this->setValue($name);

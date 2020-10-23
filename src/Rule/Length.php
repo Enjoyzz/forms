@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Rule;
 use Enjoys\Forms\Rules;
 
@@ -94,7 +95,7 @@ class Length extends Rules implements Rule
             }
 
             if (!method_exists(Length::class, $method)) {
-                throw new \Enjoys\Forms\Exception\ExceptionRule('Unknown Compare Operator.');
+                throw new ExceptionRule('Unknown Compare Operator.');
             }
 
             if (!$this->$method($length, $threshold)) {

@@ -28,15 +28,21 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\reCaptcha;
 
+use Enjoys\Forms\Interfaces\Captcha;
+use Enjoys\Traits\Options;
+use Enjoys\Traits\Request;
+use GuzzleHttp\Client;
+use function GuzzleHttp\json_decode;
+
 /**
  * Description of reCaptcha
  *
  * @author deadl
  */
-class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
+class reCaptcha implements Captcha
 {
-    use \Enjoys\Traits\Options;
-    use \Enjoys\Traits\Request;
+    use Options;
+    use Request;
 
     private $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
@@ -116,6 +122,6 @@ class reCaptcha implements \Enjoys\Forms\Interfaces\Captcha
 
     private function getGuzzleClient()
     {
-        return new \GuzzleHttp\Client();
+        return new Client();
     }
 }

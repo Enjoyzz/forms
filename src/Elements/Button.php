@@ -28,21 +28,28 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+
 /**
  * Description of Button
  *
  * @author deadl
  */
-class Button extends \Enjoys\Forms\Element
+class Button extends Element
 {
 
     /**
      * @deprecated unused in this element
      * @param string $description
-     * @return \Enjoys\Forms\Element
+     * @return Element
      */
-    public function setDescription(string $description): \Enjoys\Forms\Element
+    public function setDescription(string $description): Element
     {
         return $this;
+    }
+    
+    public function baseHtml()
+    {
+        return "<button{$this->getAttributes()}>{$this->getTitle()}</button>";
     }
 }

@@ -28,12 +28,17 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Rules;
+
 /**
  * Description of File
  *
  * @author deadl
  */
-class File extends \Enjoys\Forms\Element
+class File extends Element
 {
 
     /**
@@ -42,10 +47,10 @@ class File extends \Enjoys\Forms\Element
      */
     protected string $type = 'file';
     
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
     {
         parent::__construct($formDefaults, $name, $title);
-        $this->addRule(\Enjoys\Forms\Rules::UPLOAD, null, [
+        $this->addRule(Rules::UPLOAD, null, [
             'system'
         ]);
     }
@@ -59,9 +64,9 @@ class File extends \Enjoys\Forms\Element
      */
     public function addRule(string $ruleName, ?string $message = null, $params = [])
     {
-        if (\strtolower($ruleName) !== \strtolower(\Enjoys\Forms\Rules::UPLOAD)) {
-            throw new \Enjoys\Forms\Exception\ExceptionRule(
-                \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, \Enjoys\Forms\Rules::UPLOAD)
+        if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
+            throw new ExceptionRule(
+                \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
             );
         }
         return parent::addRule($ruleName, $message, $params);

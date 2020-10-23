@@ -28,12 +28,14 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+
 /**
  * Class Text
  *
  * @author Enjoys
  */
-class Password extends \Enjoys\Forms\Element
+class Password extends Element
 {
 
     protected string $type = 'password';

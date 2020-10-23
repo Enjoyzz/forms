@@ -83,8 +83,7 @@ class Bs4 extends Renderer implements Interfaces\Renderer
 
     public function __toString()
     {
-        $html = '';
-        $html .= $this->header();
+        $html = $this->header();
         $html .= $this->hidden();
 
         foreach ($this->elements($this->elements) as $data) {

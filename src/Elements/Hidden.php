@@ -28,14 +28,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\FormDefaults;
+
 /**
  * Class Hidden
  *
  * @author Enjoys
- *
- * @mixin \Enjoys\Forms\Element
  */
-class Hidden extends \Enjoys\Forms\Element
+class Hidden extends Element
 {
 
     /**
@@ -44,7 +45,7 @@ class Hidden extends \Enjoys\Forms\Element
      */
     protected string $type = 'hidden';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, ?string $value = null)
+    public function __construct(FormDefaults $formDefaults, string $name, ?string $value = null)
     {
 
         parent::__construct($formDefaults, $name, null);

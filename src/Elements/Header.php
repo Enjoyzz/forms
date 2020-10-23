@@ -28,19 +28,22 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\FormDefaults;
+
 /**
  * Description of Header
  *
  * @author deadl
  *
- * @mixin \Enjoys\Forms\Element
+ * @mixin Element
  */
-class Header extends \Enjoys\Forms\Element
+class Header extends Element
 {
 
     private $closeAfterCountElements = 0;
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title)
+    public function __construct(FormDefaults $formDefaults, string $title)
     {
         parent::__construct($formDefaults, \uniqid('header'), $title);
         $this->setTitle($title);
@@ -56,5 +59,10 @@ class Header extends \Enjoys\Forms\Element
     public function getCloseAfterCountElements()
     {
         return $this->closeAfterCountElements;
+    }
+    
+    public function baseHtml()
+    {
+        return $this->getTitle();
     }
 }

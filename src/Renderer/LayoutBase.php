@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer;
 
+use Enjoys\Forms\Interfaces\Element;
+use Enjoys\Forms\Form;
+
 /**
  * Class Elements
  *
@@ -35,10 +38,10 @@ namespace Enjoys\Forms\Renderer;
  */
 class LayoutBase
 {
-    protected \Enjoys\Forms\Element $element;
+    protected Element $element;
     protected $renderOptions = [];
 
-    public function __construct(\Enjoys\Forms\Element $element, $renderOptions = [])
+    public function __construct(Element $element, $renderOptions = [])
     {
         $this->element = $element;
         $this->renderOptions = $renderOptions;
@@ -59,7 +62,7 @@ class LayoutBase
         if (empty($element->getDescription())) {
             return;
         }
-        return "<{$containerTag}{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_DESC)}>{$element->getDescription()}</{$containerTag}>";
+        return "<{$containerTag}{$element->getAttributes(Form::ATTRIBUTES_DESC)}>{$element->getDescription()}</{$containerTag}>";
     }
 
     protected function renderValidation($element, $containerTag = 'div')
@@ -67,7 +70,7 @@ class LayoutBase
         if (!$element->isRuleError()) {
             return;
         }
-        return "<{$containerTag}{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
+        return "<{$containerTag}{$element->getAttributes(Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
     }
 
     protected function renderLabel($element, $star = "&nbsp;<sup>*</sup>")
@@ -80,27 +83,11 @@ class LayoutBase
             $star = "";
         }
 
-        return "<label for=\"{$element->getId()}\"{$element->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}{$star}</label>";
+        return "<label for=\"{$element->getId()}\"{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}{$star}</label>";
     }
 
-    protected function renderBody(\Enjoys\Forms\Element $element)
+    protected function renderBody(Element $element)
     {
-
-        switch (\get_class($element)) {
-            case 'Enjoys\Forms\Elements\Textarea':
-                return "<textarea{$element->getAttributes()}>{$element->getValue()}</textarea>";
-            case 'Enjoys\Forms\Elements\Button':
-                return "<button{$element->getAttributes()}>{$element->getTitle()}</button>";
-            case 'Enjoys\Forms\Elements\Option':
-                return "<option{$element->getAttributes()}>{$element->getTitle()}</option>";
-//            case 'Enjoys\Forms\Elements\Optgroup':
-//                return;
-            case 'Enjoys\Forms\Elements\Captcha':
-                return $element->renderHtml();
-            case 'Enjoys\Forms\Elements\Header':
-                return $element->getTitle();
-            default:
-                return "<input type=\"{$element->getType()}\"{$element->getAttributes()}>";
-        }
+        return $element->baseHtml();
     }
 }

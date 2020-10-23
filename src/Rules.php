@@ -28,6 +28,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Traits\Request;
+
 /**
  * Description of RuleBase
  *
@@ -35,7 +37,7 @@ namespace Enjoys\Forms;
  */
 class Rules
 {
-    use Traits\Request;
+    use Request;
 
     public const CALLBACK = 'callback';
     public const CAPTCHA = 'captcha';
@@ -56,7 +58,7 @@ class Rules
 
     /**
      * @deprecated since version 2.0.1-alpha
-     * @var \Enjoys\Forms\FormDefaults
+     * @var FormDefaults
      */
     private FormDefaults $formDefaults;
 

@@ -28,12 +28,16 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Rules;
+
 /**
  * Description of Email
  *
  * @author deadl
  */
-class Email extends \Enjoys\Forms\Rules implements \Enjoys\Forms\Interfaces\Rule
+class Email extends Rules implements Rule
 {
 
 //    private $idn_to_ascii = false;
@@ -46,7 +50,7 @@ class Email extends \Enjoys\Forms\Rules implements \Enjoys\Forms\Interfaces\Rule
         parent::setMessage($message);
     }
 
-    public function validate(\Enjoys\Forms\Element $element): bool
+    public function validate(Element $element): bool
     {
 
         $method = $this->request->getMethod();

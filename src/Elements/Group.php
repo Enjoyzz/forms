@@ -28,21 +28,25 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Exception\ExceptionElement;
+use Enjoys\Forms\FormDefaults;
+
 /**
  * Class Group
  *
  * @author Enjoys
  */
-class Group extends \Enjoys\Forms\Element
+class Group extends Element
 {
 
     private $elements = [];
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $title = null, array $elements = [])
+    public function __construct(FormDefaults $formDefaults, string $title = null, array $elements = [])
     {
         parent::__construct($formDefaults, \uniqid('group'), $title);
         foreach ($elements as $element) {
-            if ($element instanceof \Enjoys\Forms\Element) {
+            if ($element instanceof Element) {
                 $this->addElement($element);
             }
         }
@@ -52,7 +56,7 @@ class Group extends \Enjoys\Forms\Element
     {
         $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
         if (!class_exists($class_name)) {
-            throw new \Enjoys\Forms\Exception\ExceptionElement("Element <b>{$class_name}</b> not found");
+            throw new ExceptionElement("Element <b>{$class_name}</b> not found");
         }
         /** @var Element $element */
         $element = new $class_name($this->formDefaults, ...$arguments);
@@ -61,7 +65,7 @@ class Group extends \Enjoys\Forms\Element
         return $element;
     }
 
-    public function addElement(\Enjoys\Forms\Element $element): self
+    public function addElement(Element $element): self
     {
         $element->initRequest($this->getRequest());
         $this->elements[$element->getName()] = $element;

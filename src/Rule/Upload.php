@@ -28,11 +28,12 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
 
+use ByteUnits\Binary;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Http\Request;
 use Enjoys\Forms\Interfaces\Rule;
 use Enjoys\Forms\Rules;
-use Enjoys\Helpers\Arrays;
 
 /**
  * Description of Upload
@@ -57,7 +58,7 @@ class Upload extends Rules implements Rule
 
     public function validate(Element $element): bool
     {
-        $value = \Enjoys\Forms\Http\Request::getValueByIndexPath($element->getName(), $this->request->files());
+        $value = Request::getValueByIndexPath($element->getName(), $this->request->files());
 
         if (false === $this->check($value, $element)) {
             return false;
@@ -75,7 +76,7 @@ class Upload extends Rules implements Rule
             }
             $method = 'check' . \ucfirst($rule);
             if (!method_exists(Upload::class, $method)) {
-                throw new \Enjoys\Forms\Exception\ExceptionRule(\sprintf('Unknown Upload Rule [%s]', 'check' . \ucfirst($rule)));
+                throw new ExceptionRule(\sprintf('Unknown Upload Rule [%s]', 'check' . \ucfirst($rule)));
             }
             if (!$this->$method($value, $ruleOpts, $element)) {
                 return false;
@@ -88,7 +89,7 @@ class Upload extends Rules implements Rule
      *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile  $value
      * @param mixed $message
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return boolean
      */
     private function checkSystem($value, $message, Element $element)
@@ -153,8 +154,8 @@ class Upload extends Rules implements Rule
         $threshold_size = (int) $threshold_size;
 
         if (is_null($message)) {
-            $message = 'Размер файла (' . \ByteUnits\Binary::bytes($value->getSize())->format(0, " ") . ')'
-                    . ' превышает допустимый размер: ' . \ByteUnits\Binary::bytes($threshold_size)->format(0, " ");
+            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(0, " ") . ')'
+                    . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(0, " ");
         }
         $this->setMessage((string) $message);
 

@@ -48,27 +48,27 @@ trait Fill
     {
         return $this->indexKey;
     }
-    
+
     private function setIndexKeyFill($index_key)
     {
         $this->indexKey = $index_key;
     }
-    
+
     public function setParentName(string $parentName)
     {
         $this->parentName = $parentName;
     }
-    
+
     private function getParentName()
     {
         return $this->parentName;
     }
-    
+
     public function setCounterId(int $counterId)
     {
         $this->counterId = $counterId;
     }
-    
+
     private function getCounterId()
     {
         return $this->counterId;
@@ -94,12 +94,12 @@ trait Fill
             $attributes = [];
 
             $_title = $title;
-            
+
             /** @since 2.4.0 */
             if (is_string($value)) {
                 $value = \trim($value);
             }
-            
+
             /** @since 2.4.0 */
             if (is_int($value)) {
                 $value = $title;
@@ -114,27 +114,27 @@ trait Fill
             }
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
-        
+
             $element = new $class($this->formDefaults, (string) $value, (string) $_title);
-       
+
             $element->setParentName($this->getName());
             $element->setCounterId(\count($this->elements));
-            
+
             $element->setAttributes($attributes);
 
             // Если в атррибутах есть `id` вызываем setId()
             if (isset($attributes['id'])) {
                 $element->setId($attributes['id']);
             }
-            
-       
+
+
             if ($this->formDefaults instanceof \Enjoys\Forms\FormDefaults) {
                 $element->setFormDefaults($this->formDefaults);
             }
-        
+
 
             //dump($element->getAttribute('disabled'));
-         
+
             if ($index_key) {
                 $this->elements[$$index_key] = $element;
                 continue;

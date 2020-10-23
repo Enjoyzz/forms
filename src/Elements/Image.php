@@ -28,12 +28,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\FormDefaults;
+
 /**
  * Description of Image
  *
  * @author deadl
  */
-class Image extends \Enjoys\Forms\Element
+class Image extends Element
 {
 
     /**
@@ -42,7 +45,7 @@ class Image extends \Enjoys\Forms\Element
      */
     protected string $type = 'image';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
     {
         parent::__construct($formDefaults, $name, $title);
         if (!is_null($title)) {

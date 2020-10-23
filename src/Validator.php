@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Elements\Group;
+use Enjoys\Forms\Interfaces\Rule;
+
 /**
  * Description of Validator
  *
@@ -39,13 +42,13 @@ class Validator
     public static function check($elements)
     {
         $_validate = true;
-        /** @var \Enjoys\Forms\Element $element */
+        /** @var Element $element */
         foreach ($elements as $element) {
-            if ($element instanceof Elements\Group) {
+            if ($element instanceof Group) {
                 $_validate = (!self::check($element->getElements())) ? false : $_validate;
                 continue;
             }
-            /** @var \Enjoys\Forms\Interfaces\Rule $rule */
+            /** @var Rule $rule */
             foreach ($element->getRules() as $rule) {
                 if (!$rule->validate($element)) {
                     $_validate = false;

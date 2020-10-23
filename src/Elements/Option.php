@@ -29,9 +29,8 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
+use Enjoys\Forms\FormDefaults;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Helpers\Arrays;
 
 /**
  * Description of Option
@@ -44,7 +43,7 @@ class Option extends Element
 
     protected string $type = 'option';
 
-    public function __construct(\Enjoys\Forms\FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
     {
         parent::__construct($formDefaults, $name, $title);
         $this->setValue($name);
@@ -71,5 +70,10 @@ class Option extends Element
             }
         }
         return $this;
+    }
+    
+    public function baseHtml()
+    {
+        return "<option{$this->getAttributes()}>{$this->getTitle()}</option>";
     }
 }

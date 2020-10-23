@@ -28,17 +28,18 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Element;
+
 /**
  * Class Time
  *
  * @author Enjoys
  *
  */
-class Time extends \Enjoys\Forms\Element
+class Time extends Element
 {
 
     /**
-     *
      * @var string
      */
     protected string $type = 'time';
