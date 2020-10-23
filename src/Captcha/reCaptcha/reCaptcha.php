@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Captcha\reCaptcha;
 
 use Enjoys\Forms\Interfaces\Captcha;
 use Enjoys\Traits\Options;
-use Enjoys\Traits\Request;
+use Enjoys\Forms\Traits\Request;
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 

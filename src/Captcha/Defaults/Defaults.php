@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
-use Enjoys\Base\Session\Session as Session;
+use Enjoys\Session\Session as Session;
 use Enjoys\Forms\Interfaces;
 use Enjoys\Traits\Options;
 

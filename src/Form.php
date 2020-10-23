@@ -50,14 +50,11 @@ class Form
     public const _TOKEN_CSRF_ = '_token_csrf';
     public const _TOKEN_SUBMIT_ = '_token_submit';
     public const _FLAG_FORMMETHOD_ = '_form_method';
-
-    
     public const ATTRIBUTES_DESC = '_desc_attributes_';
     public const ATTRIBUTES_VALIDATE = '_validate_attributes_';
     public const ATTRIBUTES_LABEL = '_label_attributes_';
     public const ATTRIBUTES_FIELDSET = '_fieldset_attributes_';
-    
-    
+
     /**
      *
      * @var string|null
@@ -93,24 +90,24 @@ class Form
      * @var FormDefaults
      */
     private FormDefaults $formDefaults;
-    
+
     /**
      *
      * @var string 
      */
     private string $token_submit = '';
-    
+
     /**
      *
      * @var bool 
      */
     private bool $submited_form = false;
-    
+
     /**
      * @static int
      */
     private static int $counterForms = 0;
-    
+
     /**
      *
      * @var int Счетчик форм на странице 
@@ -204,7 +201,7 @@ class Form
             $defaultsData = [];
             $method = \strtolower($this->getMethod());
 
-            /** 
+            /**
              * записываем флаг/значение каким методом отправлена форма
              * @deprecated since version 2.4.0 
              */
@@ -473,9 +470,25 @@ class Form
         $element = new Elements\File($this->formDefaults, $name, $title);
         $this->setAttribute('enctype', 'multipart/form-data');
         $this->setMethod('post');
-        $this->setMaxFileSize(Math::shorthandbytes2int(ini_get('upload_max_filesize')), false);
+        $this->setMaxFileSize(self::phpIniSize2bytes(ini_get('upload_max_filesize')), false);
         $this->addElement($element);
         return $element;
+    }
+
+    /**
+     * 
+     * @todo перенести в другой проект
+     */
+    static function phpIniSize2bytes($size_original): int
+    {
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
+        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
+        if ($unit) {
+            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        } else {
+            return (int) round($size);
+        }
     }
 
     /**

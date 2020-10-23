@@ -26,7 +26,7 @@
 
 namespace Tests\Enjoys\Forms\Captcha\Defaults;
 
-use \Enjoys\Base\Session\Session;
+use \Enjoys\Session\Session;
 
 Session::start();
 
