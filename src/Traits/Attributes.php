@@ -41,7 +41,6 @@ trait Attributes
      */
     private array $attributes = [];
 
-
     /**
      *
      * @param mixed $attributes
@@ -79,7 +78,10 @@ trait Attributes
         $name = \trim($name);
 
         if (in_array($name, ['class'])) {
-            if (in_array($value, (array) $this->attributes[$namespace][$name])) {
+            if (
+                    isset($this->attributes[$namespace][$name]) &&
+                    in_array($value, (array) $this->attributes[$namespace][$name])
+            ) {
                 return $this;
             }
             $this->attributes[$namespace][$name][] = $value;
@@ -159,7 +161,7 @@ trait Attributes
         foreach ($values as $value) {
             $this->setAttribute('class', (string) $value, $namespace);
         }
-        
+
         return $this;
     }
 
