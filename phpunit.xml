@@ -40,14 +40,19 @@ THE SOFTWARE.
          stopOnFailure="true" 
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src/</directory>
-    </include>
-  </coverage>
-  <testsuites>
-    <testsuite name="Test Suite">
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+    </coverage>
+    <testsuites>
+        <testsuite name="Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+         <ini name="error_reporting" value="E_ALL" />
+        <ini name="display_errors" value="On" />
+        <ini name="display_startup_errors" value="On" />
+    </php>  
 </phpunit>
