@@ -150,7 +150,11 @@ class Upload extends Rules implements Rule
             return true;
         }
 
-        list($threshold_size, $message) = (array) $ruleOpts;
+        if (!is_array($ruleOpts)) {
+            $ruleOpts = (array) $ruleOpts;
+            $ruleOpts[1] = null;
+        }
+        list($threshold_size, $message) = $ruleOpts;
         $threshold_size = (int) $threshold_size;
 
         if (is_null($message)) {
@@ -179,7 +183,11 @@ class Upload extends Rules implements Rule
             return true;
         }
 
-        list($extensions, $message) = (array) $ruleOpts;
+        if (!is_array($ruleOpts)) {
+            $ruleOpts = (array) $ruleOpts;
+            $ruleOpts[1] = null;
+        }
+        list($extensions, $message) = $ruleOpts;
         $expected_extensions = \array_map('trim', \explode(",", $extensions));
         $extension = $value->getClientOriginalExtension();
 
