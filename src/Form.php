@@ -250,7 +250,7 @@ class Form
 
         // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
         $csrf_key = '#$' . session_id();
-        $hash = crypt($csrf_key);
+        $hash = crypt($csrf_key, '');
         $csrf = new Elements\Hidden(new FormDefaults([]), self::_TOKEN_CSRF_, $hash);
         $csrf->addRule('csrf', 'CSRF Attack detected', [
             'csrf_key' => $csrf_key]);
