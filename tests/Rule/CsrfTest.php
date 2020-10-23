@@ -55,7 +55,7 @@ class CsrfTest extends TestCase
     public function test_validate()
     {
         $csrf_key = 'test';
-        $hash = crypt($csrf_key);
+        $hash = crypt($csrf_key, '');
         $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
 
 
@@ -74,7 +74,7 @@ class CsrfTest extends TestCase
     public function test_non_validate()
     {
         $csrf_key = 'test';
-        $hash = crypt($csrf_key);
+        $hash = crypt($csrf_key, '');
         $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
 
         $obj = new Csrf(null, [
