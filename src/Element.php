@@ -30,7 +30,7 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Interfaces;
 use Enjoys\Forms\Traits\Attributes;
-use Enjoys\Helpers\Arrays;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * Class Element
@@ -41,7 +41,7 @@ use Enjoys\Helpers\Arrays;
 class Element implements Interfaces\Element
 {
     use Attributes;
-    use Traits\Request;
+    use Request;
 
     /**
      *
@@ -54,7 +54,6 @@ class Element implements Interfaces\Element
      * @var string|null
      */
     protected ?string $name = null;
-//    protected ?string $validate_name = null;
 
     /**
      *
@@ -79,29 +78,34 @@ class Element implements Interfaces\Element
      * @var string|null
      */
     protected ?string $value = null;
+
+    /**
+     * Флаг для обозначения обязательности заполнения этого элемента или нет
+     * @var bool 
+     */
     protected bool $required = false;
 
     /**
-     *
+     * Когда $rule_error === true выводится это сообщение
      * @var string|null
      */
     private ?string $rule_error_message = null;
 
     /**
-     *
+     * Если true - проверка validate не пройдена
      * @var bool
      */
     private bool $rule_error = false;
 
     /**
-     *
+     * Список правил для валидации
      * @var array
      */
     protected array $rules = [];
 
     /**
-     *
-     * @var \Enjoys\Forms\FormDefaults|null
+     * 
+     * @var FormDefaults|null
      */
     protected FormDefaults $formDefaults;
 
@@ -236,7 +240,7 @@ class Element implements Interfaces\Element
 
     /**
      *
-     * @param \Enjoys\Forms\FormDefaults $defaults
+     * @param FormDefaults $defaults
      */
     public function setFormDefaults(FormDefaults $defaults)
     {
@@ -245,13 +249,10 @@ class Element implements Interfaces\Element
     }
 
     /**
-     * @uses \Enjoys\Helpers\Arrays::getValueByIndexPath()
      * @return \self
      */
     protected function setDefault(): self
     {
-
-        //$value = Arrays::getValueByIndexPath($this->getName(), $this->formDefaults->get());
         $value = $this->formDefaults->getValue($this->getName());
 
         if (is_array($value)) {
@@ -278,8 +279,14 @@ class Element implements Interfaces\Element
         $rule = new $class($message, $params);
         $rule->initRequest($this->request);
 
+        //установка обязательности элемента
         if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {
             $this->required = true;
+            
+            /** 
+             * @todo Если обязателен элемент добавить required аттрибут для проверки на стороне браузера
+             * пока Отключено
+             */
             //$this->setAttribute('required');
         }
 
@@ -287,11 +294,9 @@ class Element implements Interfaces\Element
         return $this;
     }
 
-//    public function getRule(Rule $rule) {}
-
-
     /**
-     *
+     * Проверяет обязателен ли элемент для заполнения/выбора или нет
+     * true - обязателен
      * @return bool
      */
     public function isRequired(): bool
@@ -300,7 +305,8 @@ class Element implements Interfaces\Element
     }
 
     /**
-     *
+     * Если валидация не пройдена, вызывается этот медот, устанавливает сообщение
+     * ошибки и устанавливает флаг того что проверка не пройдена
      * @param string|null $message
      * @return void
      */
@@ -320,7 +326,7 @@ class Element implements Interfaces\Element
     }
 
     /**
-     *
+     * Проверка валидации элемента, если true валидация не пройдена 
      * @return bool
      */
     public function isRuleError(): bool
@@ -329,7 +335,7 @@ class Element implements Interfaces\Element
     }
 
     /**
-     *
+     * Возвращает списов всех правил валидации, установленных для элемента
      * @return array
      */
     public function getRules(): array

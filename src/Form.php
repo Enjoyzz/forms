@@ -77,7 +77,7 @@ class Form
 
     /**
      *
-     * @var array objects \Enjoys\Forms\Element
+     * @var array Objects stack \Enjoys\Forms\Element
      */
     private array $elements = [];
 
@@ -89,12 +89,31 @@ class Form
 
     /**
      *
-     * @var array
+     * @var \Enjoys\Forms\FormDefaults
      */
     private FormDefaults $formDefaults;
+    
+    /**
+     *
+     * @var string 
+     */
     private string $token_submit = '';
+    
+    /**
+     *
+     * @var bool 
+     */
     private bool $submited_form = false;
+    
+    /**
+     * @static int
+     */
     private static int $counterForms = 0;
+    
+    /**
+     *
+     * @var int Счетчик форм на странице 
+     */
     private int $formCount = 0;
 
     /**
@@ -173,13 +192,21 @@ class Form
         $this->token_submit = md5($this->getAction() . $this->getFormCount() . $this->getMethod());
     }
 
-    public function setDefaults(array $defaultsData)
+    /**
+     * Set \Enjoys\Forms\FormDefaults $formDefaults 
+     * @param array $defaultsData
+     * @return \self
+     */
+    public function setDefaults(array $defaultsData): self
     {
         if ($this->isSubmited()) {
             $defaultsData = [];
             $method = \strtolower($this->getMethod());
 
-            //записываем флаг/значение каким методом отправлена форма
+            /** 
+             * записываем флаг/значение каким методом отправлена форма
+             * @deprecated since version 2.4.0 
+             */
             $defaultsData[Form::_FLAG_FORMMETHOD_] = $method;
 
 
