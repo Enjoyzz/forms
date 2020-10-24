@@ -127,9 +127,10 @@ class Form
      */
     public function __construct(array $options = [], Interfaces\Request $request = null)
     {
+        $this->cntForm = ++self::$counterForms;
         $this->initRequest($request);
-        $this->tockenSubmit = md5(\json_encode($options) . ++static::$counterForms);
-        
+        $this->tockenSubmit = md5(\json_encode($options) . $this->cntForm);
+
         $this->initTockenSubmit();
         $this->checkFormSubmitted();
 
@@ -138,6 +139,16 @@ class Form
         if (!isset($this->formDefaults)) {
             $this->setDefaults([]);
         }
+    }
+
+    public function __destruct()
+    {
+        static::$counterForms = 0;
+    }
+
+    public function getFormCount()
+    {
+        return $this->cntForm;
     }
 
     private function initTockenSubmit()
@@ -153,16 +164,11 @@ class Form
         }
     }
 
-    public function __destruct()
-    {
-        static::$counterForms = 0;
-    }
-
     /**
      * @param string $method
      * @return void
      */
-    private function setMethod(string $method): void
+    private function setMethod(?string $method = null): void
     {
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
@@ -172,10 +178,6 @@ class Form
         if (in_array($this->getMethod(), ['POST'])) {
             $this->csrf();
         }
-
-//        $this->initTokentSubmit();
-//
-//        $this->checkSubmittedFrom();
     }
 
     /**
@@ -187,11 +189,6 @@ class Form
         return $this->method;
     }
 
-    public function getFormCount()
-    {
-        return $this->cntForm;
-    }
-
     /**
      * Set \Enjoys\Forms\FormDefaults $formDefaults 
      * @param array $defaultsData
@@ -199,7 +196,7 @@ class Form
      */
     private function setDefaults(array $defaultsData): self
     {
-        if ($this->isSubmited()) {
+        if ($this->isSubmitted()) {
             $defaultsData = [];
             $method = $this->request->getMethod();
 
@@ -224,7 +221,7 @@ class Form
     /**
      * @return bool
      */
-    public function isSubmited(): bool
+    public function isSubmitted(): bool
     {
         return $this->formSubmitted;
     }
@@ -426,7 +423,7 @@ class Form
      */
     public function validate()
     {
-        if (!$this->isSubmited()) {
+        if (!$this->isSubmitted()) {
             return false;
         }
         //  dump($this->getElements());
@@ -448,21 +445,22 @@ class Form
         $this->addElement($element);
         return $element;
     }
+
     /**
      * 
      * @todo перенести в другой проект
      */
-//    static function phpIniSize2bytes($size_original): int
-//    {
-//        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
-//        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
-//        if ($unit) {
-//            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
-//            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-//        } else {
-//            return (int) round($size);
-//        }
-//    }
+    static function phpIniSize2bytes($size_original): int
+    {
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
+        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
+        if ($unit) {
+            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        } else {
+            return (int) round($size);
+        }
+    }
 
     /**
      *

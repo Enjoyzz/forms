@@ -37,20 +37,24 @@ use PHPUnit\Framework\TestCase;
  */
 class CsrfTest extends TestCase
 {
+    use \Tests\Enjoys\Forms\Reflection;
 
     public function test_disable_csrf()
     {
-        $form = new Form('post');
+        $form = new Form([
+            'method' => 'post'
+        ]);
         $this->assertTrue($form->getElements()[Form::_TOKEN_CSRF_] instanceof Hidden);
-        $form->csrf(false);
+        $method = $this->getPrivateMethod(Form::class, 'csrf');
+        $method->invokeArgs($form, [false]);
         $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
     }
 
     public function test_disable_csrf_for_get()
     {
         $form = new Form();
-        $form->csrf();
+        $method = $this->getPrivateMethod(Form::class, 'csrf');
+        $method->invoke($form);
         $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
     }
-
 }

@@ -33,25 +33,24 @@ namespace Tests\Enjoys\Forms;
  */
 class FormDefaultsTest extends \PHPUnit\Framework\TestCase
 {
-
     use Reflection;
-
-
 
     public function test_construct_with_submitted()
     {
 
         $form = new \Enjoys\Forms\Form();
-        
 
-        $submited_form = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'submited_form');
+
+        $submited_form = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'formSubmitted');
         $submited_form->setValue($form, true);
 
         $property = $this->getPrivateProperty(\Enjoys\Forms\Form::class, 'request');
         $property->setValue($form, new \Enjoys\Forms\Http\Request(['data' => 'changeddata'], []));
 
-        $form->setDefaults([
-            'data' => 'data'
+        $form->setOptions([
+            'defaults' => [
+                'data' => 'data'
+            ]
         ]);
 
         //$property->getValue($form)->get()
@@ -64,9 +63,9 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getMockBuilder(\Enjoys\Forms\Form::class)
                 ->disableOriginalConstructor()
-                ->onlyMethods(['isSubmited', 'getMethod'])
+                ->onlyMethods(['isSubmitted', 'getMethod'])
                 ->getMock();
-        $form->method('isSubmited')->will($this->returnValue(false));
+        $form->method('isSubmitted')->will($this->returnValue(false));
         $form->method('getMethod')->will($this->returnValue('GET'));
 
         $defaults = new \Enjoys\Forms\FormDefaults([
@@ -76,6 +75,5 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('data', $defaults->getValue('data'));
     }
-
     //put your code here
 }

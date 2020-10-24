@@ -224,7 +224,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_setDefault()
     {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => [
                 1, 2
             ]
@@ -239,7 +239,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_setDefault_simple()
     {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => ['baaa']
         ]);
         $radio = $form->checkbox('name', 'title')->fill([
@@ -252,5 +252,4 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertFalse($elements[2]->getAttribute('checked'));
     }
-
 }

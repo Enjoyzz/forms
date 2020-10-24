@@ -31,36 +31,42 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class RadioTest extends \PHPUnit\Framework\TestCase {
+class RadioTest extends \PHPUnit\Framework\TestCase
+{
 
-     private function getFormDefaults($data = [])
-     {
-         return new \Enjoys\Forms\FormDefaults($data);
-     }
-    
-    public function test_title() {
+    private function getFormDefaults($data = [])
+    {
+        return new \Enjoys\Forms\FormDefaults($data);
+    }
+
+    public function test_title()
+    {
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $this->assertSame('title', $obj->getTitle());
     }
 
-    public function test_title2() {
+    public function test_title2()
+    {
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->setTitle('title2');
         $this->assertSame('title2', $obj->getTitle());
     }
 
-    public function test_name() {
+    public function test_name()
+    {
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $this->assertSame('name', $obj->getName());
     }
 
-    public function test_name2() {
+    public function test_name2()
+    {
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->setName('name[]');
         $this->assertSame('name[]', $obj->getName());
     }
 
-    private function filldata() {
+    private function filldata()
+    {
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->setPrefixId('rb_');
         $obj->fill([
@@ -77,7 +83,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         return $elements;
     }
 
-    public function test_fill() {
+    public function test_fill()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
@@ -85,7 +92,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('t1', $v1->getTitle());
     }
 
-    public function test_fill2() {
+    public function test_fill2()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
@@ -93,7 +101,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('v1', $v1->getName());
     }
 
-    public function test_fill3() {
+    public function test_fill3()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
@@ -101,7 +110,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('rb_v1', $v1->getId());
     }
 
-    public function test_fill4() {
+    public function test_fill4()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
@@ -109,7 +119,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('t2', $v2->getTitle());
     }
 
-    public function test_fill5() {
+    public function test_fill5()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
@@ -117,7 +128,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('v2', $v2->getName());
     }
 
-    public function test_fill6() {
+    public function test_fill6()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
@@ -125,7 +137,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('i2', $v2->getId());
     }
 
-    public function test_fill7() {
+    public function test_fill7()
+    {
 
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
@@ -134,7 +147,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertNotNull($v2->getAttribute('id'));
     }
 
-    public function test_prefix() {
+    public function test_prefix()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->setPrefixId('prefix_');
@@ -148,7 +162,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('prefix_v1', $v1->getId());
     }
 
-    public function test_prefix2() {
+    public function test_prefix2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->setPrefixId('prefix_');
@@ -157,7 +172,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('prefix_name', $obj2->getId());
     }
 
-    public function test_prefix3() {
+    public function test_prefix3()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->setPrefixId('prefix_');
@@ -174,7 +190,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('id1', $v1->getId());
     }
 
-    public function test_count_radio_element() {
+    public function test_count_radio_element()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->fill([
@@ -184,7 +201,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertCount(3, $obj->getElements());
     }
 
-    public function test_count_radio_element2() {
+    public function test_count_radio_element2()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->fill([
@@ -194,7 +212,8 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertCount(3, $obj->getElements());
     }
 
-    public function test_count_radio_element3() {
+    public function test_count_radio_element3()
+    {
 
         $obj = new \Enjoys\Forms\Elements\Radio($this->getFormDefaults(), 'name', 'title');
         $obj->fill([1])->fill([1]);
@@ -202,9 +221,10 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertCount(2, $obj->getElements());
     }
 
-    public function test_setDefault() {
+    public function test_setDefault()
+    {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => [1, 2]
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3]);
@@ -213,10 +233,11 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertFalse($elements[2]->getAttribute('checked'));
     }
-    
-    public function test_setDefault_2() {
+
+    public function test_setDefault_2()
+    {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => [1, 2]
         ]);
         $radio = $form->radio('name[]', 'title')->fill([1, 2, 3]);
@@ -224,11 +245,12 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertFalse($elements[2]->getAttribute('checked'));
-    }    
-    
-    public function test_setDefault_simple() {
+    }
+
+    public function test_setDefault_simple()
+    {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => 2
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3]);
@@ -236,6 +258,5 @@ class RadioTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertFalse($elements[2]->getAttribute('checked'));
-    }    
-
+    }
 }

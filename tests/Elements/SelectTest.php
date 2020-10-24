@@ -256,7 +256,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     public function test_defaults1()
     {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => 2
         ]);
         $form->select('name', 'title')->fill([
@@ -273,7 +273,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     public function test_defaults2()
     {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => [1, 2]
         ]);
         $select = $form->select('name[]', 'title')->fill([
@@ -288,7 +288,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     public function test_defaults3()
     {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name' => [1, 2]
         ]);
         $form->select('name', 'title')->fill([
@@ -304,7 +304,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     public function test_defaults4_attr_before_fill()
     {
         $form = new \Enjoys\Forms\Form();
-        $form->setDefaults([
+        $form->setOption('Defaults', [
             'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')

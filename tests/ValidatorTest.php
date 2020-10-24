@@ -36,7 +36,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_true()
     {
-        $form = new \Enjoys\Forms\Form(null, null, new \Enjoys\Forms\Http\Request([
+        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
                     'foo' => 'v_foo',
                     'bar' => 'v_bar'
         ]));
@@ -51,7 +51,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_false()
     {
-        $form = new \Enjoys\Forms\Form(null, null, new \Enjoys\Forms\Http\Request([
+        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
                     'foo' => 'v_foo',
         ]));
 
@@ -84,7 +84,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $request = new \Enjoys\Forms\Http\Request([
             'foo' => 'v_foo',
         ]);
-        $form = new \Enjoys\Forms\Form(null, null, $request);
+        $form = new \Enjoys\Forms\Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
@@ -96,7 +96,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $request = new \Enjoys\Forms\Http\Request([
             'food' => 'v_foo',
         ]);
-        $form = new \Enjoys\Forms\Form(null, null, $request);
+        $form = new \Enjoys\Forms\Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);

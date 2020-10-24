@@ -37,7 +37,7 @@ class RendererTest extends \PHPUnit\Framework\TestCase
     public function test_consctruct()
     {
         $renderer = new \Enjoys\Forms\Renderer(
-                (new \Enjoys\Forms\Form())->setName('myform')
+                (new \Enjoys\Forms\Form())->setOption('name','myform')
         );
         $this->assertEquals('myform', $renderer->getForm()->getName());
     }

@@ -26,7 +26,7 @@ $form->tel('myphone', 'Телефон');
 $form->textarea('about', 'Коротко о себе');
 $form->submit('submit_btn', 'Отправить анкету');
 
-if(!$form->isSubmited()){
+if(!$form->isSubmitted()){
     echo $form->display();
 }else{
     _var_dump($_GET);

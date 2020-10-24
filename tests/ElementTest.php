@@ -39,7 +39,6 @@ use \PHPUnit\Framework\TestCase,
  */
 class ElementTest extends TestCase
 {
-
     use Reflection;
 
     /**
@@ -117,9 +116,16 @@ class ElementTest extends TestCase
 
     public function test_setFormDefaults_1_1()
     {
-        $this->obj->setDefaults([
-            'Foo' => [
-                'first_string', 'second_string'
+//        $this->obj->setDefaults([
+//            'Foo' => [
+//                'first_string', 'second_string'
+//            ]
+//        ]);
+        $this->obj->setOptions([
+            'defaults' => [
+                'Foo' => [
+                    'first_string', 'second_string'
+                ]
             ]
         ]);
         $element = $this->obj->text('Foo[]', 'Bar');
@@ -139,7 +145,7 @@ class ElementTest extends TestCase
         $this->assertEquals('rule message error', $element->getRuleErrorMessage());
         $this->assertEquals(true, $element->isRuleError());
     }
-    
+
     public function test_isrequired()
     {
         $element = new Element(new \Enjoys\Forms\FormDefaults([]), 'Foo', 'Bar');
@@ -147,5 +153,4 @@ class ElementTest extends TestCase
         $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertEquals(true, $element->isRequired());
     }
-
 }
