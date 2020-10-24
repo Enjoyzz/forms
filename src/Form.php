@@ -44,6 +44,7 @@ class Form
 {
     use Traits\Attributes;
     use Traits\Request;
+    use \Enjoys\Traits\Options;
 
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     public const _TOKEN_CSRF_ = '_token_csrf';
@@ -114,31 +115,42 @@ class Form
     private int $formCount = 0;
 
     /**
-     * @param string $method
-     * @param string $action
+     * $form = new Form([
+     *      'name' => 'myname',
+     *      'action' => 'action.php'
+     *      'method' => 'post'
+     *      'defaults' => [],
+     * 
+     * ]);
+     * @param array $options
+     * @param \Enjoys\Forms\Interfaces\Request $request
      */
-    public function __construct(string $method = null, string $action = null, Interfaces\Request $request = null)
+    public function __construct(array $options = [], Interfaces\Request $request = null)
     {
         $this->initRequest($request);
+        $this->setOptions($options);
+        
         $this->formCount = ++static::$counterForms;
 
-        if (!is_null($method)) {
-            $this->setMethod($method);
+//        if (!is_null($method)) {
+//            $this->setMethod($method);
+//        }
+
+//        if (in_array($this->getMethod(), ['POST'])) {
+//            $this->csrf();
+//        }
+
+//        if (!is_null($action)) {
+//            $this->setAction($action);
+//        }
+
+        
+//
+        
+//
+        if(!isset($this->formDefaults)){
+            $this->setDefaults([]);
         }
-
-        if (in_array($this->getMethod(), ['POST'])) {
-            $this->csrf();
-        }
-
-        if (!is_null($action)) {
-            $this->setAction($action);
-        }
-
-        $this->initTokentSubmit();
-
-        $this->checkSubmittedFrom();
-
-        $this->setDefaults([]);
     }
 
     public function __destruct()
@@ -157,17 +169,13 @@ class Form
         }
         $this->setAttribute('method', $this->method);
 
-//        if (is_null($method)) {
-//            $this->removeAttribute('method');
-//        }
-
         if (in_array($this->getMethod(), ['POST'])) {
             $this->csrf();
         }
 
-        $this->initTokentSubmit();
-
-        $this->checkSubmittedFrom();
+//        $this->initTokentSubmit();
+//
+//        $this->checkSubmittedFrom();
     }
 
     /**
@@ -194,19 +202,15 @@ class Form
      * @param array $defaultsData
      * @return \self
      */
-    public function setDefaults(array $defaultsData): self
+    private function setDefaults(array $defaultsData): self
     {
+        $this->initTokentSubmit();
+        $this->checkSubmittedFrom();
+        
         if ($this->isSubmited()) {
             $defaultsData = [];
             $method = \strtolower($this->getMethod());
-
-            /**
-             * записываем флаг/значение каким методом отправлена форма
-             * @deprecated since version 2.4.0 
-             */
-            $defaultsData[Form::_FLAG_FORMMETHOD_] = $method;
-
-
+            
             foreach ($this->request->$method() as $key => $items) {
                 if (!in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
                     $defaultsData[$key] = $items;
@@ -224,43 +228,6 @@ class Form
     {
         return $this->formDefaults;
     }
-
-    /**
-     * @return bool
-     */
-    public function isSubmited(): bool
-    {
-        return $this->submited_form;
-    }
-
-    /**
-     * Включает защиту от CSRF.
-     * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
-     * @param <type> $flag true or false
-     */
-    public function csrf($flag = true)
-    {
-        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']) || $flag === false) {
-            $this->removeElement(self::_TOKEN_CSRF_);
-            return $this;
-        }
-
-
-
-        // if (!$this->elementExists(self::_TOKEN_CSRF_)) {
-        $csrf_key = '#$' . session_id();
-        $hash = crypt($csrf_key, '');
-        $csrf = new Elements\Hidden(new FormDefaults([]), self::_TOKEN_CSRF_, $hash);
-        $csrf->addRule('csrf', 'CSRF Attack detected', [
-            'csrf_key' => $csrf_key]);
-
-        $this->addElement($csrf, true);
-        //hash_equals($request->post('_token_csrf'), crypt($form->getCsrfKey(), $request->post('_token_csrf')))
-        //$this->addRule(self::$CSRFField, 'CSRF Attack detected', 'csrf', $hash);
-        // }
-        return $this;
-    }
-
     private function initTokentSubmit()
     {
         $this->generateTokenSubmit();
@@ -278,6 +245,40 @@ class Form
         $this->submited_form = false;
         return;
     }
+    /**
+     * @return bool
+     */
+    public function isSubmited(): bool
+    {
+        return $this->submited_form;
+    }
+
+    /**
+     * Включает защиту от CSRF.
+     * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
+     * @param <type> $flag true or false
+     */
+    private function csrf($flag = true)
+    {
+        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']) || $flag === false) {
+            $this->removeElement(self::_TOKEN_CSRF_);
+            return $this;
+        }
+
+        /**
+         * @todo поменять session_id() на Session::getSessionId() 
+         */
+        $csrf_key = '#$' . session_id();
+        $hash = crypt($csrf_key, '');
+        $csrf = new Elements\Hidden(new FormDefaults([]), self::_TOKEN_CSRF_, $hash);
+        $csrf->addRule('csrf', 'CSRF Attack detected', [
+            'csrf_key' => $csrf_key]);
+        $this->addElement($csrf, true);
+
+        return $this;
+    }
+
+
 
     /**
      *
@@ -293,7 +294,7 @@ class Form
      * @param string $name
      * @return $this
      */
-    public function setName(?string $name = null): self
+    private function setName(?string $name = null): self
     {
         $this->name = $name;
         $this->setAttribute('name', $this->name);
@@ -319,7 +320,7 @@ class Form
      * @param string $action
      * @return $this
      */
-    public function setAction(?string $action = null): self
+    private function setAction(?string $action = null): self
     {
         $this->action = $action;
         $this->setAttribute('action', $this->getAction());
@@ -345,7 +346,7 @@ class Form
      * @param Element $element
      * @return \self
      */
-    public function addElement(Element $element, $rewrite = false): self
+    private function addElement(Element $element, $rewrite = false): self
     {
         if ($rewrite === false && $this->elementExists($element->getName())) {
             throw new Exception\ExceptionElement('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
@@ -478,17 +479,17 @@ class Form
      * 
      * @todo перенести в другой проект
      */
-    static function phpIniSize2bytes($size_original): int
-    {
-        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
-        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
-        if ($unit) {
-            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
-            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-        } else {
-            return (int) round($size);
-        }
-    }
+//    static function phpIniSize2bytes($size_original): int
+//    {
+//        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
+//        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
+//        if ($unit) {
+//            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+//            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+//        } else {
+//            return (int) round($size);
+//        }
+//    }
 
     /**
      *
