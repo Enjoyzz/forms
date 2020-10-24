@@ -95,13 +95,13 @@ class Form
      *
      * @var string 
      */
-    private string $token_submit = '';
+    private string $tockenSubmit = '';
 
     /**
      *
-     * @var bool 
+     * @var bool По умолчанию форма не отправлена
      */
-    private bool $submited_form = false;
+    private bool $formSubmitted = false;
 
     /**
      * @static int
@@ -112,7 +112,7 @@ class Form
      *
      * @var int Счетчик форм на странице 
      */
-    private int $formCount = 0;
+    private int $cntForm = 0;
 
     /**
      * $form = new Form([
@@ -128,28 +128,28 @@ class Form
     public function __construct(array $options = [], Interfaces\Request $request = null)
     {
         $this->initRequest($request);
+        $this->tockenSubmit = md5(\json_encode($options) . ++static::$counterForms);
+        
+        $this->initTockenSubmit();
+        $this->checkFormSubmitted();
+
         $this->setOptions($options);
-        
-        $this->formCount = ++static::$counterForms;
 
-//        if (!is_null($method)) {
-//            $this->setMethod($method);
-//        }
-
-//        if (in_array($this->getMethod(), ['POST'])) {
-//            $this->csrf();
-//        }
-
-//        if (!is_null($action)) {
-//            $this->setAction($action);
-//        }
-
-        
-//
-        
-//
-        if(!isset($this->formDefaults)){
+        if (!isset($this->formDefaults)) {
             $this->setDefaults([]);
+        }
+    }
+
+    private function initTockenSubmit()
+    {
+        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->tockenSubmit), true);
+    }
+
+    private function checkFormSubmitted()
+    {
+        $method = $this->request->getMethod();
+        if ($this->request->$method(self::_TOKEN_SUBMIT_, null) == $this->tockenSubmit) {
+            $this->formSubmitted = true;
         }
     }
 
@@ -189,12 +189,7 @@ class Form
 
     public function getFormCount()
     {
-        return $this->formCount;
-    }
-
-    private function generateTokenSubmit()
-    {
-        $this->token_submit = md5($this->getAction() . $this->getFormCount() . $this->getMethod());
+        return $this->cntForm;
     }
 
     /**
@@ -204,13 +199,10 @@ class Form
      */
     private function setDefaults(array $defaultsData): self
     {
-        $this->initTokentSubmit();
-        $this->checkSubmittedFrom();
-        
         if ($this->isSubmited()) {
             $defaultsData = [];
-            $method = \strtolower($this->getMethod());
-            
+            $method = $this->request->getMethod();
+
             foreach ($this->request->$method() as $key => $items) {
                 if (!in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
                     $defaultsData[$key] = $items;
@@ -228,29 +220,13 @@ class Form
     {
         return $this->formDefaults;
     }
-    private function initTokentSubmit()
-    {
-        $this->generateTokenSubmit();
-        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->token_submit), true);
-    }
 
-    private function checkSubmittedFrom()
-    {
-        $method = \strtolower($this->getMethod());
-        //dump($method);
-        if ($this->request->$method(self::_TOKEN_SUBMIT_, null) == $this->token_submit) {
-            $this->submited_form = true;
-            return;
-        }
-        $this->submited_form = false;
-        return;
-    }
     /**
      * @return bool
      */
     public function isSubmited(): bool
     {
-        return $this->submited_form;
+        return $this->formSubmitted;
     }
 
     /**
@@ -277,8 +253,6 @@ class Form
 
         return $this;
     }
-
-
 
     /**
      *
@@ -474,7 +448,6 @@ class Form
         $this->addElement($element);
         return $element;
     }
-
     /**
      * 
      * @todo перенести в другой проект
