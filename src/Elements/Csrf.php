@@ -28,31 +28,12 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
-
 /**
- * Class Hidden
+ * Description of Csrf
  *
  * @author Enjoys
  */
-class Hidden extends Element
+class Csrf extends Hidden
 {
-
-    /**
-     *
-     * @var string
-     */
-    protected string $type = 'hidden';
-
-    public function __construct(Form $form, string $name, ?string $value = null)
-    {
-
-        parent::__construct($form, $name, null);
-
-        if (!is_null($value)) {
-            $this->setValue($value);
-        }
-        $this->removeAttribute('id');
-    }
+    //put your code here
 }

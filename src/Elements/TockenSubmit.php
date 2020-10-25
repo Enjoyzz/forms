@@ -28,31 +28,25 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
-
 /**
- * Class Hidden
+ * Description of TockenSubmit
  *
  * @author Enjoys
  */
-class Hidden extends Element
+class TockenSubmit extends Hidden
 {
 
-    /**
-     *
-     * @var string
-     */
-    protected string $type = 'hidden';
+    private $tocken;
 
-    public function __construct(Form $form, string $name, ?string $value = null)
+    public function __construct(\Enjoys\Forms\Form $form, string $value)
     {
+        $this->tocken = $value;
+        parent::__construct($form, \Enjoys\Forms\Form::_TOKEN_SUBMIT_, $this->tocken);
+    }
 
-        parent::__construct($form, $name, null);
-
-        if (!is_null($value)) {
-            $this->setValue($value);
-        }
-        $this->removeAttribute('id');
+    public function getSubmitted()
+    {
+        $rule = new \Enjoys\Forms\Rule\Submit(null, $this->tocken);
+        return $rule->validate($this);
     }
 }

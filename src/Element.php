@@ -38,7 +38,7 @@ use Enjoys\Forms\Traits\Request;
  *
  * @author Enjoys
  */
-class Element implements Interfaces\Element
+abstract class Element implements Interfaces\Element
 {
     use Attributes;
     use Request;
@@ -105,21 +105,21 @@ class Element implements Interfaces\Element
 
     /**
      * 
-     * @var FormDefaults|null
+     * @var Form|null
      */
-    protected FormDefaults $formDefaults;
+    protected Form $form;
 
     /**
      *
      * @param string $name
      * @param string $title
      */
-    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(Form $form, string $name, string $title = null)
     {
-
+        $this->form = $form;
         $this->initRequest();
 
-        $this->formDefaults = $formDefaults;
+
 
         $this->setName($name);
 
@@ -253,7 +253,7 @@ class Element implements Interfaces\Element
      */
     protected function setDefault(): self
     {
-        $value = $this->formDefaults->getValue($this->getName());
+        $value = $this->form->getFormDefaults()->getValue($this->getName());
 
         if (is_array($value)) {
             $this->setValue($value[0]);
@@ -282,8 +282,8 @@ class Element implements Interfaces\Element
         //установка обязательности элемента
         if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {
             $this->required = true;
-            
-            /** 
+
+            /**
              * @todo Если обязателен элемент добавить required аттрибут для проверки на стороне браузера
              * пока Отключено
              */
@@ -342,7 +342,7 @@ class Element implements Interfaces\Element
     {
         return $this->rules;
     }
-    
+
     public function baseHtml()
     {
         return "<input type=\"{$this->getType()}\"{$this->getAttributes()}>";

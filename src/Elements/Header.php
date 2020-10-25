@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Form;
 
 /**
  * Description of Header
@@ -43,9 +43,9 @@ class Header extends Element
 
     private $closeAfterCountElements = 0;
 
-    public function __construct(FormDefaults $formDefaults, string $title)
+    public function __construct(Form $form, string $title)
     {
-        parent::__construct($formDefaults, \uniqid('header'), $title);
+        parent::__construct($form, \uniqid('header'), $title);
         $this->setTitle($title);
         $this->removeAttribute('name');
         $this->removeAttribute('id');

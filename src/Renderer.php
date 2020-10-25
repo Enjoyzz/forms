@@ -35,27 +35,43 @@ namespace Enjoys\Forms;
  */
 class Renderer
 {
-    
+    use \Enjoys\Traits\Options;
+
     public const BOOTSTRAP4 = 'bs4';
     public const BOOTSTRAP3 = 'bs3';
     public const BOOTSTRAP2 = 'bs2';
-    
-    protected Form $form;
-    protected array $rendererOptions;
 
-    public function __construct(Form $form, array $options = [])
+    protected Form $form;
+    private $renderer = 'defaults';
+
+    private function __construct(Form $form, array $options = [])
     {
         $this->form = $form;
-        $this->rendererOptions = $options;
-    }
-    
-    public function getForm()
-    {
-        return $this->form;
+        $this->setOptions($options);
     }
 
-    
-    
+    static public function create(Form $form, array $options = [])
+    {
+        return new static($form, $options);
+    }
+
+    public function setRenderer($renderer = null)
+    {
+        $this->renderer = $renderer;
+        return $this;
+    }
+
+    public function display(array $options = [])
+    {
+
+        $rendererName = \ucfirst($this->renderer);
+        $renderer = '\\Enjoys\\Forms\\Renderer\\' . $rendererName . '\\' . $rendererName;
+
+        if (!class_exists($renderer)) {
+            throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");
+        }
+        return new $renderer($this->form, $this->getOptions());
+    }
 //    public function __toString() {
 //        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';
 //    }

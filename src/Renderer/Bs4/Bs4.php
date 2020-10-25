@@ -62,7 +62,7 @@ use Enjoys\Forms\Renderer\Bs4\Html\HtmlSubmit;
  *
  * @author Enjoys
  */
-class Bs4 extends Renderer implements Interfaces\Renderer
+class Bs4 implements Interfaces\Renderer
 {
 
     private $elements = [];
@@ -72,7 +72,9 @@ class Bs4 extends Renderer implements Interfaces\Renderer
 
     public function __construct(Form $form, array $options = null)
     {
-        parent::__construct($form, $options);
+        $this->form = $form;
+        $this->rendererOptions = $options;
+    //    parent::__construct($form, $options);
         // $this->prepare = new Html\Elements();
         $this->setElements($this->form->getElements());
 

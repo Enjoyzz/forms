@@ -26,33 +26,35 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
+namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
+use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Rules;
 
 /**
- * Class Hidden
+ * Description of SubmitTocken
  *
  * @author Enjoys
  */
-class Hidden extends Element
+class Submit extends Rules implements Rule
 {
 
-    /**
-     *
-     * @var string
-     */
-    protected string $type = 'hidden';
-
-    public function __construct(Form $form, string $name, ?string $value = null)
+    public function validate(Element $element): bool
     {
 
-        parent::__construct($form, $name, null);
+        $method = $this->request->getMethod();
+        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
 
-        if (!is_null($value)) {
-            $this->setValue($value);
+        if (false === $this->check($value)) {
+            return false;
         }
-        $this->removeAttribute('id');
+
+        return true;
+    }
+
+    private function check($value)
+    {
+        return $value == $this->getParams()[0];
     }
 }
