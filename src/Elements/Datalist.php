@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -43,9 +43,9 @@ class Datalist extends Element
 
     protected string $type = 'option';
 
-    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(Form $form, string $name, string $title = null)
     {
-        parent::__construct($formDefaults, $name, $title);
+        parent::__construct($form, $name, $title);
         $this->setAttribute('list', $this->getId());
         $this->removeAttribute('id');
     }

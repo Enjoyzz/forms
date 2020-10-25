@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -47,9 +47,9 @@ class Select extends Element
      */
     protected string $type = 'option';
 
-    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(Form $form, string $name, string $title = null)
     {
-        parent::__construct($formDefaults, $name, $title);
+        parent::__construct($form, $name, $title);
         // $this->setIndexKeyFill('value');
     }
 
@@ -99,7 +99,7 @@ class Select extends Element
      */
     public function optgroup(string $label = null, array $data = [], array $attributes = []): self
     {
-        $optgroup = new Optgroup($this->formDefaults, $label, $this->getName());
+        $optgroup = new Optgroup($this->form, $label, $this->getName());
         $optgroup->setAttributes($attributes);
         $optgroup->fill($data);
         

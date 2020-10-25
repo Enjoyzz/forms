@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -43,9 +43,9 @@ class Option extends Element
 
     protected string $type = 'option';
 
-    public function __construct(FormDefaults $formDefaults, string $name, string $title = null)
+    public function __construct(Form $form, string $name, string $title = null)
     {
-        parent::__construct($formDefaults, $name, $title);
+        parent::__construct($form, $name, $title);
         $this->setValue($name);
         $this->setId($name);
         $this->removeAttribute('name');
@@ -55,7 +55,7 @@ class Option extends Element
     {
 
       //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-        $value = $this->formDefaults->getValue($this->getParentName());
+        $value = $this->form->getFormDefaults()->getValue($this->getParentName());
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');

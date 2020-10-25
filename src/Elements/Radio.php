@@ -73,7 +73,6 @@ class Radio extends Element implements Interfaces\RadioCheckbox
 
     public function setDefault(): self
     {
-
        // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
         $value = $this->form->getFormDefaults()->getValue($this->getParentName());
 

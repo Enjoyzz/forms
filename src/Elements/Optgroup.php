@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -85,9 +85,9 @@ class Optgroup extends Element
 
     protected string $type = 'option';
 
-    public function __construct(FormDefaults $formDefaults, string $title, string $parentName)
+    public function __construct(Form $form, string $title, string $parentName)
     {
-        parent::__construct($formDefaults, \uniqid('optgroup'), $title);
+        parent::__construct($form, \uniqid('optgroup'), $title);
         $this->setAttributes([
             'label' => $title
         ]);

@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionElement;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\Form;
 
 /**
  * Class Group
@@ -42,9 +42,9 @@ class Group extends Element
 
     private $elements = [];
 
-    public function __construct(FormDefaults $formDefaults, string $title = null, array $elements = [])
+    public function __construct(Form $form, string $title = null, array $elements = [])
     {
-        parent::__construct($formDefaults, \uniqid('group'), $title);
+        parent::__construct($form, \uniqid('group'), $title);
         foreach ($elements as $element) {
             if ($element instanceof Element) {
                 $this->addElement($element);

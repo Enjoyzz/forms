@@ -40,39 +40,37 @@ trait Fill
      * @var array
      */
     private $elements = [];
-    private $indexKey;
+//    private $indexKey;
     private string $parentName = '';
-    private int $counterId = 0;
 
-    private function getIndexKey()
-    {
-        return $this->indexKey;
-    }
-
-    private function setIndexKeyFill($index_key)
-    {
-        $this->indexKey = $index_key;
-    }
+//    private int $counterId = 0;
+//    private function getIndexKey()
+//    {
+//        return $this->indexKey;
+//    }
+//
+//    private function setIndexKeyFill($index_key)
+//    {
+//        $this->indexKey = $index_key;
+//    }
 
     public function setParentName(string $parentName)
     {
         $this->parentName = $parentName;
     }
 
-    private function getParentName()
+    public function getParentName()
     {
         return $this->parentName;
     }
-
-    public function setCounterId(int $counterId)
-    {
-        $this->counterId = $counterId;
-    }
-
-    private function getCounterId()
-    {
-        return $this->counterId;
-    }
+//    public function setCounterId(int $counterId)
+//    {
+//        $this->counterId = $counterId;
+//    }
+//    private function getCounterId()
+//    {
+//        return $this->counterId;
+//    }
 
     /**
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
@@ -89,7 +87,7 @@ trait Fill
     {
 
         foreach ($data as $value => $title) {
-            $index_key = $this->getIndexKey();
+//            $index_key = $this->getIndexKey();
 
             $attributes = [];
 
@@ -118,9 +116,9 @@ trait Fill
             $element = new $class($this->form, (string) $value, (string) $_title);
 
             $element->setParentName($this->getName());
-            $element->setCounterId(\count($this->elements));
-
+            // $element->setCounterId(\count($this->elements));
             $element->setAttributes($attributes);
+            $element->setDefault();
 
             // Если в атррибутах есть `id` вызываем setId()
             if (isset($attributes['id'])) {
@@ -128,17 +126,14 @@ trait Fill
             }
 
 
-            if ($this->formDefaults instanceof \Enjoys\Forms\FormDefaults) {
-                $element->setFormDefaults($this->formDefaults);
-            }
-
-
+//            if ($this->formDefaults instanceof \Enjoys\Forms\FormDefaults) {
+//                $element->setFormDefaults($this->formDefaults);
+//            }
             //dump($element->getAttribute('disabled'));
-
-            if ($index_key) {
-                $this->elements[$$index_key] = $element;
-                continue;
-            }
+//            if ($index_key) {
+//                $this->elements[$$index_key] = $element;
+//                continue;
+//            }
             $this->elements[] = $element;
         }
         return $this;

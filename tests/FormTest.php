@@ -138,7 +138,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_addElement_1_0()
     {
         $form = new Form();
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\Form([]), 'foo');
         $method = $this->getPrivateMethod(Form::class, 'addElement');
         $method->invokeArgs($form, [$element]);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
@@ -152,7 +152,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
         $form = new Form();
         $form->text('foo');
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\Form([]), 'foo');
         $form->addElement($element);
     }
 
@@ -160,7 +160,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     {
         $form = new Form();
         $form->text('foo');
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\Form([]), 'foo');
         $method = $this->getPrivateMethod(Form::class, 'addElement');
         $method->invokeArgs($form, [$element, true]);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
@@ -256,7 +256,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_setMaxFileSize()
     {
         $form = new Form();
-        $form->setMaxFileSize('10000');
+        $form->file('file')->setMaxFileSize('10000');
         $this->assertEquals('10000', $form->getElements()['MAX_FILE_SIZE']->getAttribute('value'));
     }
 

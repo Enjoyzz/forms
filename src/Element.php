@@ -242,11 +242,11 @@ abstract class Element implements Interfaces\Element
      *
      * @param FormDefaults $defaults
      */
-    public function setFormDefaults(FormDefaults $defaults)
-    {
-        $this->formDefaults = $defaults;
-        $this->setDefault();
-    }
+//    public function setFormDefaults(FormDefaults $defaults)
+//    {
+//       // $this->formDefaults = $defaults;
+//        $this->setDefault();
+//    }
 
     /**
      * @return \self

@@ -134,17 +134,15 @@ class Form
         $this->cntForm = ++self::$counterForms;
         $this->initRequest($request);
 
-    
+
         $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->cntForm));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
-        
-         $this->setOptions($options);
+
+        $this->setOptions($options);
 //
 //        $this->initTockenSubmit();
 //
 //        $this->checkFormSubmitted();
-
-       
     }
 
     /**
@@ -176,39 +174,47 @@ class Form
      * @method Elements\Reset reset(string $name, string $title = null)
      * @method Elements\Captcha captcha(string $captchaName = null, string $message = null)
      * @method Elements\Group group(string $title = null, array $elements = null)
+     * @method Elements\File file(string $title = null, array $elements = null)
      *
      * @mixin Element
      */
     public function __call(string $name, array $arguments)
     {
-
-
         $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
         if (!class_exists($class_name)) {
             throw new Exception\ExceptionElement("Class <b>{$class_name}</b> not found");
         }
-        //dump($this->formDefaults);
         /** @var Element $element */
         $element = new $class_name($this, ...$arguments);
         // dump($element);
         $this->addElement($element);
         return $element;
     }
-    
+
     /**
      *
      * @param Element $element
      * @return \self
      */
-    private function addElement(Element $element, $rewrite = false): self
+    private function addElement(Interfaces\Element $element): self
     {
-        if ($rewrite === false && $this->elementExists($element->getName())) {
-            throw new Exception\ExceptionElement('Элемент c именем ' . $element->getName() . ' (' . \get_class($element) . ') уже был установлен');
-        }
         $element->initRequest($this->request);
         $this->elements[$element->getName()] = $element;
         return $this;
-    }    
+    }
+
+//    public function removeElement(Interfaces\Element $element): self
+//    {
+//        if ($this->elementExists($element->getName())) {
+//            unset($this->elements[$element->getName()]);
+//        }
+//        return $this;
+//    }
+//
+//    private function elementExists($name): bool
+//    {
+//        return isset($this->elements[$name]);
+//    }
 
     public function __destruct()
     {
@@ -219,12 +225,10 @@ class Form
     {
         return $this->cntForm;
     }
-
 //    private function initTockenSubmit()
 //    {
 //        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->tockenSubmit), true);
 //    }
-
 //    private function checkFormSubmitted()
 //    {
 //        $method = $this->request->getMethod();
@@ -237,7 +241,7 @@ class Form
      * @param string $method
      * @return void
      */
-    private function setMethod(?string $method = null): void
+    public function setMethod(?string $method = null): void
     {
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
@@ -312,7 +316,7 @@ class Form
          */
         $csrf_key = '#$' . session_id();
         $hash = crypt($csrf_key, '');
-        $csrf = new Elements\Hidden(new FormDefaults([]), self::_TOKEN_CSRF_, $hash);
+        $csrf = new Elements\Hidden($this, self::_TOKEN_CSRF_, $hash);
         $csrf->addRule('csrf', 'CSRF Attack detected', [
             'csrf_key' => $csrf_key]);
         $this->addElement($csrf, true);
@@ -380,22 +384,6 @@ class Form
     {
         return $this->elements;
     }
-
-
-
-    public function removeElement($elementName): self
-    {
-        if ($this->elementExists($elementName)) {
-            unset($this->elements[$elementName]);
-        }
-
-        return $this;
-    }
-
-    private function elementExists($name): bool
-    {
-        return isset($this->elements[$name]);
-    }
     /**
      *
      * @param string $renderer
@@ -436,50 +424,4 @@ class Form
         //  dump($this->getElements());
         return Validator::check($this->getElements());
     }
-    /**
-     *
-     * @param string $name
-     * @param string $title
-     * @return \Enjoys\Forms\Elements\File
-     */
-//    public function file(string $name, string $title = null): Elements\File
-//    {
-//        $element = new Elements\File($this->formDefaults, $name, $title);
-//        $this->setAttribute('enctype', 'multipart/form-data');
-//        $this->setMethod('post');
-//        $this->setMaxFileSize(self::phpIniSize2bytes(ini_get('upload_max_filesize')), false);
-//        $this->addElement($element);
-//        return $element;
-//    }
-//
-//    /**
-//     * 
-//     * @todo перенести в другой проект
-//     */
-//    static function phpIniSize2bytes($size_original): int
-//    {
-//        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
-//        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
-//        if ($unit) {
-//            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
-//            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-//        } else {
-//            return (int) round($size);
-//        }
-//    }
-//
-//    /**
-//     *
-//     * @param int $bytes
-//     * @param type $removeElement
-//     */
-//    public function setMaxFileSize(int $bytes, $removeElement = true)
-//    {
-//        if ($removeElement === true) {
-//            $this->removeElement('MAX_FILE_SIZE');
-//        }
-//        if (!$this->elementExists('MAX_FILE_SIZE')) {
-//            $this->addElement(new Elements\Hidden($this->formDefaults, 'MAX_FILE_SIZE', (string) $bytes));
-//        }
-//    }
 }
