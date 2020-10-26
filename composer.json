@@ -14,7 +14,7 @@
         "symfony/http-foundation": "^5.1",
         "enjoys/traits": "^1.0",
         "enjoys/session": "^1.0",
-        "enjoys/functions": "dev-main",
+        "enjoys/functions": "^1.0",
         "gabrielelana/byte-units": "0.5.0"
     },
     "require-dev": {
