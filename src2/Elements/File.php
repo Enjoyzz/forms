@@ -33,7 +33,7 @@ class File extends \Enjoys\Forms2\Element
         ]);
         $this->setMaxFileSize($this->phpIniSize2bytes(ini_get('upload_max_filesize')));
 
-        return $this;
+       // $this->unsetParent();
     }
 
     /**
