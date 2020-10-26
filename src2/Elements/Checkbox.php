@@ -35,24 +35,26 @@ class Checkbox extends \Enjoys\Forms2\Composite
             'id' => $this->getPrefixId() . $name,
         ]);
 
-       // $this->removeAttribute('name');
+        // $this->removeAttribute('name');
     }
-    
+
     public function prepare()
     {
-        
+
         $this->setAttributes([
             'name' => $this->getParent()->getName()
         ]);
-        
+
         $this->unsetParent();
-        
     }
 
     public function setPrefixId($prefix)
     {
         static::$prefix_id = $prefix;
-        $this->setId(static::$prefix_id . $this->getName());
+
+        $this->setAttributes([
+            'id' => static::$prefix_id . $this->getName()
+        ]);
         return $this;
     }
 
@@ -68,8 +70,6 @@ class Checkbox extends \Enjoys\Forms2\Composite
             $output .= "<input type=\"{$element->type}\"{$element->getAttributes()}>";
         }
         return $output;
-        
-    
     }
 //    public function setDefault(): self
 //    {
