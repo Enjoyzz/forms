@@ -36,9 +36,8 @@ class Form extends Composite
         }
         /** @var Element $element */
         $element = new $class_name(...$arguments);
-
-        $this->add($element);
-        return $element;
+        return $this->add($element);
+        //return $element;
     }
     
     private function setMethod(string $method)

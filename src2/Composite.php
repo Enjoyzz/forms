@@ -11,13 +11,21 @@ namespace Enjoys\Forms2;
  */
 abstract class Composite extends Element
 {
+
     protected $elements = [];
-    
+
     public function add(Element $element)
     {
+  
+        if($element->needParent()){
+            $element->setParent($this);
+            $element->prepare();
+        }
+        
         $this->elements[$element->getName()] = $element;
+        return $element;
     }
-    
+
     /**
      * 
      * @todo доделать
@@ -26,16 +34,16 @@ abstract class Composite extends Element
     {
         
     }
-    
+
     public function setDefaults($data)
     {
         foreach ($this->elements as $name => $element) {
-            if(isset($data[$name])){
+            if (isset($data[$name])) {
                 $element->setDefaults($data[$name]);
             }
         }
     }
-    
+
     public function render()
     {
         $output = '';
@@ -45,4 +53,3 @@ abstract class Composite extends Element
         return $output;
     }
 }
-

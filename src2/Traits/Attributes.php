@@ -93,7 +93,7 @@ trait Attributes
                     isset($this->attributes[$namespace][$name]) && $this->attributes[$namespace][$name] != $value
             ) {
                 $this->attributes[$namespace][$name] = $value;
-                $this->setName($value);
+               // $this->attributes[$namespace]['name'] = $value;
             }
         }
 
