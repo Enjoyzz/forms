@@ -47,11 +47,10 @@ class Hidden extends Element
 
     public function __construct(Form $form, string $name, ?string $value = null)
     {
-
         parent::__construct($form, $name, null);
 
         if (!is_null($value)) {
-            $this->setValue($value);
+            $this->setAttribute('value', $value);
         }
         $this->removeAttribute('id');
     }

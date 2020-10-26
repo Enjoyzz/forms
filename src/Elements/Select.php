@@ -56,11 +56,13 @@ class Select extends Element
     private function isMultiple()
     {
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
-            $_id = $this->getId();
+            $_id = $this->getAttribute('id');
             $this->setName($this->getName() . '[]');
             $this->setParentName($this->getName());
             //т.к. id уже переписан ,восстанавливаем его
-            $this->setId($_id);
+            $this->setAttributes([
+                'id' => $_id
+            ]);
         }
     }
 
@@ -88,7 +90,7 @@ class Select extends Element
     {
         return $this;
     }
-    
+
     /**
      * @since 2.4.0
      *
@@ -102,7 +104,7 @@ class Select extends Element
         $optgroup = new Optgroup($this->form, $label, $this->getName());
         $optgroup->setAttributes($attributes);
         $optgroup->fill($data);
-        
+
         $this->elements[] = $optgroup;
         return $this;
     }

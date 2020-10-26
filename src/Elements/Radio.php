@@ -54,8 +54,10 @@ class Radio extends Element implements Interfaces\RadioCheckbox
     public function __construct(Form $form, string $name, string $title = null)
     {
         parent::__construct($form, $name, $title);
-        $this->setValue($name);
-        $this->setId($this->getPrefixId() . $name);
+        $this->setAttributes([
+            'value' => $name,
+            'id' => $this->getPrefixId() . $name
+        ]);
         $this->removeAttribute('name');
     }
     

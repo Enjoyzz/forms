@@ -196,7 +196,7 @@ class Form
      * @param Element $element
      * @return \self
      */
-    private function addElement(Interfaces\Element $element): self
+    private function addElement(Interfaces\ElementInterface $element): self
     {
         $element->initRequest($this->request);
         $this->elements[$element->getName()] = $element;

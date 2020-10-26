@@ -46,7 +46,7 @@ class Datalist extends Element
     public function __construct(Form $form, string $name, string $title = null)
     {
         parent::__construct($form, $name, $title);
-        $this->setAttribute('list', $this->getId());
+        $this->setAttribute('list', $this->getAttribute('id'));
         $this->removeAttribute('id');
     }
 }

@@ -46,8 +46,10 @@ class Option extends Element
     public function __construct(Form $form, string $name, string $title = null)
     {
         parent::__construct($form, $name, $title);
-        $this->setValue($name);
-        $this->setId($name);
+        $this->setAttributes([
+            'value' => $name,
+            'id' => $name
+        ]);        
         $this->removeAttribute('name');
     }
 

@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59c927cee27979fa542492680d1148bd",
+    "content-hash": "fe54a3fbb4f5385ce1267ba5f3ed8b97",
     "packages": [
         {
             "name": "enjoys/functions",
-            "version": "dev-main",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Enjoyzz/functions.git",
@@ -3617,9 +3617,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "enjoys/functions": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -45,7 +45,9 @@ class Submit extends Element
     {
         parent::__construct($form, $name, $title);
         if (!is_null($title)) {
-            $this->setValue($title);
+            $this->setAttributes([
+                'value' => $title
+            ]);
         }
     }
 }

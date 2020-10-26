@@ -24,7 +24,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Enjoys\\Forms\\": "src/"
+            "Enjoys\\Forms\\": "src/",
+            "Enjoys\\Forms2\\": "src2/"
         }
     },
     "autoload-dev": {

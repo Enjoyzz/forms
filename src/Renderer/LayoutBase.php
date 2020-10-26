@@ -28,8 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer;
 
-use Enjoys\Forms\Interfaces\Element;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Interfaces\Element;
+use Enjoys\Forms\Interfaces\ElementInterface;
 
 /**
  * Class Elements
@@ -38,10 +39,10 @@ use Enjoys\Forms\Form;
  */
 class LayoutBase
 {
-    protected Element $element;
+    protected ElementInterface $element;
     protected $renderOptions = [];
 
-    public function __construct(Element $element, $renderOptions = [])
+    public function __construct(ElementInterface $element, $renderOptions = [])
     {
         $this->element = $element;
         $this->renderOptions = $renderOptions;
@@ -82,11 +83,15 @@ class LayoutBase
         if (!$element->isRequired()) {
             $star = "";
         }
+        
+        $element->setAttributes([
+            'for' => $element->getAttribute('id')
+        ],Form::ATTRIBUTES_LABEL);
 
-        return "<label for=\"{$element->getId()}\"{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}{$star}</label>";
+        return "<label{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}{$star}</label>";
     }
 
-    protected function renderBody(Element $element)
+    protected function renderBody(ElementInterface $element)
     {
         return $element->baseHtml();
     }

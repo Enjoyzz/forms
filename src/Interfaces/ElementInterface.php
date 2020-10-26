@@ -32,7 +32,20 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author Enjoys
  */
-interface Element
+interface ElementInterface
 {
+
+    public function setName(string $name);
+
+    public function getName();
+
+    public function setTitle(?string $title = null);
+
+    public function getTitle();
+
+    public function setDescription(?string $description = null);
+
+    public function getDescription();
+
     public function baseHtml();
 }

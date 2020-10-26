@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Interfaces\ElementInterface;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
 
@@ -38,7 +38,7 @@ use Enjoys\Forms\Traits\Request;
  *
  * @author Enjoys
  */
-abstract class Element implements Interfaces\Element
+abstract class Element implements ElementInterface
 {
     use Attributes;
     use Request;
@@ -59,12 +59,6 @@ abstract class Element implements Interfaces\Element
      *
      * @var string|null
      */
-    protected ?string $id = null;
-
-    /**
-     *
-     * @var string|null
-     */
     protected ?string $title = null;
 
     /**
@@ -72,12 +66,6 @@ abstract class Element implements Interfaces\Element
      * @var string|null
      */
     protected ?string $description = null;
-
-    /**
-     *
-     * @var string|null
-     */
-    protected ?string $value = null;
 
     /**
      * Флаг для обозначения обязательности заполнения этого элемента или нет
@@ -108,6 +96,7 @@ abstract class Element implements Interfaces\Element
      * @var Form|null
      */
     protected Form $form;
+    protected $defaults;
 
     /**
      *
@@ -123,9 +112,21 @@ abstract class Element implements Interfaces\Element
 
         $this->setName($name);
 
+        $this->defaults = $form->getFormDefaults()->getValue($this->getName());
+        // dump($this->defaults);
+
         if (!is_null($title)) {
             $this->setTitle($title);
         }
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     /**
@@ -136,8 +137,10 @@ abstract class Element implements Interfaces\Element
     public function setName(string $name): self
     {
         $this->name = $name;
-        $this->setId($this->name);
-        $this->setAttribute('name', $this->name);
+        $this->setAttributes([
+            'id' => $this->name,
+            'name' => $this->name
+        ]);
 
         $this->setDefault();
 
@@ -155,55 +158,10 @@ abstract class Element implements Interfaces\Element
 
     /**
      *
-     * @param string $name
-     * @return \self
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-        $this->setAttribute('id', $this->id);
-        return $this;
-    }
-
-    /**
-     *
-     * @return string|null
-     */
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     *
-     * @param string $value
-     * @return \self
-     */
-    protected function setValue(string $value): self
-    {
-        if ($this->getAttribute('value') !== false) {
-            return $this;
-        }
-        $this->value = $value;
-        $this->setAttribute('value', $this->value);
-        return $this;
-    }
-
-    /**
-     *
      * @param string $title
      * @return \self
      */
-    public function setTitle(string $title): self
+    public function setTitle(?string $title = null): self
     {
         $this->title = $title;
         return $this;
@@ -223,7 +181,7 @@ abstract class Element implements Interfaces\Element
      * @param string $description
      * @return \self
      */
-    public function setDescription(string $description): self
+    public function setDescription(?string $description = null): self
     {
         $this->description = $description;
         return $this;
@@ -237,7 +195,20 @@ abstract class Element implements Interfaces\Element
     {
         return $this->description;
     }
-
+    /**
+     *
+     * @param string $value
+     * @return \self
+     */
+//    protected function setValue(string $value): self
+//    {
+//        if ($this->getAttribute('value') !== false) {
+//            return $this;
+//        }
+//        $this->value = $value;
+//        $this->setAttribute('value', $this->value);
+//        return $this;
+//    }
     /**
      *
      * @param FormDefaults $defaults
@@ -253,14 +224,21 @@ abstract class Element implements Interfaces\Element
      */
     protected function setDefault(): self
     {
-        $value = $this->form->getFormDefaults()->getValue($this->getName());
-
+        //$value = $this->form->getFormDefaults()->getValue($this->getName());
+        $value = $this->defaults;
         if (is_array($value)) {
-            $this->setValue($value[0]);
+
+            //$this->setValue($value[0]);
+            $this->setAttributes([
+                'value' => $value[0]
+            ]);
         }
 
         if (is_string($value) || is_numeric($value)) {
-            $this->setValue($value);
+            // $this->setValue($value);
+            $this->setAttributes([
+                'value' => $value
+            ]);
         }
         return $this;
     }

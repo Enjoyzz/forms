@@ -147,7 +147,7 @@ class Bs4 implements Interfaces\Renderer
 
             if (!empty($element->getDescription())) {
                 $element->setAttributes([
-                    'id' => $element->getId() . 'Help',
+                    'id' => $element->getAttribute('id') . 'Help',
                     'class' => 'form-text text-muted'
                         ], Form::ATTRIBUTES_DESC);
                 $element->setAttributes([
