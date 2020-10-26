@@ -20,6 +20,7 @@ class Checkbox extends \Enjoys\Forms2\Composite
      */
     private string $type = 'checkbox';
     private static $prefix_id = 'cb_';
+    protected $needParent = true;
 
     public function __construct(string $name, string $title = null)
     {
@@ -32,10 +33,20 @@ class Checkbox extends \Enjoys\Forms2\Composite
         $this->setAttributes([
             'value' => $name,
             'id' => $this->getPrefixId() . $name,
-            'name' => $this->getParentName()
         ]);
 
        // $this->removeAttribute('name');
+    }
+    
+    public function prepare()
+    {
+        
+        $this->setAttributes([
+            'name' => $this->getParent()->getName()
+        ]);
+        
+        $this->unsetParent();
+        
     }
 
     public function setPrefixId($prefix)

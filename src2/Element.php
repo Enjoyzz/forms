@@ -72,7 +72,7 @@ abstract class Element
     
     public function prepare()
     {
-        return $this;
+        return;
     }
 
     abstract public function render();

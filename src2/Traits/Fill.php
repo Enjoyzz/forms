@@ -34,17 +34,17 @@ namespace Enjoys\Forms2\Traits;
  */
 trait Fill
 {
-    private string $parentName = '';
-
-    public function setParentName(string $parentName)
-    {
-        $this->parentName = $parentName;
-    }
-
-    public function getParentName()
-    {
-        return $this->parentName;
-    }
+//    private string $parentName = '';
+//
+//    public function setParentName(string $parentName)
+//    {
+//        $this->parentName = $parentName;
+//    }
+//
+//    public function getParentName()
+//    {
+//        return $this->parentName;
+//    }
 
 
     /**
@@ -90,7 +90,7 @@ trait Fill
 
             $element = new $class((string) $value, (string) $_title);
 
-            $element->setParentName($this->getName());
+//            $element->setParentName($this->getName());
             // $element->setCounterId(\count($this->elements));
             $element->setAttributes($attributes);
             
