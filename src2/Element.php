@@ -18,9 +18,11 @@ abstract class Element
     protected $defaults;
     protected $parent;
     protected $needParent = false;
+    protected $attributeHandler;
 
     public function __construct(string $name, string $title = null)
     {
+        $this->attributeHandler = new AttributeHandler();
         $this->name = $name;
         $this->title = $title;
 

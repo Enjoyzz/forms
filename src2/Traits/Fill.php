@@ -46,7 +46,6 @@ trait Fill
 //        return $this->parentName;
 //    }
 
-
     /**
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
      * т.е. [1,2] значения будут 1 и 2 сответсвенно, а не 0 и 1 как раньше.
@@ -60,10 +59,20 @@ trait Fill
      */
     public function fill(array $data)
     {
+        $class = '\Enjoys\Forms2\Elements\\' . \ucfirst($this->type);
+        foreach ($this->prepareFill($data) as $meta) {
+            $element = new $class($meta['value'], $meta['title']);
+            $element->setAttributes($meta['attributes']);
 
+            $this->add($element);
+        }
+        return $this;
+    }
+
+    private function prepareFill($data)
+    {
+        $result = [];
         foreach ($data as $value => $title) {
-//            $index_key = $this->getIndexKey();
-
             $attributes = [];
 
             $_title = $title;
@@ -85,20 +94,12 @@ trait Fill
                     $attributes = array_merge($attributes, $title[1]);
                 }
             }
-
-            $class = '\Enjoys\Forms2\Elements\\' . \ucfirst($this->type);
-
-            $element = new $class((string) $value, (string) $_title);
-
-//            $element->setParentName($this->getName());
-            // $element->setCounterId(\count($this->elements));
-            $element->setAttributes($attributes);
-            
-            $this->add($element);
-
-
+            $result[] = [
+                'value' => (string) $value,
+                'title' => (string) $_title,
+                'attributes' =>  $attributes,
+            ];
         }
-        return $this;
+        return $result;
     }
-
 }
