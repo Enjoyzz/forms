@@ -16,12 +16,12 @@ abstract class ElementContainer extends Element
 
     public function add(Element $element)
     {
-  
-        if($element->needParent()){
+
+        if ($element->needParent()) {
             $element->setParent($this);
             $element->prepare();
         }
-        
+
         $this->elements[$element->getName()] = $element;
         return $element;
     }
@@ -35,6 +35,11 @@ abstract class ElementContainer extends Element
         
     }
 
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
     public function setDefaults($data)
     {
         foreach ($this->elements as $name => $element) {
@@ -44,12 +49,16 @@ abstract class ElementContainer extends Element
         }
     }
 
-    public function render()
+    public function isComposite()
     {
-        $output = '';
-        foreach ($this->elements as $element) {
-            $output .= $element->render();
-        }
-        return $output;
+        return true;
     }
+//    public function render()
+//    {
+//        $output = '';
+//        foreach ($this->elements as $element) {
+//            $output .= $element->render();
+//        }
+//        return $output;
+//    }
 }

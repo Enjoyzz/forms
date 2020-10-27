@@ -19,15 +19,26 @@ class Form extends ElementContainer
         $name = $this->name ?? \uniqid('form');
         parent::__construct($name, null);
         
+        
         $this->hidden('token', 'toooodfjhashsahdvsd');
     }
 
     public function render()
     {
-        $output = parent::render();
+       // $output = parent::render();
         return "<form{$this->getAttributes()}>{$output}</form>";
     }
 
+    /**
+     * 
+     * @method \Enjoys\Forms2\Elements\Text text($name, $label = null)
+     * @method \Enjoys\Forms2\Elements\File file($name, $label = null)
+     * 
+     * @param string $name
+     * @param array $arguments
+     * @return @method
+     * @throws Exception\ExceptionElement
+     */
     public function __call(string $name, array $arguments)
     {
         $class_name = '\Enjoys\\Forms2\Elements\\' . ucfirst($name);
