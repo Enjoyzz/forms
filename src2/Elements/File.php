@@ -47,7 +47,7 @@ class File extends \Enjoys\Forms2\Element
         return $this;
     }
 
-    public function render()
+    public function baseHtml()
     {
         return "<input type=\"{$this->type}\"{$this->getAttributes()}>";
     }

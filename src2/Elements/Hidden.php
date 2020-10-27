@@ -24,7 +24,7 @@ class Hidden extends \Enjoys\Forms2\Element
         $this->removeAttribute('id');
     }
 
-    public function render()
+    public function baseHtml()
     {
         return "<input type=\"{$this->type}\"{$this->getAttributes()}>";
     }

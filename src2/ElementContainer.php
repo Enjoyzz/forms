@@ -35,11 +35,6 @@ abstract class ElementContainer extends Element
         
     }
 
-    public function getElements()
-    {
-        return $this->elements;
-    }
-
     public function setDefaults($data)
     {
         foreach ($this->elements as $name => $element) {
@@ -53,12 +48,18 @@ abstract class ElementContainer extends Element
     {
         return true;
     }
-//    public function render()
-//    {
-//        $output = '';
-//        foreach ($this->elements as $element) {
-//            $output .= $element->render();
-//        }
-//        return $output;
-//    }
+    
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
+    public function render(\Enjoys\Forms2\Renderer\RendererInterface $renderer)
+    {
+        $output = '';
+        foreach ($this->elements as $element) {
+            $output .= $renderer->render($element);
+        }
+        return $output;
+    }
 }

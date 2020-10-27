@@ -93,11 +93,16 @@ abstract class Element
     {
         return;
     }
-    
+
     public function isComposite()
     {
         return false;
     }
 
-    abstract public function render();
+    public function render(\Enjoys\Forms2\Renderer\RendererInterface $renderer)
+    {
+        return $renderer->render($this);
+    }
+    
+    abstract public function baseHtml();
 }

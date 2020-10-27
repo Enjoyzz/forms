@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms2\Elements;
@@ -16,7 +15,7 @@ use Enjoys\Forms2\Traits\Fill;
  */
 class Radio extends ElementContainer
 {
-   use Fill;
+    use Fill;
 
     /**
      *
@@ -35,7 +34,7 @@ class Radio extends ElementContainer
         ]);
         //$this->removeAttribute('name');
     }
-    
+
     public function prepare()
     {
         $this->setAttributes([
@@ -44,7 +43,7 @@ class Radio extends ElementContainer
 
         $this->unsetParent();
     }
-    
+
     public function setPrefixId($prefix)
     {
         static::$prefix_id = $prefix;
@@ -57,13 +56,9 @@ class Radio extends ElementContainer
         return static::$prefix_id;
     }
 
-        public function render()
+    public function baseHtml()
     {
-        $output = '';
-        foreach ($this->elements as $element) {
-            $output .= "<input type=\"{$element->type}\"{$element->getAttributes()}>";
-        }
-        return $output;
+        return "<input type=\"{$this->type}\"{$this->getAttributes()}>";
     }
 //    public function setDefault(): self
 //    {
