@@ -31,7 +31,7 @@ class File extends \Enjoys\Forms2\Element
             'method' => 'post',
             'enctype' => 'multipart/form-data'
         ]);
-        $this->setMaxFileSize(\iniSize2bytes(ini_get('upload_max_filesize')));
+        $this->setMaxFileSize($this->phpIniSize2bytes(ini_get('upload_max_filesize')));
 
        // $this->unsetParent();
     }
@@ -68,6 +68,19 @@ class File extends \Enjoys\Forms2\Element
 //        return parent::addRule($ruleName, $message, $params);
 //    }
 ////    
-
-
+//    //    /**
+////     * 
+////     * @todo перенести в другой проект
+////     */
+    private function phpIniSize2bytes($size_original): int
+    {
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
+        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
+        if ($unit) {
+            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        } else {
+            return (int) round($size);
+        }
+    }
 }
