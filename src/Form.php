@@ -186,6 +186,7 @@ class Form
         }
         /** @var Element $element */
         $element = new $class_name($this, ...$arguments);
+
         // dump($element);
         $this->addElement($element);
         return $element;
@@ -225,17 +226,7 @@ class Form
     {
         return $this->cntForm;
     }
-//    private function initTockenSubmit()
-//    {
-//        $this->addElement(new Elements\Hidden(new FormDefaults([]), self::_TOKEN_SUBMIT_, $this->tockenSubmit), true);
-//    }
-//    private function checkFormSubmitted()
-//    {
-//        $method = $this->request->getMethod();
-//        if ($this->request->$method(self::_TOKEN_SUBMIT_, null) == $this->tockenSubmit) {
-//            $this->formSubmitted = true;
-//        }
-//    }
+
 
     /**
      * @param string $method

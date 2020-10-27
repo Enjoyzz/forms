@@ -99,10 +99,10 @@ abstract class Element
         return false;
     }
 
-    public function render(\Enjoys\Forms2\Renderer\RendererInterface $renderer)
-    {
-        return $renderer->render($this);
-    }
-    
+//    public function render(\Enjoys\Forms2\Renderer\RendererInterface $renderer)
+//    {
+//        return $renderer->render($this);
+//    }
+//    
     abstract public function baseHtml();
 }

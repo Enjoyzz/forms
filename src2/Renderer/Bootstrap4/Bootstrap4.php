@@ -15,16 +15,36 @@ class Bootstrap4 implements \Enjoys\Forms2\Renderer\RendererInterface
 
     private $element;
 
-    public function __construct(array $options)
+    public function __construct($element, array $options)
     {
         $this->setOptions($options);
+        $this->element = $element;
+        dump($this->element);
     }
 
-  
-    public function render(\Enjoys\Forms2\Element $element)
+    public function render()
     {
-         $this->element = $element;
-         return $this;
+        switch (\get_class($this->element)) {
+            case \Enjoys\Forms2\Elements\Form::class:
+                $rendered = new RenderForm($this);
+                break;
+            case \Enjoys\Forms2\Elements\Checkbox::class:
+                $rendered = new RenderCheckbox($this);
+                break;
+            case \Enjoys\Forms2\Elements\Radio::class:
+                $rendered = new RenderRadio($this);
+                break;
+            case \Enjoys\Forms2\Elements\File::class:
+                $rendered = new RenderFile($this);
+                break;
+            case \Enjoys\Forms2\Elements\Hidden::class:
+                $rendered = new RenderHidden($this);
+                break;
+            default:
+                $rendered = new RenderInput($this);
+                break;
+        }
+        return $rendered;
     }
 
     public function label(): string
@@ -47,37 +67,21 @@ class Bootstrap4 implements \Enjoys\Forms2\Renderer\RendererInterface
         return (string) $description;
     }
 
-    public function base()
+    public function getElement()
     {
-        switch (\get_class($this->element)) {
-            case \Enjoys\Forms2\Elements\Checkbox::class:
-                $base = new RenderCheckbox($this->element);
-                break;
-            case \Enjoys\Forms2\Elements\Radio::class:
-                $base = new RenderRadio($this->element);
-                break;
-            case \Enjoys\Forms2\Elements\File::class:
-                $base = new RenderFile($this->element);
-                break;
-            default:
-                $base = new RenderInput($this->element);
-                break;
-        }
-
-        return (string) $base;
-    }
-
-    public function html()
-    {
-        
+        return $this->element;
     }
 
     public function __toString(): string
     {
-        return '<div class="form-group"> ' .
-                $this->label() .
-                $this->base() .
-                $this->description() .
-                '</div>';
+//        return '<div class="form-group"> ' .
+//                $this->label() .
+//                $this->base() .
+//                $this->description() .
+//                '</div>';
+        
+
+
+        return (string) $this->render();        
     }
 }

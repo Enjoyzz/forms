@@ -114,6 +114,8 @@ abstract class Element implements ElementInterface
 
         $this->defaults = $form->getFormDefaults()->getValue($this->getName());
         // dump($this->defaults);
+        
+//        $this->setDefault();
 
         if (!is_null($title)) {
             $this->setTitle($title);

@@ -38,8 +38,9 @@ class Renderer
         if (!class_exists($class)) {
             throw new Exception\ExceptionRenderer("Class <b>{$class}</b> not found");
         }
-        $renderer = new $class($this->getOptions());
-        return $this->element->render($renderer);
+        $renderer = new $class($this->element, $this->getOptions());
+        //return $this->element->render($renderer);
+        return $renderer;
     }
 //    public function __toString() {
 //        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';

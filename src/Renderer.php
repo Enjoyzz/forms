@@ -42,7 +42,7 @@ class Renderer
     public const BOOTSTRAP2 = 'bs2';
 
     protected Form $form;
-    private $renderer = 'defaults';
+    private $renderer = 'bs4';
 
     private function __construct(Form $form, array $options = [])
     {

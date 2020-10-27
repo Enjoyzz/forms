@@ -11,16 +11,22 @@ namespace Enjoys\Forms2\Renderer\Bootstrap4;
  */
 class RenderInput
 {
-    private $element;
-    
-    public function __construct(\Enjoys\Forms2\Element $element)
+
+    private $renderer;
+
+    public function __construct(Bootstrap4 $renderer)
     {
-        $this->element = $element;
+        $this->renderer = $renderer;
     }
-    
+
     public function __toString()
     {
-        $this->element->addClass('form-control');
-        return $this->element->baseHtml();
+        $this->renderer->getElement()->addClass('form-control');
+
+        return '<div class="form-group"> ' .
+                $this->renderer->label() .
+                $this->renderer->getElement()->baseHtml() .
+                $this->renderer->description() .
+                '</div>';
     }
 }

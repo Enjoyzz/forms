@@ -17,7 +17,7 @@ class Hidden extends \Enjoys\Forms2\Element
     public function __construct(string $name, string $value = null)
     {
         parent::__construct($name, null);
-        
+
         if (!is_null($value)) {
             $this->setAttribute('value', $value);
         }
