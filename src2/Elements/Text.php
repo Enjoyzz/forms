@@ -15,10 +15,8 @@ class Text extends \Enjoys\Forms2\Element
 
     private $type = 'text';
 
-
-    
-    public function baseHtml()
+    public function render()
     {
-         return "<input type=\"{$this->type}\"{$this->getAttributes()}>";
+        return "<input type=\"{$this->type}\"{$this->getAttributes()}>";
     }
 }

@@ -63,14 +63,12 @@ class Checkbox extends \Enjoys\Forms2\ElementContainer
         return static::$prefix_id;
     }
 
- 
-
-    public function baseHtml()
+    public function render()
     {
         $output = '';
-        // foreach ($this->elements as $element) {
-        $output .= "<input type=\"{$this->type}\"{$this->getAttributes()}>";
-        // }
+        foreach ($this->elements as $element) {
+            $output .= "<input type=\"{$element->type}\"{$element->getAttributes()}>";
+        }
         return $output;
     }
 //    public function setDefault(): self

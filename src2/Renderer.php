@@ -33,14 +33,12 @@ class Renderer
     {
 
         $rendererName = \ucfirst($this->renderer);
-        $class= '\\Enjoys\\Forms2\\Renderer\\' . $rendererName . '\\' . $rendererName;
+        $renderer = '\\Enjoys\\Forms2\\Renderer\\' . $rendererName . '\\' . $rendererName;
 
-        if (!class_exists($class)) {
-            throw new Exception\ExceptionRenderer("Class <b>{$class}</b> not found");
+        if (!class_exists($renderer)) {
+            throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");
         }
-        $renderer = new $class($this->element, $this->getOptions());
-        //return $this->element->render($renderer);
-        return $renderer;
+        return new $renderer($this->element, $this->getOptions());
     }
 //    public function __toString() {
 //        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';

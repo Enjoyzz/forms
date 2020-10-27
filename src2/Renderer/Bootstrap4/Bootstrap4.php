@@ -11,8 +11,7 @@ namespace Enjoys\Forms2\Renderer\Bootstrap4;
  */
 class Bootstrap4 implements \Enjoys\Forms2\Renderer\RendererInterface
 {
-    use \Enjoys\Traits\Options;
-
+    
     private $element;
 
     public function __construct($element, array $options)
