@@ -9,7 +9,7 @@ namespace Enjoys\Forms2\Elements;
  *
  * @author deadl
  */
-class Checkbox extends \Enjoys\Forms2\Composite
+class Checkbox extends \Enjoys\Forms2\ElementContainer
 {
     // use Fill;
     use \Enjoys\Forms2\Traits\Fill;

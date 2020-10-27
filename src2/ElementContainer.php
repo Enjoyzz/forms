@@ -9,7 +9,7 @@ namespace Enjoys\Forms2;
  *
  * @author Enjoys
  */
-abstract class Composite extends Element
+abstract class ElementContainer extends Element
 {
 
     protected $elements = [];

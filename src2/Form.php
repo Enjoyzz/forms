@@ -9,7 +9,7 @@ namespace Enjoys\Forms2;
  *
  * @author Enjoys
  */
-class Form extends Composite
+class Form extends ElementContainer
 {
     use \Enjoys\Traits\Options;
 

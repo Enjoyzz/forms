@@ -5,10 +5,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms2\Elements;
 
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces;
-use Enjoys\Forms\Traits\Fill;
+use Enjoys\Forms2\ElementContainer;
+use Enjoys\Forms2\Traits\Fill;
 
 /**
  * Class Radio
@@ -16,9 +14,9 @@ use Enjoys\Forms\Traits\Fill;
  * @author Enjoys
  *
  */
-class Radio extends \Enjoys\Forms2\Composite
+class Radio extends ElementContainer
 {
-   use \Enjoys\Forms2\Traits\Fill;
+   use Fill;
 
     /**
      *
