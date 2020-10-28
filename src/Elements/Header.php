@@ -46,7 +46,7 @@ class Header extends Element
     public function __construct(Form $form, string $title)
     {
         parent::__construct($form, \uniqid('header'), $title);
-        $this->setTitle($title);
+        $this->setLabel($title);
         $this->removeAttribute('name');
         $this->removeAttribute('id');
     }
@@ -63,6 +63,6 @@ class Header extends Element
     
     public function baseHtml()
     {
-        return $this->getTitle();
+        return $this->getLabel();
     }
 }

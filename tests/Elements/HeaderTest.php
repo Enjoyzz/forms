@@ -44,7 +44,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     public function test_full_construct()
     {
         $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
-        $this->assertSame('title', $obj->getTitle());
+        $this->assertSame('title', $obj->getLabel());
     }
 
     public function test_attr_legend()

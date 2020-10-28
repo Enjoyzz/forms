@@ -89,7 +89,7 @@ class Form
      *
      * @var FormDefaults
      */
-    private FormDefaults $formDefaults;
+    private FormDefaults $defaults;
 
     /**
      *
@@ -128,7 +128,7 @@ class Form
     public function __construct(array $options = [], Interfaces\Request $request = null)
     {
 
-        if (!isset($this->formDefaults)) {
+        if (!isset($this->defaults)) {
             $this->setDefaults([]);
         }
         $this->cntForm = ++self::$counterForms;
@@ -256,22 +256,22 @@ class Form
 
     /**
      * Set \Enjoys\Forms\FormDefaults $formDefaults 
-     * @param array $defaultsData
+     * @param array $data
      * @return \self
      */
-    private function setDefaults(array $defaultsData): self
+    private function setDefaults(array $data): self
     {
         if ($this->isSubmitted()) {
-            $defaultsData = [];
+            $data = [];
             $method = $this->request->getMethod();
 
             foreach ($this->request->$method() as $key => $items) {
                 if (!in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
-                    $defaultsData[$key] = $items;
+                    $data[$key] = $items;
                 }
             }
         }
-        $this->formDefaults = new FormDefaults($defaultsData);
+        $this->defaults = new FormDefaults($data);
         return $this;
     }
 
@@ -280,7 +280,7 @@ class Form
      */
     public function getFormDefaults(): FormDefaults
     {
-        return $this->formDefaults;
+        return $this->defaults;
     }
 
     /**

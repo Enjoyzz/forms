@@ -76,6 +76,6 @@ class Option extends Element
     
     public function baseHtml()
     {
-        return "<option{$this->getAttributes()}>{$this->getTitle()}</option>";
+        return "<option{$this->getAttributes()}>{$this->getLabel()}</option>";
     }
 }

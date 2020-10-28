@@ -76,7 +76,7 @@ class LayoutBase
 
     protected function renderLabel($element, $star = "&nbsp;<sup>*</sup>")
     {
-        if (empty($element->getTitle())) {
+        if (empty($element->getLabel())) {
             return;
         }
         
@@ -88,7 +88,7 @@ class LayoutBase
             'for' => $element->getAttribute('id')
         ],Form::ATTRIBUTES_LABEL);
 
-        return "<label{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getTitle()}{$star}</label>";
+        return "<label{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }
 
     protected function renderBody(ElementInterface $element)

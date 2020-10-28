@@ -59,7 +59,7 @@ abstract class Element implements ElementInterface
      *
      * @var string|null
      */
-    protected ?string $title = null;
+    protected ?string $label = null;
 
     /**
      *
@@ -101,9 +101,9 @@ abstract class Element implements ElementInterface
     /**
      *
      * @param string $name
-     * @param string $title
+     * @param string $label
      */
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, string $label = null)
     {
        // $this->form = $form;
         $this->initRequest();
@@ -117,8 +117,8 @@ abstract class Element implements ElementInterface
         
 //        $this->setDefault();
 
-        if (!is_null($title)) {
-            $this->setTitle($title);
+        if (!is_null($label)) {
+            $this->setLabel($label);
         }
     }
 
@@ -183,9 +183,9 @@ abstract class Element implements ElementInterface
      * @param string $title
      * @return \self
      */
-    public function setTitle(?string $title = null): self
+    public function setLabel(?string $title = null): self
     {
-        $this->title = $title;
+        $this->label = $title;
         return $this;
     }
 
@@ -193,9 +193,9 @@ abstract class Element implements ElementInterface
      *
      * @return string|null
      */
-    public function getTitle(): ?string
+    public function getLabel(): ?string
     {
-        return $this->title;
+        return $this->label;
     }
 
     /**

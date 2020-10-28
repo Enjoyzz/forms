@@ -192,7 +192,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         $element = new \Enjoys\Forms\Elements\Text(
                 new \Enjoys\Forms\FormDefaults([]), 'foo'
         );
-        $element->setTitle('bar')->setDescription('desc')->setRuleError('error');
+        $element->setLabel('bar')->setDescription('desc')->setRuleError('error');
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
       
         $this->assertEquals('<label for="foo">bar</label><input type="text" id="foo" name="foo"><small>desc</small><div>error</div>', $layout->render());

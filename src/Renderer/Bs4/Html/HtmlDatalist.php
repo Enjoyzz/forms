@@ -49,7 +49,7 @@ class HtmlDatalist extends HtmlInput
     {
         $return = "<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">";
         foreach ($element->getElements() as $data) {
-            $return .= "<option value=\"{$data->getTitle()}\">";
+            $return .= "<option value=\"{$data->getLabel()}\">";
         }
         $return .= "</datalist>";
         return $return;

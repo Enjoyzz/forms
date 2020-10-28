@@ -93,9 +93,9 @@ class ElementTest extends TestCase
     public function test_setTitle_1_0()
     {
         $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\Form([]), 'Foo', 'Bar');
-        $this->assertEquals('Bar', $element->getTitle());
-        $element->setTitle('Baz');
-        $this->assertEquals('Baz', $element->getTitle());
+        $this->assertEquals('Bar', $element->getLabel());
+        $element->setLabel('Baz');
+        $this->assertEquals('Baz', $element->getLabel());
     }
 
     public function test_setDescription_1_0()

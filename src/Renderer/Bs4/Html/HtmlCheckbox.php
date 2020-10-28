@@ -56,7 +56,7 @@ class HtmlCheckbox extends HtmlRadio
                 'name' => $element->getName()
             ]);
 
-            if (empty($data->getTitle())) {
+            if (empty($data->getLabel())) {
                 $data->addClass('position-static');
             }
 

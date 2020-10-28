@@ -42,14 +42,14 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     public function test_title()
     {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $this->assertSame('title', $obj->getTitle());
+        $this->assertSame('title', $obj->getLabel());
     }
 
     public function test_title2()
     {
         $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $obj->setTitle('title2');
-        $this->assertSame('title2', $obj->getTitle());
+        $obj->setLabel('title2');
+        $this->assertSame('title2', $obj->getLabel());
     }
 
     public function test_name()
@@ -88,7 +88,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('t1', $v1->getTitle());
+        $this->assertSame('t1', $v1->getLabel());
     }
 
     public function test_fill3()
@@ -106,7 +106,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
         $v2 = $elements[1];
-        $this->assertSame('t2', $v2->getTitle());
+        $this->assertSame('t2', $v2->getLabel());
     }
 
     public function test_fill5()

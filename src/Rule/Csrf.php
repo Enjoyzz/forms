@@ -66,7 +66,7 @@ class Csrf extends Rules implements Rule
     {
         if (!$this->check($this->request->post(Form::_TOKEN_CSRF_, ''))) {
             $element->setRuleError($this->getMessage());
-            // throw new \Enjoys\Forms\Exception($this->getMessage());
+            // throw new \Enjoys\Forms\Exception\ExceptionRule($this->getMessage());
             return false;
         }
 

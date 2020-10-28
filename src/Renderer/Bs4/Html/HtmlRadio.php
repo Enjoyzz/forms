@@ -64,7 +64,7 @@ class HtmlRadio extends \Enjoys\Forms\Renderer\LayoutBase
                 'name' => $element->getName()
             ]);
 
-            if (empty($data->getTitle())) {
+            if (empty($data->getLabel())) {
                 $data->addClass('position-static');
             }
 
@@ -95,7 +95,7 @@ class HtmlRadio extends \Enjoys\Forms\Renderer\LayoutBase
                 'name' => $element->getName()
             ]);
 
-            if (empty($data->getTitle())) {
+            if (empty($data->getLabel())) {
                 $data->addClass('position-static');
             }
 

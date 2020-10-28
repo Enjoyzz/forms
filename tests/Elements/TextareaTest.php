@@ -38,7 +38,7 @@ class TextareaTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Textarea);
         $this->assertEquals('foo', $el->getName());
 //        $this->assertEquals('foo', $el->getValidateName());
-        $this->assertEquals('title1', $el->getTitle());
+        $this->assertEquals('title1', $el->getLabel());
         $el->setValue('text');
         $this->assertEquals('text', $el->getValue());
         $el->setValue('text2');

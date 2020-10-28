@@ -50,6 +50,6 @@ class Button extends Element
     
     public function baseHtml()
     {
-        return "<button{$this->getAttributes()}>{$this->getTitle()}</button>";
+        return "<button{$this->getAttributes()}>{$this->getLabel()}</button>";
     }
 }
