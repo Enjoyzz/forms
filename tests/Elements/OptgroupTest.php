@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Optgroup;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -43,7 +43,7 @@ class OptgroupTest extends TestCase
     public function test_baseHtml()
     {
         $og = new Optgroup(
-                new FormDefaults([]),
+                new DefaultsHandler([]),
                 'foo',
                 'parentname'
         );

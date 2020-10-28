@@ -68,7 +68,7 @@ class FormDefaultsTest extends \PHPUnit\Framework\TestCase
         $form->method('isSubmitted')->will($this->returnValue(false));
         $form->method('getMethod')->will($this->returnValue('GET'));
 
-        $defaults = new \Enjoys\Forms\FormDefaults([
+        $defaults = new \Enjoys\Forms\DefaultsHandler([
             'data' => 'data'
                 ], $form);
 

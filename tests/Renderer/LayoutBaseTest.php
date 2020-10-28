@@ -40,7 +40,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_rendereLabel()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo', 'bar'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo', 'bar'
         );
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
         $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderLabel');
@@ -50,7 +50,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_rendereLabel2()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo', 'bar'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo', 'bar'
         );
         $element->addClass('test', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
@@ -61,7 +61,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_rendereLabel_empty()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
         $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderLabel');
@@ -71,7 +71,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_renderDescription()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $element->setDescription('desc');
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
@@ -82,7 +82,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_renderDescription2()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $element->setDescription('desc');
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
@@ -93,7 +93,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_renderDescription3()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $element->setDescription('desc');
         $element->addClass('test', \Enjoys\Forms\Form::ATTRIBUTES_DESC);
@@ -105,7 +105,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_renderDescription_empty()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
         $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderDescription');
@@ -115,7 +115,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_renderValidation()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $element->setRuleError('error');
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
@@ -126,7 +126,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_renderValidation_empty()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
         $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderValidation');
@@ -139,7 +139,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderBody');
 
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $this->assertEquals('<input type="text" id="foo" name="foo">', $method->invokeArgs(
                         new \Enjoys\Forms\Renderer\LayoutBase($element),
@@ -147,7 +147,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         );
 
         $element = new \Enjoys\Forms\Elements\Textarea(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $this->assertEquals('<textarea id="foo" name="foo"></textarea>', $method->invokeArgs(
                         new \Enjoys\Forms\Renderer\LayoutBase($element),
@@ -155,7 +155,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         ));
         
         $element = new \Enjoys\Forms\Elements\Button(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $this->assertEquals('<button id="foo" name="foo"></button>', $method->invokeArgs(
                         new \Enjoys\Forms\Renderer\LayoutBase($element),
@@ -163,7 +163,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         ));
         
         $element = new \Enjoys\Forms\Elements\Header(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $this->assertEquals('foo', $method->invokeArgs(
                         new \Enjoys\Forms\Renderer\LayoutBase($element),
@@ -171,7 +171,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         ));
         
         $element = new \Enjoys\Forms\Elements\Option(
-                new \Enjoys\Forms\FormDefaults([]), 'foo', 'bar'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo', 'bar'
         );
         $this->assertEquals('<option id="foo" value="foo">bar</option>', $method->invokeArgs(
                         new \Enjoys\Forms\Renderer\LayoutBase($element),
@@ -179,7 +179,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
         ));
         
         $element = new \Enjoys\Forms\Elements\Captcha(
-                new \Enjoys\Forms\FormDefaults([])
+                new \Enjoys\Forms\DefaultsHandler([])
         );
         $this->assertStringContainsString('<img src="data:image/jpeg;base64', $method->invokeArgs(
                         new \Enjoys\Forms\Renderer\LayoutBase($element),
@@ -190,7 +190,7 @@ class LayoutBaseTest extends \PHPUnit\Framework\TestCase
     public function test_render()
     {
         $element = new \Enjoys\Forms\Elements\Text(
-                new \Enjoys\Forms\FormDefaults([]), 'foo'
+                new \Enjoys\Forms\DefaultsHandler([]), 'foo'
         );
         $element->setLabel('bar')->setDescription('desc')->setRuleError('error');
         $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);

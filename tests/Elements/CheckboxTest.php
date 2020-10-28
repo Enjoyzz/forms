@@ -36,7 +36,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
 
     private function getFormDefaults($data = [])
     {
-        return new \Enjoys\Forms\FormDefaults($data);
+        return new \Enjoys\Forms\DefaultsHandler($data);
     }
 
     public function test_title()

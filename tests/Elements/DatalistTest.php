@@ -34,7 +34,7 @@ namespace Tests\Enjoys\Forms\Elements;
 class DatalistTest extends \PHPUnit\Framework\TestCase {
 
     public function test_init_datalist() {
-        $el = new \Enjoys\Forms\Elements\Datalist(new \Enjoys\Forms\FormDefaults([]), 'foo', 'title1');
+        $el = new \Enjoys\Forms\Elements\Datalist(new \Enjoys\Forms\DefaultsHandler([]), 'foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Datalist);
         $this->assertFalse($el->getAttribute('id'));
         $this->assertEquals('foo', $el->getAttribute('list'));

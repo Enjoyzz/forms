@@ -2,7 +2,7 @@
 include __DIR__."/../vendor/autoload.php";
 
 use Enjoys\Forms\Form;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 
 $form = new Form();
 

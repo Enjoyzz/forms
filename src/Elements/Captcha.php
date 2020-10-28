@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionElement;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 
 /**
  * Description of Captcha
@@ -42,7 +42,7 @@ class Captcha extends Element
 
     private $captcha;
 
-    public function __construct(FormDefaults $formDefaults, string $captcha = null, string $message = null)
+    public function __construct(DefaultsHandler $formDefaults, string $captcha = null, string $message = null)
     {
         if (is_null($captcha)) {
             $captcha = 'Defaults';

@@ -58,9 +58,9 @@ class Rules
 
     /**
      * @deprecated since version 2.0.1-alpha
-     * @var FormDefaults
+     * @var DefaultsHandler
      */
-    private FormDefaults $formDefaults;
+    private DefaultsHandler $formDefaults;
 
     public function __construct(?string $message = null, $params = [])
     {

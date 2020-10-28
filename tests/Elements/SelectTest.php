@@ -36,7 +36,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
     private function getFormDefaults($data = [])
     {
-        return new \Enjoys\Forms\FormDefaults($data);
+        return new \Enjoys\Forms\DefaultsHandler($data);
     }
 
     public function test_title()
@@ -340,7 +340,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
     public function test_optgroup()
     {
-        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\FormDefaults([]), 'name');
+        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\DefaultsHandler([]), 'name');
         $select->optgroup('foo', [
             1, 2, 3
         ]);

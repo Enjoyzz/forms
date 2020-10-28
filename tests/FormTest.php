@@ -179,7 +179,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
     {
         $form = new Form();
         $form->setOption('defaults', ['foo' => 'bar']);
-        $this->assertEquals(true, $form->getFormDefaults() instanceof \Enjoys\Forms\FormDefaults);
+        $this->assertEquals(true, $form->getDefaultsHandler() instanceof \Enjoys\Forms\DefaultsHandler);
     }
 
     public function test_removeCsrf()
@@ -547,8 +547,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $form1 = new Form();
         $form1->setOption('defaults', ['foo' => 'bar']);
         $form2 = new Form();
-        $this->assertEquals(['foo' => 'bar'], $form1->getFormDefaults()->getDefaults());
-        $this->assertEquals([], $form2->getFormDefaults()->getDefaults());
+        $this->assertEquals(['foo' => 'bar'], $form1->getDefaultsHandler()->getDefaults());
+        $this->assertEquals([], $form2->getDefaultsHandler()->getDefaults());
     }
 
 }

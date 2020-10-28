@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Button;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,7 +41,7 @@ class ButtonTest extends TestCase
 {
     public function test_setDescription()
     {
-        $btn = new Button(new FormDefaults([]), 'foo', 'bar');
+        $btn = new Button(new DefaultsHandler([]), 'foo', 'bar');
         $btn->setDescription('desc');
         $this->assertEquals(null, $btn->getDescription());
     }

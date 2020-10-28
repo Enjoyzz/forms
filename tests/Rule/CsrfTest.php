@@ -30,7 +30,7 @@ namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 use Enjoys\Forms\Rule\Csrf;
 use PHPUnit\Framework\TestCase;
 use Tests\Enjoys\Forms\Reflection;
@@ -56,7 +56,7 @@ class CsrfTest extends TestCase
     {
         $csrf_key = 'test';
         $hash = crypt($csrf_key, '');
-        $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(new DefaultsHandler([]), Form::_TOKEN_CSRF_, $hash);
 
 
         $obj = new Csrf(null, [
@@ -75,7 +75,7 @@ class CsrfTest extends TestCase
     {
         $csrf_key = 'test';
         $hash = crypt($csrf_key, '');
-        $element = new Hidden(new FormDefaults([]), Form::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(new DefaultsHandler([]), Form::_TOKEN_CSRF_, $hash);
 
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key

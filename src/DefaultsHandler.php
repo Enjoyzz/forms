@@ -35,7 +35,7 @@ use Enjoys\Forms\Http\Request;
  *
  * @author Enjoys
  */
-class FormDefaults
+class DefaultsHandler
 {
 
     private $defaults = [];

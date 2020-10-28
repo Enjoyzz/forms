@@ -34,7 +34,7 @@ namespace Tests\Enjoys\Forms\Elements;
 class TextareaTest extends \PHPUnit\Framework\TestCase {
 
     public function test_init_textarea() {
-        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([]), 'foo', 'title1');
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\DefaultsHandler([]), 'foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Textarea);
         $this->assertEquals('foo', $el->getName());
 //        $this->assertEquals('foo', $el->getValidateName());
@@ -50,14 +50,14 @@ class TextareaTest extends \PHPUnit\Framework\TestCase {
     }
     
     public function test_setCols(){
-        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\DefaultsHandler([]), 'foo');
         $el->setCols(5);
         $this->assertEquals('5', $el->getAttribute('cols'));
         $el->setCols('25');
         $this->assertEquals('25', $el->getAttribute('cols'));
     }
     public function test_setRows(){
-        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\FormDefaults([]), 'foo');
+        $el = new \Enjoys\Forms\Elements\Textarea(new \Enjoys\Forms\DefaultsHandler([]), 'foo');
         $el->setRows(50);
         $this->assertEquals('50', $el->getAttribute('rows'));
         $el->setRows('250');

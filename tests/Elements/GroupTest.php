@@ -38,7 +38,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function test_init_group()
     {
-        $FormDefaults = new \Enjoys\Forms\FormDefaults([]);
+        $FormDefaults = new \Enjoys\Forms\DefaultsHandler([]);
         $g = new \Enjoys\Forms\Elements\Group($FormDefaults, 'group1', [
             new \Enjoys\Forms\Elements\Text($FormDefaults, 'foo', 'bar')
         ]);
@@ -48,7 +48,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function test_invalid_element()
     {
         $this->expectException('\Enjoys\Forms\Exception\ExceptionElement');
-        (new \Enjoys\Forms\Elements\Group(new \Enjoys\Forms\FormDefaults([]), 'group1'))
+        (new \Enjoys\Forms\Elements\Group(new \Enjoys\Forms\DefaultsHandler([]), 'group1'))
                 ->invalid();
     }
 }

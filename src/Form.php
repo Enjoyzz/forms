@@ -87,9 +87,9 @@ class Form
 
     /**
      *
-     * @var FormDefaults
+     * @var DefaultsHandler
      */
-    private FormDefaults $defaults;
+    private DefaultsHandler $defaults;
 
     /**
      *
@@ -128,9 +128,7 @@ class Form
     public function __construct(array $options = [], Interfaces\Request $request = null)
     {
 
-        if (!isset($this->defaults)) {
-            $this->setDefaults([]);
-        }
+
         $this->cntForm = ++self::$counterForms;
         $this->initRequest($request);
 
@@ -139,10 +137,6 @@ class Form
         $this->formSubmitted = $tockenSubmit->getSubmitted();
 
         $this->setOptions($options);
-//
-//        $this->initTockenSubmit();
-//
-//        $this->checkFormSubmitted();
     }
 
     /**
@@ -201,6 +195,7 @@ class Form
     {
         $element->initRequest($this->request);
         $element->setForm($this);
+        $element->setDefault();
         $element->prepare();
         $this->elements[$element->getName()] = $element;
         return $this;
@@ -241,7 +236,7 @@ class Form
         $this->setAttribute('method', $this->method);
 
         if (in_array($this->getMethod(), ['POST'])) {
-              $this->csrf();
+            $this->csrf();
         }
     }
 
@@ -259,28 +254,29 @@ class Form
      * @param array $data
      * @return \self
      */
-    private function setDefaults(array $data): self
+    public function setDefaults(array $data): self
     {
+
         if ($this->isSubmitted()) {
             $data = [];
             $method = $this->request->getMethod();
-
             foreach ($this->request->$method() as $key => $items) {
-                if (!in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
-                    $data[$key] = $items;
+                if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
+                    continue;
                 }
+                $data[$key] = $items;
             }
         }
-        $this->defaults = new FormDefaults($data);
+        $this->defaults = new DefaultsHandler($data);
         return $this;
     }
 
     /**
-     * @return FormDefaults
+     * @return DefaultsHandler
      */
-    public function getFormDefaults(): FormDefaults
+    public function getDefaultsHandler(): DefaultsHandler
     {
-        return $this->defaults;
+        return $this->defaults ?? new DefaultsHandler([]);
     }
 
     /**

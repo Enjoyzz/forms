@@ -37,7 +37,7 @@ class HiddenTest extends \PHPUnit\Framework\TestCase{
      * @dataProvider dataForConstruct
      */
     public function test_full_construct($name, $value, $expectName, $expectValue) {
-        $obj = new \Enjoys\Forms\Elements\Hidden(new \Enjoys\Forms\FormDefaults([]), $name, $value);
+        $obj = new \Enjoys\Forms\Elements\Hidden(new \Enjoys\Forms\DefaultsHandler([]), $name, $value);
         $this->assertSame($expectName, $obj->getAttribute('name'));
         $this->assertSame($expectValue, $obj->getAttribute('value'));
         $this->assertSame(false, $obj->getAttribute('id'));

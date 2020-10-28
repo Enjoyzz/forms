@@ -55,7 +55,7 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
 
     public function test1()
     {
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'Defaults');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'Defaults');
         $captcha->setOption('foo', 'v_foo');
         $captcha->setOptions([
             'bar' => 'v_bar',
@@ -128,7 +128,7 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
 
     public function test_renderHtml()
     {
-        $element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'Defaults');
+        $element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'Defaults');
         $element->initRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode_fail'
         ]));
@@ -145,7 +145,7 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate()
     {
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\FormDefaults([]), 'Defaults');
+        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'Defaults');
         $captcha->initRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode'
         ]));

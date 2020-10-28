@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 
 /**
  * Description of Image
@@ -45,7 +45,7 @@ class Image extends Element
      */
     protected string $type = 'image';
 
-    public function __construct(FormDefaults $formDefaults, string $name, string $src = null)
+    public function __construct(DefaultsHandler $formDefaults, string $name, string $src = null)
     {
         parent::__construct($formDefaults, $name);
         if (!is_null($src)) {

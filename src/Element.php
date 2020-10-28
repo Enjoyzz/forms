@@ -105,16 +105,15 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
-       // $this->form = $form;
+        // $this->form = $form;
         $this->initRequest();
 
 
 
         $this->setName($name);
 
-       // $this->defaults = $form->getFormDefaults()->getValue($this->getName());
-        // dump($this->defaults);
-        
+
+
 //        $this->setDefault();
 
         if (!is_null($label)) {
@@ -122,26 +121,27 @@ abstract class Element implements ElementInterface
         }
     }
 
-    
     public function setForm(Form $form)
     {
         $this->form = $form;
     }
-    
+
     public function getForm()
     {
         return $this->form;
     }
-    
+
     public function unsetForm()
     {
         $this->form = null;
     }
-    
+
     public function prepare()
     {
+
         $this->unsetForm();
     }
+
     /**
      *
      * @return string
@@ -164,7 +164,7 @@ abstract class Element implements ElementInterface
             'name' => $this->name
         ]);
 
-        $this->setDefault();
+        
 
         return $this;
     }
@@ -244,10 +244,14 @@ abstract class Element implements ElementInterface
     /**
      * @return \self
      */
-    protected function setDefault(): self
+    public function setDefault(): self
     {
         //$value = $this->form->getFormDefaults()->getValue($this->getName());
-        $value = $this->defaults;
+
+        $value = $this->getForm()
+                ->getDefaultsHandler()
+                ->getValue($this->getName());
+
         if (is_array($value)) {
 
             //$this->setValue($value[0]);

@@ -85,8 +85,8 @@ class DefaultsTest extends TestCase
 
  $this->markTestSkipped('переделать тест');
         $elements[] = 'invalid';
-        $elements[] = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\FormDefaults([]), 'bar');
-        $elements[] = new \Enjoys\Forms\Elements\Password(new \Enjoys\Forms\FormDefaults([]), 'baz');
+        $elements[] = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\DefaultsHandler([]), 'bar');
+        $elements[] = new \Enjoys\Forms\Elements\Password(new \Enjoys\Forms\DefaultsHandler([]), 'baz');
 
 
         $obj = new \Enjoys\Forms\Renderer\Defaults\Defaults(new Form());
@@ -100,8 +100,8 @@ class DefaultsTest extends TestCase
     {
         $this->markTestIncomplete('переделать тест');
         $obj = new \Enjoys\Forms\Renderer\Defaults\Defaults($this->form);
-        $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Hidden(new \Enjoys\Forms\FormDefaults([]), 'foo'));
-        $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Submit(new \Enjoys\Forms\FormDefaults([]), 'bar'));
+        $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Hidden(new \Enjoys\Forms\DefaultsHandler([]), 'foo'));
+        $obj->getForm()->addElement(new \Enjoys\Forms\Elements\Submit(new \Enjoys\Forms\DefaultsHandler([]), 'bar'));
         $obj->setElements($obj->getForm()->getElements());
 
         $this->assertSame("\t<br><br><input type=\"submit\" id=\"bar\" name=\"bar\">\n", $obj->elements());

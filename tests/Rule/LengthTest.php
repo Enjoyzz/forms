@@ -40,7 +40,7 @@ class LengthTest extends \PHPUnit\Framework\TestCase
 
     private function getFormDefaults($data = [])
     {
-        return new \Enjoys\Forms\FormDefaults($data);
+        return new \Enjoys\Forms\DefaultsHandler($data);
     }
 
     /**

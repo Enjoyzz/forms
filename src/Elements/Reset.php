@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FormDefaults;
+use Enjoys\Forms\DefaultsHandler;
 
 /**
  * Class Reset
@@ -41,7 +41,7 @@ class Reset extends Element
 
     protected string $type = 'reset';
 
-    public function __construct(FormDefaults $formDefaults, string $name = null, string $title = null)
+    public function __construct(DefaultsHandler $formDefaults, string $name = null, string $title = null)
     {
         $name ??= uniqid('reset');
         
