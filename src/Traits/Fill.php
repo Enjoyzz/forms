@@ -63,14 +63,6 @@ trait Fill
     {
         return $this->parentName;
     }
-//    public function setCounterId(int $counterId)
-//    {
-//        $this->counterId = $counterId;
-//    }
-//    private function getCounterId()
-//    {
-//        return $this->counterId;
-//    }
 
     /**
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
@@ -87,7 +79,6 @@ trait Fill
     {
 
         foreach ($data as $value => $title) {
-//            $index_key = $this->getIndexKey();
 
             $attributes = [];
 
@@ -113,27 +104,18 @@ trait Fill
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
 
-            $element = new $class($this->form, (string) $value, (string) $_title);
+            $element = new $class((string) $value, (string) $_title);
 
             $element->setParentName($this->getName());
             // $element->setCounterId(\count($this->elements));
             $element->setAttributes($attributes);
-            $element->setDefault();
+            $element->setDefault($this->defaults);
 
             // Если в атррибутах есть `id` вызываем setId()
             if (isset($attributes['id'])) {
                 $element->setId($attributes['id']);
             }
 
-
-//            if ($this->formDefaults instanceof \Enjoys\Forms\FormDefaults) {
-//                $element->setFormDefaults($this->formDefaults);
-//            }
-            //dump($element->getAttribute('disabled'));
-//            if ($index_key) {
-//                $this->elements[$$index_key] = $element;
-//                continue;
-//            }
             $this->elements[] = $element;
         }
         return $this;

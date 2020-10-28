@@ -127,16 +127,18 @@ class Form
      */
     public function __construct(array $options = [], Interfaces\Request $request = null)
     {
-
-
         $this->cntForm = ++self::$counterForms;
         $this->initRequest($request);
-
-
+        
         $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->cntForm));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
-
+        
         $this->setOptions($options);
+    }
+
+    public function __destruct()
+    {
+        static::$counterForms = 0;
     }
 
     /**
@@ -201,7 +203,7 @@ class Form
         return $this;
     }
 
-    public function removeElement(Interfaces\Element $element): self
+    public function removeElement(Element $element): self
     {
         if ($this->elementExists($element->getName())) {
             unset($this->elements[$element->getName()]);
@@ -214,9 +216,13 @@ class Form
         return isset($this->elements[$name]);
     }
 
-    public function __destruct()
+    /**
+     *
+     * @return array
+     */
+    public function getElements(): array
     {
-        static::$counterForms = 0;
+        return $this->elements;
     }
 
     public function getFormCount()
@@ -283,7 +289,7 @@ class Form
      *
      * @return string
      */
-    private function getName(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -293,7 +299,7 @@ class Form
      * @param string $name
      * @return $this
      */
-    private function setName(?string $name = null): self
+    protected function setName(?string $name = null): self
     {
         $this->name = $name;
         $this->setAttribute('name', $this->name);
@@ -309,7 +315,7 @@ class Form
      *
      * @return string
      */
-    private function getAction(): ?string
+    public function getAction(): ?string
     {
         return $this->action;
     }
@@ -319,7 +325,7 @@ class Form
      * @param string $action
      * @return $this
      */
-    private function setAction(?string $action = null): self
+    protected function setAction(?string $action = null): self
     {
         $this->action = $action;
         $this->setAttribute('action', $this->getAction());
@@ -329,15 +335,6 @@ class Form
         }
 
         return $this;
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function getElements(): array
-    {
-        return $this->elements;
     }
 
     /**

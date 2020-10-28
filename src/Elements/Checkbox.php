@@ -48,18 +48,27 @@ class Checkbox extends Element implements Interfaces\RadioCheckbox
      */
     protected string $type = 'checkbox';
     private static $prefix_id = 'cb_';
+    private $defaults;
 
-    public function __construct(Form $form, string $name, string $title = null)
+    public function __construct(string $name, string $title = null)
     {
         $construct_name = $name;
         if (\substr($name, -2) !== '[]') {
             $construct_name = $name . '[]';
         }
-        parent::__construct($form, $construct_name, $title);
-        $this->setValue($name);
-        $this->setId($this->getPrefixId() . $name);
+        parent::__construct($construct_name, $title);
+
+        $this->setAttributes([
+            'value' => $name,
+            'id' => $this->getPrefixId() . $name
+        ]);
         $this->removeAttribute('name');
     }
+
+//    public function prepare()
+//    {
+//        
+//    }
 
     public function setPrefixId($prefix)
     {
@@ -73,10 +82,13 @@ class Checkbox extends Element implements Interfaces\RadioCheckbox
         return static::$prefix_id;
     }
 
-    public function setDefault(): self
+    public function setDefault($value = null): self
     {
 
-        $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
+
+        // $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
+        $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {

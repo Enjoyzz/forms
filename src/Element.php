@@ -95,8 +95,8 @@ abstract class Element implements ElementInterface
      * 
      * @var Form|null
      */
-    private ?Form $form;
-    protected $defaults;
+    protected ?Form $form = null;
+
 
     /**
      *

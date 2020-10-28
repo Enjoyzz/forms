@@ -43,9 +43,9 @@ class Option extends Element
 
     protected string $type = 'option';
 
-    public function __construct(Form $form, string $name, string $title = null)
+    public function __construct(string $name, string $title = null)
     {
-        parent::__construct($form, $name, $title);
+        parent::__construct($name, $title);
         $this->setAttributes([
             'value' => $name,
             'id' => $name
@@ -57,7 +57,8 @@ class Option extends Element
     {
 
       //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-        $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
+        //$value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
+        $value = $this->defaults;
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');
