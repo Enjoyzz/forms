@@ -197,7 +197,6 @@ class Form
      * @param Element $element
      * @return \self
      */
-    
     public function addElement(Element $element): self
     {
         $element->initRequest($this->request);
@@ -207,18 +206,18 @@ class Form
         return $this;
     }
 
-//    public function removeElement(Interfaces\Element $element): self
-//    {
-//        if ($this->elementExists($element->getName())) {
-//            unset($this->elements[$element->getName()]);
-//        }
-//        return $this;
-//    }
-//
-//    private function elementExists($name): bool
-//    {
-//        return isset($this->elements[$name]);
-//    }
+    public function removeElement(Interfaces\Element $element): self
+    {
+        if ($this->elementExists($element->getName())) {
+            unset($this->elements[$element->getName()]);
+        }
+        return $this;
+    }
+
+    private function elementExists($name): bool
+    {
+        return isset($this->elements[$name]);
+    }
 
     public function __destruct()
     {
@@ -229,7 +228,6 @@ class Form
     {
         return $this->cntForm;
     }
-
 
     /**
      * @param string $method
@@ -243,7 +241,7 @@ class Form
         $this->setAttribute('method', $this->method);
 
         if (in_array($this->getMethod(), ['POST'])) {
-          //  $this->csrf();
+            //  $this->csrf();
         }
     }
 
@@ -283,39 +281,6 @@ class Form
     public function getFormDefaults(): FormDefaults
     {
         return $this->formDefaults;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSubmitted(): bool
-    {
-        return $this->formSubmitted;
-    }
-
-    /**
-     * Включает защиту от CSRF.
-     * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
-     * @param <type> $flag true or false
-     */
-    private function csrf($flag = true)
-    {
-        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']) || $flag === false) {
-            $this->removeElement(self::_TOKEN_CSRF_);
-            return $this;
-        }
-
-        /**
-         * @todo поменять session_id() на Session::getSessionId() 
-         */
-        $csrf_key = '#$' . session_id();
-        $hash = crypt($csrf_key, '');
-        $csrf = new Elements\Hidden($this, self::_TOKEN_CSRF_, $hash);
-        $csrf->addRule('csrf', 'CSRF Attack detected', [
-            'csrf_key' => $csrf_key]);
-        $this->addElement($csrf, true);
-
-        return $this;
     }
 
     /**
@@ -377,6 +342,14 @@ class Form
     public function getElements(): array
     {
         return $this->elements;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSubmitted(): bool
+    {
+        return $this->formSubmitted;
     }
 
     /**

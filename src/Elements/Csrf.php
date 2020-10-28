@@ -29,11 +29,36 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 /**
- * Description of Csrf
+ * Включает защиту от CSRF.
+ * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
  *
  * @author Enjoys
  */
 class Csrf extends Hidden
 {
-    //put your code here
+
+    /**
+     * @todo поменять session_id() на Session::getSessionId() 
+     */
+    public function __construct()
+    {
+
+        $csrf_key = '#$' . session_id();
+        $hash = crypt($csrf_key, '');
+        parent::__construct(\Enjoys\Forms\Form::_TOKEN_CSRF_, $hash);
+
+        $this->addRule('csrf', 'CSRF Attack detected', [
+            'csrf_key' => $csrf_key
+        ]);
+    }
+
+    public function prepare()
+    {
+        if (!in_array($this->getForm()->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
+            $this->getForm()->removeElement(self::_TOKEN_CSRF_);
+        }
+
+        $this->unsetForm();
+    }
+ 
 }
