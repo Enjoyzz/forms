@@ -65,7 +65,7 @@ class Length extends Rules implements Rule
 
         //  var_dump($element->getName());
 
-        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
+        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
 
         // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
         if (!$this->check($value)) {

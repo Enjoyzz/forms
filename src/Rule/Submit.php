@@ -44,7 +44,7 @@ class Submit extends Rules implements Rule
     {
 
         $method = $this->request->getMethod();
-        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
+        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
 
         if (false === $this->check($value)) {
             return false;

@@ -55,7 +55,7 @@ class Required extends Rules implements Rule
     {
 
         $method = $this->request->getMethod();
-        $_value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
+        $_value = \getValueByIndexPath($element->getName(), $this->request->$method());
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;

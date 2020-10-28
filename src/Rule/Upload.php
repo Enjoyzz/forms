@@ -58,7 +58,7 @@ class Upload extends Rules implements Rule
 
     public function validate(Element $element): bool
     {
-        $value = Request::getValueByIndexPath($element->getName(), $this->request->files());
+        $value = \getValueByIndexPath($element->getName(), $this->request->files());
 
         if (false === $this->check($value, $element)) {
             return false;
