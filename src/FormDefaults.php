@@ -60,6 +60,6 @@ class FormDefaults
         if ($param === null) {
             return $this->defaults;
         }
-        return Request::getValueByIndexPath($param, $this->defaults);
+        return \getValueByIndexPath($param, $this->defaults);
     }
 }
