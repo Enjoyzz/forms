@@ -41,9 +41,9 @@ class Submit extends Element
 
     protected string $type = 'submit';
 
-    public function __construct(Form $form, string $name, string $title = null)
+    public function __construct(string $name, string $title = null)
     {
-        parent::__construct($form, $name, $title);
+        parent::__construct($name, $title);
         if (!is_null($title)) {
             $this->setAttributes([
                 'value' => $title

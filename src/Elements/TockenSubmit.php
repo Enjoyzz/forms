@@ -38,10 +38,10 @@ class TockenSubmit extends Hidden
 
     private $tocken;
 
-    public function __construct(\Enjoys\Forms\Form $form, string $value)
+    public function __construct(string $value)
     {
         $this->tocken = $value;
-        parent::__construct($form, \Enjoys\Forms\Form::_TOKEN_SUBMIT_, $this->tocken);
+        parent::__construct(\Enjoys\Forms\Form::_TOKEN_SUBMIT_, $this->tocken);
     }
 
     public function getSubmitted()

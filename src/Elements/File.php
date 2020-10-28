@@ -47,16 +47,19 @@ class File extends Element
      */
     protected string $type = 'file';
 
-    public function __construct(Form $form, string $name, string $title = null)
+    public function __construct(string $name, string $title = null)
     {
-        parent::__construct($form, $name, $title);
+        parent::__construct($name, $title);
         $this->addRule(Rules::UPLOAD, null, [
             'system'
         ]);
+    }
 
-        $this->form->setAttribute('enctype', 'multipart/form-data');
-        $this->form->setMethod('post');
-        $this->setMaxFileSize(self::phpIniSize2bytes(ini_get('upload_max_filesize')), false);
+    public function prepare()
+    {
+        $this->getForm()->setAttribute('enctype', 'multipart/form-data');
+        $this->getForm()->setMethod('post');
+        $this->setMaxFileSize(\iniSize2bytes(ini_get('upload_max_filesize')), false);
     }
 
     /**
@@ -83,24 +86,7 @@ class File extends Element
      */
     public function setMaxFileSize(int $bytes): self
     {
-        $this->form->hidden('MAX_FILE_SIZE', (string) $bytes);
+        $this->getForm()->hidden('MAX_FILE_SIZE', (string) $bytes);
         return $this;
-    }
-
-//    
-    //    /**
-//     * 
-//     * @todo перенести в другой проект
-//     */
-    static function phpIniSize2bytes($size_original): int
-    {
-        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size_original); // Remove the non-unit characters from the size.
-        $size = preg_replace('/[^0-9\.]/', '', $size_original); // Remove the non-numeric characters from the size.
-        if ($unit) {
-            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
-            return (int) round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-        } else {
-            return (int) round($size);
-        }
     }
 }

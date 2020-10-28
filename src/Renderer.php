@@ -44,7 +44,7 @@ class Renderer
     protected Form $form;
     private $renderer = 'bs4';
 
-    private function __construct(Form $form, array $options = [])
+    public function __construct(Form $form, array $options = [])
     {
         $this->form = $form;
         $this->setOptions($options);
@@ -65,12 +65,12 @@ class Renderer
     {
 
         $rendererName = \ucfirst($this->renderer);
-        $renderer = '\\Enjoys\\Forms\\Renderer\\' . $rendererName . '\\' . $rendererName;
+        $class = '\\Enjoys\\Forms\\Renderer\\' . $rendererName . '\\' . $rendererName;
 
-        if (!class_exists($renderer)) {
-            throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");
+        if (!class_exists($class)) {
+            throw new Exception\ExceptionRenderer("Class <b>{$class}</b> not found");
         }
-        return new $renderer($this->form, $this->getOptions());
+        return new $class($this->form, $this->getOptions());
     }
 //    public function __toString() {
 //        return 'Redefine the method <i>__toString()</i> in the class: <b>'. static::class.'</b>';

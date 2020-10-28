@@ -95,7 +95,7 @@ abstract class Element implements ElementInterface
      * 
      * @var Form|null
      */
-    protected Form $form;
+    private ?Form $form;
     protected $defaults;
 
     /**
@@ -103,16 +103,16 @@ abstract class Element implements ElementInterface
      * @param string $name
      * @param string $title
      */
-    public function __construct(Form $form, string $name, string $title = null)
+    public function __construct(string $name, string $title = null)
     {
-        $this->form = $form;
+       // $this->form = $form;
         $this->initRequest();
 
 
 
         $this->setName($name);
 
-        $this->defaults = $form->getFormDefaults()->getValue($this->getName());
+       // $this->defaults = $form->getFormDefaults()->getValue($this->getName());
         // dump($this->defaults);
         
 //        $this->setDefault();
@@ -122,6 +122,21 @@ abstract class Element implements ElementInterface
         }
     }
 
+    
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+    }
+    
+    public function getForm()
+    {
+        return $this->form;
+    }
+    
+    public function prepare()
+    {
+        $this->form = null;
+    }
     /**
      *
      * @return string

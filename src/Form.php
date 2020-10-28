@@ -185,7 +185,7 @@ class Form
             throw new Exception\ExceptionElement("Class <b>{$class_name}</b> not found");
         }
         /** @var Element $element */
-        $element = new $class_name($this, ...$arguments);
+        $element = new $class_name(...$arguments);
 
         // dump($element);
         $this->addElement($element);
@@ -197,9 +197,12 @@ class Form
      * @param Element $element
      * @return \self
      */
-    private function addElement(Interfaces\ElementInterface $element): self
+    
+    public function addElement(Element $element): self
     {
         $element->initRequest($this->request);
+        $element->setForm($this);
+        $element->prepare();
         $this->elements[$element->getName()] = $element;
         return $this;
     }
@@ -240,7 +243,7 @@ class Form
         $this->setAttribute('method', $this->method);
 
         if (in_array($this->getMethod(), ['POST'])) {
-            $this->csrf();
+          //  $this->csrf();
         }
     }
 
@@ -375,33 +378,6 @@ class Form
     {
         return $this->elements;
     }
-    /**
-     *
-     * @param string $renderer
-     * @return $this
-     */
-//    public function setRenderer(string $renderer): self
-//    {
-//        $this->renderer = $renderer;
-//        return $this;
-//    }
-
-    /**
-     *
-     * @return Renderer
-     * @throws Exception
-     */
-//    public function display(array $options = [])
-//    {
-//
-//        $rendererName = \ucfirst($this->renderer);
-//        $renderer = '\\Enjoys\\Forms\\Renderer\\' . $rendererName . '\\' . $rendererName;
-//
-//        if (!class_exists($renderer)) {
-//            throw new Exception\ExceptionRenderer("Class <b>{$renderer}</b> not found");
-//        }
-//        return new $renderer($this, $options);
-//    }
 
     /**
      *

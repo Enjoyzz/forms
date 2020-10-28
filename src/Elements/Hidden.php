@@ -45,9 +45,10 @@ class Hidden extends Element
      */
     protected string $type = 'hidden';
 
-    public function __construct(Form $form, string $name, ?string $value = null)
+    public function __construct(string $name, ?string $value = null)
     {
-        parent::__construct($form, $name, null);
+
+        parent::__construct($name, null);
 
         if (!is_null($value)) {
             $this->setAttribute('value', $value);
