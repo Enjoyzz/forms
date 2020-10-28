@@ -53,12 +53,14 @@ class Option extends Element
         $this->removeAttribute('name');
     }
 
-    public function setDefault(): self
+    public function setDefault($value = null): self
     {
 
       //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
         //$value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
-        $value = $this->defaults;
+       // $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+
+        
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');

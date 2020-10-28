@@ -88,6 +88,7 @@ class Select extends Element
 
     public function setDefault(): self
     {
+        $this->defaults = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
         return $this;
     }
 
