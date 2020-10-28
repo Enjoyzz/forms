@@ -241,7 +241,7 @@ class Form
         $this->setAttribute('method', $this->method);
 
         if (in_array($this->getMethod(), ['POST'])) {
-            //  $this->csrf();
+              $this->csrf();
         }
     }
 
