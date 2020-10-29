@@ -24,7 +24,7 @@ trait Rules
         $class = "\Enjoys\Forms2\Rule\\" . \ucfirst($ruleName);
 
         $rule = new $class($message, $params);
-        $rule->initRequest($this->request);
+        $rule->setRequest($this->request);
 
         //установка обязательности элемента
         if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {

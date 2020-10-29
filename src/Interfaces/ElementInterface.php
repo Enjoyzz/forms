@@ -37,11 +37,5 @@ interface ElementInterface
 
     public function setName(string $name);
 
-    public function getName();
-
-    public function setLabel(?string $title = null);
-
-    public function getLabel();
-    
-    public function baseHtml();
+    public function baseHtml(): ?string;
 }

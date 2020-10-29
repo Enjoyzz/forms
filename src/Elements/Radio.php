@@ -42,6 +42,7 @@ use Enjoys\Forms\Traits\Fill;
 class Radio extends Element implements Interfaces\RadioCheckbox
 {
     use Fill;
+    use \Enjoys\Forms\Traits\Description;
 
     /**
      *
@@ -73,7 +74,7 @@ class Radio extends Element implements Interfaces\RadioCheckbox
         return static::$prefix_id;
     }
 
-    public function setDefault($value = null): self
+    protected function setDefault($value = null): self
     {
        // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
       //  $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());

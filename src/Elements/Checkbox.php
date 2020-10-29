@@ -41,7 +41,7 @@ use Enjoys\Forms\Traits\Fill;
 class Checkbox extends Element implements Interfaces\RadioCheckbox
 {
     use Fill;
-
+use \Enjoys\Forms\Traits\Description;
     /**
      *
      * @var string
@@ -82,7 +82,7 @@ class Checkbox extends Element implements Interfaces\RadioCheckbox
         return static::$prefix_id;
     }
 
-    public function setDefault($value = null): self
+    protected function setDefault($value = null): self
     {
 
 

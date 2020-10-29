@@ -61,11 +61,6 @@ abstract class Element implements ElementInterface
      */
     protected ?string $label = null;
 
-    /**
-     *
-     * @var string|null
-     */
-    protected ?string $description = null;
 
     /**
      * Флаг для обозначения обязательности заполнения этого элемента или нет
@@ -105,17 +100,8 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
-        // $this->form = $form;
-        $this->initRequest();
-
-
-
         $this->setName($name);
-
-
-
-//        $this->setDefault();
-
+        
         if (!is_null($label)) {
             $this->setLabel($label);
         }
@@ -124,6 +110,7 @@ abstract class Element implements ElementInterface
     public function setForm(Form $form)
     {
         $this->form = $form;
+        $this->setDefault();
     }
 
     public function getForm()
@@ -164,8 +151,6 @@ abstract class Element implements ElementInterface
             'name' => $this->name
         ]);
 
-        
-
         return $this;
     }
 
@@ -183,7 +168,7 @@ abstract class Element implements ElementInterface
      * @param string $title
      * @return \self
      */
-    public function setLabel(?string $title = null): self
+    protected function setLabel(?string $title = null): self
     {
         $this->label = $title;
         return $this;
@@ -198,63 +183,18 @@ abstract class Element implements ElementInterface
         return $this->label;
     }
 
-    /**
-     *
-     * @param string $description
-     * @return \self
-     */
-    public function setDescription(?string $description = null): self
-    {
-        $this->description = $description;
-        return $this;
-    }
 
-    /**
-     *
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-    /**
-     *
-     * @param string $value
-     * @return \self
-     */
-//    protected function setValue(string $value): self
-//    {
-//        if ($this->getAttribute('value') !== false) {
-//            return $this;
-//        }
-//        $this->value = $value;
-//        $this->setAttribute('value', $this->value);
-//        return $this;
-//    }
-    /**
-     *
-     * @param FormDefaults $defaults
-     */
-//    public function setFormDefaults(FormDefaults $defaults)
-//    {
-//       // $this->formDefaults = $defaults;
-//        $this->setDefault();
-//    }
 
     /**
      * @return \self
      */
-    public function setDefault(): self
+    protected function setDefault(): self
     {
-        //$value = $this->form->getFormDefaults()->getValue($this->getName());
-
         $value = $this->getForm()
                 ->getDefaultsHandler()
                 ->getValue($this->getName());
 
         if (is_array($value)) {
-
-            //$this->setValue($value[0]);
             $this->setAttributes([
                 'value' => $value[0]
             ]);
@@ -281,7 +221,7 @@ abstract class Element implements ElementInterface
         $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
 
         $rule = new $class($message, $params);
-        $rule->initRequest($this->request);
+        $rule->setRequest($this->request);
 
         //установка обязательности элемента
         if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {
@@ -347,7 +287,7 @@ abstract class Element implements ElementInterface
         return $this->rules;
     }
 
-    public function baseHtml()
+    public function baseHtml(): ?string
     {
         return "<input type=\"{$this->getType()}\"{$this->getAttributes()}>";
     }

@@ -51,7 +51,7 @@ class RequiredTest extends TestCase
     {
 
         $element = new Checkbox($this->getFormDefaults(), 'name');
-        $element->initRequest(new \Enjoys\Forms\Http\Request([
+        $element->setRequest(new \Enjoys\Forms\Http\Request([
             'name' => [1, 2]
         ]));
         $element->addRule('required');
@@ -61,7 +61,7 @@ class RequiredTest extends TestCase
     public function test_required_2()
     {
         $element = new Checkbox($this->getFormDefaults(), 'name');
-        $element->initRequest(new \Enjoys\Forms\Http\Request([
+        $element->setRequest(new \Enjoys\Forms\Http\Request([
             'name' => []
         ]));
         $element->addRule('required');

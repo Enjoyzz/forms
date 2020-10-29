@@ -53,7 +53,7 @@ class Option extends Element
         $this->removeAttribute('name');
     }
 
-    public function setDefault($value = null): self
+    protected function setDefault($value = null): self
     {
 
       //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
@@ -77,7 +77,7 @@ class Option extends Element
         return $this;
     }
     
-    public function baseHtml()
+    public function baseHtml(): ?string
     {
         return "<option{$this->getAttributes()}>{$this->getLabel()}</option>";
     }

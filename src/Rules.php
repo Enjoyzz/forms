@@ -64,7 +64,7 @@ class Rules
 
     public function __construct(?string $message = null, $params = [])
     {
-        $this->initRequest();
+        $this->setRequest();
 
         $this->setParams($params);
         $this->setMessage($message);

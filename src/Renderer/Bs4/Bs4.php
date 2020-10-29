@@ -145,7 +145,7 @@ class Bs4 implements Interfaces\Renderer
                 $element->addClass('sr-only', Form::ATTRIBUTES_LABEL);
             }
 
-            if (!empty($element->getDescription())) {
+            if (property_exists($element, 'getDescription') && !empty($element->getDescription())) {
                 $element->setAttributes([
                     'id' => $element->getAttribute('id') . 'Help',
                     'class' => 'form-text text-muted'

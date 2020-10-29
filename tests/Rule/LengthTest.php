@@ -54,7 +54,7 @@ class LengthTest extends \PHPUnit\Framework\TestCase
         $rule = new \Enjoys\Forms\Rule\Length(null, [
             '>' => 5
         ]);
-        $rule->initRequest(new \Enjoys\Forms\Http\Request([
+        $rule->setRequest(new \Enjoys\Forms\Http\Request([
                     'foo' => $value
         ]));
 

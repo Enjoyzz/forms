@@ -128,7 +128,7 @@ class Form
     public function __construct(array $options = [], Interfaces\Request $request = null)
     {
         $this->cntForm = ++self::$counterForms;
-        $this->initRequest($request);
+        $this->setRequest($request);
         
         $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->cntForm));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
@@ -195,9 +195,9 @@ class Form
      */
     public function addElement(Element $element): self
     {
-        $element->initRequest($this->request);
+        $element->setRequest($this->request);
         $element->setForm($this);
-        $element->setDefault();
+       // $element->setDefault();
         $element->prepare();
         $this->elements[$element->getName()] = $element;
         return $this;

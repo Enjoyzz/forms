@@ -40,7 +40,7 @@ use Enjoys\Forms\Traits\Fill;
 class Select extends Element
 {
     use Fill;
-
+use \Enjoys\Forms\Traits\Description;
     /**
      *
      * @var string
@@ -86,7 +86,7 @@ class Select extends Element
         return $this;
     }
 
-    public function setDefault(): self
+    protected function setDefault(): self
     {
         $this->defaults = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
         return $this;

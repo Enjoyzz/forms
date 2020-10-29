@@ -67,7 +67,7 @@ class Group extends Element
 
     public function addElement(Element $element): self
     {
-        $element->initRequest($this->getRequest());
+        $element->setRequest($this->getRequest());
         $this->elements[$element->getName()] = $element;
         return $this;
     }

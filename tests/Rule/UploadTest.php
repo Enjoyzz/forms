@@ -52,7 +52,7 @@ class UploadTest extends TestCase
         $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
             'required'
         ]);
-        $uploadRule->initRequest($requestMock);
+        $uploadRule->setRequest($requestMock);
         $this->assertEquals(true, $uploadRule->validate($fileElement));
     }
     public function test_validate_uploadrule2()
@@ -65,7 +65,7 @@ class UploadTest extends TestCase
         $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
             'required'
         ]);
-        $uploadRule->initRequest($requestMock);
+        $uploadRule->setRequest($requestMock);
         $this->assertEquals(false, $uploadRule->validate($fileElement));
     }
 

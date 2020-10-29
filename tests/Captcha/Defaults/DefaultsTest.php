@@ -129,7 +129,7 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
     public function test_renderHtml()
     {
         $element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'Defaults');
-        $element->initRequest(new \Enjoys\Forms\Http\Request([
+        $element->setRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode_fail'
         ]));
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults($element, 'code invalid');
@@ -146,13 +146,13 @@ class DefaultsTest extends \PHPUnit\Framework\TestCase
     public function test_validate()
     {
         $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'Defaults');
-        $captcha->initRequest(new \Enjoys\Forms\Http\Request([
+        $captcha->setRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode'
         ]));
         $this->assertSame('captcha_defaults', $captcha->getName());
         $this->assertTrue($captcha->validate());
 
-        $captcha->initRequest(new \Enjoys\Forms\Http\Request([
+        $captcha->setRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode_fail'
         ]));
         $this->assertFalse($captcha->validate());

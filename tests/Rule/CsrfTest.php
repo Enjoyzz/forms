@@ -63,7 +63,7 @@ class CsrfTest extends TestCase
             'csrf_key' => $csrf_key
         ]);
 
-        $obj->initRequest(new \Enjoys\Forms\Http\Request([], [
+        $obj->setRequest(new \Enjoys\Forms\Http\Request([], [
                     Form::_TOKEN_CSRF_ => $hash
         ]));
         //$this->assertSame('d',$obj);
@@ -80,7 +80,7 @@ class CsrfTest extends TestCase
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
-        $obj->initRequest(new \Enjoys\Forms\Http\Request([], [
+        $obj->setRequest(new \Enjoys\Forms\Http\Request([], [
                     Form::_TOKEN_CSRF_ => 'faketoken'
         ]));
         //$this->assertSame('d',$obj);

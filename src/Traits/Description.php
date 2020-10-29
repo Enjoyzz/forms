@@ -24,25 +24,38 @@
  * THE SOFTWARE.
  */
 
-declare(strict_types=1);
-
-namespace Enjoys\Forms\Elements;
-
-use Enjoys\Forms\Element;
+namespace Enjoys\Forms\Traits;
 
 /**
- * Class Text
  *
  * @author Enjoys
- *
  */
-class Text extends Element
+trait Description
 {
 
-    use \Enjoys\Forms\Traits\Description;
     /**
      *
-     * @var string
+     * @var string|null
      */
-    protected string $type = 'text';
+    private ?string $description = null;
+
+    /**
+     *
+     * @param string $description
+     * @return \self
+     */
+    public function setDescription(?string $description = null): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     *
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
 }
