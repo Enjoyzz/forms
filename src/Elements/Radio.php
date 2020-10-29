@@ -29,8 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -39,10 +38,10 @@ use Enjoys\Forms\Traits\Fill;
  * @author Enjoys
  *
  */
-class Radio extends Element implements Interfaces\RadioCheckbox
+class Radio extends Element
 {
     use Fill;
-    use \Enjoys\Forms\Traits\Description;
+    use Description;
 
     /**
      *

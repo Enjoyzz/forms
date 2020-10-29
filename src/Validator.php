@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Elements\Group;
-use Enjoys\Forms\Interfaces\RuleInterface;
+use Enjoys\Forms\Rule\RuleInterface;
 
 /**
  * Description of Validator

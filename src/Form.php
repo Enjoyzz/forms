@@ -30,7 +30,7 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Exception;
-use Enjoys\Forms\Interfaces\RequestInterface;
+use Enjoys\Forms\Http\RequestInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\Traits\Options;
 

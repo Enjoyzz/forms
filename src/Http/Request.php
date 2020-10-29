@@ -29,14 +29,14 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Http;
 
 use Symfony\Component\HttpFoundation;
-use Enjoys\Forms\Interfaces;
+
 
 /**
  * Class Request
  *
  * @author Enjoys
  */
-class Request extends HttpFoundation\Request implements Interfaces\RequestInterface
+class Request extends HttpFoundation\Request implements RequestInterface
 {
 
     public function __construct(

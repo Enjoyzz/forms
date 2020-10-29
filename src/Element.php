@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Forms\Interfaces\ElementInterface;
+use Enjoys\Forms\ElementInterface;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
 

@@ -51,7 +51,7 @@ class HtmlGroup extends LayoutBase
      * @param Element $element
      * @param Renderer $renderer
      */
-    public function __construct(\Enjoys\Forms\Interfaces\ElementInterface $element, \Enjoys\Forms\Interfaces\Renderer $renderer)
+    public function __construct(\Enjoys\Forms\ElementInterface $element, \Enjoys\Forms\Renderer\RendererInterface $renderer)
     {
         parent::__construct($element);
         $this->renderer = $renderer;

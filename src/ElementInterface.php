@@ -26,7 +26,7 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Interfaces;
+namespace Enjoys\Forms;
 
 /**
  *

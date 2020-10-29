@@ -62,7 +62,7 @@ use Enjoys\Forms\Renderer\Bs4\Html\HtmlSubmit;
  *
  * @author Enjoys
  */
-class Bs4 implements Interfaces\Renderer
+class Bs4 implements Renderer\RendererInterface
 {
 
     private $elements = [];

@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Renderer;
 
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\Element;
-use Enjoys\Forms\Interfaces\ElementInterface;
+use Enjoys\Forms\ElementInterface;
 
 /**
  * Class Elements

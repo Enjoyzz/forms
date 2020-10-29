@@ -26,13 +26,15 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Interfaces;
+namespace Enjoys\Forms\Renderer;
 
 /**
+ * Description of Renderer
  *
  * @author deadl
  */
-interface RadioCheckbox
+interface RendererInterface
 {
-    
+
+    public function __toString();
 }

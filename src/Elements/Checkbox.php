@@ -38,7 +38,7 @@ use Enjoys\Forms\Traits\Fill;
  *
  * @author deadl
  */
-class Checkbox extends Element implements Interfaces\RadioCheckbox
+class Checkbox extends Element
 {
     use Fill;
     use \Enjoys\Forms\Traits\Description;
