@@ -1,6 +1,6 @@
+/phpmetrics/
 /vendor/
 /nbproject/private/
 /tests/coverage/
 /coverage/
 /*.cache
-/phpmetrics/
