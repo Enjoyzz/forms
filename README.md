@@ -1,2 +1,2 @@
 ![Travis (.org)](https://travis-ci.com/Enjoyzz/forms.svg?branch=3.x)
-![Coveralls github](https://img.shields.io/coveralls/github/Enjoyzz/forms)
+[![Coverage Status](https://coveralls.io/repos/github/Enjoyzz/forms/badge.svg?branch=3.x)](https://coveralls.io/github/Enjoyzz/forms?branch=3.x)
