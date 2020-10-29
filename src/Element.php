@@ -166,7 +166,7 @@ abstract class Element implements ElementInterface
      * @param string $title
      * @return \self
      */
-    protected function setLabel(?string $title = null): self
+    public function setLabel(?string $title = null): self
     {
         $this->label = $title;
         return $this;
