@@ -29,7 +29,6 @@ namespace Tests\Enjoys\Forms;
 use Enjoys\Forms\Form
 
 ;
-
 /**
  * Description of FormsTest
  *
@@ -37,10 +36,7 @@ use Enjoys\Forms\Form
  */
 class FormTest extends \PHPUnit\Framework\TestCase
 {
-
     use Reflection;
-    
-
 
     public function test_init_form_1_0()
     {
@@ -79,7 +75,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test_form', $form->getOption('name'));
         $this->assertEquals('test_form', $form->getAttribute('name'));
         $form->setOption('name', null);
-        $this->assertEquals(null, $form->getOption('name'));
+        $this->assertEquals(false, $form->getOption('name', false));
         $this->assertEquals(false, $form->getAttribute('name'));
     }
 
@@ -99,172 +95,50 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(false, $form->getAttribute('action'));
     }
 
-    public function test_Renderer_1_0()
-    {
-        $this->markTestSkipped('переделать тест');
-        $form = new Form();
-        $form->setRenderer('defaults');
-        $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults\Defaults);
-    }
+   
 
-    public function test_Renderer_1_1()
-    {
-         $this->markTestSkipped('переделать тест');
-        $this->expectException(\Enjoys\Forms\Exception\ExceptionRenderer::class);
-        $form = new Form();
-        $form->setRenderer('invalid');
-        $form->display();
-        //  $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
-    }
-
-    public function test_Call_1_0()
-    {
-        $form = new Form();
-        $element = $form->text('foo');
-        $this->assertEquals(true, $element instanceof \Enjoys\Forms\Element);
-    }
-
-    /**
-     * @expectedException \Enjoys\Forms\Exception\ExceptionElement
-     */
-    public function test_Call_1_1()
-    {
-        $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
-        $form = new Form();
-        $form->invalid();
-        //  $this->assertEquals(true, $form->display() instanceof \Enjoys\Forms\Renderer\Defaults);
-    }
 
     public function test_addElement_1_0()
     {
-        $this->markTestIncomplete();
+      
         $form = new Form();
-        $element = new \Enjoys\Forms\Elements\Text('foo');
-        $method = $this->getPrivateMethod(Form::class, 'addElement');
-        $method->invokeArgs($form, [$element]);
-        $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
-    }
-
-    /**
-     * @expectedException \Enjoys\Forms\Exception\ExceptionElement
-     */
-    public function test_addElement_1_1()
-    {
-        $this->markTestIncomplete();
-        $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
-        $form = new Form();
-        $form->text('foo');
         $element = new \Enjoys\Forms\Elements\Text('foo');
         $form->addElement($element);
+        $this->assertCount(2, $form->getElements());
     }
 
-    public function test_addElement_1_2()
+
+
+    public function test_addElement_rewrite()
     {
-        $this->markTestIncomplete();
+
         $form = new Form();
+        $form->image('foo');
+        $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Image);
         $form->text('foo');
-        $element = new \Enjoys\Forms\Elements\Text(new \Enjoys\Forms\Form([]), 'foo');
-        $method = $this->getPrivateMethod(Form::class, 'addElement');
-        $method->invokeArgs($form, [$element, true]);
         $this->assertEquals(true, $form->getElements()['foo'] instanceof \Enjoys\Forms\Elements\Text);
     }
 
     public function test_removeElement_1_0()
     {
-        $this->markTestIncomplete();
+       
         $form = new Form();
         $form->text('foo');
         $this->assertEquals(true, isset($form->getElements()['foo']));
-        $form->removeElement('foo');
+        $form->removeElement($form->getElements()['foo']);
         $this->assertEquals(true, !isset($form->getElements()['foo']));
     }
 
-    public function test_getFormDefaults_1_0()
+    public function test_getFormDefaults()
     {
         $form = new Form();
-        $form->setOption('defaults', ['foo' => 'bar']);
+        //$form->setOption('defaults', ['foo' => 'bar']);
         $this->assertEquals(true, $form->getDefaultsHandler() instanceof \Enjoys\Forms\DefaultsHandler);
+        $this->assertEquals([], $form->getDefaultsHandler()->getDefaults());
+        $form->setDefaults([1]);
+        $this->assertEquals([1], $form->getDefaultsHandler()->getDefaults());
     }
 
-    public function test_removeCsrf()
-    {
-        $this->markTestIncomplete();
-        $form = new Form();
-        $method = $this->getPrivateMethod(Form::class, 'csrf');
-        $method->invoke($form);
-        $this->assertEquals(true, !isset($form->getElements()[Form::_TOKEN_CSRF_]));
-    }
-
-    public function test_initCsrf()
-    {
-        $form = new Form([
-            'method' => 'post'
-        ]);
-        $this->assertEquals(true, isset($form->getElements()[Form::_TOKEN_CSRF_]));
-    }
-
-    public function test_checkSubmittedFrom_1_0()
-    {
-        $this->markTestIncomplete('возможно этот тест надо убрать');
-        $form = new Form([], new \Enjoys\Forms\Http\Request([
-                    Form::_TOKEN_SUBMIT_ => 'b73c0491b1e2325c400e9375606ae2c3',
-                    'foo' => 'baz'
-        ]));
-        $method = $this->getPrivateMethod(Form::class, 'checkFormSubmitted');
-        $method->invoke($form);
-        $this->assertEquals(true, $form->isSubmitted());
-    }
-
-    public function test_checkSubmittedFrom_1_1()
-    {
-        $this->markTestIncomplete('возможно этот тест надо убрать');
-        $form = new Form([], new \Enjoys\Forms\Http\Request([
-                    Form::_TOKEN_SUBMIT_ => 'invalid',
-                    'foo' => 'baz'
-        ]));
-        $method = $this->getPrivateMethod(Form::class, 'checkFormSubmitted');
-        $method->invoke($form);
-        $this->assertEquals(false, $form->isSubmitted());
-    }
-
-    public function test_validate_1_0()
-    {
-        $this->markTestIncomplete();
-        $form = new Form();
-        $this->assertEquals(false, $form->validate());
-    }
-
-    public function test_validate_1_1()
-    {
-        $this->markTestIncomplete('возможно этот тест надо убрать');
-        $form = new Form([], new \Enjoys\Forms\Http\Request([
-                    Form::_TOKEN_SUBMIT_ => 'b73c0491b1e2325c400e9375606ae2c3',
-                    'foo' => 'baz'
-        ]));
-        $method = $this->getPrivateMethod(Form::class, 'checkFormSubmitted');
-        $method->invoke($form);
-
-        $this->assertEquals(true, $form->validate());
-    }
-
-    public function test_init_file_1_0()
-    {
-        $form = new Form([
-            'method' => 'get'
-        ]);
-        $form->file('myfile');
-        $this->assertEquals('POST', $form->getMethod());
-        $this->assertEquals('multipart/form-data', $form->getAttribute('enctype'));
-        $method = $this->getPrivateMethod(Form::class, 'elementExists');
-        $this->assertEquals(true, $method->invokeArgs($form, ['MAX_FILE_SIZE']));
-    }
-
-    public function test_setMaxFileSize()
-    {
-        $form = new Form();
-        $form->file('file')->setMaxFileSize('10000');
-        $this->assertEquals('10000', $form->getElements()['MAX_FILE_SIZE']->getAttribute('value'));
-    }
 
     /**
      * 
@@ -272,7 +146,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct($method, $action, $expectedMethod, $expectedAction)
     {
-        $this->markTestIncomplete('проверить тест');
+       
         $this->form = new Form([
             'action' => $action,
             'method' => $method
@@ -557,5 +431,4 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'bar'], $form1->getDefaultsHandler()->getDefaults());
         $this->assertEquals([], $form2->getDefaultsHandler()->getDefaults());
     }
-
 }

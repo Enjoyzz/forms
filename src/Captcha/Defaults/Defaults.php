@@ -38,7 +38,7 @@ use Enjoys\Traits\Options;
  *
  * @author deadl
  */
-class Defaults implements Interfaces\Captcha
+class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
 {
     use Options;
 

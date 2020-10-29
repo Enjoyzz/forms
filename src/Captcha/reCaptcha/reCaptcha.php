@@ -39,7 +39,7 @@ use function GuzzleHttp\json_decode;
  *
  * @author deadl
  */
-class reCaptcha implements Captcha
+class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
 {
     use Options;
     use Request;
