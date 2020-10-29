@@ -48,7 +48,7 @@ class DefaultsTest extends TestCase
     protected function setUp(): void
     {
         $this->form = new Form();
-        $this->form->removeElement('_token_submit');
+       // $this->form->removeElement('_token_submit');
     }
 
     protected function tearDown(): void

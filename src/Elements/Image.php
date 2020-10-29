@@ -45,9 +45,9 @@ class Image extends Element
      */
     protected string $type = 'image';
 
-    public function __construct(DefaultsHandler $formDefaults, string $name, string $src = null)
+    public function __construct(string $name, string $src = null)
     {
-        parent::__construct($formDefaults, $name);
+        parent::__construct($name);
         if (!is_null($src)) {
             $this->setAttribute('src', $src);
         }

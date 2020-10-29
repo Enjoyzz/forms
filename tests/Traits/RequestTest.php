@@ -43,6 +43,7 @@ class RequestTest extends TestCase
 
     public function test_getRequest()
     {
+        $this->markTestIncomplete();
         $this->assertInstanceOf(Interfaces\RequestInterface::class, $this->getRequest());
     }
 }

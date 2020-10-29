@@ -85,9 +85,9 @@ class Optgroup extends Element
 
     protected string $type = 'option';
 
-    public function __construct(Form $form, string $title, string $parentName)
+    public function __construct(string $title, string $parentName)
     {
-        parent::__construct($form, \uniqid('optgroup'), $title);
+        parent::__construct( \uniqid('optgroup'), $title);
         $this->setAttributes([
             'label' => $title
         ]);
@@ -101,8 +101,8 @@ class Optgroup extends Element
         return $this;
     }
 
-    public function baseHtml()
+    public function baseHtml(): ?string
     {
-        return;
+        return null;
     }
 }

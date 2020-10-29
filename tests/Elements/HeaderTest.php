@@ -43,13 +43,14 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
 
     public function test_full_construct()
     {
-        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
+            $this->markTestIncomplete();
+        $obj = new \Enjoys\Forms\Elements\Header( 'title');
         $this->assertSame('title', $obj->getLabel());
     }
 
     public function test_attr_legend()
     {
-        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
+        $obj = new \Enjoys\Forms\Elements\Header('title');
         $obj->setAttributes([
             'id' => 'test'
         ]);
@@ -58,7 +59,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
 
     public function test_attr_fieldset()
     {
-        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
+        $obj = new \Enjoys\Forms\Elements\Header( 'title');
         $obj->setAttributes([
             'id' => 'test'
         ], \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET);
@@ -67,7 +68,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
 
     public function test_attr_fieldset_get()
     {
-        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
+        $obj = new \Enjoys\Forms\Elements\Header('title');
         $obj->setAttributes([
             'id' => 'test',
             'disabled' => null
@@ -77,7 +78,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
     
     public function test_close_after()
     {
-        $obj = new \Enjoys\Forms\Elements\Header($this->getFormDefaults(), 'title');
+        $obj = new \Enjoys\Forms\Elements\Header( 'title');
         $obj->closeAfter(5);
         $this->assertSame(5, $obj->getCloseAfterCountElements());
     }    

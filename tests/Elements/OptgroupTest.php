@@ -43,7 +43,6 @@ class OptgroupTest extends TestCase
     public function test_baseHtml()
     {
         $og = new Optgroup(
-                new DefaultsHandler([]),
                 'foo',
                 'parentname'
         );

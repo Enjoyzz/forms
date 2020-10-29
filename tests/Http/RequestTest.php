@@ -69,6 +69,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
      */
     public function test_getValueByIndexPath($indexPath, $expect)
     {
+        $this->markTestIncomplete();
         $arrays = [
             'foo' => [
                 'bar' => 'bar1',

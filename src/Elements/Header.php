@@ -43,9 +43,9 @@ class Header extends Element
 
     private $closeAfterCountElements = 0;
 
-    public function __construct(Form $form, string $title)
+    public function __construct(string $title)
     {
-        parent::__construct($form, \uniqid('header'), $title);
+        parent::__construct(\uniqid('header'), $title);
         $this->setLabel($title);
         $this->removeAttribute('name');
         $this->removeAttribute('id');
@@ -61,7 +61,7 @@ class Header extends Element
         return $this->closeAfterCountElements;
     }
 
-    public function baseHtml()
+    public function baseHtml(): ?string
     {
         return $this->getLabel();
     }

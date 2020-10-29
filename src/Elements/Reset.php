@@ -41,13 +41,13 @@ class Reset extends Element
 
     protected string $type = 'reset';
 
-    public function __construct(DefaultsHandler $formDefaults, string $name = null, string $title = null)
+    public function __construct(string $name = null, string $title = null)
     {
         $name ??= uniqid('reset');
 
-        parent::__construct($formDefaults, $name, $title);
+        parent::__construct($name, $title);
         if (!is_null($title)) {
-            $this->setValue($title);
+            $this->setAttribute('value', $title);
         }
     }
 }

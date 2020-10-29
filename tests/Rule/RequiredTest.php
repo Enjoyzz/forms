@@ -50,7 +50,7 @@ class RequiredTest extends TestCase
     public function test_required_()
     {
 
-        $element = new Checkbox($this->getFormDefaults(), 'name');
+        $element = new Checkbox('name');
         $element->setRequest(new \Enjoys\Forms\Http\Request([
             'name' => [1, 2]
         ]));
@@ -60,7 +60,7 @@ class RequiredTest extends TestCase
 
     public function test_required_2()
     {
-        $element = new Checkbox($this->getFormDefaults(), 'name');
+        $element = new Checkbox( 'name');
         $element->setRequest(new \Enjoys\Forms\Http\Request([
             'name' => []
         ]));
@@ -71,7 +71,7 @@ class RequiredTest extends TestCase
     public function test_required_3()
     {
 
-        $element = new Checkbox($this->getFormDefaults(), 'name');
+        $element = new Checkbox( 'name');
         $element->addRule('required');
         $this->assertFalse(Validator::check([$element]));
     }

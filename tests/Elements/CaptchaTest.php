@@ -38,6 +38,7 @@ class CaptchaTest extends \PHPUnit\Framework\TestCase
 
     public function test_init_captcha()
     {
+            $this->markTestIncomplete();
         $form = new \Enjoys\Forms\Form();
         $element = $form->captcha();
         $this->assertTrue($element instanceof \Enjoys\Forms\Elements\Captcha);
@@ -45,6 +46,7 @@ class CaptchaTest extends \PHPUnit\Framework\TestCase
 
     public function test_init_captcha_set_rule_message()
     {
+            $this->markTestIncomplete();
         $form = new \Enjoys\Forms\Form();
         $element = $form->captcha('defaults', 'test');
         $rule = $element->getRules()[0];
@@ -54,6 +56,7 @@ class CaptchaTest extends \PHPUnit\Framework\TestCase
 
     public function test_init_captcha_third_party()
     {
+            $this->markTestIncomplete();
         $this->expectException(\Enjoys\Forms\Exception\ExceptionElement::class);
 
         $form = new \Enjoys\Forms\Form();

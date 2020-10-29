@@ -48,7 +48,7 @@ class Button extends Element
         return $this;
     }
 
-    public function baseHtml()
+    public function baseHtml(): ?string
     {
         return "<button{$this->getAttributes()}>{$this->getLabel()}</button>";
     }

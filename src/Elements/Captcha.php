@@ -96,7 +96,7 @@ class Captcha extends Element
         return new $class($this, $message);
     }
 
-    public function baseHtml()
+    public function baseHtml(): ?string
     {
         return $this->renderHtml();
     }
