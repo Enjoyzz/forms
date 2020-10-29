@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  */
 class HtmlReset extends HtmlInputButton
 {
+
     public function __construct(\Enjoys\Forms\Element $element, $renderOptions = array())
     {
         parent::__construct($element, $renderOptions);

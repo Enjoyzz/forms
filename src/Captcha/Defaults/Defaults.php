@@ -68,7 +68,7 @@ class Defaults implements Interfaces\Captcha
     public function validate()
     {
 
-   
+
         $method = $this->element->getRequest()->getMethod();
         $value = $this->element->getRequest()::getValueByIndexPath($this->element->getName(), $this->element->getRequest()->$method());
         //_var_dump(Session::get($this->element->getName()), $value);
@@ -138,11 +138,11 @@ class Defaults implements Interfaces\Captcha
             $h = 1;
             //Рисуем
             $color = \imagecolorallocatealpha(
-                $img,
-                $figures[\rand(0, \count($figures) - 1)],
-                $figures[\rand(0, \count($figures) - 1)],
-                $figures[\rand(0, \count($figures) - 1)],
-                rand(10, 30)
+                    $img,
+                    $figures[\rand(0, \count($figures) - 1)],
+                    $figures[\rand(0, \count($figures) - 1)],
+                    $figures[\rand(0, \count($figures) - 1)],
+                    rand(10, 30)
             );
 
 

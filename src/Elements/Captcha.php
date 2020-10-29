@@ -62,12 +62,12 @@ class Captcha extends Element
         $this->captcha->setOption($name, $value);
         return $this;
     }
-    
+
     public function getOptions()
     {
         return $this->captcha->getOptions();
     }
-    
+
     public function getOption($param, $default = null)
     {
         return $this->captcha->getOption($param, $default);
@@ -95,9 +95,9 @@ class Captcha extends Element
         /** @var \Enjoys\Forms\Interfaces\Captcha $element */
         return new $class($this, $message);
     }
-    
+
     public function baseHtml()
     {
-         return $this->renderHtml();
+        return $this->renderHtml();
     }
 }

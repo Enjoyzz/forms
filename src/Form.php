@@ -129,10 +129,10 @@ class Form
     {
         $this->cntForm = ++self::$counterForms;
         $this->setRequest($request);
-        
+
         $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->cntForm));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
-        
+
         $this->setOptions($options);
     }
 
@@ -197,7 +197,7 @@ class Form
     {
         $element->setRequest($this->request);
         $element->setForm($this);
-       // $element->setDefault();
+        // $element->setDefault();
         $element->prepare();
         $this->elements[$element->getName()] = $element;
         return $this;

@@ -41,7 +41,8 @@ use Enjoys\Forms\Traits\Fill;
 class Checkbox extends Element implements Interfaces\RadioCheckbox
 {
     use Fill;
-use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Description;
+
     /**
      *
      * @var string

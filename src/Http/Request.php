@@ -40,22 +40,23 @@ class Request extends HttpFoundation\Request implements Interfaces\Request
 {
 
     public function __construct(
-        ?array $query = null,
-        ?array $request = null,
-        ?array $attributes = null,
-        ?array $cookies = null,
-        ?array $files = null,
-        ?array $server = null,
-        $content = null
-    ) {
+            ?array $query = null,
+            ?array $request = null,
+            ?array $attributes = null,
+            ?array $cookies = null,
+            ?array $files = null,
+            ?array $server = null,
+            $content = null
+    )
+    {
         parent::__construct(
-            $query ?? $_GET,
-            $request ?? $_POST,
-            $attributes ?? [],
-            $cookies ?? $_COOKIE,
-            $files ?? $_FILES,
-            $server ?? $_SERVER,
-            $content
+                $query ?? $_GET,
+                $request ?? $_POST,
+                $attributes ?? [],
+                $cookies ?? $_COOKIE,
+                $files ?? $_FILES,
+                $server ?? $_SERVER,
+                $content
         );
     }
 
@@ -74,7 +75,7 @@ class Request extends HttpFoundation\Request implements Interfaces\Request
         }
         return $this->request->get($key, $default);
     }
-    
+
     public function files($key = null, $default = null)
     {
         if ($key === null) {
@@ -82,5 +83,4 @@ class Request extends HttpFoundation\Request implements Interfaces\Request
         }
         return $this->files->get($key, $default);
     }
-
 }

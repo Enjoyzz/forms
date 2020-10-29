@@ -61,7 +61,7 @@ use Enjoys\Forms\Traits\Fill;
  *                  ]
  *              ],
  *          'usa' => [
-                'USA', [
+  'USA', [
  *                  'class' => 'h1 text-danger'
  *                  ]
  *          ],
@@ -100,8 +100,7 @@ class Optgroup extends Element
     {
         return $this;
     }
-    
-    
+
     public function baseHtml()
     {
         return;

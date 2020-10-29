@@ -35,5 +35,5 @@ namespace Enjoys\Forms\Exception;
  */
 class Exception extends \Exception
 {
-   
+    
 }

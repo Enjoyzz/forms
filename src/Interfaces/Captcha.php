@@ -34,7 +34,8 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface Captcha
 {
-   
+
     public function renderHtml();
+
     public function validate();
 }

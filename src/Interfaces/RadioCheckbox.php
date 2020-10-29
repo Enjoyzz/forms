@@ -34,5 +34,5 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface RadioCheckbox
 {
- 
+    
 }

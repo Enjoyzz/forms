@@ -35,5 +35,6 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface Renderer
 {
+
     public function __toString();
 }

@@ -61,7 +61,6 @@ abstract class Element implements ElementInterface
      */
     protected ?string $label = null;
 
-
     /**
      * Флаг для обозначения обязательности заполнения этого элемента или нет
      * @var bool 
@@ -92,7 +91,6 @@ abstract class Element implements ElementInterface
      */
     protected ?Form $form = null;
 
-
     /**
      *
      * @param string $name
@@ -101,7 +99,7 @@ abstract class Element implements ElementInterface
     public function __construct(string $name, string $label = null)
     {
         $this->setName($name);
-        
+
         if (!is_null($label)) {
             $this->setLabel($label);
         }
@@ -182,8 +180,6 @@ abstract class Element implements ElementInterface
     {
         return $this->label;
     }
-
-
 
     /**
      * @return \self

@@ -39,12 +39,13 @@ use Enjoys\Forms\Renderer\LayoutBase;
  */
 class HtmlGroup extends LayoutBase
 {
+
     /**
      *
      * @var Renderer 
      */
     private $renderer;
-    
+
     /**
      * 
      * @param Element $element
@@ -54,19 +55,19 @@ class HtmlGroup extends LayoutBase
     {
         parent::__construct($element);
         $this->renderer = $renderer;
-       // $this->element->addClass('d-block', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        // $this->element->addClass('d-block', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
     }
-    
+
     public function render()
     {
         //dump($element->elements($element->getElements()));
-          $return .= $this->renderLabel($this->element);
+        $return .= $this->renderLabel($this->element);
         $return .= "<div class=\"form-row\">";
-      
+
         foreach ($this->renderer->elements($this->element->getElements()) as $data) {
             $return .= "<div class=\"col\">{$data->render()}</div>";
         }
-        
+
         $return .= "</div>";
         $return .= $this->renderDescription($this->element);
         return $return;

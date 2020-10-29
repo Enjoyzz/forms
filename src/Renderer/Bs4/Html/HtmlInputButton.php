@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  */
 class HtmlInputButton extends \Enjoys\Forms\Renderer\LayoutBase
 {
+
     public function render()
     {
         return $this->renderBody($this->element);

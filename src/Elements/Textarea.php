@@ -76,8 +76,9 @@ class Textarea extends Element
         $this->setAttribute('cols', (string) $cols);
         return $this;
     }
-    
-    public function baseHtml(){
+
+    public function baseHtml()
+    {
         return "<textarea{$this->getAttributes()}>{$this->getValue()}</textarea>";
     }
 }

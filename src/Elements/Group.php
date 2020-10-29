@@ -60,7 +60,7 @@ class Group extends Element
         }
         /** @var Element $element */
         $element = new $class_name($this->formDefaults, ...$arguments);
-        
+
         $this->addElement($element);
         return $element;
     }

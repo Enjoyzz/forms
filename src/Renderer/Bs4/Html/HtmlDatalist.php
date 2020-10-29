@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  */
 class HtmlDatalist extends HtmlInput
 {
+
     public function render()
     {
         return

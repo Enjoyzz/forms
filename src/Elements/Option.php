@@ -49,18 +49,18 @@ class Option extends Element
         $this->setAttributes([
             'value' => $name,
             'id' => $name
-        ]);        
+        ]);
         $this->removeAttribute('name');
     }
 
     protected function setDefault($value = null): self
     {
 
-      //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
+        //$value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
         //$value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
-       // $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        // $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
 
-        
+
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');
@@ -76,7 +76,7 @@ class Option extends Element
         }
         return $this;
     }
-    
+
     public function baseHtml(): ?string
     {
         return "<option{$this->getAttributes()}>{$this->getLabel()}</option>";

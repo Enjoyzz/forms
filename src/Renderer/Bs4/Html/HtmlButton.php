@@ -41,7 +41,7 @@ class HtmlButton extends \Enjoys\Forms\Renderer\LayoutBase
         parent::__construct($element, $renderOptions);
         $this->element->addClass('btn btn-primary');
     }
-    
+
     public function render()
     {
         return $this->renderBody($this->element);

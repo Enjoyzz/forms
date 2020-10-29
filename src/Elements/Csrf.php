@@ -60,5 +60,4 @@ class Csrf extends Hidden
 
         $this->unsetForm();
     }
- 
 }

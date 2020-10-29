@@ -38,11 +38,12 @@ use Enjoys\Forms\Element;
  */
 class Text extends Element
 {
-
     use \Enjoys\Forms\Traits\Description;
+
     /**
      *
      * @var string
      */
     protected string $type = 'text';
+
 }

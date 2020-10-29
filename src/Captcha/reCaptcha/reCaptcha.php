@@ -77,7 +77,7 @@ class reCaptcha implements Captcha
     public function validate()
     {
 
-       
+
 
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 
@@ -105,7 +105,6 @@ class reCaptcha implements Captcha
         }
         return true;
     }
-
 
     /**
      * Used across setOption()

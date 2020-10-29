@@ -39,6 +39,7 @@ use Enjoys\Forms\Interfaces\ElementInterface;
  */
 class LayoutBase
 {
+
     protected ElementInterface $element;
     protected $renderOptions = [];
 
@@ -79,14 +80,14 @@ class LayoutBase
         if (empty($element->getLabel())) {
             return;
         }
-        
+
         if (!$element->isRequired()) {
             $star = "";
         }
-        
+
         $element->setAttributes([
             'for' => $element->getAttribute('id')
-        ],Form::ATTRIBUTES_LABEL);
+                ], Form::ATTRIBUTES_LABEL);
 
         return "<label{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }

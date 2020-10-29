@@ -40,7 +40,8 @@ use Enjoys\Forms\Traits\Fill;
 class Select extends Element
 {
     use Fill;
-use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Description;
+
     /**
      *
      * @var string

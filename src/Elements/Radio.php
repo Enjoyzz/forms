@@ -50,7 +50,6 @@ class Radio extends Element implements Interfaces\RadioCheckbox
      */
     protected string $type = 'radio';
     private static $prefix_id = 'rb_';
-    
 
     public function __construct(string $name, string $title = null)
     {
@@ -61,7 +60,7 @@ class Radio extends Element implements Interfaces\RadioCheckbox
         ]);
         $this->removeAttribute('name');
     }
-    
+
     public function setPrefixId($prefix)
     {
         static::$prefix_id = $prefix;
@@ -76,10 +75,10 @@ class Radio extends Element implements Interfaces\RadioCheckbox
 
     protected function setDefault($value = null): self
     {
-       // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-      //  $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
+        // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
+        //  $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
         $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
-        
+
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('checked');

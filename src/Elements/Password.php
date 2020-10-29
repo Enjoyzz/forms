@@ -39,4 +39,5 @@ class Password extends Element
 {
 
     protected string $type = 'password';
+
 }

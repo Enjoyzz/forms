@@ -34,7 +34,10 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface Request
 {
+
     public function get($param, $defaultValue = null);
+
     public function post($param, $defaultValue = null);
+
     public function getMethod();
 }
