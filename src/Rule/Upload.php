@@ -31,9 +31,9 @@ namespace Enjoys\Forms\Rule;
 use ByteUnits\Binary;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Http\RequestInterface;
 use Enjoys\Forms\Rule\RuleInterface;
 use Enjoys\Forms\Rules;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Description of Upload
@@ -87,7 +87,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile  $value
+     * @param UploadedFile  $value
      * @param mixed $message
      * @param Element $element
      * @return boolean
@@ -112,7 +112,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
+     * @param UploadedFile   $value
      * @param string $message
      * @param Element $element
      * @return boolean
@@ -139,7 +139,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
+     * @param UploadedFile   $value
      * @param type $ruleOpts
      * @param Element $element
      * @return boolean
@@ -154,8 +154,8 @@ class Upload extends Rules implements RuleInterface
             $ruleOpts = (array) $ruleOpts;
             $ruleOpts[1] = null;
         }
-        list($threshold_size, $message) = $ruleOpts;
-        $threshold_size = (int) $threshold_size;
+        list($_size, $message) = $ruleOpts;
+        $threshold_size = (int) $_size;
 
         if (is_null($message)) {
             $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(0, " ") . ')'
@@ -172,7 +172,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile   $value
+     * @param UploadedFile   $value
      * @param type $ruleOpts
      * @param Element $element
      * @return boolean

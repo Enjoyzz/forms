@@ -26,7 +26,11 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms;
+namespace Enjoys\Forms\Renderer;
+
+use Enjoys\Forms\Exception\ExceptionRenderer;
+use Enjoys\Forms\Form;
+use Enjoys\Traits\Options;
 
 /**
  * Class Renderer
@@ -35,7 +39,7 @@ namespace Enjoys\Forms;
  */
 class Renderer
 {
-    use \Enjoys\Traits\Options;
+    use Options;
 
     public const BOOTSTRAP4 = 'bs4';
     public const BOOTSTRAP3 = 'bs3';
@@ -68,7 +72,7 @@ class Renderer
         $class = '\\Enjoys\\Forms\\Renderer\\' . $rendererName . '\\' . $rendererName;
 
         if (!class_exists($class)) {
-            throw new Exception\ExceptionRenderer("Class <b>{$class}</b> not found");
+            throw new ExceptionRenderer("Class <b>{$class}</b> not found");
         }
         return new $class($this->form, $this->getOptions());
     }

@@ -70,7 +70,7 @@ class Defaults implements Interfaces\Captcha
 
 
         $method = $this->element->getRequest()->getMethod();
-        $value = $this->element->getRequest()::getValueByIndexPath($this->element->getName(), $this->element->getRequest()->$method());
+        $value = \getValueByIndexPath($this->element->getName(), $this->element->getRequest()->$method());
         //_var_dump(Session::get($this->element->getName()), $value);
         if (Session::get($this->element->getName()) !== $value) {
             $this->element->setRuleError($this->ruleMessage);
