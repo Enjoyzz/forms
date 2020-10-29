@@ -79,42 +79,15 @@ trait Fill
     {
 
         foreach ($data as $value => $title) {
-
-            $attributes = [];
-
-            $_title = $title;
-
-            /** @since 2.4.0 */
-            if (is_string($value)) {
-                $value = \trim($value);
-            }
-
-            /** @since 2.4.0 */
-            if (is_int($value)) {
-                $value = $title;
-            }
-
-            if (is_array($title)) {
-                $_title = $title[0];
-
-                if (isset($title[1]) && is_array($title[1])) {
-                    $attributes = array_merge($attributes, $title[1]);
-                }
-            }
-
+            $fillHandler = new \Enjoys\Forms\FillHandler($value, $title);
+            
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
 
-            $element = new $class((string) $value, (string) $_title);
+            $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
 
             $element->setParentName($this->getName());
-            // $element->setCounterId(\count($this->elements));
-            $element->setAttributes($attributes);
+            $element->setAttributes($fillHandler->getAttributes());
             $element->setDefault($this->defaults);
-
-            // Если в атррибутах есть `id` вызываем setId()
-            if (isset($attributes['id'])) {
-                $element->setId($attributes['id']);
-            }
 
             $this->elements[] = $element;
         }

@@ -51,12 +51,9 @@ trait Attributes
 
         foreach ($attributes as $key => $value) {
             if (is_array($value)) {
-//                foreach ($value as $_value) {
-//                    $this->setAttribute($key, $_value, $namespace);
-//                }
-                $this->setAttributes([
-                    $key, $value
-                ], $namespace);
+                foreach ($value as $_value) {
+                    $this->setAttribute($key, $_value, $namespace);
+                }
                 return $this;
             }
             if (is_int($key)) {

@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,39 +26,55 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Traits;
+namespace Enjoys\Forms;
 
 /**
+ * Description of FillHandler
  *
- * @author deadl
+ * @author Enjoys
  */
-trait Request
+class FillHandler
 {
-
-    /**
-     *
-     * @var  Request
-     */
-    protected ?\Enjoys\Forms\Interfaces\RequestInterface $request = null;
-
-    /**
-     * @param \Enjoys\Forms\Interfaces\RequestInterface $request
-     * @return \Enjoys\Forms\Interfaces\RequestInterface
-     */
-    public function getRequest(): \Enjoys\Forms\Interfaces\RequestInterface
+    private $attributes = [];
+    private $value = null;
+    private $title = null;
+    
+    public function __construct($value, $title)
     {
-        if ($this->request === null) {
-            $this->setRequest();
-        }
-        return $this->request;
+
+            $this->title = $title;
+
+            if (is_array($title)) {
+                $this->title = $title[0];
+
+                if (isset($title[1]) && is_array($title[1])) {
+                    $this->attributes = array_merge($this->attributes, $title[1]);
+                }
+            }
+            
+            /** @since 2.4.0 */
+            if (is_string($value)) {
+                $this->value = \trim($value);
+            }            
+            
+              /** @since 2.4.0 */
+            if (is_int($value)) {
+                $this->value = $this->title;
+            }
     }
 
-    /**
-     * @param \Enjoys\Forms\Interfaces\RequestInterface $request
-     * @return void
-     */
-    public function setRequest(\Enjoys\Forms\Interfaces\RequestInterface $request = null): void
+    public function getAttributes(): array
     {
-        $this->request = $request ?? new \Enjoys\Forms\Http\Request();
+        return $this->attributes;
+    }
+    
+    public function getValue():? string
+    {
+        return $this->value;
+    }
+    
+    public function getLabel():? string
+    {
+        return $this->title;
     }
 }
