@@ -34,7 +34,7 @@ use Enjoys\Forms\Element;
  *
  * @author deadl
  */
-interface Rule
+interface RuleInterface
 {
 
     public function __construct(string $message = null);

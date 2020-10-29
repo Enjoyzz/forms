@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Interfaces\RuleInterface;
 use Enjoys\Forms\Rules;
 
 /**
@@ -38,7 +38,7 @@ use Enjoys\Forms\Rules;
  *
  * @author Enjoys
  */
-class Length extends Rules implements Rule
+class Length extends Rules implements RuleInterface
 {
 
     private $operatorToMethodTranslation = [

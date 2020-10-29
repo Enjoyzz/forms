@@ -36,7 +36,7 @@ use Enjoys\Forms\Interfaces;
  *
  * @author Enjoys
  */
-class Request extends HttpFoundation\Request implements Interfaces\Request
+class Request extends HttpFoundation\Request implements Interfaces\RequestInterface
 {
 
     public function __construct(

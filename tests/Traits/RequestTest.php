@@ -43,6 +43,6 @@ class RequestTest extends TestCase
 
     public function test_getRequest()
     {
-        $this->assertInstanceOf(Interfaces\Request::class, $this->getRequest());
+        $this->assertInstanceOf(Interfaces\RequestInterface::class, $this->getRequest());
     }
 }

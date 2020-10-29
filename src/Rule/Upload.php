@@ -32,14 +32,14 @@ use ByteUnits\Binary;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Http\Request;
-use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Interfaces\RuleInterface;
 use Enjoys\Forms\Rules;
 
 /**
  * Description of Upload
  * @author Enjoys
  */
-class Upload extends Rules implements Rule
+class Upload extends Rules implements RuleInterface
 {
 
     private $systemErrorMessage = [

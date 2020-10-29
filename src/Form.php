@@ -30,7 +30,9 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Exception;
+use Enjoys\Forms\Interfaces\RequestInterface;
 use Enjoys\Forms\Traits;
+use Enjoys\Traits\Options;
 
 /**
  *
@@ -40,11 +42,11 @@ use Enjoys\Forms\Traits;
  * @author Enjoys
  *
  */
-class Form
+final class Form
 {
     use Traits\Attributes;
     use Traits\Request;
-    use \Enjoys\Traits\Options;
+    use Options;
 
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     public const _TOKEN_CSRF_ = '_token_csrf';
@@ -56,7 +58,6 @@ class Form
     public const ATTRIBUTES_FIELDSET = '_fieldset_attributes_';
 
     /**
-     *
      * @var string|null
      */
     private ?string $name = null;
@@ -83,19 +84,19 @@ class Form
      *
      * @var string
      */
-    private string $renderer = 'defaults';
+//    private string $renderer = 'defaults';
 
     /**
      *
      * @var DefaultsHandler
      */
-    private DefaultsHandler $defaults;
+    private DefaultsHandler $defaultsHandler;
 
     /**
      *
      * @var string 
      */
-    private string $tockenSubmit = '';
+//    private string $tockenSubmit = '';
 
     /**
      *
@@ -123,9 +124,9 @@ class Form
      * 
      * ]);
      * @param array $options
-     * @param \Enjoys\Forms\Interfaces\Request $request
+     * @param RequestInterface $request
      */
-    public function __construct(array $options = [], Interfaces\Request $request = null)
+    public function __construct(array $options = [], RequestInterface $request = null)
     {
         $this->cntForm = ++self::$counterForms;
         $this->setRequest($request);
@@ -273,7 +274,7 @@ class Form
                 $data[$key] = $items;
             }
         }
-        $this->defaults = new DefaultsHandler($data);
+        $this->defaultsHandler = new DefaultsHandler($data);
         return $this;
     }
 
@@ -282,7 +283,7 @@ class Form
      */
     public function getDefaultsHandler(): DefaultsHandler
     {
-        return $this->defaults ?? new DefaultsHandler([]);
+        return $this->defaultsHandler ?? new DefaultsHandler([]);
     }
 
     /**
@@ -340,21 +341,19 @@ class Form
     /**
      * @return bool
      */
-    public function isSubmitted(): bool
+    public function isSubmitted($validate = true): bool
     {
-        return $this->formSubmitted;
-    }
-
-    /**
-     *
-     * @return boolean
-     */
-    public function validate()
-    {
-        if (!$this->isSubmitted()) {
+//        return $this->formSubmitted;
+        if (!$this->formSubmitted) {
             return false;
         }
         //  dump($this->getElements());
-        return Validator::check($this->getElements());
+        if ($validate !== false) {
+            return Validator::check($this->getElements());
+        }
+
+        return true;
     }
+
+
 }

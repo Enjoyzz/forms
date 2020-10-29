@@ -32,7 +32,7 @@ namespace Enjoys\Forms\Interfaces;
  *
  * @author deadl
  */
-interface Request
+interface RequestInterface
 {
 
     public function get($param, $defaultValue = null);

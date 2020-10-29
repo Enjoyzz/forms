@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Interfaces\RuleInterface;
 use Enjoys\Forms\Rules;
 
 /**
@@ -37,7 +37,7 @@ use Enjoys\Forms\Rules;
  *
  * @author Enjoys
  */
-class Submit extends Rules implements Rule
+class Submit extends Rules implements RuleInterface
 {
 
     public function validate(Element $element): bool

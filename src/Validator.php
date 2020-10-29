@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Elements\Group;
-use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Interfaces\RuleInterface;
 
 /**
  * Description of Validator
@@ -48,7 +48,7 @@ class Validator
                 $_validate = (!self::check($element->getElements())) ? false : $_validate;
                 continue;
             }
-            /** @var Rule $rule */
+            /** @var RuleInterface $rule */
             foreach ($element->getRules() as $rule) {
                 if (!$rule->validate($element)) {
                     $_validate = false;

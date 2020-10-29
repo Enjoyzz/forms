@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Rule;
+use Enjoys\Forms\Interfaces\RuleInterface;
 use Enjoys\Forms\Rules;
 
 /**
@@ -41,7 +41,7 @@ use Enjoys\Forms\Rules;
  *
  * @author deadl
  */
-class Captcha extends Rules implements Rule
+class Captcha extends Rules implements RuleInterface
 {
 
     /**
