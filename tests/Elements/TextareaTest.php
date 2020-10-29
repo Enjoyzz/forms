@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class TextareaTest extends \PHPUnit\Framework\TestCase {
+class TextareaTest  {
 
     public function test_init_textarea() {
         $el = new \Enjoys\Forms\Elements\Textarea( 'foo', 'title1');

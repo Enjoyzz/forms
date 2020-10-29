@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class CaptchaTest extends TestCase
+class CaptchaTest 
 {
 
     public function test_validate_success()

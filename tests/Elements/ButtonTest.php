@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class ButtonTest extends TestCase
+class ButtonTest 
 {
     public function test_setDescription()
     {

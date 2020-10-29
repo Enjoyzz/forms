@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class DatalistTest extends \PHPUnit\Framework\TestCase {
+class DatalistTest {
 
     public function test_init_datalist() {
             $this->markTestIncomplete();

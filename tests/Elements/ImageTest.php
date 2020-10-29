@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class ImageTest extends TestCase
+class ImageTest 
 {
     public function test_create_image_element()
     {

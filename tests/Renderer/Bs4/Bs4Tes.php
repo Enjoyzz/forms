@@ -34,7 +34,7 @@ use \PHPUnit\Framework\TestCase,
  *
  * @author deadl
  */
-class Bs4Test extends TestCase
+class Bs4Test 
 {
 
     /**

@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class CheckboxTest extends \PHPUnit\Framework\TestCase
+class CheckboxTest 
 {
 
     private function getFormDefaults($data = [])

@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class CsrfTest extends TestCase
+class CsrfTest
 {
     use \Tests\Enjoys\Forms\Reflection;
 

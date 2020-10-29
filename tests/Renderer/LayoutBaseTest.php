@@ -33,7 +33,7 @@ namespace Tests\Enjoys\Forms\Renderer;
  *
  * @author deadl
  */
-class LayoutBaseTest extends \PHPUnit\Framework\TestCase
+class LayoutBaseTest 
 {
     use \Tests\Enjoys\Forms\Reflection;
 

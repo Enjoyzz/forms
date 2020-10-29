@@ -31,18 +31,25 @@ namespace Tests\Enjoys\Forms;
  *
  * @author deadl
  */
-class RulesTest extends \PHPUnit\Framework\TestCase{
-    public function test_setParams_1_0() {
+class RulesTest
+{
+
+    public function test_setParams_1_0()
+    {
         $rules = new \Enjoys\Forms\Rules('message', [1]);
         $this->assertEquals([1], $rules->getParams());
         $this->assertEquals('message', $rules->getMessage());
         $this->assertNull($rules->getParam('test'));
     }
-    public function test_setParams_1_1() {
+
+    public function test_setParams_1_1()
+    {
         $rules = new \Enjoys\Forms\Rules('message', 'param');
         $this->assertEquals(['param'], $rules->getParams());
     }
-    public function test_setParams_1_2() {
+
+    public function test_setParams_1_2()
+    {
         $rules = new \Enjoys\Forms\Rules('message', [
             'key_param' => 'value_param'
         ]);

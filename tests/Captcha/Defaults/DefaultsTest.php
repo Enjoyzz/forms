@@ -35,7 +35,7 @@ Session::start();
  *
  * @author Enjoys
  */
-class DefaultsTest extends \PHPUnit\Framework\TestCase
+class DefaultsTest 
 {
 
     use \Tests\Enjoys\Forms\Reflection;

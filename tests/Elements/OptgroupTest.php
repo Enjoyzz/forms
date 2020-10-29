@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class OptgroupTest extends TestCase
+class OptgroupTest 
 {
 
     public function test_baseHtml()

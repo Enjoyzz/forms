@@ -144,7 +144,7 @@ trait Attributes
 
     public function removeAttribute($key, $namespace = 'general'): self
     {
-        if (isset($this->attributes[$namespace][$key])) {
+        if (array_key_exists($key, $this->attributes[$namespace])) {
             unset($this->attributes[$namespace][$key]);
         }
         return $this;

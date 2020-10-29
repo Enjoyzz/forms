@@ -34,7 +34,7 @@ use \Enjoys\Forms\Form;
  *
  * @author deadl
  */
-class DefaultsTest extends TestCase
+class DefaultsTest 
 {
 
     use \Tests\Enjoys\Forms\Reflection;

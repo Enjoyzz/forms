@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class SubmitTest extends \PHPUnit\Framework\TestCase {
+class SubmitTest  {
 
     public function test_init() {
         $el = new \Enjoys\Forms\Elements\Submit( 'foo', 'title1');

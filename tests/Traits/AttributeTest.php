@@ -33,7 +33,7 @@ use Enjoys\Forms\Form;
  *
  * @author deadl
  */
-class AttributeTest extends \PHPUnit\Framework\TestCase
+class AttributeTest 
 {
 
     /**

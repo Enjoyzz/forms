@@ -33,7 +33,7 @@ namespace Tests\Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class EmailTest extends \PHPUnit\Framework\TestCase
+class EmailTest
 {
 
     /**

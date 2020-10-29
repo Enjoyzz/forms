@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class ResetTest extends \PHPUnit\Framework\TestCase {
+class ResetTest {
 
     public function test_init() {
         $el = new \Enjoys\Forms\Elements\Reset('foo', 'title1');

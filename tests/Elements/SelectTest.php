@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class SelectTest extends \PHPUnit\Framework\TestCase
+class SelectTest 
 {
 
     private function getFormDefaults($data = [])

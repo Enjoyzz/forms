@@ -237,6 +237,10 @@ final class Form
      */
     public function setMethod(?string $method = null): void
     {
+        if (is_null($method)) {
+            $this->removeAttribute('method');
+            return;
+        }
         if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = \strtoupper($method);
         }
@@ -254,6 +258,36 @@ final class Form
     public function getMethod(): string
     {
         return $this->method;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getAction(): ?string
+    {
+        return $this->action;
+    }
+
+    /**
+     *
+     * @param string $action
+     * @return $this
+     */
+    protected function setAction(?string $action = null): self
+    {
+        $this->action = $action;
+
+        $this->setAttribute('action', $this->getAction());
+
+        if (is_null($action)) {
+
+            $this->removeAttribute('action');
+        }
+
+
+
+        return $this;
     }
 
     /**
@@ -313,32 +347,6 @@ final class Form
     }
 
     /**
-     *
-     * @return string
-     */
-    public function getAction(): ?string
-    {
-        return $this->action;
-    }
-
-    /**
-     *
-     * @param string $action
-     * @return $this
-     */
-    protected function setAction(?string $action = null): self
-    {
-        $this->action = $action;
-        $this->setAttribute('action', $this->getAction());
-
-        if (is_null($action)) {
-            $this->removeAttribute('action');
-        }
-
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function isSubmitted($validate = true): bool
@@ -354,6 +362,4 @@ final class Form
 
         return true;
     }
-
-
 }

@@ -33,7 +33,7 @@ use Enjoys\Forms\Forms;
  *
  * @author deadl
  */
-class HeaderTest extends \PHPUnit\Framework\TestCase
+class HeaderTest 
 {
 
     private function getFormDefaults($data = [])

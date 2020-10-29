@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms;
  *
  * @author Enjoys
  */
-class ValidatorTest extends \PHPUnit\Framework\TestCase
+class Validator 
 {
 
     public function test_validate_true()

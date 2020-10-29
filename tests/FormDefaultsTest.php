@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms;
  *
  * @author Enjoys
  */
-class FormDefaultsTest extends \PHPUnit\Framework\TestCase
+class FormDefaultsTest 
 {
     use Reflection;
 

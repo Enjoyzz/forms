@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class RadioTest extends \PHPUnit\Framework\TestCase
+class RadioTest 
 {
 
     private function getFormDefaults($data = [])

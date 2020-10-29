@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Captcha\reCaptcha;
  *
  * @author Enjoys
  */
-class reCaptchaTest extends \PHPUnit\Framework\TestCase
+class reCaptchaTest 
 {
 
     private function getHttpClient($contentType, $responseBody, $extraHeaders = [])

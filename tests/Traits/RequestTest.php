@@ -37,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class RequestTest extends TestCase
+class RequestTest
 {
     use Request;
 

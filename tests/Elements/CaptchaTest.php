@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class CaptchaTest extends \PHPUnit\Framework\TestCase
+class CaptchaTest 
 {
 
     use \Tests\Enjoys\Forms\Reflection;

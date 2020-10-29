@@ -28,16 +28,13 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
-use \PHPUnit\Framework\TestCase,
-    Enjoys\Forms\Element,
-    Enjoys\Forms\Form;
 
 /**
  * Description of ElementTest
  *
  * @author deadl
  */
-class ElementTest extends TestCase
+class ElementTest 
 {
     use Reflection;
 

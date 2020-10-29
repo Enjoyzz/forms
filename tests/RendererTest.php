@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms;
  *
  * @author Enjoys
  */
-class RendererTest extends \PHPUnit\Framework\TestCase
+class RendererTest 
 {
 
     public function test_consctruct()

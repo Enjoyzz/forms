@@ -40,7 +40,7 @@ use Tests\Enjoys\Forms\Reflection;
  *
  * @author deadl
  */
-class CsrfTest extends TestCase
+class CsrfTest 
 {
 
     use Reflection;

@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Http;
  *
  * @author Enjoys
  */
-class RequestTest extends \PHPUnit\Framework\TestCase
+class RequestTest 
 {
 
     public function test_get()

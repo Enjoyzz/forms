@@ -31,7 +31,7 @@ use Enjoys\Forms\Forms;
  *
  * @author deadl
  */
-class HiddenTest extends \PHPUnit\Framework\TestCase{
+class HiddenTest {
     
     /**
      * @dataProvider dataForConstruct

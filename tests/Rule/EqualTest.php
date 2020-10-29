@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author deadl
  */
-class EqualTest extends TestCase
+class EqualTest 
 {
 
     /**

@@ -33,7 +33,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class GroupTest extends \PHPUnit\Framework\TestCase
+class GroupTest 
 {
 
     public function test_init_group()

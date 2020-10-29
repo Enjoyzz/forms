@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class FileTest extends \PHPUnit\Framework\TestCase
+class FileTest 
 {
 
     public function test_max_file_size()

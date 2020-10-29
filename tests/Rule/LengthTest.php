@@ -33,7 +33,7 @@ namespace Tests\Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class LengthTest extends \PHPUnit\Framework\TestCase
+class LengthTest 
 {
 
     use \Tests\Enjoys\Forms\Reflection;
