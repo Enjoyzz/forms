@@ -169,29 +169,6 @@ class FormTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-//    /**
-//     * 
-//     * @dataProvider dataCallValid
-//     */
-//    public function test_text_call($call) {
-//        //$this->markTestSkipped('Чушь какая-то Tests\Enjoys\Forms\Renderer\DefaultsTest::test_checkbox()');
-//        //$this->expectException(\Enjoys\Forms\Exception::class);
-//        $result = $this->form->$call('test', 'testname');
-//
-//        $this->assertInstanceOf('\Enjoys\Forms\Element', $result);
-//    }
-//
-//    public function dataCallValid() {
-//        return [
-//            ['text'], ['hidden'], ['password'], ['submit'], ['checkbox'],
-////            ['button'], ['file'], ['image'], ['radio'], ['reset'], ['color'],
-////            ['date'], ['datetime'], ['datetime-local'], ['email'], ['number'],
-////            ['range'], ['search'], ['tel'], ['time'], ['url'], ['month'], ['week']
-//        ];
-//    }
-//
-//
-
     public function test_call_valid()
     {
         $form = new Form();
@@ -229,13 +206,25 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
     public function test_setDefaults_1_1()
     {
-        $form = new Form();
+        $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
+
+        $form = new Form([], new \Enjoys\Forms\Http\Request([
+                    'foo' => 'zed',
+                    'bar' => true,
+                    Form::_TOKEN_SUBMIT_ => '~token~'
+        ]));
+
+        $property->setValue($form, true);
+        
         $form->setDefaults([
             'foo' => 'bar',
         ]);
-        $element = $form->text('foo')->setName('baz');
 
-        $this->assertSame('bar', $element->getAttribute('value'));
+        $element = $form->text('foo');
+
+        $this->assertEquals('zed', $element->getAttribute('value'));
+        $this->assertFalse($form->getDefaultsHandler()->getValue('Form::_TOKEN_SUBMIT_'));
+        $this->assertTrue($form->getDefaultsHandler()->getValue('bar'));
     }
 
     public function test_isSubmitted_false()

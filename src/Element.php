@@ -141,14 +141,14 @@ abstract class Element implements ElementInterface
      * @param string $name
      * @return \self
      */
-    public function setName(string $name): self
+    protected function setName(string $name): self
     {
         $this->name = $name;
         $this->setAttributes([
             'id' => $this->name,
             'name' => $this->name
         ]);
-
+        
         return $this;
     }
 
