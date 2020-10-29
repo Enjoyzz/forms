@@ -185,12 +185,13 @@ class FormTest extends \PHPUnit\Framework\TestCase
 
     public function test_remove_elements()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $form = new Form();
         $form->text('foo');
         $form->hidden('bar');
-        $form->removeElement(Form::_TOKEN_SUBMIT_);
-        $form->removeElement('foo');
+        $form->removeElement($form->getElement(Form::_TOKEN_SUBMIT_));
+        $form->removeElement($form->getElement('foo'));
+        $form->removeElement($form->getElement('notisset'));
         $this->assertCount(1, $form->getElements());
     }
 
@@ -215,7 +216,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         ]));
 
         $property->setValue($form, true);
-        
+
         $form->setDefaults([
             'foo' => 'bar',
         ]);
@@ -266,31 +267,36 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_formCount_1_0()
     {
         $form1 = new Form();
-        $this->assertSame(1, $form1->getFormCount());
+        $this->assertSame(1, $form1->getFormCounter());
         unset($form1);
     }
 
     public function test_formCount_1_1()
     {
         $form1 = new Form();
-        $this->assertNotSame(2, $form1->getFormCount());
+        $this->assertNotSame(2, $form1->getFormCounter());
         unset($form1);
     }
 
     public function test_formCount_2_0()
     {
         $form1 = new Form();
+        $form1->file('myfile');
+
+        $this->assertSame(1, $form1->getFormCounter());
+
         $form2 = new Form();
-        $this->assertSame(1, $form1->getFormCount());
-        $this->assertSame(2, $form2->getFormCount());
+        $form2->file('myfile');
+
+        $this->assertSame(2, $form1->getFormCounter());
     }
 
     public function test_formCount_2_1()
     {
         $form1 = new Form();
         $form2 = new Form();
-        $this->assertNotSame(2, $form1->getFormCount());
-        $this->assertNotSame(1, $form2->getFormCount());
+        $this->assertNotSame(2, $form1->getFormCounter());
+        $this->assertNotSame(1, $form2->getFormCounter());
     }
 
     public function test_setDefaults_1_2()

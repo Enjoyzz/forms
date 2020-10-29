@@ -105,15 +105,9 @@ final class Form
     private bool $formSubmitted = false;
 
     /**
-     * @static int
+     * @static int Глобальный счетчик форм на странице 
      */
-    private static int $counterForms = 0;
-
-    /**
-     *
-     * @var int Счетчик форм на странице 
-     */
-    private int $cntForm = 0;
+    private static int $formCounter = 0;
 
     /**
      * $form = new Form([
@@ -128,10 +122,10 @@ final class Form
      */
     public function __construct(array $options = [], RequestInterface $request = null)
     {
-        $this->cntForm = ++self::$counterForms;
+        static::$formCounter++;
         $this->setRequest($request);
 
-        $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->cntForm));
+        $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->getFormCounter()));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
 
         $this->setOptions($options);
@@ -139,7 +133,12 @@ final class Form
 
     public function __destruct()
     {
-        static::$counterForms = 0;
+        static::$formCounter = 0;
+    }
+    
+       public function getFormCounter()
+    {
+        return static::$formCounter;
     }
 
     /**
@@ -171,7 +170,7 @@ final class Form
      * @method Elements\Reset reset(string $name, string $title = null)
      * @method Elements\Captcha captcha(string $captchaName = null, string $message = null)
      * @method Elements\Group group(string $title = null, array $elements = null)
-     * @method Elements\File file(string $title = null, array $elements = null)
+     * @method Elements\File file(string $name, string $label = null)
      *
      * @mixin Element
      */
@@ -204,19 +203,6 @@ final class Form
         return $this;
     }
 
-    public function removeElement(Element $element): self
-    {
-        if ($this->elementExists($element->getName())) {
-            unset($this->elements[$element->getName()]);
-        }
-        return $this;
-    }
-
-    private function elementExists($name): bool
-    {
-        return isset($this->elements[$name]);
-    }
-
     /**
      *
      * @return array
@@ -226,10 +212,36 @@ final class Form
         return $this->elements;
     }
 
-    public function getFormCount()
+    public function getElement($name): ?Element
     {
-        return $this->cntForm;
+        if ($this->elementExists($name)) {
+            return $this->elements[$name];
+        }
+
+        return null;
     }
+
+    public function removeElement(?Element $element): self
+    {
+        if (null === $element) {
+            return $this;
+        }
+
+        if ($this->elementExists($element->getName())) {
+            unset($this->elements[$element->getName()]);
+        }
+        return $this;
+    }
+
+    private function elementExists($name): bool
+    {
+        if (array_key_exists($name, $this->elements) && $this->elements[$name] instanceof Element) {
+            return true;
+        }
+        return false;
+    }
+
+ 
 
     /**
      * @param string $method
