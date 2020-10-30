@@ -31,13 +31,10 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class CheckboxTest 
+class CheckboxTest extends \PHPUnit\Framework\TestCase
 {
 
-    private function getFormDefaults($data = [])
-    {
-        return new \Enjoys\Forms\DefaultsHandler($data);
-    }
+
 
     public function test_title()
     {
@@ -55,13 +52,6 @@ class CheckboxTest
     public function test_name()
     {
         $obj = new \Enjoys\Forms\Elements\Checkbox( 'name', 'title');
-        $this->assertSame('name[]', $obj->getName());
-    }
-
-    public function test_name2()
-    {
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
-        $obj->setName('name[]');
         $this->assertSame('name[]', $obj->getName());
     }
 
@@ -85,7 +75,7 @@ class CheckboxTest
 
     public function test_fill()
     {
-    $this->markTestIncomplete();
+    
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
         $v1 = $elements[0];
@@ -94,7 +84,7 @@ class CheckboxTest
 
     public function test_fill2()
     {
-    $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
         $v1 = $elements[0];
@@ -103,16 +93,15 @@ class CheckboxTest
 
     public function test_fill3()
     {
-    $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('cb_v1', $v1->getId());
+        $this->assertSame('cb_v1', $v1->getAttribute('id'));
     }
 
     public function test_fill4()
     {
-    $this->markTestIncomplete();
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
         $v2 = $elements[1];
@@ -121,7 +110,6 @@ class CheckboxTest
 
     public function test_fill5()
     {
-    $this->markTestIncomplete();
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
         $v2 = $elements[1];
@@ -130,16 +118,15 @@ class CheckboxTest
 
     public function test_fill6()
     {
-    $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
         $v2 = $elements[1];
-        $this->assertSame('i2', $v2->getId());
+        $this->assertSame('i2', $v2->getAttribute('id'));
     }
 
     public function test_fill7()
     {
-    $this->markTestIncomplete();
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
         $v2 = $elements[1];
@@ -149,8 +136,7 @@ class CheckboxTest
 
     public function test_prefix()
     {
-    $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Checkbox($this->getFormDefaults(), 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => 't1'
@@ -159,22 +145,21 @@ class CheckboxTest
         $elements = $obj->getElements();
         /** @var \Enjoys\Forms\Elements\Radio $v2 */
         $v1 = $elements[0];
-        $this->assertSame('prefix_v1', $v1->getId());
+        $this->assertSame('prefix_v1', $v1->getAttribute('id'));
     }
 
     public function test_prefix2()
     {
-    $this->markTestIncomplete();
+
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->setPrefixId('prefix_');
 
         $obj2 = new \Enjoys\Forms\Elements\Checkbox( 'name', 'title');
-        $this->assertSame('prefix_name', $obj2->getId());
+        $this->assertSame('prefix_name', $obj2->getAttribute('id'));
     }
 
     public function test_prefix3()
     {
-    $this->markTestIncomplete();
         $obj = new \Enjoys\Forms\Elements\Checkbox( 'name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
@@ -187,13 +172,13 @@ class CheckboxTest
         $elements = $obj->getElements();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('id1', $v1->getId());
+        $this->assertSame('id1', $v1->getAttribute('id'));
     }
 
     public function test_count_checkbox_element()
     {
-    $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Checkbox($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->fill([
             1, 2, 3
         ]);
@@ -203,8 +188,8 @@ class CheckboxTest
 
     public function test_count_checkbox_element2()
     {
-    $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Checkbox($this->getFormDefaults(), 'name', 'title');
+ 
+        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->fill([
             1, 1, 3
         ]);
@@ -214,7 +199,7 @@ class CheckboxTest
 
     public function test_count_checkbox_element3()
     {
-    $this->markTestIncomplete();
+
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->fill([1])->fill([1]);
 
@@ -223,9 +208,9 @@ class CheckboxTest
 
     public function test_setDefault()
     {
-            $this->markTestIncomplete();
+       
         $form = new \Enjoys\Forms\Form();
-        $form->setOption('Defaults', [
+        $form->setDefaults([
             'name' => [
                 1, 2
             ]
@@ -239,7 +224,6 @@ class CheckboxTest
 
     public function test_setDefault_simple()
     {
-            $this->markTestIncomplete();
         $form = new \Enjoys\Forms\Form();
         $form->setOption('Defaults', [
             'name' => ['baaa']

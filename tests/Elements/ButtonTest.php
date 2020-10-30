@@ -37,13 +37,11 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class ButtonTest 
+class ButtonTest extends TestCase
 {
-    public function test_setDescription()
+    public function test_baseHtml()
     {
-            $this->markTestIncomplete();
-        $btn = new Button(new DefaultsHandler([]), 'foo', 'bar');
-        $btn->setDescription('desc');
-        $this->assertEquals(null, $btn->getDescription());
+        $btn = new Button('foo', 'bar');
+        $this->assertEquals('<button id="foo" name="foo">bar</button>', $btn->baseHtml());
     }
 }

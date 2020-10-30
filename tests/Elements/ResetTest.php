@@ -31,12 +31,13 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class ResetTest {
+class ResetTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function test_init() {
+    public function test_init()
+    {
         $el = new \Enjoys\Forms\Elements\Reset('foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Reset);
         $this->assertEquals('title1', $el->getAttribute('value'));
     }
-
 }

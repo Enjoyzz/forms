@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Captcha\Defaults;
 
 use Enjoys\Session\Session as Session;
-use Enjoys\Forms\Interfaces;
 use Enjoys\Traits\Options;
 
 /**
@@ -49,7 +48,7 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
     public function __construct($element, $message = null)
     {
         $this->element = $element;
-        $this->element->setName('captcha_defaults');
+       // $this->element->setName('captcha_defaults');
         $this->element->setAttributes([
             'type' => 'text',
             'autocomplete' => 'off'

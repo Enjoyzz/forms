@@ -104,7 +104,7 @@ class Select extends Element
      */
     public function optgroup(string $label = null, array $data = [], array $attributes = []): self
     {
-        $optgroup = new Optgroup($this->form, $label, $this->getName());
+        $optgroup = new Optgroup($label, $this->getName());
         $optgroup->setAttributes($attributes);
         $optgroup->fill($data);
 

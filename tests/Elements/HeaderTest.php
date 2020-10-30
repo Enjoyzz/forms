@@ -33,17 +33,13 @@ use Enjoys\Forms\Forms;
  *
  * @author deadl
  */
-class HeaderTest 
+class HeaderTest extends \PHPUnit\Framework\TestCase
 {
 
-    private function getFormDefaults($data = [])
-    {
-        return new \Enjoys\Forms\DefaultsHandler($data);
-    }
-
+ 
     public function test_full_construct()
     {
-            $this->markTestIncomplete();
+
         $obj = new \Enjoys\Forms\Elements\Header( 'title');
         $this->assertSame('title', $obj->getLabel());
     }
@@ -82,5 +78,11 @@ class HeaderTest
         $obj->closeAfter(5);
         $this->assertSame(5, $obj->getCloseAfterCountElements());
     }    
+    
+    public function test_basehtml()
+    {
+        $obj = new \Enjoys\Forms\Elements\Header('title');
+        $this->assertSame('title', $obj->baseHtml());
+    }
 
 }

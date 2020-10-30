@@ -35,28 +35,21 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class CsrfTest
+class CsrfTest 
 {
-    use \Tests\Enjoys\Forms\Reflection;
+//    use \Tests\Enjoys\Forms\Reflection;
+//
+//    public function test_prepare()
+//    {
+//         $form = new Form();
+//         $csrf = $this->getMockBuilder(\Enjoys\Forms\Elements\Csrf::class)->getMock();
+//         $csrf->setForm(new Form());
+//         $csrf->prepare();
+//         $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
+//        //$this->assertTrue($form->getElements()[Form::_TOKEN_CSRF_] instanceof Hidden);
+// 
+//        
+//    }
 
-    public function test_disable_csrf()
-    {
-            $this->markTestIncomplete();
-        $form = new Form([
-            'method' => 'post'
-        ]);
-        $this->assertTrue($form->getElements()[Form::_TOKEN_CSRF_] instanceof Hidden);
-        $method = $this->getPrivateMethod(Form::class, 'csrf');
-        $method->invokeArgs($form, [false]);
-        $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
-    }
 
-    public function test_disable_csrf_for_get()
-    {
-            $this->markTestIncomplete();
-        $form = new Form();
-        $method = $this->getPrivateMethod(Form::class, 'csrf');
-        $method->invoke($form);
-        $this->assertFalse(isset($form->getElements()[Form::_TOKEN_CSRF_]));
-    }
 }

@@ -38,16 +38,6 @@ use Enjoys\Forms\Element;
 class Button extends Element
 {
 
-    /**
-     * @deprecated unused in this element
-     * @param string $description
-     * @return Element
-     */
-    public function setDescription(string $description): Element
-    {
-        return $this;
-    }
-
     public function baseHtml(): ?string
     {
         return "<button{$this->getAttributes()}>{$this->getLabel()}</button>";

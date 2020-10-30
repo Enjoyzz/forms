@@ -37,12 +37,13 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class OptgroupTest 
+class OptgroupTest extends TestCase
 {
 
     public function test_baseHtml()
     {
-        $og = new Optgroup(
+        $form = new \Enjoys\Forms\Form();
+        $og = $form->optgroup(
                 'foo',
                 'parentname'
         );

@@ -43,6 +43,7 @@ class Textarea extends Element
      * @var string
      */
     protected string $type = 'textarea';
+    private $value;
 
     public function setValue(string $value): self
     {

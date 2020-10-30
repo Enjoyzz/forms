@@ -31,14 +31,15 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class DatalistTest {
+class DatalistTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function test_init_datalist() {
-            $this->markTestIncomplete();
-        $el = new \Enjoys\Forms\Elements\Datalist( 'foo', 'title1');
+    public function test_init_datalist()
+    {
+ 
+        $el = new \Enjoys\Forms\Elements\Datalist('foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Datalist);
         $this->assertFalse($el->getAttribute('id'));
         $this->assertEquals('foo', $el->getAttribute('list'));
     }
-
 }

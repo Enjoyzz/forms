@@ -31,12 +31,13 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author Enjoys
  */
-class SubmitTest  {
+class SubmitTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function test_init() {
-        $el = new \Enjoys\Forms\Elements\Submit( 'foo', 'title1');
+    public function test_init()
+    {
+        $el = new \Enjoys\Forms\Elements\Submit('foo', 'title1');
         $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Submit);
         $this->assertEquals('title1', $el->getAttribute('value'));
     }
-
 }

@@ -84,6 +84,7 @@ class Optgroup extends Element
     use Fill;
 
     protected string $type = 'option';
+    private $defaults = '';
 
     public function __construct(string $title, string $parentName)
     {
@@ -96,7 +97,7 @@ class Optgroup extends Element
         $this->removeAttribute('id');
     }
 
-    public function setDefault(): self
+    protected function setDefault(): self
     {
         return $this;
     }

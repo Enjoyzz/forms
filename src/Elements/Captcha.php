@@ -42,13 +42,23 @@ class Captcha extends Element
 
     private $captcha;
 
-    public function __construct(DefaultsHandler $formDefaults, string $captcha = null, string $message = null)
+    public function __construct(string $captcha = null, string $message = null)
     {
         if (is_null($captcha)) {
             $captcha = 'Defaults';
         }
-        parent::__construct($formDefaults, \uniqid('captcha'));
+        parent::__construct(\uniqid('captcha'));
         $this->captcha = $this->getCaptcha($captcha, $message);
+    }
+
+    private function getCaptcha($captcha, string $message = null)
+    {
+        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
+        if (!class_exists($class)) {
+            throw new ExceptionElement("Class <b>{$class}</b> not found");
+        }
+        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
+        return new $class($this, $message);
     }
 
     public function setOptions(array $options)
@@ -81,19 +91,6 @@ class Captcha extends Element
     public function validate()
     {
         return $this->captcha->validate();
-    }
-
-    private function getCaptcha($captcha, string $message = null)
-    {
-
-        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
-
-        if (!class_exists($class)) {
-            throw new ExceptionElement("Class <b>{$class}</b> not found");
-        }
-
-        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
-        return new $class($this, $message);
     }
 
     public function baseHtml(): ?string

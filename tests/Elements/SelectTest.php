@@ -31,13 +31,8 @@ namespace Tests\Enjoys\Forms\Elements;
  *
  * @author deadl
  */
-class SelectTest 
+class SelectTest extends \PHPUnit\Framework\TestCase
 {
-
-    private function getFormDefaults($data = [])
-    {
-        return new \Enjoys\Forms\DefaultsHandler($data);
-    }
 
     public function test_title()
     {
@@ -56,13 +51,6 @@ class SelectTest
     {
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $this->assertSame('name', $obj->getName());
-    }
-
-    public function test_name2()
-    {
-        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
-        $obj->setName('name[]');
-        $this->assertSame('name[]', $obj->getName());
     }
 
     private function filldata()
@@ -84,7 +72,7 @@ class SelectTest
 
     public function test_fill()
     {
-        $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
         $v1 = $elements[0];
@@ -93,16 +81,16 @@ class SelectTest
 
     public function test_fill3()
     {
-        $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v1 */
         $v1 = $elements[0];
-        $this->assertSame('v1', $v1->getId());
+        $this->assertSame('v1', $v1->getAttribute('id'));
     }
 
     public function test_fill4()
     {
-        $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
         $v2 = $elements[1];
@@ -111,7 +99,7 @@ class SelectTest
 
     public function test_fill5()
     {
-        $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
         $v2 = $elements[1];
@@ -120,16 +108,16 @@ class SelectTest
 
     public function test_fill6()
     {
-        $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
         $v2 = $elements[1];
-        $this->assertSame('i2', $v2->getId());
+        $this->assertSame('i2', $v2->getAttribute('id'));
     }
 
     public function test_fill7()
     {
-        $this->markTestIncomplete();
+
         $elements = $this->filldata();
         /** @var \Enjoys\Forms\Elements\Option $v2 */
         $v2 = $elements[1];
@@ -139,8 +127,8 @@ class SelectTest
 
     public function test_count_option_element()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->fill([
             1, 2, 3
         ]);
@@ -150,8 +138,8 @@ class SelectTest
 
     public function test_count_option_element2()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->fill([
             1, 1, 3
         ]);
@@ -161,8 +149,8 @@ class SelectTest
 
     public function test_count_option_element3()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->fill([1])->fill([1]);
 
         $this->assertCount(2, $obj->getElements());
@@ -170,92 +158,92 @@ class SelectTest
 
     public function test_multiple_name_add_array()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->setAttributes(['multiple']);
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name', $obj->getId());
+        $this->assertSame('name', $obj->getAttribute('id'));
     }
 
     public function test_multiple_name_add_array_2_1()
     {
-$this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->setMultiple();
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name', $obj->getId());
+        $this->assertSame('name', $obj->getAttribute('id'));
     }
 
     public function test_multiple_name_add_array_1_2()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name[]', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
         $obj->setAttributes(['multiple']);
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name[]', $obj->getId());
+        $this->assertSame('name[]', $obj->getAttribute('id'));
     }
 
     public function test_multiple_name_add_array2()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->setAttributes(['multiple']);
         $obj->setAttribute('disabled');
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name', $obj->getId());
+        $this->assertSame('name', $obj->getAttribute('id'));
     }
 
     public function test_multiple_id_begin_id()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name[]', 'title');
-        $obj->setId('test');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
+        $obj->setAttribute('id', 'test');
         $obj->setAttributes(['multiple']);
-        $this->assertSame('test', $obj->getId());
+        $this->assertSame('test', $obj->getAttribute('id'));
     }
 
     public function test_multiple_id_begin_id2()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $obj->setId('test');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
+        $obj->setAttribute('id', 'test');
         $obj->setAttributes(['multiple']);
-        $this->assertSame('test', $obj->getId());
+        $this->assertSame('test', $obj->getAttribute('id'));
     }
 
     public function test_multiple_begin_multiple()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name[]', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name[]', 'title');
         $obj->setAttributes(['multiple']);
-        $obj->setId('test');
-        $this->assertSame('test', $obj->getId());
+        $obj->setAttribute('id', 'test');
+        $this->assertSame('test', $obj->getAttribute('id'));
     }
 
     public function test_multiple_begin_multiple2()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->setAttributes(['multiple']);
-        $obj->setId('test');
-        $this->assertSame('test', $obj->getId());
+        $obj->setAttribute('id', 'test');
+        $this->assertSame('test', $obj->getAttribute('id'));
     }
 
     public function test_id()
     {
-        $this->markTestIncomplete();
-        $obj = new \Enjoys\Forms\Elements\Select($this->getFormDefaults(), 'name', 'title');
-        $obj->setId('test');
-        $this->assertSame('test', $obj->getId());
+
+        $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
+        $obj->setAttribute('id', 'test');
+        $this->assertSame('test', $obj->getAttribute('id'));
     }
 
     public function test_defaults1()
     {
-        $this->markTestIncomplete();
+
         $form = new \Enjoys\Forms\Form();
         $form->setOption('Defaults', [
             'name' => 2
@@ -273,7 +261,7 @@ $this->markTestIncomplete();
 
     public function test_defaults2()
     {
-        $this->markTestIncomplete();
+
         $form = new \Enjoys\Forms\Form();
         $form->setOption('Defaults', [
             'name' => [1, 2]
@@ -288,7 +276,7 @@ $this->markTestIncomplete();
     }
 
     public function test_defaults3()
-    {$this->markTestIncomplete();
+    {
         $form = new \Enjoys\Forms\Form();
         $form->setOption('Defaults', [
             'name' => [1, 2]
@@ -304,9 +292,9 @@ $this->markTestIncomplete();
     }
 
     public function test_defaults4_attr_before_fill()
-    {$this->markTestIncomplete();
+    {
         $form = new \Enjoys\Forms\Form();
-        $form->setOption('Defaults', [
+        $form->setDefaults([
             'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')
@@ -322,7 +310,7 @@ $this->markTestIncomplete();
     }
 
     public function test_defaults4_attr_after_fill()
-    {$this->markTestIncomplete();
+    {
         $this->markTestSkipped('Не корректно работает, тест выше, почти такое же корректно работает');
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
@@ -330,7 +318,7 @@ $this->markTestIncomplete();
         ]);
         $form->select('name2', 'title')
                 ->fill([1, 2, 3])
-                ->addAttributes('multiple')
+                ->setAttributes(['multiple'])
         ;
 
         /** @var \Enjoys\Forms\Elements\Select $select */
@@ -341,8 +329,8 @@ $this->markTestIncomplete();
     }
 
     public function test_optgroup()
-    {$this->markTestIncomplete();
-        $select = new \Enjoys\Forms\Elements\Select(new \Enjoys\Forms\DefaultsHandler([]), 'name');
+    {
+        $select = new \Enjoys\Forms\Elements\Select('name');
         $select->optgroup('foo', [
             1, 2, 3
         ]);

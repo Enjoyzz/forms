@@ -23,27 +23,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Forms;
+
 /**
  * Description of HiddenTest
  *
  * @author deadl
  */
-class HiddenTest {
-    
+class HiddenTest extends \PHPUnit\Framework\TestCase
+{
+
     /**
      * @dataProvider dataForConstruct
      */
-    public function test_full_construct($name, $value, $expectName, $expectValue) {
+    public function test_full_construct($name, $value, $expectName, $expectValue)
+    {
         $obj = new \Enjoys\Forms\Elements\Hidden($name, $value);
         $this->assertSame($expectName, $obj->getAttribute('name'));
         $this->assertSame($expectValue, $obj->getAttribute('value'));
         $this->assertSame(false, $obj->getAttribute('id'));
     }
-    
-    public function dataForConstruct() {
+
+    public function dataForConstruct()
+    {
         return [
             ['name', 'value', 'name', 'value'],
             ['name', null, 'name', false]

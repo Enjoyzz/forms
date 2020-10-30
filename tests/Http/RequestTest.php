@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Http;
  *
  * @author Enjoys
  */
-class RequestTest 
+class RequestTest extends \PHPUnit\Framework\TestCase
 {
 
     public function test_get()
@@ -65,11 +65,13 @@ class RequestTest
 //    }
 
     /**
+     * этот тест надо перенести в проект functions
+     * можно оставить  еще и тут , что бы наблюдать за этой фунцией и отсюда
      * @dataProvider dataStringValueForSetDefault
      */
     public function test_getValueByIndexPath($indexPath, $expect)
     {
-        $this->markTestIncomplete();
+
         $arrays = [
             'foo' => [
                 'bar' => 'bar1',
@@ -102,7 +104,7 @@ class RequestTest
                 ]
             ]
         ];
-        $this->assertEquals($expect, \Enjoys\Forms\Http\Request::getValueByIndexPath($indexPath, $arrays));
+        $this->assertEquals($expect, \getValueByIndexPath($indexPath, $arrays));
     }
 
     public function dataStringValueForSetDefault()
