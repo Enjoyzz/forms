@@ -44,11 +44,12 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
     private $code = '';
     private $ruleMessage;
     private $element;
+    private $name;
 
     public function __construct($element, $message = null)
     {
         $this->element = $element;
-       // $this->element->setName('captcha_defaults');
+       $this->name = 'captcha_defaults';
         $this->element->setAttributes([
             'type' => 'text',
             'autocomplete' => 'off'
@@ -62,6 +63,11 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
 
         //$this->element->addRule('required');
         $this->element->addRule('captcha', $this->ruleMessage);
+    }
+    
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function validate()

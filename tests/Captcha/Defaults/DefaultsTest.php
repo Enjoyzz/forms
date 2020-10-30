@@ -35,7 +35,7 @@ Session::start();
  *
  * @author Enjoys
  */
-class DefaultsTest 
+class DefaultsTest  extends \PHPUnit\Framework\TestCase
 {
 
     use \Tests\Enjoys\Forms\Reflection;
@@ -55,7 +55,7 @@ class DefaultsTest
 
     public function test1()
     {
-        $this->markTestIncomplete();
+
         $captcha = new \Enjoys\Forms\Elements\Captcha( 'Defaults');
         $captcha->setOption('foo', 'v_foo');
         $captcha->setOptions([
@@ -71,7 +71,7 @@ class DefaultsTest
 
     public function test_generateCode()
     {
-    $this->markTestIncomplete();
+
         $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -89,7 +89,7 @@ class DefaultsTest
 
     public function test_createImg()
     {
-    $this->markTestIncomplete();
+ 
         $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -129,7 +129,6 @@ class DefaultsTest
 
     public function test_renderHtml()
     {
-            $this->markTestIncomplete();
         $element = new \Enjoys\Forms\Elements\Captcha( 'Defaults');
         $element->setRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode_fail'
@@ -147,8 +146,7 @@ class DefaultsTest
 
     public function test_validate()
     {
-            $this->markTestIncomplete();
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'Defaults');
+        $captcha = new \Enjoys\Forms\Elements\Captcha('Defaults');
         $captcha->setRequest(new \Enjoys\Forms\Http\Request([
                     'captcha_defaults' => 'testcode'
         ]));

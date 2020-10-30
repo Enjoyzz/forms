@@ -56,12 +56,18 @@ class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
         'timeout-or-duplicate' => 'The response is no longer valid: either is too old or has been used previously.',
     ];
     private $element;
+    private $name;
 
     public function __construct($element, $message = null)
     {
         $this->element = $element;
-        $this->element->setName('recaptcha2');
+        $this->name = 'recaptcha2';
         $this->element->addRule('captcha', $message);
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function renderHtml(): string

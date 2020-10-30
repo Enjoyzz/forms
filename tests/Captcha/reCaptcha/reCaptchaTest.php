@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms\Captcha\reCaptcha;
  *
  * @author Enjoys
  */
-class reCaptchaTest 
+class reCaptchaTest extends \PHPUnit\Framework\TestCase
 {
 
     private function getHttpClient($contentType, $responseBody, $extraHeaders = [])
@@ -68,32 +68,32 @@ class reCaptchaTest
 
     public function test_init()
     {
-            $this->markTestIncomplete();
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+
+        $captcha = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
         $this->assertInstanceOf('\Enjoys\Forms\Elements\Captcha', $captcha);
     }
 
     public function test_init_add_rule()
     {
-            $this->markTestIncomplete();
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+
+        $captcha = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
         $this->assertCount(1, $captcha->getRules());
     }
 
     public function test_render()
     {
-            $this->markTestIncomplete();
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+
+        $captcha = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
         $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
     public function test_validate_success()
     {
-            $this->markTestIncomplete();
+
         $responseBody = \json_encode([
             'success' => true,
         ]);
-        $captcha_element = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+        $captcha_element = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
         $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha($captcha_element);
 
         $captcha->setOptions([
@@ -105,7 +105,7 @@ class reCaptchaTest
 
     public function test_validate_false()
     {
-            $this->markTestIncomplete();
+
         $responseBody = \json_encode([
             'success' => false,
             'error-codes' =>
@@ -113,7 +113,7 @@ class reCaptchaTest
                 0 => 'missing-input-response',
             ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha( 'reCaptcha');
 
 
         $captcha->setOptions([
@@ -126,7 +126,7 @@ class reCaptchaTest
 
     public function test_validate_false_render()
     {
-            $this->markTestIncomplete();
+
         $responseBody = \json_encode([
             'success' => false,
             'error-codes' =>
@@ -135,7 +135,7 @@ class reCaptchaTest
                 1 => 'invalid-input-secret'
             ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha( 'reCaptcha');
 
 
         $captcha->setOptions([
@@ -148,7 +148,7 @@ class reCaptchaTest
 
     public function test_validate_false_render_width_setLanguage()
     {
-            $this->markTestIncomplete();
+
         $responseBody = \json_encode([
             'success' => false,
             'error-codes' =>
@@ -157,7 +157,7 @@ class reCaptchaTest
                 1 => 'invalid-input-secret'
             ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha(new \Enjoys\Forms\DefaultsHandler([]), 'reCaptcha');
+        $captcha = new \Enjoys\Forms\Elements\Captcha( 'reCaptcha');
 
 
         $captcha->setOptions([

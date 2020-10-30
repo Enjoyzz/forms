@@ -49,6 +49,7 @@ class Captcha extends Element
         }
         parent::__construct(\uniqid('captcha'));
         $this->captcha = $this->getCaptcha($captcha, $message);
+        $this->setName($this->captcha->getName());
     }
 
     private function getCaptcha($captcha, string $message = null)
