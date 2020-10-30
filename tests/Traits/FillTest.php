@@ -31,44 +31,62 @@ namespace Tests\Enjoys\Forms\Traits;
  *
  * @author Enjoys
  */
-class FillTest 
+class FillTest extends \PHPUnit\Framework\TestCase
 {
-
     use \Tests\Enjoys\Forms\Reflection;
 
     public function test_setIndexKeyFill()
     {
-        $this->markTestIncomplete();
-        $radio = new \Enjoys\Forms\Elements\Radio('foo');
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Radio::class, 'setIndexKeyFill');
-        $method->invokeArgs($radio, ['value']);
-        $radio->fill(['test' => 1, 'foz' => 2, 'baz' => 3]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Radio::class, 'getIndexKey');
-        $this->assertEquals('value', $method->invoke($radio));
+        $select = new \Enjoys\Forms\Elements\Select('select');
+        $select->fill([
+            1, 2, 3
+        ]);
+        $this->assertEquals('1', $select->getElements()[0]->getName());
+        $this->assertEquals('2', $select->getElements()[1]->getName());
+        $this->assertEquals('3', $select->getElements()[2]->getName());
 
-        $this->assertArrayHasKey('test', $radio->getElements());
-        $this->assertArrayHasKey('foz', $radio->getElements());
-        $this->assertArrayHasKey('baz', $radio->getElements());
+        $select->fill([
+            1, 2, 3
+        ]);
+        $this->assertEquals('1', $select->getElements()[3]->getName());
+        $this->assertEquals('2', $select->getElements()[4]->getName());
+        $this->assertEquals('3', $select->getElements()[5]->getName());
     }
 
-    public function test_fill_with_attributes()
+    /**
+     * @dataProvider elements
+     */
+    public function test_fill_with_attributes($el, $name)
     {
-        $this->markTestIncomplete();
-        $select = new \Enjoys\Forms\Elements\Select( 'foo');
-        $select->fill(['test' => ['title1', [
+        $class = '\Enjoys\Forms\Elements\\' . $el;
+        $element = new $class('foo');
+        $element->fill([
+            'test' => [
+                'title1', 
+                [
                     'disabled'
-                ]], 'foz' => [2, [
+                ]
+            ], 
+            'foz' => [
+                2, 
+                [
                     'id' => 'newfoz'
-                ]], 'baz' => 3]);
-        $this->assertEquals(null, $select->getElements()[0]->getAttribute('disabled'));
-        $this->assertEquals(false, $select->getElements()[1]->getAttribute('disabled'));
-        $this->assertEquals('newfoz', $select->getElements()[1]->getAttribute('id'));
-        
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Option::class, 'getParentName');
-        $this->assertEquals('foo', $method->invoke($select->getElements()[2]));
-        
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Elements\Option::class, 'getCounterId');
-        $this->assertEquals(1, $method->invoke($select->getElements()[1]));
+                ]
+            ], 
+            'baz' => 3
+        ]);
+        $this->assertEquals(null, $element->getElements()[0]->getAttribute('disabled'));
+        $this->assertEquals(false, $element->getElements()[1]->getAttribute('disabled'));
+        $this->assertEquals('newfoz', $element->getElements()[1]->getAttribute('id'));
+        $this->assertEquals($name, $element->getElements()[2]->getParentName());
     }
 
+    public function elements()
+    {
+        return [
+            ['select', 'foo'],
+            ['radio', 'foo'],
+            ['checkbox', 'foo[]'],
+        ];
+    }
 }

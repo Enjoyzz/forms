@@ -49,7 +49,7 @@ class Checkbox extends Element
      */
     protected string $type = 'checkbox';
     private static $prefix_id = 'cb_';
-    private $defaults;
+    private $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {

@@ -35,24 +35,10 @@ namespace Enjoys\Forms\Traits;
 trait Fill
 {
 
-    /**
-     *
-     * @var array
-     */
     private $elements = [];
-//    private $indexKey;
+
     private string $parentName = '';
 
-//    private int $counterId = 0;
-//    private function getIndexKey()
-//    {
-//        return $this->indexKey;
-//    }
-//
-//    private function setIndexKeyFill($index_key)
-//    {
-//        $this->indexKey = $index_key;
-//    }
 
     public function setParentName(string $parentName)
     {

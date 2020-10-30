@@ -43,9 +43,9 @@ class Datalist extends Element
 
     protected string $type = 'option';
 
-    public function __construct(Form $form, string $name, string $title = null)
+    public function __construct(string $name, string $title = null)
     {
-        parent::__construct($form, $name, $title);
+        parent::__construct($name, $title);
         $this->setAttribute('list', $this->getAttribute('id'));
         $this->removeAttribute('id');
     }
