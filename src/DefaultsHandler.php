@@ -28,8 +28,6 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Forms\Http\Request;
-
 /**
  * Class Defaults
  *

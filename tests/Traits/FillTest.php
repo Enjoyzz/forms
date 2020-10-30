@@ -51,42 +51,45 @@ class FillTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1', $select->getElements()[3]->getName());
         $this->assertEquals('2', $select->getElements()[4]->getName());
         $this->assertEquals('3', $select->getElements()[5]->getName());
+        
+        $this->assertEquals('select', $select->getElements()[5]->getParentName());
     }
 
-    /**
-     * @dataProvider elements
-     */
-    public function test_fill_with_attributes($el, $name)
-    {
-        $class = '\Enjoys\Forms\Elements\\' . $el;
-        $element = new $class('foo');
-        $element->fill([
-            'test' => [
-                'title1', 
-                [
-                    'disabled'
-                ]
-            ], 
-            'foz' => [
-                2, 
-                [
-                    'id' => 'newfoz'
-                ]
-            ], 
-            'baz' => 3
-        ]);
-        $this->assertEquals(null, $element->getElements()[0]->getAttribute('disabled'));
-        $this->assertEquals(false, $element->getElements()[1]->getAttribute('disabled'));
-        $this->assertEquals('newfoz', $element->getElements()[1]->getAttribute('id'));
-        $this->assertEquals($name, $element->getElements()[2]->getParentName());
-    }
-
-    public function elements()
-    {
-        return [
-            ['select', 'foo'],
-            ['radio', 'foo'],
-            ['checkbox', 'foo[]'],
-        ];
-    }
+//    /**
+//     * @dataProvider elements
+//     */
+//    public function test_fill_with_attributes($el, $name)
+//    {
+//        $this->markTestSkipped('Не нужен тест, он больше фунциональный');
+//        $class = '\Enjoys\Forms\Elements\\' . $el;
+//        $element = new $class('foo');
+//        $element->fill([
+//            'test' => [
+//                'title1', 
+//                [
+//                    'disabled'
+//                ]
+//            ], 
+//            'foz' => [
+//                2, 
+//                [
+//                    'id' => 'newfoz'
+//                ]
+//            ], 
+//            'baz' => 3
+//        ]);
+//        $this->assertEquals(null, $element->getElements()[0]->getAttribute('disabled'));
+//        $this->assertEquals(false, $element->getElements()[1]->getAttribute('disabled'));
+//        $this->assertEquals('newfoz', $element->getElements()[1]->getAttribute('id'));
+//        $this->assertEquals($name, $element->getElements()[2]->getParentName());
+//    }
+//
+//    public function elements()
+//    {
+//        return [
+//            ['select', 'foo'],
+//            ['radio', 'foo'],
+//            ['checkbox', 'foo[]'],
+//        ];
+//    }
 }

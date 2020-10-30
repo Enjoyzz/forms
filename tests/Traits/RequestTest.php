@@ -37,13 +37,19 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class RequestTest
+class RequestTest extends TestCase
 {
-    use Request;
+
+    public function test_setRequest()
+    {
+        $mock = $this->getMockForTrait(\Enjoys\Forms\Traits\Request::class);
+        $mock->setRequest();
+        $this->assertInstanceOf(\Enjoys\Forms\Http\RequestInterface::class, $mock->getRequest());
+    }
 
     public function test_getRequest()
     {
-        $this->markTestIncomplete();
-        $this->assertInstanceOf(Interfaces\RequestInterface::class, $this->getRequest());
+        $mock = $this->getMockForTrait(\Enjoys\Forms\Traits\Request::class);
+        $this->assertInstanceOf(\Enjoys\Forms\Http\RequestInterface::class, $mock->getRequest());
     }
 }
