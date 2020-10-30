@@ -44,5 +44,4 @@ class Datetimelocal extends Element
      * @var string
      */
     protected string $type = 'datetime-local';
-
 }

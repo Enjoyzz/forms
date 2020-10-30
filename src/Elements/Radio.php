@@ -50,7 +50,7 @@ class Radio extends Element
     protected string $type = 'radio';
     private static $prefix_id = 'rb_';
     private $defaults = '';
-    
+
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
@@ -67,7 +67,7 @@ class Radio extends Element
         $this->setAttributes([
             'id' => static::$prefix_id . $this->getName()
             ]);
-   
+
         return $this;
     }
 

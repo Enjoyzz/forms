@@ -42,12 +42,12 @@ class HtmlGroup extends LayoutBase
 
     /**
      *
-     * @var Renderer 
+     * @var Renderer
      */
     private $renderer;
 
     /**
-     * 
+     *
      * @param Element $element
      * @param Renderer $renderer
      */

@@ -88,7 +88,7 @@ class Optgroup extends Element
 
     public function __construct(string $title, string $parentName)
     {
-        parent::__construct( \uniqid('optgroup'), $title);
+        parent::__construct(\uniqid('optgroup'), $title);
         $this->setAttributes([
             'label' => $title
         ]);

@@ -63,7 +63,7 @@ abstract class Element implements ElementInterface
 
     /**
      * Флаг для обозначения обязательности заполнения этого элемента или нет
-     * @var bool 
+     * @var bool
      */
     protected bool $required = false;
 
@@ -86,7 +86,7 @@ abstract class Element implements ElementInterface
     protected array $rules = [];
 
     /**
-     * 
+     *
      * @var Form|null
      */
     protected ?Form $form = null;
@@ -148,7 +148,7 @@ abstract class Element implements ElementInterface
             'id' => $this->name,
             'name' => $this->name
         ]);
-        
+
         return $this;
     }
 
@@ -266,7 +266,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Проверка валидации элемента, если true валидация не пройдена 
+     * Проверка валидации элемента, если true валидация не пройдена
      * @return bool
      */
     public function isRuleError(): bool

@@ -49,7 +49,7 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
     public function __construct($element, $message = null)
     {
         $this->element = $element;
-       $this->name = 'captcha_defaults';
+        $this->name = 'captcha_defaults';
         $this->element->setAttributes([
             'type' => 'text',
             'autocomplete' => 'off'
@@ -64,7 +64,7 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
         //$this->element->addRule('required');
         $this->element->addRule('captcha', $this->ruleMessage);
     }
-    
+
     public function getName()
     {
         return $this->name;
@@ -143,11 +143,11 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
             $h = 1;
             //Рисуем
             $color = \imagecolorallocatealpha(
-                    $img,
-                    $figures[\rand(0, \count($figures) - 1)],
-                    $figures[\rand(0, \count($figures) - 1)],
-                    $figures[\rand(0, \count($figures) - 1)],
-                    rand(10, 30)
+                $img,
+                $figures[\rand(0, \count($figures) - 1)],
+                $figures[\rand(0, \count($figures) - 1)],
+                $figures[\rand(0, \count($figures) - 1)],
+                rand(10, 30)
             );
 
 

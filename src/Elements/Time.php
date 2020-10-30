@@ -43,5 +43,4 @@ class Time extends Element
      * @var string
      */
     protected string $type = 'time';
-
 }

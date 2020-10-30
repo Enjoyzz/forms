@@ -68,7 +68,7 @@ class Checkbox extends Element
 
 //    public function prepare()
 //    {
-//        
+//
 //    }
 
     public function setPrefixId($prefix)

@@ -66,7 +66,7 @@ trait Fill
 
         foreach ($data as $value => $title) {
             $fillHandler = new \Enjoys\Forms\FillHandler($value, $title);
-            
+
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());

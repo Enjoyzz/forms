@@ -44,5 +44,4 @@ class Email extends Element
      * @var string
      */
     protected string $type = 'email';
-
 }

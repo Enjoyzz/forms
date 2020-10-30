@@ -30,7 +30,6 @@ namespace Enjoys\Forms\Http;
 
 use Symfony\Component\HttpFoundation;
 
-
 /**
  * Class Request
  *
@@ -40,23 +39,22 @@ class Request extends HttpFoundation\Request implements RequestInterface
 {
 
     public function __construct(
-            ?array $query = null,
-            ?array $request = null,
-            ?array $attributes = null,
-            ?array $cookies = null,
-            ?array $files = null,
-            ?array $server = null,
-            $content = null
-    )
-    {
+        ?array $query = null,
+        ?array $request = null,
+        ?array $attributes = null,
+        ?array $cookies = null,
+        ?array $files = null,
+        ?array $server = null,
+        $content = null
+    ) {
         parent::__construct(
-                $query ?? $_GET,
-                $request ?? $_POST,
-                $attributes ?? [],
-                $cookies ?? $_COOKIE,
-                $files ?? $_FILES,
-                $server ?? $_SERVER,
-                $content
+            $query ?? $_GET,
+            $request ?? $_POST,
+            $attributes ?? [],
+            $cookies ?? $_COOKIE,
+            $files ?? $_FILES,
+            $server ?? $_SERVER,
+            $content
         );
     }
 

@@ -54,7 +54,7 @@ class Renderer
         $this->setOptions($options);
     }
 
-    static public function create(Form $form, array $options = [])
+    public static function create(Form $form, array $options = [])
     {
         return new static($form, $options);
     }

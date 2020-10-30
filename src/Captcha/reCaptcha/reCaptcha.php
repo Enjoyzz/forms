@@ -32,6 +32,7 @@ use Enjoys\Forms\Interfaces\Captcha;
 use Enjoys\Traits\Options;
 use Enjoys\Forms\Traits\Request;
 use GuzzleHttp\Client;
+
 use function GuzzleHttp\json_decode;
 
 /**

@@ -44,5 +44,4 @@ class Url extends Element
      * @var string
      */
     protected string $type = 'url';
-
 }

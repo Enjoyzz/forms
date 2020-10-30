@@ -94,7 +94,7 @@ final class Form
 
     /**
      *
-     * @var string 
+     * @var string
      */
 //    private string $tockenSubmit = '';
 
@@ -105,7 +105,7 @@ final class Form
     private bool $formSubmitted = false;
 
     /**
-     * @static int Глобальный счетчик форм на странице 
+     * @static int Глобальный счетчик форм на странице
      */
     private static int $formCounter = 0;
 
@@ -115,7 +115,7 @@ final class Form
      *      'action' => 'action.php'
      *      'method' => 'post'
      *      'defaults' => [],
-     * 
+     *
      * ]);
      * @param array $options
      * @param RequestInterface $request
@@ -290,7 +290,6 @@ final class Form
         $this->setAttribute('action', $this->getAction());
 
         if (is_null($action)) {
-
             $this->removeAttribute('action');
         }
 
@@ -300,7 +299,7 @@ final class Form
     }
 
     /**
-     * Set \Enjoys\Forms\FormDefaults $formDefaults 
+     * Set \Enjoys\Forms\FormDefaults $formDefaults
      * @param array $data
      * @return \self
      */

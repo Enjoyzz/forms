@@ -38,7 +38,7 @@ class Csrf extends Hidden
 {
 
     /**
-     * @todo поменять session_id() на Session::getSessionId() 
+     * @todo поменять session_id() на Session::getSessionId()
      */
     public function __construct()
     {

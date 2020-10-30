@@ -73,14 +73,14 @@ class File extends Element
     {
         if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
             throw new ExceptionRule(
-                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
+                \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
             );
         }
         return parent::addRule($ruleName, $message, $params);
     }
 
     /**
-     * 
+     *
      * @param int $bytes
      * @return $this
      */

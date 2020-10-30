@@ -45,5 +45,4 @@ class Text extends Element
      * @var string
      */
     protected string $type = 'text';
-
 }

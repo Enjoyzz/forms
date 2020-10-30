@@ -43,7 +43,7 @@ class FillHandler
     public function __construct($value, $title)
     {
 
-        
+
 
         if (is_array($title)) {
             $this->title = (string) $title[0];

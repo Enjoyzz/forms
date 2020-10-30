@@ -35,5 +35,5 @@ namespace Enjoys\Forms\Renderer\Bs4\Html;
  */
 class HtmlImage extends HtmlInputButton
 {
-    
+
 }
