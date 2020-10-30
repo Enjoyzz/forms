@@ -51,9 +51,7 @@ trait Attributes
 
         foreach ($attributes as $key => $value) {
             if (is_array($value)) {
-                foreach ($value as $_value) {
-                    $this->setAttribute($key, $_value, $namespace);
-                }
+                $this->setAttribute($key, implode(" ", $value), $namespace);
                 return $this;
             }
             if (is_int($key)) {
@@ -119,7 +117,7 @@ trait Attributes
     public function getAttributes($namespace = 'general'): string
     {
         $str = [];
-        if (!isset($this->attributes[$namespace])) {
+        if (!array_key_exists($namespace, $this->attributes)) {
             $this->attributes[$namespace] = [];
         }
         foreach ($this->attributes[$namespace] as $key => $value) {
@@ -167,7 +165,7 @@ trait Attributes
 
     public function removeClass($classValue, $namespace = 'general')
     {
-        if (!isset($this->attributes[$namespace]['class'])) {
+        if (!array_key_exists('class', $this->attributes[$namespace])) {
             return $this;
         }
 

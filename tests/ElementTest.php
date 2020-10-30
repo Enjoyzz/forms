@@ -28,13 +28,13 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
-
+use \Enjoys\Forms\Form;
 /**
  * Description of ElementTest
  *
  * @author deadl
  */
-class ElementTest 
+class ElementTest extends \PHPUnit\Framework\TestCase
 {
     use Reflection;
 
@@ -65,8 +65,6 @@ class ElementTest
     {
         $element = new \Enjoys\Forms\Elements\Text('Foo');
         $this->assertEquals('Foo', $element->getName());
-        $element->setName('Baz');
-        $this->assertEquals('Baz', $element->getName());
     }
 
     public function test_setId_1_0()
@@ -79,13 +77,15 @@ class ElementTest
 
     public function test_getType_1_0()
     {
-        $text = $this->obj->text('Foo');
+        $select = $this->obj->select('Foo');
+        $this->assertEquals('option', $select->getType());
+        $text = $this->obj->text('Bar');
         $this->assertEquals('text', $text->getType());
     }
 
    
 
-    public function test_setTitle_1_0()
+    public function test_setLabel_1_0()
     {
         $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
         $this->assertEquals('Bar', $element->getLabel());
@@ -93,13 +93,7 @@ class ElementTest
         $this->assertEquals('Baz', $element->getLabel());
     }
 
-    public function test_setDescription_1_0()
-    {
-        $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
-        $element->setDescription('Zed');
-        $this->assertEquals('Zed', $element->getDescription());
-    }
-
+  
  
     public function test_setFormDefaults_1_1()
     {
@@ -139,5 +133,13 @@ class ElementTest
         $this->assertEquals(false, $element->isRequired());
         $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertEquals(true, $element->isRequired());
+    }
+    
+    public function test_baseHtml()
+    {
+        $element = new \Enjoys\Forms\Elements\Text('text');
+        $element->removeAttribute('id');
+        $element->removeAttribute('name');
+        $this->assertEquals('<input type="text">', $element->baseHtml());
     }
 }

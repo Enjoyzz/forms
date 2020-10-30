@@ -294,8 +294,8 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_formCount_2_1()
     {
         $form1 = new Form();
-        $form2 = new Form();
         $this->assertNotSame(2, $form1->getFormCounter());
+        $form2 = new Form();
         $this->assertNotSame(1, $form2->getFormCounter());
     }
 

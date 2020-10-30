@@ -135,8 +135,8 @@ final class Form
     {
         static::$formCounter = 0;
     }
-    
-       public function getFormCounter()
+
+    public function getFormCounter()
     {
         return static::$formCounter;
     }
@@ -197,7 +197,6 @@ final class Form
     {
         $element->setRequest($this->request);
         $element->setForm($this);
-        // $element->setDefault();
         $element->prepare();
         $this->elements[$element->getName()] = $element;
         return $this;
@@ -240,8 +239,6 @@ final class Form
         }
         return false;
     }
-
- 
 
     /**
      * @param string $method

@@ -33,140 +33,117 @@ use Enjoys\Forms\Form;
  *
  * @author deadl
  */
-class AttributeTest 
+class AttributeTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
      *
      * @var  Enjoys\Forms\Forms $obj 
      */
-    protected $obj;
-
-    protected function setUp(): void
+//    protected $obj;
+//
+//    protected function setUp(): void
+//    {
+//        $this->obj = new Form();
+//    }
+//
+//    protected function tearDown(): void
+//    {
+//        $this->obj = null;
+//    }
+    
+    /**
+     * @dataProvider data
+     */
+    public function test_attributes($attributes, $expect)
     {
-        $this->obj = new Form();
+        $trait = $this->getMockForTrait(\Enjoys\Forms\Traits\Attributes::class);
+        $trait->setAttributes($attributes);
+        $this->assertEquals($expect, $trait->getAttributes());
     }
-
-    protected function tearDown(): void
+    
+    public function data()
     {
-        $this->obj = null;
+        return [
+          [['test'], ' test'], 
+          [[54=>'test'], ' test'], 
+          [[' 0'=>'test'], ' 0="test"'], 
+          [['test', 'id'=>'test'], ' test id="test"'], 
+        ];
     }
 
     public function testAddAttribute_arrays()
     {
-        $this->obj->setAttributes(['first' => 'value1', 'second' => 'value2']);
-        $this->assertSame('value1', $this->obj->getAttribute('first'));
-        $this->assertSame('value2', $this->obj->getAttribute('second'));
-    }
+        $trait = $this->getMockForTrait(\Enjoys\Forms\Traits\Attributes::class);
+        $trait->setAttributes(['first' => 'value1', 'second' => 'value2']);
+        $this->assertSame('value1', $trait->getAttribute('first'));
+        $this->assertSame('value2', $trait->getAttribute('second'));
 
-    public function testAddAttribute_lines()
-    {
-        $this->obj->setAttribute('first', 'value1');
-        $this->assertSame('value1', $this->obj->getAttribute('first'));
+        $trait->setAttributes(['value_withoutkey', 'second' => 'value2']);
+        $this->assertEquals(null, $trait->getAttribute('value_withoutkey'));
+
+        $trait->addClass('class1');
+        $this->assertEquals(['class1'], $trait->getAttribute('class'));
+
+        $trait->addClass('class2 class3');
+        $trait->addClass('class1');
+        $this->assertEquals([
+            'class1',
+            'class2',
+            'class3'
+        ], $trait->getAttribute('class'));
+        
+        $trait->removeClass('class2');
+        $this->assertEquals([
+            'class1',
+            'class3'
+        ], array_values($trait->getAttribute('class')));
+
+        
+        $trait->setAttributes(['value_withoutkey', 'second' => 'value2'], 'extra');
+        $trait->removeClass('class1', 'extra');
+        
+        $trait->addClass('class1', 'extra');
+        $trait->removeClass('class1', 'extra');
+        
+        $this->assertEquals([], $trait->getAttribute('class', 'extra'));
+        
+        $this->assertEquals(null, $trait->getAttribute('value_withoutkey'));
+        
+        $this->assertStringContainsString('first="value1" second="value2" value_withoutkey class="class1 class3', $trait->getAttributes());
+        $this->assertStringContainsString('value_withoutkey second="value2"', $trait->getAttributes('extra'));
+        
+        $this->assertEquals(false, $trait->getAttribute('value', 'extra2'));
+        $this->assertEquals('', $trait->getAttributes('extra3'));
+        
+        $trait->setAttributes([
+            'first' => [
+                'value1', 'value2'
+            ], 
+            'second' => 'value3'
+        ]);
+        $this->assertSame('value1 value2', $trait->getAttribute('first'));   
+        
+        $trait->setAttributes(['first' => 'value1'], 'extra4')->setAttributes(['first' => 'value2'], 'extra4');
+        $this->assertSame('value2', $trait->getAttribute('first', 'extra4'));    
+        
+         $trait->setAttributes([
+            'class' => [
+                'value1', 'value2'
+            ]
+        ], 'extra5');
+        $this->assertSame(['value1 value2'], $trait->getAttribute('class', 'extra5'));        
+        
+      
+       
     }
 
     public function testAddAttribute_class()
     {
-        //$this->markTestSkipped('test invalid! why? in project work all right!!');
-        $this->obj->setAttribute('class', 'value1')->setAttribute('class', 'value2');
-        $this->assertSame(['value1', 'value2'], $this->obj->getAttribute('class'));
+        $trait = $this->getMockForTrait(\Enjoys\Forms\Traits\Attributes::class);
+        $trait->setAttribute('class', 'value1')->setAttribute('class', 'value2');
+        $this->assertSame(['value1', 'value2'], $trait->getAttribute('class'));
     }
 
-    public function testAddAttribute_not_class()
-    {
-        $this->obj->setAttribute('something', 'value1')->setAttribute('something', 'value2');
-        $this->assertSame('value2', $this->obj->getAttribute('something'));
-    }
 
-    public function testGetAttributes()
-    {
-        $this->obj->setAttribute('something', 'value1')->setAttribute('something2');
-        $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
-    }
-
-    public function testGetAttributesArray()
-    {
-        $this->obj->setAttributes(['something' => 'value1', 'something2' => null]);
-        $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
-    }
-
-    public function testGetAttributesArray2()
-    {
-        $this->obj->setAttributes(['something' => 'value1', 'something2']);
-        $this->assertSame(' something="value1" something2', $this->obj->getAttributes());
-    }
-
-    public function testGetAttributesClassMany()
-    {
-        $this->obj->setAttributes(['class' => 'value1'])->setAttributes(['class' => 'value2']);
-        $this->assertStringContainsString('class="value1 value2"', $this->obj->getAttributes());
-    }
-
-    public function testGetAttributesClassMany2()
-    {
-        $this->obj->setAttributes(['class' => 'value1'])->setAttributes(['class' => 'value1']);
-        $this->assertStringContainsString('class="value1"', $this->obj->getAttributes());
-    }
-
-    public function testGetAttributesClassMany3()
-    {
-        $this->obj
-                ->setAttribute('class', 'value5')
-                ->setAttribute('class', 'value5');
-        $this->assertStringContainsString('class="value5"', $this->obj->getAttributes());
-    }
-    
-    public function testGetAttributesClassMany4()
-    {
-        $this->obj->addClass('test1')->addClass('test2 test3');
-        $this->assertEquals(['test1', 'test2', 'test3'], $this->obj->getAttribute('class'));
-    }
-
-    public function test_addClass_removeClass()
-    {
-        $this->obj->removeClass('not-isset-class');
-        $this->assertEquals('', $this->obj->getAttributes());
-
-        $this->obj
-                ->addClass(5)
-                ->addClass('test-class');
-        $this->assertStringContainsString('class="5 test-class"', $this->obj->getAttributes());
-        $this->obj->removeClass('test-class');
-        $this->assertStringContainsString('class="5"', $this->obj->getAttributes());
-        $this->obj->removeClass(5);
-        $this->assertEquals('', $this->obj->getAttributes());
-    }
-
-    public function test_attr_without_value_get_attr()
-    {
-        $this->obj->setAttributes(['something' => 'value1', 'something2']);
-        $this->assertNull($this->obj->getAttribute('something2'));
-    }
-
-    public function test_get_attr_unseted()
-    {
-        $this->obj->setAttribute('something2', true);
-        $this->assertEquals(true, $this->obj->getAttribute('something2'));
-        $this->assertEquals(false, $this->obj->getAttribute('something2', 'test'));
-    }
-    
-   public function test_set_attr_where_value_is_array()
-    {
-        $this->obj->setAttributes([
-            'class' => [
-                'test',
-                'test-2'
-            ]
-        ]);
-        $this->assertEquals(['test', 'test-2'], $this->obj->getAttribute('class'));
-        
-        $this->obj->setAttributes([
-            'something' => [
-                'test',
-                'test-2'
-            ]
-        ]);
-        
-        $this->assertEquals('test-2', $this->obj->getAttribute('something'));
-    }    
 }

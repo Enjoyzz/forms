@@ -26,58 +26,34 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms;
+namespace Tests\Enjoys\Forms;
 
 /**
- * Description of FillHandler
+ * Description of FillHandlerTest
  *
  * @author Enjoys
  */
-class FillHandler
+class FillHandlerTest extends \PHPUnit\Framework\TestCase
 {
 
-    private $attributes = [];
-    private $value = null;
-    private $title = null;
-
-    public function __construct($value, $title)
+    /**
+     * @dataProvider data
+     */
+    public function test_fillhandler($value, $title, $expectV, $expectL, $expectAttr)
     {
-
-        
-
-        if (is_array($title)) {
-            $this->title = (string) $title[0];
-
-            if (isset($title[1]) && is_array($title[1])) {
-                $this->attributes = array_merge($this->attributes, $title[1]);
-            }
-        }
-
-        $this->title ??= (string) $title;
-
-        /** @since 2.4.0 */
-        if (is_string($value)) {
-            $this->value = \trim($value);
-        }
-
-        /** @since 2.4.0 */
-        if (is_int($value)) {
-            $this->value = (string) $this->title;
-        }
+        $handler = new \Enjoys\Forms\FillHandler($value, $title);
+        $this->assertEquals($expectV, $handler->getValue());
+        $this->assertEquals($expectL, $handler->getLabel());
+        $this->assertEquals($expectAttr, $handler->getAttributes());
     }
 
-    public function getAttributes(): array
+    public function data()
     {
-        return $this->attributes;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->title;
+        return [
+            [0, 1, '1', '1', []],
+            [' 0', 1, '0', '1', []],
+            [0, [1, ['id' => 'test']], '1', '1', ['id' => 'test']],
+            [0, [1, ['test']], '1', '1', [0 => 'test']],
+        ];
     }
 }
