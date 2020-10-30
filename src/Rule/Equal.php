@@ -56,7 +56,7 @@ class Equal extends Rules implements RuleInterface
     {
 
         $method = $this->request->getMethod();
-        $value = $this->request::getValueByIndexPath($element->getName(), $this->request->$method());
+        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
 
         if (false === $this->check($value)) {
             $element->setRuleError($this->getMessage());

@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author deadl
  */
-class EqualTest 
+class EqualTest extends TestCase
 {
 
     /**
@@ -46,7 +46,6 @@ class EqualTest
      */
     public function test_validate($type, $name, $request, $rule, $expect)
     {
-        $this->markTestIncomplete();
         $class = "Enjoys\Forms\Elements\\" . $type;
         $text = new $class( $name);
         $text->setRequest(new \Enjoys\Forms\Http\Request($request));

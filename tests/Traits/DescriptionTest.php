@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,34 +26,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Enjoys\Forms\Rule;
+namespace Tests\Enjoys\Forms\Traits;
 
 /**
- * Description of EmailTest
+ * Description of DescriptionTest
  *
- * @author deadl
+ * @author Enjoys
  */
-class EmailTest extends \PHPUnit\Framework\TestCase
+class DescriptionTest extends \PHPUnit\Framework\TestCase
 {
-
-    /**
-     * @dataProvider data_for_test_validate
-     */
-    public function test_validate($name, $request, $expect)
+    public function test_set_getDescription()
     {
-    
-        $text = new \Enjoys\Forms\Elements\Text( $name);
-        $text->setRequest(new \Enjoys\Forms\Http\Request($request));
-        $text->addRule(\Enjoys\Forms\Rules::EMAIL);
-        $this->assertEquals($expect, \Enjoys\Forms\Validator::check([$text]));
-    }
-
-    public function data_for_test_validate()
-    {
-        return [
-            ['foo', ['foo' => 'test@test.com'], true],
-            ['foo', ['foo' => 'test@localhost'], false],
-            ['foo', ['foo' => '    '], true],
-        ];
+        $mock = $this->getMockForTrait(\Enjoys\Forms\Traits\Description::class);
+        $mock->setDescription('desc');
+        $this->assertEquals('desc', $mock->getDescription());
+        $mock->setDescription();
+        $this->assertNull($mock->getDescription());
     }
 }

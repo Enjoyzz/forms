@@ -31,7 +31,7 @@ namespace Tests\Enjoys\Forms;
  *
  * @author deadl
  */
-class RulesTest
+class RulesTest extends \PHPUnit\Framework\TestCase
 {
 
     public function test_setParams_1_0()

@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author deadl
  */
-class UploadTest 
+class UploadTest extends TestCase
 {
     use \Tests\Enjoys\Forms\Reflection;
 

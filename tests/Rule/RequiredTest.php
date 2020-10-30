@@ -37,16 +37,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class RequiredTest 
+class RequiredTest extends TestCase
 {
 
  
 
-    private function getFormDefaults($data = [])
-    {
-        return new \Enjoys\Forms\DefaultsHandler($data);
-    }
-
+  
     public function test_required_()
     {
 

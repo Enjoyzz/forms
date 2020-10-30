@@ -31,57 +31,57 @@ namespace Tests\Enjoys\Forms;
  *
  * @author Enjoys
  */
-class Validator 
+class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
-
-    public function test_validate_true()
-    {
-        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
-                    'foo' => 'v_foo',
-                    'bar' => 'v_bar'
-        ]));
-
-        $elements = [
-            $form->text('foo')->addRule('required'),
-            $form->text('bar')->addRule('required'),
-        ];
-
-        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
-    }
-
-    public function test_validate_false()
-    {
-        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
-                    'foo' => 'v_foo',
-        ]));
-
-        $elements = [
-            $form->text('foo')->addRule('required'),
-            $form->text('bar')->addRule('required'),
-        ];
-
-        $this->assertFalse(\Enjoys\Forms\Validator::check($elements));
-    }
-
-    public function test_validate_without_rules()
-    {
-        $form = new \Enjoys\Forms\Form();
-        $elements = [
-            $form->text('foo'),
-            $form->text('bar'),
-        ];
-
-        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
-    }
-
-    public function test_validate_without_elements()
-    {
-        $this->assertTrue(\Enjoys\Forms\Validator::check([]));
-    }
+//
+//    public function test_validate_true()
+//    {
+//        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
+//                    'foo' => 'v_foo',
+//                    'bar' => 'v_bar'
+//        ]));
+//
+//        $elements = [
+//            $form->text('foo')->addRule('required'),
+//            $form->text('bar')->addRule('required'),
+//        ];
+//
+//        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
+//    }
+//
+//    public function test_validate_false()
+//    {
+//        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
+//                    'foo' => 'v_foo',
+//        ]));
+//
+//        $elements = [
+//            $form->text('foo')->addRule('required'),
+//            $form->text('bar')->addRule('required'),
+//        ];
+//
+//        $this->assertFalse(\Enjoys\Forms\Validator::check($elements));
+//    }
+//
+//    public function test_validate_without_rules()
+//    {
+//        $form = new \Enjoys\Forms\Form();
+//        $elements = [
+//            $form->text('foo'),
+//            $form->text('bar'),
+//        ];
+//
+//        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
+//    }
+//
+//    public function test_validate_without_elements()
+//    {
+//        $this->assertTrue(\Enjoys\Forms\Validator::check([]));
+//    }
 
     public function test_validate_groups_true()
     {
-        $this->markTestIncomplete();
+
         $request = new \Enjoys\Forms\Http\Request([
             'foo' => 'v_foo',
         ]);
@@ -94,7 +94,7 @@ class Validator
 
     public function test_validate_groups_false()
     {
-        $this->markTestIncomplete();
+       
         $request = new \Enjoys\Forms\Http\Request([
             'food' => 'v_foo',
         ]);

@@ -42,9 +42,9 @@ class Group extends Element
 
     private $elements = [];
 
-    public function __construct(Form $form, string $title = null, array $elements = [])
+    public function __construct(string $title = null, array $elements = [])
     {
-        parent::__construct($form, \uniqid('group'), $title);
+        parent::__construct(\uniqid('group'), $title);
         foreach ($elements as $element) {
             if ($element instanceof Element) {
                 $this->addElement($element);
@@ -59,7 +59,7 @@ class Group extends Element
             throw new ExceptionElement("Element <b>{$class_name}</b> not found");
         }
         /** @var Element $element */
-        $element = new $class_name($this->formDefaults, ...$arguments);
+        $element = new $class_name(...$arguments);
 
         $this->addElement($element);
         return $element;

@@ -33,15 +33,11 @@ namespace Tests\Enjoys\Forms\Rule;
  *
  * @author deadl
  */
-class LengthTest 
+class LengthTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Tests\Enjoys\Forms\Reflection;
 
-    private function getFormDefaults($data = [])
-    {
-        return new \Enjoys\Forms\DefaultsHandler($data);
-    }
 
     /**
      * 
@@ -49,7 +45,7 @@ class LengthTest
      */
     public function test_1_1_validate_test($value, $expect)
     {
-        $this->markTestIncomplete();
+
         $text = new \Enjoys\Forms\Elements\Text( 'foo');
 
         $rule = new \Enjoys\Forms\Rule\Length(null, [

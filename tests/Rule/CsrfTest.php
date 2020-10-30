@@ -40,7 +40,7 @@ use Tests\Enjoys\Forms\Reflection;
  *
  * @author deadl
  */
-class CsrfTest 
+class CsrfTest extends TestCase
 {
 
     use Reflection;
@@ -54,7 +54,7 @@ class CsrfTest
 
     public function test_validate()
     {
-        $this->markTestIncomplete();
+
         $csrf_key = 'test';
         $hash = crypt($csrf_key, '');
         $element = new Hidden( Form::_TOKEN_CSRF_, $hash);
@@ -73,10 +73,10 @@ class CsrfTest
     }
 
     public function test_non_validate()
-    {$this->markTestIncomplete();
+    {
         $csrf_key = 'test';
         $hash = crypt($csrf_key, '');
-        $element = new Hidden(new DefaultsHandler([]), Form::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(Form::_TOKEN_CSRF_, $hash);
 
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key

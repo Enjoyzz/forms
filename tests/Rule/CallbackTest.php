@@ -36,7 +36,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class CallbackTest 
+class CallbackTest extends TestCase
 {
 
     private $element;
