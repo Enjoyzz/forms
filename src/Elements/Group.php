@@ -40,8 +40,8 @@ use Enjoys\Forms\Form;
 class Group extends Element
 {
     use \Enjoys\Forms\Traits\Description;
-    
-    private $elements = [];
+    use \Enjoys\Forms\Traits\Container;
+
 
     public function __construct(string $title = null, array $elements = [])
     {
@@ -53,35 +53,5 @@ class Group extends Element
         }
     }
 
-    /**
-     * @method Elements\Text text(string $name, string $title = null)
-     * @param string $name
-     * @param array $arguments
-     * @return @method
-     * @throws ExceptionElement
-     */
-    public function __call(string $name, array $arguments)
-    {
-        $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);
-        if (!class_exists($class_name)) {
-            throw new ExceptionElement("Element <b>{$class_name}</b> not found");
-        }
-        /** @var Element $element */
-        $element = new $class_name(...$arguments);
-
-        $this->addElement($element);
-        return $element;
-    }
-
-    public function addElement(Element $element): self
-    {
-        $element->setRequest($this->getRequest());
-        $this->elements[$element->getName()] = $element;
-        return $this;
-    }
-
-    public function getElements(): array
-    {
-        return $this->elements;
-    }
+  
 }
