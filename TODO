@@ -5,5 +5,5 @@ vendor\bin\phpunit --coverage-html coverage
 vendor\bin\phpcs src/ --standard=PSR12 -p
 vendor\bin\phpcbf src/ --standard=PSR12 -p
 --------------------------------------
-- вынести rules в трейт
+
 - переименовать bs4 в bootsrap4
