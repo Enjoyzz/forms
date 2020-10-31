@@ -38,6 +38,7 @@ use Enjoys\Forms\Form;
  */
 class Hidden extends Element
 {
+    use \Enjoys\Forms\Traits\Rules;
 
     /**
      *

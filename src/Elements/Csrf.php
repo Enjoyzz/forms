@@ -37,7 +37,7 @@ namespace Enjoys\Forms\Elements;
 class Csrf extends Hidden
 {
 
-    use \Enjoys\Forms\Traits\Rules;
+    
     
     /**
      * @todo поменять session_id() на Session::getSessionId()

@@ -64,6 +64,7 @@ class Csrf extends Rules implements RuleInterface
      */
     public function validate(Element $element): bool
     {
+        
         if (!$this->check($this->request->post(Form::_TOKEN_CSRF_, ''))) {
             $element->setRuleError($this->getMessage());
             // throw new \Enjoys\Forms\Exception\ExceptionRule($this->getMessage());
