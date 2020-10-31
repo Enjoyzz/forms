@@ -40,14 +40,13 @@ use Enjoys\Traits\Options;
  * @author Enjoys
  *
  */
-final class Form
+class Form
 {
     use Traits\Attributes;
     use Traits\Request;
     use Options;
     use Traits\Container {
-        addElement  as private  parentAddElement;
-        
+        addElement as private parentAddElement;
     }
 
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
@@ -119,11 +118,17 @@ final class Form
      */
     public function __construct(array $options = [], RequestInterface $request = null)
     {
-        static::$formCounter++;
         $this->setRequest($request);
+        static::$formCounter++;
+
+
 
         $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->getFormCounter()));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
+
+        if (!isset($this->defaultsHandler) && $this->formSubmitted === true) {
+            $this->setDefaults([]);
+        }
 
         $this->setOptions($options);
     }
@@ -204,7 +209,7 @@ final class Form
     public function setDefaults(array $data): self
     {
 
-        if ($this->isSubmitted()) {
+        if ($this->formSubmitted) {
             $data = [];
             $method = $this->request->getMethod();
             foreach ($this->request->$method() as $key => $items) {

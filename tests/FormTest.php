@@ -228,6 +228,69 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($form->getDefaultsHandler()->getValue('bar'));
     }
 
+    public function test_setDefaults_1_2()
+    {
+
+        $request = new \Enjoys\Forms\Http\Request([
+            'foo' => 'zed',
+        ]);
+
+        $tockenSubmitMock = $this->getMockBuilder(\Enjoys\Forms\Elements\TockenSubmit::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        $tockenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
+
+        $form = $this->getMockBuilder(Form::class)
+                ->disableOriginalConstructor()
+                ->addMethods(['tockenSubmit'])
+                ->getMock();
+
+        $form->expects($this->once())->method('tockenSubmit')->will($this->returnCallback(function() use ($tockenSubmitMock) {
+                    return $tockenSubmitMock;
+                }));
+
+        $form->__construct([], $request);
+        $element = $form->text('foo');
+
+        $this->assertEquals('GET', $form->getRequest()->getMethod());
+        $this->assertEquals('zed', $element->getAttribute('value'));
+    }
+
+    public function test_setDefaults_1_2_2()
+    {
+
+        $request = new \Enjoys\Forms\Http\Request(
+                [],
+                ['foo' => 'zed'],
+                [],
+                [],
+                [],
+                ['REQUEST_METHOD' => 'POST']
+        );
+
+        $tockenSubmitMock = $this->getMockBuilder(\Enjoys\Forms\Elements\TockenSubmit::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        $tockenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
+
+        $form = $this->getMockBuilder(Form::class)
+                ->disableOriginalConstructor()
+                ->addMethods(['tockenSubmit'])
+                ->getMock();
+
+        $form->expects($this->once())->method('tockenSubmit')->will($this->returnCallback(function() use ($tockenSubmitMock) {
+                    return $tockenSubmitMock;
+                }));
+
+        $form->__construct([
+            'method' => 'post'
+                ], $request);
+        $element = $form->text('foo');
+
+        $this->assertEquals('POST', $form->getRequest()->getMethod());
+        $this->assertEquals('zed', $element->getAttribute('value'));
+    }
+
     public function test_isSubmitted_false()
     {
         $form = new Form();
@@ -299,7 +362,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame(1, $form2->getFormCounter());
     }
 
-    public function test_setDefaults_1_2()
+    public function test_setDefaults_1_3()
     {
         $form1 = new Form();
         $form1->setOption('defaults', ['foo' => 'bar']);

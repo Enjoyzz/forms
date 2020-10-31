@@ -9,11 +9,10 @@ use Enjoys\Forms\Form;
 $form = new Form();
 
 $form->text('myname', 'Имя');
-$form->captcha()->setOptions([
-    'size' => 1,
-    'width' => 100, //default: 150
-    'height' => 20, //default: 50
-    //'chars' => 'abc...'
+$form->captcha('reCaptcha')->setOptions([
+    'language' => 'ru',
+    'publickey' => '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy', //localhost
+    'privatekey' => '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk', //localhost
 ]);
 $form->submit('submit_btn', 'Отправить анкету');
 
