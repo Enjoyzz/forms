@@ -28,9 +28,11 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bs4\Html;
 
+use Enjoys\Forms\ElementInterface;
 use Enjoys\Forms\Interfaces\Element;
 use Enjoys\Forms\Renderer;
 use Enjoys\Forms\Renderer\LayoutBase;
+use Enjoys\Forms\Renderer\RendererInterface;
 
 /**
  * Description of Group
@@ -51,7 +53,7 @@ class HtmlGroup extends LayoutBase
      * @param Element $element
      * @param Renderer $renderer
      */
-    public function __construct(\Enjoys\Forms\ElementInterface $element, \Enjoys\Forms\Renderer\RendererInterface $renderer)
+    public function __construct(ElementInterface $element, RendererInterface $renderer)
     {
         parent::__construct($element);
         $this->renderer = $renderer;
