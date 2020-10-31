@@ -39,7 +39,9 @@ use Enjoys\Forms\Form;
  */
 class Group extends Element
 {
-
+    use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Rules;
+    
     private $elements = [];
 
     public function __construct(string $title = null, array $elements = [])

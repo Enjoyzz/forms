@@ -40,6 +40,8 @@ use Enjoys\Forms\Rules;
  */
 class File extends Element
 {
+    use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Rules;
 
     /**
      *
@@ -69,15 +71,15 @@ class File extends Element
      * @param array $params
      * @return $this
      */
-    public function addRule(string $ruleName, ?string $message = null, $params = [])
-    {
-        if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
-            throw new ExceptionRule(
-                \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
-            );
-        }
-        return parent::addRule($ruleName, $message, $params);
-    }
+//    public function addRule(string $ruleName, ?string $message = null, $params = [])
+//    {
+//        if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
+//            throw new ExceptionRule(
+//                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
+//            );
+//        }
+//        return self::addRule($ruleName, $message, $params);
+//    }
 
     /**
      *

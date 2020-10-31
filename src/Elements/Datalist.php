@@ -40,6 +40,8 @@ use Enjoys\Forms\Traits\Fill;
 class Datalist extends Element
 {
     use Fill;
+    use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Rules;
 
     protected string $type = 'option';
 

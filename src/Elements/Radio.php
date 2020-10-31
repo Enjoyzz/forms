@@ -41,7 +41,8 @@ use Enjoys\Forms\Traits\Fill;
 class Radio extends Element
 {
     use Fill;
-    use Description;
+    use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Rules;
 
     /**
      *

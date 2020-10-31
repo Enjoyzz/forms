@@ -44,6 +44,10 @@ class Validator
         $_validate = true;
         /** @var Element $element */
         foreach ($elements as $element) {
+            if(!method_exists($element, 'getRules')){
+                 continue;
+            }
+            
             if ($element instanceof Group) {
                 $_validate = (!self::check($element->getElements())) ? false : $_validate;
                 continue;

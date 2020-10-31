@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Elements;
  */
 class TockenSubmit extends Hidden
 {
+    use \Enjoys\Forms\Traits\Rules;
 
     private $tocken;
 

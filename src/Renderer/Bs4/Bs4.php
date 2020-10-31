@@ -155,7 +155,7 @@ class Bs4 implements Renderer\RendererInterface
                 ]);
             }
 
-            if ($element->isRuleError()) {
+            if (method_exists($element, 'isRuleError') && $element->isRuleError()) {
                 $element->setAttributes([
                     'class' => 'is-invalid'
                 ]);

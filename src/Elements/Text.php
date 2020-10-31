@@ -39,6 +39,7 @@ use Enjoys\Forms\Element;
 class Text extends Element
 {
     use \Enjoys\Forms\Traits\Description;
+    use \Enjoys\Forms\Traits\Rules;
 
     /**
      *

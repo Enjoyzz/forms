@@ -68,24 +68,6 @@ abstract class Element implements ElementInterface
     protected bool $required = false;
 
     /**
-     * Когда $rule_error === true выводится это сообщение
-     * @var string|null
-     */
-    private ?string $rule_error_message = null;
-
-    /**
-     * Если true - проверка validate не пройдена
-     * @var bool
-     */
-    private bool $rule_error = false;
-
-    /**
-     * Список правил для валидации
-     * @var array
-     */
-    protected array $rules = [];
-
-    /**
      *
      * @var Form|null
      */
@@ -203,84 +185,6 @@ abstract class Element implements ElementInterface
             ]);
         }
         return $this;
-    }
-
-    /**
-     *
-     * @param string $ruleName
-     * @param string $message
-     * @param array $params
-     * @return $this
-     */
-    public function addRule(string $ruleName, ?string $message = null, $params = [])
-    {
-        $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
-
-        $rule = new $class($message, $params);
-        $rule->setRequest($this->request);
-
-        //установка обязательности элемента
-        if (\strtolower($ruleName) === \strtolower(Rules::REQUIRED)) {
-            $this->required = true;
-
-            /**
-             * @todo Если обязателен элемент добавить required аттрибут для проверки на стороне браузера
-             * пока Отключено
-             */
-            //$this->setAttribute('required');
-        }
-
-        $this->rules[] = $rule;
-        return $this;
-    }
-
-    /**
-     * Проверяет обязателен ли элемент для заполнения/выбора или нет
-     * true - обязателен
-     * @return bool
-     */
-    public function isRequired(): bool
-    {
-        return $this->required;
-    }
-
-    /**
-     * Если валидация не пройдена, вызывается этот медот, устанавливает сообщение
-     * ошибки и устанавливает флаг того что проверка не пройдена
-     * @param string|null $message
-     * @return void
-     */
-    public function setRuleError(?string $message): void
-    {
-        $this->rule_error = true;
-        $this->rule_error_message = $message;
-    }
-
-    /**
-     *
-     * @return string|null
-     */
-    public function getRuleErrorMessage(): ?string
-    {
-        return $this->rule_error_message;
-    }
-
-    /**
-     * Проверка валидации элемента, если true валидация не пройдена
-     * @return bool
-     */
-    public function isRuleError(): bool
-    {
-        return $this->rule_error;
-    }
-
-    /**
-     * Возвращает списов всех правил валидации, установленных для элемента
-     * @return array
-     */
-    public function getRules(): array
-    {
-        return $this->rules;
     }
 
     public function baseHtml(): ?string
