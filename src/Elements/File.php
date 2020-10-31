@@ -41,7 +41,9 @@ use Enjoys\Forms\Rules;
 class File extends Element
 {
     use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use \Enjoys\Forms\Traits\Rules {
+        addRule as private parentAddRule;
+    }
 
     /**
      *
@@ -64,7 +66,6 @@ class File extends Element
         $this->setMaxFileSize(\iniSize2bytes(ini_get('upload_max_filesize')), false);
     }
 
-
     /**
      *
      * @param int $bytes
@@ -75,7 +76,7 @@ class File extends Element
         $this->getForm()->hidden('MAX_FILE_SIZE', (string) $bytes);
         return $this;
     }
-    
+
     /**
      *
      * @param string $ruleName
@@ -83,14 +84,13 @@ class File extends Element
      * @param array $params
      * @return $this
      */
-//    public function addRule(string $ruleName, ?string $message = null, $params = [])
-//    {
-//        if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
-//            throw new ExceptionRule(
-//                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
-//            );
-//        }
-//        return self::addRule($ruleName, $message, $params);
-//    }
-    
+    public function addRule(string $ruleName, ?string $message = null, $params = [])
+    {
+        if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
+            throw new ExceptionRule(
+                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
+            );
+        }
+        return $this->parentAddRule($ruleName, $message, $params);
+    }
 }
