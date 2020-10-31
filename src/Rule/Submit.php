@@ -50,7 +50,7 @@ class Submit extends Rules implements RuleInterface
             return false;
         }
 
-        return true;
+        return true; 
     }
 
     private function check($value)
