@@ -40,7 +40,6 @@ use Enjoys\Forms\Form;
 class Group extends Element
 {
     use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
     
     private $elements = [];
 
@@ -54,6 +53,13 @@ class Group extends Element
         }
     }
 
+    /**
+     * @method Elements\Text text(string $name, string $title = null)
+     * @param string $name
+     * @param array $arguments
+     * @return @method
+     * @throws ExceptionElement
+     */
     public function __call(string $name, array $arguments)
     {
         $class_name = '\Enjoys\\Forms\Elements\\' . ucfirst($name);

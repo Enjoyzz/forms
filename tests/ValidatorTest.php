@@ -101,6 +101,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $form = new \Enjoys\Forms\Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');
+        $group->reset('reset');
         $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertEquals(false, \Enjoys\Forms\Validator::check($form->getElements()));
     }

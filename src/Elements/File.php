@@ -64,6 +64,18 @@ class File extends Element
         $this->setMaxFileSize(\iniSize2bytes(ini_get('upload_max_filesize')), false);
     }
 
+
+    /**
+     *
+     * @param int $bytes
+     * @return $this
+     */
+    public function setMaxFileSize(int $bytes): self
+    {
+        $this->getForm()->hidden('MAX_FILE_SIZE', (string) $bytes);
+        return $this;
+    }
+    
     /**
      *
      * @param string $ruleName
@@ -80,15 +92,5 @@ class File extends Element
 //        }
 //        return self::addRule($ruleName, $message, $params);
 //    }
-
-    /**
-     *
-     * @param int $bytes
-     * @return $this
-     */
-    public function setMaxFileSize(int $bytes): self
-    {
-        $this->getForm()->hidden('MAX_FILE_SIZE', (string) $bytes);
-        return $this;
-    }
+    
 }
