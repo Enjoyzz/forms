@@ -209,7 +209,7 @@ class Form
     public function setDefaults(array $data): self
     {
 
-        if ($this->formSubmitted) {
+        if ($this->formSubmitted === true) {
             $data = [];
             $method = $this->request->getMethod();
             foreach ($this->request->$method() as $key => $items) {
