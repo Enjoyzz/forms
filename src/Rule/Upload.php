@@ -56,6 +56,14 @@ class Upload extends Rules implements RuleInterface
         \UPLOAD_ERR_EXTENSION => "File upload stopped by extension",
     ];
 
+    private function getSystemMessage($error)
+    {
+        if (isset($this->systemErrorMessage[$error])) {
+            return $this->systemErrorMessage[$error];
+        }
+        return $this->systemErrorMessage['unknown'];
+    }
+
     public function validate(Element $element): bool
     {
         $value = \getValueByIndexPath($element->getName(), $this->request->files());
@@ -69,14 +77,14 @@ class Upload extends Rules implements RuleInterface
     private function check($value, Element $element)
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
-            $method = 'unknown';
+           // $method = 'unknown';
             if (is_int($rule) && is_string($ruleOpts)) {
                 $rule = $ruleOpts;
                 $ruleOpts = null;
             }
             $method = 'check' . \ucfirst($rule);
             if (!method_exists(Upload::class, $method)) {
-                throw new ExceptionRule(\sprintf('Unknown Upload Rule [%s]', 'check' . \ucfirst($rule)));
+                throw new ExceptionRule(\sprintf('Unknown Upload Rule [%s]', $method));
             }
             if (!$this->$method($value, $ruleOpts, $element)) {
                 return false;
@@ -99,11 +107,7 @@ class Upload extends Rules implements RuleInterface
         }
 
         if (!in_array($value->getError(), array(\UPLOAD_ERR_OK, \UPLOAD_ERR_NO_FILE))) {
-            $message = $this->systemErrorMessage['unknown'];
-            if (isset($this->systemErrorMessage[$value->getError()])) {
-                $message = $this->systemErrorMessage[$value->getError()];
-            }
-            $this->setMessage($message);
+            $this->setMessage($this->getSystemMessage($value->getError()));
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -124,16 +128,11 @@ class Upload extends Rules implements RuleInterface
         }
         $this->setMessage($message);
 
-        if ($value === false) {
+        if ($value === false || $value->getError() == \UPLOAD_ERR_NO_FILE) {
             $element->setRuleError($this->getMessage());
             return false;
         }
 
-
-        if ($value->getError() == \UPLOAD_ERR_NO_FILE) {
-            $element->setRuleError($this->getMessage());
-            return false;
-        }
         return true;
     }
 
@@ -150,13 +149,11 @@ class Upload extends Rules implements RuleInterface
             return true;
         }
 
-        if (!is_array($ruleOpts)) {
-            $ruleOpts = (array) $ruleOpts;
-            $ruleOpts[1] = null;
-        }
-        list($_size, $message) = $ruleOpts;
-        $threshold_size = (int) $_size;
-
+        $parsed = $this->parseRuleOpts($ruleOpts);
+        
+        $threshold_size = (int) $parsed['param'];
+        $message = $parsed['message'];
+                
         if (is_null($message)) {
             $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(0, " ") . ')'
                     . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(0, " ");
@@ -183,12 +180,11 @@ class Upload extends Rules implements RuleInterface
             return true;
         }
 
-        if (!is_array($ruleOpts)) {
-            $ruleOpts = (array) $ruleOpts;
-            $ruleOpts[1] = null;
-        }
-        list($extensions, $message) = $ruleOpts;
-        $expected_extensions = \array_map('trim', \explode(",", $extensions));
+        $parsed = $this->parseRuleOpts($ruleOpts);
+        
+        $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
+        $message = $parsed['message'];
+        
         $extension = $value->getClientOriginalExtension();
 
         if (is_null($message)) {
@@ -201,5 +197,19 @@ class Upload extends Rules implements RuleInterface
             return false;
         }
         return true;
+    }
+    
+    private function parseRuleOpts($opts)
+    {
+         if (!is_array($opts)) {
+            $opts = (array) $opts;
+            $opts[1] = null;
+        }
+        list($param, $message) = $opts;
+        
+        return [
+            'param' => $param,
+            'message' => $message
+        ];
     }
 }
