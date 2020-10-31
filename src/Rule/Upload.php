@@ -150,10 +150,10 @@ class Upload extends Rules implements RuleInterface
         }
 
         $parsed = $this->parseRuleOpts($ruleOpts);
-        
+
         $threshold_size = (int) $parsed['param'];
         $message = $parsed['message'];
-                
+
         if (is_null($message)) {
             $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(0, " ") . ')'
                     . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(0, " ");
@@ -181,10 +181,10 @@ class Upload extends Rules implements RuleInterface
         }
 
         $parsed = $this->parseRuleOpts($ruleOpts);
-        
+
         $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
         $message = $parsed['message'];
-        
+
         $extension = $value->getClientOriginalExtension();
 
         if (is_null($message)) {
@@ -198,15 +198,15 @@ class Upload extends Rules implements RuleInterface
         }
         return true;
     }
-    
+
     private function parseRuleOpts($opts)
     {
-         if (!is_array($opts)) {
+        if (!is_array($opts)) {
             $opts = (array) $opts;
             $opts[1] = null;
         }
         list($param, $message) = $opts;
-        
+
         return [
             'param' => $param,
             'message' => $message

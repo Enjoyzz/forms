@@ -26,8 +26,6 @@
 
 namespace Enjoys\Forms\Traits;
 
-
-
 /**
  *
  * @author Enjoys
@@ -87,7 +85,7 @@ trait Container
         $this->addElement($element);
         return $element;
     }
-    
+
         /**
      *
      * @param Element $element
@@ -98,7 +96,7 @@ trait Container
         $element->setRequest($this->request);
         $this->elements[$element->getName()] = $element;
         return $this;
-    }    
+    }
 
 
     /**
@@ -138,6 +136,4 @@ trait Container
         }
         return false;
     }
-
-
 }
