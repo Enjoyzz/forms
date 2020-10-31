@@ -85,6 +85,18 @@ trait Container
         $this->addElement($element);
         return $element;
     }
+    
+        /**
+     *
+     * @param Element $element
+     * @return \self
+     */
+    public function addElement(\Enjoys\Forms\Element $element): self
+    {
+        $element->setRequest($this->request);
+        $this->elements[$element->getName()] = $element;
+        return $this;
+    }    
 
 
     /**
@@ -125,15 +137,5 @@ trait Container
         return false;
     }
 
-        /**
-     *
-     * @param Element $element
-     * @return \self
-     */
-    public function addElement(\Enjoys\Forms\Element $element): self
-    {
-        $element->setRequest($this->request);
-        $this->elements[$element->getName()] = $element;
-        return $this;
-    }
+
 }

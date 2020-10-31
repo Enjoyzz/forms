@@ -44,9 +44,11 @@ final class Form
 {
     use Traits\Attributes;
     use Traits\Request;
-
-    use Traits\Container;
     use Options;
+    use Traits\Container {
+        addElement  as private  parentAddElement;
+        
+    }
 
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     public const _TOKEN_CSRF_ = '_token_csrf';
@@ -274,10 +276,8 @@ final class Form
      */
     public function addElement(Element $element): self
     {
-        $element->setRequest($this->request);
         $element->setForm($this);
         $element->prepare();
-        $this->elements[$element->getName()] = $element;
-        return $this;
+        return $this->parentAddElement($element);
     }
 }
