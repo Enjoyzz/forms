@@ -30,8 +30,10 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits;
+
+use function iniSize2bytes;
 
 /**
  * Description of File
@@ -40,8 +42,8 @@ use Enjoys\Forms\Rules;
  */
 class File extends Element
 {
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules {
+    use Traits\Description;
+    use Traits\Rules {
         addRule as private parentAddRule;
     }
 
@@ -63,7 +65,7 @@ class File extends Element
     {
         $this->getForm()->setAttribute('enctype', 'multipart/form-data');
         $this->getForm()->setMethod('post');
-        $this->setMaxFileSize(\iniSize2bytes(ini_get('upload_max_filesize')), false);
+        $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')), false);
     }
 
     /**
@@ -88,7 +90,7 @@ class File extends Element
     {
         if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
             throw new ExceptionRule(
-                    \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
+                \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
             );
         }
         return $this->parentAddRule($ruleName, $message, $params);

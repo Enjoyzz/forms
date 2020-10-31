@@ -28,8 +28,6 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Forms\Elements;
-use Enjoys\Forms\Exception;
 use Enjoys\Forms\Http\RequestInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\Traits\Options;
@@ -46,8 +44,9 @@ final class Form
 {
     use Traits\Attributes;
     use Traits\Request;
-    use Options;
+
     use Traits\Container;
+    use Options;
 
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
     public const _TOKEN_CSRF_ = '_token_csrf';
@@ -137,7 +136,6 @@ final class Form
         return static::$formCounter;
     }
 
-  
     /**
      * @param string $method
      * @return void
@@ -268,13 +266,13 @@ final class Form
 
         return true;
     }
-    
-        /**
+
+    /**
      *
      * @param Element $element
      * @return \self
      */
-    public function addElement(\Enjoys\Forms\Element $element): self
+    public function addElement(Element $element): self
     {
         $element->setRequest($this->request);
         $element->setForm($this);
@@ -282,5 +280,4 @@ final class Form
         $this->elements[$element->getName()] = $element;
         return $this;
     }
-
 }

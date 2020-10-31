@@ -39,5 +39,6 @@ class Password extends Element
 {
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
+
     protected string $type = 'password';
 }

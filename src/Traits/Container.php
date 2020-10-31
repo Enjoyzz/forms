@@ -124,7 +124,7 @@ trait Container
         }
         return false;
     }
-    
+
         /**
      *
      * @param Element $element
@@ -136,5 +136,4 @@ trait Container
         $this->elements[$element->getName()] = $element;
         return $this;
     }
-
 }

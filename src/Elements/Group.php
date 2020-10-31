@@ -52,6 +52,4 @@ class Group extends Element
             }
         }
     }
-
-  
 }

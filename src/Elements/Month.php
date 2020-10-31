@@ -40,6 +40,7 @@ class Month extends Element
 {
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
+
     /**
      *
      * @var string

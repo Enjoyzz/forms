@@ -41,7 +41,7 @@ class Captcha extends Element
 {
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
-    
+
     private $captcha;
 
     public function __construct(string $captcha = null, string $message = null)
