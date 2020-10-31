@@ -46,7 +46,8 @@ class Renderer
     public const BOOTSTRAP2 = 'bs2';
 
     protected Form $form;
-    private $renderer = 'bs4';
+    
+    private $renderer = self::BOOTSTRAP4;
 
     public function __construct(Form $form, array $options = [])
     {
