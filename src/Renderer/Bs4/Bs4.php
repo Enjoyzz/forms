@@ -62,7 +62,7 @@ use Enjoys\Forms\Renderer\Bs4\Html\HtmlSubmit;
  *
  * @author Enjoys
  */
-class Bs4 implements Renderer\RendererInterface
+class Bs4 
 {
 
     private $elements = [];
@@ -106,7 +106,7 @@ class Bs4 implements Renderer\RendererInterface
     public function header()
     {
 
-        return "<form{$this->form->getAttributes()}>\n";
+        return "<form{$this->form->getAttributesString()}>\n";
     }
 
     public function footer()
@@ -120,7 +120,7 @@ class Bs4 implements Renderer\RendererInterface
         /** @var Element $element */
         foreach ($this->elements as $key => $element) {
             if ($element instanceof Hidden) {
-                $html .= "<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
+                $html .= "<input type=\"{$element->getType()}\"{$element->getAttributesString()}>\n";
                 unset($this->elements[$key]);
             }
             continue;

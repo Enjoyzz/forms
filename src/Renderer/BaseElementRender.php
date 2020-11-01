@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer;
  *
  * @author Enjoys
  */
-class ElementRender
+class BaseElementRender
 {
 
     protected $elementRender;
@@ -47,9 +47,9 @@ class ElementRender
             case \Enjoys\Forms\Elements\Header::class:
                 $this->elementRender = new ElementsRender\HeaderRender($element);
                 break;
-            case \Enjoys\Forms\Elements\Radio::class:
-                $this->elementRender = new ElementsRender\RadioRender($element);
-                break;
+//            case \Enjoys\Forms\Elements\Radio::class:
+//                $this->elementRender = new ElementsRender\RadioRender($element);
+//                break;
             default:
                 $this->elementRender = new ElementsRender\InputRender($element);
                 break;
@@ -58,6 +58,6 @@ class ElementRender
 
     public function render()
     {
-        return $this->elementRender->render();
+        return $this->elementRender->render()."<br />\n";
     }
 }

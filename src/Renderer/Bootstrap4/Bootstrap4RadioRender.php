@@ -59,7 +59,7 @@ class Bootstrap4RadioRender extends \Enjoys\Forms\Renderer\ElementsRender\RadioR
                 $data->addClass('is-invalid');
             }
 
-            $return .= "<div{$data->getAttributes('checkBox')}>";
+            $return .= "<div{$data->getAttributesString('checkBox')}>";
             $return .= $this->renderBody($data);
             $return .= $this->renderLabel($data);
             $return .= '</div>';

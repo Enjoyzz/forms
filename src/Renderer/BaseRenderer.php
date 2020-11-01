@@ -80,13 +80,13 @@ class BaseRenderer implements RendererInterface
 
     protected function elementRender(\Enjoys\Forms\Element $element): string
     {
-        $elementRender = new ElementRender($element);
+        $elementRender = new BaseElementRender($element);
         return $elementRender->render();
     }
 
     public function render(): string
     {
-        return "<form{$this->form->getAttributes()}>"
+        return "<form{$this->form->getAttributesString()}>"
                 . $this->hiddenRender()
                 . $this->elementsRender($this->elements)
                 . "</form>";

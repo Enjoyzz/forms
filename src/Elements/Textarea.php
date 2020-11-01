@@ -82,6 +82,6 @@ class Textarea extends Element
 
     public function baseHtml(): ?string
     {
-        return "<textarea{$this->getAttributes()}>{$this->getValue()}</textarea>";
+        return "<textarea{$this->getAttributesString()}>{$this->getValue()}</textarea>";
     }
 }

@@ -38,6 +38,6 @@ class HtmlHeader extends \Enjoys\Forms\Renderer\LayoutBase
 
     public function render()
     {
-        return "<div{$this->element->getAttributes()}>{$this->element->getLabel()}</div>";
+        return "<div{$this->element->getAttributesString()}>{$this->element->getLabel()}</div>";
     }
 }

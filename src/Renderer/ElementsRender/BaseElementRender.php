@@ -61,7 +61,7 @@ class BaseElementRender
         if (!method_exists($element, 'getDescription') || empty($element->getDescription())) {
             return;
         }
-        return "<{$containerTag}{$element->getAttributes(Form::ATTRIBUTES_DESC)}>{$element->getDescription()}</{$containerTag}>";
+        return "<{$containerTag}{$element->getAttributesString(Form::ATTRIBUTES_DESC)}>{$element->getDescription()}</{$containerTag}>";
     }
 
     protected function renderValidation(\Enjoys\Forms\Element $element, $containerTag = 'div')
@@ -69,7 +69,7 @@ class BaseElementRender
         if (!method_exists($element, 'isRuleError') || !$element->isRuleError()) {
             return;
         }
-        return "<{$containerTag}{$element->getAttributes(Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
+        return "<{$containerTag}{$element->getAttributesString(Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
     }
 
     protected function renderLabel(\Enjoys\Forms\Element $element, $star = "&nbsp;<sup>*</sup>")
@@ -86,7 +86,7 @@ class BaseElementRender
             'for' => $element->getAttribute('id')
                 ], Form::ATTRIBUTES_LABEL);
 
-        return "<label{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
+        return "<label{$element->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }
 
     protected function renderBody(\Enjoys\Forms\Element $element)

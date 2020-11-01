@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
  *
  * @author Enjoys
  */
-class ElementRender extends \Enjoys\Forms\Renderer\ElementRender
+class ElementRender extends \Enjoys\Forms\Renderer\BaseElementRender
 {
 
     public function __construct(\Enjoys\Forms\ElementInterface $element)
@@ -45,15 +45,37 @@ class ElementRender extends \Enjoys\Forms\Renderer\ElementRender
 //            case \Enjoys\Forms\Elements\Header::class:
 //                $this->elementRender = new \Enjoys\Forms\Renderer\ElementsRender\HeaderRender($element);
 //                break;
-            case \Enjoys\Forms\Elements\Radio::class:
-                $this->elementRender = new Bootstrap4RadioRender($element);
-                break;
+         //   case \Enjoys\Forms\Elements\Radio::class:
+
+//                foreach ($element->getElements() as $key => $data) {
+//                    $data->addClass('custom-control-input');
+//                    $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+////                    $data->setAttributes([
+////                        'name' => $element->getName()
+////                    ]);
+//
+//                    if (empty($data->getLabel())) {
+//                        $data->addClass('position-static');
+//                    }
+//
+//                    $data->addClass('custom-control custom-radio', 'checkBox');
+//                    if ($this->renderOptions['checkbox_inline'] === true) {
+//                        $data->addClass('custom-control-inline', 'checkBox');
+//                    }
+//
+//                    if ($element->isRuleError()) {
+//                        $data->addClass('is-invalid');
+//                    }
+//                    
+//                    $element->updateElement($key, $data);
+//                }
+                //$this->elementRender = new Bootstrap4RadioRender($element);
+//                break;
             default:
 //                $this->elementRender = new \Enjoys\Forms\Renderer\ElementsRender\InputRender($element);
                 parent::__construct($element);
                 break;
         }
-  
     }
 
     public function render()

@@ -67,7 +67,7 @@ class Radio extends Element
         static::$prefix_id = $prefix;
         $this->setAttributes([
             'id' => static::$prefix_id . $this->getName()
-            ]);
+        ]);
 
         return $this;
     }
@@ -97,5 +97,30 @@ class Radio extends Element
             }
         }
         return $this;
+    }
+
+    public function baseHtml(): string
+    {
+
+        if ($this->isParent()) {
+            $html = '';
+            foreach ($this->getElements() as $element) {
+                $html .= $element->baseHtml();
+            }
+            return $html;
+        }
+
+
+        $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        $this->setAttributes($this->getAttributes(), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        
+        $this->removeAttribute('name', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        $this->removeAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        $this->removeAttribute('value', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+
+        $this->setAttributes(['name' => $this->getParentName()]);
+
+
+        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
     }
 }

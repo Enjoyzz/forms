@@ -59,7 +59,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
     {
         $trait = $this->getMockForTrait(\Enjoys\Forms\Traits\Attributes::class);
         $trait->setAttributes($attributes);
-        $this->assertEquals($expect, $trait->getAttributes());
+        $this->assertEquals($expect, $trait->getAttributesString());
     }
     
     public function data()
@@ -110,11 +110,11 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         
         $this->assertEquals(null, $trait->getAttribute('value_withoutkey'));
         
-        $this->assertStringContainsString('first="value1" second="value2" value_withoutkey class="class1 class3', $trait->getAttributes());
-        $this->assertStringContainsString('value_withoutkey second="value2"', $trait->getAttributes('extra'));
+        $this->assertStringContainsString('first="value1" second="value2" value_withoutkey class="class1 class3', $trait->getAttributesString());
+        $this->assertStringContainsString('value_withoutkey second="value2"', $trait->getAttributesString('extra'));
         
         $this->assertEquals(false, $trait->getAttribute('value', 'extra2'));
-        $this->assertEquals('', $trait->getAttributes('extra3'));
+        $this->assertEquals('', $trait->getAttributesString('extra3'));
         
         $trait->setAttributes([
             'first' => [

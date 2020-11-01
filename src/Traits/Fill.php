@@ -36,18 +36,23 @@ trait Fill
 {
 
     private $elements = [];
-
     private string $parentName = '';
-
+    private bool $parent = true;
 
     public function setParentName(string $parentName)
     {
         $this->parentName = $parentName;
+        $this->parent = false;
     }
 
     public function getParentName()
     {
         return $this->parentName;
+    }
+
+    public function isParent(): bool
+    {
+        return $this->parent;
     }
 
     /**
@@ -70,7 +75,6 @@ trait Fill
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
-
             $element->setParentName($this->getName());
             $element->setAttributes($fillHandler->getAttributes());
             $element->setDefault($this->defaults);
@@ -87,5 +91,13 @@ trait Fill
     public function getElements(): array
     {
         return $this->elements;
+    }
+    
+    
+    public function updateElement($key, \Enjoys\Forms\Element $element)
+    {
+        if(array_key_exists($key, $this->elements)){
+           $this->elements[$key] = $element; 
+        }
     }
 }

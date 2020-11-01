@@ -52,7 +52,7 @@ trait Attributes
         foreach ($attributes as $key => $value) {
             if (is_array($value)) {
                 $this->setAttribute($key, implode(" ", $value), $namespace);
-                return $this;
+                continue;
             }
             if (is_int($key)) {
                 $key = $value;
@@ -110,11 +110,20 @@ trait Attributes
         return false;
     }
 
+    public function getAttributes($namespace = 'general'): array
+    {
+        if (!isset($this->attributes[$namespace])) {
+            $this->attributes[$namespace] = [];
+        }
+        
+        return $this->attributes[$namespace];
+    }
+
     /**
      *
      * @return string
      */
-    public function getAttributes($namespace = 'general'): string
+    public function getAttributesString($namespace = 'general'): string
     {
         $str = [];
         if (!array_key_exists($namespace, $this->attributes)) {

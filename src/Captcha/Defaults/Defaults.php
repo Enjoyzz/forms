@@ -95,7 +95,7 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
 //        if ($this->element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $this->element->getAttributes() . '>';
+        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $this->element->getAttributesString() . '>';
 
         return $html;
     }

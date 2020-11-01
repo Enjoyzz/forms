@@ -48,7 +48,7 @@ class HtmlDatalist extends HtmlInput
 
     protected function renderDatalist($element)
     {
-        $return = "<input {$element->getAttributes()}><datalist id=\"{$element->getAttribute('list')}\">";
+        $return = "<input {$element->getAttributesString()}><datalist id=\"{$element->getAttribute('list')}\">";
         foreach ($element->getElements() as $data) {
             $return .= "<option value=\"{$data->getLabel()}\">";
         }

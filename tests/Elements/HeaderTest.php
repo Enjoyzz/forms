@@ -69,7 +69,7 @@ class HeaderTest extends \PHPUnit\Framework\TestCase
             'id' => 'test',
             'disabled' => null
         ], \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET);
-        $this->assertSame(' id="test" disabled', $obj->getAttributes(\Enjoys\Forms\Form::ATTRIBUTES_FIELDSET));
+        $this->assertSame(' id="test" disabled', $obj->getAttributesString(\Enjoys\Forms\Form::ATTRIBUTES_FIELDSET));
     }
     
     public function test_close_after()

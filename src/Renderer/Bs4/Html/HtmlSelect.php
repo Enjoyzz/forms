@@ -40,7 +40,7 @@ class HtmlSelect extends HtmlInput
     {
         return
                 $this->renderLabel($this->element) .
-                "<select{$this->element->getAttributes()}>" .
+                "<select{$this->element->getAttributesString()}>" .
                 $this->renderOptions($this->element) .
                 "</select>" .
                 $this->renderDescription($this->element) .
@@ -53,7 +53,7 @@ class HtmlSelect extends HtmlInput
         $return = "";
         foreach ($element->getElements() as $data) {
             if ($data instanceof \Enjoys\Forms\Elements\Optgroup) {
-                $return .= "<optgroup{$data->getAttributes()}>";
+                $return .= "<optgroup{$data->getAttributesString()}>";
                 $return .= $this->renderOptions($data);
                 $return .= "</optgroup>";
                 continue;

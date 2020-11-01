@@ -69,7 +69,7 @@ class HtmlCheckbox extends HtmlRadio
                 $data->addClass('is-invalid');
             }
 
-            $return .= "<div{$data->getAttributes('checkBox')}>";
+            $return .= "<div{$data->getAttributesString('checkBox')}>";
             $return .= $this->renderBody($data);
             $return .= $this->renderLabel($data);
             $return .= '</div>';
