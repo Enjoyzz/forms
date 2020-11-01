@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,11 +29,35 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer;
 
 /**
- * Description of Renderer
+ * Description of ElementRender
  *
- * @author deadl
+ * @author Enjoys
  */
-interface RendererInterface
+class ElementRender
 {
-     public function render(): string;
+
+    protected $elementRender;
+
+    public function __construct(\Enjoys\Forms\ElementInterface $element)
+    {
+        switch (\get_class($element)) {
+            case \Enjoys\Forms\Elements\File::class:
+                $this->elementRender = new ElementsRender\FileRender($element);
+                break;
+            case \Enjoys\Forms\Elements\Header::class:
+                $this->elementRender = new ElementsRender\HeaderRender($element);
+                break;
+            case \Enjoys\Forms\Elements\Radio::class:
+                $this->elementRender = new ElementsRender\RadioRender($element);
+                break;
+            default:
+                $this->elementRender = new ElementsRender\InputRender($element);
+                break;
+        }
+    }
+
+    public function render()
+    {
+        return $this->elementRender->render();
+    }
 }

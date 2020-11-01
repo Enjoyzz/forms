@@ -28,26 +28,42 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bootstrap4;
 
-use Enjoys\Forms\Renderer\BaseRenderer;
-use Enjoys\Forms\Renderer\RendererInterface;
-
 /**
- * Description of Bootstrap4
+ * Description of Bootstrap4RadioRender
  *
  * @author Enjoys
  */
-class Bootstrap4 extends BaseRenderer implements RendererInterface
+class Bootstrap4RadioRender extends \Enjoys\Forms\Renderer\ElementsRender\RadioRender
 {
-    use \Enjoys\Traits\Options;
 
-    public function __construct($options = [])
+    protected function renderRadio($element)
     {
-        $this->setOptions($options);
-    }
+        $return = '';
+        foreach ($element->getElements() as $data) {
+            $data->addClass('custom-control-input');
+            $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+            $data->setAttributes([
+                'name' => $element->getName()
+            ]);
 
-    protected function elementRender(\Enjoys\Forms\Element $element): string
-    {
-        $elementRender = new ElementRender($element);
-        return $elementRender->render();
+            if (empty($data->getLabel())) {
+                $data->addClass('position-static');
+            }
+
+            $data->addClass('custom-control custom-radio', 'checkBox');
+            if ($this->renderOptions['checkbox_inline'] === true) {
+                $data->addClass('custom-control-inline', 'checkBox');
+            }
+
+            if ($element->isRuleError()) {
+                $data->addClass('is-invalid');
+            }
+
+            $return .= "<div{$data->getAttributes('checkBox')}>";
+            $return .= $this->renderBody($data);
+            $return .= $this->renderLabel($data);
+            $return .= '</div>';
+        }
+        return $return;
     }
 }

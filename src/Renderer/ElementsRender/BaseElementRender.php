@@ -26,10 +26,9 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Renderer\ElementsRender;
 
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces\Element;
 use Enjoys\Forms\ElementInterface;
 
 /**
@@ -37,16 +36,14 @@ use Enjoys\Forms\ElementInterface;
  *
  * @author Enjoys
  */
-class LayoutBase
+class BaseElementRender
 {
 
     protected ElementInterface $element;
-    protected $renderOptions = [];
 
-    public function __construct(ElementInterface $element, $renderOptions = [])
+    public function __construct(\Enjoys\Forms\Element $element)
     {
         $this->element = $element;
-        $this->renderOptions = $renderOptions;
     }
 
     public function render()
@@ -59,29 +56,29 @@ class LayoutBase
                 '';
     }
 
-    protected function renderDescription($element, $containerTag = 'small')
+    protected function renderDescription(\Enjoys\Forms\Element $element, $containerTag = 'small')
     {
-        if (empty($element->getDescription())) {
+        if (!method_exists($element, 'getDescription') || empty($element->getDescription())) {
             return;
         }
         return "<{$containerTag}{$element->getAttributes(Form::ATTRIBUTES_DESC)}>{$element->getDescription()}</{$containerTag}>";
     }
 
-    protected function renderValidation($element, $containerTag = 'div')
+    protected function renderValidation(\Enjoys\Forms\Element $element, $containerTag = 'div')
     {
-        if (!$element->isRuleError()) {
+        if (!method_exists($element, 'isRuleError') || !$element->isRuleError()) {
             return;
         }
         return "<{$containerTag}{$element->getAttributes(Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
     }
 
-    protected function renderLabel($element, $star = "&nbsp;<sup>*</sup>")
+    protected function renderLabel(\Enjoys\Forms\Element $element, $star = "&nbsp;<sup>*</sup>")
     {
         if (empty($element->getLabel())) {
             return;
         }
 
-        if (!$element->isRequired()) {
+        if (!method_exists($element, 'isRequired') || !$element->isRequired()) {
             $star = "";
         }
 
@@ -92,7 +89,7 @@ class LayoutBase
         return "<label{$element->getAttributes(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }
 
-    protected function renderBody(ElementInterface $element)
+    protected function renderBody(\Enjoys\Forms\Element $element)
     {
         return $element->baseHtml();
     }

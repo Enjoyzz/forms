@@ -26,14 +26,18 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of Renderer
+ * Description of Header
  *
  * @author deadl
  */
-interface RendererInterface
+class HeaderRender extends BaseElementRender
 {
-     public function render(): string;
+
+    public function render()
+    {
+        return "<div{$this->element->getAttributes()}>{$this->element->getLabel()}</div>";
+    }
 }

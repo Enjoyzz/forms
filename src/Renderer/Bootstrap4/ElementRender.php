@@ -28,26 +28,39 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bootstrap4;
 
-use Enjoys\Forms\Renderer\BaseRenderer;
-use Enjoys\Forms\Renderer\RendererInterface;
-
 /**
- * Description of Bootstrap4
+ * Description of ElementRender
  *
  * @author Enjoys
  */
-class Bootstrap4 extends BaseRenderer implements RendererInterface
+class ElementRender extends \Enjoys\Forms\Renderer\ElementRender
 {
-    use \Enjoys\Traits\Options;
 
-    public function __construct($options = [])
+    public function __construct(\Enjoys\Forms\ElementInterface $element)
     {
-        $this->setOptions($options);
+        switch (\get_class($element)) {
+//            case \Enjoys\Forms\Elements\File::class:
+//                $this->elementRender = new \Enjoys\Forms\Renderer\ElementsRender\FileRender($element);
+//                break;
+//            case \Enjoys\Forms\Elements\Header::class:
+//                $this->elementRender = new \Enjoys\Forms\Renderer\ElementsRender\HeaderRender($element);
+//                break;
+            case \Enjoys\Forms\Elements\Radio::class:
+                $this->elementRender = new Bootstrap4RadioRender($element);
+                break;
+            default:
+//                $this->elementRender = new \Enjoys\Forms\Renderer\ElementsRender\InputRender($element);
+                parent::__construct($element);
+                break;
+        }
+  
     }
 
-    protected function elementRender(\Enjoys\Forms\Element $element): string
+    public function render()
     {
-        $elementRender = new ElementRender($element);
-        return $elementRender->render();
+        $html = '<div class="form-group">';
+        $html .= $this->elementRender->render();
+        $html .= '</div>';
+        return $html;
     }
 }

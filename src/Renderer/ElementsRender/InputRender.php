@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,14 +26,18 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of Renderer
+ * Class Input
  *
- * @author deadl
+ * @author Enjoys
  */
-interface RendererInterface
+class InputRender extends BaseElementRender
 {
-     public function render(): string;
+
+//    public function __construct(\Enjoys\Forms\Element $element)
+//    {
+//        parent::__construct($element);
+//    }
 }

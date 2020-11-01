@@ -37,16 +37,58 @@ use Enjoys\Forms\Form;
  */
 class BaseRenderer implements RendererInterface
 {
-    protected Form $form;
 
-    
+    protected Form $form;
+    protected array $elements = [];
+
     public function setForm(Form $form)
     {
-          $this->form = $form;
+        $this->form = $form;
+        $this->elements = $this->form->getElements();
     }
 
-    public function render(): ?string
+    protected function hiddenRender(): string
     {
-        return '';
+        $html = '';
+        /** @var Element $element */
+        foreach ($this->elements as $key => $element) {
+            if ($element instanceof \Enjoys\Forms\Elements\Hidden) {
+                unset($this->elements[$key]);
+                //$html .= "<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
+                $html .= $element->baseHtml();
+            }
+            continue;
+        }
+        return $html;
+    }
+
+    protected function elementsRender(?array $elements = null): string
+    {
+        $elements ??= $this->elements;
+        $html = '';
+        foreach ($elements as $key => $element) {
+            unset($elements[$key]);
+
+            if (!($element instanceof \Enjoys\Forms\Element)) {
+                continue;
+            }
+
+            $html .= $this->elementRender($element);
+        }
+        return $html;
+    }
+
+    protected function elementRender(\Enjoys\Forms\Element $element): string
+    {
+        $elementRender = new ElementRender($element);
+        return $elementRender->render();
+    }
+
+    public function render(): string
+    {
+        return "<form{$this->form->getAttributes()}>"
+                . $this->hiddenRender()
+                . $this->elementsRender($this->elements)
+                . "</form>";
     }
 }

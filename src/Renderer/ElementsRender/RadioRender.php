@@ -26,14 +26,46 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of Renderer
+ * Description of Radio
  *
  * @author deadl
  */
-interface RendererInterface
+class RadioRender extends BaseElementRender
 {
-     public function render(): string;
+
+
+
+    public function render()
+    {
+        return
+                $this->renderLabel($this->element) .
+                $this->renderRadio($this->element) .
+                $this->renderDescription($this->element) .
+                $this->renderValidation($this->element) .
+                '';
+    }
+
+
+    protected function renderRadio($element)
+    {
+        $return = '';
+        foreach ($element->getElements() as $data) {
+            $data->setAttributes([
+                'name' => $element->getName()
+            ]);
+
+            if ($element->isRuleError()) {
+                $data->addClass('is-invalid');
+            }
+
+            $return .= "<div>";
+            $return .= $this->renderBody($data);
+            $return .= $this->renderLabel($data);
+            $return .= '</div>';
+        }
+        return $return;
+    }
 }
