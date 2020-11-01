@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,25 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer;
 
+use Enjoys\Forms\Form;
+
 /**
- * Description of Renderer
+ * Description of BaseRenderer
  *
- * @author deadl
+ * @author Enjoys
  */
-interface RendererInterface
+class BaseRenderer implements RendererInterface
 {
-     public function render(): ?string;
+    protected Form $form;
+
+    
+    public function setForm(Form $form)
+    {
+          $this->form = $form;
+    }
+
+    public function render(): ?string
+    {
+        return '';
+    }
 }

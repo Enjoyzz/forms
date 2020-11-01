@@ -285,4 +285,10 @@ class Form
         $element->prepare();
         return $this->parentAddElement($element);
     }
+    
+    public function render(Renderer\RendererInterface $renderer)
+    {
+        $renderer->setForm($this);
+        return $renderer->render();
+    }
 }

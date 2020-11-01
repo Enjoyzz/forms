@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,14 +26,22 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
+
+use Enjoys\Forms\Renderer\BaseRenderer;
+use Enjoys\Forms\Renderer\RendererInterface;
 
 /**
- * Description of Renderer
+ * Description of Bootstrap4
  *
- * @author deadl
+ * @author Enjoys
  */
-interface RendererInterface
+class Bootstrap4 extends BaseRenderer implements RendererInterface
 {
-     public function render(): ?string;
+    use \Enjoys\Traits\Options;
+    
+    public function __construct($options = [])
+    {
+        $this->setOptions($options);
+    }
 }
