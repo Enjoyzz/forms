@@ -49,6 +49,18 @@ use Enjoys\Forms\Renderer\ElementsRender\ElementRenderInterface;
 class Bootstrap4ElementRender extends BaseElementRender
 {
 
+    private $map = [
+        Radio::class => Bootstrap4RadioRender::class,
+        Checkbox::class => Bootstrap4CheckboxRender::class,
+        Header::class => Bootstrap4HeaderRender::class,
+        File::class => Bootstrap4FileRender::class,
+        Button::class => ButtonRender::class,
+        Submit::class => ButtonRender::class,
+        Reset::class => ButtonRender::class,
+        Image::class => ButtonRender::class,
+        Text::class => Bootstrap4InputRender::class,
+    ];
+
     public function __construct(ElementInterface $element)
     {
         $this->elementRender = $this->getElementRender($element);
@@ -62,26 +74,20 @@ class Bootstrap4ElementRender extends BaseElementRender
         return $html;
     }
 
-    private function getElementRender($element): ElementRenderInterface
+    /**
+     * 
+     * @param type $element
+     * @return ElementRenderInterface
+     */
+    protected function getElementRender($element)
     {
+        $key = \get_class($element);
 
-        switch (\get_class($element)) {
-            case Radio::class:
-                return new Bootstrap4RadioRender($element);
-            case Checkbox::class:
-                return new Bootstrap4CheckboxRender($element);
-            case Header::class:
-                return new Bootstrap4HeaderRender($element);
-            case File::class:
-                return new Bootstrap4FileRender($element);
-            case Button::class:
-            case Submit::class:
-            case Reset::class:
-            case Image::class:
-                return new ButtonRender($element);
-            default:
-                return new Bootstrap4InputRender($element);
+        if (array_key_exists($key, $this->map)) {
+            $class = $this->map[$key];
+            return new $class($element);
         }
-
+        
+        return parent::getElementRender($element);
     }
 }

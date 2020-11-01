@@ -37,7 +37,8 @@ class Bootstrap4InputRender extends \Enjoys\Forms\Renderer\ElementsRender\InputR
 {
     public function __construct(\Enjoys\Forms\Element $element)
     {
+        $element->addClass('form-control');
         parent::__construct($element);
-        $this->element->addClass('form-control');
+        
     }
 }

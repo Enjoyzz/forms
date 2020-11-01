@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,40 +26,33 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Html;
+namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of Select
+ * Description of SelectRender
  *
- * @author deadl
+ * @author Enjoys
  */
-class HtmlSelect extends HtmlInput
+class SelectRender extends BaseElement
 {
 
     public function render()
     {
         return
                 $this->renderLabel($this->element) .
-                "<select{$this->element->getAttributesString()}>" .
-                $this->renderOptions($this->element) .
-                "</select>" .
+                $this->renderSelect($this->element) .
                 $this->renderDescription($this->element) .
                 $this->renderValidation($this->element) .
                 '';
     }
 
-    protected function renderOptions($element)
+    protected function renderSelect($element)
     {
-        $return = "";
+        $return = "<select{$element->getAttributesString()}>";
         foreach ($element->getElements() as $data) {
-            if ($data instanceof \Enjoys\Forms\Elements\Optgroup) {
-                $return .= "<optgroup{$data->getAttributesString()}>";
-                $return .= $this->renderOptions($data);
-                $return .= "</optgroup>";
-                continue;
-            }
             $return .= $this->renderBody($data);
         }
+        $return .= '</select>';
         return $return;
     }
 }

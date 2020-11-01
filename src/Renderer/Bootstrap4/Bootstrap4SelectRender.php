@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,18 +26,20 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bs4\Html;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 /**
- * Description of Header
+ * Description of Bootstrap4InputRender
  *
- * @author deadl
+ * @author Enjoys
  */
-class HtmlHeader extends \Enjoys\Forms\Renderer\LayoutBase
+class Bootstrap4SelectRender extends \Enjoys\Forms\Renderer\ElementsRender\SelectRender
 {
 
-    public function render()
+    public function __construct(\Enjoys\Forms\Element $element)
     {
-        return "<div{$this->element->getAttributesString()}>{$this->element->getLabel()}</div>";
+        $element->addClass('form-control');
+        parent::__construct($element);
+
     }
 }

@@ -28,6 +28,18 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer;
 
+use Enjoys\Forms\ElementInterface;
+use Enjoys\Forms\Elements\Button;
+use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Elements\File;
+use Enjoys\Forms\Elements\Header;
+use Enjoys\Forms\Elements\Image;
+use Enjoys\Forms\Elements\Radio;
+use Enjoys\Forms\Elements\Reset;
+use Enjoys\Forms\Elements\Select;
+use Enjoys\Forms\Elements\Submit;
+use Enjoys\Forms\Renderer\ElementsRender;
+
 /**
  * Description of ElementRender
  *
@@ -38,35 +50,37 @@ class BaseElementRender
 
     protected $elementRender;
 
-    public function __construct(\Enjoys\Forms\ElementInterface $element)
+    public function __construct(ElementInterface $element)
     {
+        $this->elementRender = $this->getElementRender($element);
+    }
+
+    protected function getElementRender(ElementInterface $element)
+    {
+
         switch (\get_class($element)) {
-            case \Enjoys\Forms\Elements\File::class:
-                $this->elementRender = new ElementsRender\FileRender($element);
-                break;
-            case \Enjoys\Forms\Elements\Header::class:
-                $this->elementRender = new ElementsRender\HeaderRender($element);
-                break;
-            case \Enjoys\Forms\Elements\Radio::class:
-                $this->elementRender = new ElementsRender\RadioRender($element);
-                break;
-            case \Enjoys\Forms\Elements\Checkbox::class:
-                $this->elementRender = new ElementsRender\CheckboxRender($element);
-                break;
-            case \Enjoys\Forms\Elements\Button::class:
-            case \Enjoys\Forms\Elements\Submit::class:
-            case \Enjoys\Forms\Elements\Reset::class:
-            case \Enjoys\Forms\Elements\Image::class:
-                $this->elementRender = new ElementsRender\CheckboxRender($element);
-                break;
+            case Radio::class:
+                return new ElementsRender\RadioRender($element);
+            case Checkbox::class:
+                return new ElementsRender\CheckboxRender($element);
+            case Header::class:
+                return new ElementsRender\HeaderRender($element);
+            case File::class:
+                return new ElementsRender\FileRender($element);
+            case Select::class:
+                return new ElementsRender\SelectRender($element);
+            case Button::class:
+            case Submit::class:
+            case Reset::class:
+            case Image::class:
+                return new ElementsRender\ButtonRender($element);
             default:
-                $this->elementRender = new ElementsRender\InputRender($element);
-                break;
+                return new ElementsRender\InputRender($element);
         }
     }
 
     public function render()
     {
-        return $this->elementRender->render()."<br />\n";
+        return $this->elementRender->render() . "<br />\n";
     }
 }

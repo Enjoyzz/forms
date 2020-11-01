@@ -77,6 +77,20 @@ trait Fill
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
             $element->setParentName($this->getName());
             $element->setAttributes($fillHandler->getAttributes(), 'fill');
+
+            /**
+             * @todo слишком много вложенности ифов. подумать как переделать
+             */
+            foreach ($element->getAttributes('fill') as $key => $value) {
+                if (in_array($key, ['id', 'name', 'disabled', 'readonly'])) {
+                    if ($element->getAttribute($key, 'fill') !== false) {
+                        $element->setAttribute($key, $element->getAttribute($key, 'fill'));
+                        $element->removeAttribute($key, 'fill');
+                    }
+                }
+            }
+
+
             $element->setDefault($this->defaults);
 
             $this->elements[] = $element;
@@ -92,12 +106,11 @@ trait Fill
     {
         return $this->elements;
     }
-    
-    
+
     public function updateElement($key, \Enjoys\Forms\Element $element)
     {
-        if(array_key_exists($key, $this->elements)){
-           $this->elements[$key] = $element; 
+        if (array_key_exists($key, $this->elements)) {
+            $this->elements[$key] = $element;
         }
     }
 }

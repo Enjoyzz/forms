@@ -79,6 +79,7 @@ class Option extends Element
 
     public function baseHtml(): ?string
     {
+        $this->setAttributes($this->getAttributes('fill'));
         return "<option{$this->getAttributesString()}>{$this->getLabel()}</option>";
     }
 }
