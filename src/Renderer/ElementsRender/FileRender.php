@@ -33,7 +33,7 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
  *
  * @author Enjoys
  */
-class FileRender extends BaseElementRender
+class FileRender extends BaseElement
 {
 
 //    public function __construct(\Enjoys\Forms\Element $element)

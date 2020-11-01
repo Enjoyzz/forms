@@ -29,11 +29,14 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Class Input
+ * Description of ButtonRender
  *
  * @author Enjoys
  */
-class InputRender extends BaseElement
+class ButtonRender extends BaseElement
 {
-
+    public function render()
+    {
+        return $this->renderBody($this->element);
+    }
 }

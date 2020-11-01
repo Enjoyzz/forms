@@ -47,9 +47,18 @@ class BaseElementRender
             case \Enjoys\Forms\Elements\Header::class:
                 $this->elementRender = new ElementsRender\HeaderRender($element);
                 break;
-//            case \Enjoys\Forms\Elements\Radio::class:
-//                $this->elementRender = new ElementsRender\RadioRender($element);
-//                break;
+            case \Enjoys\Forms\Elements\Radio::class:
+                $this->elementRender = new ElementsRender\RadioRender($element);
+                break;
+            case \Enjoys\Forms\Elements\Checkbox::class:
+                $this->elementRender = new ElementsRender\CheckboxRender($element);
+                break;
+            case \Enjoys\Forms\Elements\Button::class:
+            case \Enjoys\Forms\Elements\Submit::class:
+            case \Enjoys\Forms\Elements\Reset::class:
+            case \Enjoys\Forms\Elements\Image::class:
+                $this->elementRender = new ElementsRender\CheckboxRender($element);
+                break;
             default:
                 $this->elementRender = new ElementsRender\InputRender($element);
                 break;

@@ -107,4 +107,12 @@ class Checkbox extends Element
         }
         return $this;
     }
+
+    public function baseHtml(): ?string
+    {
+        $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        $this->setAttributes($this->getAttributes('fill'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        $this->setAttributes(['name' => $this->getParentName()]);
+        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
+    }
 }

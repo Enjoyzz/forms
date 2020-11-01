@@ -29,11 +29,11 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Class Input
+ * Description of CheckboxRender
  *
  * @author Enjoys
  */
-class InputRender extends BaseElement
+class CheckboxRender extends RadioRender
 {
 
 }

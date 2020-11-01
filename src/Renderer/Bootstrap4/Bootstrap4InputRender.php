@@ -26,14 +26,18 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\ElementsRender;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 /**
- * Class Input
+ * Description of Bootstrap4InputRender
  *
  * @author Enjoys
  */
-class InputRender extends BaseElement
+class Bootstrap4InputRender extends \Enjoys\Forms\Renderer\ElementsRender\InputRender
 {
-
+    public function __construct(\Enjoys\Forms\Element $element)
+    {
+        parent::__construct($element);
+        $this->element->addClass('form-control');
+    }
 }

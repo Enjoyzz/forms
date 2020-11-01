@@ -36,7 +36,7 @@ use Enjoys\Forms\ElementInterface;
  *
  * @author Enjoys
  */
-class BaseElementRender
+class BaseElement implements ElementRenderInterface
 {
 
     protected ElementInterface $element;

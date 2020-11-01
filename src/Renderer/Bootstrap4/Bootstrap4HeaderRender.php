@@ -26,14 +26,18 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\ElementsRender;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 /**
- * Class Input
+ * Description of Bootstrap4HeaderRender
  *
  * @author Enjoys
  */
-class InputRender extends BaseElement
+class Bootstrap4HeaderRender extends \Enjoys\Forms\Renderer\ElementsRender\HeaderRender
 {
-
+    public function __construct(\Enjoys\Forms\Element $element)
+    {
+        parent::__construct($element);
+        $this->element->addClass('h2');
+    }
 }

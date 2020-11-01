@@ -47,7 +47,27 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
 
     protected function elementRender(\Enjoys\Forms\Element $element): string
     {
-        $elementRender = new ElementRender($element);
+
+        if (method_exists($element, 'getDescription') && !empty($element->getDescription())) {
+            $element->setAttributes([
+                'id' => $element->getAttribute('id') . 'Help',
+                'class' => 'form-text text-muted'
+                    ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
+            $element->setAttributes([
+                'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
+            ]);
+        }
+
+        if (method_exists($element, 'isRuleError') && $element->isRuleError()) {
+            $element->setAttributes([
+                'class' => 'is-invalid'
+            ]);
+            $element->setAttributes([
+                'class' => 'invalid-feedback d-block'
+                    ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
+        }
+        
+        $elementRender = new Bootstrap4ElementRender($element);
         return $elementRender->render();
     }
 }

@@ -33,10 +33,8 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
  *
  * @author deadl
  */
-class RadioRender extends BaseElementRender
+class RadioRender extends BaseElement
 {
-
-
 
     public function render()
     {
@@ -53,9 +51,6 @@ class RadioRender extends BaseElementRender
     {
         $return = '';
         foreach ($element->getElements() as $data) {
-            $data->setAttributes([
-                'name' => $element->getName()
-            ]);
 
             if ($element->isRuleError()) {
                 $data->addClass('is-invalid');
@@ -63,7 +58,6 @@ class RadioRender extends BaseElementRender
 
             $return .= "<div>";
             $return .= $this->renderBody($data);
-            $return .= $this->renderLabel($data);
             $return .= '</div>';
         }
         return $return;

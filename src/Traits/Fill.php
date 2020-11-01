@@ -76,7 +76,7 @@ trait Fill
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
             $element->setParentName($this->getName());
-            $element->setAttributes($fillHandler->getAttributes());
+            $element->setAttributes($fillHandler->getAttributes(), 'fill');
             $element->setDefault($this->defaults);
 
             $this->elements[] = $element;

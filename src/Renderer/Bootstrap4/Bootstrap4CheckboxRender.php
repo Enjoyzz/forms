@@ -26,14 +26,36 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\ElementsRender;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 /**
- * Class Input
+ * Description of Bootstrap4CheckboxRender
  *
  * @author Enjoys
  */
-class InputRender extends BaseElement
+class Bootstrap4CheckboxRender extends \Enjoys\Forms\Renderer\ElementsRender\CheckboxRender
 {
 
+    protected function renderRadio($element)
+    {
+        $return = '';
+        foreach ($element->getElements() as $data) {
+            $data->addClass('custom-control-input');
+            $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+
+            if (empty($data->getLabel())) {
+                $data->addClass('position-static');
+            }
+
+            $data->addClass('custom-control custom-checkbox', 'checkBox');
+            if ($this->renderOptions['checkbox_inline'] === true) {
+                $data->addClass('custom-control-inline', 'checkBox');
+            }
+
+            $return .= "<div{$data->getAttributesString('checkBox')}>";
+            $return .= $this->renderBody($data);
+            $return .= '</div>';
+        }
+        return $return;
+    }
 }

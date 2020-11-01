@@ -41,7 +41,7 @@ class BaseRenderer implements RendererInterface
     protected Form $form;
     protected array $elements = [];
 
-    public function setForm(Form $form)
+    public function setForm(Form $form): void
     {
         $this->form = $form;
         $this->elements = $this->form->getElements();

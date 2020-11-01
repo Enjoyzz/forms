@@ -33,11 +33,11 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
  *
  * @author deadl
  */
-class HeaderRender extends BaseElementRender
+class HeaderRender extends BaseElement
 {
 
     public function render()
     {
-        return "<div{$this->element->getAttributes()}>{$this->element->getLabel()}</div>";
+        return "<div{$this->element->getAttributesString()}>{$this->element->getLabel()}</div>";
     }
 }

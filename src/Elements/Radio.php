@@ -101,26 +101,9 @@ class Radio extends Element
 
     public function baseHtml(): string
     {
-
-        if ($this->isParent()) {
-            $html = '';
-            foreach ($this->getElements() as $element) {
-                $html .= $element->baseHtml();
-            }
-            return $html;
-        }
-
-
         $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        $this->setAttributes($this->getAttributes(), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        
-        $this->removeAttribute('name', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        $this->removeAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        $this->removeAttribute('value', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-
+        $this->setAttributes($this->getAttributes('fill'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $this->setAttributes(['name' => $this->getParentName()]);
-
-
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
     }
 }
