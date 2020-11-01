@@ -4,6 +4,4 @@ vendor/bin/phpunit tests --coverage-clover build/logs/clover.xml
 vendor\bin\phpunit --coverage-html coverage
 vendor\bin\phpcs src/ --standard=PSR12 -p
 vendor\bin\phpcbf src/ --standard=PSR12 -p
---------------------------------------
-
-- переименовать bs4 в bootsrap4
+vendor\bin\phpdoc --directory=src --target=docs --title=forms
