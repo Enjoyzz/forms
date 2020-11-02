@@ -106,9 +106,9 @@ class Select extends Element
     public function optgroup(string $label = null, array $data = [], array $attributes = []): self
     {
         $optgroup = new Optgroup($label, $this->getName());
+        $optgroup->setDefault($this->defaults);
         $optgroup->setAttributes($attributes);
         $optgroup->fill($data);
-
         $this->elements[] = $optgroup;
         return $this;
     }

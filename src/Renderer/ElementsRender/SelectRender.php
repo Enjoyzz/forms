@@ -40,19 +40,27 @@ class SelectRender extends BaseElement
     {
         return
                 $this->renderLabel($this->element) .
-                $this->renderSelect($this->element) .
+                "<select{$this->element->getAttributesString()}>" .
+                $this->renderOptions($this->element) .
+                "</select>" .
                 $this->renderDescription($this->element) .
                 $this->renderValidation($this->element) .
                 '';
     }
 
-    protected function renderSelect($element)
+    protected function renderOptions($element)
     {
-        $return = "<select{$element->getAttributesString()}>";
+        $return = "";
         foreach ($element->getElements() as $data) {
+            
+            if ($data instanceof \Enjoys\Forms\Elements\Optgroup) {
+                $return .= "<optgroup{$data->getAttributesString()}>";
+                $return .= $this->renderOptions($data);
+                $return .= "</optgroup>";
+                continue;
+            }
             $return .= $this->renderBody($data);
         }
-        $return .= '</select>';
         return $return;
     }
 }
