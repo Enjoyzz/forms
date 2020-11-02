@@ -97,8 +97,9 @@ class Optgroup extends Element
         $this->removeAttribute('id');
     }
 
-    protected function setDefault(): self
+    protected function setDefault($value = null): self
     {
+        $this->defaults = $value;
         return $this;
     }
 
