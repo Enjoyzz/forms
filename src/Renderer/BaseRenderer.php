@@ -80,7 +80,7 @@ class BaseRenderer implements RendererInterface
 
     protected function elementRender(\Enjoys\Forms\Element $element): string
     {
-        $elementRender = new BaseElementRender($element);
+        $elementRender = new BaseElementRender($element, $this);
         return $elementRender->render();
     }
 

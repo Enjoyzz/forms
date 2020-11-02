@@ -29,15 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer;
 
 use Enjoys\Forms\ElementInterface;
-use Enjoys\Forms\Elements\Button;
-use Enjoys\Forms\Elements\Checkbox;
-use Enjoys\Forms\Elements\File;
-use Enjoys\Forms\Elements\Header;
-use Enjoys\Forms\Elements\Image;
-use Enjoys\Forms\Elements\Radio;
-use Enjoys\Forms\Elements\Reset;
-use Enjoys\Forms\Elements\Select;
-use Enjoys\Forms\Elements\Submit;
+use Enjoys\Forms\Elements;
 use Enjoys\Forms\Renderer\ElementsRender;
 
 /**
@@ -49,34 +41,56 @@ class BaseElementRender
 {
 
     protected $elementRender;
+    protected $renderer;
+
+    private const mapClasses = [
+        Elements\Radio::class => ElementsRender\RadioRender::class,
+        Elements\Checkbox::class => ElementsRender\CheckboxRender::class,
+        Elements\Select::class => ElementsRender\SelectRender::class,
+        Elements\Header::class => ElementsRender\HeaderRender::class,
+        Elements\Button::class => ElementsRender\ButtonRender::class,
+        Elements\Submit::class => ElementsRender\ButtonRender::class,
+        Elements\Reset::class => ElementsRender\ButtonRender::class,
+        Elements\Image::class => ElementsRender\ButtonRender::class,
+        Elements\File::class => ElementsRender\InputRender::class,
+        Elements\Text::class => ElementsRender\InputRender::class,
+        Elements\Color::class => ElementsRender\InputRender::class,
+        Elements\Date::class => ElementsRender\InputRender::class,
+        Elements\Datetime::class => ElementsRender\InputRender::class,
+        Elements\Datetimelocal::class => ElementsRender\InputRender::class,
+        Elements\Email::class => ElementsRender\InputRender::class,
+        Elements\Month::class => ElementsRender\InputRender::class,
+        Elements\Number::class => ElementsRender\InputRender::class,
+        Elements\Password::class => ElementsRender\InputRender::class,
+        Elements\Range::class => ElementsRender\InputRender::class,
+        Elements\Tel::class => ElementsRender\InputRender::class,
+        Elements\Time::class => ElementsRender\InputRender::class,
+        Elements\Url::class => ElementsRender\InputRender::class,
+        Elements\Week::class => ElementsRender\InputRender::class,
+        Elements\Search::class => ElementsRender\InputRender::class,
+        Elements\Group::class => ElementsRender\GroupRender::class,
+    ];
 
     public function __construct(ElementInterface $element)
     {
         $this->elementRender = $this->getElementRender($element);
     }
 
-    protected function getElementRender(ElementInterface $element)
+    /**
+     * 
+     * @param type $element
+     * @return ElementRenderInterface
+     */
+    protected function getElementRender(ElementInterface $element): ElementsRender\ElementRenderInterface
     {
+        $key = \get_class($element);
+        if (array_key_exists($key, self::mapClasses)) {
+            $class = self::mapClasses[$key];
 
-        switch (\get_class($element)) {
-            case Radio::class:
-                return new ElementsRender\RadioRender($element);
-            case Checkbox::class:
-                return new ElementsRender\CheckboxRender($element);
-            case Header::class:
-                return new ElementsRender\HeaderRender($element);
-            case File::class:
-                return new ElementsRender\FileRender($element);
-            case Select::class:
-                return new ElementsRender\SelectRender($element);
-            case Button::class:
-            case Submit::class:
-            case Reset::class:
-            case Image::class:
-                return new ElementsRender\ButtonRender($element);
-            default:
-                return new ElementsRender\InputRender($element);
+            return new $class($element);
         }
+
+        return new ElementsRender\InputRender($element);
     }
 
     public function render()

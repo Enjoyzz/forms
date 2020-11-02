@@ -29,14 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 use Enjoys\Forms\ElementInterface;
-use Enjoys\Forms\Elements\Button;
-use Enjoys\Forms\Elements\Checkbox;
-use Enjoys\Forms\Elements\File;
-use Enjoys\Forms\Elements\Header;
-use Enjoys\Forms\Elements\Image;
-use Enjoys\Forms\Elements\Radio;
-use Enjoys\Forms\Elements\Reset;
-use Enjoys\Forms\Elements\Submit;
+use Enjoys\Forms\Elements;
 use Enjoys\Forms\Renderer\BaseElementRender;
 use Enjoys\Forms\Renderer\ElementsRender\ButtonRender;
 use Enjoys\Forms\Renderer\ElementsRender\ElementRenderInterface;
@@ -49,22 +42,32 @@ use Enjoys\Forms\Renderer\ElementsRender\ElementRenderInterface;
 class Bootstrap4ElementRender extends BaseElementRender
 {
 
-    private $map = [
-        Radio::class => Bootstrap4RadioRender::class,
-        Checkbox::class => Bootstrap4CheckboxRender::class,
-        Header::class => Bootstrap4HeaderRender::class,
-        File::class => Bootstrap4FileRender::class,
-        Button::class => ButtonRender::class,
-        Submit::class => ButtonRender::class,
-        Reset::class => ButtonRender::class,
-        Image::class => ButtonRender::class,
-        Text::class => Bootstrap4InputRender::class,
+    private const mapClasses = [
+        Elements\Radio::class => Bootstrap4RadioRender::class,
+        Elements\Checkbox::class => Bootstrap4CheckboxRender::class,
+        Elements\Select::class => Bootstrap4SelectRender::class,
+        Elements\Header::class => Bootstrap4HeaderRender::class,
+        Elements\File::class => Bootstrap4FileRender::class,
+        Elements\Button::class => ButtonRender::class,
+        Elements\Submit::class => ButtonRender::class,
+        Elements\Reset::class => ButtonRender::class,
+        Elements\Image::class => ButtonRender::class,
+        Elements\Text::class => Bootstrap4InputRender::class,
+        Elements\Color::class => Bootstrap4InputRender::class,
+        Elements\Date::class => Bootstrap4InputRender::class,
+        Elements\Datetime::class => Bootstrap4InputRender::class,
+        Elements\Datetimelocal::class => Bootstrap4InputRender::class,
+        Elements\Email::class => Bootstrap4InputRender::class,
+        Elements\Month::class => Bootstrap4InputRender::class,
+        Elements\Number::class => Bootstrap4InputRender::class,
+        Elements\Password::class => Bootstrap4InputRender::class,
+        Elements\Range::class => Bootstrap4InputRender::class,
+        Elements\Tel::class => Bootstrap4InputRender::class,
+        Elements\Time::class => Bootstrap4InputRender::class,
+        Elements\Url::class => Bootstrap4InputRender::class,
+        Elements\Week::class => Bootstrap4InputRender::class,
+        Elements\Search::class => Bootstrap4InputRender::class,
     ];
-
-    public function __construct(ElementInterface $element)
-    {
-        $this->elementRender = $this->getElementRender($element);
-    }
 
     public function render()
     {
@@ -79,15 +82,14 @@ class Bootstrap4ElementRender extends BaseElementRender
      * @param type $element
      * @return ElementRenderInterface
      */
-    protected function getElementRender($element)
+    protected function getElementRender(ElementInterface $element): ElementRenderInterface
     {
         $key = \get_class($element);
-
-        if (array_key_exists($key, $this->map)) {
-            $class = $this->map[$key];
+        if (array_key_exists($key, self::mapClasses)) {
+            $class = self::mapClasses[$key];
             return new $class($element);
         }
-        
+
         return parent::getElementRender($element);
     }
 }

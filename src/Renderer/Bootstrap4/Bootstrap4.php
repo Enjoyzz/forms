@@ -67,7 +67,7 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
                     ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
         }
         
-        $elementRender = new Bootstrap4ElementRender($element);
+        $elementRender = new Bootstrap4ElementRender($element, $this);
         return $elementRender->render();
     }
 }

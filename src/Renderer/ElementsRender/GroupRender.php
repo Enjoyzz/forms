@@ -26,20 +26,36 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer\Bootstrap4;
+namespace Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of Bootstrap4HeaderRender
+ * Description of GroupRender
  *
  * @author Enjoys
  */
-class Bootstrap4HeaderRender extends \Enjoys\Forms\Renderer\ElementsRender\HeaderRender
+class GroupRender extends BaseElement
 {
 
-    public function __construct(\Enjoys\Forms\Element $element)
+    public function render()
     {
+        return
+                $this->renderLabel($this->element) .
+                $this->renderGroup($this->element) .
+                $this->renderDescription($this->element) .
+                $this->renderValidation($this->element) .
+                '';
+    }
 
-        $element->addClass('h2');
-        parent::__construct($element, $renderer);
+    protected function renderGroup($element)
+    {
+        $return = '';
+        foreach ($element->getElements() as $data) {
+
+
+            $return .= "<div>";
+            $return .= $this->renderBody($data);
+            $return .= '</div>';
+        }
+        return $return;
     }
 }
