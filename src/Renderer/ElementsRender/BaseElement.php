@@ -82,9 +82,11 @@ class BaseElement implements ElementRenderInterface
             $star = "";
         }
 
-        $element->setAttributes([
-            'for' => $element->getAttribute('id')
-                ], Form::ATTRIBUTES_LABEL);
+        if ($element->getAttribute('id') !== false) {
+            $element->setAttributes([
+                'for' => $element->getAttribute('id')
+                    ], Form::ATTRIBUTES_LABEL);
+        }
 
         return "<label{$element->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }

@@ -70,6 +70,7 @@ class BaseElementRender
         Elements\Search::class => ElementsRender\InputRender::class,
         Elements\Textarea::class => ElementsRender\TextareaRender::class,
         Elements\Group::class => ElementsRender\GroupRender::class,
+        Elements\Datalist::class => ElementsRender\DatalistRender::class,
     ];
 
     public function __construct(ElementInterface $element)

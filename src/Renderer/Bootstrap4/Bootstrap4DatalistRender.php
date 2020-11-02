@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,34 +26,20 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
-
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
-use Enjoys\Forms\Traits\Fill;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 /**
- * Description of Datalist
+ * Description of Bootstrap4InputRender
  *
- * @author deadl
+ * @author Enjoys
  */
-class Datalist extends Element
+class Bootstrap4DatalistRender extends \Enjoys\Forms\Renderer\ElementsRender\DatalistRender
 {
-    use Fill;
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
 
-    protected string $type = 'option';
+    public function __construct(\Enjoys\Forms\Element $element)
+    {
+        $element->addClass('form-control');
+        parent::__construct($element);
 
-    public function __construct(string $name, string $title = null)
-    {
-        parent::__construct($name, $title);
-        $this->setAttribute('list', $this->getAttribute('id'));
-       $this->removeAttribute('id');
-    }
-    
-    public function baseHtml(): ?string
-    {
-        return '';
     }
 }

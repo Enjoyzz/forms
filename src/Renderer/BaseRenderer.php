@@ -54,7 +54,6 @@ class BaseRenderer implements RendererInterface
         foreach ($this->elements as $key => $element) {
             if ($element instanceof \Enjoys\Forms\Elements\Hidden) {
                 unset($this->elements[$key]);
-                //$html .= "<input type=\"{$element->getType()}\"{$element->getAttributes()}>\n";
                 $html .= $element->baseHtml();
             }
             continue;
