@@ -103,7 +103,7 @@ class Select extends Element
      * @param array $attributes Аттрибуты для optgroup (id и name аттрибуты автоматически удалены)
      * @return \self
      */
-    public function optgroup(string $label = null, array $data = [], array $attributes = []): self
+    public function setOptgroup(string $label = null, array $data = [], array $attributes = []): self
     {
         $optgroup = new Optgroup($label, $this->getName());
         $optgroup->setDefault($this->defaults);

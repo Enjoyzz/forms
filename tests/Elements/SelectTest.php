@@ -331,7 +331,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     public function test_optgroup()
     {
         $select = new \Enjoys\Forms\Elements\Select('name');
-        $select->optgroup('foo', [
+        $select->setOptgroup('foo', [
             1, 2, 3
         ]);
 

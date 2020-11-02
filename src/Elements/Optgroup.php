@@ -37,11 +37,11 @@ use Enjoys\Forms\Traits\Fill;
  *
  * variant 1
  * $form->select('foo', 'bar')
- *      ->optgroup(
+ *      ->setOptgroup(
  *          'group1',
  *          [1, 2, 3],
  *          ['class' => 'text-danger']
- *      )->optgroup(
+ *      )->setOptgroup(
  *          'group2',
  *          [4, 5, 6]
  *      );
@@ -69,7 +69,7 @@ use Enjoys\Forms\Traits\Fill;
  * ];
  *
  * foreach ($dataGroup as $optgroup => $filldata) {
- *      $select->optgroup($optgroup, $filldata);
+ *      $select->setOptgroup($optgroup, $filldata);
  * }
  * //можно также продолжить заполнять select option'ами без optgroup
  * $select->fill([

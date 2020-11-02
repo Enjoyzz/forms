@@ -79,16 +79,23 @@ $filldata_optgroup = [
     ]
 ];
 $select3 = $form->select('select3', 'Select3 Optgroup')->setDescription('Select3 Optgroup');
-foreach ($filldata_optgroup as $optgroup => $_filldata) {
-    $select3->optgroup($optgroup, $_filldata);
+foreach ($filldata_optgroup as $_optgroup => $_filldata) {
+    $select3->setOptgroup($_optgroup, $_filldata);
 }
-$select3->fill([1,2,3]);
+$select3->fill([1, 2, 3]);
 
-$select4 = $form->select('select4', 'Select4 Optgroup')->setDescription('Select4 Optgroup')->fill($filldata_optgroup)->setMultiple();
-foreach ($filldata_optgroup as $optgroup => $_filldata) {
-    $select4->optgroup($optgroup, $_filldata);
+$select4 = $form->select('select4', 'Select4 Optgroup')->setDescription('Select4 Optgroup')->setMultiple();
+foreach ($filldata_optgroup as $optgroup => $__filldata) {
+    $select4->setOptgroup($optgroup, $__filldata);
 }
-$select4->fill([1,2,3]);
+$select4->fill([1, 2, 3]);
+
+$select5 = $form->select('select5')
+        ->setOptgroup('numbers', [1, 2, 3])
+        ->setOptgroup('alpha', ['a', 'b', 'c'])
+        ->setMultiple()
+        ->setAttribute('size', 10)
+;
 
 $form->checkbox('checkbox1', 'Checkbox1')->setDescription('checkboxDesc')->fill($filldata);
 $form->radio('radio1', 'radio1')->setDescription('radioDesc')->fill($filldata);

@@ -49,4 +49,26 @@ class OptgroupTest extends TestCase
         );
         $this->assertEquals(null, $og->baseHtml());
     }
+    
+    public function test_setdefaults()
+    {
+     
+        $form = new \Enjoys\Forms\Form();
+        $form->setDefaults([
+            'select1' => [
+                1,3,'b','c'
+            ]
+        ]);
+        $select = $form->select('select1')
+                ->setOptgroup('numbers', [1,2,3])
+                ->setOptgroup('alpha', ['a', 'b', 'c'])
+                ->setMultiple()
+                ;
+        $this->assertNull($select->getElements()[0]->getElements()[0]->getAttribute('selected'));
+        $this->assertFalse($select->getElements()[0]->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getElements()[2]->getAttribute('selected'));
+        $this->assertFalse($select->getElements()[1]->getElements()[0]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[1]->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[1]->getElements()[2]->getAttribute('selected'));
+    }
 }
