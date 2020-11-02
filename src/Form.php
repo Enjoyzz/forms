@@ -285,7 +285,12 @@ class Form
         $element->prepare();
         return $this->parentAddElement($element);
     }
-    
+
+    /**
+     * 
+     * @param \Enjoys\Forms\Renderer\RendererInterface $renderer
+     *
+     */
     public function render(Renderer\RendererInterface $renderer)
     {
         $renderer->setForm($this);
