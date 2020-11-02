@@ -82,6 +82,10 @@ class Textarea extends Element
 
     public function baseHtml(): ?string
     {
+        if ($this->getAttribute('value') !== false) {
+            $this->setValue($this->getAttribute('value'));
+            $this->removeAttribute('value');
+        }
         return "<textarea{$this->getAttributesString()}>{$this->getValue()}</textarea>";
     }
 }

@@ -68,6 +68,7 @@ class BaseElementRender
         Elements\Url::class => ElementsRender\InputRender::class,
         Elements\Week::class => ElementsRender\InputRender::class,
         Elements\Search::class => ElementsRender\InputRender::class,
+        Elements\Textarea::class => ElementsRender\TextareaRender::class,
         Elements\Group::class => ElementsRender\GroupRender::class,
     ];
 
