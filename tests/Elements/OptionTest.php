@@ -26,43 +26,18 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
+namespace Tests\Enjoys\Forms\Elements;
 
 /**
- * Включает защиту от CSRF.
- * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
+ * Description of OptionTest
  *
  * @author Enjoys
  */
-class Csrf extends Hidden
+class OptionTest extends \PHPUnit\Framework\TestCase
 {
-
-    /**
-     * @todo поменять session_id() на Session::getSessionId()
-     */
-    public function __construct()
+    public function test_baseHtml()
     {
-
-        $csrf_key = '#$' . session_id();
-        $hash = crypt($csrf_key, '');
-        parent::__construct(\Enjoys\Forms\Form::_TOKEN_CSRF_, $hash);
-
-        $this->addRule('csrf', 'CSRF Attack detected', [
-            'csrf_key' => $csrf_key
-        ]);
-    }
-
-    public function prepare()
-    {
-        if (!in_array($this->getForm()->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
-            //удаляем элемент, если был заранее создан
-            //$this->getForm()->removeElement($this->getForm()->getElement(\Enjoys\Forms\Form::_TOKEN_CSRF_));
-            $this->getForm()->removeElement($this);
-            
-            //возвращаем 1 что бы не добавлять элемент.
-            return 1;
-        }
-
-        $this->unsetForm();
+        $option = new \Enjoys\Forms\Elements\Option('foo', 'bar');
+        $this->assertEquals('<option id="foo" value="foo">bar</option>', $option->baseHtml());
     }
 }

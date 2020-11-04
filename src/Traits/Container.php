@@ -116,7 +116,7 @@ trait Container
         return null;
     }
 
-    public function removeElement(?\Enjoys\Forms\Element $element): self
+    public function removeElement(?\Enjoys\Forms\Element $element = null): self
     {
         if (null === $element) {
             return $this;

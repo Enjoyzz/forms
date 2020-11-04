@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Enjoys
  */
-class CsrfTest 
+class CsrfTest extends TestCase
 {
 //    use \Tests\Enjoys\Forms\Reflection;
 //
@@ -51,5 +51,15 @@ class CsrfTest
 //        
 //    }
 
+    public function test_remove_hidden()
+    {
+        $form = new Form([
+            'method' => 'post'
+        ]);
+        $this->assertTrue($form->getElement(Form::_TOKEN_CSRF_) instanceof \Enjoys\Forms\Elements\Csrf);
+        
+        $form->setMethod('get');
+        $this->assertTrue(null === $form->getElement(Form::_TOKEN_CSRF_));
+    }
 
 }

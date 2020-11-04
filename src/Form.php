@@ -158,9 +158,11 @@ class Form
         }
         $this->setAttribute('method', $this->method);
 
-        if (in_array($this->getMethod(), ['POST'])) {
-            $this->csrf();
-        }
+
+        $csrf = $this->csrf();
+//        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
+//            $this->removeElement($csrf);
+//        }
     }
 
     /**
@@ -275,14 +277,20 @@ class Form
     }
 
     /**
-     *
+     * 
+     * Если prepare() ничего не возвращает (NULL), то элемент добавляется,
+     * если что-то вернула фунция, то элемент добален в коллекцию не будет.
+     * @use Element::setForm()
+     * @use Element::prepare()
      * @param Element $element
      * @return \self
      */
     public function addElement(Element $element): self
     {
         $element->setForm($this);
-        $element->prepare();
+        if($element->prepare() !== null){
+            return $this;
+        }
         return $this->parentAddElement($element);
     }
 

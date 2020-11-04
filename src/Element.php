@@ -103,9 +103,9 @@ abstract class Element implements ElementInterface
         $this->form = null;
     }
 
+
     public function prepare()
     {
-
         $this->unsetForm();
     }
 
