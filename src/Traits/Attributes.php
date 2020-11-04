@@ -159,11 +159,18 @@ trait Attributes
 
     /**
      * Не протестирована, может вести себя не корректно
+     * @since 3.1.1 добавлена поддержка добавления массива
      * @param mixed $class
      * @return $this
      */
     public function addClass($class, $namespace = 'general')
     {
+        if(is_array($class)){
+            foreach ($class as $_class) {
+                $this->addClass($_class, $namespace);
+            }
+            return $this;
+        }
         $values = explode(" ", (string) $class);
         foreach ($values as $value) {
             $this->setAttribute('class', (string) $value, $namespace);

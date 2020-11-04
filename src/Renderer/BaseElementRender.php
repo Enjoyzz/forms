@@ -43,7 +43,7 @@ class BaseElementRender
     protected $elementRender;
     protected $renderer;
 
-    private const mapClasses = [
+    private const MAPCLASSES = [
         Elements\Radio::class => ElementsRender\RadioRender::class,
         Elements\Checkbox::class => ElementsRender\CheckboxRender::class,
         Elements\Select::class => ElementsRender\SelectRender::class,
@@ -86,8 +86,8 @@ class BaseElementRender
     protected function getElementRender(ElementInterface $element): ElementsRender\ElementRenderInterface
     {
         $key = \get_class($element);
-        if (array_key_exists($key, self::mapClasses)) {
-            $class = self::mapClasses[$key];
+        if (array_key_exists($key, self::MAPCLASSES)) {
+            $class = self::MAPCLASSES[$key];
 
             return new $class($element);
         }

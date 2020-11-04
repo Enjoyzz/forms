@@ -69,6 +69,7 @@ class Bootstrap4ElementRender extends BaseElementRender
         Elements\Search::class => Bootstrap4InputRender::class,
         Elements\Textarea::class => Bootstrap4InputRender::class,
         Elements\Datalist::class => Bootstrap4DatalistRender::class,
+        Elements\Group::class => Bootstrap4GroupRender::class,
     ];
 
     public function render()

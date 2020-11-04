@@ -77,9 +77,9 @@ class BaseRenderer implements RendererInterface
         return $html;
     }
 
-    protected function elementRender(\Enjoys\Forms\Element $element): string
+    public function elementRender(\Enjoys\Forms\Element $element): string
     {
-        $elementRender = new BaseElementRender($element, $this);
+        $elementRender = new BaseElementRender($element);
         return $elementRender->render();
     }
 

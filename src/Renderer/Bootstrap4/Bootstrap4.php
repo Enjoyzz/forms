@@ -45,7 +45,7 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
         $this->setOptions($options);
     }
 
-    protected function elementRender(\Enjoys\Forms\Element $element): string
+    public function elementRender(\Enjoys\Forms\Element $element): string
     {
 
         if (method_exists($element, 'getDescription') && !empty($element->getDescription())) {
@@ -67,7 +67,7 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
                     ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
         }
         
-        $elementRender = new Bootstrap4ElementRender($element, $this);
+        $elementRender = new Bootstrap4ElementRender($element);
         return $elementRender->render();
     }
 }

@@ -26,37 +26,32 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Elements;
-
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Exception\ExceptionElement;
-use Enjoys\Forms\Form;
+namespace Enjoys\Forms\Renderer\Bootstrap4;
 
 /**
- * Class Group
+ * Description of Bootstrap4GroupRender
  *
  * @author Enjoys
  */
-class Group extends Element
+class Bootstrap4GroupRender extends \Enjoys\Forms\Renderer\ElementsRender\GroupRender
 {
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Container;
 
-    public function __construct(string $title = null, array $elements = [])
+
+
+    protected function renderGroup($element)
     {
-        parent::__construct(\uniqid('group'), $title);
-        foreach ($elements as $element) {
-            if ($element instanceof Element) {
-               // $element->setForm($this->getForm());
-                $this->addElement($element);
-            }
+        $return = '<div class="form-row">';
+        /**
+         * @var \Enjoys\Forms\Element @data
+         */
+        foreach ($element->getElements() as $data) {
+            $elementRender = new Bootstrap4();
+           
+            $return .= "<div class='col'>";
+            $return .= $elementRender->elementRender($data);
+            $return .= '</div>';
         }
-    }
-
-
-
-    public function prepare()
-    {
-        
+        $return .= '</div>';
+        return $return;
     }
 }
