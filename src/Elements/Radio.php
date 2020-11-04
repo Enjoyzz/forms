@@ -44,6 +44,8 @@ class Radio extends Element
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
 
+    private const DEFAULT_PREFIX = 'rb_';
+
     /**
      *
      * @var string
@@ -77,6 +79,11 @@ class Radio extends Element
         return static::$prefix_id;
     }
 
+    public function resetPrefixId(): void
+    {
+        $this->setPrefixId(self::DEFAULT_PREFIX);
+    }
+
     protected function setDefault($value = null): self
     {
         // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
@@ -102,7 +109,7 @@ class Radio extends Element
     public function baseHtml(): string
     {
 
-        
+
         $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $this->setAttributes($this->getAttributes('fill'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $this->setAttributes(['name' => $this->getParentName()]);

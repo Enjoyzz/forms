@@ -238,4 +238,11 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertFalse($elements[2]->getAttribute('checked'));
     }
+    
+    public function test_basehtml()
+    {
+        $cb = new \Enjoys\Forms\Elements\Checkbox('foo', 'bar');
+        $cb->resetPrefixId();
+        $this->assertStringContainsString('<input type="checkbox" id="cb_foo[]" value="foo" name=""><label for="cb_foo[]">bar</label>', $cb->baseHtml());
+    }
 }

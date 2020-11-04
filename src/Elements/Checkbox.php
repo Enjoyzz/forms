@@ -44,6 +44,7 @@ class Checkbox extends Element
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
 
+    private const DEFAULT_PREFIX = 'cb_';
     /**
      *
      * @var string
@@ -82,6 +83,11 @@ class Checkbox extends Element
     public function getPrefixId()
     {
         return static::$prefix_id;
+    }
+
+    public function resetPrefixId(): void
+    {
+        $this->setPrefixId(self::DEFAULT_PREFIX);
     }
 
     protected function setDefault($value = null): self

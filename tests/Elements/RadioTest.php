@@ -34,7 +34,6 @@ namespace Tests\Enjoys\Forms\Elements;
 class RadioTest extends \PHPUnit\Framework\TestCase
 {
 
- 
     public function test_title()
     {
         $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
@@ -50,14 +49,13 @@ class RadioTest extends \PHPUnit\Framework\TestCase
 
     public function test_name()
     {
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $this->assertSame('name', $obj->getName());
     }
 
-  
     private function filldata()
     {
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->setPrefixId('rb_');
         $obj->fill([
             'v1' => 't1',
@@ -140,7 +138,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_prefix()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => 't1'
@@ -158,14 +156,14 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->setPrefixId('prefix_');
 
-        $obj2 = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj2 = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $this->assertSame('prefix_name', $obj2->getAttribute('id'));
     }
 
     public function test_prefix3()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => [
@@ -183,7 +181,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_count_radio_element()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->fill([
             1, 2, 3
         ]);
@@ -194,7 +192,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_count_radio_element2()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->fill([
             1, 1, 3
         ]);
@@ -205,7 +203,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_count_radio_element3()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio( 'name', 'title');
+        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->fill([1])->fill([1]);
 
         $this->assertCount(2, $obj->getElements());
@@ -251,5 +249,12 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertFalse($elements[2]->getAttribute('checked'));
+    }
+
+    public function test_basehtml()
+    {
+        $rb = new \Enjoys\Forms\Elements\Radio('foo', 'bar');
+        $rb->resetPrefixId();
+        $this->assertStringContainsString('<input type="radio" id="rb_foo" value="foo" name=""><label for="rb_foo">bar</label>', $rb->baseHtml());
     }
 }
