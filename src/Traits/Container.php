@@ -40,34 +40,34 @@ trait Container
     private array $elements = [];
 
     /**
-     * @method \Enjoys\Forms\Elements\Text text(string $name, string $title = null)
+     * @method \Enjoys\Forms\Elements\Text text(string $name, string $label = null)
      * @method \Enjoys\Forms\Elements\Hidden hidden(string $name, string $value = null)
-     * @method \Enjoys\Forms\Elements\Password password(string $name, string $title = null)
+     * @method \Enjoys\Forms\Elements\Password password(string $name, string $label = null)
      * @method \Enjoys\Forms\Elements\Submit submit(string $name, string $title = null)
      * @method \Enjoys\Forms\Elements\Header header(string $title = null)
-     * @method \Enjoys\Forms\Elements\Color color(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Date date(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Datetime datetime(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Datetimelocal datetimelocal(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Email email(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Number number(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Range range(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Search search(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Tel tel(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Time time(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Url url(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Month month(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Week week(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Textarea textarea(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Select select(string $name, string $title = null)
+     * @method \Enjoys\Forms\Elements\Color color(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Date date(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Datetime datetime(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Datetimelocal datetimelocal(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Email email(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Number number(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Range range(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Search search(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Tel tel(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Time time(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Url url(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Month month(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Week week(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Textarea textarea(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Select select(string $name, string $label = null)
      * @method \Enjoys\Forms\Elements\Button button(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Datalist datalist(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Checkbox checkbox(string $name, string $title = null)
+     * @method \Enjoys\Forms\Elements\Datalist datalist(string $name, string $label = null)
+     * @method \Enjoys\Forms\Elements\Checkbox checkbox(string $name, string $label = null)
      * @method \Enjoys\Forms\Elements\Image image(string $name, string $src = null)
      * @method \Enjoys\Forms\Elements\Radio radio(string $name, string $title = null)
      * @method \Enjoys\Forms\Elements\Reset reset(string $name, string $title = null)
      * @method \Enjoys\Forms\Elements\Captcha captcha(string $captchaName = null, string $message = null)
-     * @method \Enjoys\Forms\Elements\Group group(string $title = null, array $elements = null)
+     * @method \Enjoys\Forms\Elements\Group group(string $title = null)
      * @method \Enjoys\Forms\Elements\File file(string $name, string $label = null)
      *
      * @return @method
@@ -86,7 +86,7 @@ trait Container
         return $element;
     }
 
-        /**
+    /**
      *
      * @param Element $element
      * @return \self
@@ -97,7 +97,6 @@ trait Container
         $this->elements[$element->getName()] = $element;
         return $this;
     }
-
 
     /**
      *
@@ -136,4 +135,7 @@ trait Container
         }
         return false;
     }
+
+
+
 }

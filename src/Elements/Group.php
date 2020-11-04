@@ -42,18 +42,20 @@ class Group extends Element
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Container;
 
-    public function __construct(string $title = null, array $elements = [])
+    public function __construct(string $title = null)
     {
         parent::__construct(\uniqid('group'), $title);
+    }
+
+    public function add($elements)
+    {
         foreach ($elements as $element) {
             if ($element instanceof Element) {
-               // $element->setForm($this->getForm());
+                $element->setForm($this->getForm());
                 $this->addElement($element);
             }
         }
     }
-
-
 
     public function prepare()
     {
