@@ -47,7 +47,7 @@ class Group extends Element
         parent::__construct(\uniqid('group'), $title);
     }
 
-    public function add($elements)
+    public function add(array $elements = [])
     {
         foreach ($elements as $element) {
             if ($element instanceof Element) {
@@ -55,6 +55,7 @@ class Group extends Element
                 $this->addElement($element);
             }
         }
+        return $this;
     }
 
     public function prepare()

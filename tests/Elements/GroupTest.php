@@ -39,7 +39,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function test_init_group()
     {
    
-        $g = new \Enjoys\Forms\Elements\Group('group1', [
+        $g = new \Enjoys\Forms\Elements\Group('group1');
+        $g->setForm(new \Enjoys\Forms\Form());
+        $g->add([
             new \Enjoys\Forms\Elements\Text('foo', 'bar')
         ]);
         $this->assertInstanceOf('\Enjoys\Forms\Element', $g->getElements()['foo']);
@@ -48,7 +50,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function test_invalid_element()
     {
         $this->expectException('\Enjoys\Forms\Exception\ExceptionElement');
-        (new \Enjoys\Forms\Elements\Group('group1'))
-                ->invalid();
+        $g = new \Enjoys\Forms\Elements\Group('group1');
+        $g->invalid();
     }
 }

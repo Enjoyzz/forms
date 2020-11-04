@@ -95,7 +95,7 @@ abstract class Element implements ElementInterface
 
     public function getForm()
     {
-        return $this->form;
+        return $this->form;// ?? new Form();
     }
 
     public function unsetForm()
