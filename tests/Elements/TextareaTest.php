@@ -68,10 +68,20 @@ class TextareaTest extends \PHPUnit\Framework\TestCase
         $el->setRows('250');
         $this->assertEquals('250', $el->getAttribute('rows'));
     }
-    
+
     public function test_basehtml()
     {
         $el = (new \Enjoys\Forms\Elements\Textarea('foo', 'bar'))->setValue('text2');
         $this->assertEquals('<textarea id="foo" name="foo">text2</textarea>', $el->baseHtml());
+    }
+
+    public function test_basehtml2()
+    {
+        $form = new \Enjoys\Forms\Form();
+        $form->setDefaults([
+            'foo' => 'baz'
+        ]);
+        $el = $form->textarea('foo');
+        $this->assertEquals('<textarea id="foo" name="foo">baz</textarea>', $el->baseHtml());
     }
 }

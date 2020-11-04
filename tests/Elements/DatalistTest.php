@@ -42,4 +42,10 @@ class DatalistTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($el->getAttribute('id'));
         $this->assertEquals('foo', $el->getAttribute('list'));
     }
+    
+    public function test_basehtml()
+    {
+        $el = new \Enjoys\Forms\Elements\Datalist('foo', 'title1');
+        $this->assertEquals('', $el->baseHtml());
+    }
 }
