@@ -40,8 +40,8 @@ trait Description
     private ?string $description = null;
 
     /**
-     *
-     * @param string $description
+     * 
+     * @param string|null $description
      * @return \self
      */
     public function setDescription(?string $description = null): self

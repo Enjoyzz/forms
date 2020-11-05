@@ -42,8 +42,9 @@ trait Attributes
     private array $attributes = [];
 
     /**
-     *
-     * @param mixed $attributes
+     * 
+     * @param array $attributes
+     * @param string $namespace
      * @return \self
      */
     public function setAttributes(array $attributes, string $namespace = 'general'): self
@@ -64,7 +65,7 @@ trait Attributes
     }
 
     /**
-     *
+     * 
      * @param string $name
      * @param string $value
      * @param string $namespace
@@ -99,7 +100,13 @@ trait Attributes
         return $this;
     }
 
-    public function getAttribute($key, $namespace = 'general')
+    /**
+     * 
+     * @param string $key
+     * @param string $namespace
+     * @return mixed|false
+     */
+    public function getAttribute(string $key, string $namespace = 'general')
     {
         if (!isset($this->attributes[$namespace])) {
             $this->attributes[$namespace] = [];
@@ -110,7 +117,12 @@ trait Attributes
         return false;
     }
 
-    public function getAttributes($namespace = 'general'): array
+    /**
+     * 
+     * @param string $namespace
+     * @return array
+     */
+    public function getAttributes(string $namespace = 'general'): array
     {
         if (!isset($this->attributes[$namespace])) {
             $this->attributes[$namespace] = [];
@@ -120,10 +132,11 @@ trait Attributes
     }
 
     /**
-     *
+     * 
+     * @param string $namespace
      * @return string
      */
-    public function getAttributesString($namespace = 'general'): string
+    public function getAttributesString(string $namespace = 'general'): string
     {
         $str = [];
         if (!array_key_exists($namespace, $this->attributes)) {
@@ -149,7 +162,13 @@ trait Attributes
         return implode("", $str);
     }
 
-    public function removeAttribute($key, $namespace = 'general'): self
+    /**
+     * 
+     * @param string $key
+     * @param string $namespace
+     * @return \self
+     */
+    public function removeAttribute(string $key, string $namespace = 'general'): self
     {
         if (array_key_exists($key, $this->attributes[$namespace])) {
             unset($this->attributes[$namespace][$key]);
@@ -158,12 +177,12 @@ trait Attributes
     }
 
     /**
-     * Не протестирована, может вести себя не корректно
      * @since 3.1.1 добавлена поддержка добавления массива
      * @param mixed $class
+     * @param string $namespace
      * @return $this
      */
-    public function addClass($class, $namespace = 'general')
+    public function addClass($class, string $namespace = 'general')
     {
         if(is_array($class)){
             foreach ($class as $_class) {
@@ -179,7 +198,13 @@ trait Attributes
         return $this;
     }
 
-    public function removeClass($classValue, $namespace = 'general')
+    /**
+     * 
+     * @param string $classValue
+     * @param string $namespace
+     * @return \self
+     */
+    public function removeClass(string $classValue, string $namespace = 'general'): self
     {
         if (!array_key_exists('class', $this->attributes[$namespace])) {
             return $this;
