@@ -32,5 +32,6 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
  */
 interface ElementRenderInterface
 {
+
     public function render();
 }

@@ -46,12 +46,10 @@ class RadioRender extends BaseElement
                 '';
     }
 
-
     protected function renderRadio($element)
     {
         $return = '';
         foreach ($element->getElements() as $data) {
-
             if ($element->isRuleError()) {
                 $data->addClass('is-invalid');
             }

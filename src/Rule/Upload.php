@@ -78,7 +78,7 @@ class Upload extends Rules implements RuleInterface
     private function check($value, Element $element)
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
-           // $method = 'unknown';
+            // $method = 'unknown';
             if (is_int($rule) && is_string($ruleOpts)) {
                 $rule = $ruleOpts;
                 $ruleOpts = null;

@@ -40,7 +40,7 @@ trait Description
     private ?string $description = null;
 
     /**
-     * 
+     *
      * @param string|null $description
      * @return \self
      */

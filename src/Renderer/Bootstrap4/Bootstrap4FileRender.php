@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
  */
 class Bootstrap4FileRender extends \Enjoys\Forms\Renderer\ElementsRender\InputRender
 {
+
     public function __construct(\Enjoys\Forms\Element $element)
     {
         parent::__construct($element);

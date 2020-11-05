@@ -13,7 +13,7 @@ $form->captcha()->setOptions([
     'size' => 1,
     'width' => 100, //default: 150
     'height' => 20, //default: 50
-    //'chars' => 'abc...'
+        //'chars' => 'abc...'
 ]);
 $form->submit('submit_btn', 'Отправить анкету');
 

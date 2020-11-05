@@ -1,9 +1,9 @@
 <?php
-include __DIR__."/vendor/autoload.php";
+
+include __DIR__ . "/vendor/autoload.php";
 
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\Renderer;
-
 
 $form = new Form();
 
@@ -30,16 +30,16 @@ $form->checkbox('intresting', 'Интересы')->fill([
     'sport' => 'Спорт',
     'music' => 'Музыка',
     'art' => 'Исскуство',
-    'computer' => 'Компьютер',    
+    'computer' => 'Компьютер',
 ]);
 
 $form->tel('myphone', 'Телефон');
 $form->textarea('about', 'Коротко о себе');
 $form->submit('submit_btn', 'Отправить анкету');
 
-if(!$form->isSubmitted()){
+if (!$form->isSubmitted()) {
     $renderer = new Renderer($form);
     echo $renderer->display();
-}else{
+} else {
     _var_dump($_GET);
 }

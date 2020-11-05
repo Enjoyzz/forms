@@ -35,10 +35,10 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
  */
 class Bootstrap4InputRender extends \Enjoys\Forms\Renderer\ElementsRender\InputRender
 {
+
     public function __construct(\Enjoys\Forms\Element $element)
     {
         $element->addClass('form-control');
         parent::__construct($element);
-        
     }
 }

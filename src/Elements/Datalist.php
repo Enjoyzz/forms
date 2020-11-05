@@ -50,9 +50,9 @@ class Datalist extends Element
     {
         parent::__construct($name, $title);
         $this->setAttribute('list', $this->getAttribute('id'));
-       $this->removeAttribute('id');
+        $this->removeAttribute('id');
     }
-    
+
     public function baseHtml(): ?string
     {
         return '';

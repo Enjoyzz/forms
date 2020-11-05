@@ -50,8 +50,6 @@ class GroupRender extends BaseElement
     {
         $return = '';
         foreach ($element->getElements() as $data) {
-
-
             $return .= "<div>";
             $return .= $this->renderBody($data);
             $return .= '</div>';

@@ -35,7 +35,6 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
  */
 class FileRender extends BaseElement
 {
-
 //    public function __construct(\Enjoys\Forms\Element $element)
 //    {
 //        parent::__construct($element);

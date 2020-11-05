@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
  */
 class Bootstrap4SubmitRender extends Bootstrap4ButtonRender
 {
+
     public function __construct(\Enjoys\Forms\Element $element)
     {
         $element->addClass([

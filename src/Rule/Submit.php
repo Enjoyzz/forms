@@ -41,7 +41,7 @@ class Submit extends Rules implements RuleInterface
 {
 
     /**
-     * 
+     *
      * @param Element $element
      * @return bool
      */
@@ -55,7 +55,7 @@ class Submit extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return bool
      */

@@ -36,8 +36,6 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
 class Bootstrap4GroupRender extends \Enjoys\Forms\Renderer\ElementsRender\GroupRender
 {
 
-
-
     protected function renderGroup($element)
     {
         $return = '<div class="form-row">';
@@ -46,7 +44,7 @@ class Bootstrap4GroupRender extends \Enjoys\Forms\Renderer\ElementsRender\GroupR
          */
         foreach ($element->getElements() as $data) {
             $elementRender = new Bootstrap4();
-           
+
             $return .= "<div class='col'>";
             $return .= $elementRender->elementRender($data);
             $return .= '</div>';

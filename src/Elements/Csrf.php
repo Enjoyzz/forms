@@ -58,7 +58,7 @@ class Csrf extends Hidden
             //удаляем элемент, если был заранее создан
             //$this->getForm()->removeElement($this->getForm()->getElement(\Enjoys\Forms\Form::_TOKEN_CSRF_));
             $this->getForm()->removeElement($this);
-            
+
             //возвращаем 1 что бы не добавлять элемент.
             return 1;
         }

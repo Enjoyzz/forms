@@ -79,7 +79,7 @@ class BaseElementRender
     }
 
     /**
-     * 
+     *
      * @param type $element
      * @return ElementRenderInterface
      */

@@ -51,7 +51,7 @@ abstract class Element implements ElementInterface
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected string $name;
 
@@ -88,7 +88,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Form $form
      */
     public function setForm(Form $form)
@@ -98,16 +98,16 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * 
+     *
      * @return type
      */
     public function getForm()
     {
-        return $this->form;// ?? new Form();
+        return $this->form; // ?? new Form();
     }
 
     /**
-     * 
+     *
      * @return void
      */
     public function unsetForm(): void
@@ -115,9 +115,8 @@ abstract class Element implements ElementInterface
         $this->form = null;
     }
 
-
     /**
-     * @return mixed|void 
+     * @return mixed|void
      */
     public function prepare()
     {

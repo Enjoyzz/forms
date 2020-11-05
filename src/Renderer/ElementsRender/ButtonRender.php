@@ -35,6 +35,7 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
  */
 class ButtonRender extends BaseElement
 {
+
     public function render()
     {
         return $this->renderBody($this->element);

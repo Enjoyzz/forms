@@ -42,7 +42,7 @@ trait Attributes
     private array $attributes = [];
 
     /**
-     * 
+     *
      * @param array $attributes
      * @param string $namespace
      * @return \self
@@ -65,7 +65,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @param string $value
      * @param string $namespace
@@ -101,7 +101,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $key
      * @param string $namespace
      * @return mixed|false
@@ -118,7 +118,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $namespace
      * @return array
      */
@@ -127,12 +127,12 @@ trait Attributes
         if (!isset($this->attributes[$namespace])) {
             $this->attributes[$namespace] = [];
         }
-        
+
         return $this->attributes[$namespace];
     }
 
     /**
-     * 
+     *
      * @param string $namespace
      * @return string
      */
@@ -163,7 +163,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $key
      * @param string $namespace
      * @return \self
@@ -184,7 +184,7 @@ trait Attributes
      */
     public function addClass($class, string $namespace = 'general')
     {
-        if(is_array($class)){
+        if (is_array($class)) {
             foreach ($class as $_class) {
                 $this->addClass($_class, $namespace);
             }
@@ -199,7 +199,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $classValue
      * @param string $namespace
      * @return \self

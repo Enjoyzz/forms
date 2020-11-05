@@ -1,4 +1,5 @@
 <?php
+
 include __DIR__ . "/vendor/autoload.php";
 
 use Enjoys\Forms\Form;
@@ -10,9 +11,9 @@ $form = new Form();
 
 $form2 = new Form([
     'method' => 'post'
-]);
+        ]);
 
 $form2 = new Form([
     'method' => 'post',
     'action' => 'index.php'
-]);
+        ]);

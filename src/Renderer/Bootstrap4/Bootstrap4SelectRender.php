@@ -40,6 +40,5 @@ class Bootstrap4SelectRender extends \Enjoys\Forms\Renderer\ElementsRender\Selec
     {
         $element->addClass('form-control');
         parent::__construct($element);
-
     }
 }

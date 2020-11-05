@@ -52,15 +52,15 @@ class Rules
      * @var string|null
      */
     private ?string $message;
-    
+
     /**
      *
-     * @var array 
+     * @var array
      */
     private array $params = [];
 
     /**
-     * 
+     *
      * @param string|null $message
      * @param mixed $params
      */
@@ -73,7 +73,7 @@ class Rules
     }
 
     /**
-     * 
+     *
      * @param mixed $params
      * @return void
      */
@@ -88,7 +88,7 @@ class Rules
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getParams()
@@ -97,7 +97,7 @@ class Rules
     }
 
     /**
-     * 
+     *
      * @param string|int $key
      * @return mixed|null
      */
@@ -110,7 +110,7 @@ class Rules
     }
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return void
      */
@@ -121,7 +121,7 @@ class Rules
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
     public function getMessage(): ?string

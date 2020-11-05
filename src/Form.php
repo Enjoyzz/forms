@@ -86,13 +86,11 @@ class Form
      */
     private ?string $action = null;
 
-
     /**
      *
      * @var DefaultsHandler
      */
     private DefaultsHandler $defaultsHandler;
-
 
     /**
      *
@@ -189,7 +187,7 @@ class Form
         if (is_null($action)) {
             $this->removeAttribute('action');
         }
-        
+
         return $this;
     }
 
@@ -232,11 +230,11 @@ class Form
         return $this->name;
     }
 
-     /**
-      * Установка аттрибута формы name
-      * @param string|null $name
-      * @return \self
-      */
+    /**
+     * Установка аттрибута формы name
+     * @param string|null $name
+     * @return \self
+     */
     protected function setName(?string $name = null): self
     {
         $this->name = $name;
@@ -271,7 +269,7 @@ class Form
     }
 
     /**
-     * 
+     *
      * Если prepare() ничего не возвращает (NULL), то элемент добавляется,
      * если что-то вернула фунция, то элемент добален в коллекцию не будет.
      * @use Element::setForm()
@@ -291,8 +289,8 @@ class Form
     /**
      * Вывод формы в Renderer
      * @param \Enjoys\Forms\Renderer\RendererInterface $renderer
-     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может 
-     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера. 
+     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
+     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
      */
     public function render(Renderer\RendererInterface $renderer)
     {

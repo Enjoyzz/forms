@@ -60,6 +60,5 @@ class Group extends Element
 
     public function prepare()
     {
-        
     }
 }

@@ -40,6 +40,5 @@ class Bootstrap4DatalistRender extends \Enjoys\Forms\Renderer\ElementsRender\Dat
     {
         $element->addClass('form-control');
         parent::__construct($element);
-
     }
 }

@@ -52,7 +52,6 @@ class SelectRender extends BaseElement
     {
         $return = "";
         foreach ($element->getElements() as $data) {
-            
             if ($data instanceof \Enjoys\Forms\Elements\Optgroup) {
                 $return .= "<optgroup{$data->getAttributesString()}>";
                 $return .= $this->renderOptions($data);
