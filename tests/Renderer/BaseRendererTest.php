@@ -26,41 +26,27 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Rule;
-
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Rule\RuleInterface;
-use Enjoys\Forms\Rules;
+namespace Tests\Enjoys\Forms\Renderer;
 
 /**
- * Description of SubmitTocken
+ * Description of BaseRendererTest
  *
  * @author Enjoys
  */
-class Submit extends Rules implements RuleInterface
+class BaseRendererTest extends \PHPUnit\Framework\TestCase
 {
-
-    /**
-     * 
-     * @param Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+    public function test_render()
     {
-
-        $method = $this->request->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
-
-        return $this->check($value);
-    }
-
-    /**
-     * 
-     * @param mixed $value
-     * @return bool
-     */
-    private function check($value): bool
-    {
-        return $value == $this->getParams()[0];
+        $form = new \Enjoys\Forms\Form(['method'=>'get']);
+        $form->text('foo');
+        $form->color('bar');
+        $render = new \Enjoys\Forms\Renderer\BaseRenderer();
+        $render->setForm($form);
+        
+        $result = $render->render();
+        $this->assertStringContainsString('<form method="GET">', $result);
+        $this->assertStringContainsString('<input type="hidden" name="_token_submit" value="', $result);
+        $this->assertStringContainsString('<input type="text" id="foo" name="foo">', $result);
+        $this->assertStringContainsString('<input type="color" id="bar" name="bar">', $result);
     }
 }

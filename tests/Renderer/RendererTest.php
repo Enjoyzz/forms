@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Tests\Enjoys\Forms;
+namespace Tests\Enjoys\Forms\Renderer;
 
 /**
  * Class RendererTest

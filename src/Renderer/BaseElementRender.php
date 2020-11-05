@@ -54,7 +54,7 @@ class BaseElementRender
         Elements\Image::class => ElementsRender\ButtonRender::class,
         Elements\File::class => ElementsRender\InputRender::class,
         Elements\Text::class => ElementsRender\InputRender::class,
-        Elements\Color::class => ElementsRender\InputRender::class,
+        //Elements\Color::class => ElementsRender\InputRender::class,
         Elements\Date::class => ElementsRender\InputRender::class,
         Elements\Datetime::class => ElementsRender\InputRender::class,
         Elements\Datetimelocal::class => ElementsRender\InputRender::class,

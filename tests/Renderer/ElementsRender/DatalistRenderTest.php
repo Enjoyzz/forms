@@ -26,41 +26,21 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Rule;
-
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Rule\RuleInterface;
-use Enjoys\Forms\Rules;
+namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of SubmitTocken
+ * Description of DatalistRenderTest
  *
  * @author Enjoys
  */
-class Submit extends Rules implements RuleInterface
+class DatalistRenderTest extends \PHPUnit\Framework\TestCase
 {
 
-    /**
-     * 
-     * @param Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+    public function test_1()
     {
-
-        $method = $this->request->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
-
-        return $this->check($value);
-    }
-
-    /**
-     * 
-     * @param mixed $value
-     * @return bool
-     */
-    private function check($value): bool
-    {
-        return $value == $this->getParams()[0];
+        $dl = new \Enjoys\Forms\Elements\Datalist('foo');
+        $dl->fill(['bar']);
+        $o = new \Enjoys\Forms\Renderer\ElementsRender\DatalistRender($dl);
+        $this->assertEquals('<input name="foo" list="foo"><datalist id="foo"><option id="bar" value="bar">bar</option></datalist>', $o->render());
     }
 }

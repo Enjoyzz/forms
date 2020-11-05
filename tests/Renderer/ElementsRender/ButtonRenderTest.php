@@ -26,41 +26,18 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Rule;
-
-use Enjoys\Forms\Element;
-use Enjoys\Forms\Rule\RuleInterface;
-use Enjoys\Forms\Rules;
+namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 
 /**
- * Description of SubmitTocken
+ * Description of ButtonRenderTest
  *
  * @author Enjoys
  */
-class Submit extends Rules implements RuleInterface
+class ButtonRenderTest extends \PHPUnit\Framework\TestCase
 {
-
-    /**
-     * 
-     * @param Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+ public function test_1()
     {
-
-        $method = $this->request->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
-
-        return $this->check($value);
-    }
-
-    /**
-     * 
-     * @param mixed $value
-     * @return bool
-     */
-    private function check($value): bool
-    {
-        return $value == $this->getParams()[0];
+        $o = new \Enjoys\Forms\Renderer\ElementsRender\ButtonRender(new \Enjoys\Forms\Elements\Button('foo', 'bar'));
+        $this->assertEquals('<button id="foo" name="foo">bar</button>', $o->render());
     }
 }

@@ -143,6 +143,12 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         $trait = $this->getMockForTrait(\Enjoys\Forms\Traits\Attributes::class);
         $trait->setAttribute('class', 'value1')->setAttribute('class', 'value2');
         $this->assertSame(['value1', 'value2'], $trait->getAttribute('class'));
+        
+        $trait->addClass([
+            1, 2
+        ]);
+        
+        $this->assertSame(['value1', 'value2', '1', '2'], $trait->getAttribute('class'));
     }
 
 
