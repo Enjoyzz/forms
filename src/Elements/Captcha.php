@@ -44,56 +44,26 @@ class Captcha extends Element
 
     private $captcha;
 
-    public function __construct(string $captcha = null, string $message = null)
+    public function __construct(\Enjoys\Forms\Captcha\CaptchaInterface $captcha, string $message = null)
     {
-        if (is_null($captcha)) {
-            $captcha = 'Defaults';
-        }
         parent::__construct(\uniqid('captcha'));
-        $this->captcha = $this->getCaptcha($captcha, $message);
+        
+        $this->captcha = $captcha;
+        $this->captcha->setRequest($this->getRequest());
+        
+        
         $this->setName($this->captcha->getName());
-    }
-
-    private function getCaptcha($captcha, string $message = null)
-    {
-        $class = "\Enjoys\Forms\Captcha\\" . $captcha . "\\" . $captcha;
-        if (!class_exists($class)) {
-            throw new ExceptionElement("Class <b>{$class}</b> not found");
-        }
-        /** @var \Enjoys\Forms\Interfaces\Captcha $element */
-        return new $class($this, $message);
-    }
-
-    public function setOptions(array $options)
-    {
-        $this->captcha->setOptions($options);
-        return $this;
-    }
-
-    public function setOption($name, $value)
-    {
-        $this->captcha->setOption($name, $value);
-        return $this;
-    }
-
-    public function getOptions()
-    {
-        return $this->captcha->getOptions();
-    }
-
-    public function getOption($param, $default = null)
-    {
-        return $this->captcha->getOption($param, $default);
+        $this->addRule(\Enjoys\Forms\Rules::CAPTCHA, $this->captcha->getRuleMessage());
     }
 
     public function renderHtml()
     {
-        return $this->captcha->renderHtml();
+        return $this->captcha->renderHtml($this);
     }
 
     public function validate()
     {
-        return $this->captcha->validate();
+        return $this->captcha->validate($this);
     }
 
     public function baseHtml(): ?string

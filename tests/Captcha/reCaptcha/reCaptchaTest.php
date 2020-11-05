@@ -68,22 +68,24 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
 
     public function test_init()
     {
-
-        $captcha = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
+        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
         $this->assertInstanceOf('\Enjoys\Forms\Elements\Captcha', $captcha);
     }
 
     public function test_init_add_rule()
     {
 
-        $captcha = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
+        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
         $this->assertCount(1, $captcha->getRules());
     }
 
     public function test_render()
     {
 
-        $captcha = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
+        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
         $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
@@ -93,19 +95,19 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
         $responseBody = \json_encode([
             'success' => true,
         ]);
-        $captcha_element = new \Enjoys\Forms\Elements\Captcha('reCaptcha');
-        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha($captcha_element);
 
+        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
         $captcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
 
-        $this->assertTrue($captcha->validate());
+        $captcha_element = new \Enjoys\Forms\Elements\Captcha($captcha);
+
+        $this->assertTrue($captcha_element->validate());
     }
 
     public function test_validate_false()
     {
-
         $responseBody = \json_encode([
             'success' => false,
             'error-codes' =>
@@ -113,12 +115,13 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
                 0 => 'missing-input-response',
             ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha( 'reCaptcha');
-
-
-        $captcha->setOptions([
+        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $recaptcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
+
+
+        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
 
         $this->assertFalse($captcha->validate());
         $this->assertEquals('The response parameter is missing.', $captcha->getRuleErrorMessage());
@@ -135,12 +138,14 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
                 1 => 'invalid-input-secret'
             ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha( 'reCaptcha');
-
-
-        $captcha->setOptions([
+        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $recaptcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
+        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
+
+
+
         $captcha->validate();
         $captcha->renderHtml();
         $this->assertEquals('The response parameter is missing., The secret parameter is invalid or malformed.', $captcha->getRuleErrorMessage());
@@ -148,7 +153,7 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_false_render_width_setLanguage()
     {
-
+        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
         $responseBody = \json_encode([
             'success' => false,
             'error-codes' =>
@@ -157,13 +162,14 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
                 1 => 'invalid-input-secret'
             ],
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha( 'reCaptcha');
 
-
-        $captcha->setOptions([
+        $recaptcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody),
             'language' => 'ru'
         ]);
+        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
+
+
         $captcha->validate();
         $captcha->renderHtml();
         $this->assertEquals('Параметр ответа отсутствует., Секретный параметр является недопустимым или искаженным.', $captcha->getRuleErrorMessage());

@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Captcha\Defaults;
 
 use Enjoys\Session\Session as Session;
-use Enjoys\Traits\Options;
 
 /**
  * Description of Defaults
@@ -37,56 +36,45 @@ use Enjoys\Traits\Options;
  *
  * @author Enjoys
  */
-class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
+class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Forms\Captcha\CaptchaInterface
 {
-    use Options;
 
     private $code = '';
-    private $ruleMessage;
-    private $element;
-    private $name;
+    
 
-    public function __construct($element, $message = null)
+    public function __construct($message = null)
     {
-        $this->element = $element;
-        $this->name = 'captcha_defaults';
-        $this->element->setAttributes([
-            'type' => 'text',
-            'autocomplete' => 'off'
-        ]);
 
+        $this->setName('captcha_defaults');
         if (is_null($message)) {
             $message = 'Не верно введен код';
         }
-
-        $this->ruleMessage = $message;
-
-        //$this->element->addRule('required');
-        $this->element->addRule('captcha', $this->ruleMessage);
+        $this->setRuleMessage($message);
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
 
-    public function validate()
+    public function validate(\Enjoys\Forms\Element $element): bool
     {
 
 
-        $method = $this->element->getRequest()->getMethod();
-        $value = \getValueByIndexPath($this->element->getName(), $this->element->getRequest()->$method());
-        //_var_dump(Session::get($this->element->getName()), $value);
-        if (Session::get($this->element->getName()) !== $value) {
-            $this->element->setRuleError($this->ruleMessage);
+        $method = $this->getRequest()->getMethod();
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+
+        if (Session::get($element->getName()) !== $value) {
+            $element->setRuleError($this->ruleMessage);
             return false;
         }
         return true;
     }
 
-    public function renderHtml()
+    public function renderHtml(\Enjoys\Forms\Element $element): string
     {
-        $this->generateCode();
+        $element->setAttributes([
+            'type' => 'text',
+            'autocomplete' => 'off'
+        ]);
+
+        $this->generateCode($element);
         $img = $this->createImage($this->getCode(), $this->getOption('width', 150), $this->getOption('height', 50));
 
         //dump(Session::get($this->getName()));
@@ -95,12 +83,12 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
 //        if ($this->element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $this->element->getAttributesString() . '>';
+        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $element->getAttributesString() . '>';
 
         return $html;
     }
 
-    private function generateCode()
+    private function generateCode(\Enjoys\Forms\Element $element)
     {
         $max = $this->getOption('size', 6);
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
@@ -113,7 +101,7 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
         }
         $this->code = $code;
         Session::set([
-            $this->element->getName() => $this->code
+            $element->getName() => $this->code
         ]);
     }
 
@@ -143,11 +131,11 @@ class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
             $h = 1;
             //Рисуем
             $color = \imagecolorallocatealpha(
-                $img,
-                $figures[\rand(0, \count($figures) - 1)],
-                $figures[\rand(0, \count($figures) - 1)],
-                $figures[\rand(0, \count($figures) - 1)],
-                rand(10, 30)
+                    $img,
+                    $figures[\rand(0, \count($figures) - 1)],
+                    $figures[\rand(0, \count($figures) - 1)],
+                    $figures[\rand(0, \count($figures) - 1)],
+                    rand(10, 30)
             );
 
 

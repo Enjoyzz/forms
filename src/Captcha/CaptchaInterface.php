@@ -34,8 +34,9 @@ namespace Enjoys\Forms\Captcha;
  */
 interface CaptchaInterface
 {
+    public function getName(): string;
 
-    public function renderHtml();
+    public function renderHtml(\Enjoys\Forms\Element $element): string;
 
-    public function validate();
+    public function validate(\Enjoys\Forms\Element $element): bool;
 }

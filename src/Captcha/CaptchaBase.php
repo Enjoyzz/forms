@@ -24,34 +24,43 @@
  * THE SOFTWARE.
  */
 
-namespace Tests\Enjoys\Forms\Elements;
+declare(strict_types=1);
+
+namespace Enjoys\Forms\Captcha;
 
 /**
- * Class CaptchaTest
  *
  * @author Enjoys
  */
-class CaptchaTest extends \PHPUnit\Framework\TestCase
+abstract class CaptchaBase implements CaptchaInterface
 {
+    use \Enjoys\Forms\Traits\Request;
+    use \Enjoys\Traits\Options;
 
-    use \Tests\Enjoys\Forms\Reflection;
+    protected string $name;
+    protected ?string $ruleMessage;
 
-    public function test_init_captcha()
+    public function setName(string $name): void
     {
-        $form = new \Enjoys\Forms\Form();
-        $element = $form->captcha(new \Enjoys\Forms\Captcha\Defaults\Defaults());
-        $this->assertTrue($element instanceof \Enjoys\Forms\Elements\Captcha);
+        $this->name = $name;
     }
 
-    public function test_init_captcha_set_rule_message()
+    public function getName(): string
     {
-        $form = new \Enjoys\Forms\Form();
-        $element = $form->captcha(new \Enjoys\Forms\Captcha\Defaults\Defaults('test'));
-        $rule = $element->getRules()[0];
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Captcha::class, 'getMessage');
-        $this->assertSame('test', $method->invoke($rule));
+        return $this->name;
     }
 
+    public function getRuleMessage(): ?string
+    {
+        return $this->ruleMessage;
+    }
 
+    public function setRuleMessage(?string $message = null): void
+    {
+        $this->ruleMessage = $message;
+    }
 
+    abstract public function renderHtml(\Enjoys\Forms\Element $element): string;
+
+    abstract public function validate(\Enjoys\Forms\Element $element): bool;
 }

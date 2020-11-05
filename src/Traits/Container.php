@@ -66,7 +66,7 @@ trait Container
      * @method \Enjoys\Forms\Elements\Image image(string $name, string $src = null)
      * @method \Enjoys\Forms\Elements\Radio radio(string $name, string $title = null)
      * @method \Enjoys\Forms\Elements\Reset reset(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Captcha captcha(string $captchaName = null, string $message = null)
+     * @method \Enjoys\Forms\Elements\Captcha captcha(\Enjoys\Forms\Captcha\CaptchaInterface $captcha)
      * @method \Enjoys\Forms\Elements\Group group(string $title = null)
      * @method \Enjoys\Forms\Elements\File file(string $name, string $label = null)
      *

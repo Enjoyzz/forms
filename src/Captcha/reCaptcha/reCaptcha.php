@@ -28,23 +28,20 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\reCaptcha;
 
-use Enjoys\Forms\Interfaces\Captcha;
-use Enjoys\Traits\Options;
-use Enjoys\Forms\Traits\Request;
+use Enjoys\Forms\Captcha\CaptchaBase;
+use Enjoys\Forms\Captcha\CaptchaInterface;
+use Enjoys\Forms\Element;
 use GuzzleHttp\Client;
 
-use function GuzzleHttp\json_decode;
+
 
 /**
  * Description of reCaptcha
  *
  * @author Enjoys
  */
-class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
+class reCaptcha extends CaptchaBase implements CaptchaInterface
 {
-    use Options;
-    use Request;
-
     private $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
     private $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
@@ -56,41 +53,40 @@ class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
         'bad-request' => 'The request is invalid or malformed.',
         'timeout-or-duplicate' => 'The response is no longer valid: either is too old or has been used previously.',
     ];
-    private $element;
-    private $name;
 
-    public function __construct($element, $message = null)
+   
+
+    public function __construct()
     {
-        $this->element = $element;
-        $this->name = 'recaptcha2';
-        $this->element->addRule('captcha', $message);
+        $this->setName('recaptcha2');
+        $this->setRuleMessage(null);
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
 
-    public function renderHtml(): string
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return string
+     */
+    public function renderHtml(Element $element): string
     {
         $html = "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>";
-//        if ($this->element->isRuleError()) {
-//            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
-//        }
         $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->getOption('publickey', $this->publicKey))}\"> </div>";
         return $html;
     }
 
-    public function validate()
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return bool
+     */
+    public function validate(Element $element): bool
     {
-
-
-
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 
         $data = array(
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
-            'response' => $this->element->getRequest()->post('g-recaptcha-response', $this->element->getRequest()->get('g-recaptcha-response'))
+            'response' => $this->getRequest()->post('g-recaptcha-response', $this->getRequest()->get('g-recaptcha-response'))
         );
 
 
@@ -99,7 +95,7 @@ class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
             'form_params' => $data
         ]);
 
-        $responseBody = json_decode($response->getBody()->getContents());
+        $responseBody = \json_decode($response->getBody()->getContents());
 
 
         if ($responseBody->success === false) {
@@ -107,7 +103,7 @@ class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
             foreach ($responseBody->{'error-codes'} as $error) {
                 $errors[] = $this->errorCodes[$error];
             }
-            $this->element->setRuleError(implode(', ', $errors));
+            $element->setRuleError(implode(', ', $errors));
             return false;
         }
         return true;
@@ -117,7 +113,7 @@ class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
      * Used across setOption()
      * @param type $lang
      */
-    private function setLanguage($lang)
+    public function setLanguage($lang)
     {
         $file_language = __DIR__ . '/lang/' . \strtolower($lang) . '.php';
 
@@ -125,7 +121,8 @@ class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
             $this->errorCodes = include $file_language;
         }
     }
-
+    
+ 
     private function getGuzzleClient()
     {
         return new Client();
