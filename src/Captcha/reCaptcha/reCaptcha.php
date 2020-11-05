@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ use function GuzzleHttp\json_decode;
 /**
  * Description of reCaptcha
  *
- * @author deadl
+ * @author Enjoys
  */
 class reCaptcha implements \Enjoys\Forms\Captcha\CaptchaInterface
 {

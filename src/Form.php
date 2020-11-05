@@ -49,8 +49,19 @@ class Form
         addElement as private parentAddElement;
     }
 
+    /**
+     * Разрешенные методы формы
+     */
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
+
+    /**
+     * Название переменной для хранения токена для проверки от аттак CSRF
+     */
     public const _TOKEN_CSRF_ = '_token_csrf';
+
+    /**
+     * Название переменной для хранения токена для проверки отправлена форма или нет
+     */
     public const _TOKEN_SUBMIT_ = '_token_submit';
     public const _FLAG_FORMMETHOD_ = '_form_method';
     public const ATTRIBUTES_DESC = '_desc_attributes_';
@@ -78,21 +89,10 @@ class Form
 
     /**
      *
-     * @var string
-     */
-//    private string $renderer = 'defaults';
-
-    /**
-     *
      * @var DefaultsHandler
      */
     private DefaultsHandler $defaultsHandler;
 
-    /**
-     *
-     * @var string
-     */
-//    private string $tockenSubmit = '';
 
     /**
      *
@@ -106,13 +106,7 @@ class Form
     private static int $formCounter = 0;
 
     /**
-     * $form = new Form([
-     *      'name' => 'myname',
-     *      'action' => 'action.php'
-     *      'method' => 'post'
-     *      'defaults' => [],
-     *
-     * ]);
+     * @example example/initform.php description
      * @param array $options
      * @param RequestInterface $request
      */
@@ -144,7 +138,9 @@ class Form
     }
 
     /**
-     * @param string $method
+     * Устанавливает метод формы, заодно пытается установить защиту от CSRF аттак,
+     * если она требуется
+     * @param string|null $method
      * @return void
      */
     public function setMethod(?string $method = null): void
@@ -158,16 +154,12 @@ class Form
         }
         $this->setAttribute('method', $this->method);
 
-
-        $csrf = $this->csrf();
-//        if (!in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
-//            $this->removeElement($csrf);
-//        }
+        $this->csrf();
     }
 
     /**
-     *
-     * @return string
+     * Получение метода формы
+     * @return string GET|POST
      */
     public function getMethod(): string
     {
@@ -175,8 +167,8 @@ class Form
     }
 
     /**
-     *
-     * @return string
+     * Получение аттрибута action формы
+     * @return string|null
      */
     public function getAction(): ?string
     {
@@ -184,9 +176,9 @@ class Form
     }
 
     /**
-     *
-     * @param string $action
-     * @return $this
+     * Установка аттрибута action формы
+     * @param string|null $action
+     * @return \self
      */
     protected function setAction(?string $action = null): self
     {
@@ -197,9 +189,7 @@ class Form
         if (is_null($action)) {
             $this->removeAttribute('action');
         }
-
-
-
+        
         return $this;
     }
 
@@ -234,19 +224,19 @@ class Form
     }
 
     /**
-     *
-     * @return string
+     * Получение имени формы
+     * @return string|null
      */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     *
-     * @param string $name
-     * @return $this
-     */
+     /**
+      * Установка аттрибута формы name
+      * @param string|null $name
+      * @return \self
+      */
     protected function setName(?string $name = null): self
     {
         $this->name = $name;
@@ -260,6 +250,10 @@ class Form
     }
 
     /**
+     * Возвращает true если форма отправлена и валидна.
+     * На валидацию форма проверяется по умолчанию, усли использовать параметр $validate
+     * false, проверка будет только на отправку формы
+     * @param bool $validate
      * @return bool
      */
     public function isSubmitted($validate = true): bool
@@ -288,16 +282,17 @@ class Form
     public function addElement(Element $element): self
     {
         $element->setForm($this);
-        if($element->prepare() !== null){
+        if ($element->prepare() !== null) {
             return $this;
         }
         return $this->parentAddElement($element);
     }
 
     /**
-     * 
+     * Вывод формы в Renderer
      * @param \Enjoys\Forms\Renderer\RendererInterface $renderer
-     *
+     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может 
+     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера. 
      */
     public function render(Renderer\RendererInterface $renderer)
     {

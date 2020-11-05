@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +32,17 @@ use Enjoys\Forms\Elements\Group;
 use Enjoys\Forms\Rule\RuleInterface;
 
 /**
- * Description of Validator
- *
- * @author deadl
+ * @author Enjoys
  */
 class Validator
 {
 
-    public static function check($elements)
+    /**
+     * Валидация формы
+     * @param array $elements
+     * @return bool
+     */
+    public static function check(array $elements): bool
     {
         $_validate = true;
         /** @var Element $element */

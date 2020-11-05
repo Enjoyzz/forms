@@ -80,8 +80,6 @@ trait Container
         }
         /** @var Element $element */
         $element = new $class_name(...$arguments);
-
-        // dump($element);
         $this->addElement($element);
         return $element;
     }

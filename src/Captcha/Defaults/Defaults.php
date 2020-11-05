@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ use Enjoys\Traits\Options;
  * Description of Defaults
  *
  *
- * @author deadl
+ * @author Enjoys
  */
 class Defaults implements \Enjoys\Forms\Captcha\CaptchaInterface
 {

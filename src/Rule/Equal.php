@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ use Enjoys\Forms\Rules;
  * $form->text($name, $title)->addRule('equal', $message, (array) 'expect'); or
  * $form->text($name, $title)->addRule('equal', $message, ['expect', 1, '255']);
  *
- * @author deadl
+ * @author Enjoys
  */
 class Equal extends Rules implements RuleInterface
 {

@@ -34,5 +34,9 @@ namespace Enjoys\Forms;
  */
 interface ElementInterface
 {
+    /**
+     * 
+     * @return string|null
+     */
     public function baseHtml(): ?string;
 }

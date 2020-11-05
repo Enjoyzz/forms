@@ -40,11 +40,13 @@ class FillHandler
     private $value = null;
     private $title = null;
 
+    /**
+     * 
+     * @param type $value
+     * @param type $title
+     */
     public function __construct($value, $title)
     {
-
-
-
         if (is_array($title)) {
             $this->title = (string) $title[0];
 

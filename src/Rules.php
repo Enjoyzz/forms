@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,7 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Traits\Request;
 
 /**
- * Description of RuleBase
- *
- * @author deadl
+ * @author Enjoys
  */
 class Rules
 {
@@ -54,14 +52,18 @@ class Rules
      * @var string|null
      */
     private ?string $message;
+    
+    /**
+     *
+     * @var array 
+     */
     private array $params = [];
 
     /**
-     * @deprecated since version 2.0.1-alpha
-     * @var DefaultsHandler
+     * 
+     * @param string|null $message
+     * @param mixed $params
      */
-    private DefaultsHandler $formDefaults;
-
     public function __construct(?string $message = null, $params = [])
     {
         $this->setRequest();
@@ -70,7 +72,12 @@ class Rules
         $this->setMessage($message);
     }
 
-    public function setParams($params)
+    /**
+     * 
+     * @param mixed $params
+     * @return void
+     */
+    public function setParams($params): void
     {
 
         if (is_array($params)) {
@@ -80,11 +87,20 @@ class Rules
         $this->params[] = $params;
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getParams()
     {
         return $this->params;
     }
 
+    /**
+     * 
+     * @param string|int $key
+     * @return mixed|null
+     */
     public function getParam($key)
     {
         if (isset($this->params[$key])) {
@@ -93,12 +109,21 @@ class Rules
         return null;
     }
 
+    /**
+     * 
+     * @param string|null $message
+     * @return void
+     */
     public function setMessage(?string $message): void
     {
 
         $this->message = $message;
     }
 
+    /**
+     * 
+     * @return string|null
+     */
     public function getMessage(): ?string
     {
 

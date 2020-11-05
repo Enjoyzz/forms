@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 deadl.
+ * Copyright 2020 Enjoys.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ use Enjoys\Forms\DefaultsHandler;
 /**
  * Description of Image
  *
- * @author deadl
+ * @author Enjoys
  */
 class Image extends Element
 {
