@@ -42,8 +42,9 @@ class FillHandler
 
     /**
      *
-     * @param type $value
-     * @param type $title
+     * @param mixed $value
+     * @param mixed $title
+     * 
      */
     public function __construct($value, $title)
     {

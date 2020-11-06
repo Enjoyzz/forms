@@ -78,7 +78,7 @@ trait Container
         if (!class_exists($class_name)) {
             throw new \Enjoys\Forms\Exception\ExceptionElement("Class <b>{$class_name}</b> not found");
         }
-        /** @var Element $element */
+        /** @var \Enjoys\Forms\Element $element */
         $element = new $class_name(...$arguments);
         $this->addElement($element);
         return $element;
@@ -86,7 +86,7 @@ trait Container
 
     /**
      *
-     * @param Element $element
+     * @param \Enjoys\Forms\Element $element
      * @return \self
      */
     public function addElement(\Enjoys\Forms\Element $element): self
@@ -97,7 +97,6 @@ trait Container
     }
 
     /**
-     *
      * @return array
      */
     public function getElements(): array
@@ -105,7 +104,12 @@ trait Container
         return $this->elements;
     }
 
-    public function getElement($name): ?\Enjoys\Forms\Element
+    /**
+     * 
+     * @param string $name
+     * @return \Enjoys\Forms\Element|null
+     */
+    public function getElement(string $name): ?\Enjoys\Forms\Element
     {
         if ($this->elementExists($name)) {
             return $this->elements[$name];
@@ -114,6 +118,11 @@ trait Container
         return null;
     }
 
+    /**
+     * 
+     * @param \Enjoys\Forms\Element|null $element
+     * @return \self
+     */
     public function removeElement(?\Enjoys\Forms\Element $element = null): self
     {
         if (null === $element) {
@@ -126,7 +135,12 @@ trait Container
         return $this;
     }
 
-    private function elementExists($name): bool
+    /**
+     * 
+     * @param string $name
+     * @return bool
+     */
+    private function elementExists(string $name): bool
     {
         if (array_key_exists($name, $this->elements) && $this->elements[$name] instanceof \Enjoys\Forms\Element) {
             return true;

@@ -35,9 +35,9 @@ namespace Enjoys\Forms\Http;
 interface RequestInterface
 {
 
-    public function get($param, $defaultValue = null);
+    public function get($key, $default = null);
 
-    public function post($param, $defaultValue = null);
+    public function post($key, $default = null);
 
     public function getMethod();
 }

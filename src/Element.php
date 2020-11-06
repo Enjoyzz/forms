@@ -45,9 +45,9 @@ abstract class Element implements ElementInterface
 
     /**
      *
-     * @var string
+     * @var string|null
      */
-    protected string $type;
+    protected ?string $type = null;
 
     /**
      *
@@ -100,9 +100,9 @@ abstract class Element implements ElementInterface
 
     /**
      *
-     * @return type
+     * @return Form
      */
-    public function getForm()
+    public function getForm(): Form
     {
         return $this->form; // ?? new Form();
     }
@@ -126,9 +126,9 @@ abstract class Element implements ElementInterface
 
     /**
      *
-     * @return string
+     * @return string|null
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }

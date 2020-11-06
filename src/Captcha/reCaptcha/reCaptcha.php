@@ -33,8 +33,6 @@ use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use GuzzleHttp\Client;
 
-
-
 /**
  * Description of reCaptcha
  *
@@ -42,6 +40,7 @@ use GuzzleHttp\Client;
  */
 class reCaptcha extends CaptchaBase implements CaptchaInterface
 {
+
     private $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
     private $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
@@ -54,14 +53,11 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
         'timeout-or-duplicate' => 'The response is no longer valid: either is too old or has been used previously.',
     ];
 
-   
-
     public function __construct()
     {
         $this->setName('recaptcha2');
         $this->setRuleMessage(null);
     }
-
 
     /**
      * 
@@ -111,12 +107,10 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
 
     /**
      * Used across setOption()
-     *
-     * @param type $lang
-     *
+     * @param string $lang
      * @return void
      */
-    public function setLanguage($lang): void
+    public function setLanguage(string $lang): void
     {
         $file_language = __DIR__ . '/lang/' . \strtolower($lang) . '.php';
 
@@ -124,8 +118,11 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
             $this->errorCodes = include $file_language;
         }
     }
-    
- 
+
+    /**
+     * 
+     * @return Client
+     */
     private function getGuzzleClient(): Client
     {
         return new Client();

@@ -65,13 +65,13 @@ trait Attributes
     }
 
     /**
-     *
+     * 
      * @param string $name
-     * @param string $value
+     * @param string|null $value
      * @param string $namespace
      * @return \self
      */
-    public function setAttribute(string $name, string $value = null, string $namespace = 'general'): self
+    public function setAttribute(string $name, ?string $value = null, string $namespace = 'general'): self
     {
 
         $name = \trim($name);

@@ -140,7 +140,7 @@ class Upload extends Rules implements RuleInterface
     /**
      *
      * @param UploadedFile   $value
-     * @param type $ruleOpts
+     * @param mixed $ruleOpts
      * @param Element $element
      * @return boolean
      */
@@ -171,7 +171,7 @@ class Upload extends Rules implements RuleInterface
     /**
      *
      * @param UploadedFile   $value
-     * @param type $ruleOpts
+     * @param mixed $ruleOpts
      * @param Element $element
      * @return boolean
      */
@@ -201,7 +201,7 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     * @param mixed $opts
      * @return array
      * @psalm-return array{param: mixed, message: mixed}
      */

@@ -69,16 +69,17 @@ class Select extends Element
         }
     }
 
-    public function setAttribute(string $name, string $value = null, string $namespace = 'general'): self
+    /**
+     * 
+     * @param string $name
+     * @param string|null $value
+     * @param string $namespace
+     * @return \self
+     */
+    public function setAttribute(string $name, ?string $value = null, string $namespace = 'general'): self
     {
         parent::setAttribute($name, $value, $namespace);
         $this->isMultiple();
-        return $this;
-    }
-
-    public function setMultiple(): self
-    {
-        $this->setAttribute('multiple');
         return $this;
     }
 
@@ -86,6 +87,12 @@ class Select extends Element
     {
         parent::setAttributes($attributes, $namespace);
         $this->isMultiple();
+        return $this;
+    }
+
+    public function setMultiple(): self
+    {
+        $this->setAttribute('multiple');
         return $this;
     }
 
