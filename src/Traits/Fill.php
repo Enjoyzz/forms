@@ -35,14 +35,14 @@ namespace Enjoys\Forms\Traits;
 trait Fill
 {
 
-    private $elements = [];
+    private array $elements = [];
     private string $parentName = '';
-    private bool $parent = true;
+//    private bool $parent = true;
 
     public function setParentName(string $parentName): void
     {
         $this->parentName = $parentName;
-        $this->parent = false;
+//        $this->parent = false;
     }
 
     public function getParentName(): string
@@ -50,10 +50,10 @@ trait Fill
         return $this->parentName;
     }
 
-    public function isParent(): bool
-    {
-        return $this->parent;
-    }
+//    public function isParent(): bool
+//    {
+//        return $this->parent;
+//    }
 
     /**
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
@@ -72,7 +72,7 @@ trait Fill
         foreach ($data as $value => $title) {
             $fillHandler = new \Enjoys\Forms\FillHandler($value, $title);
 
-            $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->type);
+            $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->getType());
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
             $element->setParentName($this->getName());
@@ -107,10 +107,10 @@ trait Fill
         return $this->elements;
     }
 
-    public function updateElement($key, \Enjoys\Forms\Element $element): void
-    {
-        if (array_key_exists($key, $this->elements)) {
-            $this->elements[$key] = $element;
-        }
-    }
+//    public function updateElement($key, \Enjoys\Forms\Element $element): void
+//    {
+//        if (array_key_exists($key, $this->elements)) {
+//            $this->elements[$key] = $element;
+//        }
+//    }
 }

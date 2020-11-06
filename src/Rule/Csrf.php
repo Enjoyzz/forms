@@ -58,14 +58,14 @@ class Csrf extends Rules implements RuleInterface
     }
 
     /**
-     *
+     * @psalm-suppress UndefinedMethod
      * @param Element $element
      * @return bool
      */
     public function validate(Element $element): bool
     {
 
-        if (!$this->check($this->request->post(Form::_TOKEN_CSRF_, ''))) {
+        if (!$this->check($this->getRequest()->post(Form::_TOKEN_CSRF_, ''))) {
             $element->setRuleError($this->getMessage());
             // throw new \Enjoys\Forms\Exception\ExceptionRule($this->getMessage());
             return false;
@@ -75,7 +75,7 @@ class Csrf extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     * @psalm-suppress PossiblyNullArgument
      * @param string $value
      * @return bool
      */

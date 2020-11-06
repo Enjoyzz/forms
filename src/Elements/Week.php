@@ -45,5 +45,5 @@ class Week extends Element
      *
      * @var string
      */
-    protected ?string $type = 'week';
+    protected string $type = 'week';
 }

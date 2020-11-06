@@ -51,6 +51,7 @@ class Captcha extends Rules implements RuleInterface
      */
     public function validate(Element $element): bool
     {
+        /** @var \Enjoys\Forms\Elements\Captcha $element */
         return $element->validate();
     }
 }

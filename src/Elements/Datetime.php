@@ -45,5 +45,5 @@ class Datetime extends Element
      *
      * @var string
      */
-    protected ?string $type = 'datetime';
+    protected string $type = 'datetime';
 }

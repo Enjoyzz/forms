@@ -45,5 +45,5 @@ class Range extends Element
      *
      * @var string
      */
-    protected ?string $type = 'range';
+    protected string $type = 'range';
 }

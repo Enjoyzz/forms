@@ -45,5 +45,5 @@ class Search extends Element
      *
      * @var string
      */
-    protected ?string $type = 'search';
+    protected string $type = 'search';
 }

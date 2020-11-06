@@ -42,7 +42,7 @@ trait Description
     /**
      *
      * @param string|null $description
-     * @return \self
+     * @return $this
      */
     public function setDescription(?string $description = null): self
     {

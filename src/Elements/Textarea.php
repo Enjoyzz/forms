@@ -44,7 +44,7 @@ class Textarea extends Element
      *
      * @var string
      */
-    protected ?string $type = 'textarea';
+    protected string $type = 'textarea';
     private $value;
 
     public function setValue(string $value): self
@@ -61,7 +61,7 @@ class Textarea extends Element
     /**
      * rows Высота поля в строках текста.
      * @param string|int $rows
-     * @return \self
+     * @return $this
      */
     public function setRows($rows): self
     {
@@ -72,7 +72,7 @@ class Textarea extends Element
     /**
      * cols Ширина поля в символах.
      * @param string|int $cols
-     * @return \self
+     * @return $this
      */
     public function setCols($cols): self
     {

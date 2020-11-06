@@ -83,10 +83,10 @@ class Optgroup extends Element
 {
     use Fill;
 
-    protected ?string $type = 'option';
+    protected string $type = 'option';
     private $defaults = '';
 
-    public function __construct(string $title, string $parentName)
+    public function __construct(string $title, string $parentName, $defaults = '')
     {
         parent::__construct(\uniqid('optgroup'), $title);
         $this->setAttributes([
@@ -95,6 +95,7 @@ class Optgroup extends Element
         $this->setName($parentName);
         $this->removeAttribute('name');
         $this->removeAttribute('id');
+        $this->setDefault($defaults);
     }
 
     protected function setDefault($value = null): self

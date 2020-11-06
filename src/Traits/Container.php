@@ -35,7 +35,7 @@ trait Container
 
     /**
      *
-     * @var array Objects stack \Enjoys\Forms\Element
+     * @var array objects \Enjoys\Forms\Element
      */
     private array $elements = [];
 
@@ -87,7 +87,7 @@ trait Container
     /**
      *
      * @param \Enjoys\Forms\Element $element
-     * @return \self
+     * @return $this
      */
     public function addElement(\Enjoys\Forms\Element $element): self
     {
@@ -97,7 +97,7 @@ trait Container
     }
 
     /**
-     * @return array
+     * @return array<object>
      */
     public function getElements(): array
     {
@@ -121,7 +121,7 @@ trait Container
     /**
      * 
      * @param \Enjoys\Forms\Element|null $element
-     * @return \self
+     * @return $this
      */
     public function removeElement(?\Enjoys\Forms\Element $element = null): self
     {

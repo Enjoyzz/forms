@@ -41,7 +41,7 @@ use Enjoys\Forms\Rules;
 class Length extends Rules implements RuleInterface
 {
 
-    private $operatorToMethodTranslation = [
+    private array $operatorToMethodTranslation = [
         '==' => 'equal',
         '!=' => 'notEqual',
         '>' => 'greaterThan',
@@ -58,14 +58,19 @@ class Length extends Rules implements RuleInterface
         parent::setMessage($message);
     }
 
+    /**
+     * @psalm-suppress UndefinedMethod
+     * @param Element $element
+     * @return bool
+     */
     public function validate(Element $element): bool
     {
 
-        $method = $this->request->getMethod();
+        $method = $this->getRequest()->getMethod();
 
         //  var_dump($element->getName());
 
-        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
 
         // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
         if (!$this->check($value)) {
@@ -76,6 +81,12 @@ class Length extends Rules implements RuleInterface
         return true;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @return bool
+     * @throws ExceptionRule
+     */
     private function check($value): bool
     {
         if (is_array($value)) {
@@ -106,31 +117,67 @@ class Length extends Rules implements RuleInterface
         return true;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param mixed $threshold
+     * @return bool
+     */
     private function equal($value, $threshold): bool
     {
         return $value == $threshold;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param mixed $threshold
+     * @return bool
+     */
     private function notEqual($value, $threshold): bool
     {
         return $value != $threshold;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param mixed $threshold
+     * @return bool
+     */
     private function greaterThan($value, $threshold): bool
     {
         return $value > $threshold;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param mixed $threshold
+     * @return bool
+     */
     private function lessThan($value, $threshold): bool
     {
         return $value < $threshold;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param mixed $threshold
+     * @return bool
+     */
     private function greaterThanOrEqual($value, $threshold): bool
     {
         return $value >= $threshold;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param mixed $threshold
+     * @return bool
+     */
     private function lessThanOrEqual($value, $threshold): bool
     {
         return $value <= $threshold;

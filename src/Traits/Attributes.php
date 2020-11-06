@@ -45,7 +45,7 @@ trait Attributes
      *
      * @param array $attributes
      * @param string $namespace
-     * @return \self
+     * @return $this
      */
     public function setAttributes(array $attributes, string $namespace = 'general'): self
     {
@@ -69,7 +69,7 @@ trait Attributes
      * @param string $name
      * @param string|null $value
      * @param string $namespace
-     * @return \self
+     * @return $this
      */
     public function setAttribute(string $name, ?string $value = null, string $namespace = 'general'): self
     {
@@ -89,7 +89,9 @@ trait Attributes
 
         if (in_array($name, ['name'])) {
             if (
-                    isset($this->attributes[$namespace][$name]) && $this->attributes[$namespace][$name] != $value
+                    !is_null($value) &&
+                    isset($this->attributes[$namespace][$name]) &&
+                    $this->attributes[$namespace][$name] != $value
             ) {
                 $this->attributes[$namespace][$name] = $value;
                 $this->setName($value);
@@ -166,7 +168,7 @@ trait Attributes
      *
      * @param string $key
      * @param string $namespace
-     * @return \self
+     * @return $this
      */
     public function removeAttribute(string $key, string $namespace = 'general'): self
     {
@@ -202,7 +204,7 @@ trait Attributes
      *
      * @param string $classValue
      * @param string $namespace
-     * @return \self
+     * @return $this
      */
     public function removeClass(string $classValue, string $namespace = 'general'): self
     {

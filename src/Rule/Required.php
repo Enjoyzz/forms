@@ -51,11 +51,16 @@ class Required extends Rules implements RuleInterface
         parent::setMessage($message);
     }
 
+    /**
+     * @psalm-suppress UndefinedMethod
+     * @param Element $element
+     * @return bool
+     */
     public function validate(Element $element): bool
     {
 
-        $method = $this->request->getMethod();
-        $_value = \getValueByIndexPath($element->getName(), $this->request->$method());
+        $method = $this->getRequest()->getMethod();
+        $_value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;
@@ -63,6 +68,11 @@ class Required extends Rules implements RuleInterface
         return true;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @return bool
+     */
     private function check($value): bool
     {
         if (is_array($value)) {

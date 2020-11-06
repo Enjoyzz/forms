@@ -29,8 +29,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
+use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
+use Enjoys\Forms\Traits\Rules;
 
 /**
  * Description of Select
@@ -40,20 +41,25 @@ use Enjoys\Forms\Traits\Fill;
 class Select extends Element
 {
     use Fill;
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Description;
+    use Rules;
 
     /**
      *
      * @var string
      */
-    protected ?string $type = 'option';
+    protected string $type = 'option';
     private $defaults = null;
 
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        // $this->setIndexKeyFill('value');
+    }
+
+    public function setMultiple(): self
+    {
+        $this->setAttribute('multiple');
+        return $this;
     }
 
     private function isMultiple(): void
@@ -74,7 +80,7 @@ class Select extends Element
      * @param string $name
      * @param string|null $value
      * @param string $namespace
-     * @return \self
+     * @return $this
      */
     public function setAttribute(string $name, ?string $value = null, string $namespace = 'general'): self
     {
@@ -83,16 +89,16 @@ class Select extends Element
         return $this;
     }
 
+    /**
+     * 
+     * @param array $attributes
+     * @param string $namespace
+     * @return $this
+     */
     public function setAttributes(array $attributes, string $namespace = 'general'): self
     {
         parent::setAttributes($attributes, $namespace);
         $this->isMultiple();
-        return $this;
-    }
-
-    public function setMultiple(): self
-    {
-        $this->setAttribute('multiple');
         return $this;
     }
 
@@ -108,12 +114,11 @@ class Select extends Element
      * @param string $label Аттрибут label для optgroup
      * @param array $data Массив для заполнения в функции fill()
      * @param array $attributes Аттрибуты для optgroup (id и name аттрибуты автоматически удалены)
-     * @return \self
+     * @return $this
      */
     public function setOptgroup(string $label = null, array $data = [], array $attributes = []): self
     {
-        $optgroup = new Optgroup($label, $this->getName());
-        $optgroup->setDefault($this->defaults);
+        $optgroup = new Optgroup($label, $this->getName(), $this->defaults);
         $optgroup->setAttributes($attributes);
         $optgroup->fill($data);
         $this->elements[] = $optgroup;

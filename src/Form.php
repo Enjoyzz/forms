@@ -100,6 +100,8 @@ class Form
 
     /**
      * @static int Глобальный счетчик форм на странице
+     * @readonly
+     * @psalm-allow-private-mutation
      */
     private static int $formCounter = 0;
 
@@ -176,7 +178,7 @@ class Form
     /**
      * Установка аттрибута action формы
      * @param string|null $action
-     * @return \self
+     * @return $this
      */
     protected function setAction(?string $action = null): self
     {
@@ -194,7 +196,7 @@ class Form
     /**
      * Set \Enjoys\Forms\FormDefaults $formDefaults
      * @param array $data
-     * @return \self
+     * @return $this
      */
     public function setDefaults(array $data): self
     {
@@ -233,7 +235,7 @@ class Form
     /**
      * Установка аттрибута формы name
      * @param string|null $name
-     * @return \self
+     * @return $this
      */
     protected function setName(?string $name = null): self
     {
@@ -275,7 +277,7 @@ class Form
      * @use Element::setForm()
      * @use Element::prepare()
      * @param Element $element
-     * @return \self
+     * @return $this
      */
     public function addElement(Element $element): self
     {

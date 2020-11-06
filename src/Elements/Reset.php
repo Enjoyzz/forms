@@ -39,7 +39,7 @@ use Enjoys\Forms\DefaultsHandler;
 class Reset extends Element
 {
 
-    protected ?string $type = 'reset';
+    protected string $type = 'reset';
 
     public function __construct(string $name = null, string $title = null)
     {

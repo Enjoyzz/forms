@@ -52,11 +52,16 @@ class Equal extends Rules implements RuleInterface
         parent::setMessage($message);
     }
 
+    /**
+     * @psalm-suppress UndefinedMethod
+     * @param Element $element
+     * @return bool
+     */
     public function validate(Element $element): bool
     {
 
-        $method = $this->request->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
+        $method = $this->getRequest()->getMethod();
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
 
         if (false === $this->check($value)) {
             $element->setRuleError($this->getMessage());
@@ -67,6 +72,7 @@ class Equal extends Rules implements RuleInterface
     }
 
     /**
+     * @param mixed $value 
      * @return array-key|bool
      */
     private function check($value)
@@ -83,6 +89,9 @@ class Equal extends Rules implements RuleInterface
             }
             return true;
         }
+        /**
+         * @todo не пойму для чего это
+         */
         return array_search(\trim((string) $value), $this->getParams());
     }
 }

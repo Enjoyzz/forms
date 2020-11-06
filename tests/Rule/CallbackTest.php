@@ -81,7 +81,7 @@ class CallbackTest extends TestCase
         $this->element->addRule(\Enjoys\Forms\Rules::CALLBACK, null, new class {
 
             public function execute() {
-                return 'true';
+                return true;
             }
         });
         $this->assertTrue(Validator::check([$this->element]));

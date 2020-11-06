@@ -42,7 +42,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Upload extends Rules implements RuleInterface
 {
 
-    private $systemErrorMessage = [
+    private array $systemErrorMessage = [
         'unknown' => "Unknown upload error",
         \UPLOAD_ERR_INI_SIZE => "Размер принятого файла превысил максимально допустимый размер, 
             который задан директивой upload_max_filesize конфигурационного файла php.ini.",
@@ -57,7 +57,12 @@ class Upload extends Rules implements RuleInterface
         \UPLOAD_ERR_EXTENSION => "File upload stopped by extension",
     ];
 
-    private function getSystemMessage(int $error)
+    /**
+     * 
+     * @param int $error
+     * @return string
+     */
+    private function getSystemMessage(int $error): string
     {
         if (isset($this->systemErrorMessage[$error])) {
             return $this->systemErrorMessage[$error];
@@ -65,9 +70,14 @@ class Upload extends Rules implements RuleInterface
         return $this->systemErrorMessage['unknown'];
     }
 
+    /**
+     * 
+     * @param Element $element
+     * @return bool
+     */
     public function validate(Element $element): bool
     {
-        $value = \getValueByIndexPath($element->getName(), $this->request->files());
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->files());
 
         if (false === $this->check($value, $element)) {
             return false;
@@ -75,6 +85,13 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @param Element $element
+     * @return bool
+     * @throws ExceptionRule
+     */
     private function check($value, Element $element): bool
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
@@ -95,8 +112,8 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     *
-     * @param UploadedFile  $value
+     * @psalm-suppress UndefinedMethod
+     * @param UploadedFile|false   $value
      * @param mixed $message
      * @param Element $element
      * @return boolean
@@ -116,13 +133,13 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     *
-     * @param UploadedFile   $value
+     * @psalm-suppress UndefinedMethod
+     * @param UploadedFile|false   $value
      * @param string $message
      * @param Element $element
      * @return boolean
      */
-    private function checkRequired($value, $message, Element $element)
+    private function checkRequired($value, ?string $message = null, Element $element)
     {
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
@@ -138,8 +155,8 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     *
-     * @param UploadedFile   $value
+     * @psalm-suppress UndefinedMethod
+     * @param UploadedFile|false    $value
      * @param mixed $ruleOpts
      * @param Element $element
      * @return boolean
@@ -156,8 +173,8 @@ class Upload extends Rules implements RuleInterface
         $message = $parsed['message'];
 
         if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(0, " ") . ')'
-                    . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(0, " ");
+            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(null, " ") . ')'
+                    . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
         }
         $this->setMessage((string) $message);
 
@@ -169,8 +186,8 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     *
-     * @param UploadedFile   $value
+     * @psalm-suppress UndefinedMethod
+     * @param UploadedFile|false    $value
      * @param mixed $ruleOpts
      * @param Element $element
      * @return boolean

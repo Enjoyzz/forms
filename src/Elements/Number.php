@@ -45,5 +45,5 @@ class Number extends Element
      *
      * @var string
      */
-    protected ?string $type = 'number';
+    protected string $type = 'number';
 }

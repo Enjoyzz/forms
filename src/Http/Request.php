@@ -58,15 +58,26 @@ class Request extends HttpFoundation\Request implements RequestInterface
         );
     }
 
-    public function get($key = null, $default = null)
+    /**
+     * 
+     * @param string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function get(?string $key = null, $default = null)
     {
         if ($key === null) {
             return $this->query->all();
         }
         return $this->query->get($key, $default);
     }
-
-    public function post($key = null, $default = null)
+    /**
+     * 
+     * @param string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function post(?string $key = null, $default = null)
     {
         if ($key === null) {
             return $this->request->all();
@@ -74,11 +85,19 @@ class Request extends HttpFoundation\Request implements RequestInterface
         return $this->request->get($key, $default);
     }
 
-    public function files($key = null, $default = null)
+    /**
+     * 
+     * @param string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function files(?string $key = null, $default = null)
     {
         if ($key === null) {
             return $this->files->all();
         }
         return $this->files->get($key, $default);
     }
+    
+    
 }

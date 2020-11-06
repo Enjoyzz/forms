@@ -45,15 +45,15 @@ abstract class Element implements ElementInterface
 
     /**
      *
-     * @var string|null
+     * @var string
      */
-    protected ?string $type = null;
+    protected string $name;
 
     /**
      *
      * @var string
      */
-    protected string $name;
+    protected string $type = '';
 
     /**
      *
@@ -80,6 +80,8 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
+
+        $this->name = $name;
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -126,9 +128,9 @@ abstract class Element implements ElementInterface
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -136,7 +138,7 @@ abstract class Element implements ElementInterface
     /**
      *
      * @param string $name
-     * @return \self
+     * @return $this
      */
     protected function setName(string $name): self
     {
@@ -161,7 +163,7 @@ abstract class Element implements ElementInterface
     /**
      *
      * @param string $title
-     * @return \self
+     * @return $this
      */
     public function setLabel(?string $title = null): self
     {
@@ -179,7 +181,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @return \self
+     * @return $this
      */
     protected function setDefault(): self
     {

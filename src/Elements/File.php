@@ -51,7 +51,7 @@ class File extends Element
      *
      * @var string
      */
-    protected ?string $type = 'file';
+    protected string $type = 'file';
 
     public function __construct(string $name, string $title = null)
     {

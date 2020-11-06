@@ -45,5 +45,5 @@ class Month extends Element
      *
      * @var string
      */
-    protected ?string $type = 'month';
+    protected string $type = 'month';
 }

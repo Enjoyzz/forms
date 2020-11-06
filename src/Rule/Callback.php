@@ -103,7 +103,7 @@ class Callback extends Rules implements RuleInterface
     }
 
     /**
-     *
+     * @psalm-suppress UndefinedMethod
      * @param Element $element
      * @return bool
      */
@@ -118,9 +118,9 @@ class Callback extends Rules implements RuleInterface
 
     /**
      *
-     * @return callback
+     * @return bool
      */
-    private function check()
+    private function check() :bool
     {
         $callback = $this->getParam(0);
 
@@ -138,6 +138,7 @@ class Callback extends Rules implements RuleInterface
 
         $params = $this->getParams();
         array_shift($params);
+        /** @psalm-suppress PossiblyNullFunctionCall */
         return call_user_func($callback, ...$params);
     }
 }

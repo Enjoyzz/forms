@@ -50,11 +50,16 @@ class Email extends Rules implements RuleInterface
         parent::setMessage($message);
     }
 
+    /**
+     * @psalm-suppress UndefinedMethod
+     * @param Element $element
+     * @return bool
+     */
     public function validate(Element $element): bool
     {
 
-        $method = $this->request->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->request->$method());
+        $method = $this->getRequest()->getMethod();
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
         if (!$this->check(\trim($value))) {
             $element->setRuleError($this->getMessage());
             return false;

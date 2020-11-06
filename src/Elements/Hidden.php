@@ -44,7 +44,7 @@ class Hidden extends Element
      *
      * @var string
      */
-    protected ?string $type = 'hidden';
+    protected string $type = 'hidden';
 
     public function __construct(string $name, ?string $value = null)
     {

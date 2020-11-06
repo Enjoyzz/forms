@@ -45,5 +45,5 @@ class Color extends Element
      *
      * @var string
      */
-    protected ?string $type = 'color';
+    protected string $type = 'color';
 }
