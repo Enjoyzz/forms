@@ -41,16 +41,25 @@ class BaseRenderer implements RendererInterface
     protected Form $form;
     protected array $elements = [];
 
+    /**
+     * 
+     * @param Form $form
+     * @return void
+     */
     public function setForm(Form $form): void
     {
         $this->form = $form;
         $this->elements = $this->form->getElements();
     }
 
+    /**
+     * 
+     * @return string
+     */
     protected function hiddenRender(): string
     {
         $html = '';
-        /** @var Element $element */
+        /** @var \Enjoys\Forms\Element $element */
         foreach ($this->elements as $key => $element) {
             if ($element instanceof \Enjoys\Forms\Elements\Hidden) {
                 unset($this->elements[$key]);
@@ -61,10 +70,16 @@ class BaseRenderer implements RendererInterface
         return $html;
     }
 
+    /**
+     * 
+     * @param array|null $elements
+     * @return string
+     */
     protected function elementsRender(?array $elements = null): string
     {
         $elements ??= $this->elements;
         $html = '';
+        /** @var \Enjoys\Forms\Element $element */
         foreach ($elements as $key => $element) {
             unset($elements[$key]);
 
@@ -77,12 +92,21 @@ class BaseRenderer implements RendererInterface
         return $html;
     }
 
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return string
+     */
     public function elementRender(\Enjoys\Forms\Element $element): string
     {
         $elementRender = new BaseElementRender($element);
         return $elementRender->render();
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function render(): string
     {
         return "<form{$this->form->getAttributesString()}>"

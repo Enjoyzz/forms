@@ -41,7 +41,7 @@ class Option extends Element
 {
     use Fill;
 
-    protected string $type = 'option';
+    protected ?string $type = 'option';
 
     public function __construct(string $name, string $title = null)
     {

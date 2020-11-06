@@ -83,7 +83,7 @@ class Optgroup extends Element
 {
     use Fill;
 
-    protected string $type = 'option';
+    protected ?string $type = 'option';
     private $defaults = '';
 
     public function __construct(string $title, string $parentName)

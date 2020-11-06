@@ -43,7 +43,7 @@ class Image extends Element
      *
      * @var string
      */
-    protected string $type = 'image';
+    protected ?string $type = 'image';
 
     public function __construct(string $name, string $src = null)
     {

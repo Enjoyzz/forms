@@ -47,7 +47,7 @@ class Select extends Element
      *
      * @var string
      */
-    protected string $type = 'option';
+    protected ?string $type = 'option';
     private $defaults = null;
 
     public function __construct(string $name, string $title = null)

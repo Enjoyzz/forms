@@ -85,7 +85,7 @@ class Bootstrap4ElementRender extends BaseElementRender
 
     /**
      *
-     * @param type $element
+     * @param ElementInterface $element
      * @return ElementRenderInterface
      */
     protected function getElementRender(ElementInterface $element): ElementRenderInterface

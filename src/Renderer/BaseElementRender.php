@@ -80,8 +80,8 @@ class BaseElementRender
 
     /**
      *
-     * @param type $element
-     * @return ElementRenderInterface
+     * @param ElementInterface $element
+     * @return ElementsRender\ElementRenderInterface
      */
     protected function getElementRender(ElementInterface $element): ElementsRender\ElementRenderInterface
     {

@@ -75,11 +75,11 @@ class Csrf extends Rules implements RuleInterface
     }
 
     /**
-     *
-     * @param type $value
-     * @return type
+     * 
+     * @param string $value
+     * @return bool
      */
-    private function check($value)
+    private function check(string $value): bool
     {
         return hash_equals($value, crypt($this->getParam('csrf_key'), $value));
     }

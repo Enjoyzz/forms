@@ -36,10 +36,14 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
 class Bootstrap4HeaderRender extends \Enjoys\Forms\Renderer\ElementsRender\HeaderRender
 {
 
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     */
     public function __construct(\Enjoys\Forms\Element $element)
     {
 
         $element->addClass('h2');
-        parent::__construct($element, $renderer);
+        parent::__construct($element);
     }
 }

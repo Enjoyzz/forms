@@ -45,5 +45,5 @@ class Tel extends Element
      *
      * @var string
      */
-    protected string $type = 'tel';
+    protected ?string $type = 'tel';
 }

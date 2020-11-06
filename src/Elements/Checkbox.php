@@ -50,7 +50,7 @@ class Checkbox extends Element
      *
      * @var string
      */
-    protected string $type = 'checkbox';
+    protected ?string $type = 'checkbox';
     private static $prefix_id = 'cb_';
     private $defaults = '';
 

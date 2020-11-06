@@ -50,7 +50,7 @@ class Radio extends Element
      *
      * @var string
      */
-    protected string $type = 'radio';
+    protected ?string $type = 'radio';
     private static $prefix_id = 'rb_';
     private $defaults = '';
 
