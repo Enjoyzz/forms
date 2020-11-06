@@ -203,8 +203,8 @@ class Form
 
         if ($this->formSubmitted === true) {
             $data = [];
-            $method = $this->request->getMethod();
-            foreach ($this->request->$method() as $key => $items) {
+            $method = $this->getRequest()->getMethod();
+            foreach ($this->getRequest()->$method() as $key => $items) {
                 if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
                     continue;
                 }

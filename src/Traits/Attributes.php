@@ -67,11 +67,11 @@ trait Attributes
     /**
      * 
      * @param string $name
-     * @param string|null $value
+     * @param string|null|false $value
      * @param string $namespace
      * @return $this
      */
-    public function setAttribute(string $name, ?string $value = null, string $namespace = 'general'): self
+    public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
     {
 
         $name = \trim($name);

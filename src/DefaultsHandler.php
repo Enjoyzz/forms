@@ -36,24 +36,36 @@ namespace Enjoys\Forms;
 class DefaultsHandler
 {
 
-    private $defaults = [];
+    private array $defaults = [];
 
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         $this->defaults = $data;
     }
 
+    /**
+     * 
+     * @return mixed
+     */
     public function getDefaults()
     {
         return $this->get();
     }
 
-    public function getValue($param)
+    /**
+     * 
+     * @return mixed
+     */
+    public function getValue(?string $param)
     {
         return $this->get($param);
     }
 
-    private function get($param = null)
+    /**
+     * 
+     * @return mixed
+     */
+    private function get(?string $param = null)
     {
         if ($param === null) {
             return $this->defaults;

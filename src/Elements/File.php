@@ -65,7 +65,7 @@ class File extends Element
     {
         $this->getForm()->setAttribute('enctype', 'multipart/form-data');
         $this->getForm()->setMethod('post');
-        $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')), false);
+        $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')));
     }
 
     /**

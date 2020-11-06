@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -84,8 +83,19 @@ class Optgroup extends Element
     use Fill;
 
     protected string $type = 'option';
-    private $defaults = '';
 
+    /**
+     *
+     * @var mixed
+     */
+    protected $defaults = '';
+
+    /**
+     * 
+     * @param string $title
+     * @param string $parentName
+     * @param mixed $defaults
+     */
     public function __construct(string $title, string $parentName, $defaults = '')
     {
         parent::__construct(\uniqid('optgroup'), $title);
@@ -98,6 +108,11 @@ class Optgroup extends Element
         $this->setDefault($defaults);
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @return $this
+     */
     protected function setDefault($value = null): self
     {
         $this->defaults = $value;

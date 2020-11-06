@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
 
 /**
  * Description of Header
@@ -41,7 +40,7 @@ use Enjoys\Forms\Form;
 class Header extends Element
 {
 
-    private $closeAfterCountElements = 0;
+    private int $closeAfterCountElements = 0;
 
     public function __construct(string $title)
     {
@@ -56,7 +55,7 @@ class Header extends Element
         $this->closeAfterCountElements = $countElements;
     }
 
-    public function getCloseAfterCountElements()
+    public function getCloseAfterCountElements(): int
     {
         return $this->closeAfterCountElements;
     }

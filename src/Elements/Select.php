@@ -49,6 +49,10 @@ class Select extends Element
      * @var string
      */
     protected string $type = 'option';
+    /**
+     *
+     * @var mixed
+     */
     private $defaults = null;
 
     public function __construct(string $name, string $title = null)
@@ -78,11 +82,11 @@ class Select extends Element
     /**
      * 
      * @param string $name
-     * @param string|null $value
+     * @param string|null|false $value
      * @param string $namespace
      * @return $this
      */
-    public function setAttribute(string $name, ?string $value = null, string $namespace = 'general'): self
+    public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
     {
         parent::setAttribute($name, $value, $namespace);
         $this->isMultiple();
@@ -102,6 +106,10 @@ class Select extends Element
         return $this;
     }
 
+    /**
+     * 
+     * @return $this
+     */
     protected function setDefault(): self
     {
         $this->defaults = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
@@ -116,7 +124,7 @@ class Select extends Element
      * @param array $attributes Аттрибуты для optgroup (id и name аттрибуты автоматически удалены)
      * @return $this
      */
-    public function setOptgroup(string $label = null, array $data = [], array $attributes = []): self
+    public function setOptgroup(string $label, array $data = [], array $attributes = []): self
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaults);
         $optgroup->setAttributes($attributes);

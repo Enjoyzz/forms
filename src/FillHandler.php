@@ -36,9 +36,9 @@ namespace Enjoys\Forms;
 class FillHandler
 {
 
-    private $attributes = [];
-    private $value = null;
-    private $title = null;
+    private array $attributes = [];
+    private ?string $value = null;
+    private ?string $title = null;
 
     /**
      *

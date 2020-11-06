@@ -41,10 +41,10 @@ use GuzzleHttp\Client;
 class reCaptcha extends CaptchaBase implements CaptchaInterface
 {
 
-    private $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
-    private $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
-    private $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
-    private $errorCodes = [
+    private string $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
+    private string $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
+    private string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    private array $errorCodes = [
         'missing-input-secret' => 'The secret parameter is missing.',
         'invalid-input-secret' => 'The secret parameter is invalid or malformed.',
         'missing-input-response' => 'The response parameter is missing.',
@@ -99,6 +99,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
             foreach ($responseBody->{'error-codes'} as $error) {
                 $errors[] = $this->errorCodes[$error];
             }
+            /** @psalm-suppress UndefinedMethod */
             $element->setRuleError(implode(', ', $errors));
             return false;
         }

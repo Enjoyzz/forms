@@ -44,7 +44,12 @@ class Datalist extends Element
     use \Enjoys\Forms\Traits\Rules;
 
     protected string $type = 'option';
-    private $defaults = '';
+    
+    /**
+     *
+     * @var mixed
+     */
+    protected $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {

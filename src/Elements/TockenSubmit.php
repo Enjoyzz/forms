@@ -37,7 +37,7 @@ class TockenSubmit extends Hidden
 {
     use \Enjoys\Forms\Traits\Rules;
 
-    private $tocken;
+    private string $tocken;
 
     public function __construct(string $value)
     {

@@ -29,6 +29,8 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Traits\Description;
+use Enjoys\Forms\Traits\Rules;
 
 /**
  * Description of Textarea
@@ -37,15 +39,19 @@ use Enjoys\Forms\Element;
  */
 class Textarea extends Element
 {
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Description;
+    use Rules;
 
     /**
      *
      * @var string
      */
     protected string $type = 'textarea';
-    private $value;
+
+    /**
+     * @psalm-suppress PropertyNotSetInConstructor 
+     */
+    private string $value;
 
     public function setValue(string $value): self
     {
@@ -53,7 +59,7 @@ class Textarea extends Element
         return $this;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -82,8 +88,9 @@ class Textarea extends Element
 
     public function baseHtml(): ?string
     {
-        if ($this->getAttribute('value') !== false) {
-            $this->setValue($this->getAttribute('value'));
+        $value = $this->getAttribute('value');
+        if ($value !== false) {
+            $this->setValue($value);
             $this->removeAttribute('value');
         }
         return "<textarea{$this->getAttributesString()}>{$this->getValue()}</textarea>";

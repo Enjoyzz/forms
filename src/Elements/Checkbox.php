@@ -30,8 +30,9 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces;
+use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
+use Enjoys\Forms\Traits\Rules;
 
 /**
  * Description of Checkbox
@@ -41,8 +42,8 @@ use Enjoys\Forms\Traits\Fill;
 class Checkbox extends Element
 {
     use Fill;
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Description;
+    use Rules;
 
     private const DEFAULT_PREFIX = 'cb_';
 
@@ -51,7 +52,11 @@ class Checkbox extends Element
      * @var string
      */
     protected string $type = 'checkbox';
-    private static $prefix_id = 'cb_';
+    private static string $prefix_id = 'cb_';
+
+    /**
+     * @var mixed
+     */
     private $defaults = '';
 
     public function __construct(string $name, string $title = null)
@@ -81,7 +86,7 @@ class Checkbox extends Element
         return $this;
     }
 
-    public function getPrefixId()
+    public function getPrefixId(): string
     {
         return static::$prefix_id;
     }
@@ -91,6 +96,11 @@ class Checkbox extends Element
         $this->setPrefixId(self::DEFAULT_PREFIX);
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @return $this
+     */
     protected function setDefault($value = null): self
     {
 
@@ -120,11 +130,11 @@ class Checkbox extends Element
 
 
 
-        $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        $this->setAttributes($this->getAttributes('fill'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+        $this->setAttribute('for', $this->getAttribute('id'), Form::ATTRIBUTES_LABEL);
+        $this->setAttributes($this->getAttributes('fill'), Form::ATTRIBUTES_LABEL);
 
 
         $this->setAttributes(['name' => $this->getParentName()]);
-        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(\Enjoys\Forms\Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
+        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
     }
 }

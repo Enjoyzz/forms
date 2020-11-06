@@ -44,7 +44,7 @@ abstract class Element implements ElementInterface
     use Request;
 
     /**
-     *
+     * @psalm-suppress PropertyNotSetInConstructor 
      * @var string
      */
     protected string $name;
@@ -74,14 +74,13 @@ abstract class Element implements ElementInterface
     protected ?Form $form = null;
 
     /**
-     *
+     * @psalm-suppress PropertyNotSetInConstructor
      * @param string $name
      * @param string $label
      */
     public function __construct(string $name, string $label = null)
     {
 
-        $this->name = $name;
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -106,7 +105,7 @@ abstract class Element implements ElementInterface
      */
     public function getForm(): Form
     {
-        return $this->form; // ?? new Form();
+        return $this->form ?? new Form();
     }
 
     /**

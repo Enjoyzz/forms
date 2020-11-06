@@ -38,7 +38,7 @@ abstract class CaptchaBase implements CaptchaInterface
     use \Enjoys\Traits\Options;
 
     /**
-     *
+     * @psalm-suppress PropertyNotSetInConstructor
      * @var string 
      */
     protected string $name;
@@ -47,7 +47,7 @@ abstract class CaptchaBase implements CaptchaInterface
      *
      * @var string|null 
      */
-    protected ?string $ruleMessage;
+    protected ?string $ruleMessage = null;
     
     /**
      * 

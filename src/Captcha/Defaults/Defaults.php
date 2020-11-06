@@ -72,7 +72,8 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
 
         if (Session::get($element->getName()) !== $value) {
-            $element->setRuleError($this->ruleMessage);
+            /** @psalm-suppress UndefinedMethod */
+            $element->setRuleError($this->getRuleMessage());
             return false;
         }
         return true;
@@ -105,7 +106,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
         $size = StrLen($chars) - 1;
         // Определяем пустую переменную, в которую и будем записывать символы.
-        $code = null;
+        $code = '';
         // Создаём пароль.
         while ($max--) {
             $code .= $chars[rand(0, $size)];
@@ -122,9 +123,13 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
     }
 
     /**
-     * @return false|resource
+     * 
+     * @param string $code
+     * @param int $width
+     * @param int $height
+     * @return resource
      */
-    private function createImage(string $code, $width = 150, $height = 50)
+    private function createImage(string $code, int $width = 150, int $height = 50)
     {
         // Создаем пустое изображение
         $img = \imagecreatetruecolor($width, $height);
@@ -180,10 +185,11 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
     }
 
     /**
-     * @param false|resource $img
+     * @param resource $img
      */
     private function getBase64Image($img): string
     {
+        
         \ob_start();
         \imagejpeg($img, null, 80);
         $img_data = \ob_get_contents();

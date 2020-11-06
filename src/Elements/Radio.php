@@ -51,8 +51,13 @@ class Radio extends Element
      * @var string
      */
     protected string $type = 'radio';
-    private static $prefix_id = 'rb_';
-    private $defaults = '';
+    private static string $prefix_id = 'rb_';
+    
+    /**
+     *
+     * @var mixed 
+     */
+    protected $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {
@@ -74,7 +79,7 @@ class Radio extends Element
         return $this;
     }
 
-    public function getPrefixId()
+    public function getPrefixId(): string
     {
         return static::$prefix_id;
     }
@@ -84,6 +89,11 @@ class Radio extends Element
         $this->setPrefixId(self::DEFAULT_PREFIX);
     }
 
+    /**
+     * 
+     * @param mixed $value
+     * @return $this
+     */
     protected function setDefault($value = null): self
     {
         // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
@@ -106,10 +116,8 @@ class Radio extends Element
         return $this;
     }
 
-    public function baseHtml(): string
+    public function baseHtml(): ?string
     {
-
-
         $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $this->setAttributes($this->getAttributes('fill'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $this->setAttributes(['name' => $this->getParentName()]);
