@@ -51,7 +51,7 @@ class SelectRender extends BaseElement
                 '';
     }
 
-    protected function renderOptions($element): string
+    protected function renderOptions(\Enjoys\Forms\ElementInterface $element): string
     {
         $return = "";
         foreach ($element->getElements() as $data) {

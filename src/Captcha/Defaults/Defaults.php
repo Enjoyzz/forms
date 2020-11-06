@@ -124,7 +124,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
     /**
      * @return false|resource
      */
-    private function createImage($code, $width = 150, $height = 50)
+    private function createImage(string $code, $width = 150, $height = 50)
     {
         // Создаем пустое изображение
         $img = \imagecreatetruecolor($width, $height);
@@ -179,6 +179,9 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         return $img;
     }
 
+    /**
+     * @param false|resource $img
+     */
     private function getBase64Image($img): string
     {
         \ob_start();

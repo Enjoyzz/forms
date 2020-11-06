@@ -37,7 +37,7 @@ trait Request
 
     /**
      *
-     * @var  Request
+     * @var  \Enjoys\Forms\Http\RequestInterface
      */
     protected ?\Enjoys\Forms\Http\RequestInterface $request = null;
 

@@ -305,7 +305,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $form = new Form();
         $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
         $property->setValue($form, true);
-        $form->text('foo')->addRule('required');
+        $form->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertFalse($form->isSubmitted());
     }
 
@@ -315,7 +315,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
         $form = new Form();
         $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
         $property->setValue($form, true);
-        $form->text('foo')->addRule('required');
+        $form->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertTrue($form->isSubmitted(false));
     }
 

@@ -49,7 +49,7 @@ class DatalistRender extends BaseElement
                 '';
     }
 
-    protected function renderDatalist($element): string
+    protected function renderDatalist(\Enjoys\Forms\ElementInterface $element): string
     {
         $return = "<input{$element->getAttributesString()}><datalist id=\"{$element->getAttribute('list')}\">";
         foreach ($element->getElements() as $data) {

@@ -70,7 +70,7 @@ trait Container
      * @method \Enjoys\Forms\Elements\Group group(string $title = null)
      * @method \Enjoys\Forms\Elements\File file(string $name, string $label = null)
      *
-     * @return @method
+     * @return 
      */
     public function __call(string $name, array $arguments)
     {

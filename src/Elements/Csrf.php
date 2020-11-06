@@ -47,7 +47,7 @@ class Csrf extends Hidden
         $hash = crypt($csrf_key, '');
         parent::__construct(\Enjoys\Forms\Form::_TOKEN_CSRF_, $hash);
 
-        $this->addRule('csrf', 'CSRF Attack detected', [
+        $this->addRule(\Enjoys\Forms\Rules::CSRF, 'CSRF Attack detected', [
             'csrf_key' => $csrf_key
         ]);
     }

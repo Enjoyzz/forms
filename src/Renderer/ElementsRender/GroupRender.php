@@ -52,7 +52,7 @@ class GroupRender extends BaseElement
     /**
      * @return string
      */
-    protected function renderGroup($element)
+    protected function renderGroup(\Enjoys\Forms\ElementInterface $element)
     {
         $return = '';
         foreach ($element->getElements() as $data) {

@@ -28,44 +28,64 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Exception\ExceptionElement;
-use Enjoys\Forms\DefaultsHandler;
+use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits;
 
 /**
- * Description of Captcha
- *
  * @author Enjoys
  */
 class Captcha extends Element
 {
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Traits\Description;
+    use Traits\Rules;
 
-    private $captcha;
-
-    public function __construct(\Enjoys\Forms\Captcha\CaptchaInterface $captcha, string $message = null)
+    /**
+     *
+     * @var \Enjoys\Forms\Captcha\CaptchaInterface 
+     */
+    private CaptchaInterface $captcha;
+    
+    /**
+     * 
+     * @param  \Enjoys\Forms\Captcha\CaptchaInterface  $captcha
+     * @param string $message
+     */
+    public function __construct(CaptchaInterface $captcha, string $message = null)
     {
         parent::__construct(\uniqid('captcha'));
-        
+
         $this->captcha = $captcha;
         $this->captcha->setRequest($this->getRequest());
-        
-        
+
+
         $this->setName($this->captcha->getName());
-        $this->addRule(\Enjoys\Forms\Rules::CAPTCHA, $this->captcha->getRuleMessage());
+        $this->addRule(Rules::CAPTCHA, $this->captcha->getRuleMessage());
     }
 
-    public function renderHtml()
+    /**
+     * 
+     * @return string
+     */
+    public function renderHtml(): string
     {
         return $this->captcha->renderHtml($this);
     }
 
-    public function validate()
+    /**
+     * 
+     * @return bool
+     */
+    public function validate(): bool
     {
         return $this->captcha->validate($this);
     }
 
+    /**
+     * 
+     * @return string|null
+     */
     public function baseHtml(): ?string
     {
         return $this->renderHtml();

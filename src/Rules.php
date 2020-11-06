@@ -37,15 +37,15 @@ class Rules
 {
     use Request;
 
-    public const CALLBACK = 'callback';
-    public const CAPTCHA = 'captcha';
-    public const CSRF = 'csrf';
-    public const EMAIL = 'email';
-    public const EQUAL = 'equal';
-    public const LENGTH = 'length';
-    public const REGEXP = 'regexp';
-    public const REQUIRED = 'required';
-    public const UPLOAD = 'upload';
+    public const CALLBACK = Rule\Callback::class;
+    public const CAPTCHA = Rule\Captcha::class;
+    public const CSRF = Rule\Csrf::class;
+    public const EMAIL = Rule\Email::class;
+    public const EQUAL = Rule\Equal::class;
+    public const LENGTH = Rule\Length::class;
+    public const REGEXP = Rule\Regexp::class;
+    public const REQUIRED = Rule\Required::class;
+    public const UPLOAD = Rule\Upload::class;
 
     /**
      *

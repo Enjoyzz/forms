@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms;
 
 use \Enjoys\Forms\Form;
+
 /**
  * Description of ElementTest
  *
@@ -83,8 +84,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('text', $text->getType());
     }
 
-   
-
     public function test_setLabel_1_0()
     {
         $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
@@ -93,8 +92,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Baz', $element->getLabel());
     }
 
-  
- 
     public function test_setFormDefaults_1_1()
     {
         $this->obj->setDefaults([
@@ -119,6 +116,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('will be required', $element->getRules()[0]->getMessage());
     }
 
+    public function test_addRule_invalid()
+    {
+        $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
+        $element = $this->obj->text('Foo', 'Bar')->addRule('invalid');
+    }
+
     public function test_setRuleMessage_1_0()
     {
         $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
@@ -134,7 +137,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertEquals(true, $element->isRequired());
     }
-    
+
     public function test_baseHtml()
     {
         $element = new \Enjoys\Forms\Elements\Text('text');

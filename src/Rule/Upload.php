@@ -57,7 +57,7 @@ class Upload extends Rules implements RuleInterface
         \UPLOAD_ERR_EXTENSION => "File upload stopped by extension",
     ];
 
-    private function getSystemMessage($error)
+    private function getSystemMessage(int $error)
     {
         if (isset($this->systemErrorMessage[$error])) {
             return $this->systemErrorMessage[$error];
@@ -201,8 +201,8 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
+     * 
      * @return array
-     *
      * @psalm-return array{param: mixed, message: mixed}
      */
     private function parseRuleOpts($opts): array

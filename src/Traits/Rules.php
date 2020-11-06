@@ -63,20 +63,24 @@ trait Rules
 
     /**
      *
-     * @param string $ruleName
+     * @param string $ruleClass
      * @param string $message
      * @param array $params
      * @return $this
      */
-    public function addRule(string $ruleName, ?string $message = null, $params = [])
+    public function addRule(string $ruleClass, ?string $message = null, $params = [])
     {
-        $class = "\Enjoys\Forms\Rule\\" . \ucfirst($ruleName);
-
-        $rule = new $class($message, $params);
+        //$class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
+        if (!class_exists($ruleClass)) {
+            throw new \Enjoys\Forms\Exception\ExceptionRule(
+                    sprintf('Rule [%s] not found', $ruleClass)
+            );
+        }
+        $rule = new $ruleClass($message, $params);
         $rule->setRequest($this->request);
 
         //установка обязательности элемента
-        if (\strtolower($ruleName) === \strtolower(\Enjoys\Forms\Rules::REQUIRED)) {
+        if ($ruleClass === \Enjoys\Forms\Rules::REQUIRED) {
             $this->required = true;
 
             /**

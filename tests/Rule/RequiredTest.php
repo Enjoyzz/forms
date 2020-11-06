@@ -50,7 +50,7 @@ class RequiredTest extends TestCase
         $element->setRequest(new \Enjoys\Forms\Http\Request([
             'name' => [1, 2]
         ]));
-        $element->addRule('required');
+        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertTrue(Validator::check([$element]));
     }
 
@@ -60,7 +60,7 @@ class RequiredTest extends TestCase
         $element->setRequest(new \Enjoys\Forms\Http\Request([
             'name' => []
         ]));
-        $element->addRule('required');
+        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
     }
 
@@ -68,7 +68,7 @@ class RequiredTest extends TestCase
     {
 
         $element = new Checkbox( 'name');
-        $element->addRule('required');
+        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
     }
 

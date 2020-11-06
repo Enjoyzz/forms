@@ -52,7 +52,7 @@ class RadioRender extends BaseElement
     /**
      * @return string
      */
-    protected function renderRadio($element)
+    protected function renderRadio(\Enjoys\Forms\ElementInterface $element)
     {
         $return = '';
         foreach ($element->getElements() as $data) {

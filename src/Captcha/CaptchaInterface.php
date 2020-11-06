@@ -34,7 +34,12 @@ namespace Enjoys\Forms\Captcha;
  */
 interface CaptchaInterface
 {
+
     public function getName(): string;
+
+    public function setRequest(\Enjoys\Forms\Http\RequestInterface $request);
+
+    public function getRuleMessage(): ?string;
 
     public function renderHtml(\Enjoys\Forms\Element $element): string;
 

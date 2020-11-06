@@ -49,7 +49,7 @@ class EqualTest extends TestCase
         $class = "Enjoys\Forms\Elements\\" . $type;
         $text = new $class( $name);
         $text->setRequest(new \Enjoys\Forms\Http\Request($request));
-        $text->addRule('equal', null, $rule);
+        $text->addRule(\Enjoys\Forms\Rules::EQUAL, null, $rule);
         $this->assertEquals($expect, Validator::check([$text]));
     }
 
