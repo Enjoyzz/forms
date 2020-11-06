@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
 class Bootstrap4GroupRender extends \Enjoys\Forms\Renderer\ElementsRender\GroupRender
 {
 
+    /**
+     * @return string
+     */
     protected function renderGroup($element)
     {
         $return = '<div class="form-row">';

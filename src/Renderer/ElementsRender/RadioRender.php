@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
 class RadioRender extends BaseElement
 {
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return
@@ -46,6 +49,9 @@ class RadioRender extends BaseElement
                 '';
     }
 
+    /**
+     * @return string
+     */
     protected function renderRadio($element)
     {
         $return = '';

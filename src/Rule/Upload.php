@@ -75,7 +75,7 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    private function check($value, Element $element)
+    private function check($value, Element $element): bool
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
             // $method = 'unknown';
@@ -200,7 +200,12 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    private function parseRuleOpts($opts)
+    /**
+     * @return array
+     *
+     * @psalm-return array{param: mixed, message: mixed}
+     */
+    private function parseRuleOpts($opts): array
     {
         if (!is_array($opts)) {
             $opts = (array) $opts;

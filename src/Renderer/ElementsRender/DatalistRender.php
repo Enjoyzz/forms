@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
 class DatalistRender extends BaseElement
 {
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return
@@ -46,7 +49,7 @@ class DatalistRender extends BaseElement
                 '';
     }
 
-    protected function renderDatalist($element)
+    protected function renderDatalist($element): string
     {
         $return = "<input{$element->getAttributesString()}><datalist id=\"{$element->getAttribute('list')}\">";
         foreach ($element->getElements() as $data) {

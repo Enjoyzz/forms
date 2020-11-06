@@ -72,6 +72,9 @@ class Bootstrap4ElementRender extends BaseElementRender
         Elements\Group::class => Bootstrap4GroupRender::class,
     ];
 
+    /**
+     * @return string
+     */
     public function render()
     {
         $html = '<div class="form-group">';

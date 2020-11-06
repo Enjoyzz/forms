@@ -62,6 +62,9 @@ class Email extends Rules implements RuleInterface
         return true;
     }
 
+    /**
+     * @return bool|string
+     */
     private function check($value)
     {
         if (empty($value)) {

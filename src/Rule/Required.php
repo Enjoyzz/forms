@@ -63,7 +63,7 @@ class Required extends Rules implements RuleInterface
         return true;
     }
 
-    private function check($value)
+    private function check($value): bool
     {
         if (is_array($value)) {
             return count($value) > 0;

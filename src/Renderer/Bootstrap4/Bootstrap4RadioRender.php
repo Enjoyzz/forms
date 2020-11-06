@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
 class Bootstrap4RadioRender extends \Enjoys\Forms\Renderer\ElementsRender\RadioRender
 {
 
+    /**
+     * @return string
+     */
     protected function renderRadio($element)
     {
         $return = '';

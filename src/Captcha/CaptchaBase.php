@@ -37,29 +37,57 @@ abstract class CaptchaBase implements CaptchaInterface
     use \Enjoys\Forms\Traits\Request;
     use \Enjoys\Traits\Options;
 
+    /**
+     *
+     * @var string 
+     */
     protected string $name;
+    
+    /**
+     *
+     * @var string|null 
+     */
     protected ?string $ruleMessage;
-
+    
+    /**
+     * 
+     * @param string $name
+     * @return void
+     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * 
+     * @return string|null
+     */
     public function getRuleMessage(): ?string
     {
         return $this->ruleMessage;
     }
 
+    /**
+     * 
+     * @param string|null $message
+     * @return void
+     */
     public function setRuleMessage(?string $message = null): void
     {
         $this->ruleMessage = $message;
     }
 
+    
     abstract public function renderHtml(\Enjoys\Forms\Element $element): string;
 
     abstract public function validate(\Enjoys\Forms\Element $element): bool;

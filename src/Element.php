@@ -88,10 +88,11 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     *
      * @param \Enjoys\Forms\Form $form
+     *
+     * @return void
      */
-    public function setForm(Form $form)
+    public function setForm(Form $form): void
     {
         $this->form = $form;
         $this->setDefault();

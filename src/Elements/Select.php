@@ -56,7 +56,7 @@ class Select extends Element
         // $this->setIndexKeyFill('value');
     }
 
-    private function isMultiple()
+    private function isMultiple(): void
     {
         if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
             $_id = $this->getAttribute('id');
@@ -76,7 +76,7 @@ class Select extends Element
         return $this;
     }
 
-    public function setMultiple()
+    public function setMultiple(): self
     {
         $this->setAttribute('multiple');
         return $this;

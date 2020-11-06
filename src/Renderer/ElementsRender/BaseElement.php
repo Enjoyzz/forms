@@ -46,6 +46,9 @@ class BaseElement implements ElementRenderInterface
         $this->element = $element;
     }
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return
@@ -56,6 +59,9 @@ class BaseElement implements ElementRenderInterface
                 '';
     }
 
+    /**
+     * @return null|string
+     */
     protected function renderDescription(\Enjoys\Forms\Element $element, $containerTag = 'small')
     {
         if (!method_exists($element, 'getDescription') || empty($element->getDescription())) {
@@ -64,6 +70,9 @@ class BaseElement implements ElementRenderInterface
         return "<{$containerTag}{$element->getAttributesString(Form::ATTRIBUTES_DESC)}>{$element->getDescription()}</{$containerTag}>";
     }
 
+    /**
+     * @return null|string
+     */
     protected function renderValidation(\Enjoys\Forms\Element $element, $containerTag = 'div')
     {
         if (!method_exists($element, 'isRuleError') || !$element->isRuleError()) {
@@ -72,6 +81,9 @@ class BaseElement implements ElementRenderInterface
         return "<{$containerTag}{$element->getAttributesString(Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
     }
 
+    /**
+     * @return null|string
+     */
     protected function renderLabel(\Enjoys\Forms\Element $element, $star = "&nbsp;<sup>*</sup>")
     {
         if (empty($element->getLabel())) {
@@ -91,7 +103,7 @@ class BaseElement implements ElementRenderInterface
         return "<label{$element->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }
 
-    protected function renderBody(\Enjoys\Forms\Element $element)
+    protected function renderBody(\Enjoys\Forms\Element $element): ?string
     {
         return $element->baseHtml();
     }

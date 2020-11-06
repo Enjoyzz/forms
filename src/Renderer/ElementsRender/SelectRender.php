@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
 class SelectRender extends BaseElement
 {
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return
@@ -48,7 +51,7 @@ class SelectRender extends BaseElement
                 '';
     }
 
-    protected function renderOptions($element)
+    protected function renderOptions($element): string
     {
         $return = "";
         foreach ($element->getElements() as $data) {

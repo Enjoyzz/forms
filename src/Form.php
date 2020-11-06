@@ -130,7 +130,7 @@ class Form
         static::$formCounter = 0;
     }
 
-    public function getFormCounter()
+    public function getFormCounter(): int
     {
         return static::$formCounter;
     }

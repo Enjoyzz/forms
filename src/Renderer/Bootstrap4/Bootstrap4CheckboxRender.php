@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\Bootstrap4;
 class Bootstrap4CheckboxRender extends \Enjoys\Forms\Renderer\ElementsRender\CheckboxRender
 {
 
+    /**
+     * @return string
+     */
     protected function renderRadio($element)
     {
         $return = '';

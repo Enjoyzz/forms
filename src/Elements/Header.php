@@ -51,7 +51,7 @@ class Header extends Element
         $this->removeAttribute('id');
     }
 
-    public function closeAfter(int $countElements)
+    public function closeAfter(int $countElements): void
     {
         $this->closeAfterCountElements = $countElements;
     }

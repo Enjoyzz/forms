@@ -64,7 +64,7 @@ class Radio extends Element
         $this->removeAttribute('name');
     }
 
-    public function setPrefixId($prefix)
+    public function setPrefixId($prefix): self
     {
         static::$prefix_id = $prefix;
         $this->setAttributes([

@@ -33,16 +33,22 @@ use Enjoys\Session\Session as Session;
 /**
  * Description of Defaults
  *
- *
  * @author Enjoys
  */
 class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Forms\Captcha\CaptchaInterface
 {
 
-    private $code = '';
+    /**
+     *
+     * @var string 
+     */
+    private string $code = '';
     
-
-    public function __construct($message = null)
+    /**
+     * 
+     * @param string|null $message
+     */
+    public function __construct(?string $message = null)
     {
 
         $this->setName('captcha_defaults');
@@ -53,6 +59,11 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
     }
 
 
+    /**
+     * 
+     * @param \Enjoys\Forms\Element $element
+     * @return bool
+     */
     public function validate(\Enjoys\Forms\Element $element): bool
     {
 
@@ -88,7 +99,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         return $html;
     }
 
-    private function generateCode(\Enjoys\Forms\Element $element)
+    private function generateCode(\Enjoys\Forms\Element $element): void
     {
         $max = $this->getOption('size', 6);
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
@@ -105,11 +116,14 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         ]);
     }
 
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
+    /**
+     * @return false|resource
+     */
     private function createImage($code, $width = 150, $height = 50)
     {
         // Создаем пустое изображение
@@ -165,7 +179,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         return $img;
     }
 
-    private function getBase64Image($img)
+    private function getBase64Image($img): string
     {
         \ob_start();
         \imagejpeg($img, null, 80);

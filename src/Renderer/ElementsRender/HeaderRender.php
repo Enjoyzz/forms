@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
 class HeaderRender extends BaseElement
 {
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return "<div{$this->element->getAttributesString()}>{$this->element->getLabel()}</div>";

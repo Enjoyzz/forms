@@ -54,18 +54,18 @@ class Renderer
         $this->setOptions($options);
     }
 
-    public static function create(Form $form, array $options = [])
+    public static function create(Form $form, array $options = []): self
     {
         return new static($form, $options);
     }
 
-    public function setRenderer($renderer = null)
+    public function setRenderer($renderer = null): self
     {
         $this->renderer = $renderer;
         return $this;
     }
 
-    public function display(array $options = [])
+    public function display(array $options = []): object
     {
 
         $rendererName = \ucfirst($this->renderer);

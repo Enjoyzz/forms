@@ -74,7 +74,7 @@ class Checkbox extends Element
 //
 //    }
 
-    public function setPrefixId($prefix)
+    public function setPrefixId($prefix): self
     {
         static::$prefix_id = $prefix;
         $this->setAttribute('id', static::$prefix_id . $this->getName());

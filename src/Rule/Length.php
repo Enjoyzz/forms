@@ -76,7 +76,7 @@ class Length extends Rules implements RuleInterface
         return true;
     }
 
-    private function check($value)
+    private function check($value): bool
     {
         if (is_array($value)) {
             return true;
@@ -106,32 +106,32 @@ class Length extends Rules implements RuleInterface
         return true;
     }
 
-    private function equal($value, $threshold)
+    private function equal($value, $threshold): bool
     {
         return $value == $threshold;
     }
 
-    private function notEqual($value, $threshold)
+    private function notEqual($value, $threshold): bool
     {
         return $value != $threshold;
     }
 
-    private function greaterThan($value, $threshold)
+    private function greaterThan($value, $threshold): bool
     {
         return $value > $threshold;
     }
 
-    private function lessThan($value, $threshold)
+    private function lessThan($value, $threshold): bool
     {
         return $value < $threshold;
     }
 
-    private function greaterThanOrEqual($value, $threshold)
+    private function greaterThanOrEqual($value, $threshold): bool
     {
         return $value >= $threshold;
     }
 
-    private function lessThanOrEqual($value, $threshold)
+    private function lessThanOrEqual($value, $threshold): bool
     {
         return $value <= $threshold;
     }

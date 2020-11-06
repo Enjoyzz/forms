@@ -36,6 +36,9 @@ namespace Enjoys\Forms\Renderer\ElementsRender;
 class GroupRender extends BaseElement
 {
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return
@@ -46,6 +49,9 @@ class GroupRender extends BaseElement
                 '';
     }
 
+    /**
+     * @return string
+     */
     protected function renderGroup($element)
     {
         $return = '';

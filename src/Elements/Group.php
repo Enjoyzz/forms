@@ -47,7 +47,7 @@ class Group extends Element
         parent::__construct(\uniqid('group'), $title);
     }
 
-    public function add(array $elements = [])
+    public function add(array $elements = []): self
     {
         foreach ($elements as $element) {
             if ($element instanceof Element) {

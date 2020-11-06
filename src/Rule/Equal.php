@@ -66,6 +66,9 @@ class Equal extends Rules implements RuleInterface
         return true;
     }
 
+    /**
+     * @return array-key|bool
+     */
     private function check($value)
     {
 

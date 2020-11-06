@@ -45,7 +45,7 @@ class TockenSubmit extends Hidden
         parent::__construct(\Enjoys\Forms\Form::_TOKEN_SUBMIT_, $this->tocken);
     }
 
-    public function getSubmitted()
+    public function getSubmitted(): bool
     {
         $rule = new \Enjoys\Forms\Rule\Submit(null, $this->tocken);
         return $rule->validate($this);

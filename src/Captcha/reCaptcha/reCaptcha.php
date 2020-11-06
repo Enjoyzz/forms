@@ -111,9 +111,12 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
 
     /**
      * Used across setOption()
+     *
      * @param type $lang
+     *
+     * @return void
      */
-    public function setLanguage($lang)
+    public function setLanguage($lang): void
     {
         $file_language = __DIR__ . '/lang/' . \strtolower($lang) . '.php';
 
@@ -123,7 +126,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     }
     
  
-    private function getGuzzleClient()
+    private function getGuzzleClient(): Client
     {
         return new Client();
     }

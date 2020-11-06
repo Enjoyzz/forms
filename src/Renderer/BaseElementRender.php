@@ -95,6 +95,9 @@ class BaseElementRender
         return new ElementsRender\InputRender($element);
     }
 
+    /**
+     * @return string
+     */
     public function render()
     {
         return $this->elementRender->render() . "<br />\n";

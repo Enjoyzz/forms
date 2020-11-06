@@ -39,13 +39,13 @@ trait Fill
     private string $parentName = '';
     private bool $parent = true;
 
-    public function setParentName(string $parentName)
+    public function setParentName(string $parentName): void
     {
         $this->parentName = $parentName;
         $this->parent = false;
     }
 
-    public function getParentName()
+    public function getParentName(): string
     {
         return $this->parentName;
     }
@@ -107,7 +107,7 @@ trait Fill
         return $this->elements;
     }
 
-    public function updateElement($key, \Enjoys\Forms\Element $element)
+    public function updateElement($key, \Enjoys\Forms\Element $element): void
     {
         if (array_key_exists($key, $this->elements)) {
             $this->elements[$key] = $element;
