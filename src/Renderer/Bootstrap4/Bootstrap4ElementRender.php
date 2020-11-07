@@ -28,10 +28,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bootstrap4;
 
-use Enjoys\Forms\ElementInterface;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Renderer\BaseElementRender;
-use Enjoys\Forms\Renderer\ElementsRender\ButtonRender;
 use Enjoys\Forms\Renderer\ElementsRender\ElementRenderInterface;
 
 /**
@@ -85,10 +83,10 @@ class Bootstrap4ElementRender extends BaseElementRender
 
     /**
      *
-     * @param ElementInterface $element
+     * @param \Enjoys\Forms\Element $element
      * @return ElementRenderInterface
      */
-    protected function getElementRender(ElementInterface $element): ElementRenderInterface
+    protected function getElementRender(\Enjoys\Forms\Element $element): ElementRenderInterface
     {
         $key = \get_class($element);
         if (array_key_exists($key, self::mapClasses)) {

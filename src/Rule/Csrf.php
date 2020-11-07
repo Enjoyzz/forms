@@ -45,16 +45,16 @@ class Csrf extends Rules implements RuleInterface
 {
 
     /**
-     *
+     * 
      * @param string|null $message
-     * @return void
+     * @return string|null
      */
-    public function setMessage(?string $message): void
+    public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {
             $message = 'CSRF Attack detected';
         }
-        parent::setMessage($message);
+        return parent::setMessage($message);
     }
 
     /**

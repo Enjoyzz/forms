@@ -49,9 +49,10 @@ class DatalistRender extends BaseElement
                 '';
     }
 
-    protected function renderDatalist(\Enjoys\Forms\ElementInterface $element): string
+    protected function renderDatalist(\Enjoys\Forms\Element $element): string
     {
         $return = "<input{$element->getAttributesString()}><datalist id=\"{$element->getAttribute('list')}\">";
+        /** @var \Enjoys\Forms\Elements\Datalist $element */
         foreach ($element->getElements() as $data) {
             //$return .= "<option value=\"{$data->getLabel()}\">";
             $return .= $this->renderBody($data);

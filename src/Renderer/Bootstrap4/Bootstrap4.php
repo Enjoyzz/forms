@@ -40,8 +40,9 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
 {
     use \Enjoys\Traits\Options;
 
-    public function __construct($options = [])
+    public function __construct(array $options = [], \Enjoys\Forms\Form $form = null)
     {
+        parent::__construct($form);
         $this->setOptions($options);
     }
 

@@ -40,16 +40,20 @@ class BaseRenderer implements RendererInterface
 
     protected Form $form;
     protected array $elements = [];
-
+    
+    public function __construct(Form $form = null){   
+        $this->form = $this->setForm($form ?? new Form());
+    }
     /**
      * 
      * @param Form $form
-     * @return void
+     * @return Form
      */
-    public function setForm(Form $form): void
+    public function setForm(Form $form): Form
     {
         $this->form = $form;
         $this->elements = $this->form->getElements();
+        return $this->form;
     }
 
     /**
@@ -73,13 +77,14 @@ class BaseRenderer implements RendererInterface
     /**
      * 
      * @param array|null $elements
+     * @psalm-param null|array{\Enjoys\Forms\Element} $elements
      * @return string
      */
     protected function elementsRender(?array $elements = null): string
     {
         $elements ??= $this->elements;
         $html = '';
-        /** @var \Enjoys\Forms\Element $element */
+       
         foreach ($elements as $key => $element) {
             unset($elements[$key]);
 

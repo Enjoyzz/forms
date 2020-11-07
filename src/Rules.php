@@ -66,10 +66,10 @@ class Rules
      */
     public function __construct(?string $message = null, $params = [])
     {
+    
+        $this->message = $this->setMessage($message);
         $this->setRequest();
-
         $this->setParams($params);
-        $this->setMessage($message);
     }
 
     /**
@@ -110,14 +110,13 @@ class Rules
     }
 
     /**
-     *
+     * 
      * @param string|null $message
-     * @return void
+     * @return string|null
      */
-    public function setMessage(?string $message): void
+    public function setMessage(?string $message = null): ?string
     {
-
-        $this->message = $message;
+        return $this->message = $message;
     }
 
     /**

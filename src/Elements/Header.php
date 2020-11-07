@@ -59,9 +59,10 @@ class Header extends Element
     {
         return $this->closeAfterCountElements;
     }
+    
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
-        return $this->getLabel();
+        return $this->getLabel() ?? '';
     }
 }

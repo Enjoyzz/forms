@@ -52,9 +52,13 @@ class GroupRender extends BaseElement
     /**
      * @return string
      */
-    protected function renderGroup(\Enjoys\Forms\ElementInterface $element)
+    protected function renderGroup(\Enjoys\Forms\Element $element): string
     {
         $return = '';
+        /**
+         * @var \Enjoys\Forms\Elements\Group $element 
+         * @var \Enjoys\Forms\Element $data
+         */
         foreach ($element->getElements() as $data) {
             $return .= "<div>";
             $return .= $this->renderBody($data);

@@ -44,12 +44,12 @@ use Enjoys\Forms\Rules;
 class Equal extends Rules implements RuleInterface
 {
 
-    public function setMessage(?string $message): void
+    public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {
             $message = 'Допустимые значения (указаны через запятую): ' . \implode(', ', $this->getParams());
         }
-        parent::setMessage($message);
+        return parent::setMessage($message);
     }
 
     /**

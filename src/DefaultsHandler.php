@@ -33,12 +33,17 @@ namespace Enjoys\Forms;
  *
  * @author Enjoys
  */
-class DefaultsHandler
+class DefaultsHandler implements DefaultsHandlerInterface
 {
 
     private array $defaults = [];
 
     public function __construct(array $data = [])
+    {
+        $this->defaults = $data;
+    }
+    
+    public function setData(array $data = []): void
     {
         $this->defaults = $data;
     }

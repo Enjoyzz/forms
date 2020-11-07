@@ -35,10 +35,22 @@ namespace Enjoys\Forms\Http;
 interface RequestInterface
 {
 
+    /**
+     * @param mixed $default
+     * @return mixed
+     */
     public function get(?string $key = null, $default = null);
 
+    /**
+     * @param mixed $default
+     * @return mixed
+     */
     public function post(?string $key = null, $default = null);
 
+    /**
+     * @param mixed $default
+     * @return mixed
+     */
     public function files(?string $key = null, $default = null);
 
     /**

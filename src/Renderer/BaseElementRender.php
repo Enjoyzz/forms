@@ -40,8 +40,7 @@ use Enjoys\Forms\Renderer\ElementsRender;
 class BaseElementRender
 {
 
-    protected $elementRender;
-    protected $renderer;
+    protected ElementsRender\ElementRenderInterface $elementRender;
 
     private const MAPCLASSES = [
         Elements\Radio::class => ElementsRender\RadioRender::class,
@@ -73,17 +72,17 @@ class BaseElementRender
         Elements\Datalist::class => ElementsRender\DatalistRender::class,
     ];
 
-    public function __construct(ElementInterface $element)
+    public function __construct(\Enjoys\Forms\Element $element)
     {
         $this->elementRender = $this->getElementRender($element);
     }
 
     /**
      *
-     * @param ElementInterface $element
+     * @param \Enjoys\Forms\Element $element
      * @return ElementsRender\ElementRenderInterface
      */
-    protected function getElementRender(ElementInterface $element): ElementsRender\ElementRenderInterface
+    protected function getElementRender(\Enjoys\Forms\Element $element): ElementsRender\ElementRenderInterface
     {
         $key = \get_class($element);
         if (array_key_exists($key, self::MAPCLASSES)) {

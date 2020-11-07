@@ -50,12 +50,12 @@ class Length extends Rules implements RuleInterface
         '<=' => 'lessThanOrEqual',
     ];
 
-    public function setMessage(?string $message): void
+    public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {
             $message = 'Ошибка ввода';
         }
-        parent::setMessage($message);
+        return parent::setMessage($message);
     }
 
     /**

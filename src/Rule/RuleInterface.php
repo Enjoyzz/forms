@@ -41,7 +41,7 @@ interface RuleInterface
 
     public function validate(Element $element): bool;
 
-    public function setMessage(?string $message): void;
+    public function setMessage(?string $message = null): ?string;
 
     public function getMessage(): ?string;
 }

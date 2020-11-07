@@ -39,7 +39,7 @@ use Enjoys\Forms\Traits\Rules;
  *
  * @author Enjoys
  */
-class Checkbox extends Element
+class Checkbox extends Element implements \Enjoys\Forms\FillableInterface
 {
     use Fill;
     use Description;
@@ -125,7 +125,7 @@ class Checkbox extends Element
         return $this;
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
 
 

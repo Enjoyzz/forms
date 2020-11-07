@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Traits;
 
 /**
- *
  * @author Enjoys
  */
 trait Attributes
@@ -90,6 +89,7 @@ trait Attributes
         if (in_array($name, ['name'])) {
             if (
                     !is_null($value) &&
+                    $value !== false &&
                     isset($this->attributes[$namespace][$name]) &&
                     $this->attributes[$namespace][$name] != $value
             ) {

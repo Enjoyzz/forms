@@ -32,12 +32,15 @@ use Symfony\Component\HttpFoundation;
 
 /**
  * Class Request
- *
+ * @psalm-suppress PropertyNotSetInConstructor 
  * @author Enjoys
  */
 class Request extends HttpFoundation\Request implements RequestInterface
 {
 
+    /**
+     * @param string|resource|null $content
+     */
     public function __construct(
         ?array $query = null,
         ?array $request = null,

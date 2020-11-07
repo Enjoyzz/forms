@@ -38,8 +38,8 @@ use Enjoys\Forms\Traits\Fill;
  * @author Enjoys
  *
  */
-class Radio extends Element
-{
+class Radio extends Element implements \Enjoys\Forms\FillableInterface
+{ 
     use Fill;
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
@@ -96,8 +96,6 @@ class Radio extends Element
      */
     protected function setDefault($value = null): self
     {
-        // $value = Arrays::getValueByIndexPath($this->getParentName(), $this->formDefaults->getDefaults());
-        //  $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
         $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
 
         if (is_array($value)) {
@@ -116,7 +114,7 @@ class Radio extends Element
         return $this;
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
         $this->setAttribute('for', $this->getAttribute('id'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
         $this->setAttributes($this->getAttributes('fill'), \Enjoys\Forms\Form::ATTRIBUTES_LABEL);

@@ -82,11 +82,8 @@ class Captcha extends Element
         return $this->captcha->validate($this);
     }
 
-    /**
-     * 
-     * @return string|null
-     */
-    public function baseHtml(): ?string
+
+    public function baseHtml(): string
     {
         return $this->renderHtml();
     }

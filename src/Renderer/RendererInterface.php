@@ -36,7 +36,7 @@ namespace Enjoys\Forms\Renderer;
 interface RendererInterface
 {
 
-    public function setForm(\Enjoys\Forms\Form $form): void;
+    public function setForm(\Enjoys\Forms\Form $form): \Enjoys\Forms\Form;
 
     public function render(): string;
 }

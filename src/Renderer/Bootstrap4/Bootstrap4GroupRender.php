@@ -39,11 +39,12 @@ class Bootstrap4GroupRender extends \Enjoys\Forms\Renderer\ElementsRender\GroupR
     /**
      * @return string
      */
-    protected function renderGroup($element)
+    protected function renderGroup(\Enjoys\Forms\Element $element): string
     {
         $return = '<div class="form-row">';
         /**
-         * @var \Enjoys\Forms\Element @data
+         * @var \Enjoys\Forms\Elements\Group $element 
+         * @var \Enjoys\Forms\Element $data
          */
         foreach ($element->getElements() as $data) {
             $elementRender = new Bootstrap4();

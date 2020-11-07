@@ -24,42 +24,20 @@
  * THE SOFTWARE.
  */
 
-declare(strict_types=1);
-
-namespace Enjoys\Forms\Renderer\Bootstrap4;
+namespace Enjoys\Forms;
 
 /**
- * Description of Bootstrap4CheckboxRender
  *
  * @author Enjoys
  */
-class Bootstrap4CheckboxRender extends \Enjoys\Forms\Renderer\ElementsRender\CheckboxRender
+interface FillableInterface
 {
 
-    /**
-     * @return string
-     */
-    protected function renderRadio(\Enjoys\Forms\Element $element): string
-    {
-        $return = '';
-        /** @var \Enjoys\Forms\Elements\Checkbox $element */
-        foreach ($element->getElements() as $data) {
-            $data->addClass('custom-control-input');
-            $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
+    public function setParentName(string $parentName): void;
 
-            if (empty($data->getLabel())) {
-                $data->addClass('position-static');
-            }
+    public function getParentName(): string;
 
-            $data->addClass('custom-control custom-checkbox', 'checkBox');
-//            if ($this->renderOptions['checkbox_inline'] === true) {
-//                $data->addClass('custom-control-inline', 'checkBox');
-//            }
+    public function fill(array $data): self;
 
-            $return .= "<div{$data->getAttributesString('checkBox')}>";
-            $return .= $this->renderBody($data);
-            $return .= '</div>';
-        }
-        return $return;
-    }
+    public function getElements(): array;
 }

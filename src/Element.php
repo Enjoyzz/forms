@@ -203,7 +203,7 @@ abstract class Element implements ElementInterface
         return $this;
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}>";
     }

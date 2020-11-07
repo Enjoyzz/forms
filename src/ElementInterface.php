@@ -37,7 +37,7 @@ interface ElementInterface
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function baseHtml(): ?string;
+    public function baseHtml(): string;
 }

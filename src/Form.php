@@ -88,9 +88,9 @@ class Form
 
     /**
      *
-     * @var DefaultsHandler
+     * @var DefaultsHandlerInterface
      */
-    private DefaultsHandler $defaultsHandler;
+    private DefaultsHandlerInterface $defaultsHandler;
 
     /**
      *
@@ -110,9 +110,11 @@ class Form
      * @param array $options
      * @param RequestInterface $request
      */
-    public function __construct(array $options = [], RequestInterface $request = null)
+    public function __construct(array $options = [], RequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
     {
+        $this->defaultsHandler = $defaults ?? new DefaultsHandler();
         $this->setRequest($request);
+        
         static::$formCounter++;
 
 
@@ -120,7 +122,7 @@ class Form
         $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->getFormCounter()));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
 
-        if (!isset($this->defaultsHandler) && $this->formSubmitted === true) {
+        if ($this->formSubmitted === true) {
             $this->setDefaults([]);
         }
 
@@ -194,7 +196,7 @@ class Form
     }
 
     /**
-     * Set \Enjoys\Forms\FormDefaults $formDefaults
+     * Set \Enjoys\Forms\DefaultsHandlerInterface $defaultsHandler
      * @param array $data
      * @return $this
      */
@@ -211,16 +213,17 @@ class Form
                 $data[$key] = $items;
             }
         }
-        $this->defaultsHandler = new DefaultsHandler($data);
+        $this->defaultsHandler->setData($data);
         return $this;
     }
 
     /**
-     * @return DefaultsHandler
+     * @return DefaultsHandlerInterface
      */
-    public function getDefaultsHandler(): DefaultsHandler
+    public function getDefaultsHandler(): DefaultsHandlerInterface
     {
-        return $this->defaultsHandler ?? new DefaultsHandler([]);
+        
+        return $this->defaultsHandler;
     }
 
     /**

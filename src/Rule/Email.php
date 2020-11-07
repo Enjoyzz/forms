@@ -42,12 +42,12 @@ class Email extends Rules implements RuleInterface
 
 //    private $idn_to_ascii = false;
 
-    public function setMessage(?string $message): void
+    public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {
             $message = 'Не правильно введен email';
         }
-        parent::setMessage($message);
+        return parent::setMessage($message);
     }
 
     /**

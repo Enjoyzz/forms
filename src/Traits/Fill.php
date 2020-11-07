@@ -37,7 +37,6 @@ trait Fill
 
     private array $elements = [];
     private string $parentName = '';
-//    private bool $parent = true;
 
     public function setParentName(string $parentName): void
     {
@@ -66,7 +65,7 @@ trait Fill
      * @param array $data
      * @return $this
      */
-    public function fill(array $data)
+    public function fill(array $data): self
     {
 
         foreach ($data as $value => $title) {

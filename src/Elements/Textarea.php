@@ -48,10 +48,14 @@ class Textarea extends Element
      */
     protected string $type = 'textarea';
 
-    /**
-     * @psalm-suppress PropertyNotSetInConstructor 
-     */
+
     private string $value;
+    
+    public function __construct(string $name, string $label = null)
+    {
+        parent::__construct($name, $label);
+        $this->value = '';
+    }
 
     public function setValue(string $value): self
     {
@@ -86,7 +90,7 @@ class Textarea extends Element
         return $this;
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
         $value = $this->getAttribute('value');
         if ($value !== false) {

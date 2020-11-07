@@ -51,9 +51,10 @@ class SelectRender extends BaseElement
                 '';
     }
 
-    protected function renderOptions(\Enjoys\Forms\ElementInterface $element): string
+    protected function renderOptions(\Enjoys\Forms\Element $element): string
     {
         $return = "";
+        /** @var \Enjoys\Forms\Elements\Select $element  */
         foreach ($element->getElements() as $data) {
             if ($data instanceof \Enjoys\Forms\Elements\Optgroup) {
                 $return .= "<optgroup{$data->getAttributesString()}>";

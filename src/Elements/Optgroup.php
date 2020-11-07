@@ -78,7 +78,7 @@ use Enjoys\Forms\Traits\Fill;
  * @since 2.4.0
  * @author Enjoys
  */
-class Optgroup extends Element
+class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
 {
     use Fill;
 
@@ -119,8 +119,8 @@ class Optgroup extends Element
         return $this;
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
-        return null;
+        return '';
     }
 }

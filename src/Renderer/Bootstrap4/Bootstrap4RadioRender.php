@@ -39,9 +39,10 @@ class Bootstrap4RadioRender extends \Enjoys\Forms\Renderer\ElementsRender\RadioR
     /**
      * @return string
      */
-    protected function renderRadio($element)
+    protected function renderRadio(\Enjoys\Forms\Element $element): string
     {
         $return = '';
+         /** @var \Enjoys\Forms\Elements\Radio $element */
         foreach ($element->getElements() as $data) {
             $data->addClass('custom-control-input');
             $data->addClass('custom-control-label', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
@@ -51,9 +52,9 @@ class Bootstrap4RadioRender extends \Enjoys\Forms\Renderer\ElementsRender\RadioR
             }
 
             $data->addClass('custom-control custom-radio', 'checkBox');
-            if ($this->renderOptions['checkbox_inline'] === true) {
-                $data->addClass('custom-control-inline', 'checkBox');
-            }
+//            if ($this->renderOptions['checkbox_inline'] === true) {
+//                $data->addClass('custom-control-inline', 'checkBox');
+//            }
 
             $return .= "<div{$data->getAttributesString('checkBox')}>";
             $return .= $this->renderBody($data);

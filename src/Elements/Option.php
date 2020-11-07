@@ -36,11 +36,16 @@ use Enjoys\Forms\Traits\Fill;
  *
  * @author Enjoys
  */
-class Option extends Element
+class Option extends Element implements \Enjoys\Forms\FillableInterface
 {
     use Fill;
 
     protected string $type = 'option';
+
+    /**
+     * @var mixed
+     */
+    protected $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {
@@ -59,6 +64,8 @@ class Option extends Element
      */
     protected function setDefault($value = null): self
     {
+        //$this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');
@@ -75,7 +82,7 @@ class Option extends Element
         return $this;
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
         $this->setAttributes($this->getAttributes('fill'));
         return "<option{$this->getAttributesString()}>{$this->getLabel()}</option>";

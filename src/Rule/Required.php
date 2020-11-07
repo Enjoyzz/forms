@@ -43,12 +43,12 @@ use Enjoys\Forms\Rules;
 class Required extends Rules implements RuleInterface
 {
 
-    public function setMessage(?string $message): void
+    public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {
             $message = 'Обязательно для заполнения, или выбора';
         }
-        parent::setMessage($message);
+        return parent::setMessage($message);
     }
 
     /**

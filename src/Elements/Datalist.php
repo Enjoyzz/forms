@@ -37,7 +37,7 @@ use Enjoys\Forms\Traits\Fill;
  *
  * @author Enjoys
  */
-class Datalist extends Element
+class Datalist extends Element implements \Enjoys\Forms\FillableInterface
 {
     use Fill;
     use \Enjoys\Forms\Traits\Description;
@@ -58,7 +58,7 @@ class Datalist extends Element
         $this->removeAttribute('id');
     }
 
-    public function baseHtml(): ?string
+    public function baseHtml(): string
     {
         return '';
     }
