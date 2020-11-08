@@ -80,7 +80,7 @@ class Select extends Element
     }
 
     /**
-     * 
+     * @psalm-suppress MethodSignatureMismatch
      * @param string $name
      * @param string|null|false $value
      * @param string $namespace
@@ -94,7 +94,7 @@ class Select extends Element
     }
 
     /**
-     * 
+     * @psalm-suppress MethodSignatureMismatch
      * @param array $attributes
      * @param string $namespace
      * @return $this
