@@ -98,16 +98,16 @@
         },
         {
             "name": "enjoys/traits",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Enjoyzz/traits.git",
-                "reference": "40187eabf4aeff2b1c5dfc3566eedf70b9ba75a1"
+                "reference": "dd61758214565f9202d3810ce626e5173162cb05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Enjoyzz/traits/zipball/40187eabf4aeff2b1c5dfc3566eedf70b9ba75a1",
-                "reference": "40187eabf4aeff2b1c5dfc3566eedf70b9ba75a1",
+                "url": "https://api.github.com/repos/Enjoyzz/traits/zipball/dd61758214565f9202d3810ce626e5173162cb05",
+                "reference": "dd61758214565f9202d3810ce626e5173162cb05",
                 "shasum": ""
             },
             "require": {
@@ -137,9 +137,9 @@
             "description": "PHP Traits",
             "support": {
                 "issues": "https://github.com/Enjoyzz/traits/issues",
-                "source": "https://github.com/Enjoyzz/traits/tree/1.1.1"
+                "source": "https://github.com/Enjoyzz/traits/tree/1.1.2"
             },
-            "time": "2020-10-27T07:07:15+00:00"
+            "time": "2020-11-09T08:56:29+00:00"
         },
         {
             "name": "gabrielelana/byte-units",
