@@ -87,7 +87,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         ]);
 
         $this->generateCode($element);
-        $img = $this->createImage($this->getCode(), $this->getOption('width', 150), $this->getOption('height', 50));
+        $img = $this->createImage($this->getCode(), (int) $this->getOption('width', 150), (int) $this->getOption('height', 50));
 
         //dump(Session::get($this->getName()));
         $html = '';
@@ -102,7 +102,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
     private function generateCode(\Enjoys\Forms\Element $element): void
     {
-        $max = $this->getOption('size', 6);
+        $max = (int) $this->getOption('size', 6);
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
         $size = StrLen($chars) - 1;
         // Определяем пустую переменную, в которую и будем записывать символы.
