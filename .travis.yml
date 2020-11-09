@@ -8,6 +8,8 @@ before_script:
 script:
  - mkdir -p build/logs
  - vendor/bin/phpunit tests --coverage-clover build/logs/clover.xml
+ - wget https://scrutinizer-ci.com/ocular.phar
+ - php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
  
 cache:
  directories:
@@ -16,4 +18,4 @@ cache:
   - build/cache
   
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -v
+  - travis_retry php vendor/bin/php-coveralls
