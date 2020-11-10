@@ -80,11 +80,11 @@ trait Fill
             /**
              * @todo слишком много вложенности ифов. подумать как переделать
              */
-            foreach ($element->getAttributes('fill') as $key => $value) {
-                if (in_array($key, ['id', 'name', 'disabled', 'readonly'])) {
-                    if ($element->getAttribute($key, 'fill') !== false) {
-                        $element->setAttribute($key, $element->getAttribute($key, 'fill'));
-                        $element->removeAttribute($key, 'fill');
+            foreach ($element->getAttributes('fill') as $k => $v) {
+                if (in_array($k, ['id', 'name', 'disabled', 'readonly'])) {
+                    if ($element->getAttribute($k, 'fill') !== false) {
+                        $element->setAttribute($k, $element->getAttribute($k, 'fill'));
+                        $element->removeAttribute($k, 'fill');
                     }
                 }
             }
