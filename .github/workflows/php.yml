@@ -7,18 +7,25 @@ on:
     branches: [ 3.x ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  run:    
+    runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        php: ['7.4']
+        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+        php-versions: ['8.0']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-    - uses: actions/checkout@v2
-
-
-    - name: Version php
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: intl #optional
+        ini-values: "post_max_size=256M" #optional
+        
+    - name: Check PHP Version
       run: php -v
       
     - name: Validate composer.json and composer.lock
