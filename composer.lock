@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3916c21b5b07e6cfab1691a84e86e288",
+    "content-hash": "986937948399eb67428e86f6a9b4f3e0",
     "packages": [
         {
             "name": "enjoys/functions",
@@ -4766,7 +4766,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4 || ^8.0"
+        "php": "^7.4 || ^8.0",
+        "ext-imagick": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
