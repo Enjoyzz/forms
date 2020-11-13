@@ -31,7 +31,7 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
       
     - name: Run test suite
-      run: 
+      run: |
         mkdir -p build/logs
         vendor/bin/phpunit  tests --verbose --coverage-clover build/logs/clover.xml 
       
@@ -39,7 +39,7 @@ jobs:
       run: vendor/bin/psalm  --show-info=true
       
     - name: Code coverage
-      run: 
+      run: |
         wget https://scrutinizer-ci.com/ocular.phar
         php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
         
