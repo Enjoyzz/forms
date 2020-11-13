@@ -53,21 +53,21 @@
         },
         {
             "name": "enjoys/session",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Enjoyzz/session.git",
-                "reference": "1d4fc7f774386f0040de44da71f252bc2017994e"
+                "reference": "187debcc9366e2adcb537d44fd259d83abf47875"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Enjoyzz/session/zipball/1d4fc7f774386f0040de44da71f252bc2017994e",
-                "reference": "1d4fc7f774386f0040de44da71f252bc2017994e",
+                "url": "https://api.github.com/repos/Enjoyzz/session/zipball/187debcc9366e2adcb537d44fd259d83abf47875",
+                "reference": "187debcc9366e2adcb537d44fd259d83abf47875",
                 "shasum": ""
             },
             "require": {
                 "enjoys/traits": "*",
-                "php": "^7.2"
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.4",
@@ -92,26 +92,26 @@
             "description": "session wrapper",
             "support": {
                 "issues": "https://github.com/Enjoyzz/session/issues",
-                "source": "https://github.com/Enjoyzz/session/tree/1.0.0"
+                "source": "https://github.com/Enjoyzz/session/tree/1.0.1"
             },
-            "time": "2020-10-23T17:06:12+00:00"
+            "time": "2020-11-13T20:49:04+00:00"
         },
         {
             "name": "enjoys/traits",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Enjoyzz/traits.git",
-                "reference": "dd61758214565f9202d3810ce626e5173162cb05"
+                "reference": "aef79453a22cd1115a6bacebe38cfc9bf4a9ab99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Enjoyzz/traits/zipball/dd61758214565f9202d3810ce626e5173162cb05",
-                "reference": "dd61758214565f9202d3810ce626e5173162cb05",
+                "url": "https://api.github.com/repos/Enjoyzz/traits/zipball/aef79453a22cd1115a6bacebe38cfc9bf4a9ab99",
+                "reference": "aef79453a22cd1115a6bacebe38cfc9bf4a9ab99",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4"
+                "php": "^7.4|^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.4",
@@ -137,9 +137,9 @@
             "description": "PHP Traits",
             "support": {
                 "issues": "https://github.com/Enjoyzz/traits/issues",
-                "source": "https://github.com/Enjoyzz/traits/tree/1.1.2"
+                "source": "https://github.com/Enjoyzz/traits/tree/1.1.3"
             },
-            "time": "2020-11-09T08:56:29+00:00"
+            "time": "2020-11-13T21:01:12+00:00"
         },
         {
             "name": "gabrielelana/byte-units",
