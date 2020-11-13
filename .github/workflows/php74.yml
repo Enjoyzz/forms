@@ -55,7 +55,7 @@ jobs:
     
     
     - name: Code coverage
-      if: ${{ matrix.operating-system }} != windows-latest
+      if: matrix.operating-system != windows-latest
       run: |        
         wget https://scrutinizer-ci.com/ocular.phar
         php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
