@@ -29,7 +29,12 @@ jobs:
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
-
+      
+    - name: Run test suite
+      run: vendor/bin/phpunit tests
+      
+    - name: Run psalm
+      run: vendor/bin/psalm  --show-info=true
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
