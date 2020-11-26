@@ -51,9 +51,17 @@ class LengthTest extends \PHPUnit\Framework\TestCase
         $rule = new \Enjoys\Forms\Rule\Length(null, [
             '>' => 5
         ]);
-        $rule->setRequest(new \Enjoys\Forms\Http\Request([
-                    'foo' => $value
-        ]));
+        
+        $rule->setRequest(new \Enjoys\Http\ServerRequest(
+                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                                null,
+                                null,
+                                null,
+                                ['foo' => $value]
+                        )
+        ));
+        
+     
 
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));

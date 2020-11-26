@@ -77,12 +77,28 @@ class RequestTest extends \PHPUnit\Framework\TestCase
 
     public function test_files()
     {
-        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-        $request = new \Enjoys\Forms\Http\Request([], [], [], [], ['food' => $uploadFile]);
+        //$uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
+        //$request = new \Enjoys\Forms\Http\Request([], [], [], [], ['food' => $uploadFile]);
+       // var_dump($_FILES);
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        [
+                            'food' => [
+                                'name' => 'test.pdf',
+                                'type' => 'application/pdf',
+                                'size' => 1000,
+                                'tmp_name' => 'test.pdf',
+                                'error' => 0
+                            ]
+                        ]
+                )
+        );
 
+      //  var_dump($request->files());
         $this->assertEquals(null, $request->files('food4'));
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\File\UploadedFile', $request->files('food'));
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\File\UploadedFile', $request->files()['food']);
+        $this->assertInstanceOf(\Psr\Http\Message\UploadedFileInterface::class, $request->files('food'));
+        $this->assertInstanceOf(\Psr\Http\Message\UploadedFileInterface::class, $request->files()['food']);
     }
 
     /**

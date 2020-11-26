@@ -42,7 +42,6 @@ use Tests\Enjoys\Forms\Reflection;
  */
 class CsrfTest extends TestCase
 {
-
     use Reflection;
 
     public function test_create_rule()
@@ -57,7 +56,7 @@ class CsrfTest extends TestCase
         $this->markTestSkipped('skip in php 8.0');
         $csrf_key = 'test';
         $hash = crypt($csrf_key, '');
-        $element = new Hidden( Form::_TOKEN_CSRF_, $hash);
+        $element = new Hidden(Form::_TOKEN_CSRF_, $hash);
 
 
         $obj = new Csrf(null, [
@@ -81,12 +80,22 @@ class CsrfTest extends TestCase
         $obj = new Csrf(null, [
             'csrf_key' => $csrf_key
         ]);
-        $obj->setRequest(new \Enjoys\Forms\Http\Request([], [
-                    Form::_TOKEN_CSRF_ => 'faketoken'
-        ]));
+
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        null,
+                        [
+                            Form::_TOKEN_CSRF_ => 'faketoken'
+                        ],
+                )
+        );
+
+        $obj->setRequest($request);
         //$this->assertSame('d',$obj);
         $this->assertFalse($obj->validate($element));
         //   $this->expectException(\Enjoys\Forms\Exception::class);
     }
-
 }

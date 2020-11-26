@@ -47,8 +47,15 @@ class EqualTest extends TestCase
     public function test_validate($type, $name, $request, $rule, $expect)
     {
         $class = "Enjoys\Forms\Elements\\" . $type;
-        $text = new $class( $name);
-        $text->setRequest(new \Enjoys\Forms\Http\Request($request));
+        $text = new $class($name);
+        $text->setRequest(new \Enjoys\Http\ServerRequest(
+                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                                null,
+                                null,
+                                null,
+                                $request,
+                        )
+        ));
         $text->addRule(\Enjoys\Forms\Rules::EQUAL, null, $rule);
         $this->assertEquals($expect, Validator::check([$text]));
     }
