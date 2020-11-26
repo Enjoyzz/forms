@@ -40,26 +40,35 @@ use PHPUnit\Framework\TestCase;
 class RequiredTest extends TestCase
 {
 
- 
-
-  
     public function test_required_()
     {
 
         $element = new Checkbox('name');
-        $element->setRequest(new \Enjoys\Forms\Http\Request([
-            'name' => [1, 2]
-        ]));
+
+
+        $element->setRequest(new \Enjoys\Http\ServerRequest(
+                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                                null,
+                                null,
+                                null,
+                                ['name' => [1, 2]]
+                        )
+        ));
         $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertTrue(Validator::check([$element]));
     }
 
     public function test_required_2()
     {
-        $element = new Checkbox( 'name');
-        $element->setRequest(new \Enjoys\Forms\Http\Request([
-            'name' => []
-        ]));
+        $element = new Checkbox('name');
+        $element->setRequest(new \Enjoys\Http\ServerRequest(
+                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                                null,
+                                null,
+                                null,
+                                ['name' => []]
+                        )
+        ));
         $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
     }
@@ -67,9 +76,8 @@ class RequiredTest extends TestCase
     public function test_required_3()
     {
 
-        $element = new Checkbox( 'name');
+        $element = new Checkbox('name');
         $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
     }
-
 }
