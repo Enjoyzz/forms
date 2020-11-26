@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Enjoyzz/http.git",
-                "reference": "c701f8b9d180368dfdad654044aed6b189df4c7f"
+                "reference": "c81aa7089a9cbae7990e7a844deb078b83ad7cac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Enjoyzz/http/zipball/c701f8b9d180368dfdad654044aed6b189df4c7f",
-                "reference": "c701f8b9d180368dfdad654044aed6b189df4c7f",
+                "url": "https://api.github.com/repos/Enjoyzz/http/zipball/c81aa7089a9cbae7990e7a844deb078b83ad7cac",
+                "reference": "c81aa7089a9cbae7990e7a844deb078b83ad7cac",
                 "shasum": ""
             },
             "require": {
@@ -102,9 +102,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Enjoyzz/http/issues",
-                "source": "https://github.com/Enjoyzz/http/tree/main"
+                "source": "https://github.com/Enjoyzz/http/tree/1.0.0"
             },
-            "time": "2020-11-26T15:38:16+00:00"
+            "time": "2020-11-26T20:15:00+00:00"
         },
         {
             "name": "enjoys/session",
