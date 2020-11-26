@@ -107,7 +107,7 @@ class Select extends Element
     }
 
     /**
-     * 
+     *
      * @return $this
      */
     protected function setDefault(): self

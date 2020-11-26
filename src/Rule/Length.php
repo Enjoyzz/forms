@@ -82,7 +82,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return bool
      * @throws ExceptionRule
@@ -118,7 +118,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param mixed $threshold
      * @return bool
@@ -129,7 +129,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param mixed $threshold
      * @return bool
@@ -140,7 +140,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param mixed $threshold
      * @return bool
@@ -151,7 +151,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param mixed $threshold
      * @return bool
@@ -162,7 +162,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param mixed $threshold
      * @return bool
@@ -173,7 +173,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param mixed $threshold
      * @return bool

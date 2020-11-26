@@ -59,7 +59,7 @@ class Header extends Element
     {
         return $this->closeAfterCountElements;
     }
-    
+
 
     public function baseHtml(): string
     {

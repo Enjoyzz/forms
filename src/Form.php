@@ -108,13 +108,13 @@ class Form
     /**
      * @example example/initform.php description
      * @param array $options
-     * @param RequestInterface $request
+     * @param \Enjoys\Http\ServerRequestInterface $request
      */
     public function __construct(array $options = [], \Enjoys\Http\ServerRequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
     {
         $this->defaultsHandler = $defaults ?? new DefaultsHandler();
         $this->setRequest($request);
-        
+
         static::$formCounter++;
 
 
@@ -222,7 +222,7 @@ class Form
      */
     public function getDefaultsHandler(): DefaultsHandlerInterface
     {
-        
+
         return $this->defaultsHandler;
     }
 

@@ -60,7 +60,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @return string
      */
@@ -72,7 +72,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @return bool
      */
@@ -121,7 +121,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     }
 
     /**
-     * 
+     *
      * @return Client
      */
     private function getGuzzleClient(): Client

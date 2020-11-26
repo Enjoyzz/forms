@@ -40,12 +40,13 @@ class BaseRenderer implements RendererInterface
 
     protected Form $form;
     protected array $elements = [];
-    
-    public function __construct(Form $form = null){   
+
+    public function __construct(Form $form = null)
+    {
         $this->form = $this->setForm($form ?? new Form());
     }
     /**
-     * 
+     *
      * @param Form $form
      * @return Form
      */
@@ -57,7 +58,7 @@ class BaseRenderer implements RendererInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     protected function hiddenRender(): string
@@ -75,7 +76,7 @@ class BaseRenderer implements RendererInterface
     }
 
     /**
-     * 
+     *
      * @param array|null $elements
      * @psalm-param null|array{\Enjoys\Forms\Element} $elements
      * @return string
@@ -84,7 +85,7 @@ class BaseRenderer implements RendererInterface
     {
         $elements ??= $this->elements;
         $html = '';
-       
+
         foreach ($elements as $key => $element) {
             unset($elements[$key]);
 
@@ -98,7 +99,7 @@ class BaseRenderer implements RendererInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @return string
      */
@@ -109,7 +110,7 @@ class BaseRenderer implements RendererInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function render(): string

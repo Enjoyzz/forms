@@ -56,7 +56,7 @@ class GroupRender extends BaseElement
     {
         $return = '';
         /**
-         * @var \Enjoys\Forms\Elements\Group $element 
+         * @var \Enjoys\Forms\Elements\Group $element
          * @var \Enjoys\Forms\Element $data
          */
         foreach ($element->getElements() as $data) {

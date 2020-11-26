@@ -90,7 +90,7 @@ class Callback extends Rules implements RuleInterface
 {
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return string|null
      */
@@ -120,7 +120,7 @@ class Callback extends Rules implements RuleInterface
      *
      * @return bool
      */
-    private function check() :bool
+    private function check(): bool
     {
         $callback = $this->getParam(0);
 

@@ -45,7 +45,7 @@ class Csrf extends Rules implements RuleInterface
 {
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return string|null
      */

@@ -37,7 +37,7 @@ interface DefaultsHandlerInterface
      */
     public function getDefaults();
     /**
-     * 
+     *
      * @return mixed
      */
     public function getValue(?string $param);

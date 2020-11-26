@@ -60,7 +60,7 @@ class BaseElement implements ElementRenderInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @param string $containerTag
      * @return string
@@ -74,7 +74,7 @@ class BaseElement implements ElementRenderInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @param string $containerTag
      * @return string
@@ -89,7 +89,7 @@ class BaseElement implements ElementRenderInterface
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @param string $star
      * @return string

@@ -91,7 +91,7 @@ class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
     protected $defaults = '';
 
     /**
-     * 
+     *
      * @param string $title
      * @param string $parentName
      * @param mixed $defaults
@@ -109,7 +109,7 @@ class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return $this
      */

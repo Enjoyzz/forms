@@ -42,14 +42,14 @@ class DefaultsHandler implements DefaultsHandlerInterface
     {
         $this->defaults = $data;
     }
-    
+
     public function setData(array $data = []): void
     {
         $this->defaults = $data;
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
     public function getDefaults()
@@ -58,7 +58,7 @@ class DefaultsHandler implements DefaultsHandlerInterface
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
     public function getValue(?string $param)
@@ -67,7 +67,7 @@ class DefaultsHandler implements DefaultsHandlerInterface
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
     private function get(?string $param = null)

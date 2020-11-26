@@ -40,12 +40,12 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
     /**
      *
-     * @var string 
+     * @var string
      */
     private string $code = '';
-    
+
     /**
-     * 
+     *
      * @param string|null $message
      */
     public function __construct(?string $message = null)
@@ -60,7 +60,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element $element
      * @return bool
      */
@@ -123,7 +123,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
     }
 
     /**
-     * 
+     *
      * @param string $code
      * @param int $width
      * @param int $height
@@ -150,11 +150,11 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
             $h = 1;
             //Рисуем
             $color = \imagecolorallocatealpha(
-                    $img,
-                    $figures[\rand(0, \count($figures) - 1)],
-                    $figures[\rand(0, \count($figures) - 1)],
-                    $figures[\rand(0, \count($figures) - 1)],
-                    rand(10, 30)
+                $img,
+                $figures[\rand(0, \count($figures) - 1)],
+                $figures[\rand(0, \count($figures) - 1)],
+                $figures[\rand(0, \count($figures) - 1)],
+                rand(10, 30)
             );
 
 
@@ -189,7 +189,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
      */
     private function getBase64Image($img): string
     {
-        
+
         \ob_start();
         \imagejpeg($img, null, 80);
         $img_data = \ob_get_contents();

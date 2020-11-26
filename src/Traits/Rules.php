@@ -73,7 +73,7 @@ trait Rules
         //$class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
         if (!class_exists($ruleClass)) {
             throw new \Enjoys\Forms\Exception\ExceptionRule(
-                    sprintf('Rule [%s] not found', $ruleClass)
+                sprintf('Rule [%s] not found', $ruleClass)
             );
         }
         $rule = new $ruleClass($message, $params);

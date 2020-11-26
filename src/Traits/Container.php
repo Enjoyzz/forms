@@ -70,7 +70,7 @@ trait Container
      * @method \Enjoys\Forms\Elements\Group group(string $title = null)
      * @method \Enjoys\Forms\Elements\File file(string $name, string $label = null)
      *
-     * @return 
+     * @return
      */
     public function __call(string $name, array $arguments)
     {
@@ -105,7 +105,7 @@ trait Container
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @return \Enjoys\Forms\Element|null
      */
@@ -119,7 +119,7 @@ trait Container
     }
 
     /**
-     * 
+     *
      * @param \Enjoys\Forms\Element|null $element
      * @return $this
      */
@@ -136,7 +136,7 @@ trait Container
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @return bool
      */

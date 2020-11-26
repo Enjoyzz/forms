@@ -44,7 +44,7 @@ class Datalist extends Element implements \Enjoys\Forms\FillableInterface
     use \Enjoys\Forms\Traits\Rules;
 
     protected string $type = 'option';
-    
+
     /**
      *
      * @var mixed

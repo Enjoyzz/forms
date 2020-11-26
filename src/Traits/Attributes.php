@@ -64,7 +64,7 @@ trait Attributes
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @param string|null|false $value
      * @param string $namespace

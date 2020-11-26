@@ -43,12 +43,12 @@ class Captcha extends Element
 
     /**
      *
-     * @var \Enjoys\Forms\Captcha\CaptchaInterface 
+     * @var \Enjoys\Forms\Captcha\CaptchaInterface
      */
     private CaptchaInterface $captcha;
-    
+
     /**
-     * 
+     *
      * @param  \Enjoys\Forms\Captcha\CaptchaInterface  $captcha
      * @param string $message
      */
@@ -65,7 +65,7 @@ class Captcha extends Element
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function renderHtml(): string
@@ -74,7 +74,7 @@ class Captcha extends Element
     }
 
     /**
-     * 
+     *
      * @return bool
      */
     public function validate(): bool

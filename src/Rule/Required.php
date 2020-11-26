@@ -69,7 +69,7 @@ class Required extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return bool
      */

@@ -44,7 +44,7 @@ abstract class Element implements ElementInterface
     use Request;
 
     /**
-     * @psalm-suppress PropertyNotSetInConstructor 
+     * @psalm-suppress PropertyNotSetInConstructor
      * @var string
      */
     protected string $name;

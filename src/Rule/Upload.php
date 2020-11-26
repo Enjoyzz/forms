@@ -58,7 +58,7 @@ class Upload extends Rules implements RuleInterface
     ];
 
     /**
-     * 
+     *
      * @param int $error
      * @return string
      */
@@ -71,7 +71,7 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param Element $element
      * @return bool
      */
@@ -86,7 +86,7 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @param Element $element
      * @return bool

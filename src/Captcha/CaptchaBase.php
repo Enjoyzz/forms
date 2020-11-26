@@ -39,18 +39,18 @@ abstract class CaptchaBase implements CaptchaInterface
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
-     * @var string 
+     * @var string
      */
     protected string $name;
-    
+
     /**
      *
-     * @var string|null 
+     * @var string|null
      */
     protected ?string $ruleMessage = null;
-    
+
     /**
-     * 
+     *
      * @param string $name
      * @return void
      */
@@ -60,7 +60,7 @@ abstract class CaptchaBase implements CaptchaInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getName(): string
@@ -69,7 +69,7 @@ abstract class CaptchaBase implements CaptchaInterface
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
     public function getRuleMessage(): ?string
@@ -78,7 +78,7 @@ abstract class CaptchaBase implements CaptchaInterface
     }
 
     /**
-     * 
+     *
      * @param string|null $message
      * @return void
      */
@@ -87,7 +87,7 @@ abstract class CaptchaBase implements CaptchaInterface
         $this->ruleMessage = $message;
     }
 
-    
+
     abstract public function renderHtml(\Enjoys\Forms\Element $element): string;
 
     abstract public function validate(\Enjoys\Forms\Element $element): bool;

@@ -58,7 +58,7 @@ class Option extends Element implements \Enjoys\Forms\FillableInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return $this
      */

@@ -39,7 +39,7 @@ use Enjoys\Forms\Traits\Fill;
  *
  */
 class Radio extends Element implements \Enjoys\Forms\FillableInterface
-{ 
+{
     use Fill;
     use \Enjoys\Forms\Traits\Description;
     use \Enjoys\Forms\Traits\Rules;
@@ -52,10 +52,10 @@ class Radio extends Element implements \Enjoys\Forms\FillableInterface
      */
     protected string $type = 'radio';
     private static string $prefix_id = 'rb_';
-    
+
     /**
      *
-     * @var mixed 
+     * @var mixed
      */
     protected $defaults = '';
 
@@ -90,7 +90,7 @@ class Radio extends Element implements \Enjoys\Forms\FillableInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return $this
      */

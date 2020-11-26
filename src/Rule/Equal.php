@@ -72,7 +72,7 @@ class Equal extends Rules implements RuleInterface
     }
 
     /**
-     * @param mixed $value 
+     * @param mixed $value
      * @return array-key|bool
      */
     private function check($value)
