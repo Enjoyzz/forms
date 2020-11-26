@@ -33,7 +33,7 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\RuleInterface;
 use Enjoys\Forms\Rules;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use HttpSoft\Message\UploadedFile;
 
 /**
  * Description of Upload
@@ -203,7 +203,7 @@ class Upload extends Rules implements RuleInterface
         $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
         $message = $parsed['message'];
 
-        $extension = $value->getClientOriginalExtension();
+        $extension = pathinfo($value->getClientFilename(), PATHINFO_EXTENSION);
 
         if (is_null($message)) {
             $message = 'Загрузка файлов с расширением .' . $extension . ' запрещена';

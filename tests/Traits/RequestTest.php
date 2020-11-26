@@ -44,12 +44,12 @@ class RequestTest extends TestCase
     {
         $mock = $this->getMockForTrait(\Enjoys\Forms\Traits\Request::class);
         $mock->setRequest();
-        $this->assertInstanceOf(\Enjoys\Forms\Http\RequestInterface::class, $mock->getRequest());
+        $this->assertInstanceOf(\Enjoys\Http\ServerRequestInterface::class, $mock->getRequest());
     }
 
     public function test_getRequest()
     {
         $mock = $this->getMockForTrait(\Enjoys\Forms\Traits\Request::class);
-        $this->assertInstanceOf(\Enjoys\Forms\Http\RequestInterface::class, $mock->getRequest());
+        $this->assertInstanceOf(\Enjoys\Http\ServerRequestInterface::class, $mock->getRequest());
     }
 }
