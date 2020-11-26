@@ -37,15 +37,15 @@ trait Request
 
     /**
      *
-     * @var  \Enjoys\Forms\Http\RequestInterface
+     * @var  \Enjoys\Http\ServerRequestInterface
      */
-    protected ?\Enjoys\Forms\Http\RequestInterface $request = null;
+    protected ?\Enjoys\Http\ServerRequestInterface $request = null;
 
     /**
-     * @param \Enjoys\Forms\Http\RequestInterface $request
-     * @return \Enjoys\Forms\Http\RequestInterface
+     * @param \Enjoys\Http\ServerRequestInterface $request
+     * @return \Enjoys\Http\ServerRequestInterface
      */
-    public function getRequest(): \Enjoys\Forms\Http\RequestInterface
+    public function getRequest(): \Enjoys\Http\ServerRequestInterface
     {
         if ($this->request === null) {
             $this->setRequest();
@@ -54,11 +54,11 @@ trait Request
     }
 
     /**
-     * @param \Enjoys\Forms\Http\RequestInterface $request
+     * @param \Enjoys\Http\ServerRequestInterface $request
      * @return void
      */
-    public function setRequest(\Enjoys\Forms\Http\RequestInterface $request = null): void
+    public function setRequest(\Enjoys\Http\ServerRequestInterface $request = null): void
     {
-        $this->request = $request ?? new \Enjoys\Forms\Http\Request();
+        $this->request = $request ?? new \Enjoys\Http\ServerRequest();
     }
 }

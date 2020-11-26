@@ -110,7 +110,7 @@ class Form
      * @param array $options
      * @param RequestInterface $request
      */
-    public function __construct(array $options = [], RequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
+    public function __construct(array $options = [], \Enjoys\Http\ServerRequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
     {
         $this->defaultsHandler = $defaults ?? new DefaultsHandler();
         $this->setRequest($request);

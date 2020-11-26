@@ -33,6 +33,7 @@ namespace Tests\Enjoys\Forms;
  */
 class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
+
 //
 //    public function test_validate_true()
 //    {
@@ -82,9 +83,17 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     public function test_validate_groups_true()
     {
 
-        $request = new \Enjoys\Forms\Http\Request([
-            'foo' => 'v_foo',
-        ]);
+
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [
+                            'foo' => 'v_foo'
+                        ]
+                )
+        );
         $form = new \Enjoys\Forms\Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');
@@ -94,10 +103,18 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function test_validate_groups_false()
     {
-       
-        $request = new \Enjoys\Forms\Http\Request([
-            'food' => 'v_foo',
-        ]);
+
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [
+                            'food' => 'v_foo'
+                        ]
+                )
+        );
+
         $form = new \Enjoys\Forms\Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');

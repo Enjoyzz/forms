@@ -29,6 +29,7 @@ namespace Tests\Enjoys\Forms;
 use Enjoys\Forms\Form
 
 ;
+
 /**
  * Description of FormsTest
  *
@@ -209,11 +210,13 @@ class FormTest extends \PHPUnit\Framework\TestCase
     {
         $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
 
-        $form = new Form([], new \Enjoys\Forms\Http\Request([
-                    'foo' => 'zed',
-                    'bar' => true,
-                    Form::_TOKEN_SUBMIT_ => '~token~'
-        ]));
+        $form = new Form([], new \Enjoys\Http\ServerRequest(
+                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(null, null, null, [
+                            'foo' => 'zed',
+                            'bar' => true,
+                            Form::_TOKEN_SUBMIT_ => '~token~'
+                        ])
+        ));
 
         $property->setValue($form, true);
 
@@ -231,9 +234,12 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_setDefaults_1_2()
     {
 
-        $request = new \Enjoys\Forms\Http\Request([
-            'foo' => 'zed',
-        ]);
+
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(null, null, null, [
+                    'foo' => 'zed',
+                ])
+        );
 
         $tockenSubmitMock = $this->getMockBuilder(\Enjoys\Forms\Elements\TockenSubmit::class)
                 ->disableOriginalConstructor()
@@ -259,13 +265,16 @@ class FormTest extends \PHPUnit\Framework\TestCase
     public function test_setDefaults_1_2_2()
     {
 
-        $request = new \Enjoys\Forms\Http\Request(
-                [],
-                ['foo' => 'zed'],
-                [],
-                [],
-                [],
-                ['REQUEST_METHOD' => 'POST']
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        ['REQUEST_METHOD' => 'POST'],
+                        null,
+                        null,
+                        null,
+                        [
+                          'foo' => 'zed'
+                        ]
+                )
         );
 
         $tockenSubmitMock = $this->getMockBuilder(\Enjoys\Forms\Elements\TockenSubmit::class)

@@ -36,9 +36,19 @@ class RequestTest extends \PHPUnit\Framework\TestCase
 
     public function test_get()
     {
-        $request = new \Enjoys\Forms\Http\Request([
-            'foo' => 'bar'
-                ], []);
+
+
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [
+                            'foo' => 'bar'
+                        ],
+                        []
+                )
+        );
         $this->assertEquals(['foo' => 'bar'], $request->get());
         $this->assertEquals('bar', $request->get('foo'));
         $this->assertEquals(null, $request->get('notisset'));
@@ -47,9 +57,18 @@ class RequestTest extends \PHPUnit\Framework\TestCase
 
     public function test_post()
     {
-        $request = new \Enjoys\Forms\Http\Request([], [
-            'foo' => 'bar'
-        ]);
+
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [],
+                        [
+                            'foo' => 'bar'
+                        ],
+                )
+        );
         $this->assertEquals(['foo' => 'bar'], $request->post());
         $this->assertEquals('bar', $request->post('foo'));
         $this->assertEquals(null, $request->post('notisset'));

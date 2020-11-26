@@ -35,9 +35,8 @@ Session::start();
  *
  * @author Enjoys
  */
-class DefaultsTest  extends \PHPUnit\Framework\TestCase
+class DefaultsTest extends \PHPUnit\Framework\TestCase
 {
-
     use \Tests\Enjoys\Forms\Reflection;
 
     public function setUp(): void
@@ -55,16 +54,16 @@ class DefaultsTest  extends \PHPUnit\Framework\TestCase
 
     public function test1()
     {
-        $captcha= new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
         $captcha->setOption('foo', 'v_foo');
         $captcha->setOptions([
             'bar' => 'v_bar',
             'baz' => 'v_baz'
         ]);
-        
+
         $captcha_element = new \Enjoys\Forms\Elements\Captcha($captcha);
         $captcha_element->renderHtml();
-        
+
         $this->assertArrayHasKey('foo', $captcha->getOptions());
         $this->assertArrayHasKey('bar', $captcha->getOptions());
         $this->assertEquals('v_baz', $captcha->getOption('baz'));
@@ -79,11 +78,11 @@ class DefaultsTest  extends \PHPUnit\Framework\TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        $captcha= new \Enjoys\Forms\Captcha\Defaults\Defaults();
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
         $captcha->setOptions([
             'size' => 5
         ]);
-        
+
 
 
         $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'generateCode');
@@ -94,7 +93,7 @@ class DefaultsTest  extends \PHPUnit\Framework\TestCase
 
     public function test_createImg()
     {
- 
+
 //        $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
 //                ->disableOriginalConstructor()
 //                ->getMock();
@@ -134,14 +133,22 @@ class DefaultsTest  extends \PHPUnit\Framework\TestCase
 
     public function test_renderHtml()
     {
-        
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [
+                            'captcha_defaults' => 'testcode_fail'
+                        ]
+                )
+        );
+
         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults('code invalid');
-        
+
         $element = new \Enjoys\Forms\Elements\Captcha($captcha);
-        $element->setRequest(new \Enjoys\Forms\Http\Request([
-                    'captcha_defaults' => 'testcode_fail'
-        ]));
-       
+        $element->setRequest($request);
+
         $element->validate();
 
         $html = $element->renderHtml();
@@ -154,19 +161,35 @@ class DefaultsTest  extends \PHPUnit\Framework\TestCase
 
     public function test_validate()
     {
-         $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
-         
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [
+                            'captcha_defaults' => 'testcode'
+                        ]
+                )
+        );
+        $captcha = new \Enjoys\Forms\Captcha\Defaults\Defaults();
+
         $element = new \Enjoys\Forms\Elements\Captcha($captcha);
-        $captcha->setRequest(new \Enjoys\Forms\Http\Request([
-                    'captcha_defaults' => 'testcode'
-        ]));
+        $captcha->setRequest($request);
         $this->assertSame('captcha_defaults', $captcha->getName());
         $this->assertTrue($element->validate());
 
-        $captcha->setRequest(new \Enjoys\Forms\Http\Request([
-                    'captcha_defaults' => 'testcode_fail'
-        ]));
+        $request = new \Enjoys\Http\ServerRequest(
+                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        null,
+                        null,
+                        null,
+                        [
+                            'captcha_defaults' => 'testcode_fail'
+                        ]
+                )
+        );
+        
+        $captcha->setRequest($request);
         $this->assertFalse($element->validate());
     }
-
 }
