@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Traits;
 
 use Enjoys\Forms\Interfaces;
-use Enjoys\Forms\Traits\Request;
 use PHPUnit\Framework\TestCase;
 
 /**

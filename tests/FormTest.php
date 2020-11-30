@@ -26,9 +26,7 @@
 
 namespace Tests\Enjoys\Forms;
 
-use Enjoys\Forms\Form
-
-;
+use Enjoys\Forms\Form;
 
 /**
  * Description of FormsTest

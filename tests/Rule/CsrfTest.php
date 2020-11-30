@@ -30,7 +30,6 @@ namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\DefaultsHandler;
 use Enjoys\Forms\Rule\Csrf;
 use PHPUnit\Framework\TestCase;
 use Tests\Enjoys\Forms\Reflection;

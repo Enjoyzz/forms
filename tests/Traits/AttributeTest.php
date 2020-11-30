@@ -26,8 +26,6 @@
 
 namespace Tests\Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Form;
-
 /**
  * Description of AttributeTest
  *

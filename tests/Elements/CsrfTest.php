@@ -26,7 +26,6 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Form;
 use PHPUnit\Framework\TestCase;
 

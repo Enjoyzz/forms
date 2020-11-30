@@ -28,8 +28,6 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Elements\Optgroup;
-use Enjoys\Forms\DefaultsHandler;
 use PHPUnit\Framework\TestCase;
 
 /**

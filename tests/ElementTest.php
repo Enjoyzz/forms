@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
-use \Enjoys\Forms\Form;
+use Enjoys\Forms\Form;
 
 /**
  * Description of ElementTest

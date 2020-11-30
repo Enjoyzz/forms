@@ -28,8 +28,6 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
-use Enjoys\Forms\Elements\Checkbox;
-use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Validator;
 use PHPUnit\Framework\TestCase;
 
