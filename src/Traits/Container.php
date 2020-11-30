@@ -26,7 +26,69 @@
 
 namespace Enjoys\Forms\Traits;
 
+use Enjoys\Forms\Captcha\CaptchaInterface;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Button;
+use Enjoys\Forms\Elements\Captcha;
+use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Elements\Color;
+use Enjoys\Forms\Elements\Datalist;
+use Enjoys\Forms\Elements\Date;
+use Enjoys\Forms\Elements\Datetime;
+use Enjoys\Forms\Elements\Datetimelocal;
+use Enjoys\Forms\Elements\Email;
+use Enjoys\Forms\Elements\File;
+use Enjoys\Forms\Elements\Group;
+use Enjoys\Forms\Elements\Header;
+use Enjoys\Forms\Elements\Hidden;
+use Enjoys\Forms\Elements\Image;
+use Enjoys\Forms\Elements\Month;
+use Enjoys\Forms\Elements\Number;
+use Enjoys\Forms\Elements\Password;
+use Enjoys\Forms\Elements\Radio;
+use Enjoys\Forms\Elements\Range;
+use Enjoys\Forms\Elements\Reset;
+use Enjoys\Forms\Elements\Search;
+use Enjoys\Forms\Elements\Select;
+use Enjoys\Forms\Elements\Submit;
+use Enjoys\Forms\Elements\Tel;
+use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Elements\Textarea;
+use Enjoys\Forms\Elements\Time;
+use Enjoys\Forms\Elements\Url;
+use Enjoys\Forms\Elements\Week;
+use Enjoys\Forms\Exception\ExceptionElement;
+
 /**
+ * @method Text text(string $name, string $label = null)
+ * @method Hidden hidden(string $name, string $value = null)
+ * @method Password password(string $name, string $label = null)
+ * @method Submit submit(string $name, string $title = null)
+ * @method Header header(string $title = null)
+ * @method Color color(string $name, string $label = null)
+ * @method Date date(string $name, string $label = null)
+ * @method Datetime datetime(string $name, string $label = null)
+ * @method Datetimelocal datetimelocal(string $name, string $label = null)
+ * @method Email email(string $name, string $label = null)
+ * @method Number number(string $name, string $label = null)
+ * @method Range range(string $name, string $label = null)
+ * @method Search search(string $name, string $label = null)
+ * @method Tel tel(string $name, string $label = null)
+ * @method Time time(string $name, string $label = null)
+ * @method Url url(string $name, string $label = null)
+ * @method Month month(string $name, string $label = null)
+ * @method Week week(string $name, string $label = null)
+ * @method Textarea textarea(string $name, string $label = null)
+ * @method Select select(string $name, string $label = null)
+ * @method Button button(string $name, string $title = null)
+ * @method Datalist datalist(string $name, string $label = null)
+ * @method Checkbox checkbox(string $name, string $label = null)
+ * @method Image image(string $name, string $src = null)
+ * @method Radio radio(string $name, string $title = null)
+ * @method Reset reset(string $name, string $title = null)
+ * @method Captcha captcha(CaptchaInterface $captcha)
+ * @method Group group(string $title = null)
+ * @method File file(string $name, string $label = null)
  *
  * @author Enjoys
  */
@@ -40,45 +102,19 @@ trait Container
     private array $elements = [];
 
     /**
-     * @method \Enjoys\Forms\Elements\Text text(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Hidden hidden(string $name, string $value = null)
-     * @method \Enjoys\Forms\Elements\Password password(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Submit submit(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Header header(string $title = null)
-     * @method \Enjoys\Forms\Elements\Color color(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Date date(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Datetime datetime(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Datetimelocal datetimelocal(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Email email(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Number number(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Range range(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Search search(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Tel tel(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Time time(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Url url(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Month month(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Week week(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Textarea textarea(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Select select(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Button button(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Datalist datalist(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Checkbox checkbox(string $name, string $label = null)
-     * @method \Enjoys\Forms\Elements\Image image(string $name, string $src = null)
-     * @method \Enjoys\Forms\Elements\Radio radio(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Reset reset(string $name, string $title = null)
-     * @method \Enjoys\Forms\Elements\Captcha captcha(\Enjoys\Forms\Captcha\CaptchaInterface $captcha)
-     * @method \Enjoys\Forms\Elements\Group group(string $title = null)
-     * @method \Enjoys\Forms\Elements\File file(string $name, string $label = null)
+     * @param string $name
+     * @param array $arguments
      *
-     * @return
+     * @return Element
+     * @throws ExceptionElement
      */
     public function __call(string $name, array $arguments)
     {
         $class_name = '\Enjoys\\Forms\\Elements\\' . ucfirst($name);
         if (!class_exists($class_name)) {
-            throw new \Enjoys\Forms\Exception\ExceptionElement("Class <b>{$class_name}</b> not found");
+            throw new ExceptionElement("Class <b>{$class_name}</b> not found");
         }
-        /** @var \Enjoys\Forms\Element $element */
+        /** @var Element $element */
         $element = new $class_name(...$arguments);
         $this->addElement($element);
         return $element;
@@ -86,10 +122,10 @@ trait Container
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return $this
      */
-    public function addElement(\Enjoys\Forms\Element $element): self
+    public function addElement(Element $element): self
     {
         $element->setRequest($this->request);
         $this->elements[$element->getName()] = $element;
@@ -107,9 +143,9 @@ trait Container
     /**
      *
      * @param string $name
-     * @return \Enjoys\Forms\Element|null
+     * @return Element|null
      */
-    public function getElement(string $name): ?\Enjoys\Forms\Element
+    public function getElement(string $name): ?Element
     {
         if ($this->elementExists($name)) {
             return $this->elements[$name];
@@ -120,10 +156,10 @@ trait Container
 
     /**
      *
-     * @param \Enjoys\Forms\Element|null $element
+     * @param Element|null $element
      * @return $this
      */
-    public function removeElement(?\Enjoys\Forms\Element $element = null): self
+    public function removeElement(?Element $element = null): self
     {
         if (null === $element) {
             return $this;
@@ -142,7 +178,7 @@ trait Container
      */
     private function elementExists(string $name): bool
     {
-        if (array_key_exists($name, $this->elements) && $this->elements[$name] instanceof \Enjoys\Forms\Element) {
+        if (array_key_exists($name, $this->elements) && $this->elements[$name] instanceof Element) {
             return true;
         }
         return false;

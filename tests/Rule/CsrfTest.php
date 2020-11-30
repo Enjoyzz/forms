@@ -31,6 +31,8 @@ namespace Tests\Enjoys\Forms\Rule;
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Csrf;
+use Enjoys\Http\ServerRequest;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 use PHPUnit\Framework\TestCase;
 use Tests\Enjoys\Forms\Reflection;
 
@@ -62,7 +64,7 @@ class CsrfTest extends TestCase
             'csrf_key' => $csrf_key
         ]);
 
-        $obj->setRequest(new \Enjoys\Forms\Http\Request([], [
+        $obj->setRequest(new ServerRequest([], [
                     Form::_TOKEN_CSRF_ => $hash
         ]));
         //$this->assertSame('d',$obj);
@@ -80,8 +82,8 @@ class CsrfTest extends TestCase
             'csrf_key' => $csrf_key
         ]);
 
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         null,
                         null,

@@ -28,9 +28,12 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Forms\Http\RequestInterface;
+use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
+use Enjoys\Http\ServerRequestInterface;
 use Enjoys\Traits\Options;
+use function json_encode;
+use function strtoupper;
 
 /**
  *
@@ -63,7 +66,7 @@ class Form
      * Название переменной для хранения токена для проверки отправлена форма или нет
      */
     public const _TOKEN_SUBMIT_ = '_token_submit';
-    public const _FLAG_FORMMETHOD_ = '_form_method';
+    //public const _FLAG_FORMMETHOD_ = '_form_method';
     public const ATTRIBUTES_DESC = '_desc_attributes_';
     public const ATTRIBUTES_VALIDATE = '_validate_attributes_';
     public const ATTRIBUTES_LABEL = '_label_attributes_';
@@ -78,7 +81,7 @@ class Form
      *
      * @var string POST|GET
      */
-    private $method = 'GET';
+    private string $method = 'GET';
 
     /**
      *
@@ -96,7 +99,7 @@ class Form
      *
      * @var bool По умолчанию форма не отправлена
      */
-    private bool $formSubmitted = false;
+    private bool $formSubmitted;
 
     /**
      * @static int Глобальный счетчик форм на странице
@@ -106,11 +109,12 @@ class Form
     private static int $formCounter = 0;
 
     /**
-     * @example example/initform.php description
      * @param array $options
-     * @param \Enjoys\Http\ServerRequestInterface $request
+     * @param ServerRequestInterface|null $request
+     * @param DefaultsHandlerInterface|null $defaults
+     * @example example/initform.php description
      */
-    public function __construct(array $options = [], \Enjoys\Http\ServerRequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
+    public function __construct(array $options = [], ServerRequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
     {
         $this->defaultsHandler = $defaults ?? new DefaultsHandler();
         $this->setRequest($request);
@@ -119,7 +123,7 @@ class Form
 
 
 
-        $tockenSubmit = $this->tockenSubmit(md5(\json_encode($options) . $this->getFormCounter()));
+        $tockenSubmit = $this->tockenSubmit(md5(json_encode($options) . $this->getFormCounter()));
         $this->formSubmitted = $tockenSubmit->getSubmitted();
 
         if ($this->formSubmitted === true) {
@@ -151,8 +155,8 @@ class Form
             $this->removeAttribute('method');
             return;
         }
-        if (in_array(\strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
-            $this->method = \strtoupper($method);
+        if (in_array(strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
+            $this->method = strtoupper($method);
         }
         $this->setAttribute('method', $this->method);
 
@@ -293,7 +297,7 @@ class Form
 
     /**
      * Вывод формы в Renderer
-     * @param \Enjoys\Forms\Renderer\RendererInterface $renderer
+     * @param RendererInterface $renderer
      * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
      * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
      */
@@ -302,4 +306,8 @@ class Form
         $renderer->setForm($this);
         return $renderer->render();
     }
+
+
 }
+
+
