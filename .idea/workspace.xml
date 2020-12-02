@@ -26,11 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="80c374e9-727d-4c78-8bfb-205c7bb14b08" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/forms.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/forms.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Traits/Container.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Traits/Container.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Rule/CsrfTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Rule/CsrfTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +41,45 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/../../www/calc_ledaad" source="master" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/../../www/calc_ledaad" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="3.x" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/Enjoyzz/forms" />
+      </set>
+    </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="php:7.4-fpm">
     <include_path>
@@ -140,7 +172,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Dokerfile" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.externalResources" />
@@ -192,7 +224,10 @@
       <workItem from="1606731148642" duration="27000" />
       <workItem from="1606731194406" duration="29000" />
       <workItem from="1606731243856" duration="5412000" />
-      <workItem from="1606736856157" duration="1585000" />
+      <workItem from="1606736856157" duration="3733000" />
+      <workItem from="1606740993206" duration="13000" />
+      <workItem from="1606893217549" duration="16000" />
+      <workItem from="1606893242328" duration="298000" />
     </task>
     <task id="LOCAL-00001" summary="add Dockerfile">
       <created>1606735743124</created>
@@ -208,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606736043809</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix __call method for Container.php">
+      <created>1606739317846</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606739317846</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,6 +259,28 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="3.x" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -236,12 +300,18 @@
         </entry>
       </map>
     </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="1" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="add Dockerfile" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Dockerfile" />
+    <MESSAGE value="fix __call method for Container.php" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix __call method for Container.php" />
   </component>
   <component name="WindowStateProjectService">
     <state x="745" y="175" key="#CLI_Interpreters" timestamp="1606735337667">
@@ -256,6 +326,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1035" y="517" key="#Environment_variables/0.0.1920.1040@0.0.1920.1040" timestamp="1606731990745" />
+    <state x="783" y="198" key="#Inspections" timestamp="1606739217427">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="783" y="198" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1606739217427" />
     <state x="865" y="163" key="#PHP" timestamp="1606732025392">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -288,26 +362,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1008" y="387" key="DockerComposeFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606732225438" />
-    <state x="950" y="274" key="FileChooserDialogImpl" timestamp="1606732224350">
+    <state x="950" y="274" key="FileChooserDialogImpl" timestamp="1606893321522">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="950" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1606732224350" />
-    <state width="1493" height="278" key="GridCell.Tab.0.bottom" timestamp="1606736637539">
+    <state x="950" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1606893321522" />
+    <state width="1613" height="278" key="GridCell.Tab.0.bottom" timestamp="1606740911877">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1493" height="278" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1606736637539" />
-    <state width="1493" height="278" key="GridCell.Tab.0.center" timestamp="1606736637539">
+    <state width="1613" height="278" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1606740911877" />
+    <state width="1613" height="278" key="GridCell.Tab.0.center" timestamp="1606740911876">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1493" height="278" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1606736637539" />
-    <state width="1493" height="278" key="GridCell.Tab.0.left" timestamp="1606736637538">
+    <state width="1613" height="278" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1606740911876" />
+    <state width="1613" height="278" key="GridCell.Tab.0.left" timestamp="1606740911876">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1493" height="278" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1606736637538" />
-    <state width="1493" height="278" key="GridCell.Tab.0.right" timestamp="1606736637539">
+    <state width="1613" height="278" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1606740911876" />
+    <state width="1613" height="278" key="GridCell.Tab.0.right" timestamp="1606740911876">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1493" height="278" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1606736637539" />
+    <state width="1613" height="278" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1606740911876" />
     <state x="658" y="164" key="SettingsEditor" timestamp="1606736373815">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -316,6 +390,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="878" y="265" width="540" height="524" key="StructurePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1606736085906" />
+    <state x="749" y="252" key="Vcs.Push.Dialog.v2" timestamp="1606740182445">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="749" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606740182445" />
     <state x="969" y="421" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1606731976971">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -324,5 +402,8 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="864" y="76" width="587" height="888" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606736171078" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/forms@tests.xml" NAME="tests Coverage Results" MODIFIED="1606740003743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
