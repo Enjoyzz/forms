@@ -30,7 +30,6 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Rule\RuleInterface;
 use Enjoys\Forms\Rules;
 
 /**

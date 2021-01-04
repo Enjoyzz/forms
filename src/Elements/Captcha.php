@@ -49,7 +49,7 @@ class Captcha extends Element
 
     /**
      *
-     * @param  \Enjoys\Forms\Captcha\CaptchaInterface  $captcha
+     * @param \Enjoys\Forms\Captcha\CaptchaInterface $captcha
      * @param string $message
      */
     public function __construct(CaptchaInterface $captcha, string $message = null)

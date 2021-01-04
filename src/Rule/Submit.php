@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Rule\RuleInterface;
 use Enjoys\Forms\Rules;
 
 /**

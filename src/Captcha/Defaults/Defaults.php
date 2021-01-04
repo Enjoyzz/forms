@@ -1,29 +1,5 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\Defaults;
@@ -31,9 +7,8 @@ namespace Enjoys\Forms\Captcha\Defaults;
 use Enjoys\Session\Session as Session;
 
 /**
- * Description of Defaults
- *
- * @author Enjoys
+ * Class Defaults
+ * @package Enjoys\Forms\Captcha\Defaults
  */
 class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Forms\Captcha\CaptchaInterface
 {
@@ -43,6 +18,10 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
      * @var string
      */
     private string $code = '';
+    /**
+     * @var Session
+     */
+    private Session $session;
 
     /**
      *
@@ -50,6 +29,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
      */
     public function __construct(?string $message = null)
     {
+        $this->session = new Session();
 
         $this->setName('captcha_defaults');
         if (is_null($message)) {
@@ -66,12 +46,10 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
      */
     public function validate(\Enjoys\Forms\Element $element): bool
     {
-
-
         $method = $this->getRequest()->getMethod();
         $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
 
-        if (Session::get($element->getName()) !== $value) {
+        if ($this->session->get($element->getName()) !== $value) {
             /** @psalm-suppress UndefinedMethod */
             $element->setRuleError($this->getRuleMessage());
             return false;
@@ -81,28 +59,36 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
     public function renderHtml(\Enjoys\Forms\Element $element): string
     {
-        $element->setAttributes([
-            'type' => 'text',
-            'autocomplete' => 'off'
-        ]);
+        $element->setAttributes(
+            [
+                'type' => 'text',
+                'autocomplete' => 'off'
+            ]
+        );
 
         $this->generateCode($element);
-        $img = $this->createImage($this->getCode(), (int) $this->getOption('width', 150), (int) $this->getOption('height', 50));
+        $img = $this->createImage(
+            $this->getCode(),
+            (int)$this->getOption('width', 150),
+            (int)$this->getOption('height', 50)
+        );
 
-        //dump(Session::get($this->getName()));
+        //dump($this->session->get($this->getName()));
         $html = '';
 
 //        if ($this->element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image($img) . '" /><br /><input' . $element->getAttributesString() . '>';
+        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image(
+                $img
+            ) . '" /><br /><input' . $element->getAttributesString() . '>';
 
         return $html;
     }
 
     private function generateCode(\Enjoys\Forms\Element $element): void
     {
-        $max = (int) $this->getOption('size', 6);
+        $max = (int)$this->getOption('size', 6);
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
         $size = StrLen($chars) - 1;
         // Определяем пустую переменную, в которую и будем записывать символы.
@@ -112,9 +98,11 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
             $code .= $chars[rand(0, $size)];
         }
         $this->code = $code;
-        Session::set([
-            $element->getName() => $this->code
-        ]);
+        $this->session->set(
+            [
+                $element->getName() => $this->code
+            ]
+        );
     }
 
     public function getCode(): string
@@ -160,15 +148,15 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
             // Формируем координаты для вывода символа
             if (empty($x)) {
-                $x = (int) ($width * 0.08);
+                $x = (int)($width * 0.08);
             } else {
-                $x = (int) ($x + ($width * 0.8) / \count($letters) + \rand(0, (int) ($width * 0.01)));
+                $x = (int)($x + ($width * 0.8) / \count($letters) + \rand(0, (int)($width * 0.01)));
             }
 
             if ($h == rand(1, 2)) {
-                $y = (int) ((($height * 1) / 4) + \rand(0, (int) ($height * 0.1)));
+                $y = (int)((($height * 1) / 4) + \rand(0, (int)($height * 0.1)));
             } else {
-                $y = (int) ((($height * 1) / 4) - \rand(0, (int) ($height * 0.1)));
+                $y = (int)((($height * 1) / 4) - \rand(0, (int)($height * 0.1)));
             }
 
 
@@ -189,7 +177,6 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
      */
     private function getBase64Image($img): string
     {
-
         \ob_start();
         \imagejpeg($img, null, 80);
         $img_data = \ob_get_contents();
