@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e545d9f415c21ed5fa40cdeb29258a64",
+    "content-hash": "7cb1d8e57a609625845ad813cc0a9c5a",
     "packages": [
         {
             "name": "enjoys/functions",
@@ -103,25 +103,23 @@
         },
         {
             "name": "enjoys/session",
-            "version": "1.1.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Enjoyzz/session.git",
-                "reference": "1b7a225b600f704d313606952e6f1ecb352e99ca"
+                "reference": "74518c8b4a5d8ebb47ceda8c3d7bc825c3c005f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Enjoyzz/session/zipball/1b7a225b600f704d313606952e6f1ecb352e99ca",
-                "reference": "1b7a225b600f704d313606952e6f1ecb352e99ca",
+                "url": "https://api.github.com/repos/Enjoyzz/session/zipball/74518c8b4a5d8ebb47ceda8c3d7bc825c3c005f6",
+                "reference": "74518c8b4a5d8ebb47ceda8c3d7bc825c3c005f6",
                 "shasum": ""
             },
             "require": {
-                "enjoys/traits": "^1.1.2",
-                "php": "^7.2|^8.0"
+                "php": "^7.4|^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.4",
-                "squizlabs/php_codesniffer": "3.*"
+                "phpunit/phpunit": "^9.4"
             },
             "type": "library",
             "autoload": {
@@ -142,9 +140,9 @@
             "description": "session wrapper",
             "support": {
                 "issues": "https://github.com/Enjoyzz/session/issues",
-                "source": "https://github.com/Enjoyzz/session/tree/1.1.0"
+                "source": "https://github.com/Enjoyzz/session/tree/2.0.0"
             },
-            "time": "2021-01-03T14:00:21+00:00"
+            "time": "2021-01-04T10:05:59+00:00"
         },
         {
             "name": "enjoys/traits",
