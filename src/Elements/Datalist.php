@@ -29,19 +29,21 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Form;
+use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
+use Enjoys\Forms\Traits\Rules;
 
 /**
  * Description of Datalist
  *
  * @author Enjoys
  */
-class Datalist extends Element implements \Enjoys\Forms\FillableInterface
+class Datalist extends Element implements FillableInterface
 {
     use Fill;
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Description;
+    use Rules;
 
     protected string $type = 'option';
 

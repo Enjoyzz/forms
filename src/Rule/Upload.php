@@ -31,7 +31,6 @@ namespace Enjoys\Forms\Rule;
 use ByteUnits\Binary;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Rule\RuleInterface;
 use Enjoys\Forms\Rules;
 use HttpSoft\Message\UploadedFile;
 

@@ -28,7 +28,6 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer;
 
-use Enjoys\Forms\ElementInterface;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Renderer\ElementsRender;
 
