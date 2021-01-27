@@ -1,8 +1,8 @@
 <?php
 
-include __DIR__ . "/vendor/autoload.php";
+include __DIR__ . "/../vendor/autoload.php";
 
-Enjoys\Session\Session::start();
+new \Enjoys\Session\Session();
 
 use Enjoys\Forms\Form;
 
