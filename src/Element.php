@@ -189,14 +189,14 @@ abstract class Element implements ElementInterface
 
         if (is_array($value)) {
             $this->setAttributes([
-                'value' => $value[0]
+                'value' => htmlspecialchars($value[0], ENT_QUOTES)
             ]);
         }
 
         if (is_string($value) || is_numeric($value)) {
             // $this->setValue($value);
             $this->setAttributes([
-                'value' => $value
+                'value' => htmlspecialchars($value, ENT_QUOTES)
             ]);
         }
         return $this;
