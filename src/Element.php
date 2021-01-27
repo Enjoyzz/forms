@@ -194,7 +194,7 @@ class Element implements Interfaces\Element
             return $this;
         }
         $this->value = $value;
-        $this->setAttribute('value', $this->value);
+        $this->setAttribute('value', \htmlspecialchars( $this->value, ENT_QUOTES));
         return $this;
     }
 
