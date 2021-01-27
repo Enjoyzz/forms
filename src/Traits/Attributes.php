@@ -72,7 +72,7 @@ trait Attributes
      */
     public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
     {
-
+        $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
         $name = \trim($name);
 
         if (in_array($name, ['class'])) {

@@ -79,7 +79,6 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
-
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -141,10 +140,12 @@ abstract class Element implements ElementInterface
     protected function setName(string $name): self
     {
         $this->name = $name;
-        $this->setAttributes([
-            'id' => $this->name,
-            'name' => $this->name
-        ]);
+        $this->setAttributes(
+            [
+                'id' => $this->name,
+                'name' => $this->name
+            ]
+        );
 
         return $this;
     }
@@ -184,20 +185,24 @@ abstract class Element implements ElementInterface
     protected function setDefault(): self
     {
         $value = $this->getForm()
-                ->getDefaultsHandler()
-                ->getValue($this->getName());
+            ->getDefaultsHandler()
+            ->getValue($this->getName());
 
         if (is_array($value)) {
-            $this->setAttributes([
-                'value' => htmlspecialchars($value[0], ENT_QUOTES)
-            ]);
+            $this->setAttributes(
+                [
+                    'value' => $value[0]
+                ]
+            );
         }
 
         if (is_string($value) || is_numeric($value)) {
             // $this->setValue($value);
-            $this->setAttributes([
-                'value' => htmlspecialchars($value, ENT_QUOTES)
-            ]);
+            $this->setAttributes(
+                [
+                    'value' => $value
+                ]
+            );
         }
         return $this;
     }
