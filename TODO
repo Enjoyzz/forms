@@ -1,7 +1,0 @@
-phpmetrics --report-html=phpmetrics D:/Enjoys/forms/src/
-vendor/bin/php-coveralls -v
-vendor/bin/phpunit tests --coverage-clover build/logs/clover.xml
-vendor\bin\phpunit --coverage-html coverage
-vendor\bin\phpcs src/ --standard=PSR12 -p
-vendor\bin\phpcbf src/ --standard=PSR12 -p
-vendor\bin\phpdoc --directory="D:/Enjoys/forms/src" --target="D:/Enjoys/forms/docs" --title=forms
