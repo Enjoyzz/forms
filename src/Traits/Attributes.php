@@ -48,7 +48,6 @@ trait Attributes
      */
     public function setAttributes(array $attributes, string $namespace = 'general'): self
     {
-
         foreach ($attributes as $key => $value) {
             if (is_array($value)) {
                 $this->setAttribute($key, implode(" ", $value), $namespace);
@@ -58,7 +57,7 @@ trait Attributes
                 $key = $value;
                 $value = null;
             }
-            $this->setAttribute((string) $key, $value, $namespace);
+            $this->setAttribute((string)$key, $value, $namespace);
         }
         return $this;
     }
@@ -72,13 +71,16 @@ trait Attributes
      */
     public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
     {
-        $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
+        if (is_string($value)) {
+            $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
+        }
+
         $name = \trim($name);
 
         if (in_array($name, ['class'])) {
             if (
-                    isset($this->attributes[$namespace][$name]) &&
-                    in_array($value, (array) $this->attributes[$namespace][$name])
+                isset($this->attributes[$namespace][$name]) &&
+                in_array($value, (array)$this->attributes[$namespace][$name])
             ) {
                 return $this;
             }
@@ -88,10 +90,10 @@ trait Attributes
 
         if (in_array($name, ['name'])) {
             if (
-                    !is_null($value) &&
-                    $value !== false &&
-                    isset($this->attributes[$namespace][$name]) &&
-                    $this->attributes[$namespace][$name] != $value
+                !is_null($value) &&
+                $value !== false &&
+                isset($this->attributes[$namespace][$name]) &&
+                $this->attributes[$namespace][$name] != $value
             ) {
                 $this->attributes[$namespace][$name] = $value;
                 $this->setName($value);
@@ -179,10 +181,10 @@ trait Attributes
     }
 
     /**
-     * @since 3.1.1 добавлена поддержка добавления массива
      * @param mixed $class
      * @param string $namespace
      * @return $this
+     * @since 3.1.1 добавлена поддержка добавления массива
      */
     public function addClass($class, string $namespace = 'general')
     {
@@ -192,9 +194,9 @@ trait Attributes
             }
             return $this;
         }
-        $values = explode(" ", (string) $class);
+        $values = explode(" ", (string)$class);
         foreach ($values as $value) {
-            $this->setAttribute('class', (string) $value, $namespace);
+            $this->setAttribute('class', (string)$value, $namespace);
         }
 
         return $this;
@@ -212,7 +214,7 @@ trait Attributes
             return $this;
         }
 
-        if (false !== $key = array_search($classValue, (array) $this->attributes[$namespace]['class'])) {
+        if (false !== $key = array_search($classValue, (array)$this->attributes[$namespace]['class'])) {
             unset($this->attributes[$namespace]['class'][$key]);
         }
         return $this;
