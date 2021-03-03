@@ -1,9 +1,11 @@
 <?php
-include __DIR__ . "/vendor/autoload.php";
-
-Enjoys\Session\Session::start();
+include __DIR__ . "/../vendor/autoload.php";
 
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Rules;
+use Enjoys\Session\Session;
+
+new Session();
 
 $filldata = [
     1,
@@ -35,7 +37,7 @@ $form->text('text1', 'Text1')
         ->setLabel('Text2override')
         ->setDescription('Desc1')
         ->addClass('class2')
-        ->addRule(\Enjoys\Forms\Rules::REQUIRED)
+        ->addRule(Rules::REQUIRED)
 ;
 $form->color('color1', 'color1');
 $form->date('date1', 'date1');
@@ -102,7 +104,7 @@ $form->radio('radio1', 'radio1')->setDescription('radioDesc')->fill($filldata);
 $form->datalist('datalist1', 'datalist1')->setDescription('datalistDesc')->fill($filldata);
 
 $form->header('upload');
-$form->file('myfile', 'Файл')->setMaxFileSize(15500)->setDescription('select fole for upload')->addRule(\Enjoys\Forms\Rules::UPLOAD, null, 'required');
+$form->file('myfile', 'Файл')->setMaxFileSize(15500)->setDescription('select fole for upload')->addRule(Rules::UPLOAD, null, 'required');
 
 $form->header('buttons');
 $form->submit('sbmt', 'Send form');
@@ -118,7 +120,7 @@ $form->image('sbmtimg', 'http://buildingmaintenancecork.com/wp-content/uploads/2
 //]);
 
 if ($form->isSubmitted()) {
-    _var_dump($_GET);
+    var_dump($_GET);
 }
 
 ?>

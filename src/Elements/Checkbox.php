@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
@@ -39,7 +40,7 @@ use Enjoys\Forms\Traits\Rules;
  *
  * @author Enjoys
  */
-class Checkbox extends Element implements \Enjoys\Forms\FillableInterface
+class Checkbox extends Element implements FillableInterface
 {
     use Fill;
     use Description;
@@ -67,17 +68,15 @@ class Checkbox extends Element implements \Enjoys\Forms\FillableInterface
         }
         parent::__construct($construct_name, $title);
 
-        $this->setAttributes([
-            'value' => $name,
-            'id' => $this->getPrefixId() . $name
-        ]);
+        $this->setAttributes(
+            [
+                'value' => $name,
+                'id' => $this->getPrefixId() . $name
+            ]
+        );
         $this->removeAttribute('name');
     }
 
-//    public function prepare()
-//    {
-//
-//    }
 
     public function setPrefixId(string $prefix): self
     {
@@ -103,10 +102,7 @@ class Checkbox extends Element implements \Enjoys\Forms\FillableInterface
      */
     protected function setDefault($value = null): self
     {
-
-
-        // $value = $this->form->getDefaultsHandler()->getValue($this->getParentName());
-        $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        $this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue(trim($this->getName()));
 
 
         if (is_array($value)) {
@@ -127,9 +123,6 @@ class Checkbox extends Element implements \Enjoys\Forms\FillableInterface
 
     public function baseHtml(): string
     {
-
-
-
         $this->setAttribute('for', $this->getAttribute('id'), Form::ATTRIBUTES_LABEL);
         $this->setAttributes($this->getAttributes('fill'), Form::ATTRIBUTES_LABEL);
 
