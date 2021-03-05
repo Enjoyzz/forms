@@ -202,11 +202,18 @@ class Form
 
     /**
      * Set \Enjoys\Forms\DefaultsHandlerInterface $defaultsHandler
-     * @param array $data
+     * @param array|closure $data
      * @return $this
      */
-    public function setDefaults(array $data): self
+    public function setDefaults($data): self
     {
+        if($data instanceof \Closure){
+            $data = $data();
+        }
+
+        if(!is_array($data)){
+            throw new \InvalidArgumentException('Invalid argument, expected array or closure with retun array.');
+        }
 
         if ($this->formSubmitted === true) {
             $data = [];

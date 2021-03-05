@@ -189,6 +189,26 @@ class FormTest extends TestCase
         $this->assertSame('bar', $element->getAttribute('value'));
     }
 
+    public function test_setDefaults_closure_1()
+    {
+        $form = new Form();
+        $form->setDefaults(function (){
+            return [
+                'foo' => 'bar'
+            ];
+        });
+        $element = $form->text('foo');
+        $this->assertSame('bar', $element->getAttribute('value'));
+    }
+
+    public function test_setDefaults_invalid_data()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $form = new Form();
+        $form->setDefaults('value');
+    }
+
+
     public function test_setDefaults_1_1()
     {
         $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
