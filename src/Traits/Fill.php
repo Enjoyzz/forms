@@ -28,6 +28,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
+use Enjoys\Forms\Element;
+
 /**
  *
  * @author Enjoys
@@ -55,23 +57,27 @@ trait Fill
 //    }
 
     /**
+     * @param array $data
+     * @param bool $useTitleAsValue
+     * @return $this
+     * @since 3.4.0 Возвращен порядок установки value из индексированных массивов, т.к. неудобно,
+     * по умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом
+     * но добавлен флаг $useTitleAsValue, если он установлен в true, то все будет работать как в версии 2.4.0
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
      * т.е. [1,2] значения будут 1 и 2 сответсвенно, а не 0 и 1 как раньше.
      * Чтобы использовать число в качестве value отличное от title, необходимо
      * в массиве конуретно указать значение key. Например ["40 " => test] (обратите внимание на пробел).
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
-     *
-     * @param array $data
-     * @return $this
      */
-    public function fill(array $data): self
+    public function fill(array $data, $useTitleAsValue = false): self
     {
 
         foreach ($data as $value => $title) {
-            $fillHandler = new \Enjoys\Forms\FillHandler($value, $title);
+            $fillHandler = new \Enjoys\Forms\FillHandler($value, $title, $useTitleAsValue);
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->getType());
+
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
             $element->setParentName($this->getName());
@@ -106,10 +112,5 @@ trait Fill
         return $this->elements;
     }
 
-//    public function updateElement($key, \Enjoys\Forms\Element $element): void
-//    {
-//        if (array_key_exists($key, $this->elements)) {
-//            $this->elements[$key] = $element;
-//        }
-//    }
+
 }

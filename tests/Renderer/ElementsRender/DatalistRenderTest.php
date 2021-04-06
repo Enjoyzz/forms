@@ -39,7 +39,7 @@ class DatalistRenderTest extends \PHPUnit\Framework\TestCase
     public function test_1()
     {
         $dl = new \Enjoys\Forms\Elements\Datalist('foo');
-        $dl->fill(['bar']);
+        $dl->fill(['bar'], true);
         $o = new \Enjoys\Forms\Renderer\ElementsRender\DatalistRender($dl);
         $this->assertEquals('<input name="foo" list="foo"><datalist id="foo"><option id="bar" value="bar">bar</option></datalist>', $o->render());
     }

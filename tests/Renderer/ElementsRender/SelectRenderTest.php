@@ -38,7 +38,7 @@ class SelectRenderTest extends \PHPUnit\Framework\TestCase
     public function test_1()
     {
         $s = new \Enjoys\Forms\Elements\Select('foo');
-        $s->fill(['bar']);
+        $s->fill(['bar'], true);
         $o = new \Enjoys\Forms\Renderer\ElementsRender\SelectRender($s);
         $this->assertStringContainsString('<select id="foo" name="foo"><option id="bar" value="bar">bar</option></select>', $o->render());
     }
@@ -47,7 +47,7 @@ class SelectRenderTest extends \PHPUnit\Framework\TestCase
         $s = new \Enjoys\Forms\Elements\Select('foo');
         $s->setOptgroup('bar', [
             'baz'
-        ]);
+        ], [], true);
         $o = new \Enjoys\Forms\Renderer\ElementsRender\SelectRender($s);
         $this->assertStringContainsString('<select id="foo" name="foo"><optgroup label="bar"><option id="baz" value="baz">baz</option></optgroup></select>', $o->render());
     }

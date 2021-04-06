@@ -131,7 +131,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->fill([
             1, 2, 3
-        ]);
+        ], true);
 
         $this->assertCount(3, $obj->getElements());
     }
@@ -142,7 +142,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
         $obj->fill([
             1, 1, 3
-        ]);
+        ], true);
 
         $this->assertCount(3, $obj->getElements());
     }
@@ -151,7 +151,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
     {
 
         $obj = new \Enjoys\Forms\Elements\Select('name', 'title');
-        $obj->fill([1])->fill([1]);
+        $obj->fill([1], true)->fill([1], true);
 
         $this->assertCount(2, $obj->getElements());
     }
@@ -250,7 +250,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         ]);
         $form->select('name', 'title')->fill([
             1, 2, 3
-        ]);
+        ], true);
 
         /** @var \Enjoys\Forms\Elements\Select $select */
         $select = $form->getElements()['name'];
@@ -268,7 +268,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         ]);
         $select = $form->select('name[]', 'title')->fill([
             1, 2, 3
-        ]);
+        ], true);
 
         /** @var \Enjoys\Forms\Elements\Select $select */
         $this->assertNull($select->getElements()[0]->getAttribute('selected'));
@@ -283,7 +283,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         ]);
         $form->select('name', 'title')->fill([
             1, 2, 3
-        ]);
+        ], true);
 
         /** @var \Enjoys\Forms\Elements\Select $select */
         $select = $form->getElements()['name'];
@@ -299,7 +299,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         ]);
         $form->select('name2', 'title')
                 ->setAttributes(['multiple'])
-                ->fill([1, 2, 3])
+                ->fill([1, 2, 3], true)
         ;
 
         /** @var \Enjoys\Forms\Elements\Select $select */
@@ -317,7 +317,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
             'name2' => [0, 2]
         ]);
         $form->select('name2', 'title')
-                ->fill([1, 2, 3])
+                ->fill([1, 2, 3], true)
                 ->setAttributes(['multiple'])
         ;
 
@@ -333,7 +333,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
         $select = new \Enjoys\Forms\Elements\Select('name');
         $select->setOptgroup('foo', [
             1, 2, 3
-        ]);
+        ], [],true);
 
         $this->assertInstanceOf('\Enjoys\Forms\Elements\Optgroup', $select->getElements()[0]);
         $options = $select->getElements()[0]->getElements();

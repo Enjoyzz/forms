@@ -41,7 +41,7 @@ class FillHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function test_fillhandler($value, $title, $expectV, $expectL, $expectAttr)
     {
-        $handler = new \Enjoys\Forms\FillHandler($value, $title);
+        $handler = new \Enjoys\Forms\FillHandler($value, $title, true);
         $this->assertEquals($expectV, $handler->getValue());
         $this->assertEquals($expectL, $handler->getLabel());
         $this->assertEquals($expectAttr, $handler->getAttributes());

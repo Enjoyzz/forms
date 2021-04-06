@@ -38,7 +38,7 @@ class RadioRenderTest extends \PHPUnit\Framework\TestCase
     public function test_1()
     {
         $r = new \Enjoys\Forms\Elements\Radio('foo');
-        $r->fill(['bar']);
+        $r->fill(['bar'], true);
         $r->setRuleError('error');
         $o = new \Enjoys\Forms\Renderer\ElementsRender\RadioRender($r);
         $this->assertStringContainsString('<div><input type="radio" id="rb_bar" value="bar" class="is-invalid" name="foo"><label for="rb_bar">bar</label>', $o->render());

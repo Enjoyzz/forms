@@ -37,35 +37,45 @@ class FillHandler
 {
 
     private array $attributes = [];
-    private ?string $value = null;
+    /**
+     * @var mixed
+     */
+    private $value = null;
     private ?string $title = null;
 
     /**
      *
      * @param mixed $value
      * @param mixed $title
-     *
+     * @param bool $useTitleAsValue
      */
-    public function __construct($value, $title)
+    public function __construct($value, $title, $useTitleAsValue = false)
     {
         if (is_array($title)) {
-            $this->title = (string) $title[0];
+            $this->title = (string)$title[0];
 
             if (isset($title[1]) && is_array($title[1])) {
                 $this->attributes = array_merge($this->attributes, $title[1]);
             }
         }
 
-        $this->title ??= (string) $title;
+        $this->title ??= (string)$title;
 
         /** @since 2.4.0 */
         if (is_string($value)) {
             $this->value = \trim($value);
         }
 
+
+
         /** @since 2.4.0 */
-        if (is_int($value)) {
-            $this->value = (string) $this->title;
+        if (is_int($value) && $useTitleAsValue) {
+            $this->value = (string)$this->title;
+        }
+
+        /** @since 3.4.0 */
+        if (is_int($value) && !$useTitleAsValue) {
+            $this->value = $value;
         }
     }
 
@@ -76,7 +86,7 @@ class FillHandler
 
     public function getValue(): ?string
     {
-        return $this->value;
+        return (string)$this->value;
     }
 
     public function getLabel(): ?string

@@ -117,18 +117,20 @@ class Select extends Element
     }
 
     /**
-     * @since 2.4.0
-     *
      * @param string $label Аттрибут label для optgroup
      * @param array $data Массив для заполнения в функции fill()
      * @param array $attributes Аттрибуты для optgroup (id и name аттрибуты автоматически удалены)
+     * @param bool $useTitleAsValue
      * @return $this
+     * @since 2.4.0
+     * @since 3.4.0 added $useTitleAsValue, see Trait\Fill
+     *
      */
-    public function setOptgroup(string $label, array $data = [], array $attributes = []): self
+    public function setOptgroup(string $label, array $data = [], array $attributes = [], $useTitleAsValue = false): self
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaults);
         $optgroup->setAttributes($attributes);
-        $optgroup->fill($data);
+        $optgroup->fill($data, $useTitleAsValue);
         $this->elements[] = $optgroup;
         return $this;
     }

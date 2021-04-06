@@ -167,7 +167,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
                 't1',
                 ['id' => 'id1']
             ]
-        ]);
+        ], true);
 
         $elements = $obj->getElements();
         /** @var \Enjoys\Forms\Elements\Radio $v1 */
@@ -181,7 +181,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->fill([
             1, 2, 3
-        ]);
+        ], true);
 
         $this->assertCount(3, $obj->getElements());
     }
@@ -192,7 +192,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
         $obj->fill([
             1, 1, 3
-        ]);
+        ], true);
 
         $this->assertCount(3, $obj->getElements());
     }
@@ -201,7 +201,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     {
 
         $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
-        $obj->fill([1])->fill([1]);
+        $obj->fill([1], true)->fill([1], true);
 
         $this->assertCount(2, $obj->getElements());
     }
@@ -215,7 +215,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
                 1, 2
             ]
         ]);
-        $obj = $form->checkbox('name', 'title')->fill([1, 2, 3]);
+        $obj = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
         $elements = $obj->getElements();
         $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));

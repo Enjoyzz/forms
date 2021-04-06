@@ -58,8 +58,8 @@ class OptgroupTest extends TestCase
             ]
         ]);
         $select = $form->select('select1')
-                ->setOptgroup('numbers', [1,2,3])
-                ->setOptgroup('alpha', ['a', 'b', 'c'])
+                ->setOptgroup('numbers', [1,2,3], [], true)
+                ->setOptgroup('alpha', ['a', 'b', 'c'], [], true)
                 ->setMultiple()
                 ;
         $this->assertNull($select->getElements()[0]->getElements()[0]->getAttribute('selected'));

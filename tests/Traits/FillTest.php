@@ -38,21 +38,47 @@ class FillTest extends \PHPUnit\Framework\TestCase
     public function test_setIndexKeyFill()
     {
         $select = new \Enjoys\Forms\Elements\Select('select');
-        $select->fill([
-            1, 2, 3
-        ]);
+        $select->fill(
+            [
+                1,
+                2,
+                3
+            ],
+            true
+        );
         $this->assertEquals('1', $select->getElements()[0]->getName());
         $this->assertEquals('2', $select->getElements()[1]->getName());
         $this->assertEquals('3', $select->getElements()[2]->getName());
 
-        $select->fill([
-            1, 2, 3
-        ]);
+        $select->fill(
+            [
+                1,
+                2,
+                3
+            ],
+            true
+        );
         $this->assertEquals('1', $select->getElements()[3]->getName());
         $this->assertEquals('2', $select->getElements()[4]->getName());
         $this->assertEquals('3', $select->getElements()[5]->getName());
-        
+
         $this->assertEquals('select', $select->getElements()[5]->getParentName());
+    }
+
+    public function test_setIndexKeyFillIntAsValue()
+    {
+        $select = new \Enjoys\Forms\Elements\Select('select');
+        $select->fill(
+            [
+                46 => 1,
+                2,
+                3
+            ]
+        );
+        $this->assertEquals('46', $select->getElements()[0]->getAttribute('value'));
+        $this->assertEquals('47', $select->getElements()[1]->getAttribute('value'));
+        $this->assertEquals('48', $select->getElements()[2]->getAttribute('value'));
+
     }
 
 //    /**

@@ -184,7 +184,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->fill([
             1, 2, 3
-        ]);
+        ], true);
 
         $this->assertCount(3, $obj->getElements());
     }
@@ -195,7 +195,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
         $obj->fill([
             1, 1, 3
-        ]);
+        ], true);
 
         $this->assertCount(3, $obj->getElements());
     }
@@ -204,7 +204,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     {
 
         $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
-        $obj->fill([1])->fill([1]);
+        $obj->fill([1], true)->fill([1], true);
 
         $this->assertCount(2, $obj->getElements());
     }
@@ -216,7 +216,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $form->setOption('Defaults', [
             'name' => [1, 2]
         ]);
-        $radio = $form->radio('name', 'title')->fill([1, 2, 3]);
+        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
         $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
@@ -230,7 +230,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $form->setOption('Defaults', [
             'name' => [1, 2]
         ]);
-        $radio = $form->radio('name[]', 'title')->fill([1, 2, 3]);
+        $radio = $form->radio('name[]', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
         $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
@@ -244,7 +244,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         $form->setOption('Defaults', [
             'name' => 2
         ]);
-        $radio = $form->radio('name', 'title')->fill([1, 2, 3]);
+        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
         $this->assertFalse($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
