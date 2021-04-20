@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Element;
+use Enjoys\Forms\FillHandler;
 
 /**
  *
@@ -57,9 +57,10 @@ trait Fill
 //    }
 
     /**
-     * @param array $data
+     * @param array|\Closure $data
      * @param bool $useTitleAsValue
      * @return $this
+     * @since 3.4.1 Можно использовать замыкания для заполнения. Анонимная функция должна возвращать массив.
      * @since 3.4.0 Возвращен порядок установки value из индексированных массивов, т.к. неудобно,
      * по умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом
      * но добавлен флаг $useTitleAsValue, если он установлен в true, то все будет работать как в версии 2.4.0
@@ -70,11 +71,19 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill(array $data, $useTitleAsValue = false): self
+    public function fill($data, $useTitleAsValue = false): self
     {
 
+        if($data instanceof \Closure){
+            $data = $data();
+        }
+
+        if(!is_array($data)){
+            throw new \InvalidArgumentException('Fill data must be array or closure returned array');
+        }
+
         foreach ($data as $value => $title) {
-            $fillHandler = new \Enjoys\Forms\FillHandler($value, $title, $useTitleAsValue);
+            $fillHandler = new FillHandler($value, $title, $useTitleAsValue);
 
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->getType());
 

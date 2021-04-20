@@ -1,43 +1,25 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Traits;
+
+use Enjoys\Forms\Elements\Select;
+use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 /**
  * Class FillTest
  *
  * @author Enjoys
  */
-class FillTest extends \PHPUnit\Framework\TestCase
+class FillTest extends TestCase
 {
-    use \Tests\Enjoys\Forms\Reflection;
+    use Reflection;
 
     public function test_setIndexKeyFill()
     {
-        $select = new \Enjoys\Forms\Elements\Select('select');
+        $select = new Select('select');
         $select->fill(
             [
                 1,
@@ -67,7 +49,7 @@ class FillTest extends \PHPUnit\Framework\TestCase
 
     public function test_setIndexKeyFillIntAsValue()
     {
-        $select = new \Enjoys\Forms\Elements\Select('select');
+        $select = new Select('select');
         $select->fill(
             [
                 46 => 1,
@@ -78,7 +60,38 @@ class FillTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('46', $select->getElements()[0]->getAttribute('value'));
         $this->assertEquals('47', $select->getElements()[1]->getAttribute('value'));
         $this->assertEquals('48', $select->getElements()[2]->getAttribute('value'));
+    }
 
+    public function test_closurefill()
+    {
+        $class1 = new \stdClass();
+        $class1->id = 52;
+        $class1->name = '#52';
+
+        $class2 = new \stdClass();
+        $class2->id = 36;
+        $class2->name = '#36';
+
+        $data = [$class1, $class2];
+        $select = new Select('select');
+        $select->fill(function () use ($data){
+            $ret = [];
+            foreach ($data as $item) {
+                $ret[$item->id] = $item->name;
+            }
+            return $ret;
+        });
+        $this->assertEquals('52', $select->getElements()[0]->getAttribute('value'));
+        $this->assertEquals('36', $select->getElements()[1]->getAttribute('value'));
+    }
+
+    public function test_closure_invalid_return()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $select = new Select('select');
+        $select->fill(function (){
+            return 'invalid return';
+        });
     }
 
 //    /**
@@ -86,22 +99,22 @@ class FillTest extends \PHPUnit\Framework\TestCase
 //     */
 //    public function test_fill_with_attributes($el, $name)
 //    {
-//        $this->markTestSkipped('Не нужен тест, он больше фунциональный');
-//        $class = '\Enjoys\Forms\Elements\\' . $el;
+//       // $this->markTestSkipped('Не нужен тест, он больше фунциональный');
+//        $class = '\Enjoys\Forms\Elements\\' . ucfirst($el);
 //        $element = new $class('foo');
 //        $element->fill([
 //            'test' => [
-//                'title1', 
+//                'title1',
 //                [
 //                    'disabled'
 //                ]
-//            ], 
+//            ],
 //            'foz' => [
-//                2, 
+//                2,
 //                [
 //                    'id' => 'newfoz'
 //                ]
-//            ], 
+//            ],
 //            'baz' => 3
 //        ]);
 //        $this->assertEquals(null, $element->getElements()[0]->getAttribute('disabled'));
