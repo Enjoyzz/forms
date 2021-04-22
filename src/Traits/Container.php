@@ -32,6 +32,7 @@ use Enjoys\Forms\Elements\Button;
 use Enjoys\Forms\Elements\Captcha;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Color;
+use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Elements\Datalist;
 use Enjoys\Forms\Elements\Date;
 use Enjoys\Forms\Elements\Datetime;
@@ -55,6 +56,7 @@ use Enjoys\Forms\Elements\Tel;
 use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Elements\Textarea;
 use Enjoys\Forms\Elements\Time;
+use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Elements\Url;
 use Enjoys\Forms\Elements\Week;
 use Enjoys\Forms\Exception\ExceptionElement;
@@ -89,6 +91,8 @@ use Enjoys\Forms\Exception\ExceptionElement;
  * @method Captcha captcha(CaptchaInterface $captcha)
  * @method Group group(string $title = null)
  * @method File file(string $name, string $label = null)
+ * @method TockenSubmit tockenSubmit(string $value)
+ * @method Csrf csrf()
  *
  * @author Enjoys
  */

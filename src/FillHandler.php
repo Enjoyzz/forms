@@ -70,7 +70,7 @@ class FillHandler
 
         /** @since 2.4.0 */
         if (is_int($value) && $useTitleAsValue) {
-            $this->value = (string)$this->title;
+            $this->value = $this->title;
         }
 
         /** @since 3.4.0 */

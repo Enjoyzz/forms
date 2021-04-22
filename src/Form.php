@@ -202,7 +202,7 @@ class Form
 
     /**
      * Set \Enjoys\Forms\DefaultsHandlerInterface $defaultsHandler
-     * @param array|closure $data
+     * @param \Closure|array $data
      * @return $this
      */
     public function setDefaults($data): self

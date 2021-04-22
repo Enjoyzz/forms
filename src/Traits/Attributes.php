@@ -196,7 +196,7 @@ trait Attributes
         }
         $values = explode(" ", (string)$class);
         foreach ($values as $value) {
-            $this->setAttribute('class', (string)$value, $namespace);
+            $this->setAttribute('class', $value, $namespace);
         }
 
         return $this;
