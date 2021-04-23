@@ -1,63 +1,45 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 deadl.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace Tests\Enjoys\Forms\Elements;
+
+use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Elements\Radio;
+use Enjoys\Forms\Form;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of RadioTest
  *
  * @author deadl
  */
-class CheckboxTest extends \PHPUnit\Framework\TestCase
+class CheckboxTest extends TestCase
 {
 
 
 
     public function test_title()
     {
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $this->assertSame('title', $obj->getLabel());
     }
 
     public function test_title2()
     {
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->setLabel('title2');
         $this->assertSame('title2', $obj->getLabel());
     }
 
     public function test_name()
     {
-        $obj = new \Enjoys\Forms\Elements\Checkbox( 'name', 'title');
+        $obj = new Checkbox( 'name', 'title');
         $this->assertSame('name[]', $obj->getName());
     }
 
-    private function filldata()
+
+    private function filldata(): array
     {
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->setPrefixId('cb_');
         $obj->fill([
             'v1' => 't1',
@@ -69,15 +51,14 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
                 ]
             ]
         ]);
-        $elements = $obj->getElements();
-        return $elements;
+        return $obj->getElements();
     }
 
     public function test_fill()
     {
     
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
         $this->assertSame('t1', $v1->getLabel());
     }
@@ -86,7 +67,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
         $this->assertSame('v1[]', $v1->getName());
     }
@@ -95,7 +76,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
         $this->assertSame('cb_v1', $v1->getAttribute('id'));
     }
@@ -103,7 +84,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_fill4()
     {
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
         $this->assertSame('t2', $v2->getLabel());
     }
@@ -111,7 +92,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_fill5()
     {
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
         $this->assertSame('v2[]', $v2->getName());
     }
@@ -120,7 +101,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
         $this->assertSame('i2', $v2->getAttribute('id'));
     }
@@ -128,7 +109,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_fill7()
     {
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
         $this->assertNull($v2->getAttribute('disabled'));
         $this->assertNotNull($v2->getAttribute('id'));
@@ -136,14 +117,14 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
 
     public function test_prefix()
     {
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => 't1'
         ]);
 
         $elements = $obj->getElements();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v1 = $elements[0];
         $this->assertSame('prefix_v1', $v1->getAttribute('id'));
     }
@@ -151,16 +132,16 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_prefix2()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->setPrefixId('prefix_');
 
-        $obj2 = new \Enjoys\Forms\Elements\Checkbox( 'name', 'title');
+        $obj2 = new Checkbox( 'name', 'title');
         $this->assertSame('prefix_name', $obj2->getAttribute('id'));
     }
 
     public function test_prefix3()
     {
-        $obj = new \Enjoys\Forms\Elements\Checkbox( 'name', 'title');
+        $obj = new Checkbox( 'name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => [
@@ -170,7 +151,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
         ], true);
 
         $elements = $obj->getElements();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
         $this->assertSame('id1', $v1->getAttribute('id'));
     }
@@ -178,7 +159,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_count_checkbox_element()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->fill([
             1, 2, 3
         ], true);
@@ -189,7 +170,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_count_checkbox_element2()
     {
  
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->fill([
             1, 1, 3
         ], true);
@@ -200,7 +181,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_count_checkbox_element3()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Checkbox('name', 'title');
+        $obj = new Checkbox('name', 'title');
         $obj->fill([1], true)->fill([1], true);
 
         $this->assertCount(2, $obj->getElements());
@@ -209,7 +190,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     public function test_setDefault()
     {
        
-        $form = new \Enjoys\Forms\Form();
+        $form = new Form();
         $form->setDefaults([
             'name' => [
                 1, 2
@@ -224,7 +205,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
 
     public function test_setDefault_simple()
     {
-        $form = new \Enjoys\Forms\Form();
+        $form = new Form();
         $form->setOption('Defaults', [
             'name' => ['baaa']
         ]);
@@ -241,7 +222,7 @@ class CheckboxTest extends \PHPUnit\Framework\TestCase
     
     public function test_basehtml()
     {
-        $cb = new \Enjoys\Forms\Elements\Checkbox('foo', 'bar');
+        $cb = new Checkbox('foo', 'bar');
         $cb->resetPrefixId();
         $this->assertStringContainsString('<input type="checkbox" id="cb_foo[]" value="foo" name=""><label for="cb_foo[]">bar</label>', $cb->baseHtml());
     }

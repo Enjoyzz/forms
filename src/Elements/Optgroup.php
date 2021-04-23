@@ -1,38 +1,16 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Traits\Fill;
 
 /**
- * Description of Optgroup
+ * Class Optgroup
+ * @package Enjoys\Forms\Elements
  *
  * variant 1
  * $form->select('foo', 'bar')
@@ -60,7 +38,7 @@ use Enjoys\Forms\Traits\Fill;
  *                  ]
  *              ],
  *          'usa' => [
-  'USA', [
+ * 'USA', [
  *                  'class' => 'h1 text-danger'
  *                  ]
  *          ],
@@ -76,9 +54,8 @@ use Enjoys\Forms\Traits\Fill;
  * ]);
  *
  * @since 2.4.0
- * @author Enjoys
  */
-class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
+class Optgroup extends Element implements FillableInterface
 {
     use Fill;
 
@@ -94,9 +71,11 @@ class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
     public function __construct(string $title, string $parentName, $defaults = '')
     {
         parent::__construct(\uniqid('optgroup'), $title);
-        $this->setAttributes([
-            'label' => $title
-        ]);
+        $this->setAttributes(
+            [
+                'label' => $title
+            ]
+        );
         $this->setName($parentName);
         $this->removeAttribute('name');
         $this->removeAttribute('id');
@@ -110,7 +89,7 @@ class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
      */
     protected function setDefault($value = null): self
     {
-        $this->defaults = $value;
+        $this->defaultValue = $value;
         return $this;
     }
 

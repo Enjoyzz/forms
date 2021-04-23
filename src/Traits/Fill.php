@@ -1,29 +1,5 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
@@ -31,8 +7,8 @@ namespace Enjoys\Forms\Traits;
 use Enjoys\Forms\FillHandler;
 
 /**
- *
- * @author Enjoys
+ * Trait Fill
+ * @package Enjoys\Forms\Traits
  */
 trait Fill
 {
@@ -42,7 +18,7 @@ trait Fill
     /**
      * @var mixed
      */
-    private $defaults = '';
+    private $defaultValue = '';
 
     public function setParentName(string $parentName): void
     {
@@ -69,9 +45,9 @@ trait Fill
      * по умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом
      * но добавлен флаг $useTitleAsValue, если он установлен в true, то все будет работать как в версии 2.4.0
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
-     * т.е. [1,2] значения будут 1 и 2 сответсвенно, а не 0 и 1 как раньше.
+     * т.е. [1,2] значения будут 1 и 2 соответственно, а не 0 и 1 как раньше.
      * Чтобы использовать число в качестве value отличное от title, необходимо
-     * в массиве конуретно указать значение key. Например ["40 " => test] (обратите внимание на пробел).
+     * в массиве конкретно указать значение key. Например ["40 " => test] (обратите внимание на пробел).
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
@@ -96,7 +72,7 @@ trait Fill
             $element->setAttributes($fillHandler->getAttributes(), 'fill');
 
             /**
-             * @todo слишком много вложенности ифов. подумать как переделать
+             * @todo слишком много вложенности if. подумать как переделать
              */
             foreach ($element->getAttributes('fill') as $k => $v) {
                 if (in_array($k, ['id', 'name', 'disabled', 'readonly'])) {
@@ -108,7 +84,7 @@ trait Fill
             }
 
 
-            $element->setDefault($this->defaults);
+            $element->setDefault($this->defaultValue);
 
             $this->elements[] = $element;
         }
@@ -127,9 +103,9 @@ trait Fill
     /**
      * @return mixed
      */
-    public function getDefaults()
+    public function getDefaultValue()
     {
-        return $this->defaults;
+        return $this->defaultValue;
     }
 
 
