@@ -39,6 +39,10 @@ trait Fill
 
     private array $elements = [];
     private string $parentName = '';
+    /**
+     * @var mixed
+     */
+    private $defaults = '';
 
     public function setParentName(string $parentName): void
     {
@@ -73,12 +77,11 @@ trait Fill
      */
     public function fill($data, $useTitleAsValue = false): self
     {
-
-        if($data instanceof \Closure){
+        if ($data instanceof \Closure) {
             $data = $data();
         }
 
-        if(!is_array($data)){
+        if (!is_array($data)) {
             throw new \InvalidArgumentException('Fill data must be array or closure returned array');
         }
 
@@ -119,6 +122,14 @@ trait Fill
     public function getElements(): array
     {
         return $this->elements;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaults()
+    {
+        return $this->defaults;
     }
 
 

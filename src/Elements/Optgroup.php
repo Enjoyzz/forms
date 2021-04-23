@@ -84,11 +84,6 @@ class Optgroup extends Element implements \Enjoys\Forms\FillableInterface
 
     protected string $type = 'option';
 
-    /**
-     *
-     * @var mixed
-     */
-    protected $defaults = '';
 
     /**
      *

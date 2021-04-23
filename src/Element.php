@@ -95,6 +95,11 @@ abstract class Element implements ElementInterface
     {
         $this->form = $form;
         $this->setDefault();
+        if($this instanceof FillableInterface){
+            foreach ($this->getElements() as $element) {
+                $element->setDefault($this->getDefaults());
+            }
+        }
     }
 
     /**
@@ -187,6 +192,8 @@ abstract class Element implements ElementInterface
         $value = $this->getForm()
             ->getDefaultsHandler()
             ->getValue($this->getName());
+
+
 
         if (is_array($value)) {
             $this->setAttributes(

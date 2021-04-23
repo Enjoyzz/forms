@@ -42,10 +42,6 @@ class Option extends Element implements \Enjoys\Forms\FillableInterface
 
     protected string $type = 'option';
 
-    /**
-     * @var mixed
-     */
-    protected $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {
@@ -64,8 +60,6 @@ class Option extends Element implements \Enjoys\Forms\FillableInterface
      */
     protected function setDefault($value = null): self
     {
-        //$this->defaults = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
-
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
                 $this->setAttribute('selected');

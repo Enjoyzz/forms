@@ -52,11 +52,6 @@ class Radio extends Element implements \Enjoys\Forms\FillableInterface
     protected string $type = 'radio';
     private static string $prefix_id = 'rb_';
 
-    /**
-     *
-     * @var mixed
-     */
-    protected $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {

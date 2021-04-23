@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
@@ -38,7 +39,7 @@ use Enjoys\Forms\Traits\Rules;
  *
  * @author Enjoys
  */
-class Select extends Element
+class Select extends Element implements FillableInterface
 {
     use Fill;
     use Description;
@@ -49,11 +50,8 @@ class Select extends Element
      * @var string
      */
     protected string $type = 'option';
-    /**
-     *
-     * @var mixed
-     */
-    private $defaults = null;
+
+
 
     public function __construct(string $name, string $title = null)
     {

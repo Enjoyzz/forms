@@ -47,11 +47,6 @@ class Datalist extends Element implements FillableInterface
 
     protected string $type = 'option';
 
-    /**
-     *
-     * @var mixed
-     */
-    protected $defaults = '';
 
     public function __construct(string $name, string $title = null)
     {
