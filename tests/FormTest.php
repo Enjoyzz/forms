@@ -25,7 +25,7 @@ class FormTest extends TestCase
     public function test_init_form_1_0()
     {
         $form = new Form();
-        $this->assertEquals('GET', $form->getMethod());
+        $this->assertEquals('POST', $form->getMethod());
     }
 
     public function data_init_form_1_1()
@@ -36,7 +36,7 @@ class FormTest extends TestCase
             ['GeT', 'GET'],
             ['post', 'POST'],
             ['pOSt', 'POST'],
-            ['something', 'GET']
+            ['something', 'POST']
         ];
     }
 
