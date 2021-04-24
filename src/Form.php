@@ -82,7 +82,7 @@ class Form
      *
      * @var string POST|GET
      */
-    private string $method = 'POST';
+    private string $method = 'GET';
 
     /**
      *
