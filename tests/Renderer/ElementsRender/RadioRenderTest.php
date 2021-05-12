@@ -1,46 +1,52 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 
+use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Elements\Radio;
+use Enjoys\Forms\Form;
+use Enjoys\Forms\Renderer\ElementsRender\CheckboxRender;
+use Enjoys\Forms\Renderer\ElementsRender\RadioRender;
+use PHPUnit\Framework\TestCase;
+
 /**
- * Description of RadioRenderTest
- *
- * @author Enjoys
+ * Class RadioRenderTest
+ * @package Tests\Enjoys\Forms\Renderer\ElementsRender
  */
-class RadioRenderTest extends \PHPUnit\Framework\TestCase
+class RadioRenderTest extends TestCase
 {
     public function test_1()
     {
-        $r = new \Enjoys\Forms\Elements\Radio('foo');
+        $r = new Radio('foo');
         $r->fill(['bar'], true);
         $r->setRuleError('error');
-        $o = new \Enjoys\Forms\Renderer\ElementsRender\RadioRender($r);
-        $this->assertStringContainsString('<div><input type="radio" id="rb_bar" value="bar" class="is-invalid" name="foo"><label for="rb_bar">bar</label>', $o->render());
+        $o = new RadioRender($r);
+        $this->assertStringContainsString(
+            '<div><input type="radio" id="rb_bar" value="bar" class="is-invalid" name="foo"><label for="rb_bar">bar</label>',
+            $o->render()
+        );
+    }
+
+    public function testAttributesGroupInRadioCheckbox()
+    {
+        $checkbox = new Checkbox('foo');
+        $checkbox->fill([1]);
+        $checkbox->addClass('class1 class2', Form::ATTRIBUTES_FILLABLE_BASE);
+        $renderCheckbox = new CheckboxRender($checkbox);
+        $this->assertStringContainsString(
+            '<div class="class1 class2"><input type="checkbox" id="cb_0" value="0" name="foo[]"><label for="cb_0">1</label>',
+            $renderCheckbox->render()
+        );
+
+        $radio = new Radio('foo');
+        $radio->fill([10], true);
+        $radio->addClass('class1 class2', Form::ATTRIBUTES_FILLABLE_BASE);
+        $renderRadio = new RadioRender($radio);
+        $this->assertStringContainsString(
+            '<div class="class1 class2"><input type="radio" id="rb_10" value="10" name="foo"><label for="rb_10">10</label>',
+            $renderRadio->render()
+        );
     }
 }

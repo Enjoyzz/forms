@@ -1,29 +1,5 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms;
@@ -37,12 +13,8 @@ use function json_encode;
 use function strtoupper;
 
 /**
- *
- * Class Forms
- *
- *
- * @author Enjoys
- *
+ * Class Form
+ * @package Enjoys\Forms
  */
 class Form
 {
@@ -72,6 +44,7 @@ class Form
     public const ATTRIBUTES_VALIDATE = '_validate_attributes_';
     public const ATTRIBUTES_LABEL = '_label_attributes_';
     public const ATTRIBUTES_FIELDSET = '_fieldset_attributes_';
+    public const ATTRIBUTES_FILLABLE_BASE = '_fillable_base_attributes_';
 
     /**
      * @var string|null
@@ -115,13 +88,15 @@ class Form
      * @param DefaultsHandlerInterface|null $defaults
      * @example example/initform.php description
      */
-    public function __construct(array $options = [], ServerRequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
-    {
+    public function __construct(
+        array $options = [],
+        ServerRequestInterface $request = null,
+        DefaultsHandlerInterface $defaults = null
+    ) {
         $this->defaultsHandler = $defaults ?? new DefaultsHandler();
         $this->setRequest($request);
 
         static::$formCounter++;
-
 
 
         $tockenSubmit = $this->tockenSubmit(md5(json_encode($options) . $this->getFormCounter()));
@@ -207,11 +182,11 @@ class Form
      */
     public function setDefaults($data): self
     {
-        if($data instanceof \Closure){
+        if ($data instanceof \Closure) {
             $data = $data();
         }
 
-        if(!is_array($data)){
+        if (!is_array($data)) {
             throw new \InvalidArgumentException('Invalid argument, expected array or closure with retun array.');
         }
 
@@ -234,7 +209,6 @@ class Form
      */
     public function getDefaultsHandler(): DefaultsHandlerInterface
     {
-
         return $this->defaultsHandler;
     }
 
