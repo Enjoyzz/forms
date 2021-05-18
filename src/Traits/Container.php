@@ -42,6 +42,7 @@ use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Elements\Group;
 use Enjoys\Forms\Elements\Header;
 use Enjoys\Forms\Elements\Hidden;
+use Enjoys\Forms\Elements\Html;
 use Enjoys\Forms\Elements\Image;
 use Enjoys\Forms\Elements\Month;
 use Enjoys\Forms\Elements\Number;
@@ -93,6 +94,7 @@ use Enjoys\Forms\Exception\ExceptionElement;
  * @method File file(string $name, string $label = null)
  * @method TockenSubmit tockenSubmit(string $value)
  * @method Csrf csrf()
+ * @method Html html(string $html)
  *
  * @author Enjoys
  */
