@@ -1,32 +1,12 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
+
+use Enjoys\Forms\Form;
+use Enjoys\Forms\Rules;
+use Enjoys\Session\Session;
 
 /**
  * Включает защиту от CSRF.
@@ -37,19 +17,21 @@ namespace Enjoys\Forms\Elements;
 class Csrf extends Hidden
 {
 
-    /**
-     * @todo поменять session_id() на Session::getSessionId()
-     */
     public function __construct()
     {
+        $session = new Session();
+        $csrf_key = '#$' . $session->getSessionId();
+        $hash = crypt($csrf_key, '$2a$07$' . md5($session->getSessionId()) . '$');
 
-        $csrf_key = '#$' . session_id();
-        $hash = crypt($csrf_key, '');
-        parent::__construct(\Enjoys\Forms\Form::_TOKEN_CSRF_, $hash);
+        parent::__construct(Form::_TOKEN_CSRF_, $hash);
 
-        $this->addRule(\Enjoys\Forms\Rules::CSRF, 'CSRF Attack detected', [
-            'csrf_key' => $csrf_key
-        ]);
+        $this->addRule(
+            Rules::CSRF,
+            'CSRF Attack detected',
+            [
+                'csrf_key' => $csrf_key
+            ]
+        );
     }
 
     public function prepare()
