@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer;
 
+use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Renderer\ElementsRender;
 
@@ -46,6 +47,7 @@ class BaseElementRender
         Elements\Checkbox::class => ElementsRender\CheckboxRender::class,
         Elements\Select::class => ElementsRender\SelectRender::class,
         Elements\Header::class => ElementsRender\HeaderRender::class,
+        Elements\Html::class => ElementsRender\HtmlRender::class,
         Elements\Button::class => ElementsRender\ButtonRender::class,
         Elements\Submit::class => ElementsRender\ButtonRender::class,
         Elements\Reset::class => ElementsRender\ButtonRender::class,
@@ -71,17 +73,17 @@ class BaseElementRender
         Elements\Datalist::class => ElementsRender\DatalistRender::class,
     ];
 
-    public function __construct(\Enjoys\Forms\Element $element)
+    public function __construct(Element $element)
     {
         $this->elementRender = $this->getElementRender($element);
     }
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return ElementsRender\ElementRenderInterface
      */
-    protected function getElementRender(\Enjoys\Forms\Element $element): ElementsRender\ElementRenderInterface
+    protected function getElementRender(Element $element): ElementsRender\ElementRenderInterface
     {
         $key = \get_class($element);
         if (array_key_exists($key, self::MAPCLASSES)) {
