@@ -54,9 +54,8 @@ class CsrfTest extends TestCase
 
     public function test_validate()
     {
-        $this->markTestSkipped('skip in php 8.0');
         $csrf_key = 'test';
-        $hash = crypt($csrf_key, '');
+        $hash = crypt($csrf_key, '$2a$07$...$');
         $element = new Hidden(Form::_TOKEN_CSRF_, $hash);
 
 
@@ -64,9 +63,19 @@ class CsrfTest extends TestCase
             'csrf_key' => $csrf_key
         ]);
 
-        $obj->setRequest(new ServerRequest([], [
+        $request = new ServerRequest(
+            ServerRequestCreator::createFromGlobals(
+                null,
+                null,
+                null,
+                null,
+                [
                     Form::_TOKEN_CSRF_ => $hash
-        ]));
+                ],
+            )
+        );
+
+        $obj->setRequest($request);
         //$this->assertSame('d',$obj);
         $this->assertTrue($obj->validate($element));
         //   $this->expectException(\Enjoys\Forms\Exception::class);
