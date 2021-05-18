@@ -34,6 +34,7 @@ class Csrf extends Hidden
         );
     }
 
+
     public function prepare()
     {
         if (!in_array($this->getForm()->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {

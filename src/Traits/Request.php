@@ -16,6 +16,9 @@ trait Request
 
     protected ?ServerRequestInterface $request = null;
 
+    /**
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function getRequest(): ServerRequestInterface
     {
         if ($this->request === null) {

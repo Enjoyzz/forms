@@ -1,29 +1,5 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
@@ -35,8 +11,8 @@ use Enjoys\Forms\Rules;
 use HttpSoft\Message\UploadedFile;
 
 /**
- * Description of Upload
- * @author Enjoys
+ * Class Upload
+ * @package Enjoys\Forms\Rule
  */
 class Upload extends Rules implements RuleInterface
 {
@@ -112,7 +88,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false   $value
+     * @param UploadedFile|false $value
      * @param mixed $message
      * @param Element $element
      * @return boolean
@@ -133,12 +109,12 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false   $value
-     * @param string $message
+     * @param UploadedFile|false $value
+     * @param string|null $message
      * @param Element $element
      * @return boolean
      */
-    private function checkRequired($value, ?string $message = null, Element $element)
+    private function checkRequired($value, ?string $message, Element $element)
     {
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
@@ -155,7 +131,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false    $value
+     * @param UploadedFile|false $value
      * @param mixed $ruleOpts
      * @param Element $element
      * @return boolean
@@ -168,14 +144,14 @@ class Upload extends Rules implements RuleInterface
 
         $parsed = $this->parseRuleOpts($ruleOpts);
 
-        $threshold_size = (int) $parsed['param'];
+        $threshold_size = (int)$parsed['param'];
         $message = $parsed['message'];
 
         if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(null, " ") . ')'
-                    . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
+            $message = 'Размер файла (' . Binary::bytes((int)$value->getSize())->format(null, " ") . ')'
+                . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
         }
-        $this->setMessage((string) $message);
+        $this->setMessage((string)$message);
 
         if ($value->getSize() > $threshold_size) {
             $element->setRuleError($this->getMessage());
@@ -186,7 +162,7 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false    $value
+     * @param UploadedFile|false $value
      * @param mixed $ruleOpts
      * @param Element $element
      * @return boolean
@@ -202,12 +178,12 @@ class Upload extends Rules implements RuleInterface
         $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
         $message = $parsed['message'];
 
-        $extension = pathinfo($value->getClientFilename(), PATHINFO_EXTENSION);
+        $extension = pathinfo((string)$value->getClientFilename(), PATHINFO_EXTENSION);
 
         if (is_null($message)) {
             $message = 'Загрузка файлов с расширением .' . $extension . ' запрещена';
         }
-        $this->setMessage((string) $message);
+        $this->setMessage((string)$message);
 
         if (!in_array($extension, $expected_extensions)) {
             $element->setRuleError($this->getMessage());
@@ -224,7 +200,7 @@ class Upload extends Rules implements RuleInterface
     private function parseRuleOpts($opts): array
     {
         if (!is_array($opts)) {
-            $opts = (array) $opts;
+            $opts = (array)$opts;
             $opts[1] = null;
         }
         list($param, $message) = $opts;
