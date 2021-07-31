@@ -1,6 +1,6 @@
 {
   "name": "enjoys/forms",
-  "description": "forms",
+  "description": "forms 4.x",
   "license": "MIT",
   "authors": [
     {
@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "php": "^7.4|^8.0",
+    "php": "^8.0",
     "guzzlehttp/guzzle": "^7.1",
     "enjoys/http": "^1.0",
     "enjoys/traits": "^1.1",
