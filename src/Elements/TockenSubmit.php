@@ -27,7 +27,7 @@
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
-
+use Enjoys\Forms\Elements\Traits;
 /**
  * Description of TockenSubmit
  *
@@ -35,7 +35,7 @@ namespace Enjoys\Forms\Elements;
  */
 class TockenSubmit extends Hidden
 {
-    use \Enjoys\Forms\Traits\Rules;
+    use Traits\Rules;
 
     private string $tocken;
 

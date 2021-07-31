@@ -29,8 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Traits\Description;
-use Enjoys\Forms\Traits\Rules;
+use Enjoys\Forms\Elements\Traits;
 
 /**
  * Description of Textarea
@@ -39,8 +38,8 @@ use Enjoys\Forms\Traits\Rules;
  */
 class Textarea extends Element
 {
-    use Description;
-    use Rules;
+    use Traits\Description;
+    use Traits\Rules;
 
     /**
      *

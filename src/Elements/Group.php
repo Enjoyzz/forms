@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-
+use Enjoys\Forms\Elements\Traits;
 /**
  * Class Group
  *
@@ -37,7 +37,7 @@ use Enjoys\Forms\Element;
  */
 class Group extends Element
 {
-    use \Enjoys\Forms\Traits\Description;
+    use Traits\Description;
     use \Enjoys\Forms\Traits\Container;
 
     public function __construct(string $title = null)

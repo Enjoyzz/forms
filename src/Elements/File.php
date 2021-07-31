@@ -31,7 +31,7 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rules;
-use Enjoys\Forms\Traits;
+use Enjoys\Forms\Elements\Traits;
 
 use function iniSize2bytes;
 

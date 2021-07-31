@@ -7,9 +7,9 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Traits\Description;
+use Enjoys\Forms\Elements\Traits;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Forms\Traits\Rules;
+
 
 /**
  * Class Checkbox
@@ -18,8 +18,8 @@ use Enjoys\Forms\Traits\Rules;
 class Checkbox extends Element implements FillableInterface
 {
     use Fill;
-    use Description;
-    use Rules;
+    use Traits\Description;
+    use Traits\Rules;
 
     private const DEFAULT_PREFIX = 'cb_';
 

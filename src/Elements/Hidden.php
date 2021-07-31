@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-
+use Enjoys\Forms\Elements\Traits;
 /**
  * Class Hidden
  *
@@ -37,7 +37,7 @@ use Enjoys\Forms\Element;
  */
 class Hidden extends Element
 {
-    use \Enjoys\Forms\Traits\Rules;
+    use Traits\Rules;
 
     /**
      *

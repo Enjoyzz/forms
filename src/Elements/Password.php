@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-
+use Enjoys\Forms\Elements\Traits;
 /**
  * Class Text
  *
@@ -37,8 +37,8 @@ use Enjoys\Forms\Element;
  */
 class Password extends Element
 {
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Traits\Description;
+    use Traits\Rules;
 
     protected string $type = 'password';
 }

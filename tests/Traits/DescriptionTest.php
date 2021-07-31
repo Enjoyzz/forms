@@ -27,7 +27,7 @@
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Traits;
-
+use Enjoys\Forms\Elements\Traits;
 /**
  * Description of DescriptionTest
  *
@@ -37,7 +37,7 @@ class DescriptionTest extends \PHPUnit\Framework\TestCase
 {
     public function test_set_getDescription()
     {
-        $mock = $this->getMockForTrait(\Enjoys\Forms\Traits\Description::class);
+        $mock = $this->getMockForTrait(Traits\Description::class);
         $mock->setDescription('desc');
         $this->assertEquals('desc', $mock->getDescription());
         $mock->setDescription();

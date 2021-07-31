@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Traits\Description;
+use Enjoys\Forms\Elements\Traits\Rules;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Forms\Traits\Rules;
 
 /**
  * Class Radio

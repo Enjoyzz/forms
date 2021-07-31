@@ -31,7 +31,7 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Rules;
-use Enjoys\Forms\Traits;
+use Enjoys\Forms\Elements\Traits;
 
 /**
  * @author Enjoys

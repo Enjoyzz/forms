@@ -6,9 +6,9 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
-use Enjoys\Forms\Traits\Description;
+
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Forms\Traits\Rules;
+use Enjoys\Forms\Elements\Traits;
 
 /**
  * Class Select
@@ -17,8 +17,8 @@ use Enjoys\Forms\Traits\Rules;
 class Select extends Element implements FillableInterface
 {
     use Fill;
-    use Description;
-    use Rules;
+    use Traits\Description;
+    use Traits\Rules;
 
     /**
      *
