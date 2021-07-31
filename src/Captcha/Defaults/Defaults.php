@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
+use Enjoys\Http\ServerRequestInterface;
 use Enjoys\Session\Session as Session;
 
 /**
@@ -46,8 +47,8 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
      */
     public function validate(\Enjoys\Forms\Element $element): bool
     {
-        $method = $this->getRequest()->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $method = $this->getServerRequest()->getMethod();
+        $value = \getValueByIndexPath($element->getName(), $this->getServerRequest()->$method());
 
         if ($this->session->get($element->getName()) !== $value) {
             /** @psalm-suppress UndefinedMethod */
@@ -183,4 +184,6 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         \ob_end_clean();
         return \base64_encode($img_data);
     }
+
+
 }

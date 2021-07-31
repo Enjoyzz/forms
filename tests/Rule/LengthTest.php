@@ -52,7 +52,7 @@ class LengthTest extends \PHPUnit\Framework\TestCase
             '>' => 5
         ]);
         
-        $rule->setRequest(new \Enjoys\Http\ServerRequest(
+        $rule->setServerRequest(new \Enjoys\Http\ServerRequest(
                         \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,

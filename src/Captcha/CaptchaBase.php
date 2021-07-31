@@ -28,14 +28,18 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha;
 
+use Enjoys\Forms\Element;
+use Enjoys\Http\ServerRequestInterface;
+use Enjoys\Traits\Options;
+
 /**
  *
  * @author Enjoys
  */
 abstract class CaptchaBase implements CaptchaInterface
 {
-    use \Enjoys\Forms\Traits\Request;
-    use \Enjoys\Traits\Options;
+
+    use Options;
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -48,6 +52,13 @@ abstract class CaptchaBase implements CaptchaInterface
      * @var string|null
      */
     protected ?string $ruleMessage = null;
+
+    protected ServerRequestInterface $serverRequest;
+
+    public function setServerRequest(ServerRequestInterface $serverRequest): void
+    {
+        $this->serverRequest = $serverRequest;
+    }
 
     /**
      *
@@ -88,7 +99,15 @@ abstract class CaptchaBase implements CaptchaInterface
     }
 
 
-    abstract public function renderHtml(\Enjoys\Forms\Element $element): string;
+    abstract public function renderHtml(Element $element): string;
 
-    abstract public function validate(\Enjoys\Forms\Element $element): bool;
+    abstract public function validate(Element $element): bool;
+
+    /**
+     * @return ServerRequestInterface
+     */
+    public function getServerRequest(): ServerRequestInterface
+    {
+        return $this->serverRequest;
+    }
 }

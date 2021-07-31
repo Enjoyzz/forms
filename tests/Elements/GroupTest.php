@@ -132,7 +132,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->assertEquals('POST', $form->getRequest()->getMethod());
+        $this->assertEquals('POST', $form->getServerRequest()->getMethod());
 
         $this->assertNull($element1->getElements()[1]->getAttribute('selected'));
         $this->assertNull($element2->getElements()[2]->getAttribute('selected'));

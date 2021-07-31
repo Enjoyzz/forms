@@ -82,7 +82,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
 
         $data = array(
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
-            'response' => $this->getRequest()->post('g-recaptcha-response', $this->getRequest()->get('g-recaptcha-response'))
+            'response' => $this->getServerRequest()->post('g-recaptcha-response', $this->getServerRequest()->get('g-recaptcha-response'))
         );
 
 

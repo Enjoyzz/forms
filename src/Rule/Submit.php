@@ -47,8 +47,8 @@ class Submit extends Rules implements RuleInterface
     public function validate(Element $element): bool
     {
 
-        $method = $this->getRequest()->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $method = $this->getServerRequest()->getMethod();
+        $value = \getValueByIndexPath($element->getName(), $this->getServerRequest()->$method());
 
         return $this->check($value);
     }

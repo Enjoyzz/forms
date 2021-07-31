@@ -94,7 +94,7 @@ class CsrfTest extends TestCase
                 )
         );
 
-        $obj->setRequest($request);
+        $obj->setServerRequest($request);
         //$this->assertSame('d',$obj);
         $this->assertFalse($obj->validate($element));
         //   $this->expectException(\Enjoys\Forms\Exception::class);

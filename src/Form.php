@@ -30,6 +30,7 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
+use Enjoys\Http\ServerRequest;
 use Enjoys\Http\ServerRequestInterface;
 use Enjoys\Traits\Options;
 
@@ -47,7 +48,6 @@ use function strtoupper;
 class Form
 {
     use Traits\Attributes;
-    use Traits\Request;
     use Options;
     use Traits\Container {
         addElement as private parentAddElement;
@@ -109,16 +109,18 @@ class Form
      */
     private static int $formCounter = 0;
 
+    private ServerRequestInterface $serverRequest;
+
     /**
      * @param array $options
-     * @param ServerRequestInterface|null $request
-     * @param DefaultsHandlerInterface|null $defaults
+     * @param ServerRequestInterface|null $serverRequest
+     * @param DefaultsHandlerInterface|null $defaultsHandler
      * @example example/initform.php description
      */
-    public function __construct(array $options = [], ServerRequestInterface $request = null, DefaultsHandlerInterface $defaults = null)
+    public function __construct(array $options = [], ServerRequestInterface $serverRequest = null, DefaultsHandlerInterface $defaultsHandler = null)
     {
-        $this->defaultsHandler = $defaults ?? new DefaultsHandler();
-        $this->setRequest($request);
+        $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
+        $this->serverRequest = $serverRequest ??  new ServerRequest();
 
         static::$formCounter++;
 
@@ -217,8 +219,8 @@ class Form
 
         if ($this->formSubmitted === true) {
             $data = [];
-            $method = $this->getRequest()->getMethod();
-            foreach ($this->getRequest()->$method() as $key => $items) {
+            $method = $this->getServerRequest()->getMethod();
+            foreach ($this->getServerRequest()->$method() as $key => $items) {
                 if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
                     continue;
                 }
@@ -313,6 +315,11 @@ class Form
     {
         $renderer->setForm($this);
         return $renderer->render();
+    }
+
+    public function getServerRequest(): ServerRequestInterface
+    {
+        return $this->serverRequest;
     }
 
 

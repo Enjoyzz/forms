@@ -58,8 +58,8 @@ class Required extends Rules implements RuleInterface
     public function validate(Element $element): bool
     {
 
-        $method = $this->getRequest()->getMethod();
-        $_value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $method = $this->getServerRequest()->getMethod();
+        $_value = \getValueByIndexPath($element->getName(), $this->getServerRequest()->$method());
         if (!$this->check($_value)) {
             $element->setRuleError($this->getMessage());
             return false;

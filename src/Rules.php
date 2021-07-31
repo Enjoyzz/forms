@@ -29,13 +29,14 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Traits\Request;
+use Enjoys\Http\ServerRequest;
+use Enjoys\Http\ServerRequestInterface;
 
 /**
  * @author Enjoys
  */
 class Rules
 {
-    use Request;
 
     public const CALLBACK = Rule\Callback::class;
     public const CAPTCHA = Rule\Captcha::class;
@@ -59,6 +60,8 @@ class Rules
      */
     private array $params = [];
 
+    protected ServerRequestInterface $serverRequest;
+
     /**
      *
      * @param string|null $message
@@ -68,8 +71,13 @@ class Rules
     {
 
         $this->message = $this->setMessage($message);
-        $this->setRequest();
+        $this->serverRequest = new ServerRequest();
         $this->setParams($params);
+    }
+
+    public function setServerRequest(ServerRequestInterface $serverRequest)
+    {
+        $this->serverRequest = $serverRequest;
     }
 
     /**
@@ -127,5 +135,13 @@ class Rules
     {
 
         return $this->message;
+    }
+
+    /**
+     * @return ServerRequest|ServerRequestInterface
+     */
+    public function getServerRequest()
+    {
+        return $this->serverRequest;
     }
 }

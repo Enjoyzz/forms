@@ -261,7 +261,7 @@ class FormTest extends TestCase
         $form->__construct([], $request);
         $element = $form->text('foo');
 
-        $this->assertEquals('GET', $form->getRequest()->getMethod());
+        $this->assertEquals('GET', $form->getServerRequest()->getMethod());
         $this->assertEquals('zed', $element->getAttribute('value'));
     }
 
@@ -299,7 +299,7 @@ class FormTest extends TestCase
                 ], $request);
         $element = $form->text('foo');
 
-        $this->assertEquals('POST', $form->getRequest()->getMethod());
+        $this->assertEquals('POST', $form->getServerRequest()->getMethod());
         $this->assertEquals('zed', $element->getAttribute('value'));
     }
 

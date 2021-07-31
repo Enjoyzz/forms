@@ -46,7 +46,7 @@ class RequiredTest extends TestCase
         $element = new Checkbox('name');
 
 
-        $element->setRequest(new \Enjoys\Http\ServerRequest(
+        $element->setServerRequest(new \Enjoys\Http\ServerRequest(
                         \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,
@@ -61,7 +61,7 @@ class RequiredTest extends TestCase
     public function test_required_2()
     {
         $element = new Checkbox('name');
-        $element->setRequest(new \Enjoys\Http\ServerRequest(
+        $element->setServerRequest(new \Enjoys\Http\ServerRequest(
                         \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,

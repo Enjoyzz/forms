@@ -65,11 +65,11 @@ class Length extends Rules implements RuleInterface
     public function validate(Element $element): bool
     {
 
-        $method = $this->getRequest()->getMethod();
+        $method = $this->getServerRequest()->getMethod();
 
         //  var_dump($element->getName());
 
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $value = \getValueByIndexPath($element->getName(), $this->getServerRequest()->$method());
 
         // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
         if (!$this->check($value)) {

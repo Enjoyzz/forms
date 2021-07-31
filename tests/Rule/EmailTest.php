@@ -46,7 +46,7 @@ class EmailTest extends \PHPUnit\Framework\TestCase
 
 
 
-        $text->setRequest(new \Enjoys\Http\ServerRequest(
+        $text->setServerRequest(new \Enjoys\Http\ServerRequest(
                                 \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
                                         null,
                                         null,

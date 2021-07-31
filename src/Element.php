@@ -6,6 +6,8 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
+use Enjoys\Http\ServerRequest;
+use Enjoys\Http\ServerRequestInterface;
 
 /**
  * Class Element
@@ -14,7 +16,6 @@ use Enjoys\Forms\Traits\Request;
 abstract class Element implements ElementInterface
 {
     use Attributes;
-    use Request;
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -45,6 +46,7 @@ abstract class Element implements ElementInterface
      * @var Form|null
      */
     protected ?Form $form = null;
+    private ServerRequestInterface $serverRequest;
 
     /**
      * @param string $name
@@ -52,6 +54,7 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
+        $this->serverRequest = new ServerRequest();
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -190,5 +193,17 @@ abstract class Element implements ElementInterface
     public function baseHtml(): string
     {
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}>";
+    }
+
+
+    public function getServerRequest()
+    {
+        return $this->serverRequest;
+    }
+
+
+    public function setServerRequest(ServerRequestInterface $serverRequest): void
+    {
+        $this->serverRequest = $serverRequest;
     }
 }

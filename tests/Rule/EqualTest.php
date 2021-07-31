@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Element;
 use Enjoys\Forms\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -45,8 +46,9 @@ class EqualTest extends TestCase
     public function test_validate($type, $name, $request, $rule, $expect)
     {
         $class = "Enjoys\Forms\Elements\\" . $type;
+        /** @var Element $text */
         $text = new $class($name);
-        $text->setRequest(new \Enjoys\Http\ServerRequest(
+        $text->setServerRequest(new \Enjoys\Http\ServerRequest(
                         \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,

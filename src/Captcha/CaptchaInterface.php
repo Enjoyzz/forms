@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha;
 
+use Enjoys\Forms\Element;
+use Enjoys\Http\ServerRequestInterface;
+
 /**
  *
  * @author Enjoys
@@ -37,11 +40,11 @@ interface CaptchaInterface
 
     public function getName(): string;
 
-    public function setRequest(\Enjoys\Http\ServerRequestInterface $request): void;
+    public function setServerRequest(ServerRequestInterface $request): void;
 
     public function getRuleMessage(): ?string;
 
-    public function renderHtml(\Enjoys\Forms\Element $element): string;
+    public function renderHtml(Element $element): string;
 
-    public function validate(\Enjoys\Forms\Element $element): bool;
+    public function validate(Element $element): bool;
 }
