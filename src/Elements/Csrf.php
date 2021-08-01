@@ -17,20 +17,21 @@ use Enjoys\Session\Session;
 class Csrf extends Hidden
 {
 
-    public function __construct()
+    public function __construct(string $csrf_key = null)
     {
         $session = new Session();
-        $csrf_key = '#$' . $session->getSessionId();
-        $hash = crypt($csrf_key, '$2a$07$' . md5($session->getSessionId()) . '$');
+        $csrf_key = $csrf_key ?? '#$' . $session->getSessionId();
+//        $salt = $salt ?? '$2a$07$' . md5($session->getSessionId()) . '$';
+        $hash = password_hash($csrf_key, PASSWORD_DEFAULT);
 
         parent::__construct(Form::_TOKEN_CSRF_, $hash);
 
         $this->addRule(
-            Rules::CSRF,
+            Rules::CALLBACK,
             'CSRF Attack detected',
-            [
-                'csrf_key' => $csrf_key
-            ]
+            function () use ($csrf_key) {
+                return password_verify($csrf_key, $this->getRequest()->post(Form::_TOKEN_CSRF_, ''));
+            }
         );
     }
 
