@@ -39,7 +39,6 @@ class Rules
 
     public const CALLBACK = Rule\Callback::class;
     public const CAPTCHA = Rule\Captcha::class;
-    public const CSRF = Rule\Csrf::class;
     public const EMAIL = Rule\Email::class;
     public const EQUAL = Rule\Equal::class;
     public const LENGTH = Rule\Length::class;
