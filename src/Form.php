@@ -99,14 +99,19 @@ class Form
         static::$formCounter++;
 
 
-        $tockenSubmit = $this->tockenSubmit(md5(json_encode($options) . $this->getFormCounter()));
+        $this->setOptions($options);
+
+        $tockenSubmit = $this->tockenSubmit(
+            md5(
+                json_encode($this->getOptions())
+                . ($this->getOption('inclCounter', false) ? $this->getFormCounter() : '')
+            )
+        );
         $this->formSubmitted = $tockenSubmit->getSubmitted();
 
         if ($this->formSubmitted === true) {
             $this->setDefaults([]);
         }
-
-        $this->setOptions($options);
     }
 
     public function __destruct()
