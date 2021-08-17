@@ -103,7 +103,7 @@ class Form
 
         $tockenSubmit = $this->tockenSubmit(
             md5(
-                json_encode($this->getOptions())
+                json_encode($options)
                 . ($this->getOption('inclCounter', false) ? $this->getFormCounter() : '')
             )
         );
