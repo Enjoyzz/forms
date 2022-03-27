@@ -7,29 +7,15 @@ namespace Enjoys\Forms\Captcha\Defaults;
 use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Session\Session as Session;
 
-/**
- * Class Defaults
- * @package Enjoys\Forms\Captcha\Defaults
- */
 class Defaults extends CaptchaBase implements CaptchaInterface
 {
 
-    /**
-     *
-     * @var string
-     */
     private string $code = '';
-    /**
-     * @var Session
-     */
     private Session $session;
 
-    /**
-     *
-     * @param string|null $message
-     */
     public function __construct(?string $message = null)
     {
         $this->session = new Session();
@@ -42,12 +28,7 @@ class Defaults extends CaptchaBase implements CaptchaInterface
     }
 
 
-    /**
-     *
-     * @param Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+    public function validate(Ruled $element): bool
     {
         $method = $this->getRequestWrapper()->getRequest()->getMethod();
         $requestData = match(strtolower($method)){
@@ -59,8 +40,6 @@ class Defaults extends CaptchaBase implements CaptchaInterface
         $value = \getValueByIndexPath($element->getName(), $requestData);
 
         if ($this->session->get($element->getName()) !== $value) {
-            /** @psalm-suppress UndefinedMethod */
-            /** @var Element $element */
             $element->setRuleError($this->getRuleMessage());
             return false;
         }
@@ -89,7 +68,7 @@ class Defaults extends CaptchaBase implements CaptchaInterface
 //        if ($this->element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image(
+        $html .= '<img alt="captcha image" src="data:image/jpeg;base64,' . $this->getBase64Image(
                 $img
             ) . '" /><br /><input' . $element->getAttributesString() . '>';
 
@@ -120,14 +99,8 @@ class Defaults extends CaptchaBase implements CaptchaInterface
         return $this->code;
     }
 
-    /**
-     *
-     * @param string $code
-     * @param int $width
-     * @param int $height
-     * @return resource
-     */
-    private function createImage(string $code, int $width = 150, int $height = 50)
+
+    private function createImage(string $code, int $width = 150, int $height = 50): \GdImage
     {
         // Создаем пустое изображение
         $img = \imagecreatetruecolor($width, $height);
@@ -182,10 +155,8 @@ class Defaults extends CaptchaBase implements CaptchaInterface
         return $img;
     }
 
-    /**
-     * @param resource $img
-     */
-    private function getBase64Image($img): string
+
+    private function getBase64Image(\GdImage $img): string
     {
         \ob_start();
         \imagejpeg($img, null, 80);

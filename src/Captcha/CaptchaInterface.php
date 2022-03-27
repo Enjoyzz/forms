@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
+
 /**
  *
  * @author Enjoys
@@ -39,7 +42,7 @@ interface CaptchaInterface
 
     public function getRuleMessage(): ?string;
 
-    public function renderHtml(\Enjoys\Forms\Element $element): string;
+    public function renderHtml(Element $element): string;
 
-    public function validate(\Enjoys\Forms\Element $element): bool;
+    public function validate(Ruled $element): bool;
 }

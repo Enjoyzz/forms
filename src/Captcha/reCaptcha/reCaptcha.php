@@ -31,6 +31,7 @@ namespace Enjoys\Forms\Captcha\reCaptcha;
 use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
 use GuzzleHttp\Client;
 
 /**
@@ -71,12 +72,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
         return $html;
     }
 
-    /**
-     *
-     * @param \Enjoys\Forms\Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+    public function validate(Ruled $element): bool
     {
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 

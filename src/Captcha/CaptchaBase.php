@@ -28,7 +28,10 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Options;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 
 /**
@@ -37,7 +40,7 @@ use HttpSoft\ServerRequest\ServerRequestCreator;
  */
 abstract class CaptchaBase implements CaptchaInterface
 {
-    use \Enjoys\Traits\Options;
+    use Options;
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -102,7 +105,7 @@ abstract class CaptchaBase implements CaptchaInterface
     }
 
 
-    abstract public function renderHtml(\Enjoys\Forms\Element $element): string;
+    abstract public function renderHtml(Element $element): string;
 
-    abstract public function validate(\Enjoys\Forms\Element $element): bool;
+    abstract public function validate(Ruled $element): bool;
 }
