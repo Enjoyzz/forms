@@ -27,7 +27,8 @@
   },
   "scripts": {
     "psalm": "./vendor/bin/psalm",
-    "psalm-ext": "./vendor/bin/psalm --show-info=true"
+    "psalm-ext": "./vendor/bin/psalm --show-info=true",
+    "infection": "@php infection.phar"
   },
   "autoload": {
     "psr-4": {
