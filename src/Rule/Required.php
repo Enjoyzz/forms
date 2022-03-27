@@ -27,9 +27,7 @@ class Required extends Rules implements RuleInterface
 
     public function validate(Ruled $element): bool
     {
-
-        $method = $this->getRequestWrapper()->getRequest()->getMethod();
-        $requestData = match(strtolower($method)){
+        $requestData = match(strtolower($this->getRequestWrapper()->getRequest()->getMethod())){
             'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
             'post' => $this->getRequestWrapper()->getPostData()->getAll(),
             default => []
@@ -41,6 +39,7 @@ class Required extends Rules implements RuleInterface
         }
         return true;
     }
+
 
 
     private function check($value): bool

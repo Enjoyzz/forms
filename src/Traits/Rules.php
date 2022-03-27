@@ -1,78 +1,45 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace Enjoys\Forms\Traits;
 
-/**
- *
- * @author Enjoys
- */
+use Enjoys\Forms\Exception\ExceptionRule;
+
 trait Rules
 {
 
     /**
      * Когда $rule_error === true выводится это сообщение
-     * @var string|null
      */
     private ?string $rule_error_message = null;
 
     /**
      * Если true - проверка validate не пройдена
-     * @var bool
      */
     private bool $rule_error = false;
 
     /**
      * Список правил для валидации
-     * @var array
      */
     protected array $rules = [];
 
     /**
      * Проверяет обязателен ли элемент для заполнения/выбора или нет
      * true - обязателен
-     * @return bool
      */
     public function isRequired(): bool
     {
         return $this->required;
     }
 
+
     /**
-     *
-     * @param string $ruleClass
-     * @param string $message
-     * @param array $params
-     * @return $this
+     * @throws ExceptionRule
      */
-    public function addRule(string $ruleClass, ?string $message = null, $params = [])
+    public function addRule(string $ruleClass, ?string $message = null, mixed $params = null): self
     {
-        //$class = "\Enjoys\Forms\Rule\\" . \ucfirst($rule);
+
         if (!class_exists($ruleClass)) {
-            throw new \Enjoys\Forms\Exception\ExceptionRule(
+            throw new ExceptionRule(
                 sprintf('Rule [%s] not found', $ruleClass)
             );
         }
@@ -85,7 +52,7 @@ trait Rules
 
             /**
              * @todo Если обязателен элемент добавить required аттрибут для проверки на стороне браузера
-             * пока Отключено
+             * Пока отключено
              */
             //$this->setAttribute('required');
         }
@@ -95,10 +62,8 @@ trait Rules
     }
 
     /**
-     * Если валидация не пройдена, вызывается этот медот, устанавливает сообщение
+     * Если валидация не пройдена, вызывается этот метод, устанавливает сообщение
      * ошибки и устанавливает флаг того что проверка не пройдена
-     * @param string|null $message
-     * @return void
      */
     public function setRuleError(?string $message): void
     {
@@ -106,10 +71,6 @@ trait Rules
         $this->rule_error_message = $message;
     }
 
-    /**
-     *
-     * @return string|null
-     */
     public function getRuleErrorMessage(): ?string
     {
         return $this->rule_error_message;
@@ -117,7 +78,6 @@ trait Rules
 
     /**
      * Проверка валидации элемента, если true валидация не пройдена
-     * @return bool
      */
     public function isRuleError(): bool
     {
@@ -125,8 +85,7 @@ trait Rules
     }
 
     /**
-     * Возвращает списов всех правил валидации, установленных для элемента
-     * @return array
+     * Возвращает список всех правил валидации, установленных для элемента
      */
     public function getRules(): array
     {

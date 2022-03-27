@@ -40,31 +40,24 @@ class File extends Element implements Ruled
         $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')));
     }
 
-    /**
-     *
-     * @param int $bytes
-     * @return $this
-     */
+
     public function setMaxFileSize(int $bytes): self
     {
         $this->getForm()->hidden('MAX_FILE_SIZE', (string) $bytes);
         return $this;
     }
 
+
     /**
-     *
-     * @param string $ruleName
-     * @param string $message
-     * @param array $params
-     * @return $this
+     * @throws ExceptionRule
      */
-    public function addRule(string $ruleName, ?string $message = null, $params = [])
+    public function addRule(string $ruleClass, ?string $message = null, mixed $params = []): File
     {
-        if (\strtolower($ruleName) !== \strtolower(Rules::UPLOAD)) {
+        if (\strtolower($ruleClass) !== \strtolower(Rules::UPLOAD)) {
             throw new ExceptionRule(
                 \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
             );
         }
-        return $this->parentAddRule($ruleName, $message, $params);
+        return $this->parentAddRule($ruleClass, $message, $params);
     }
 }

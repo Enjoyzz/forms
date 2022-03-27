@@ -37,18 +37,18 @@ class Textarea extends Element implements Ruled
     }
 
     /**
-     * rows Высота поля в строках текста.
+     * Высота поля в строках текста.
      */
-    public function setRows($rows): self
+    public function setRows(string|int $rows): self
     {
         $this->setAttribute('rows', (string) $rows);
         return $this;
     }
 
     /**
-     * cols Ширина поля в символах.
+     * Ширина поля в символах.
      */
-    public function setCols($cols): self
+    public function setCols(int|string $cols): Textarea
     {
         $this->setAttribute('cols', (string) $cols);
         return $this;

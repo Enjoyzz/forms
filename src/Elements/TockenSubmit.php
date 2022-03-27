@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces\Ruled;
-use Enjoys\Forms\Traits\Rules;
 
 
-class TockenSubmit extends Hidden implements Ruled
+class TockenSubmit extends Hidden
 {
-    use Rules;
 
     private string $token;
 
