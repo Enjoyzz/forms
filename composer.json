@@ -1,6 +1,6 @@
 {
   "name": "enjoys/forms",
-  "description": "forms",
+  "description": "forms 5.x dev",
   "license": "MIT",
   "authors": [
     {
@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "php": "^7.4|^8.0",
+    "php": ">= 8.0",
     "guzzlehttp/guzzle": "^7.1",
     "enjoys/http": "^1.0",
     "enjoys/traits": "^1.1",
@@ -23,6 +23,10 @@
     "phpunit/phpunit": "^9.5",
     "vimeo/psalm": "^4.7",
     "squizlabs/php_codesniffer": "^3.6"
+  },
+  "scripts": {
+    "psalm": "./vendor/bin/psalm",
+    "psalm-ext": "./vendor/bin/psalm --show-info=true"
   },
   "autoload": {
     "psr-4": {
