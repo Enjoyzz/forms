@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use ByteUnits\Binary;
-use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
-use HttpSoft\Message\UploadedFile;
 
-/**
- * Class Upload
- * @package Enjoys\Forms\Rule
- */
+
 class Upload extends Rules implements RuleInterface
 {
 
@@ -32,11 +28,7 @@ class Upload extends Rules implements RuleInterface
         \UPLOAD_ERR_EXTENSION => "File upload stopped by extension",
     ];
 
-    /**
-     *
-     * @param int $error
-     * @return string
-     */
+
     private function getSystemMessage(int $error): string
     {
         if (isset($this->systemErrorMessage[$error])) {
@@ -45,12 +37,8 @@ class Upload extends Rules implements RuleInterface
         return $this->systemErrorMessage['unknown'];
     }
 
-    /**
-     *
-     * @param Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+
+    public function validate(Ruled $element): bool
     {
         $value = \getValueByIndexPath($element->getName(), $this->getRequestWrapper()->getFilesData()->getAll());
 
@@ -60,14 +48,8 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    /**
-     *
-     * @param mixed $value
-     * @param Element $element
-     * @return bool
-     * @throws ExceptionRule
-     */
-    private function check($value, Element $element): bool
+
+    private function check($value, Ruled $element): bool
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
             // $method = 'unknown';
@@ -86,14 +68,7 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    /**
-     * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false $value
-     * @param mixed $message
-     * @param Element $element
-     * @return boolean
-     */
-    private function checkSystem($value, $message, Element $element)
+    private function checkSystem($value, $message, Ruled $element)
     {
         if ($value === false) {
             return true;
@@ -107,14 +82,7 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    /**
-     * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false $value
-     * @param string|null $message
-     * @param Element $element
-     * @return boolean
-     */
-    private function checkRequired($value, ?string $message, Element $element)
+    private function checkRequired($value, ?string $message, Ruled $element)
     {
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
@@ -129,14 +97,7 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    /**
-     * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false $value
-     * @param mixed $ruleOpts
-     * @param Element $element
-     * @return boolean
-     */
-    private function checkMaxsize($value, $ruleOpts, Element $element)
+    private function checkMaxsize($value, $ruleOpts, Ruled $element)
     {
         if ($value === false) {
             return true;
@@ -160,14 +121,8 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    /**
-     * @psalm-suppress UndefinedMethod
-     * @param UploadedFile|false $value
-     * @param mixed $ruleOpts
-     * @param Element $element
-     * @return boolean
-     */
-    private function checkExtensions($value, $ruleOpts, Element $element)
+
+    private function checkExtensions($value, $ruleOpts, Ruled $element)
     {
         if ($value === false) {
             return true;
@@ -192,11 +147,7 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    /**
-     * @param mixed $opts
-     * @return array
-     * @psalm-return array{param: mixed, message: mixed}
-     */
+
     private function parseRuleOpts($opts): array
     {
         if (!is_array($opts)) {

@@ -7,15 +7,12 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-/**
- * Class Radio
- * @package Enjoys\Forms\Elements
- */
-class Radio extends Element implements FillableInterface
+class Radio extends Element implements FillableInterface, Ruled
 {
     use Fill;
     use Description;
@@ -23,10 +20,6 @@ class Radio extends Element implements FillableInterface
 
     private const DEFAULT_PREFIX = 'rb_';
 
-    /**
-     *
-     * @var string
-     */
     protected string $type = 'radio';
     private static string $prefix_id = 'rb_';
 

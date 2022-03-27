@@ -6,15 +6,12 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-/**
- * Class Datalist
- * @package Enjoys\Forms\Elements
- */
-class Datalist extends Element implements FillableInterface
+class Datalist extends Element implements FillableInterface, Ruled
 {
     use Fill;
     use Description;

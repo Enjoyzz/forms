@@ -6,10 +6,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 
-/**
- * Class Html
- * @package Enjoys\Forms\Elements
- */
+
 class Html extends Element
 {
 

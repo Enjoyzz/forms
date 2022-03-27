@@ -29,6 +29,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Traits\Description;
+use Enjoys\Forms\Traits\Rules;
 
 /**
  * Class Color
@@ -36,10 +39,10 @@ use Enjoys\Forms\Element;
  * @author Enjoys
  *
  */
-class Color extends Element
+class Color extends Element implements Ruled
 {
-    use \Enjoys\Forms\Traits\Description;
-    use \Enjoys\Forms\Traits\Rules;
+    use Description;
+    use Rules;
 
     /**
      *

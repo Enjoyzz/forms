@@ -7,15 +7,13 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-/**
- * Class Checkbox
- * @package Enjoys\Forms\Elements
- */
-class Checkbox extends Element implements FillableInterface
+
+class Checkbox extends Element implements FillableInterface, Ruled
 {
     use Fill;
     use Description;
@@ -23,10 +21,6 @@ class Checkbox extends Element implements FillableInterface
 
     private const DEFAULT_PREFIX = 'cb_';
 
-    /**
-     *
-     * @var string
-     */
     protected string $type = 'checkbox';
     private static string $prefix_id = 'cb_';
 
@@ -66,11 +60,7 @@ class Checkbox extends Element implements FillableInterface
         $this->setPrefixId(self::DEFAULT_PREFIX);
     }
 
-    /**
-     *
-     * @param mixed $value
-     * @return $this
-     */
+
     protected function setDefault($value = null): self
     {
         $this->defaultValue = $value ?? $this->getForm()->getDefaultsHandler()->getValue(trim($this->getName()));

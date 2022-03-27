@@ -30,6 +30,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
 
 /**
@@ -62,7 +63,7 @@ class Length extends Rules implements RuleInterface
      * @param Element $element
      * @return bool
      */
-    public function validate(Element $element): bool
+    public function validate(Ruled $element): bool
     {
 
         $method = $this->getRequestWrapper()->getRequest()->getMethod();
