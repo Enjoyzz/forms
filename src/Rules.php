@@ -28,14 +28,16 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-use Enjoys\Forms\Traits\Request;
+
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 
 /**
  * @author Enjoys
  */
 class Rules
 {
-    use Request;
+
 
     public const CALLBACK = Rule\Callback::class;
     public const CAPTCHA = Rule\Captcha::class;
@@ -57,6 +59,7 @@ class Rules
      * @var array
      */
     private array $params = [];
+    private ServerRequestWrapper $requestWrapper;
 
     /**
      *
@@ -67,8 +70,8 @@ class Rules
     {
 
         $this->message = $this->setMessage($message);
-        $this->setRequest();
         $this->setParams($params);
+        $this->setRequestWrapper();
     }
 
     /**
@@ -126,5 +129,15 @@ class Rules
     {
 
         return $this->message;
+    }
+
+    public function setRequestWrapper(ServerRequestWrapper $requestWrapper = null)
+    {
+        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+    }
+
+    public function getRequestWrapper(): ServerRequestWrapper
+    {
+        return $this->requestWrapper;
     }
 }

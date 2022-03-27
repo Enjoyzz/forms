@@ -52,7 +52,7 @@ class Upload extends Rules implements RuleInterface
      */
     public function validate(Element $element): bool
     {
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->files());
+        $value = \getValueByIndexPath($element->getName(), $this->getRequestWrapper()->getFilesData()->getAll());
 
         if (false === $this->check($value, $element)) {
             return false;

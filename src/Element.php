@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Traits\Attributes;
-use Enjoys\Forms\Traits\Request;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 
 /**
  * Class Element
@@ -14,7 +15,6 @@ use Enjoys\Forms\Traits\Request;
 abstract class Element implements ElementInterface
 {
     use Attributes;
-    use Request;
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -45,6 +45,7 @@ abstract class Element implements ElementInterface
      * @var Form|null
      */
     protected ?Form $form = null;
+    private ServerRequestWrapper $requestWrapper;
 
     /**
      * @param string $name
@@ -52,6 +53,7 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
+        $this->setRequestWrapper();
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -82,6 +84,16 @@ abstract class Element implements ElementInterface
     public function getForm(): Form
     {
         return $this->form ?? new Form();
+    }
+
+    public function setRequestWrapper(ServerRequestWrapper $requestWrapper = null)
+    {
+        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+    }
+
+    public function getRequestWrapper(): ServerRequestWrapper
+    {
+        return $this->requestWrapper;
     }
 
     /**

@@ -28,15 +28,24 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Rule\Length;
+use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
+use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\Reflection;
+
 /**
  * Description of LengthTest
  *
  * @author deadl
  */
-class LengthTest extends \PHPUnit\Framework\TestCase
+class LengthTest extends TestCase
 {
 
-    use \Tests\Enjoys\Forms\Reflection;
+    use Reflection;
 
 
     /**
@@ -46,14 +55,14 @@ class LengthTest extends \PHPUnit\Framework\TestCase
     public function test_1_1_validate_test($value, $expect)
     {
 
-        $text = new \Enjoys\Forms\Elements\Text( 'foo');
+        $text = new Text( 'foo');
 
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '>' => 5
         ]);
         
-        $rule->setRequest(new \Enjoys\Http\ServerRequest(
-                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $rule->setRequestWrapper(new ServerRequestWrapper(
+                        ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,
                                 null,
@@ -86,10 +95,10 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_1_2($value, $expect)
     {
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '<' => 5
         ]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
@@ -113,10 +122,10 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_2_1($value, $expect)
     {
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '>=' => 5
         ]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
@@ -140,10 +149,10 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_2_2($value, $expect)
     {
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '<=' => 5
         ]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
@@ -167,10 +176,10 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_3_1($value, $expect)
     {
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '==' => 5
         ]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
@@ -194,10 +203,10 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_3_2($value, $expect)
     {
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '!=' => 5
         ]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
@@ -221,11 +230,11 @@ class LengthTest extends \PHPUnit\Framework\TestCase
      */
     public function test_3_3($value, $expect)
     {
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $rule = new Length(null, [
             '!=' => 5
         ]);
 
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $this->assertEquals($expect, $method->invokeArgs($rule, [$value]));
     }
 
@@ -245,11 +254,11 @@ class LengthTest extends \PHPUnit\Framework\TestCase
 
     public function test_invalid_operator()
     {
-        $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
-        $rule = new \Enjoys\Forms\Rule\Length(null, [
+        $this->expectException(ExceptionRule::class);
+        $rule = new Length(null, [
             '!==' => 5
         ]);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Rule\Length::class, 'check');
+        $method = $this->getPrivateMethod(Length::class, 'check');
         $method->invokeArgs($rule, ['test']);
     }
 

@@ -77,7 +77,7 @@ trait Rules
             );
         }
         $rule = new $ruleClass($message, $params);
-        $rule->setRequest($this->request);
+        $rule->setRequestWrapper($this->getRequestWrapper());
 
         //установка обязательности элемента
         if ($ruleClass === \Enjoys\Forms\Rules::REQUIRED) {

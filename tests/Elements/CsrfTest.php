@@ -6,6 +6,7 @@ use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Callback;
 use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +36,7 @@ class CsrfTest extends TestCase
     public function testValidateCsrfTrue()
     {
         $key = 'test';
-        $request = new ServerRequest(
+        $request = new ServerRequestWrapper(
             ServerRequestCreator::createFromGlobals(
                 null,
                 null,
@@ -49,7 +50,7 @@ class CsrfTest extends TestCase
 
 
         $csrf = new Csrf($key);
-        $csrf->setRequest($request);
+        $csrf->setRequestWrapper($request);
 
         /** @var Callback $rule */
         $rule = $csrf->getRules()[0];
@@ -59,7 +60,7 @@ class CsrfTest extends TestCase
     public function testValidateCsrfFalse()
     {
         $key = 'test';
-        $request = new ServerRequest(
+        $request = new ServerRequestWrapper(
             ServerRequestCreator::createFromGlobals(
                 null,
                 null,
@@ -73,7 +74,7 @@ class CsrfTest extends TestCase
 
 
         $csrf = new Csrf($key);
-        $csrf->setRequest($request);
+        $csrf->setRequestWrapper($request);
 
         /** @var Callback $rule */
         $rule = $csrf->getRules()[0];

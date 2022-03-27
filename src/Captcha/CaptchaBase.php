@@ -28,13 +28,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha;
 
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
+
 /**
  *
  * @author Enjoys
  */
 abstract class CaptchaBase implements CaptchaInterface
 {
-    use \Enjoys\Forms\Traits\Request;
     use \Enjoys\Traits\Options;
 
     /**
@@ -48,6 +50,7 @@ abstract class CaptchaBase implements CaptchaInterface
      * @var string|null
      */
     protected ?string $ruleMessage = null;
+    private ServerRequestWrapper $requestWrapper;
 
     /**
      *
@@ -85,6 +88,17 @@ abstract class CaptchaBase implements CaptchaInterface
     public function setRuleMessage(?string $message = null): void
     {
         $this->ruleMessage = $message;
+    }
+
+
+    public function setRequestWrapper(ServerRequestWrapper $requestWrapper = null)
+    {
+        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+    }
+
+    public function getRequestWrapper(): ServerRequestWrapper
+    {
+        return $this->requestWrapper;
     }
 
 

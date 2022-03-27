@@ -133,7 +133,7 @@ trait Container
      */
     public function addElement(Element $element): self
     {
-        $element->setRequest($this->request);
+        $element->setRequestWrapper($this->getRequestWrapper());
         $this->elements[$element->getName()] = $element;
         return $this;
     }

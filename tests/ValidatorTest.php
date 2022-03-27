@@ -26,12 +26,20 @@
 
 namespace Tests\Enjoys\Forms;
 
+use Enjoys\Forms\Form;
+use Enjoys\Forms\Rules;
+use Enjoys\Forms\Validator;
+use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ValidatorTest
  *
  * @author Enjoys
  */
-class ValidatorTest extends \PHPUnit\Framework\TestCase
+class ValidatorTest extends TestCase
 {
 
 //
@@ -84,8 +92,8 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     {
 
 
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequestWrapper(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         null,
                         null,
@@ -94,18 +102,18 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
                         ]
                 )
         );
-        $form = new \Enjoys\Forms\Form([], $request);
+        $form = new Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');
-        $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
-        $this->assertEquals(true, \Enjoys\Forms\Validator::check($form->getElements()));
+        $group->text('foo')->addRule(Rules::REQUIRED);
+        $this->assertEquals(true, Validator::check($form->getElements()));
     }
 
     public function test_validate_groups_false()
     {
 
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequestWrapper(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         null,
                         null,
@@ -115,11 +123,11 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
                 )
         );
 
-        $form = new \Enjoys\Forms\Form([], $request);
+        $form = new Form([], $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->reset('reset');
-        $group->text('foo')->addRule(\Enjoys\Forms\Rules::REQUIRED);
-        $this->assertEquals(false, \Enjoys\Forms\Validator::check($form->getElements()));
+        $group->text('foo')->addRule(Rules::REQUIRED);
+        $this->assertEquals(false, Validator::check($form->getElements()));
     }
 }

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
+use Enjoys\Forms\Captcha\CaptchaBase;
+use Enjoys\Forms\Captcha\CaptchaInterface;
+use Enjoys\Forms\Element;
 use Enjoys\Session\Session as Session;
 
 /**
  * Class Defaults
  * @package Enjoys\Forms\Captcha\Defaults
  */
-class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Forms\Captcha\CaptchaInterface
+class Defaults extends CaptchaBase implements CaptchaInterface
 {
 
     /**
@@ -41,23 +44,30 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return bool
      */
-    public function validate(\Enjoys\Forms\Element $element): bool
+    public function validate(Element $element): bool
     {
-        $method = $this->getRequest()->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $method = $this->getRequestWrapper()->getRequest()->getMethod();
+        $requestData = match(strtolower($method)){
+            'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
+            'post' => $this->getRequestWrapper()->getPostData()->getAll(),
+            default => []
+        };
+
+        $value = \getValueByIndexPath($element->getName(), $requestData);
 
         if ($this->session->get($element->getName()) !== $value) {
             /** @psalm-suppress UndefinedMethod */
+            /** @var Element $element */
             $element->setRuleError($this->getRuleMessage());
             return false;
         }
         return true;
     }
 
-    public function renderHtml(\Enjoys\Forms\Element $element): string
+    public function renderHtml(Element $element): string
     {
         $element->setAttributes(
             [
@@ -86,7 +96,7 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         return $html;
     }
 
-    private function generateCode(\Enjoys\Forms\Element $element): void
+    private function generateCode(Element $element): void
     {
         $max = (int)$this->getOption('size', 6);
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');

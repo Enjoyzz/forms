@@ -28,7 +28,11 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
+use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -46,15 +50,15 @@ class EqualTest extends TestCase
     {
         $class = "Enjoys\Forms\Elements\\" . $type;
         $text = new $class($name);
-        $text->setRequest(new \Enjoys\Http\ServerRequest(
-                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $text->setRequestWrapper(new ServerRequestWrapper(
+                        ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,
                                 null,
                                 $request,
                         )
         ));
-        $text->addRule(\Enjoys\Forms\Rules::EQUAL, null, $rule);
+        $text->addRule(Rules::EQUAL, null, $rule);
         $this->assertEquals($expect, Validator::check([$text]));
     }
 

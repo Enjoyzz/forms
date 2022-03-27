@@ -37,8 +37,6 @@ interface CaptchaInterface
 
     public function getName(): string;
 
-    public function setRequest(\Enjoys\Http\ServerRequestInterface $request): void;
-
     public function getRuleMessage(): ?string;
 
     public function renderHtml(\Enjoys\Forms\Element $element): string;

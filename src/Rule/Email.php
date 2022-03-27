@@ -57,8 +57,13 @@ class Email extends Rules implements RuleInterface
     public function validate(Element $element): bool
     {
 
-        $method = $this->getRequest()->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $method = $this->getRequestWrapper()->getRequest()->getMethod();
+        $requestData = match(strtolower($method)){
+            'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
+            'post' => $this->getRequestWrapper()->getPostData()->getAll(),
+            default => []
+        };
+        $value = \getValueByIndexPath($element->getName(), $requestData);
         if (!$this->check(\trim($value))) {
             $element->setRuleError($this->getMessage());
             return false;

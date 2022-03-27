@@ -11,6 +11,7 @@ use Enjoys\Forms\Exception\ExceptionElement;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 use PHPUnit\Framework\TestCase;
 
@@ -213,7 +214,7 @@ class FormTest extends TestCase
     {
         $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
 
-        $form = new Form([], new ServerRequest(
+        $form = new Form([], new ServerRequestWrapper(
                         ServerRequestCreator::createFromGlobals(null, null, null, [
                             'foo' => 'zed',
                             'bar' => true,
@@ -238,7 +239,7 @@ class FormTest extends TestCase
     {
 
 
-        $request = new ServerRequest(
+        $request = new ServerRequestWrapper(
                 ServerRequestCreator::createFromGlobals(null, null, null, [
                     'foo' => 'zed',
                 ])
@@ -261,14 +262,14 @@ class FormTest extends TestCase
         $form->__construct([], $request);
         $element = $form->text('foo');
 
-        $this->assertEquals('GET', $form->getRequest()->getMethod());
+        $this->assertEquals('GET', $form->getRequestWrapper()->getRequest()->getMethod());
         $this->assertEquals('zed', $element->getAttribute('value'));
     }
 
     public function test_setDefaults_1_2_2()
     {
 
-        $request = new ServerRequest(
+        $request = new ServerRequestWrapper(
                 ServerRequestCreator::createFromGlobals(
                         ['REQUEST_METHOD' => 'POST'],
                         null,
@@ -299,7 +300,7 @@ class FormTest extends TestCase
                 ], $request);
         $element = $form->text('foo');
 
-        $this->assertEquals('POST', $form->getRequest()->getMethod());
+        $this->assertEquals('POST', $form->getRequestWrapper()->getRequest()->getMethod());
         $this->assertEquals('zed', $element->getAttribute('value'));
     }
 

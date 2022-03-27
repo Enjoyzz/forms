@@ -33,6 +33,7 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Form;
 use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 
 /**
@@ -64,7 +65,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function test_setDefaultsArraysForGroupSelect()
     {
-        $request = new ServerRequest(
+        $request = new ServerRequestWrapper(
             ServerRequestCreator::createFromGlobals(
                 ['REQUEST_METHOD' => 'POST'],
                 null,
@@ -132,7 +133,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->assertEquals('POST', $form->getRequest()->getMethod());
+        $this->assertEquals('POST', $form->getRequestWrapper()->getRequest()->getMethod());
 
         $this->assertNull($element1->getElements()[1]->getAttribute('selected'));
         $this->assertNull($element2->getElements()[2]->getAttribute('selected'));

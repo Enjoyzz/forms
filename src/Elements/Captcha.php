@@ -57,7 +57,7 @@ class Captcha extends Element
         parent::__construct(\uniqid('captcha'));
 
         $this->captcha = $captcha;
-        $this->captcha->setRequest($this->getRequest());
+        $this->captcha->setRequestWrapper($this->getRequestWrapper());
 
 
         $this->setName($this->captcha->getName());

@@ -7,7 +7,10 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\Http\ServerRequestInterface;
+use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Options;
+
+use HttpSoft\ServerRequest\ServerRequestCreator;
 
 use function json_encode;
 use function strtoupper;
@@ -19,7 +22,6 @@ use function strtoupper;
 class Form
 {
     use Traits\Attributes;
-    use Traits\Request;
     use Options;
     use Traits\Container {
         addElement as private parentAddElement;
@@ -81,33 +83,31 @@ class Form
      * @psalm-allow-private-mutation
      */
     private static int $formCounter = 0;
+    private ServerRequestWrapper $requestWrapper;
 
     /**
-     * @param array $options
-     * @param ServerRequestInterface|null $request
-     * @param DefaultsHandlerInterface|null $defaults
      * @example example/initform.php description
      */
     public function __construct(
         array $options = [],
-        ServerRequestInterface $request = null,
+        ServerRequestWrapper $requestWrapper = null,
         DefaultsHandlerInterface $defaults = null
     ) {
         $this->defaultsHandler = $defaults ?? new DefaultsHandler();
-        $this->setRequest($request);
+        $this->setRequestWrapper($requestWrapper);
 
         static::$formCounter++;
 
 
         $this->setOptions($options);
 
-        $tockenSubmit = $this->tockenSubmit(
+        $tokenSubmit = $this->tockenSubmit(
             md5(
                 json_encode($options)
                 . ($this->getOption('inclCounter', false) ? $this->getFormCounter() : '')
             )
         );
-        $this->formSubmitted = $tockenSubmit->getSubmitted();
+        $this->formSubmitted = $tokenSubmit->getSubmitted();
 
         if ($this->formSubmitted === true) {
             $this->setDefaults([]);
@@ -197,8 +197,13 @@ class Form
 
         if ($this->formSubmitted === true) {
             $data = [];
-            $method = $this->getRequest()->getMethod();
-            foreach ($this->getRequest()->$method() as $key => $items) {
+            $method = $this->getRequestWrapper()->getRequest()->getMethod();
+            $requestData = match(strtolower($method)){
+                'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
+                'post' => $this->getRequestWrapper()->getPostData()->getAll(),
+                default => []
+            };
+            foreach ($requestData as $key => $items) {
                 if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
                     continue;
                 }
@@ -292,6 +297,16 @@ class Form
     {
         $renderer->setForm($this);
         return $renderer->render();
+    }
+
+    private function setRequestWrapper(ServerRequestWrapper|null $requestWrapper)
+    {
+        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+    }
+
+    public function getRequestWrapper(): ServerRequestWrapper
+    {
+        return $this->requestWrapper;
     }
 
 

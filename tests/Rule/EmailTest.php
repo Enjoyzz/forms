@@ -28,12 +28,20 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Rules;
+use Enjoys\Forms\Validator;
+use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Description of EmailTest
  *
  * @author deadl
  */
-class EmailTest extends \PHPUnit\Framework\TestCase
+class EmailTest extends TestCase
 {
 
     /**
@@ -42,20 +50,20 @@ class EmailTest extends \PHPUnit\Framework\TestCase
     public function test_validate($name, $request, $expect)
     {
 
-        $text = new \Enjoys\Forms\Elements\Text($name);
+        $text = new Text($name);
 
 
 
-        $text->setRequest(new \Enjoys\Http\ServerRequest(
-                                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $text->setRequestWrapper(new ServerRequestWrapper(
+                                ServerRequestCreator::createFromGlobals(
                                         null,
                                         null,
                                         null,
                                         $request,
                                 )
         ));
-        $text->addRule(\Enjoys\Forms\Rules::EMAIL);
-        $this->assertEquals($expect, \Enjoys\Forms\Validator::check([$text]));
+        $text->addRule(Rules::EMAIL);
+        $this->assertEquals($expect, Validator::check([$text]));
     }
 
     public function data_for_test_validate()

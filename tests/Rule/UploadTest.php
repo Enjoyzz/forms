@@ -28,7 +28,14 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Elements\File;
+use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Rule\Upload;
+use Enjoys\Http\ServerRequest;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 /**
  * Description of UploadTest
@@ -37,16 +44,16 @@ use PHPUnit\Framework\TestCase;
  */
 class UploadTest extends TestCase
 {
-    use \Tests\Enjoys\Forms\Reflection;
+    use Reflection;
 
     public function test_validate_uploadrule()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 
         //$uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
 
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequestWrapper(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -62,18 +69,18 @@ class UploadTest extends TestCase
 
 //        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
 //        $requestMock->expects($this->any())->method('files')->will($this->returnCallback(fn() => $request->files()));
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'required'
         ]);
-        $uploadRule->setRequest($request);
+        $uploadRule->setRequestWrapper($request);
         $this->assertEquals(true, $uploadRule->validate($fileElement));
     }
 
     public function test_validate_uploadrule2()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $fileElement = new File('foo');
+        $request = new ServerRequestWrapper(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'food' => [
@@ -89,19 +96,19 @@ class UploadTest extends TestCase
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
 //        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
 //        $requestMock->expects($this->any())->method('files')->will($this->returnCallback(fn() => ['food' => $uploadFile]));
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'required'
         ]);
-        $uploadRule->setRequest($request);
+        $uploadRule->setRequestWrapper($request);
         $this->assertEquals(false, $uploadRule->validate($fileElement));
     }
 
     public function test_checkRequired()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -114,12 +121,12 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'required'
         ]);
         // $uploadRule->setRequest($request);
 
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertSame(true, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -127,12 +134,12 @@ class UploadTest extends TestCase
 
     public function test_checkRequired2()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'required'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     false, $fileElement
         ]));
@@ -140,10 +147,10 @@ class UploadTest extends TestCase
 
     public function test_checkRequired3()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', \UPLOAD_ERR_NO_FILE, true);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -156,10 +163,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'required' => 'no file selected'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -168,10 +175,10 @@ class UploadTest extends TestCase
 
     public function test_checkMaxsize()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -184,10 +191,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'maxsize' => 999
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -195,10 +202,10 @@ class UploadTest extends TestCase
 
     public function test_checkMaxsize2()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -211,10 +218,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'maxsize' => 250000
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -222,10 +229,10 @@ class UploadTest extends TestCase
 
     public function test_checkMaxsize3()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -238,13 +245,13 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'maxsize' => [
                 '10',
                 'big file'
             ]
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -253,13 +260,13 @@ class UploadTest extends TestCase
 
     public function test_checkMaxsize4()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $fileElement = new File('foo');
+        $uploadRule = new Upload(null, [
             'maxsize' => [
                 '10'
             ]
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     false, $fileElement
         ]));
@@ -267,10 +274,10 @@ class UploadTest extends TestCase
 
     public function test_checkExtensions()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -283,13 +290,13 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'extensions' => [
                 'doc, jpg',
                 'not support'
             ]
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                      $request->files('foo'), $fileElement
         ]));
@@ -298,10 +305,10 @@ class UploadTest extends TestCase
 
     public function test_checkExtensions2()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-                $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -314,13 +321,13 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'extensions' => [
                 'doc, jpg, pdf',
                 'not support'
             ]
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -328,10 +335,10 @@ class UploadTest extends TestCase
 
     public function test_checkExtensions3()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-                $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -344,10 +351,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'extensions' => 'doc'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -355,15 +362,15 @@ class UploadTest extends TestCase
 
     public function test_checkExtensions4()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
         //$uploadFile = false;
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'extensions' => [
                 'doc, jpg',
                 'not support'
             ]
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     false, $fileElement
         ]));
@@ -371,10 +378,10 @@ class UploadTest extends TestCase
 
     public function test_checkSystem()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
         //$uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', \UPLOAD_ERR_OK, true);
-                $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -387,10 +394,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'system'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -398,10 +405,10 @@ class UploadTest extends TestCase
 
     public function test_checkSystem2()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', \UPLOAD_ERR_NO_FILE, true);
-                        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+                        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -414,10 +421,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'system'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
@@ -425,10 +432,10 @@ class UploadTest extends TestCase
 
     public function test_checkSystem3()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', \UPLOAD_ERR_FORM_SIZE, true);
-         $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+         $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -441,26 +448,26 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'system'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(false, $testedMethod->invokeArgs($uploadRule, [
                     $request->files('foo'), $fileElement
         ]));
 
-        $privateProperty = $this->getPrivateProperty(\Enjoys\Forms\Rule\Upload::class, 'systemErrorMessage');
+        $privateProperty = $this->getPrivateProperty(Upload::class, 'systemErrorMessage');
         $this->assertEquals($privateProperty->getValue($uploadRule)[\UPLOAD_ERR_FORM_SIZE], $fileElement->getRuleErrorMessage());
     }
 
     public function test_checkSystem4()
     {
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $fileElement = new File('foo');
 //        $uploadFile = false;
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'system'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(true, $testedMethod->invokeArgs($uploadRule, [
                     false, $fileElement
         ]));
@@ -468,11 +475,11 @@ class UploadTest extends TestCase
 
     public function test_checkUnknown()
     {
-        $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
-        $fileElement = new \Enjoys\Forms\Elements\File('foo');
+        $this->expectException(ExceptionRule::class);
+        $fileElement = new File('foo');
 //        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', \UPLOAD_ERR_NO_FILE, true);
-         $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+         $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'foo' => [
@@ -485,10 +492,10 @@ class UploadTest extends TestCase
                         ]
                 )
         );
-        $uploadRule = new \Enjoys\Forms\Rule\Upload(null, [
+        $uploadRule = new Upload(null, [
             'unknown'
         ]);
-        $testedMethod = $this->getPrivateMethod(\Enjoys\Forms\Rule\Upload::class, 'check');
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $testedMethod->invokeArgs($uploadRule, [$request->files('foo'), $fileElement]);
     }
 }
