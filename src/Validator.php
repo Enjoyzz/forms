@@ -20,7 +20,7 @@ class Validator
     public static function check(array $elements): bool
     {
         $_validate = true;
-        /** @var Ruled $element */
+        /** @var Ruled&Element $element */
         foreach ($elements as $element) {
             if ($element instanceof Group) {
                 $_validate = (!self::check($element->getElements())) ? false : $_validate;

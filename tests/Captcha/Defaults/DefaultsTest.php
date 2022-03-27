@@ -28,7 +28,7 @@ namespace Tests\Enjoys\Forms\Captcha\Defaults;
 
 use Enjoys\Forms\Captcha\Defaults\Defaults;
 use Enjoys\Forms\Elements\Captcha;
-use Enjoys\Http\ServerRequest;
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use HttpSoft\ServerRequest\ServerRequestCreator;
@@ -144,6 +144,9 @@ class DefaultsTest extends TestCase
         $this->assertEquals(100, $size[1]);
     }
 
+    /**
+     * @throws ExceptionRule
+     */
     public function test_renderHtml()
     {
         $request = new ServerRequestWrapper(
@@ -166,7 +169,7 @@ class DefaultsTest extends TestCase
 
         $html = $element->renderHtml();
         $this->assertEquals(6, \strlen($captcha->getCode()));
-        $this->assertStringContainsString('img src="data:image/jpeg;base64,', $html);
+        $this->assertStringContainsString('img alt="captcha image" src="data:image/jpeg;base64,', $html);
         $this->assertStringContainsString(
             '<input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">',
             $html

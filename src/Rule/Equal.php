@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
 
@@ -26,7 +27,10 @@ class Equal extends Rules implements RuleInterface
         return parent::setMessage($message);
     }
 
-
+    /**
+     * @param Ruled&Element $element
+     * @return bool
+     */
     public function validate(Ruled $element): bool
     {
 

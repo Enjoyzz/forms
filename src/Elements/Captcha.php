@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
@@ -18,17 +19,15 @@ class Captcha extends Element implements Ruled
     use Traits\Rules;
 
 
-    private CaptchaInterface $captcha;
-
-
     /**
+     * @param CaptchaInterface&CaptchaBase $captcha
+     * @param string|null $message
      * @throws ExceptionRule
      */
-    public function __construct(CaptchaInterface $captcha, string $message = null)
+    public function __construct(private CaptchaInterface $captcha, string $message = null)
     {
         parent::__construct(\uniqid('captcha'));
 
-        $this->captcha = $captcha;
         $this->captcha->setRequestWrapper($this->getRequestWrapper());
 
 

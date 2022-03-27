@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use ByteUnits\Binary;
+use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
@@ -37,7 +38,10 @@ class Upload extends Rules implements RuleInterface
         return $this->systemErrorMessage['unknown'];
     }
 
-
+    /**
+     * @param Ruled&Element $element
+     * @return bool
+     */
     public function validate(Ruled $element): bool
     {
         $value = \getValueByIndexPath($element->getName(), $this->getRequestWrapper()->getFilesData()->getAll());

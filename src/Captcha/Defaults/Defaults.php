@@ -27,7 +27,10 @@ class Defaults extends CaptchaBase implements CaptchaInterface
         $this->setRuleMessage($message);
     }
 
-
+    /**
+     * @param Ruled&Element $element
+     * @return bool
+     */
     public function validate(Ruled $element): bool
     {
         $method = $this->getRequestWrapper()->getRequest()->getMethod();

@@ -59,8 +59,7 @@ class Length extends Rules implements RuleInterface
     }
 
     /**
-     * @psalm-suppress UndefinedMethod
-     * @param Element $element
+     * @param Ruled&Element $element
      * @return bool
      */
     public function validate(Ruled $element): bool
