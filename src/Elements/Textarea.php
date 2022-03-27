@@ -41,7 +41,7 @@ class Textarea extends Element implements Ruled
      */
     public function setRows(string|int $rows): self
     {
-        $this->setAttribute('rows', (string) $rows);
+        $this->setAttribute('rows', (string)$rows);
         return $this;
     }
 
@@ -50,13 +50,16 @@ class Textarea extends Element implements Ruled
      */
     public function setCols(int|string $cols): Textarea
     {
-        $this->setAttribute('cols', (string) $cols);
+        $this->setAttribute('cols', (string)$cols);
         return $this;
     }
 
     public function baseHtml(): string
     {
         $value = $this->getAttribute('value');
+        if (is_array($value) || is_null($value) || is_bool($value)) {
+            $value = false;
+        }
         if ($value !== false) {
             $this->setValue($value);
             $this->removeAttribute('value');

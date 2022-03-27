@@ -13,6 +13,7 @@ class Submit extends Rules implements RuleInterface
 {
 
     /**
+     * @psalm-suppress PossiblyNullReference
      * @param Ruled&Element $element
      * @return bool
      */

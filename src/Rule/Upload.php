@@ -39,8 +39,10 @@ class Upload extends Rules implements RuleInterface
     }
 
     /**
+     * @psalm-suppress PossiblyNullReference
      * @param Ruled&Element $element
      * @return bool
+     * @throws ExceptionRule
      */
     public function validate(Ruled $element): bool
     {

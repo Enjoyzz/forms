@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\Session\Session;
@@ -11,12 +12,14 @@ use Enjoys\Session\Session;
 /**
  * Включает защиту от CSRF.
  * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
- *
- * @author Enjoys
  */
 class Csrf extends Hidden
 {
 
+    /**
+     * @psalm-suppress PossiblyNullArgument
+     * @throws ExceptionRule
+     */
     public function __construct(string $csrf_key = null)
     {
         $session = new Session();

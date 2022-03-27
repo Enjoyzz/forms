@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\ElementsRender;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Datalist;
+
 /**
  * Description of SelectRender
  *
@@ -42,17 +45,25 @@ class DatalistRender extends BaseElement
     public function render()
     {
         return
-                $this->renderLabel($this->element) .
-                $this->renderDatalist($this->element) .
-                $this->renderDescription($this->element) .
-                $this->renderValidation($this->element) .
-                '';
+            $this->renderLabel($this->element) .
+            $this->renderDatalist($this->element) .
+            $this->renderDescription($this->element) .
+            $this->renderValidation($this->element) .
+            '';
     }
 
-    protected function renderDatalist(\Enjoys\Forms\Element $element): string
+    protected function renderDatalist(Element $element): string
     {
-        $return = "<input{$element->getAttributesString()}><datalist id=\"{$element->getAttribute('list')}\">";
-        /** @var \Enjoys\Forms\Elements\Datalist $element */
+        /**
+         * @psalm-suppress PossiblyInvalidArgument
+         */
+        $return = sprintf(
+            '<input%s><datalist id="%s">',
+            $element->getAttributesString(),
+            $element->getAttribute('list')
+        );
+
+        /** @var Datalist $element */
         foreach ($element->getElements() as $data) {
             //$return .= "<option value=\"{$data->getLabel()}\">";
             $return .= $this->renderBody($data);

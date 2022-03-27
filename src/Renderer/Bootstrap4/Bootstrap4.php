@@ -28,8 +28,11 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bootstrap4;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\BaseRenderer;
 use Enjoys\Forms\Renderer\RendererInterface;
+use Enjoys\Traits\Options;
 
 /**
  * Description of Bootstrap4
@@ -38,24 +41,25 @@ use Enjoys\Forms\Renderer\RendererInterface;
  */
 class Bootstrap4 extends BaseRenderer implements RendererInterface
 {
-    use \Enjoys\Traits\Options;
+    use Options;
 
-    public function __construct(array $options = [], \Enjoys\Forms\Form $form = null)
+    public function __construct(array $options = [], Form $form = null)
     {
         parent::__construct($form);
         $this->setOptions($options);
     }
 
-    public function elementRender(\Enjoys\Forms\Element $element): string
+    public function elementRender(Element $element): string
     {
 
         if (method_exists($element, 'getDescription') && !empty($element->getDescription())) {
             $element->setAttributes([
-                'id' => $element->getAttribute('id') . 'Help',
+                'id' => (is_string($element->getAttribute('id')) ?: '' ). 'Help',
                 'class' => 'form-text text-muted'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_DESC);
+                    ], Form::ATTRIBUTES_DESC);
+
             $element->setAttributes([
-                'aria-describedby' => $element->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_DESC)
+                'aria-describedby' => is_string( $element->getAttribute('id', Form::ATTRIBUTES_DESC)) ?: ''
             ]);
         }
 
@@ -65,7 +69,7 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
             ]);
             $element->setAttributes([
                 'class' => 'invalid-feedback d-block'
-                    ], \Enjoys\Forms\Form::ATTRIBUTES_VALIDATE);
+                    ], Form::ATTRIBUTES_VALIDATE);
         }
 
         $elementRender = new Bootstrap4ElementRender($element);

@@ -26,6 +26,7 @@ class Required extends Rules implements RuleInterface
         return parent::setMessage($message);
     }
     /**
+     * @psalm-suppress PossiblyNullReference
      * @param Ruled&Element $element
      * @return bool
      */

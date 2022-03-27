@@ -6,10 +6,8 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
-use Enjoys\Http\ServerRequestInterface;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Options;
-
 use HttpSoft\ServerRequest\ServerRequestCreator;
 
 use function json_encode;
@@ -182,6 +180,7 @@ class Form
 
     /**
      * Set \Enjoys\Forms\DefaultsHandlerInterface $defaultsHandler
+     * @psalm-suppress PossiblyNullReference
      * @param \Closure|array $data
      * @return $this
      */

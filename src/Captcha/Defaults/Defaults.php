@@ -28,6 +28,7 @@ class Defaults extends CaptchaBase implements CaptchaInterface
     }
 
     /**
+     * @psalm-suppress PossiblyNullReference
      * @param Ruled&Element $element
      * @return bool
      */
