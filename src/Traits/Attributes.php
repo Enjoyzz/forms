@@ -21,51 +21,49 @@ trait Attributes
                 continue;
             }
             if (is_int($key)) {
-                $key = $value;
-                $value = null;
+                $this->setAttribute($value, null, $namespace);
+                continue;
             }
-            $this->setAttribute((string)$key, $value, $namespace);
+            $this->setAttribute($key, $value, $namespace);
         }
         return $this;
     }
 
 
-    public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
+    public function setAttribute(string $name, string|int $value = null, string $namespace = 'general'): self
     {
-        if (is_string($value)) {
-            $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
-        }
-
         $name = \trim($name);
 
-        if ($name == 'class') {
-            if (
-                isset($this->attributes[$namespace][$name]) &&
-                in_array($value, (array)$this->attributes[$namespace][$name])
-            ) {
-                return $this;
-            }
-            $this->attributes[$namespace][$name][] = $value;
+        if ($value === null) {
+            $this->attributes[$namespace][$name] = null;
             return $this;
         }
 
-        if ($name == 'name') {
-            if (
-                !is_null($value) &&
-                $value !== false &&
-                isset($this->attributes[$namespace][$name]) &&
-                $this->attributes[$namespace][$name] != $value
-            ) {
-                $this->attributes[$namespace][$name] = $value;
-                $this->setName($value);
+        if (is_numeric($value)){
+            $value = (string)$value;
+        }
+
+        $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
+
+        if ($name === 'class') {
+            $classList = $this->getClassesList($namespace);
+
+            if (!in_array($value, $classList)) {
+                $value = implode(" ", array_merge($classList, [$value]));
             }
         }
 
         $this->attributes[$namespace][$name] = $value;
+
+//        if ($name == 'name' && $this->attributes[$namespace]['name'] !== $value) {
+//            $this->setName($value);
+//        }
+
+
         return $this;
     }
 
-    public function getAttribute(string $key, string $namespace = 'general'): string|null|false|array
+    public function getAttribute(string $key, string $namespace = 'general'): string|null|false
     {
         if (!isset($this->attributes[$namespace])) {
             $this->attributes[$namespace] = [];
@@ -129,22 +127,29 @@ trait Attributes
         return $this;
     }
 
-    public function addClass($class, string $namespace = 'general'): self
+    public function addClass(string|int $class, string $namespace = 'general'): self
     {
-        if (is_array($class)) {
-            foreach ($class as $_class) {
-                $this->addClass($_class, $namespace);
-            }
-            return $this;
-        }
-        $values = explode(" ", (string)$class);
-        foreach ($values as $value) {
-            $this->setAttribute('class', $value, $namespace);
-        }
-
+        $this->setAttribute('class', $class, $namespace);
         return $this;
     }
 
+    public function addClasses(array $classes, string $namespace = 'general'): self
+    {
+        foreach ($classes as $class) {
+            $this->addClass($class, $namespace);
+        }
+        return $this;
+    }
+
+
+    public function getClassesList(string $namespace = 'general'): array
+    {
+        $classesString = $this->getAttribute('class', $namespace);
+        if ($classesString === false || $classesString === null) {
+            return [];
+        }
+        return explode(" ", $classesString);
+    }
 
     public function removeClass(string $classValue, string $namespace = 'general'): self
     {
@@ -152,9 +157,14 @@ trait Attributes
             return $this;
         }
 
-        if (false !== $key = array_search($classValue, (array)$this->attributes[$namespace]['class'])) {
-            unset($this->attributes[$namespace]['class'][$key]);
+        $classesList = $this->getClassesList($namespace);
+
+        if (false !== $key = array_search($classValue, $classesList)) {
+            unset($classesList[$key]);
         }
+
+        $this->attributes[$namespace]['class'] = implode(" ", $classesList);
+
         return $this;
     }
 }
