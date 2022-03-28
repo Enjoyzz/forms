@@ -39,7 +39,7 @@ class Bootstrap4ResetRender extends Bootstrap4ButtonRender
 
     public function __construct(\Enjoys\Forms\Element $element)
     {
-        $element->addClass([
+        $element->addClasses([
             'btn-secondary'
         ]);
         parent::__construct($element);

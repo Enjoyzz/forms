@@ -39,7 +39,7 @@ class Bootstrap4ButtonRender extends \Enjoys\Forms\Renderer\ElementsRender\Butto
 
     public function __construct(\Enjoys\Forms\Element $element)
     {
-        $element->addClass([
+        $element->addClasses([
             'btn'
         ]);
         parent::__construct($element);

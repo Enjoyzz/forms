@@ -25,9 +25,9 @@ class Textarea extends Element implements Ruled
         $this->value = '';
     }
 
-    public function setValue(string $value): self
+    public function setValue(?string $value): self
     {
-        $this->value = $value;
+        $this->value = $value ?? '';
         return $this;
     }
 
@@ -57,9 +57,7 @@ class Textarea extends Element implements Ruled
     public function baseHtml(): string
     {
         $value = $this->getAttribute('value');
-        if (is_array($value) || is_null($value) || is_bool($value)) {
-            $value = false;
-        }
+
         if ($value !== false) {
             $this->setValue($value);
             $this->removeAttribute('value');
