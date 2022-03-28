@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
+use Webmozart\Assert\Assert;
+
 /**
  * @author Enjoys
  */
@@ -30,18 +32,25 @@ trait Attributes
     }
 
 
-    public function setAttribute(string $name, string|int $value = null, string $namespace = 'general'): self
+    public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
     {
         $name = \trim($name);
+
+
+        if($value  instanceof \Closure){
+            $value = $value();
+            Assert::nullOrString($value);
+        }
 
         if ($value === null) {
             $this->attributes[$namespace][$name] = null;
             return $this;
         }
 
-        if (is_numeric($value)){
+        if (!is_string($value) && is_scalar($value)){
             $value = (string)$value;
         }
+
 
         $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE);
 

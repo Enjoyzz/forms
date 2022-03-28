@@ -45,6 +45,8 @@ class AttributeTest extends TestCase
             [[54 => 'test'], ' test'],
             [[' 0' => 'test'], ' 0="test"'],
             [['test', 'id' => 'test'], ' test id="test"'],
+            [['test' => function(){return null;}], ' test'],
+            [['test' => function(){return 'test';}], ' test="test"'],
         ];
     }
 
