@@ -26,6 +26,18 @@ final class Attribute
         }
     }
 
+
+    public function setMultiple(bool $multiple): void
+    {
+        $this->multiple = $multiple;
+    }
+
+
+    public function setSeparator(string $separator): void
+    {
+        $this->separator = $separator;
+    }
+
     public function getName(): string
     {
         return $this->name;
@@ -70,7 +82,7 @@ final class Attribute
     {
         $value = $this->normalize($value);
 
-        if (!$this->isMultiple()) {
+        if (!$this->multiple) {
             $this->clear();
         } else {
             $value = explode($this->separator, $value);
@@ -107,26 +119,4 @@ final class Attribute
     }
 
 
-    public function isMultiple(): bool
-    {
-        return $this->multiple;
-    }
-
-
-    public function setMultiple(bool $multiple): void
-    {
-        $this->multiple = $multiple;
-    }
-
-
-    public function getSeparator(): string
-    {
-        return $this->separator;
-    }
-
-
-    public function setSeparator(string $separator): void
-    {
-        $this->separator = $separator;
-    }
 }
