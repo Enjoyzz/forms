@@ -18,6 +18,7 @@ final class Attribute
     {
         if ($name === 'class') {
             $this->setMultiple(true);
+            $this->setSeparator(' ');
         }
 
         if ($value !== null) {
@@ -112,9 +113,20 @@ final class Attribute
     }
 
 
-    public function setMultiple(bool $multiple, string $separator = ' '): void
+    public function setMultiple(bool $multiple): void
     {
         $this->multiple = $multiple;
+    }
+
+
+    public function getSeparator(): string
+    {
+        return $this->separator;
+    }
+
+
+    public function setSeparator(string $separator): void
+    {
         $this->separator = $separator;
     }
 }

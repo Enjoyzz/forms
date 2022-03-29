@@ -35,7 +35,7 @@ class AttributeTest extends TestCase
     public function testAddAttributeAutoMultipleWithSetSeparator()
     {
         $attr = new Attribute('class', 'many classes defined by space');
-        $attr->setMultiple(true, '-');
+        $attr->setSeparator('-');
         $this->assertCount(5, $attr->getValues());
         $this->assertSame('class="many-classes-defined-by-space"', $attr->__toString());
         $attr->add('must-exploded');
