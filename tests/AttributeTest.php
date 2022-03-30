@@ -48,4 +48,17 @@ class AttributeTest extends TestCase
         $this->assertCount(5, $attr->getValues());
         $this->assertSame('class="many-space-must-exploded-repeat must be division by space"', $attr->__toString());
     }
+
+    public function testAttributeWithoutValue()
+    {
+        $attr = new Attribute('disabled');
+        $this->assertSame('disabled', $attr->__toString());
+        $attr->setFillNameAsValue(true);
+        $this->assertSame('disabled="disabled"', $attr->__toString());
+        $attr->setWithoutValue(false);
+        $this->assertSame('', $attr->__toString());
+
+        $attr = new Attribute('class');
+        $this->assertSame('', $attr->__toString());
+    }
 }

@@ -11,13 +11,19 @@ final class Attribute
 {
     private array $values = [];
 
+    private bool $withoutValue = true;
+
+    private bool $fillNameAsValue = false;
+
     private bool $multiple = false;
+
     private string $separator = '';
 
     public function __construct(private string $name, mixed $value = null)
     {
         if ($name === 'class') {
             $this->setMultiple(true);
+            $this->setWithoutValue(false);
             $this->setSeparator(' ');
         }
 
@@ -26,6 +32,15 @@ final class Attribute
         }
     }
 
+    public function setWithoutValue(bool $withoutValue): void
+    {
+        $this->withoutValue = $withoutValue;
+    }
+
+    public function setFillNameAsValue(bool $fillNameAsValue): void
+    {
+        $this->fillNameAsValue = $fillNameAsValue;
+    }
 
     public function setMultiple(bool $multiple): void
     {
@@ -45,6 +60,17 @@ final class Attribute
 
     public function __toString(): string
     {
+        if ($this->withoutValue && empty($this->values)){
+            if ($this->fillNameAsValue){
+                return sprintf('%1$s="%1$s"', $this->getName());
+            }
+            return  $this->getName();
+        }
+
+        if (!$this->withoutValue && empty($this->values)){
+            return  '';
+        }
+
         return sprintf('%s="%s"', $this->getName(), $this->getValueString());
     }
 
@@ -117,6 +143,7 @@ final class Attribute
 
         return (string)$value;
     }
+
 
 
 }
