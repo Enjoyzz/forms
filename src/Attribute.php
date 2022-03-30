@@ -9,6 +9,8 @@ use Webmozart\Assert\Assert;
 
 final class Attribute
 {
+    private string $name;
+
     private array $values = [];
 
     private bool $withoutValue = true;
@@ -19,8 +21,10 @@ final class Attribute
 
     private string $separator = '';
 
-    public function __construct(private string $name, mixed $value = null)
+
+    public function __construct(string $name, mixed $value = null)
     {
+        $this->name = $name;
         if ($name === 'class') {
             $this->setMultiple(true);
             $this->setWithoutValue(false);
@@ -30,6 +34,7 @@ final class Attribute
         if ($value !== null) {
             $this->add($value);
         }
+
     }
 
     public function setWithoutValue(bool $withoutValue): void
