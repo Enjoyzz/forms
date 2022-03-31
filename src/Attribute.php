@@ -37,25 +37,29 @@ final class Attribute
 
     }
 
-    public function setWithoutValue(bool $withoutValue): void
+    public function setWithoutValue(bool $withoutValue): Attribute
     {
         $this->withoutValue = $withoutValue;
+        return $this;
     }
 
-    public function setFillNameAsValue(bool $fillNameAsValue): void
+    public function setFillNameAsValue(bool $fillNameAsValue): Attribute
     {
         $this->fillNameAsValue = $fillNameAsValue;
+        return $this;
     }
 
-    public function setMultiple(bool $multiple): void
+    public function setMultiple(bool $multiple): Attribute
     {
         $this->multiple = $multiple;
+        return $this;
     }
 
 
-    public function setSeparator(string $separator): void
+    public function setSeparator(string $separator): Attribute
     {
         $this->separator = $separator;
+        return $this;
     }
 
     public function getName(): string
@@ -109,7 +113,7 @@ final class Attribute
 
 
 
-    public function add(mixed $value): void
+    public function add(mixed $value): Attribute
     {
         $value = $this->normalize($value);
 
@@ -123,6 +127,8 @@ final class Attribute
                 $this->values[] = $item;
             }
         }
+
+        return $this;
     }
 
     public function remove(string $value): bool
