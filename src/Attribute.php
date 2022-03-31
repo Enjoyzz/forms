@@ -34,7 +34,11 @@ final class Attribute
 
        $this->add($value);
 
+    }
 
+    public static function create(string $name, mixed $value = null): Attribute
+    {
+        return new self($name, $value);
     }
 
     public function setWithoutValue(bool $withoutValue): Attribute
