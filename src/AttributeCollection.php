@@ -9,6 +9,9 @@ namespace Enjoys\Forms;
 final class AttributeCollection implements \Countable, \IteratorAggregate
 {
 
+    /**
+     * @var Attribute[]
+     */
     private array $collection = [];
 
     public function __construct()
@@ -20,15 +23,41 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         return count($this->collection);
     }
 
-    public function has(Attribute $attribute)
+    public function has(Attribute $attribute): bool
     {
-
+        foreach ($this->collection as $item){
+            if($item->getName() === $attribute->getName()){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function add(Attribute $attribute): AttributeCollection
     {
-        $this->collection[] = $attribute;
+        if (!$this->has($attribute)){
+            $this->collection[] = $attribute;
+        }
         return $this;
+    }
+
+    public function remove(string|Attribute $element): void
+    {
+        $attributeName = ($element instanceof Attribute) ? $element->getName() : $element;
+
+        foreach ($this->collection as $key => $item){
+            if ($item->getName() === $attributeName){
+                unset($this->collection[$key]);
+                break;
+            }
+        }
+    }
+
+    public function replace(Attribute $attribute)
+    {
+        $this->remove($attribute->getName());
+
+        return $this->add($attribute);
     }
 
    public function __toString(): string
