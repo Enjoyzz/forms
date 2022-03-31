@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
+use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeCollection;
 use Webmozart\Assert\Assert;
 
 /**
@@ -13,6 +15,77 @@ trait Attributes
 {
 
     private array $attributes = [];
+
+    private array $attr = [];
+
+
+    public function getAttributeCollection(string $namespace = 'general'): AttributeCollection
+    {
+        if (!array_key_exists($namespace, $this->attr)) {
+            $this->attr[$namespace] = new AttributeCollection();
+        }
+        return $this->attr[$namespace];
+    }
+
+    public function getAttr(string $name, string $namespace = 'general'): Attribute|null
+    {
+        return $this->getAttributeCollection($namespace)->get($name);
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param string $namespace
+     * @return $this
+     */
+    public function setAttr(Attribute $attribute, string $namespace = 'general')
+    {
+        $attributeCollection = $this->getAttributeCollection($namespace);
+        $attributeCollection->remove($attribute);
+        $this->addAttr($attribute, $namespace);
+        return $this;
+    }
+
+    /**
+     * @param array $attributes
+     * @param string $namespace
+     * @return $this
+     */
+    public function setAttrs(array $attributes, string $namespace = 'general')
+    {
+        $attributeCollection = $this->getAttributeCollection($namespace);
+        $attributeCollection->clear();
+        $this->addAttrs($attributes, $namespace);
+        return $this;
+    }
+
+    /**
+     * @param Attribute $attribute
+     * @param string $namespace
+     * @return $this
+     */
+    public function addAttr(Attribute $attribute, string $namespace = 'general')
+    {
+        $attributeCollection = $this->getAttributeCollection($namespace);
+        $attributeCollection->add($attribute);
+        return $this;
+    }
+
+    /**
+     * @param array $attributes
+     * @param string $namespace
+     * @return $this
+     */
+    public function addAttrs(array $attributes, string $namespace = 'general')
+    {
+        $attributeCollection = $this->getAttributeCollection($namespace);
+
+        foreach ($attributes as $attribute) {
+            Assert::isInstanceOf($attribute, Attribute::class, 'Attribute must be instance of \Enjoys\Forms\Attribute');
+            $attributeCollection->add($attribute);
+        }
+
+        return $this;
+    }
 
 
     public function setAttributes(array $attributes, string $namespace = 'general'): self
@@ -36,8 +109,9 @@ trait Attributes
     {
         $name = \trim($name);
 
+        $this->getAttributeCollection($namespace)->add(new Attribute($name, $value));
 
-        if($value  instanceof \Closure){
+        if ($value instanceof \Closure) {
             $value = $value();
             Assert::nullOrString($value);
         }
@@ -47,7 +121,7 @@ trait Attributes
             return $this;
         }
 
-        if (!is_string($value) && is_scalar($value)){
+        if (!is_string($value) && is_scalar($value)) {
             $value = (string)$value;
         }
 

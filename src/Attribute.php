@@ -31,9 +31,9 @@ final class Attribute
             $this->setSeparator(' ');
         }
 
-        if ($value !== null) {
-            $this->add($value);
-        }
+
+       $this->add($value);
+
 
     }
 
@@ -115,7 +115,12 @@ final class Attribute
 
     public function add(mixed $value): Attribute
     {
+
         $value = $this->normalize($value);
+
+        if($value === null){
+            return $this;
+        }
 
         if (!$this->multiple) {
             $this->clear();
@@ -144,15 +149,15 @@ final class Attribute
         return true;
     }
 
-    private function normalize(mixed $value): string
+    private function normalize(mixed $value): ?string
     {
         if ($value instanceof \Closure) {
             $value = $value();
         }
 
-        Assert::scalar($value);
+        Assert::nullOrScalar($value);
 
-        return (string)$value;
+        return ($value === null) ? null : (string)$value;
     }
 
 

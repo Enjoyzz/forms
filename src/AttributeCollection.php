@@ -25,8 +25,8 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
 
     public function has(Attribute $attribute): bool
     {
-        foreach ($this->collection as $item){
-            if($item->getName() === $attribute->getName()){
+        foreach ($this->collection as $item) {
+            if ($item->getName() === $attribute->getName()) {
                 return true;
             }
         }
@@ -35,35 +35,56 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
 
     public function add(Attribute $attribute): AttributeCollection
     {
-        if (!$this->has($attribute)){
+        if (!$this->has($attribute)) {
             $this->collection[] = $attribute;
         }
         return $this;
+    }
+
+    public function get(string $name): Attribute|null
+    {
+        foreach ($this->collection as $item) {
+            if ($item->getName() === $name) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    public function clear(): void
+    {
+        $this->collection = [];
     }
 
     public function remove(string|Attribute $element): void
     {
         $attributeName = ($element instanceof Attribute) ? $element->getName() : $element;
 
-        foreach ($this->collection as $key => $item){
-            if ($item->getName() === $attributeName){
+        foreach ($this->collection as $key => $item) {
+            if ($item->getName() === $attributeName) {
                 unset($this->collection[$key]);
                 break;
             }
         }
     }
 
-    public function replace(Attribute $attribute)
+    public function replace(Attribute $attribute): AttributeCollection
     {
         $this->remove($attribute->getName());
 
         return $this->add($attribute);
     }
 
-   public function __toString(): string
-   {
-       return implode(' ', $this->collection);
-   }
+    public function __toString(): string
+    {
+        return implode(
+            ' ',
+            array_filter($this->collection, function ($item) {
+                return !empty($item->__toString());
+            })
+        );
+    }
 
     public function getIterator(): \ArrayIterator
     {

@@ -6,6 +6,7 @@ namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
+use Enjoys\Forms\Elements\Text;
 use PHPUnit\Framework\TestCase;
 
 class AttributeCollectionTest extends TestCase
@@ -42,5 +43,26 @@ class AttributeCollectionTest extends TestCase
             ->add(new Attribute('id', 'first'))
             ->replace(new Attribute('id', 'second'));
         $this->assertSame('id="second"', (string)$collection);
+    }
+
+    public function testAttributesTrait_addAttrs_addAttr_setAttrs_setAttr()
+    {
+        $text = new Text('test');
+        $this->assertSame('id="test" name="test"', (string)$text->getAttributeCollection());
+        $text->addAttrs([
+            new Attribute('id', 'id'),
+            new Attribute('class', 'one two'),
+        ]);
+        $this->assertSame('id="test" name="test" class="one two"', (string)$text->getAttributeCollection());
+        $text->setAttrs([
+            new Attribute('id', 'id')
+        ]);
+        $this->assertSame('id="id"', (string)$text->getAttributeCollection());
+        $text->addAttr(new Attribute('id', 'newid'));
+        $text->addAttr(new Attribute('disabled'));
+        $this->assertSame('id="id" disabled', (string)$text->getAttributeCollection());
+        $text->setAttr(new Attribute('id', 'newid'));
+        $text->setAttr(new Attribute('class'));
+        $this->assertSame('disabled id="newid"', (string)$text->getAttributeCollection());
     }
 }
