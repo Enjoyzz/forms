@@ -41,6 +41,19 @@ final class Attribute
         return new self($name, $value);
     }
 
+    /**
+     * @param array $attributesKeyValue
+     * @return Attribute[]
+     */
+    public static function createFromArray(array $attributesKeyValue): array
+    {
+        $attributes = [];
+        foreach ($attributesKeyValue as $name => $value) {
+            $attributes[] = self::create($name, $value);
+        }
+        return $attributes;
+    }
+
     public function setWithoutValue(bool $withoutValue): Attribute
     {
         $this->withoutValue = $withoutValue;
