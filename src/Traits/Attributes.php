@@ -33,6 +33,32 @@ trait Attributes
     }
 
     /**
+     * @param array $attributes
+     * @param string $namespace
+     * @return $this
+     */
+    public function setAttrsWithClear(array $attributes, string $namespace = 'general')
+    {
+        $this->getAttributeCollection($namespace)->clear();
+        return $this->setAttrs($attributes, $namespace);
+    }
+
+    /**
+     * @param array $attributes
+     * @param string $namespace
+     * @return $this
+     */
+    public function setAttrs(array $attributes, string $namespace = 'general')
+    {
+        foreach ($attributes as $attribute) {
+            $this->setAttr($attribute, $namespace);
+        }
+
+        return $this;
+    }
+
+
+    /**
      * @param Attribute $attribute
      * @param string $namespace
      * @return $this
@@ -50,13 +76,16 @@ trait Attributes
      * @param string $namespace
      * @return $this
      */
-    public function setAttrs(array $attributes, string $namespace = 'general')
+    public function addAttrs(array $attributes, string $namespace = 'general')
     {
-        $attributeCollection = $this->getAttributeCollection($namespace);
-        $attributeCollection->clear();
-        $this->addAttrs($attributes, $namespace);
+
+        foreach ($attributes as $attribute) {
+            $this->addAttr($attribute, $namespace);
+        }
+
         return $this;
     }
+
 
     /**
      * @param Attribute $attribute
@@ -70,22 +99,7 @@ trait Attributes
         return $this;
     }
 
-    /**
-     * @param array $attributes
-     * @param string $namespace
-     * @return $this
-     */
-    public function addAttrs(array $attributes, string $namespace = 'general')
-    {
-        $attributeCollection = $this->getAttributeCollection($namespace);
 
-        foreach ($attributes as $attribute) {
-            Assert::isInstanceOf($attribute, Attribute::class, 'Attribute must be instance of \Enjoys\Forms\Attribute');
-            $attributeCollection->add($attribute);
-        }
-
-        return $this;
-    }
 
 
     public function setAttributes(array $attributes, string $namespace = 'general'): self

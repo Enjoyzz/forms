@@ -54,7 +54,7 @@ class AttributeCollectionTest extends TestCase
             new Attribute('class', 'one two'),
         ]);
         $this->assertSame('id="test" name="test" class="one two"', (string)$text->getAttributeCollection());
-        $text->setAttrs([
+        $text->setAttrsWithClear([
             new Attribute('id', 'id')
         ]);
         $this->assertSame('id="id"', (string)$text->getAttributeCollection());
