@@ -143,7 +143,6 @@ final class Attribute
 
     public function add(mixed $value): Attribute
     {
-
         $value = $this->normalize($value);
 
         if($value === null){

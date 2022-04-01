@@ -27,7 +27,6 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Radio;
-use Enjoys\Forms\Form;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -131,12 +130,12 @@ class RadioTest extends TestCase
 
     public function test_fill7()
     {
-        $this->markTestSkipped('Проверить тест');
+        $this->markAsRisky();
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertNull($v2->getAttribute('disabled'));
-        $this->assertNotNull($v2->getAttribute('id'));
+        $this->assertSame('', $v2->getAttr('disabled')->getValueString());
+        $this->assertNotNull($v2->getAttr('id'));
     }
 
     public function test_prefix()
@@ -213,47 +212,47 @@ class RadioTest extends TestCase
         $this->assertCount(2, $obj->getElements());
     }
 
-    public function test_setDefault()
-    {
-        $this->markTestSkipped('Проверить тест');
-        $form = new Form();
-        $form->setOption('Defaults', [
-            'name' => [1, 2]
-        ]);
-        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
-        $elements = $radio->getElements();
-        $this->assertNull($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
-    }
-
-    public function test_setDefault_2()
-    {
-        $this->markTestSkipped('Проверить тест');
-        $form = new Form();
-        $form->setOption('Defaults', [
-            'name' => [1, 2]
-        ]);
-        $radio = $form->radio('name[]', 'title')->fill([1, 2, 3], true);
-        $elements = $radio->getElements();
-        $this->assertNull($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
-    }
-
-    public function test_setDefault_simple()
-    {
-        $this->markTestSkipped('Проверить тест');
-        $form = new Form();
-        $form->setOption('Defaults', [
-            'name' => 2
-        ]);
-        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
-        $elements = $radio->getElements();
-        $this->assertFalse($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
-    }
+//    public function test_setDefault()
+//    {
+//        $this->markTestSkipped('Проверить тест');
+//        $form = new Form();
+//        $form->setOption('Defaults', [
+//            'name' => [1, 2]
+//        ]);
+//        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
+//        $elements = $radio->getElements();
+//        $this->assertNull($elements[0]->getAttr('checked'));
+//        $this->assertNull($elements[1]->getAttr('checked'));
+//        $this->assertFalse($elements[2]->getAttr('checked'));
+//    }
+//
+//    public function test_setDefault_2()
+//    {
+//        $this->markTestSkipped('Проверить тест');
+//        $form = new Form();
+//        $form->setOption('Defaults', [
+//            'name' => [1, 2]
+//        ]);
+//        $radio = $form->radio('name[]', 'title')->fill([1, 2, 3], true);
+//        $elements = $radio->getElements();
+//        $this->assertNull($elements[0]->getAttr('checked'));
+//        $this->assertNull($elements[1]->getAttr('checked'));
+//        $this->assertFalse($elements[2]->getAttr('checked'));
+//    }
+//
+//    public function test_setDefault_simple()
+//    {
+//        $this->markTestSkipped('Проверить тест');
+//        $form = new Form();
+//        $form->setOption('Defaults', [
+//            'name' => 2
+//        ]);
+//        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
+//        $elements = $radio->getElements();
+//        $this->assertFalse($elements[0]->getAttr('checked'));
+//        $this->assertNull($elements[1]->getAttr('checked'));
+//        $this->assertFalse($elements[2]->getAttr('checked'));
+//    }
 
     public function test_basehtml()
     {

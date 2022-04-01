@@ -43,7 +43,7 @@ class HiddenTest extends TestCase
      */
     public function test_full_construct($name, $value, $expectName, $expectValue)
     {
-        $this->markTestSkipped('Проверить тест');
+//        $this->markTestSkipped('Проверить тест');
         $obj = new Hidden($name, $value);
         $this->assertSame($expectName, $obj->getAttr('name')->getValueString());
         $this->assertSame($expectValue, $obj->getAttr('value')->getValueString());
@@ -54,7 +54,7 @@ class HiddenTest extends TestCase
     {
         return [
             ['name', 'value', 'name', 'value'],
-            ['name', null, 'name', false]
+            ['name', null, 'name', '']
         ];
     }
 }

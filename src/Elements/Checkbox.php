@@ -68,7 +68,7 @@ class Checkbox extends Element implements FillableInterface, Ruled
 
 
         if (is_array($value)) {
-            if (in_array($this->getAttribute('value'), $value)) {
+            if (in_array($this->getAttr('value')->getValueString(), $value)) {
                 $this->setAttr(new Attribute('checked'));
                 return $this;
             }

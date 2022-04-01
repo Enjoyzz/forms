@@ -100,12 +100,12 @@ class SelectTest extends TestCase
 
     public function test_fill7()
     {
-        $this->markTestSkipped('Проверить тест');
+        $this->markAsRisky('Проверить тест');
         $elements = $this->filldata();
         /** @var Option $v2 */
         $v2 = $elements[1];
-        $this->assertNull($v2->getAttribute('disabled'));
-        $this->assertNotNull($v2->getAttribute('id'));
+        $this->assertSame('', $v2->getAttr('disabled')->getValueString());
+        $this->assertNotNull($v2->getAttr('id'));
     }
 
     public function test_count_option_element()
@@ -254,8 +254,8 @@ class SelectTest extends TestCase
         ], true);
 
         /** @var Select $select */
-        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertNull($select->getElements()[1]->getAttr('selected'));
     }
 
     public function test_defaults3()
@@ -271,8 +271,8 @@ class SelectTest extends TestCase
 
         /** @var Select $select */
         $select = $form->getElements()['name'];
-        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertNull($select->getElements()[1]->getAttr('selected'));
     }
 
     public function test_defaults4_attr_before_fill()
@@ -289,9 +289,9 @@ class SelectTest extends TestCase
 
         /** @var Select $select */
         $select = $form->getElements()['name2'];
-        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
-        $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertFalse($select->getElements()[1]->getAttr('selected'));
+        $this->assertNull($select->getElements()[2]->getAttr('selected'));
     }
 
 //    public function test_defaults4_attr_after_fill()
@@ -308,9 +308,9 @@ class SelectTest extends TestCase
 //
 //        /** @var \Enjoys\Forms\Elements\Select $select */
 //        $select = $form->getElements()['name2'];
-//        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
-//        $this->assertFalse($select->getElements()[1]->getAttribute('selected'));
-//        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
+//        $this->assertNull($select->getElements()[0]->getAttr('selected'));
+//        $this->assertFalse($select->getElements()[1]->getAttr('selected'));
+//        $this->assertNull($select->getElements()[2]->getAttr('selected'));
 //    }
 
     public function test_optgroup()

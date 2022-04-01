@@ -6,7 +6,6 @@ namespace Enjoys\Forms\Traits;
 
 use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
-use Webmozart\Assert\Assert;
 
 /**
  * @author Enjoys
@@ -157,7 +156,7 @@ trait Attributes
 //        return $this;
 //    }
 
-//    public function getAttribute(string $key, string $namespace = 'general'): string|null|false
+//    public function getAttr(string $key, string $namespace = 'general'): string|null|false
 //    {
 //        if (!isset($this->attributes[$namespace])) {
 //            $this->attributes[$namespace] = [];
@@ -173,7 +172,7 @@ trait Attributes
 //     * @param string $namespace
 //     * @return array
 //     */
-//    public function getAttributes(string $namespace = 'general'): array
+//    public function getAttrs(string $namespace = 'general'): array
 //    {
 //        if (!isset($this->attributes[$namespace])) {
 //            $this->attributes[$namespace] = [];
@@ -251,7 +250,7 @@ trait Attributes
 //
 //    public function getClassesList(string $namespace = 'general'): array
 //    {
-//        $classesString = $this->getAttribute('class', $namespace);
+//        $classesString = $this->getAttr('class', $namespace);
 //        if ($classesString === false || $classesString === null) {
 //            return [];
 //        }

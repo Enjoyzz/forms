@@ -117,9 +117,9 @@ class FillTest extends TestCase
 //            ],
 //            'baz' => 3
 //        ]);
-//        $this->assertEquals(null, $element->getElements()[0]->getAttribute('disabled'));
-//        $this->assertEquals(false, $element->getElements()[1]->getAttribute('disabled'));
-//        $this->assertEquals('newfoz', $element->getElements()[1]->getAttribute('id'));
+//        $this->assertEquals(null, $element->getElements()[0]->getAttr('disabled'));
+//        $this->assertEquals(false, $element->getElements()[1]->getAttr('disabled'));
+//        $this->assertEquals('newfoz', $element->getElements()[1]->getAttr('id'));
 //        $this->assertEquals($name, $element->getElements()[2]->getParentName());
 //    }
 //

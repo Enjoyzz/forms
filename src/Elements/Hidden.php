@@ -19,7 +19,7 @@ class Hidden extends Element implements Ruled
     public function __construct(string $name, ?string $value = null)
     {
         parent::__construct($name);
-        $this->setAttr(Attribute::create('value', $value))
+        $this->setAttr(Attribute::create('value', $value)->setWithoutValue(false))
             ->getAttributeCollection()
             ->remove('id');
     }

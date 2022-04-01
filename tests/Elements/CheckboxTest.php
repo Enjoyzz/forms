@@ -214,9 +214,9 @@ class CheckboxTest extends TestCase
             'aggg' => 5,
         ]);
         $elements = $radio->getElements();
-        $this->assertFalse($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
+        $this->assertFalse($elements[0]->getAttr('checked'));
+        $this->assertNull($elements[1]->getAttr('checked'));
+        $this->assertFalse($elements[2]->getAttr('checked'));
     }
 
     public function test_basehtml()

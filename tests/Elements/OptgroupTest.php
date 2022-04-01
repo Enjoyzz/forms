@@ -50,7 +50,7 @@ class OptgroupTest extends TestCase
     
     public function test_setdefaults()
     {
-        $this->markTestSkipped('Проверить тест');
+        $this->markTestSkipped('Изменить тест');
         $form = new \Enjoys\Forms\Form();
         $form->setDefaults([
             'select1' => [
@@ -62,11 +62,11 @@ class OptgroupTest extends TestCase
                 ->setOptgroup('alpha', ['a', 'b', 'c'], [], true)
                 ->setMultiple()
                 ;
-        $this->assertNull($select->getElements()[0]->getElements()[0]->getAttribute('selected'));
-        $this->assertFalse($select->getElements()[0]->getElements()[1]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[0]->getElements()[2]->getAttribute('selected'));
-        $this->assertFalse($select->getElements()[1]->getElements()[0]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[1]->getElements()[1]->getAttribute('selected'));
-        $this->assertNull($select->getElements()[1]->getElements()[2]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getElements()[0]->getAttr('selected')->getValueString());
+        $this->assertFalse($select->getElements()[0]->getElements()[1]->getAttr('selected')->getValueString());
+        $this->assertNull($select->getElements()[0]->getElements()[2]->getAttr('selected')->getValueString());
+        $this->assertFalse($select->getElements()[1]->getElements()[0]->getAttr('selected')->getValueString());
+        $this->assertNull($select->getElements()[1]->getElements()[1]->getAttr('selected')->getValueString());
+        $this->assertNull($select->getElements()[1]->getElements()[2]->getAttr('selected')->getValueString());
     }
 }

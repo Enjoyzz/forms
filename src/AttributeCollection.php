@@ -48,7 +48,6 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
                 return $item;
             }
         }
-
         return null;
     }
 
