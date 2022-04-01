@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Interfaces\Ruled;
@@ -30,49 +31,34 @@ class Select extends Element implements FillableInterface, Ruled
 
     public function setMultiple(): self
     {
-        $this->setAttribute('multiple');
+        $this->setAttr(new Attribute('multiple'));
         return $this;
     }
 
     private function isMultiple(): void
     {
-        if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
-            $_id = $this->getAttribute('id');
+        if ($this->getAttr('multiple') !== null && \substr($this->getName(), -2) !== '[]') {
+            $id = $this->getAttr('id') ?? Attribute::create('id', $this->getName());
             $this->setName($this->getName() . '[]');
             $this->setParentName($this->getName());
             //т.к. id уже переписан ,восстанавливаем его
-            $this->setAttributes([
-                'id' => $_id
-            ]);
+            $this->setAttr($id);
         }
     }
 
     /**
-     * @psalm-suppress MethodSignatureMismatch
-     * @param string $name
-     * @param string|null|false $value
+     * @param Attribute $attribute
      * @param string $namespace
      * @return $this
      */
-    public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
+    public function setAttr(Attribute $attribute, string $namespace = 'general')
     {
-        parent::setAttribute($name, $value, $namespace);
+        parent::setAttr($attribute, $namespace);
         $this->isMultiple();
         return $this;
     }
 
-    /**
-     * @psalm-suppress MethodSignatureMismatch
-     * @param array $attributes
-     * @param string $namespace
-     * @return $this
-     */
-    public function setAttributes(array $attributes, string $namespace = 'general'): self
-    {
-        parent::setAttributes($attributes, $namespace);
-        $this->isMultiple();
-        return $this;
-    }
+
 
     /**
      *
@@ -97,7 +83,7 @@ class Select extends Element implements FillableInterface, Ruled
     public function setOptgroup(string $label, array $data = [], array $attributes = [], $useTitleAsValue = false): self
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaultValue);
-        $optgroup->setAttributes($attributes);
+        $optgroup->setAttrs(Attribute::createFromArray($attributes));
         $optgroup->fill($data, $useTitleAsValue);
         $this->elements[] = $optgroup;
         return $this;

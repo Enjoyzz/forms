@@ -1,54 +1,29 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 
-/**
- * Description of SelectRenderTest
- *
- * @author Enjoys
- */
-class SelectRenderTest extends \PHPUnit\Framework\TestCase
+use Enjoys\Forms\Elements\Select;
+use Enjoys\Forms\Renderer\ElementsRender\SelectRender;
+use PHPUnit\Framework\TestCase;
+
+class SelectRenderTest extends TestCase
 {
     public function test_1()
     {
-        $s = new \Enjoys\Forms\Elements\Select('foo');
+        $s = new Select('foo');
         $s->fill(['bar'], true);
-        $o = new \Enjoys\Forms\Renderer\ElementsRender\SelectRender($s);
+        $o = new SelectRender($s);
         $this->assertStringContainsString('<select id="foo" name="foo"><option id="bar" value="bar">bar</option></select>', $o->render());
     }
     public function test_optgroup()
     {
-        $s = new \Enjoys\Forms\Elements\Select('foo');
+        $s = new Select('foo');
         $s->setOptgroup('bar', [
             'baz'
         ], [], true);
-        $o = new \Enjoys\Forms\Renderer\ElementsRender\SelectRender($s);
+        $o = new SelectRender($s);
         $this->assertStringContainsString('<select id="foo" name="foo"><optgroup label="bar"><option id="baz" value="baz">baz</option></optgroup></select>', $o->render());
     }
 }

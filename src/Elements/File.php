@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Ruled;
@@ -35,7 +36,7 @@ class File extends Element implements Ruled
 
     public function prepare()
     {
-        $this->getForm()->setAttribute('enctype', 'multipart/form-data');
+        $this->getForm()->setAttr(new Attribute('enctype', 'multipart/form-data'));
         $this->getForm()->setMethod('post');
         $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')));
     }

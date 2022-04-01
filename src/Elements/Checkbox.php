@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
@@ -33,20 +34,20 @@ class Checkbox extends Element implements FillableInterface, Ruled
         }
         parent::__construct($construct_name, $title);
 
-        $this->setAttributes(
-            [
+        $this->setAttrs(
+            Attribute::createFromArray([
+                'id' => $this->getPrefixId() . $name,
                 'value' => $name,
-                'id' => $this->getPrefixId() . $name
-            ]
+            ])
         );
-        $this->removeAttribute('name');
+        $this->getAttributeCollection()->remove('name');
     }
 
 
     public function setPrefixId(string $prefix): self
     {
         static::$prefix_id = $prefix;
-        $this->setAttribute('id', static::$prefix_id . $this->getName());
+        $this->setAttr(new Attribute('id', static::$prefix_id . $this->getName()));
         return $this;
     }
 
@@ -68,14 +69,14 @@ class Checkbox extends Element implements FillableInterface, Ruled
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value'), $value)) {
-                $this->setAttribute('checked');
+                $this->setAttr(new Attribute('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value') == $value) {
-                $this->setAttribute('checked');
+            if ($this->getAttr('value')->getValueString() == $value) {
+                $this->setAttr(new Attribute('checked'));
                 return $this;
             }
         }
@@ -84,11 +85,11 @@ class Checkbox extends Element implements FillableInterface, Ruled
 
     public function baseHtml(): string
     {
-        $this->setAttribute('for', $this->getAttribute('id'), Form::ATTRIBUTES_LABEL);
-        $this->setAttributes($this->getAttributes('fill'), Form::ATTRIBUTES_LABEL);
+        $this->setAttr(new Attribute('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
+        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy(), Form::ATTRIBUTES_LABEL);
 
 
-        $this->setAttributes(['name' => $this->getParentName()]);
-        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
+        $this->setAttrs(Attribute::createFromArray(['name' => $this->getParentName()]));
+        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>";
     }
 }

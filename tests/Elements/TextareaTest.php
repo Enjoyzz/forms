@@ -26,18 +26,23 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
+use Enjoys\Forms\Elements\Textarea;
+use Enjoys\Forms\Form;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class TextareaTest
  *
  * @author Enjoys
  */
-class TextareaTest extends \PHPUnit\Framework\TestCase
+class TextareaTest extends TestCase
 {
 
     public function test_init_textarea()
     {
-        $el = new \Enjoys\Forms\Elements\Textarea('foo', 'title1');
-        $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Textarea);
+        $el = new Textarea('foo', 'title1');
+        $this->assertTrue($el instanceof Textarea);
         $this->assertEquals('foo', $el->getName());
 //        $this->assertEquals('foo', $el->getValidateName());
         $this->assertEquals('title1', $el->getLabel());
@@ -45,40 +50,40 @@ class TextareaTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('text', $el->getValue());
         $el->setValue('text2');
         $this->assertEquals('text2', $el->getValue());
-        $el->setAttributes(['class' => 'textarea_class']);
-        $this->assertEquals('textarea_class', $el->getAttribute('class'));
-        $this->assertEquals(['textarea_class'], $el->getClassesList());
+        $el->setAttrs(Attribute::createFromArray(['class' => 'textarea_class']));
+        $this->assertEquals('textarea_class', $el->getAttr('class')->getValueString());
+//        $this->assertEquals(['textarea_class'], $el->getClassesList());
         $el->addClass('textarea_class2');
-        $this->assertEquals('textarea_class textarea_class2', $el->getAttribute('class'));
+        $this->assertEquals('textarea_class textarea_class2', $el->getAttr('class')->getValueString());
     }
 
     public function test_setCols()
     {
-        $el = new \Enjoys\Forms\Elements\Textarea('foo');
+        $el = new Textarea('foo');
         $el->setCols(5);
-        $this->assertEquals('5', $el->getAttribute('cols'));
+        $this->assertEquals('5', $el->getAttr('cols')->getValueString());
         $el->setCols('25');
-        $this->assertEquals('25', $el->getAttribute('cols'));
+        $this->assertEquals('25', $el->getAttr('cols')->getValueString());
     }
 
     public function test_setRows()
     {
-        $el = new \Enjoys\Forms\Elements\Textarea('foo');
+        $el = new Textarea('foo');
         $el->setRows(50);
-        $this->assertEquals('50', $el->getAttribute('rows'));
+        $this->assertEquals('50', $el->getAttr('rows')->getValueString());
         $el->setRows('250');
-        $this->assertEquals('250', $el->getAttribute('rows'));
+        $this->assertEquals('250', $el->getAttr('rows')->getValueString());
     }
 
     public function test_basehtml()
     {
-        $el = (new \Enjoys\Forms\Elements\Textarea('foo', 'bar'))->setValue('text2');
+        $el = (new Textarea('foo', 'bar'))->setValue('text2');
         $this->assertEquals('<textarea id="foo" name="foo">text2</textarea>', $el->baseHtml());
     }
 
     public function test_basehtml2()
     {
-        $form = new \Enjoys\Forms\Form();
+        $form = new Form();
         $form->setDefaults([
             'foo' => 'baz'
         ]);

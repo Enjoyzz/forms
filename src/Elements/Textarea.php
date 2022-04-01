@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
@@ -39,28 +40,28 @@ class Textarea extends Element implements Ruled
     /**
      * Высота поля в строках текста.
      */
-    public function setRows(string|int $rows): self
+    public function setRows(mixed $rows): self
     {
-        $this->setAttribute('rows', (string)$rows);
+        $this->setAttr(Attribute::create('rows', $rows));
         return $this;
     }
 
     /**
      * Ширина поля в символах.
      */
-    public function setCols(int|string $cols): Textarea
+    public function setCols(mixed $cols): Textarea
     {
-        $this->setAttribute('cols', (string)$cols);
+        $this->setAttr(Attribute::create('cols', $cols));
         return $this;
     }
 
     public function baseHtml(): string
     {
-        $value = $this->getAttribute('value');
+        $value = $this->getAttr('value');
 
-        if ($value !== false) {
-            $this->setValue($value);
-            $this->removeAttribute('value');
+        if ($value !== null) {
+            $this->setValue($value->getValueString());
+            $this->getAttributeCollection()->remove('value');
         }
         return "<textarea{$this->getAttributesString()}>{$this->getValue()}</textarea>";
     }

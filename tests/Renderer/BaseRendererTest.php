@@ -28,19 +28,23 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Renderer;
 
+use Enjoys\Forms\Form;
+use Enjoys\Forms\Renderer\BaseRenderer;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Description of BaseRendererTest
  *
  * @author Enjoys
  */
-class BaseRendererTest extends \PHPUnit\Framework\TestCase
+class BaseRendererTest extends TestCase
 {
     public function test_render()
     {
-        $form = new \Enjoys\Forms\Form(['method'=>'get']);
+        $form = new Form(['method'=>'get']);
         $form->text('foo');
         $form->color('bar');
-        $render = new \Enjoys\Forms\Renderer\BaseRenderer();
+        $render = new BaseRenderer();
         $render->setForm($form);
         
         $result = $render->render();

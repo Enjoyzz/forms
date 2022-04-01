@@ -28,6 +28,10 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\ElementsRender;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Optgroup;
+use Enjoys\Forms\Elements\Select;
+
 /**
  * Description of SelectRender
  *
@@ -51,12 +55,12 @@ class SelectRender extends BaseElement
                 '';
     }
 
-    protected function renderOptions(\Enjoys\Forms\Element $element): string
+    protected function renderOptions(Element $element): string
     {
         $return = "";
-        /** @var \Enjoys\Forms\Elements\Select $element  */
+        /** @var Select $element  */
         foreach ($element->getElements() as $data) {
-            if ($data instanceof \Enjoys\Forms\Elements\Optgroup) {
+            if ($data instanceof Optgroup) {
                 $return .= "<optgroup{$data->getAttributesString()}>";
                 $return .= $this->renderOptions($data);
                 $return .= "</optgroup>";

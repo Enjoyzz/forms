@@ -28,6 +28,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\ElementsRender;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Form;
 
 /**
@@ -38,9 +40,9 @@ use Enjoys\Forms\Form;
 class BaseElement implements ElementRenderInterface
 {
 
-    protected \Enjoys\Forms\Element $element;
+    protected Element $element;
 
-    public function __construct(\Enjoys\Forms\Element $element)
+    public function __construct(Element $element)
     {
         $this->element = $element;
     }
@@ -60,11 +62,11 @@ class BaseElement implements ElementRenderInterface
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @param string $containerTag
      * @return string
      */
-    protected function renderDescription(\Enjoys\Forms\Element $element, string $containerTag = 'small'): string
+    protected function renderDescription(Element $element, string $containerTag = 'small'): string
     {
         if (!method_exists($element, 'getDescription') || empty($element->getDescription())) {
             return '';
@@ -74,26 +76,26 @@ class BaseElement implements ElementRenderInterface
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @param string $containerTag
      * @return string
      */
-    protected function renderValidation(\Enjoys\Forms\Element $element, string $containerTag = 'div'): string
+    protected function renderValidation(Element $element, string $containerTag = 'div'): string
     {
         if (!method_exists($element, 'isRuleError') || !$element->isRuleError()) {
             return '';
         }
-        /** @var \Enjoys\Forms\Elements\Text $element */
+        /** @var Text $element */
         return "<{$containerTag}{$element->getAttributesString(Form::ATTRIBUTES_VALIDATE)}>{$element->getRuleErrorMessage()}</{$containerTag}>";
     }
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @param string $star
      * @return string
      */
-    protected function renderLabel(\Enjoys\Forms\Element $element, string $star = "&nbsp;<sup>*</sup>"): string
+    protected function renderLabel(Element $element, string $star = "&nbsp;<sup>*</sup>"): string
     {
         if (empty($element->getLabel())) {
             return '';
@@ -103,16 +105,14 @@ class BaseElement implements ElementRenderInterface
             $star = "";
         }
 
-        if ($element->getAttribute('id') !== false) {
-            $element->setAttributes([
-                'for' => $element->getAttribute('id')
-                    ], Form::ATTRIBUTES_LABEL);
+        if (null !== $idAttribute = $element->getAttr('id')) {
+            $element->setAttr($idAttribute->withName('for'), Form::ATTRIBUTES_LABEL);
         }
 
         return "<label{$element->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$element->getLabel()}{$star}</label>";
     }
 
-    protected function renderBody(\Enjoys\Forms\Element $element): string
+    protected function renderBody(Element $element): string
     {
         return $element->baseHtml();
     }

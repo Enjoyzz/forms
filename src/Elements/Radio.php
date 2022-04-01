@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
@@ -27,19 +28,19 @@ class Radio extends Element implements FillableInterface, Ruled
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttributes([
+        $this->setAttrs(Attribute::createFromArray([
+            'id' => $this->getPrefixId() . $name,
             'value' => $name,
-            'id' => $this->getPrefixId() . $name
-        ]);
-        $this->removeAttribute('name');
+        ]));
+        $this->getAttributeCollection()->remove('name');
     }
 
     public function setPrefixId(string $prefix): self
     {
         static::$prefix_id = $prefix;
-        $this->setAttributes([
+        $this->setAttrs(Attribute::createFromArray([
             'id' => static::$prefix_id . $this->getName()
-        ]);
+        ]));
 
         return $this;
     }
@@ -64,15 +65,15 @@ class Radio extends Element implements FillableInterface, Ruled
         $this->defaultValue = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
 
         if (is_array($value)) {
-            if (in_array($this->getAttribute('value'), $value)) {
-                $this->setAttribute('checked');
+            if (in_array($this->getAttr('value')->getValueString(), $value)) {
+                $this->setAttr(new Attribute('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value') == $value) {
-                $this->setAttribute('checked');
+            if ($this->getAttr('value')->getValueString() == $value) {
+                $this->setAttr(new Attribute('checked'));
                 return $this;
             }
         }
@@ -81,9 +82,9 @@ class Radio extends Element implements FillableInterface, Ruled
 
     public function baseHtml(): string
     {
-        $this->setAttribute('for', $this->getAttribute('id'), Form::ATTRIBUTES_LABEL);
-        $this->setAttributes($this->getAttributes('fill'), Form::ATTRIBUTES_LABEL);
-        $this->setAttributes(['name' => $this->getParentName()]);
+        $this->setAttr(new Attribute('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
+        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy(), Form::ATTRIBUTES_LABEL);
+        $this->setAttrs(Attribute::createFromArray(['name' => $this->getParentName()]));
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
     }
 }

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
+use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeCollection;
+use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
 
 /**
@@ -69,17 +72,17 @@ trait Fill
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
             $element->setParentName($this->getName());
-            $element->setAttributes($fillHandler->getAttributes(), 'fill');
+            $element->setAttrs(Attribute::createFromArray($fillHandler->getAttributes()), 'fill');
 
             /**
              * @todo слишком много вложенности if. подумать как переделать
              */
-            foreach ($element->getAttributes('fill') as $k => $v) {
-                if (in_array($k, ['id', 'name', 'disabled', 'readonly'])) {
-                    if ($element->getAttribute($k, 'fill') !== false) {
-                        $element->setAttribute($k, $element->getAttribute($k, 'fill'));
-                        $element->removeAttribute($k, 'fill');
-                    }
+            /** @var AttributeCollection $fillCollection */
+            $fillCollection = $element->getAttributeCollection('fill');
+            foreach ($fillCollection as $attr) {
+                if (in_array($attr->getName(), ['id', 'name', 'disabled', 'readonly'])) {
+                    $element->setAttr($attr);
+                    $fillCollection->remove($attr);
                 }
             }
 

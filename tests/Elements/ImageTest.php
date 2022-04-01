@@ -41,6 +41,6 @@ class ImageTest extends TestCase
     public function test_create_image_element()
     {
         $img = new Image('foo', 'url_address');
-        $this->assertEquals('url_address', $img->getAttribute('src'));
+        $this->assertEquals('url_address', $img->getAttr('src')->getValueString());
     }
 }

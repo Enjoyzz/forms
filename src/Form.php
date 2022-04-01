@@ -131,13 +131,13 @@ class Form
     public function setMethod(?string $method = null): void
     {
         if (is_null($method)) {
-            $this->removeAttribute('method');
+            $this->getAttributeCollection()->remove('method');
             return;
         }
         if (in_array(strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = strtoupper($method);
         }
-        $this->setAttribute('method', $this->method);
+        $this->setAttr(new Attribute('method', $this->method));
 
         $this->csrf();
     }
@@ -169,10 +169,10 @@ class Form
     {
         $this->action = $action;
 
-        $this->setAttribute('action', $this->getAction());
+        $this->setAttr(new Attribute('action', $this->getAction()));
 
         if (is_null($action)) {
-            $this->removeAttribute('action');
+            $this->getAttributeCollection()->remove('action');
         }
 
         return $this;
@@ -238,10 +238,10 @@ class Form
     protected function setName(?string $name = null): self
     {
         $this->name = $name;
-        $this->setAttribute('name', $this->name);
+        $this->setAttr(new Attribute('name', $this->name));
 
         if (is_null($name)) {
-            $this->removeAttribute('name');
+            $this->getAttributeCollection()->remove('name');
         }
 
         return $this;

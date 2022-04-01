@@ -130,11 +130,11 @@ abstract class Element implements ElementInterface
     protected function setName(string $name): self
     {
         $this->name = $name;
-        $this->setAttributes(
-            [
+        $this->setAttrs(
+            Attribute::createFromArray([
                 'id' => $this->name,
                 'name' => $this->name
-            ]
+            ])
         );
 
         return $this;
@@ -181,19 +181,15 @@ abstract class Element implements ElementInterface
 
 
         if (is_array($value)) {
-            $this->setAttributes(
-                [
-                    'value' => $value[0]
-                ]
+            $this->setAttr(
+                Attribute::create('value', $value[0])
             );
         }
 
         if (is_string($value) || is_numeric($value)) {
             // $this->setValue($value);
-            $this->setAttributes(
-                [
-                    'value' => $value
-                ]
+            $this->setAttr(
+                Attribute::create('value', $value)
             );
         }
         return $this;

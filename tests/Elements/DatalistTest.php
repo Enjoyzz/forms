@@ -26,26 +26,29 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Elements\Datalist;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class DatalistTest
  *
  * @author Enjoys
  */
-class DatalistTest extends \PHPUnit\Framework\TestCase
+class DatalistTest extends TestCase
 {
 
     public function test_init_datalist()
     {
  
-        $el = new \Enjoys\Forms\Elements\Datalist('foo', 'title1');
-        $this->assertTrue($el instanceof \Enjoys\Forms\Elements\Datalist);
-        $this->assertFalse($el->getAttribute('id'));
-        $this->assertEquals('foo', $el->getAttribute('list'));
+        $el = new Datalist('foo', 'title1');
+//        $this->assertIn($el instanceof Datalist);
+        $this->assertNull($el->getAttr('id')?->getValueString());
+        $this->assertSame('foo', $el->getAttr('list')->getValueString());
     }
     
     public function test_basehtml()
     {
-        $el = new \Enjoys\Forms\Elements\Datalist('foo', 'title1');
+        $el = new Datalist('foo', 'title1');
         $this->assertEquals('', $el->baseHtml());
     }
 }

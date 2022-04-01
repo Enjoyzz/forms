@@ -57,7 +57,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         $this->collection = [];
     }
 
-    public function remove(string|Attribute $element): void
+    public function remove(string|Attribute $element): AttributeCollection
     {
         $attributeName = ($element instanceof Attribute) ? $element->getName() : $element;
 
@@ -67,6 +67,8 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
                 break;
             }
         }
+
+        return $this;
     }
 
     public function replace(Attribute $attribute): AttributeCollection

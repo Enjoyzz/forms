@@ -58,10 +58,10 @@ class FormTest extends TestCase
         $form = new Form();
         $form->setOption('name', 'test_form');
         $this->assertEquals('test_form', $form->getOption('name'));
-        $this->assertEquals('test_form', $form->getAttribute('name'));
+        $this->assertEquals('test_form', $form->getAttr('name')->getValueString());
         $form->setOption('name', null);
         $this->assertEquals(false, $form->getOption('name', false));
-        $this->assertEquals(false, $form->getAttribute('name'));
+        $this->assertEquals(false, $form->getAttr('name')?->getValueString());
     }
 
     public function test_setAction_1_0()
@@ -71,13 +71,13 @@ class FormTest extends TestCase
             'action' => 'test.php',
         ]);
         $this->assertEquals('test.php', $form->getOption('action'));
-        $this->assertEquals('test.php', $form->getAttribute('action'));
+        $this->assertEquals('test.php', $form->getAttr('action')->getValueString());
         $form->setOption('action', 'foo.php');
         $this->assertEquals('foo.php', $form->getOption('action'));
-        $this->assertEquals('foo.php', $form->getAttribute('action'));
+        $this->assertEquals('foo.php', $form->getAttr('action')->getValueString());
         $form->setOption('action', null);
         $this->assertEquals(null, $form->getOption('action'));
-        $this->assertEquals(false, $form->getAttribute('action'));
+        $this->assertEquals(false, $form->getAttr('action')?->getValueString());
     }
 
     public function test_addElement_1_0()
@@ -140,17 +140,17 @@ class FormTest extends TestCase
             'action' => $action,
             'method' => $method
         ]);
-        $this->assertSame($expectedMethod, $this->form->getAttribute('method'));
-        $this->assertSame($expectedAction, $this->form->getAttribute('action'));
+        $this->assertSame($expectedMethod, $this->form->getAttr('method')?->getValueString());
+        $this->assertSame($expectedAction, $this->form->getAttr('action')?->getValueString());
     }
 
     public function dataForConstruct()
     {
         return [
             ['get', '/action.php', 'GET', '/action.php'],
-            ['get', null, 'GET', false],
-            [null, null, false, false],
-            ['Post', null, 'POST', false],
+            ['get', null, 'GET', null],
+            [null, null, null, null],
+            ['Post', null, 'POST', null],
         ];
     }
 
@@ -187,7 +187,7 @@ class FormTest extends TestCase
             'foo' => 'bar'
         ]);
         $element = $form->text('foo');
-        $this->assertSame('bar', $element->getAttribute('value'));
+        $this->assertSame('bar', $element->getAttr('value')->getValueString());
     }
 
     public function test_setDefaults_closure_1()
@@ -199,7 +199,7 @@ class FormTest extends TestCase
             ];
         });
         $element = $form->text('foo');
-        $this->assertSame('bar', $element->getAttribute('value'));
+        $this->assertSame('bar', $element->getAttr('value')->getValueString());
     }
 
     public function test_setDefaults_invalid_data()
@@ -230,7 +230,7 @@ class FormTest extends TestCase
 
         $element = $form->text('foo');
 
-        $this->assertEquals('zed', $element->getAttribute('value'));
+        $this->assertSame('zed', $element->getAttr('value')->getValueString());
         $this->assertFalse($form->getDefaultsHandler()->getValue('Form::_TOKEN_SUBMIT_'));
         $this->assertTrue($form->getDefaultsHandler()->getValue('bar'));
     }
@@ -262,8 +262,8 @@ class FormTest extends TestCase
         $form->__construct([], $request);
         $element = $form->text('foo');
 
-        $this->assertEquals('GET', $form->getRequestWrapper()->getRequest()->getMethod());
-        $this->assertEquals('zed', $element->getAttribute('value'));
+        $this->assertSame('GET', $form->getRequestWrapper()->getRequest()->getMethod());
+        $this->assertSame('zed', $element->getAttr('value')->getValueString());
     }
 
     public function test_setDefaults_1_2_2()
@@ -301,7 +301,7 @@ class FormTest extends TestCase
         $element = $form->text('foo');
 
         $this->assertEquals('POST', $form->getRequestWrapper()->getRequest()->getMethod());
-        $this->assertEquals('zed', $element->getAttribute('value'));
+        $this->assertEquals('zed', $element->getAttr('value')->getValueString());
     }
 
     public function test_isSubmitted_false()

@@ -2,6 +2,7 @@
 
 namespace Tests\Enjoys\Forms\Traits;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Traits\Attributes;
 use PHPUnit\Framework\TestCase;
 
@@ -9,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Class AttributeTest
  * @package Tests\Enjoys\Forms\Traits
  */
-class AttributeTest extends TestCase
+class AttributeTest
 {
 
     /**
@@ -34,7 +35,7 @@ class AttributeTest extends TestCase
     public function test_attributes($attributes, $expect)
     {
         $trait = $this->getMockForTrait(Attributes::class);
-        $trait->setAttributes($attributes);
+        $trait->setAttrs(Attribute::createFromArray($attributes));
         $this->assertEquals($expect, $trait->getAttributesString());
     }
 
@@ -53,7 +54,7 @@ class AttributeTest extends TestCase
     public function testAddAttribute_arrays()
     {
         $trait = $this->getMockForTrait(Attributes::class);
-        $trait->setAttributes(['first' => 'value1', 'second' => 'value2']);
+        $trait->setAttrs(['first' => 'value1', 'second' => 'value2']);
         $this->assertSame('value1', $trait->getAttribute('first'));
         $this->assertSame('value2', $trait->getAttribute('second'));
 

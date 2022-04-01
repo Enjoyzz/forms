@@ -26,62 +26,66 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
+use Enjoys\Forms\Elements\Header;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Forms;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of HeaderTest
  *
  * @author deadl
  */
-class HeaderTest extends \PHPUnit\Framework\TestCase
+class HeaderTest extends TestCase
 {
 
- 
+
     public function test_full_construct()
     {
-
-        $obj = new \Enjoys\Forms\Elements\Header( 'title');
+        $obj = new Header('title');
         $this->assertSame('title', $obj->getLabel());
     }
 
     public function test_attr_legend()
     {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->setAttributes([
-            'id' => 'test'
-        ]);
-        $this->assertSame('test', $obj->getAttribute('id'));
+        $obj = new Header('title');
+        $obj->setAttr(Attribute::create('id', 'test'));
+        $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
     public function test_attr_fieldset()
     {
-        $obj = new \Enjoys\Forms\Elements\Header( 'title');
-        $obj->setAttributes([
-            'id' => 'test'
-        ], \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET);
-        $this->assertSame('test', $obj->getAttribute('id', \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET));
+        $obj = new Header('title');
+        $obj->setAttrs(
+            Attribute::createFromArray([
+                'id' => 'test'
+            ]),
+            Form::ATTRIBUTES_FIELDSET
+        );
+        $this->assertSame('test', $obj->getAttr('id', Form::ATTRIBUTES_FIELDSET)->getValueString());
     }
 
     public function test_attr_fieldset_get()
     {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
-        $obj->setAttributes([
+        $obj = new Header('title');
+        $obj->setAttrs(Attribute::createFromArray([
             'id' => 'test',
             'disabled' => null
-        ], \Enjoys\Forms\Form::ATTRIBUTES_FIELDSET);
-        $this->assertSame(' id="test" disabled', $obj->getAttributesString(\Enjoys\Forms\Form::ATTRIBUTES_FIELDSET));
+        ]), Form::ATTRIBUTES_FIELDSET);
+        $this->assertSame(' id="test" disabled', $obj->getAttributesString(Form::ATTRIBUTES_FIELDSET));
     }
-    
+
     public function test_close_after()
     {
-        $obj = new \Enjoys\Forms\Elements\Header( 'title');
+        $obj = new Header('title');
         $obj->closeAfter(5);
         $this->assertSame(5, $obj->getCloseAfterCountElements());
-    }    
-    
+    }
+
     public function test_basehtml()
     {
-        $obj = new \Enjoys\Forms\Elements\Header('title');
+        $obj = new Header('title');
         $this->assertSame('title', $obj->baseHtml());
     }
 

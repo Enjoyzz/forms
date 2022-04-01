@@ -26,7 +26,7 @@ class DatalistRender extends BaseElement
         $return = sprintf(
             '<input%s><datalist id="%s">',
             $element->getAttributesString(),
-            (string) $element->getAttribute('list')
+            $element->getAttr('list')->getValueString()
         );
 
         /** @var Datalist $element */

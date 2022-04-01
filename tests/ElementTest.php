@@ -28,20 +28,25 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
+use Enjoys\Forms\Attribute;
+use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Rules;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of ElementTest
  *
  * @author deadl
  */
-class ElementTest extends \PHPUnit\Framework\TestCase
+class ElementTest extends TestCase
 {
     use Reflection;
 
     /**
      *
-     * @var  Enjoys\Forms\Forms $form 
+     * @var  Enjoys\Forms\Forms $form
      */
     protected $obj;
 
@@ -64,16 +69,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
     public function test_setName_1_0()
     {
-        $element = new \Enjoys\Forms\Elements\Text('Foo');
+        $element = new Text('Foo');
         $this->assertEquals('Foo', $element->getName());
     }
 
     public function test_setId_1_0()
     {
-        $element = new \Enjoys\Forms\Elements\Text('Foo');
-        $this->assertEquals('Foo', $element->getAttribute('id'));
-        $element->setAttribute('id', 'Baz');
-        $this->assertEquals('Baz', $element->getAttribute('id'));
+        $element = new Text('Foo');
+        $this->assertSame('Foo', $element->getAttr('id')->getValueString());
+        $element->setAttr(Attribute::create('id', 'Baz'));
+        $this->assertSame('Baz', $element->getAttr('id')->getValueString());
     }
 
     public function test_getType_1_0()
@@ -86,7 +91,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
     public function test_setLabel_1_0()
     {
-        $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
+        $element = new Text('Foo', 'Bar');
         $this->assertEquals('Bar', $element->getLabel());
         $element->setLabel('Baz');
         $this->assertEquals('Baz', $element->getLabel());
@@ -96,7 +101,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->obj->setDefaults([
             'Foo' => [
-                'first_string', 'second_string'
+                'first_string',
+                'second_string'
             ]
         ]);
 //        $this->obj->setOptions([
@@ -107,24 +113,24 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 //            ]
 //        ]);
         $element = $this->obj->text('Foo[]', 'Bar');
-        $this->assertEquals('first_string', $element->getAttribute('value'));
+        $this->assertEquals('first_string', $element->getAttr('value')->getValueString());
     }
 
     public function test_addRule_1_0()
     {
-        $element = $this->obj->text('Foo', 'Bar')->addRule(\Enjoys\Forms\Rules::REQUIRED, 'will be required');
+        $element = $this->obj->text('Foo', 'Bar')->addRule(Rules::REQUIRED, 'will be required');
         $this->assertEquals('will be required', $element->getRules()[0]->getMessage());
     }
 
     public function test_addRule_invalid()
     {
-        $this->expectException(\Enjoys\Forms\Exception\ExceptionRule::class);
+        $this->expectException(ExceptionRule::class);
         $element = $this->obj->text('Foo', 'Bar')->addRule('invalid');
     }
 
     public function test_setRuleMessage_1_0()
     {
-        $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
+        $element = new Text('Foo', 'Bar');
         $element->setRuleError('rule message error');
         $this->assertEquals('rule message error', $element->getRuleErrorMessage());
         $this->assertEquals(true, $element->isRuleError());
@@ -132,17 +138,19 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
     public function test_isrequired()
     {
-        $element = new \Enjoys\Forms\Elements\Text('Foo', 'Bar');
+        $element = new Text('Foo', 'Bar');
         $this->assertEquals(false, $element->isRequired());
-        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $element->addRule(Rules::REQUIRED);
         $this->assertEquals(true, $element->isRequired());
     }
 
     public function test_baseHtml()
     {
-        $element = new \Enjoys\Forms\Elements\Text('text');
-        $element->removeAttribute('id');
-        $element->removeAttribute('name');
+        $element = new Text('text');
+        $element->getAttributeCollection()
+            ->remove('id')
+            ->remove('name')
+        ;
         $this->assertEquals('<input type="text">', $element->baseHtml());
     }
 }

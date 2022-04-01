@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Interfaces\Ruled;
@@ -23,8 +24,11 @@ class Datalist extends Element implements FillableInterface, Ruled
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttribute('list', $this->getAttribute('id'));
-        $this->removeAttribute('id');
+        $this
+            ->setAttr($this->getAttr('id')->withName('list'))
+            ->getAttributeCollection()
+            ->remove('id')
+        ;
     }
 
     public function baseHtml(): string

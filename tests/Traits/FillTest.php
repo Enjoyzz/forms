@@ -57,9 +57,9 @@ class FillTest extends TestCase
                 3
             ]
         );
-        $this->assertEquals('46', $select->getElements()[0]->getAttribute('value'));
-        $this->assertEquals('47', $select->getElements()[1]->getAttribute('value'));
-        $this->assertEquals('48', $select->getElements()[2]->getAttribute('value'));
+        $this->assertEquals('46', $select->getElements()[0]->getAttr('value')->getValueString());
+        $this->assertEquals('47', $select->getElements()[1]->getAttr('value')->getValueString());
+        $this->assertEquals('48', $select->getElements()[2]->getAttr('value')->getValueString());
     }
 
     public function test_closurefill()
@@ -81,8 +81,8 @@ class FillTest extends TestCase
             }
             return $ret;
         });
-        $this->assertEquals('52', $select->getElements()[0]->getAttribute('value'));
-        $this->assertEquals('36', $select->getElements()[1]->getAttribute('value'));
+        $this->assertEquals('52', $select->getElements()[0]->getAttr('value')->getValueString());
+        $this->assertEquals('36', $select->getElements()[1]->getAttr('value')->getValueString());
     }
 
     public function test_closure_invalid_return()

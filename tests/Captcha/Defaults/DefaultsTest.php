@@ -81,8 +81,8 @@ class DefaultsTest extends TestCase
         $this->assertArrayHasKey('foo', $captcha->getOptions());
         $this->assertArrayHasKey('bar', $captcha->getOptions());
         $this->assertEquals('v_baz', $captcha->getOption('baz'));
-        $this->assertEquals('text', $captcha_element->getAttribute('type'));
-        $this->assertEquals('off', $captcha_element->getAttribute('autocomplete'));
+        $this->assertEquals('text', $captcha_element->getAttr('type')->getValueString());
+        $this->assertEquals('off', $captcha_element->getAttr('autocomplete')->getValueString());
     }
 
     public function test_generateCode()

@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Traits\Fill;
 
-/**
- * Class Option
- * @package Enjoys\Forms\Elements
- */
 class Option extends Element implements FillableInterface
 {
     use Fill;
@@ -22,11 +19,15 @@ class Option extends Element implements FillableInterface
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttributes([
-            'value' => $name,
-            'id' => $name
-        ]);
-        $this->removeAttribute('name');
+        $this->setAttrs(
+            Attribute::createFromArray([
+                'id' => $name,
+                'value' => $name,
+            ])
+        )
+            ->getAttributeCollection()
+            ->remove('name')
+        ;
     }
 
     /**
@@ -37,15 +38,15 @@ class Option extends Element implements FillableInterface
     protected function setDefault($value = null): self
     {
         if (is_array($value)) {
-            if (in_array($this->getAttribute('value'), $value)) {
-                $this->setAttribute('selected');
+            if (in_array($this->getAttr('value')->getValueString(), $value)) {
+                $this->setAttr(new Attribute('selected'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value') == $value) {
-                $this->setAttribute('selected');
+            if ($this->getAttr('value')->getValueString() == $value) {
+                $this->setAttr(new Attribute('selected'));
                 return $this;
             }
         }
@@ -54,7 +55,7 @@ class Option extends Element implements FillableInterface
 
     public function baseHtml(): string
     {
-        $this->setAttributes($this->getAttributes('fill'));
+        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy());
         return "<option{$this->getAttributesString()}>{$this->getLabel()}</option>";
     }
 }

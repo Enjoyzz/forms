@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Element;
 
 class Image extends Element
@@ -15,7 +16,7 @@ class Image extends Element
     {
         parent::__construct($name);
         if (!is_null($src)) {
-            $this->setAttribute('src', $src);
+            $this->setAttr(Attribute::create('src', $src));
         }
     }
 }

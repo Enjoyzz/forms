@@ -36,6 +36,13 @@ final class Attribute
 
     }
 
+    public function withName(string $name): Attribute
+    {
+        $new = clone $this;
+        $new->name = $name;
+        return $new;
+    }
+
     public static function create(string $name, mixed $value = null): Attribute
     {
         return new self($name, $value);
@@ -49,6 +56,10 @@ final class Attribute
     {
         $attributes = [];
         foreach ($attributesKeyValue as $name => $value) {
+            if (!is_string($name) && is_string($value)){
+                $name = $value;
+                $value = null;
+            }
             $attributes[] = self::create($name, $value);
         }
         return $attributes;

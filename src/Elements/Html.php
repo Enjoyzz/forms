@@ -14,8 +14,7 @@ class Html extends Element
     {
         parent::__construct(\uniqid('html'), $title);
         $this->setLabel($title);
-        $this->removeAttribute('name');
-        $this->removeAttribute('id');
+        $this->getAttributeCollection()->remove('name')->remove('id');
     }
 
     public function baseHtml(): string
