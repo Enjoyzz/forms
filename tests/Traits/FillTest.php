@@ -5,15 +5,10 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Traits;
 
 use Enjoys\Forms\Elements\Select;
-use PHPUnit\Framework\TestCase;
 use Tests\Enjoys\Forms\Reflection;
 
-/**
- * Class FillTest
- *
- * @author Enjoys
- */
-class FillTest extends TestCase
+
+class FillTest
 {
     use Reflection;
 

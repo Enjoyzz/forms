@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Form;
-use PHPUnit\Framework\TestCase;
 
-class TockenSubmitTest extends TestCase
+class TockenSubmitTest
 {
 
     public function testTockenSubmitIfInclCounterDefault()

@@ -5,10 +5,6 @@ namespace Tests\Enjoys\Forms\Traits;
 use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Traits\Attributes;
 
-/**
- * Class AttributeTest
- * @package Tests\Enjoys\Forms\Traits
- */
 class AttributeTest
 {
 

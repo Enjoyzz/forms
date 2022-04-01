@@ -7,9 +7,8 @@ namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Html;
 use Enjoys\Forms\Renderer\ElementsRender\HtmlRender;
-use PHPUnit\Framework\TestCase;
 
-class HtmlRenderTest extends TestCase
+class HtmlRenderTest
 {
 
     public function testSimpleRender()

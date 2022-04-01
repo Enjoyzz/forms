@@ -7,14 +7,9 @@ use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
-use PHPUnit\Framework\TestCase;
 
-/**
- * Description of SelectTest
- *
- * @author deadl
- */
-class SelectTest extends TestCase
+
+class SelectTest
 {
 
     public function test_title()

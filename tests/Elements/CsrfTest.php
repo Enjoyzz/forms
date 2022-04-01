@@ -5,19 +5,13 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Callback;
-use Enjoys\Http\ServerRequest;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use HttpSoft\ServerRequest\ServerRequestCreator;
-use PHPUnit\Framework\TestCase;
 
 new Session();
 
-/**
- * Class CsrfTest
- * @package Tests\Enjoys\Forms\Elements
- */
-class CsrfTest extends TestCase
+class CsrfTest
 {
 
     public function test_remove_hidden()

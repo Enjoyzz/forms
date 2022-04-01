@@ -9,13 +9,9 @@ use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\ElementsRender\CheckboxRender;
 use Enjoys\Forms\Renderer\ElementsRender\RadioRender;
-use PHPUnit\Framework\TestCase;
 
-/**
- * Class RadioRenderTest
- * @package Tests\Enjoys\Forms\Renderer\ElementsRender
- */
-class RadioRenderTest extends TestCase
+
+class RadioRenderTest
 {
     public function test_1()
     {

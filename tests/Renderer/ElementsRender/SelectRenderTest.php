@@ -6,9 +6,8 @@ namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Renderer\ElementsRender\SelectRender;
-use PHPUnit\Framework\TestCase;
 
-class SelectRenderTest extends TestCase
+class SelectRenderTest
 {
     public function test_1()
     {

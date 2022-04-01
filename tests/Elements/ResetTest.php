@@ -3,10 +3,9 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Reset;
-use PHPUnit\Framework\TestCase;
 
 
-class ResetTest extends TestCase
+class ResetTest
 {
 
     public function test_init()

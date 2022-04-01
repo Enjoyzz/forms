@@ -1,45 +1,21 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace Tests\Enjoys\Forms\Http;
 
-/**
- * Class RequestTest
- *
- * @author Enjoys
- */
-class RequestTest extends \PHPUnit\Framework\TestCase
+use Enjoys\Http\ServerRequest;
+use HttpSoft\ServerRequest\ServerRequestCreator;
+use Psr\Http\Message\UploadedFileInterface;
+
+
+class RequestTest
 {
 
     public function test_get()
     {
 
 
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         null,
                         null,
@@ -58,8 +34,8 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function test_post()
     {
 
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         null,
                         null,
@@ -80,8 +56,8 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         //$uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
         //$request = new \Enjoys\Forms\Http\Request([], [], [], [], ['food' => $uploadFile]);
        // var_dump($_FILES);
-        $request = new \Enjoys\Http\ServerRequest(
-                \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
+        $request = new ServerRequest(
+                ServerRequestCreator::createFromGlobals(
                         null,
                         [
                             'food' => [
@@ -97,8 +73,8 @@ class RequestTest extends \PHPUnit\Framework\TestCase
 
       //  var_dump($request->files());
         $this->assertEquals(null, $request->files('food4'));
-        $this->assertInstanceOf(\Psr\Http\Message\UploadedFileInterface::class, $request->files('food'));
-        $this->assertInstanceOf(\Psr\Http\Message\UploadedFileInterface::class, $request->files()['food']);
+        $this->assertInstanceOf(UploadedFileInterface::class, $request->files('food'));
+        $this->assertInstanceOf(UploadedFileInterface::class, $request->files()['food']);
     }
 
     /**

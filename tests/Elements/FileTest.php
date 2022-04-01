@@ -2,13 +2,8 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Form;
-use Enjoys\Forms\Rules;
-use PHPUnit\Framework\TestCase;
 
-
-class FileTest extends TestCase
+class FileTest
 {
 
     public function test_max_file_size()

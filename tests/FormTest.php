@@ -10,17 +10,11 @@ use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Exception\ExceptionElement;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
-use Enjoys\Http\ServerRequest;
 use Enjoys\ServerRequestWrapper;
 use HttpSoft\ServerRequest\ServerRequestCreator;
-use PHPUnit\Framework\TestCase;
 
-/**
- * Class FormTest
- * @package Tests\Enjoys\Forms
- */
-class FormTest extends TestCase
-{
+
+class FormTest {
     use Reflection;
 
     public function test_init_form_1_0()

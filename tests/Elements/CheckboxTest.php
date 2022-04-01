@@ -6,14 +6,9 @@ use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
-use PHPUnit\Framework\TestCase;
 
-/**
- * Description of RadioTest
- *
- * @author deadl
- */
-class CheckboxTest extends TestCase
+
+class CheckboxTest
 {
 
 
