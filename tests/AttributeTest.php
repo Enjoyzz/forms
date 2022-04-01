@@ -61,4 +61,46 @@ class AttributeTest extends TestCase
         $attr = new Attribute('class');
         $this->assertSame('', $attr->__toString());
     }
+
+    public function testSet()
+    {
+        $attr = new Attribute('id', 1);
+        $attr->set([2]);
+        $this->assertSame('2', $attr->getValueString());
+    }
+
+    public function testClone()
+    {
+        $attr = new Attribute('id', 42);
+        $new = $attr->withName('baz');
+        $this->assertSame('42', $new->getValueString());
+    }
+
+    public function testCreateFromArrayWithIntNameAndStringValue()
+    {
+        $attr = Attribute::createFromArray([
+            'test'
+        ]);
+        self::assertSame([], current($attr)->getValues());
+        self::assertSame('test', current($attr)->__toString());
+    }
+
+    public function testNormalizeClosure()
+    {
+        $attr = new Attribute('id');
+        $attr->add(function (){
+            return 42;
+        });
+        $this->assertSame('42', $attr->getValueString());
+    }
+
+    public function testRemoveTrue()
+    {
+        $attr = new Attribute('id', 42);
+        $this->assertSame('42', $attr->getValueString());
+        $this->assertTrue($attr->remove('42'));
+        $this->assertSame('', $attr->getValueString());
+        $this->assertFalse($attr->remove('invalid'));
+
+    }
 }

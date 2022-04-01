@@ -93,36 +93,5 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
     }
 
 
-//    public function offsetExists(mixed $offset): bool
-//    {
-//        return isset($this->collection[$offset]) || array_key_exists($offset, $this->collection);
-//    }
-//
-//    public function offsetGet(mixed $offset)
-//    {
-//        return $this->collection[$offset] ?? null;
-//    }
-//
-//    public function offsetSet(mixed $offset, mixed $value)
-//    {
-//        if ($offset === null) {
-//            $this->collection[] = $value;
-//            return;
-//        }
-//
-//        $this->collection[$offset] = $value;
-//    }
-//
-//    public function offsetUnset(mixed $offset)
-//    {
-//        if (! isset($this->collection[$offset]) && ! array_key_exists($offset, $this->collection)) {
-//            return null;
-//        }
-//
-//        $removed = $this->collection[$offset];
-//        unset($this->collection[$offset]);
-//
-//        return $removed;
-//    }
 
 }
