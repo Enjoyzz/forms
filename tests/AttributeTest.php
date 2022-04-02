@@ -6,6 +6,7 @@ namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\Attribute;
 use PHPUnit\Framework\TestCase;
+use Webmozart\Assert\InvalidArgumentException;
 
 class AttributeTest extends TestCase
 {
@@ -101,6 +102,74 @@ class AttributeTest extends TestCase
         $this->assertTrue($attr->remove('42'));
         $this->assertSame('', $attr->getValueString());
         $this->assertFalse($attr->remove('invalid'));
+    }
 
+    public function testCloneAttributeWithName()
+    {
+        $attr = new Attribute('id', 42);
+        $newAttr = $attr->withName('ids');
+        $this->assertSame('id', $attr->getName());
+        $this->assertSame('ids', $newAttr->getName());
+
+    }
+
+    public function testAttributeCreateStaticFunction()
+    {
+        $attr = Attribute::create('id', 42);
+        $this->assertSame(['42'], $attr->getValues());
+    }
+
+    public function testSetMultipleAttribute()
+    {
+        $attr = new Attribute('id', 'one');
+        $attr->add('two');
+        $this->assertCount(1, $attr->getValues());
+        $this->assertSame(['two'], $attr->getValues());
+        $attr->setMultiple(true);
+        $attr->add('one');
+        $attr->add('three');
+        $this->assertSame(['two', 'one', 'three'], $attr->getValues());
+        $this->assertCount(3, $attr->getValues());
+
+    }
+
+    public function testSetValuesToAttribute()
+    {
+        $attr = new Attribute('id', 1);
+        $attr->setMultiple(true);
+        $attr->set([2,3]);
+        $this->assertSame(['2','3'], $attr->getValues());
+    }
+
+    public function testClearAttributes()
+    {
+        $attr = new Attribute('class', '1 2 3');
+        $this->assertCount(3, $attr->getValues());
+        $attr->clear();
+        $this->assertCount(0, $attr->getValues());
+    }
+
+    public function testHasAttribute()
+    {
+        $attr = new Attribute('class', '1 2 3');
+        $this->assertTrue($attr->has('2'));
+        $this->assertFalse($attr->has('42'));
+    }
+
+    public function testClosureAttributeValue()
+    {
+        $attr = new Attribute('id');
+        $attr->add(function (){
+           return 42;
+        });
+        $this->assertTrue($attr->has('42'));
+    }
+
+    public function testInvalidClosureAttributeValue()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Attribute('id', function (){
+            return new \stdClass();
+        });
     }
 }

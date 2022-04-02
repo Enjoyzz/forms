@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Webmozart\Assert\Assert;
+use Webmozart\Assert\InvalidArgumentException;
 
 final class Attribute
 {
@@ -28,7 +29,6 @@ final class Attribute
         if ($name === 'class') {
             $this->setMultiple(true);
             $this->setWithoutValue(false);
-            $this->setSeparator(' ');
         }
 
 
@@ -77,9 +77,10 @@ final class Attribute
         return $this;
     }
 
-    public function setMultiple(bool $multiple): Attribute
+    public function setMultiple(bool $multiple, string $separator = ' '): Attribute
     {
         $this->multiple = $multiple;
+        $this->separator = $separator;
         return $this;
     }
 
@@ -176,6 +177,11 @@ final class Attribute
         return true;
     }
 
+    /**
+     * @param mixed $value
+     * @return string|null
+     * @throws InvalidArgumentException
+     */
     private function normalize(mixed $value): ?string
     {
         if ($value instanceof \Closure) {
