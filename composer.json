@@ -29,7 +29,7 @@
   "scripts": {
     "psalm": "./vendor/bin/psalm",
     "psalm-ext": "./vendor/bin/psalm --show-info=true",
-    "infection": "@php infection.phar"
+    "infection": "XDEBUG_MODE=coverage ./infection.phar --only-covered --show-mutations"
   },
   "autoload": {
     "psr-4": {
