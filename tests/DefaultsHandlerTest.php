@@ -4,16 +4,16 @@
 namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\DefaultsHandler;
+use PHPUnit\Framework\TestCase;
 
 
-class DefaultsHandlerTest
+class DefaultsHandlerTest extends TestCase
 {
-    
 
     /**
      * @dataProvider data
      */
-    public function test_construct_with_submitted($data, $value, $expectV)
+    public function testConstructWithSubmitted($data, $value, $expectV)
     {
        $handler = new DefaultsHandler($data);
        $this->assertEquals($data, $handler->getDefaults());
@@ -21,7 +21,7 @@ class DefaultsHandlerTest
        $this->assertEquals(false, $handler->getValue('notisset'));
     }
     
-    public function data()
+    public function data(): array
     {
         return [
             [[1,2,3], 1, 2],
@@ -29,21 +29,4 @@ class DefaultsHandlerTest
         ];
     }
 
-//    public function test_construct_with_notsubmitted()
-//    {
-//        $form = $this->getMockBuilder(\Enjoys\Forms\Form::class)
-//                ->disableOriginalConstructor()
-//                ->onlyMethods(['isSubmitted', 'getMethod'])
-//                ->getMock();
-//        $form->method('isSubmitted')->will($this->returnValue(false));
-//        $form->method('getMethod')->will($this->returnValue('GET'));
-//
-//        $defaults = new \Enjoys\Forms\DefaultsHandler([
-//            'data' => 'data'
-//                ], $form);
-//
-//
-//        $this->assertEquals('data', $defaults->getValue('data'));
-//    }
-    //put your code here
 }
