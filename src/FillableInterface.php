@@ -15,7 +15,7 @@ interface FillableInterface
 
     public function getParentName(): string;
 
-    public function fill(array $data): self;
+    public function fill(array $data);
 
     public function getElements(): array;
 

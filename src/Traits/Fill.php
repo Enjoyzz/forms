@@ -9,10 +9,7 @@ use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
 
-/**
- * Trait Fill
- * @package Enjoys\Forms\Traits
- */
+
 trait Fill
 {
 
@@ -54,7 +51,7 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill($data, $useTitleAsValue = false): self
+    public function fill($data, bool $useTitleAsValue = false)
     {
         if ($data instanceof \Closure) {
             $data = $data();
@@ -82,7 +79,7 @@ trait Fill
             foreach ($fillCollection as $attr) {
                 if (in_array($attr->getName(), ['id', 'name', 'disabled', 'readonly'])) {
                     $element->setAttr($attr);
-                    $fillCollection->remove($attr);
+                 //   $fillCollection->remove($attr);
                 }
             }
 
@@ -96,7 +93,7 @@ trait Fill
 
     /**
      *
-     * @return array
+     * @return array|Element[]
      */
     public function getElements(): array
     {
@@ -109,6 +106,12 @@ trait Fill
     public function getDefaultValue()
     {
         return $this->defaultValue;
+    }
+
+
+    public function setDefaultValue(mixed $defaultValue): void
+    {
+        $this->defaultValue = $defaultValue;
     }
 
 

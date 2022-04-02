@@ -66,7 +66,8 @@ class Select extends Element implements FillableInterface, Ruled
      */
     protected function setDefault(): self
     {
-        $this->defaultValue = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+//        $this->defaultValue = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        $this->setDefaultValue($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
         return $this;
     }
 
