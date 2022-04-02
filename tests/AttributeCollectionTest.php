@@ -86,6 +86,23 @@ class AttributeCollectionTest extends TestCase
         $this->assertSame(0, $collection->count());
     }
 
+    public function testRemoveElementIfNotFound()
+    {
+        $collection = new AttributeCollection();
+        $attrs = Attribute::createFromArray([
+            'id' => 'my-id',
+            'class' => 'my-class'
+        ]);
+        foreach ($attrs as $attr) {
+            $collection->add($attr);
+        }
+
+        $this->assertSame(2, $collection->count());
+        $collection->remove('not-found-attribute');
+        $this->assertSame(2, $collection->count());
+    }
+
+
     public function testClearCollection()
     {
         $collection = new AttributeCollection();
@@ -115,6 +132,26 @@ class AttributeCollectionTest extends TestCase
         }
 
         $this->assertSame('id="my-id"', $collection->__toString());
+    }
+
+
+    public function testIterator()
+    {
+        $collection = new AttributeCollection();
+        $attrs = Attribute::createFromArray([
+            'id' => 'my-id',
+            'class'
+        ]);
+        foreach ($attrs as $attr) {
+            $collection->add($attr);
+        }
+
+        foreach ($collection as $item) {
+            $this->assertInstanceOf(Attribute::class, $item);
+        }
+        foreach ($collection->getIterator() as $item) {
+            $this->assertInstanceOf(Attribute::class, $item);
+        }
     }
 
 }
