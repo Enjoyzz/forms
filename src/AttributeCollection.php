@@ -63,7 +63,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         foreach ($this->collection as $key => $item) {
             if ($item->getName() === $attributeName) {
                 unset($this->collection[$key]);
-                break;
+                return $this;
             }
         }
 

@@ -6,7 +6,6 @@ namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
-use Enjoys\Forms\Elements\Text;
 use PHPUnit\Framework\TestCase;
 
 class AttributeCollectionTest extends TestCase
@@ -45,24 +44,77 @@ class AttributeCollectionTest extends TestCase
         $this->assertSame('id="second"', (string)$collection);
     }
 
-    public function testAttributesTrait_addAttrs_addAttr_setAttrs_setAttr()
+    public function testGetAttributeFormCollection()
     {
-        $text = new Text('test');
-        $this->assertSame('id="test" name="test"', (string)$text->getAttributeCollection());
-        $text->addAttrs([
-            new Attribute('id', 'id'),
-            new Attribute('class', 'one two'),
+        $collection = new AttributeCollection();
+        $attrs = Attribute::createFromArray([
+            'id' => 'my-id',
+            'class' => 'my-class'
         ]);
-        $this->assertSame('id="test" name="test" class="one two"', (string)$text->getAttributeCollection());
-        $text->setAttrsWithClear([
-            new Attribute('id', 'id')
-        ]);
-        $this->assertSame('id="id"', (string)$text->getAttributeCollection());
-        $text->addAttr(new Attribute('id', 'newid'));
-        $text->addAttr(new Attribute('disabled'));
-        $this->assertSame('id="id" disabled', (string)$text->getAttributeCollection());
-        $text->setAttr(new Attribute('id', 'newid'));
-        $text->setAttr(new Attribute('class'));
-        $this->assertSame('disabled id="newid"', (string)$text->getAttributeCollection());
+        foreach ($attrs as $attr) {
+            $collection->add($attr);
+        }
+
+        $this->assertInstanceOf(Attribute::class, $collection->get('class'));
+        $this->assertNull($collection->get('not-found-attribute'));
     }
+
+    public function testHasAttributeInCollection()
+    {
+        $collection = new AttributeCollection();
+        $idAttr = Attribute::create('id');
+        $collection->add($idAttr);
+        $this->assertTrue($collection->has($idAttr));
+        $this->assertFalse($collection->has(Attribute::create('not-found-attribute')));
+    }
+
+    public function testRemoveAttributeFromCollection()
+    {
+        $collection = new AttributeCollection();
+        $attrs = Attribute::createFromArray([
+            'id' => 'my-id',
+            'class' => 'my-class'
+        ]);
+        foreach ($attrs as $attr) {
+            $collection->add($attr);
+        }
+
+        $this->assertSame(2, $collection->count());
+        $collection->remove('class');
+        $this->assertSame(1, $collection->count());
+        $collection->remove($collection->get('id'));
+        $this->assertSame(0, $collection->count());
+    }
+
+    public function testClearCollection()
+    {
+        $collection = new AttributeCollection();
+        $attrs = Attribute::createFromArray([
+            'id' => 'my-id',
+            'class' => 'my-class'
+        ]);
+        foreach ($attrs as $attr) {
+            $collection->add($attr);
+        }
+
+        $this->assertSame(2, $collection->count());
+
+        $collection->clear();
+        $this->assertSame(0, $collection->count());
+    }
+
+    public function testToStringIfAttrReturnEmpty()
+    {
+        $collection = new AttributeCollection();
+        $attrs = Attribute::createFromArray([
+            'id' => 'my-id',
+            'class'
+        ]);
+        foreach ($attrs as $attr) {
+            $collection->add($attr);
+        }
+
+        $this->assertSame('id="my-id"', $collection->__toString());
+    }
+
 }
