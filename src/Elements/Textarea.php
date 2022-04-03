@@ -9,6 +9,7 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
+use Webmozart\Assert\Assert;
 
 class Textarea extends Element implements Ruled
 {
@@ -26,7 +27,7 @@ class Textarea extends Element implements Ruled
         $this->value = '';
     }
 
-    public function setValue(?string $value): self
+    public function setValue(?string $value): Textarea
     {
         $this->value = $value ?? '';
         return $this;
@@ -37,12 +38,22 @@ class Textarea extends Element implements Ruled
         return $this->value;
     }
 
+    private function getValidatedAttribute(mixed $value): mixed
+    {
+        if ($value instanceof \Closure){
+            $value = $value();
+        }
+        Assert::numeric($value);
+        return $value;
+    }
+
     /**
      * Высота поля в строках текста.
      */
-    public function setRows(mixed $rows): self
+    public function setRows(mixed $rows): Textarea
     {
-        $this->setAttr(Attribute::create('rows', $rows));
+        $value = $this->getValidatedAttribute($rows);
+        $this->setAttr(Attribute::create('rows', $value));
         return $this;
     }
 
@@ -51,7 +62,8 @@ class Textarea extends Element implements Ruled
      */
     public function setCols(mixed $cols): Textarea
     {
-        $this->setAttr(Attribute::create('cols', $cols));
+        $value = $this->getValidatedAttribute($cols);
+        $this->setAttr(Attribute::create('cols', $value));
         return $this;
     }
 
