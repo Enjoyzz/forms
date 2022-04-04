@@ -49,8 +49,8 @@ jobs:
         mkdir -p build/logs
         vendor/bin/phpunit  tests --verbose --coverage-clover build/logs/clover.xml 
       
-    - name: Run psalm
-      run: vendor/bin/psalm  --show-info=true
+#    - name: Run psalm
+#      run: vendor/bin/psalm  --show-info=true
 #      
 #    - name: Code coverage
 #      run: |
