@@ -131,7 +131,7 @@ abstract class Element implements ElementInterface
     {
         $this->name = $name;
         $this->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => $this->name,
                 'name' => $this->name
             ])
@@ -182,14 +182,14 @@ abstract class Element implements ElementInterface
 
         if (is_array($value)) {
             $this->setAttr(
-                Attribute::create('value', $value[0])
+                AttributeFactory::create('value', $value[0])
             );
         }
 
         if (is_string($value) || is_numeric($value)) {
             // $this->setValue($value);
             $this->setAttr(
-                Attribute::create('value', $value)
+                AttributeFactory::create('value', $value)
             );
         }
         return $this;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Traits\Fill;
@@ -73,7 +73,7 @@ class Optgroup extends Element implements FillableInterface
     {
         parent::__construct(\uniqid('optgroup'), $title);
         $this->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'label' => $title
             ])
         );

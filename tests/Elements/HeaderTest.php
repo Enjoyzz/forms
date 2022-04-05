@@ -2,7 +2,6 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Header;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Forms;
@@ -21,7 +20,7 @@ class HeaderTest
     public function test_attr_legend()
     {
         $obj = new Header('title');
-        $obj->setAttr(Attribute::create('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('id', 'test'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
@@ -29,7 +28,7 @@ class HeaderTest
     {
         $obj = new Header('title');
         $obj->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => 'test'
             ]),
             Form::ATTRIBUTES_FIELDSET
@@ -40,7 +39,7 @@ class HeaderTest
     public function test_attr_fieldset_get()
     {
         $obj = new Header('title');
-        $obj->setAttrs(Attribute::createFromArray([
+        $obj->setAttrs(AttributeFactory::createFromArray([
             'id' => 'test',
             'disabled' => null
         ]), Form::ATTRIBUTES_FIELDSET);

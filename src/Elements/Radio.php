@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
@@ -28,7 +28,7 @@ class Radio extends Element implements FillableInterface, Ruled
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttrs(Attribute::createFromArray([
+        $this->setAttrs(AttributeFactory::createFromArray([
             'id' => $this->getPrefixId() . $name,
             'value' => $name,
         ]));
@@ -38,7 +38,7 @@ class Radio extends Element implements FillableInterface, Ruled
     public function setPrefixId(string $prefix): self
     {
         static::$prefix_id = $prefix;
-        $this->setAttrs(Attribute::createFromArray([
+        $this->setAttrs(AttributeFactory::createFromArray([
             'id' => static::$prefix_id . $this->getName()
         ]));
 
@@ -66,14 +66,14 @@ class Radio extends Element implements FillableInterface, Ruled
 
         if (is_array($value)) {
             if (in_array($this->getAttr('value')->getValueString(), $value)) {
-                $this->setAttr(new Attribute('checked'));
+                $this->setAttr(AttributeFactory::create('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
             if ($this->getAttr('value')->getValueString() == $value) {
-                $this->setAttr(new Attribute('checked'));
+                $this->setAttr(AttributeFactory::create('checked'));
                 return $this;
             }
         }
@@ -82,9 +82,9 @@ class Radio extends Element implements FillableInterface, Ruled
 
     public function baseHtml(): string
     {
-        $this->setAttr(new Attribute('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
+        $this->setAttr(AttributeFactory::create('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
         $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy(), Form::ATTRIBUTES_LABEL);
-        $this->setAttrs(Attribute::createFromArray(['name' => $this->getParentName()]));
+        $this->setAttrs(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
     }
 }

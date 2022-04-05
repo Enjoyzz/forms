@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
@@ -54,7 +54,7 @@ class Defaults extends CaptchaBase implements CaptchaInterface
     public function renderHtml(Element $element): string
     {
         $element->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'type' => 'text',
                 'autocomplete' => 'off'
             ])

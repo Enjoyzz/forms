@@ -8,76 +8,38 @@ namespace Enjoys\Forms;
 use Webmozart\Assert\Assert;
 use Webmozart\Assert\InvalidArgumentException;
 
-final class Attribute
+abstract class Attribute implements AttributeInterface
 {
-    private string $name;
+    protected string $name = '';
 
     private array $values = [];
 
-    private bool $withoutValue = true;
+    protected bool $withoutValue = true;
+    protected bool $fillNameAsValue = false;
+    protected bool $multiple = false;
+    protected string $separator = '';
 
-    private bool $fillNameAsValue = false;
-
-    private bool $multiple = false;
-
-    private string $separator = '';
-
-
-    public function __construct(string $name, mixed $value = null)
-    {
-        $this->name = $name;
-        if ($name === 'class') {
-            $this->setMultiple(true);
-            $this->setWithoutValue(false);
-        }
-
-
-       $this->add($value);
-
-    }
-
-    public function withName(string $name): Attribute
+    public function withName(string $name): AttributeInterface
     {
         $new = clone $this;
         $new->name = $name;
         return $new;
     }
 
-    public static function create(string $name, mixed $value = null): Attribute
-    {
-        return new self($name, $value);
-    }
 
-    /**
-     * @param array $attributesKeyValue
-     * @return Attribute[]
-     */
-    public static function createFromArray(array $attributesKeyValue): array
-    {
-        $attributes = [];
-        foreach ($attributesKeyValue as $name => $value) {
-            if (!is_string($name) && is_string($value)){
-                $name = $value;
-                $value = null;
-            }
-            $attributes[] = self::create($name, $value);
-        }
-        return $attributes;
-    }
-
-    public function setWithoutValue(bool $withoutValue): Attribute
+    public function setWithoutValue(bool $withoutValue): AttributeInterface
     {
         $this->withoutValue = $withoutValue;
         return $this;
     }
 
-    public function setFillNameAsValue(bool $fillNameAsValue): Attribute
+    public function setFillNameAsValue(bool $fillNameAsValue): AttributeInterface
     {
         $this->fillNameAsValue = $fillNameAsValue;
         return $this;
     }
 
-    public function setMultiple(bool $multiple, string $separator = ' '): Attribute
+    public function setMultiple(bool $multiple, string $separator = ' '): AttributeInterface
     {
         $this->multiple = $multiple;
         $this->separator = $separator;
@@ -85,7 +47,7 @@ final class Attribute
     }
 
 
-    public function setSeparator(string $separator): Attribute
+    public function setSeparator(string $separator): AttributeInterface
     {
         $this->separator = $separator;
         return $this;
@@ -98,15 +60,18 @@ final class Attribute
 
     public function __toString(): string
     {
-        if ($this->withoutValue && empty($this->values)){
-            if ($this->fillNameAsValue){
+        if ($this->getName() === '') {
+            return '';
+        }
+        if ($this->withoutValue && empty($this->values)) {
+            if ($this->fillNameAsValue) {
                 return sprintf('%1$s="%1$s"', $this->getName());
             }
-            return  $this->getName();
+            return $this->getName();
         }
 
-        if (!$this->withoutValue && empty($this->values)){
-            return  '';
+        if (!$this->withoutValue && empty($this->values)) {
+            return '';
         }
 
         return sprintf('%s="%s"', $this->getName(), $this->getValueString());
@@ -141,12 +106,11 @@ final class Attribute
     }
 
 
-
-    public function add(mixed $value): Attribute
+    public function add(mixed $value): AttributeInterface
     {
         $value = $this->normalize($value);
 
-        if($value === null){
+        if ($value === null) {
             return $this;
         }
 
@@ -192,7 +156,6 @@ final class Attribute
 
         return ($value === null) ? null : (string)$value;
     }
-
 
 
 }

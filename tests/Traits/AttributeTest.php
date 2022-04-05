@@ -2,7 +2,7 @@
 
 namespace Tests\Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Traits\Attributes;
 use PHPUnit\Framework\TestCase;
 
@@ -15,19 +15,19 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->addAttrs([
-            new Attribute('id', 'id'),
-            new Attribute('class', 'one two'),
+            AttributeFactory::create('id', 'id'),
+            AttributeFactory::create('class', 'one two'),
         ]);
         $this->assertSame('id="id" class="one two"', (string)$traitAttributes->getAttributeCollection());
         $traitAttributes->setAttrsWithClear([
-            new Attribute('id', 'id')
+            AttributeFactory::create('id', 'id')
         ]);
         $this->assertSame('id="id"', (string)$traitAttributes->getAttributeCollection());
-        $traitAttributes->addAttr(new Attribute('id', 'newid'));
-        $traitAttributes->addAttr(new Attribute('disabled'));
+        $traitAttributes->addAttr(AttributeFactory::create('id', 'newid'));
+        $traitAttributes->addAttr(AttributeFactory::create('disabled'));
         $this->assertSame('id="id" disabled', (string)$traitAttributes->getAttributeCollection());
-        $traitAttributes->setAttr(new Attribute('id', 'newid'));
-        $traitAttributes->setAttr(new Attribute('class'));
+        $traitAttributes->setAttr(AttributeFactory::create('id', 'newid'));
+        $traitAttributes->setAttr(AttributeFactory::create('class'));
         $this->assertSame('disabled id="newid"', (string)$traitAttributes->getAttributeCollection());
     }
 
@@ -36,8 +36,8 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->addAttrs([
-            new Attribute('id', 'id'),
-            new Attribute('class', 'one two'),
+            AttributeFactory::create('id', 'id'),
+            AttributeFactory::create('class', 'one two'),
         ]);
         $this->assertSame(2, $traitAttributes->getAttributeCollection()->count());
         $this->assertSame(2, $traitAttributes->getAttrs()->count());
@@ -48,8 +48,8 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->addAttrs([
-            new Attribute('id', 'id'),
-            new Attribute('class', 'one two'),
+            AttributeFactory::create('id', 'id'),
+            AttributeFactory::create('class', 'one two'),
         ]);
         $this->assertSame(2, $traitAttributes->getAttributeCollection()->count());
         $returnedObject = $traitAttributes->removeAttr('id');
@@ -61,8 +61,8 @@ class AttributeTest extends TestCase
     {
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
-        $traitAttributes->addAttr(Attribute::create('id', '1'));
-        $returnedObject = $traitAttributes->addAttr(Attribute::create('id', '2'));
+        $traitAttributes->addAttr(AttributeFactory::create('id', '1'));
+        $returnedObject = $traitAttributes->addAttr(AttributeFactory::create('id', '2'));
         $this->assertSame('1', $traitAttributes->getAttr('id')->getValueString());
         $this->assertSame($returnedObject, $traitAttributes);
     }
@@ -72,13 +72,13 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => 'this',
                 'name' => 'this'
             ])
         );
         $returnedObject = $traitAttributes->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => 'another',
                 'name' => 'another'
             ])
@@ -92,13 +92,13 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->addAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => 'this',
                 'name' => 'this'
             ])
         );
         $returnedObject = $traitAttributes->addAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => 'another',
                 'name' => 'another'
             ])
@@ -145,7 +145,7 @@ class AttributeTest extends TestCase
     {
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
-        $traitAttributes->setAttrs(Attribute::createFromArray($attributes));
+        $traitAttributes->setAttrs(AttributeFactory::createFromArray($attributes));
         $this->assertEquals($expect, $traitAttributes->getAttributesString());
     }
 
@@ -179,8 +179,8 @@ class AttributeTest extends TestCase
     {
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
-        $traitAttributes->setAttr(Attribute::create('first', 'value1'));
-        $traitAttributes->setAttr(Attribute::create('three', 'value3'));
+        $traitAttributes->setAttr(AttributeFactory::create('first', 'value1'));
+        $traitAttributes->setAttr(AttributeFactory::create('three', 'value3'));
         $this->assertSame(' first="value1" three="value3"', $traitAttributes->getAttributesString());
     }
 
@@ -189,7 +189,7 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->setAttr(
-            Attribute::create('class', 'value1')
+            AttributeFactory::create('class', 'value1')
         )->getAttr('class')->add('value2');
         $this->assertSame(['value1', 'value2'], $traitAttributes->getClassesList());
         $this->assertSame('value1 value2', $traitAttributes->getAttr('class')->getValueString());
@@ -208,11 +208,11 @@ class AttributeTest extends TestCase
     {
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
-        $traitAttributes->setAttrs(Attribute::createFromArray(['first' => 'value1', 'second' => 'value2']));
+        $traitAttributes->setAttrs(AttributeFactory::createFromArray(['first' => 'value1', 'second' => 'value2']));
         $this->assertSame('value1', $traitAttributes->getAttr('first')->getValueString());
         $this->assertSame('value2', $traitAttributes->getAttr('second')->getValueString());
 
-        $traitAttributes->setAttrs(Attribute::createFromArray(['value_withoutkey', 'second' => 'value2']));
+        $traitAttributes->setAttrs(AttributeFactory::createFromArray(['value_withoutkey', 'second' => 'value2']));
         $this->assertSame('value_withoutkey', $traitAttributes->getAttr('value_withoutkey')->__toString());
 
         $traitAttributes->addClass('class1');
@@ -243,7 +243,7 @@ class AttributeTest extends TestCase
         );
 
 
-        $traitAttributes->setAttrs(Attribute::createFromArray(['value_withoutkey', 'second' => 'value2']), 'extra');
+        $traitAttributes->setAttrs(AttributeFactory::createFromArray(['value_withoutkey', 'second' => 'value2']), 'extra');
 
         $traitAttributes->addClass('class1', 'extra');
         $traitAttributes->removeClass('class1', 'extra');

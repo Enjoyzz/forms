@@ -6,6 +6,7 @@ namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
+use Enjoys\Forms\AttributeFactory;
 use PHPUnit\Framework\TestCase;
 
 class AttributeCollectionTest extends TestCase
@@ -14,15 +15,15 @@ class AttributeCollectionTest extends TestCase
     public function testAddToCollection()
     {
         $collection = new AttributeCollection();
-        $collection->add(new Attribute('id', 'my-id'));
+        $collection->add(AttributeFactory::create('id', 'my-id'));
         $this->assertCount(1, $collection);
     }
 
     public function testGetStringAttributes()
     {
         $collection = new AttributeCollection();
-        $collection->add(new Attribute('id', 'my-id'));
-        $collection->add(new Attribute('class', 'one_class two_class'));
+        $collection->add(AttributeFactory::create('id', 'my-id'));
+        $collection->add(AttributeFactory::create('class', 'one_class two_class'));
         $this->assertSame('id="my-id" class="one_class two_class"', $collection->__toString());
     }
 
@@ -30,8 +31,9 @@ class AttributeCollectionTest extends TestCase
     {
         $collection = new AttributeCollection();
         $collection
-            ->add(new Attribute('id', 'first'))
-            ->add(new Attribute('id', 'second'));
+            ->add(AttributeFactory::create('id', 'first'))
+            ->add(AttributeFactory::create('id', 'second'))
+        ;
         $this->assertSame('id="first"', (string)$collection);
     }
 
@@ -39,15 +41,16 @@ class AttributeCollectionTest extends TestCase
     {
         $collection = new AttributeCollection();
         $collection
-            ->add(new Attribute('id', 'first'))
-            ->replace(new Attribute('id', 'second'));
+            ->add(AttributeFactory::create('id', 'first'))
+            ->replace(AttributeFactory::create('id', 'second'))
+        ;
         $this->assertSame('id="second"', (string)$collection);
     }
 
     public function testGetAttributeFormCollection()
     {
         $collection = new AttributeCollection();
-        $attrs = Attribute::createFromArray([
+        $attrs = AttributeFactory::createFromArray([
             'id' => 'my-id',
             'class' => 'my-class'
         ]);
@@ -62,16 +65,16 @@ class AttributeCollectionTest extends TestCase
     public function testHasAttributeInCollection()
     {
         $collection = new AttributeCollection();
-        $idAttr = Attribute::create('id');
+        $idAttr = AttributeFactory::create('id');
         $collection->add($idAttr);
         $this->assertTrue($collection->has($idAttr));
-        $this->assertFalse($collection->has(Attribute::create('not-found-attribute')));
+        $this->assertFalse($collection->has(AttributeFactory::create('not-found-attribute')));
     }
 
     public function testRemoveAttributeFromCollection()
     {
         $collection = new AttributeCollection();
-        $attrs = Attribute::createFromArray([
+        $attrs = AttributeFactory::createFromArray([
             'id' => 'my-id',
             'class' => 'my-class'
         ]);
@@ -89,7 +92,7 @@ class AttributeCollectionTest extends TestCase
     public function testRemoveElementIfNotFound()
     {
         $collection = new AttributeCollection();
-        $attrs = Attribute::createFromArray([
+        $attrs = AttributeFactory::createFromArray([
             'id' => 'my-id',
             'class' => 'my-class'
         ]);
@@ -106,7 +109,7 @@ class AttributeCollectionTest extends TestCase
     public function testClearCollection()
     {
         $collection = new AttributeCollection();
-        $attrs = Attribute::createFromArray([
+        $attrs = AttributeFactory::createFromArray([
             'id' => 'my-id',
             'class' => 'my-class'
         ]);
@@ -123,7 +126,7 @@ class AttributeCollectionTest extends TestCase
     public function testToStringIfAttrReturnEmpty()
     {
         $collection = new AttributeCollection();
-        $attrs = Attribute::createFromArray([
+        $attrs = AttributeFactory::createFromArray([
             'id' => 'my-id',
             'class'
         ]);
@@ -138,7 +141,7 @@ class AttributeCollectionTest extends TestCase
     public function testIterator()
     {
         $collection = new AttributeCollection();
-        $attrs = Attribute::createFromArray([
+        $attrs = AttributeFactory::createFromArray([
             'id' => 'my-id',
             'class'
         ]);

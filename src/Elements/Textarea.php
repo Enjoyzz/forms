@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
@@ -53,7 +53,7 @@ class Textarea extends Element implements Ruled
     public function setRows(mixed $rows): Textarea
     {
         $value = $this->getValidatedAttribute($rows);
-        $this->setAttr(Attribute::create('rows', $value));
+        $this->setAttr(AttributeFactory::create('rows', $value));
         return $this;
     }
 
@@ -63,7 +63,7 @@ class Textarea extends Element implements Ruled
     public function setCols(mixed $cols): Textarea
     {
         $value = $this->getValidatedAttribute($cols);
-        $this->setAttr(Attribute::create('cols', $value));
+        $this->setAttr(AttributeFactory::create('cols', $value));
         return $this;
     }
 

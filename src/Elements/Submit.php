@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 
 class Submit extends Element
@@ -16,7 +16,7 @@ class Submit extends Element
     {
         parent::__construct($name, $title);
         if (!is_null($title)) {
-            $this->setAttr(Attribute::create('value', $title));
+            $this->setAttr(AttributeFactory::create('value', $title));
         }
     }
 }

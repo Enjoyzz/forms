@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Traits\Fill;
@@ -20,7 +20,7 @@ class Option extends Element implements FillableInterface
     {
         parent::__construct($name, $title);
         $this->setAttrs(
-            Attribute::createFromArray([
+            AttributeFactory::createFromArray([
                 'id' => $name,
                 'value' => $name,
             ])
@@ -39,14 +39,14 @@ class Option extends Element implements FillableInterface
     {
         if (is_array($value)) {
             if (in_array($this->getAttr('value')->getValueString(), $value)) {
-                $this->setAttr(new Attribute('selected'));
+                $this->setAttr(AttributeFactory::create('selected'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
             if ($this->getAttr('value')->getValueString() == $value) {
-                $this->setAttr(new Attribute('selected'));
+                $this->setAttr(AttributeFactory::create('selected'));
                 return $this;
             }
         }

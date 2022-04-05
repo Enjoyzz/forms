@@ -23,7 +23,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         return count($this->collection);
     }
 
-    public function has(Attribute $attribute): bool
+    public function has(AttributeInterface $attribute): bool
     {
         foreach ($this->collection as $item) {
             if ($item->getName() === $attribute->getName()) {
@@ -33,7 +33,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         return false;
     }
 
-    public function add(Attribute $attribute): AttributeCollection
+    public function add(AttributeInterface $attribute): AttributeCollection
     {
         if (!$this->has($attribute)) {
             $this->collection[] = $attribute;
@@ -41,7 +41,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         return $this;
     }
 
-    public function get(string $name): Attribute|null
+    public function get(string $name): AttributeInterface|null
     {
         foreach ($this->collection as $item) {
             if ($item->getName() === $name) {
@@ -58,7 +58,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
 
     public function remove(string|Attribute $element): AttributeCollection
     {
-        $attributeName = ($element instanceof Attribute) ? $element->getName() : $element;
+        $attributeName = ($element instanceof AttributeInterface) ? $element->getName() : $element;
 
         foreach ($this->collection as $key => $item) {
             if ($item->getName() === $attributeName) {
@@ -70,7 +70,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         return $this;
     }
 
-    public function replace(Attribute $attribute): AttributeCollection
+    public function replace(AttributeInterface $attribute): AttributeCollection
     {
         $this->remove($attribute->getName());
 

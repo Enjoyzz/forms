@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
+use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\AttributeInterface;
 
 trait Attributes
 {
@@ -23,14 +24,12 @@ trait Attributes
         return $this->attr[$namespace];
     }
 
-    public function getAttr(string $name, string $namespace = 'general'): Attribute|null
+    public function getAttr(string $name, string $namespace = 'general'): AttributeInterface|null
     {
         return $this->getAttributeCollection($namespace)->get($name);
     }
 
     /**
-     * @param array $attributes
-     * @param string $namespace
      * @return $this
      */
     public function setAttrsWithClear(array $attributes, string $namespace = 'general')
@@ -40,7 +39,7 @@ trait Attributes
     }
 
     /**
-     * @param Attribute[] $attributes
+     * @param AttributeInterface[] $attributes
      * @param string $namespace
      * @return $this
      */
@@ -55,11 +54,9 @@ trait Attributes
 
 
     /**
-     * @param Attribute $attribute
-     * @param string $namespace
      * @return $this
      */
-    public function setAttr(Attribute $attribute, string $namespace = 'general')
+    public function setAttr(AttributeInterface $attribute, string $namespace = 'general')
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->remove($attribute);
@@ -68,8 +65,6 @@ trait Attributes
     }
 
     /**
-     * @param array $attributes
-     * @param string $namespace
      * @return $this
      */
     public function addAttrs(array $attributes, string $namespace = 'general')
@@ -83,11 +78,9 @@ trait Attributes
 
 
     /**
-     * @param Attribute $attribute
-     * @param string $namespace
      * @return $this
      */
-    public function addAttr(Attribute $attribute, string $namespace = 'general')
+    public function addAttr(AttributeInterface $attribute, string $namespace = 'general')
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->add($attribute);
@@ -95,9 +88,8 @@ trait Attributes
     }
 
     /**
-     * @see getAttributeCollection
-     * @param string $namespace
      * @return AttributeCollection
+     * @see getAttributeCollection
      */
     public function getAttrs(string $namespace = 'general'): AttributeCollection
     {
@@ -121,11 +113,9 @@ trait Attributes
     }
 
     /**
-     * @param string|Attribute $attribute
-     * @param string $namespace
      * @return $this
      */
-    public function removeAttr(string|Attribute $attribute, string $namespace = 'general')
+    public function removeAttr(string|AttributeInterface $attribute, string $namespace = 'general')
     {
         $this->getAttributeCollection($namespace)->remove($attribute);
         return $this;
@@ -136,7 +126,7 @@ trait Attributes
         $attrCollection = $this->getAttributeCollection($namespace);
         $attr = $attrCollection->get('class');
         if ($attr === null) {
-            $attr = new Attribute('class');
+            $attr = AttributeFactory::create('class');
             $attrCollection->add($attr);
         }
         $attr->add($class);
@@ -144,8 +134,6 @@ trait Attributes
     }
 
     /**
-     * @param array $classes
-     * @param string $namespace
      * @return $this
      */
     public function addClasses(array $classes, string $namespace = 'general')
@@ -158,12 +146,10 @@ trait Attributes
 
     public function getClassesList(string $namespace = 'general'): array
     {
-        return  $this->getAttr('class', $namespace)?->getValues() ?? [];
+        return $this->getAttr('class', $namespace)?->getValues() ?? [];
     }
 
     /**
-     * @param string $classValue
-     * @param string $namespace
      * @return $this
      */
     public function removeClass(string $classValue, string $namespace = 'general')

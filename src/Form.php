@@ -137,7 +137,7 @@ class Form
         if (in_array(strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = strtoupper($method);
         }
-        $this->setAttr(new Attribute('method', $this->method));
+        $this->setAttr(AttributeFactory::create('method', $this->method));
 
         $this->csrf();
     }
@@ -169,7 +169,7 @@ class Form
     {
         $this->action = $action;
 
-        $this->setAttr(new Attribute('action', $this->getAction()));
+        $this->setAttr(AttributeFactory::create('action', $this->getAction()));
 
         if (is_null($action)) {
             $this->getAttributeCollection()->remove('action');
@@ -238,7 +238,7 @@ class Form
     protected function setName(?string $name = null): self
     {
         $this->name = $name;
-        $this->setAttr(new Attribute('name', $this->name));
+        $this->setAttr(AttributeFactory::create('name', $this->name));
 
         if (is_null($name)) {
             $this->getAttributeCollection()->remove('name');

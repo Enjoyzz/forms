@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\Bootstrap4;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\BaseRenderer;
@@ -54,21 +54,21 @@ class Bootstrap4 extends BaseRenderer implements RendererInterface
     {
 
         if (method_exists($element, 'getDescription') && !empty($element->getDescription())) {
-            $element->setAttrs(Attribute::createFromArray([
+            $element->setAttrs(AttributeFactory::createFromArray([
                 'id' => (is_string($element->getAttr('id')->getValueString()) ?: '' ). 'Help',
                 'class' => 'form-text text-muted'
             ]), Form::ATTRIBUTES_DESC);
 
-            $element->setAttrs(Attribute::createFromArray([
+            $element->setAttrs(AttributeFactory::createFromArray([
                 'aria-describedby' => is_string( $element->getAttr('id', Form::ATTRIBUTES_DESC)->getValueString()) ?: ''
             ]));
         }
 
         if (method_exists($element, 'isRuleError') && $element->isRuleError()) {
-            $element->setAttrs(Attribute::createFromArray([
+            $element->setAttrs(AttributeFactory::createFromArray([
                 'class' => 'is-invalid'
             ]));
-            $element->setAttrs(Attribute::createFromArray([
+            $element->setAttrs(AttributeFactory::createFromArray([
                 'class' => 'invalid-feedback d-block'
             ]), Form::ATTRIBUTES_VALIDATE);
         }

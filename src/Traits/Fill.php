@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
 
@@ -69,7 +69,7 @@ trait Fill
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
             $element->setParentName($this->getName());
-            $element->setAttrs(Attribute::createFromArray($fillHandler->getAttributes()), 'fill');
+            $element->setAttrs(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
             /**
              * @todo слишком много вложенности if. подумать как переделать

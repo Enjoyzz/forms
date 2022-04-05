@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\AttributeInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Interfaces\Ruled;
@@ -31,14 +32,14 @@ class Select extends Element implements FillableInterface, Ruled
 
     public function setMultiple(): self
     {
-        $this->setAttr(new Attribute('multiple'));
+        $this->setAttr(AttributeFactory::create('multiple'));
         return $this;
     }
 
     private function isMultiple(): void
     {
         if ($this->getAttr('multiple') !== null && \substr($this->getName(), -2) !== '[]') {
-            $id = $this->getAttr('id') ?? Attribute::create('id', $this->getName());
+            $id = $this->getAttr('id') ?? AttributeFactory::create('id', $this->getName());
             $this->setName($this->getName() . '[]');
             $this->setParentName($this->getName());
             //т.к. id уже переписан ,восстанавливаем его
@@ -47,11 +48,9 @@ class Select extends Element implements FillableInterface, Ruled
     }
 
     /**
-     * @param Attribute $attribute
-     * @param string $namespace
      * @return $this
      */
-    public function setAttr(Attribute $attribute, string $namespace = 'general')
+    public function setAttr(AttributeInterface $attribute, string $namespace = 'general')
     {
         parent::setAttr($attribute, $namespace);
         $this->isMultiple();
@@ -84,7 +83,7 @@ class Select extends Element implements FillableInterface, Ruled
     public function setOptgroup(string $label, array $data = [], array $attributes = [], $useTitleAsValue = false): self
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaultValue);
-        $optgroup->setAttrs(Attribute::createFromArray($attributes));
+        $optgroup->setAttrs(AttributeFactory::createFromArray($attributes));
         $optgroup->fill($data, $useTitleAsValue);
         $this->elements[] = $optgroup;
         return $this;

@@ -133,7 +133,7 @@ class ElementTest extends TestCase
 //            'name' => 'Foo'
 //        ]);
 //        $this->assertSame('Foo', $element->getAttr('id')->getValueString());
-//        $element->setAttr(Attribute::create('id', 'Baz'));
+//        $element->setAttr(AttributeFactory::create('id', 'Baz'));
 //        $this->assertSame('Baz', $element->getAttr('id')->getValueString());
 //    }
 //

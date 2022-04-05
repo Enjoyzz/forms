@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
@@ -12,7 +12,7 @@ class AttributeTest extends TestCase
 {
     public function testAddAttributeNotMultiple()
     {
-        $attr = new Attribute('id', 'my id with space');
+        $attr = AttributeFactory::create('id', 'my id with space');
         $this->assertCount(1, $attr->getValues());
         $this->assertSame('id="my id with space"', $attr->__toString());
         $attr->add(1);
@@ -22,7 +22,7 @@ class AttributeTest extends TestCase
 
     public function testAddAttributeAutoMultiple()
     {
-        $attr = new Attribute('class', 'many classes defined by space');
+        $attr = AttributeFactory::create('class', 'many classes defined by space');
         $this->assertCount(5, $attr->getValues());
         $this->assertSame('class="many classes defined by space"', $attr->__toString());
         $attr->add('more class');
@@ -35,7 +35,7 @@ class AttributeTest extends TestCase
 
     public function testAddAttributeAutoMultipleWithSetSeparator()
     {
-        $attr = new Attribute('class', 'many classes defined by space');
+        $attr = AttributeFactory::create('class', 'many classes defined by space');
         $attr->setSeparator('-');
         $this->assertCount(5, $attr->getValues());
         $this->assertSame('class="many-classes-defined-by-space"', $attr->__toString());
@@ -52,34 +52,34 @@ class AttributeTest extends TestCase
 
     public function testAttributeWithoutValue()
     {
-        $attr = new Attribute('disabled');
+        $attr = AttributeFactory::create('disabled');
         $this->assertSame('disabled', $attr->__toString());
         $attr->setFillNameAsValue(true);
         $this->assertSame('disabled="disabled"', $attr->__toString());
         $attr->setWithoutValue(false);
         $this->assertSame('', $attr->__toString());
 
-        $attr = new Attribute('class');
+        $attr = AttributeFactory::create('class');
         $this->assertSame('', $attr->__toString());
     }
 
     public function testSet()
     {
-        $attr = new Attribute('id', 1);
+        $attr = AttributeFactory::create('id', 1);
         $attr->set([2]);
         $this->assertSame('2', $attr->getValueString());
     }
 
     public function testClone()
     {
-        $attr = new Attribute('id', 42);
+        $attr = AttributeFactory::create('id', 42);
         $new = $attr->withName('baz');
         $this->assertSame('42', $new->getValueString());
     }
 
     public function testCreateFromArrayWithIntNameAndStringValue()
     {
-        $attr = Attribute::createFromArray([
+        $attr = AttributeFactory::createFromArray([
             'test'
         ]);
         self::assertSame([], current($attr)->getValues());
@@ -88,8 +88,8 @@ class AttributeTest extends TestCase
 
     public function testNormalizeClosure()
     {
-        $attr = new Attribute('id');
-        $attr->add(function (){
+        $attr = AttributeFactory::create('id');
+        $attr->add(function () {
             return 42;
         });
         $this->assertSame('42', $attr->getValueString());
@@ -97,7 +97,7 @@ class AttributeTest extends TestCase
 
     public function testRemoveTrue()
     {
-        $attr = new Attribute('id', 42);
+        $attr = AttributeFactory::create('id', 42);
         $this->assertSame('42', $attr->getValueString());
         $this->assertTrue($attr->remove('42'));
         $this->assertSame('', $attr->getValueString());
@@ -106,22 +106,21 @@ class AttributeTest extends TestCase
 
     public function testCloneAttributeWithName()
     {
-        $attr = new Attribute('id', 42);
+        $attr = AttributeFactory::create('id', 42);
         $newAttr = $attr->withName('ids');
         $this->assertSame('id', $attr->getName());
         $this->assertSame('ids', $newAttr->getName());
-
     }
 
     public function testAttributeCreateStaticFunction()
     {
-        $attr = Attribute::create('id', 42);
+        $attr = AttributeFactory::create('id', 42);
         $this->assertSame(['42'], $attr->getValues());
     }
 
     public function testSetMultipleAttribute()
     {
-        $attr = new Attribute('id', 'one');
+        $attr = AttributeFactory::create('id', 'one');
         $attr->add('two');
         $this->assertCount(1, $attr->getValues());
         $this->assertSame(['two'], $attr->getValues());
@@ -130,20 +129,19 @@ class AttributeTest extends TestCase
         $attr->add('three');
         $this->assertSame(['two', 'one', 'three'], $attr->getValues());
         $this->assertCount(3, $attr->getValues());
-
     }
 
     public function testSetValuesToAttribute()
     {
-        $attr = new Attribute('id', 1);
+        $attr = AttributeFactory::create('id', 1);
         $attr->setMultiple(true);
-        $attr->set([2,3]);
-        $this->assertSame(['2','3'], $attr->getValues());
+        $attr->set([2, 3]);
+        $this->assertSame(['2', '3'], $attr->getValues());
     }
 
     public function testClearAttributes()
     {
-        $attr = new Attribute('class', '1 2 3');
+        $attr = AttributeFactory::create('class', '1 2 3');
         $this->assertCount(3, $attr->getValues());
         $attr->clear();
         $this->assertCount(0, $attr->getValues());
@@ -151,16 +149,16 @@ class AttributeTest extends TestCase
 
     public function testHasAttribute()
     {
-        $attr = new Attribute('class', '1 2 3');
+        $attr = AttributeFactory::create('class', '1 2 3');
         $this->assertTrue($attr->has('2'));
         $this->assertFalse($attr->has('42'));
     }
 
     public function testClosureAttributeValue()
     {
-        $attr = new Attribute('id');
-        $attr->add(function (){
-           return 42;
+        $attr = AttributeFactory::create('id');
+        $attr->add(function () {
+            return 42;
         });
         $this->assertTrue($attr->has('42'));
     }
@@ -168,7 +166,7 @@ class AttributeTest extends TestCase
     public function testInvalidClosureAttributeValue()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Attribute('id', function (){
+        AttributeFactory::create('id', function () {
             return new \stdClass();
         });
     }
