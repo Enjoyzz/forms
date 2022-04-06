@@ -6,12 +6,12 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Captcha\Defaults\Defaults;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Captcha;
-use Tests\Enjoys\Forms\Reflection;
+
 
 class CaptchaTest
 {
 
-    use Reflection;
+
 
     public function test_init_captcha()
     {

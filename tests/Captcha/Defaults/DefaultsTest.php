@@ -8,14 +8,14 @@ use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use HttpSoft\ServerRequest\ServerRequestCreator;
-use Tests\Enjoys\Forms\Reflection;
+
 
 new Session();
 
 
 class DefaultsTest
 {
-    use Reflection;
+
 
     private Session $session;
 

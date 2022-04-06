@@ -6,168 +6,177 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Renderer;
 
 
-class LayoutBaseTest 
+use Enjoys\Forms\Elements\Button;
+use Enjoys\Forms\Elements\Captcha;
+use Enjoys\Forms\Elements\Header;
+use Enjoys\Forms\Elements\Option;
+use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Elements\Textarea;
+use Enjoys\Forms\Form;
+use Enjoys\Forms\Renderer\LayoutBase;
+
+class LayoutBaseTest
 {
-    use \Tests\Enjoys\Forms\Reflection;
+
 
     public function test_rendereLabel()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
               'foo', 'bar'
         );
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderLabel');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderLabel');
         $this->assertEquals('<label for="foo">bar</label>', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_rendereLabel2()
     {
         $this->markTestIncomplete();
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
                'foo', 'bar'
         );
-        $element->addClass('test', \Enjoys\Forms\Form::ATTRIBUTES_LABEL);
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderLabel');
+        $element->addClass('test', Form::ATTRIBUTES_LABEL);
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderLabel');
         $this->assertEquals('<label for="foo" class="test">bar</label>', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_rendereLabel_empty()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
             'foo'
         );
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderLabel');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderLabel');
         $this->assertEquals('', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_renderDescription()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
                'foo'
         );
         $element->setDescription('desc');
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderDescription');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderDescription');
         $this->assertEquals('<small>desc</small>', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_renderDescription2()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
              'foo'
         );
         $element->setDescription('desc');
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderDescription');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderDescription');
         $this->assertEquals('<div>desc</div>', $method->invokeArgs($layout, [$element, 'div']));
     }
 
     public function test_renderDescription3()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
               'foo'
         );
         $element->setDescription('desc');
-        $element->addClass('test', \Enjoys\Forms\Form::ATTRIBUTES_DESC);
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderDescription');
+        $element->addClass('test', Form::ATTRIBUTES_DESC);
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderDescription');
         $this->assertEquals('<small class="test">desc</small>', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_renderDescription_empty()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
             'foo'
         );
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderDescription');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderDescription');
         $this->assertEquals('', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_renderValidation()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
               'foo'
         );
         $element->setRuleError('error');
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderValidation');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderValidation');
         $this->assertEquals('<div>error</div>', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_renderValidation_empty()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
              'foo'
         );
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderValidation');
+        $layout = new LayoutBase($element);
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderValidation');
         $this->assertEquals('', $method->invokeArgs($layout, [$element]));
     }
 
     public function test_renderBody()
     {
 $this->markTestIncomplete();
-        $method = $this->getPrivateMethod(\Enjoys\Forms\Renderer\LayoutBase::class, 'renderBody');
+        $method = $this->getPrivateMethod(LayoutBase::class, 'renderBody');
 
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
                'foo'
         );
         $this->assertEquals('<input type="text" id="foo" name="foo">', $method->invokeArgs(
-                        new \Enjoys\Forms\Renderer\LayoutBase($element),
+                        new LayoutBase($element),
                         [$element])
         );
 
-        $element = new \Enjoys\Forms\Elements\Textarea(
+        $element = new Textarea(
                 'foo'
         );
         $this->assertEquals('<textarea id="foo" name="foo"></textarea>', $method->invokeArgs(
-                        new \Enjoys\Forms\Renderer\LayoutBase($element),
+                        new LayoutBase($element),
                         [$element]
         ));
         
-        $element = new \Enjoys\Forms\Elements\Button(
+        $element = new Button(
             'foo'
         );
         $this->assertEquals('<button id="foo" name="foo"></button>', $method->invokeArgs(
-                        new \Enjoys\Forms\Renderer\LayoutBase($element),
+                        new LayoutBase($element),
                         [$element]
         ));
         
-        $element = new \Enjoys\Forms\Elements\Header(
+        $element = new Header(
             'foo'
         );
         $this->assertEquals('foo', $method->invokeArgs(
-                        new \Enjoys\Forms\Renderer\LayoutBase($element),
+                        new LayoutBase($element),
                         [$element]
         ));
         
-        $element = new \Enjoys\Forms\Elements\Option(
+        $element = new Option(
               'foo', 'bar'
         );
         $this->assertEquals('<option id="foo" value="foo">bar</option>', $method->invokeArgs(
-                        new \Enjoys\Forms\Renderer\LayoutBase($element),
+                        new LayoutBase($element),
                         [$element]
         ));
         
-        $element = new \Enjoys\Forms\Elements\Captcha(
+        $element = new Captcha(
               
         );
         $this->assertStringContainsString('<img src="data:image/jpeg;base64', $method->invokeArgs(
-                        new \Enjoys\Forms\Renderer\LayoutBase($element),
+                        new LayoutBase($element),
                         [$element]
         ));
     }
     
     public function test_render()
     {
-        $element = new \Enjoys\Forms\Elements\Text(
+        $element = new Text(
              'foo'
         );
         $element->setLabel('bar')->setDescription('desc')->setRuleError('error');
-        $layout = new \Enjoys\Forms\Renderer\LayoutBase($element);
+        $layout = new LayoutBase($element);
       
         $this->assertEquals('<label for="foo">bar</label><input type="text" id="foo" name="foo"><small>desc</small><div>error</div>', $layout->render());
     }    

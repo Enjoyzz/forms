@@ -8,13 +8,12 @@ namespace Tests\Enjoys\Forms\Renderer\ElementsRender;
 use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Renderer\ElementsRender\BaseElement;
 use Enjoys\Forms\Rules;
-use Tests\Enjoys\Forms\Reflection;
 
 
 class BaseElementTest
 {
     
-    use Reflection;
+
     
     public function test_renderDescription()
     {

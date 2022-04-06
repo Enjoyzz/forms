@@ -9,14 +9,15 @@ use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use PHPUnit\Framework\TestCase;
-use Tests\Enjoys\Forms\Reflection;
 
 
 class UploadTest extends TestCase
 {
+
     use Reflection;
 
     public function test_validate_uploadrule()
