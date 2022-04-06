@@ -12,9 +12,9 @@ class TockenSubmit extends Hidden
 
     private string $token;
 
-    public function __construct(string $value)
+    public function __construct(string $token)
     {
-        $this->token = $value;
+        $this->token = $token;
         parent::__construct(Form::_TOKEN_SUBMIT_, $this->token);
     }
 

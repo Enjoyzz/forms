@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Closure;
+use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Options;
 use HttpSoft\ServerRequest\ServerRequestCreator;
+use Webmozart\Assert\Assert;
 
 use function json_encode;
 use function strtoupper;
@@ -46,160 +49,145 @@ class Form
     public const ATTRIBUTES_FIELDSET = '_fieldset_attributes_';
     public const ATTRIBUTES_FILLABLE_BASE = '_fillable_base_attributes_';
 
-    /**
-     * @var string|null
-     */
-    private ?string $name = null;
 
-    /**
-     *
-     * @var string POST|GET
-     */
-    private string $method = 'GET';
-
-    /**
-     *
-     * @var string|null
-     */
+    private string $method = 'POST';
     private ?string $action = null;
-
-    /**
-     *
-     * @var DefaultsHandlerInterface
-     */
+    private ServerRequestWrapper $request;
     private DefaultsHandlerInterface $defaultsHandler;
 
-    /**
-     *
-     * @var bool По умолчанию форма не отправлена
-     */
-    private bool $formSubmitted;
+    private bool $submitted = false;
 
-    /**
-     * @static int Глобальный счетчик форм на странице
-     * @readonly
-     * @psalm-allow-private-mutation
-     */
-    private static int $formCounter = 0;
-    private ServerRequestWrapper $requestWrapper;
-
-    /**
-     * @example example/initform.php description
-     */
     public function __construct(
-        array $options = [],
-        ServerRequestWrapper $requestWrapper = null,
-        DefaultsHandlerInterface $defaults = null
+        string $method = 'POST',
+        string $action = null,
+        DefaultsHandlerInterface $defaultsHandler = null
     ) {
-        $this->defaultsHandler = $defaults ?? new DefaultsHandler();
-        $this->setRequestWrapper($requestWrapper);
+        $this->request = new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        $this->setMethod($method);
+        $this->setAction($action);
+        $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
-        static::$formCounter++;
 
+        $this->addElement(new TockenSubmit(md5(json_encode($this->getOptions()))));
+        $this->setSubmitted();
 
-        $this->setOptions($options);
-
-        $tokenSubmit = $this->tockenSubmit(
-            md5(
-                json_encode($options)
-                . ($this->getOption('inclCounter', false) ? $this->getFormCounter() : '')
-            )
-        );
-        $this->formSubmitted = $tokenSubmit->getSubmitted();
-
-        if ($this->formSubmitted === true) {
-            $this->setDefaults([]);
-        }
+//
+//        static::$formCounter++;
+//
+//
+//        $this->setOptions($options);
+//
+//        $tokenSubmit = $this->tockenSubmit(
+//            md5(
+//                json_encode($options)
+//                . ($this->getOption('inclCounter', false) ? $this->getFormCounter() : '')
+//            )
+//        );
+//        $this->formSubmitted = $tokenSubmit->getSubmitted();
+//
+//        if ($this->formSubmitted === true) {
+//            $this->setDefaults([]);
+//        }
     }
 
-    public function __destruct()
+    public function setSubmitted(bool $submitted = false): Form
     {
-        static::$formCounter = 0;
-    }
-
-    public function getFormCounter(): int
-    {
-        return static::$formCounter;
+        $this->submitted = $submitted;
+        return $this;
     }
 
     /**
-     * Устанавливает метод формы, заодно пытается установить защиту от CSRF аттак,
-     * если она требуется
-     * @param string|null $method
-     * @return void
+     * Возвращает true если форма отправлена и валидна.
+     * На валидацию форма проверяется по умолчанию, если использовать параметр $validate
+     * false, проверка будет только на отправку формы
+     * @param bool $validate
+     * @return bool
      */
-    public function setMethod(?string $method = null): void
+    public function isSubmitted(bool $validate = true): bool
     {
-        if (is_null($method)) {
-            $this->getAttributeCollection()->remove('method');
-            return;
+        if ($this->submitted === false) {
+            return false;
         }
+        //  dump($this->getElements());
+        if ($validate !== false) {
+            return Validator::check($this->getElements());
+        }
+
+        return true;
+    }
+
+    public function setRequest(ServerRequestWrapper $request = null): Form
+    {
+        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        return $this;
+    }
+
+    public function getRequest(): ServerRequestWrapper
+    {
+        return $this->request;
+    }
+
+    public function getDefaultsHandler(): DefaultsHandlerInterface
+    {
+        return $this->defaultsHandler;
+    }
+
+//    public function __destruct()
+//    {
+//        static::$formCounter = 0;
+//    }
+//
+//    public function getFormCounter(): int
+//    {
+//        return static::$formCounter;
+//    }
+
+    public function setMethod(string $method): void
+    {
         if (in_array(strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = strtoupper($method);
         }
         $this->setAttr(AttributeFactory::create('method', $this->method));
-
-        $this->csrf();
+        $this->setOption('method', $method, false);
+//        $this->csrf();
     }
 
-    /**
-     * Получение метода формы
-     * @return string GET|POST
-     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * Получение аттрибута action формы
-     * @return string|null
-     */
+    public function setAction(?string $action = null): self
+    {
+        $this->action = $action;
+        $this->setAttr(AttributeFactory::create('action', $this->action));
+        $this->setOption('action', $this->action, false);
+        return $this;
+    }
+
     public function getAction(): ?string
     {
         return $this->action;
     }
 
     /**
-     * Установка аттрибута action формы
-     * @param string|null $action
-     * @return $this
-     */
-    protected function setAction(?string $action = null): self
-    {
-        $this->action = $action;
-
-        $this->setAttr(AttributeFactory::create('action', $this->getAction()));
-
-        if (is_null($action)) {
-            $this->getAttributeCollection()->remove('action');
-        }
-
-        return $this;
-    }
-
-    /**
      * Set \Enjoys\Forms\DefaultsHandlerInterface $defaultsHandler
-     * @psalm-suppress PossiblyNullReference
-     * @param \Closure|array $data
+     * @param array|Closure():array $data
      * @return $this
      */
     public function setDefaults($data): self
     {
-        if ($data instanceof \Closure) {
+        if ($data instanceof Closure) {
             $data = $data();
         }
 
-        if (!is_array($data)) {
-            throw new \InvalidArgumentException('Invalid argument, expected array or closure with retun array.');
-        }
+        Assert::isArray($data);
 
-        if ($this->formSubmitted === true) {
+        if ($this->submitted === true) {
             $data = [];
-            $method = $this->getRequestWrapper()->getRequest()->getMethod();
-            $requestData = match(strtolower($method)){
-                'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
-                'post' => $this->getRequestWrapper()->getPostData()->getAll(),
+            $requestData = match ($this->getMethod()) {
+                'get' => $this->getRequest()->getQueryData()->getAll(),
+                'post' => $this->getRequest()->getPostData()->getAll(),
                 default => []
             };
             foreach ($requestData as $key => $items) {
@@ -213,13 +201,6 @@ class Form
         return $this;
     }
 
-    /**
-     * @return DefaultsHandlerInterface
-     */
-    public function getDefaultsHandler(): DefaultsHandlerInterface
-    {
-        return $this->defaultsHandler;
-    }
 
     /**
      * Получение имени формы
@@ -229,6 +210,7 @@ class Form
     {
         return $this->name;
     }
+
 
     /**
      * Установка аттрибута формы name
@@ -247,26 +229,6 @@ class Form
         return $this;
     }
 
-    /**
-     * Возвращает true если форма отправлена и валидна.
-     * На валидацию форма проверяется по умолчанию, усли использовать параметр $validate
-     * false, проверка будет только на отправку формы
-     * @param bool $validate
-     * @return bool
-     */
-    public function isSubmitted($validate = true): bool
-    {
-//        return $this->formSubmitted;
-        if (!$this->formSubmitted) {
-            return false;
-        }
-        //  dump($this->getElements());
-        if ($validate !== false) {
-            return Validator::check($this->getElements());
-        }
-
-        return true;
-    }
 
     /**
      *
@@ -296,16 +258,6 @@ class Form
     {
         $renderer->setForm($this);
         return $renderer->render();
-    }
-
-    private function setRequestWrapper(ServerRequestWrapper|null $requestWrapper)
-    {
-        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
-    }
-
-    public function getRequestWrapper(): ServerRequestWrapper
-    {
-        return $this->requestWrapper;
     }
 
 
