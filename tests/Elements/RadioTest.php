@@ -4,9 +4,11 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Radio;
+use Enjoys\Forms\Form;
+use PHPUnit\Framework\TestCase;
 
 
-class RadioTest
+class RadioTest extends TestCase
 {
 
     public function test_title()
@@ -184,47 +186,34 @@ class RadioTest
         $this->assertCount(2, $obj->getElements());
     }
 
-//    public function test_setDefault()
-//    {
-//        $this->markTestSkipped('Проверить тест');
-//        $form = new Form();
-//        $form->setOption('Defaults', [
-//            'name' => [1, 2]
-//        ]);
-//        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
-//        $elements = $radio->getElements();
-//        $this->assertNull($elements[0]->getAttr('checked'));
-//        $this->assertNull($elements[1]->getAttr('checked'));
-//        $this->assertFalse($elements[2]->getAttr('checked'));
-//    }
-//
-//    public function test_setDefault_2()
-//    {
-//        $this->markTestSkipped('Проверить тест');
-//        $form = new Form();
-//        $form->setOption('Defaults', [
-//            'name' => [1, 2]
-//        ]);
-//        $radio = $form->radio('name[]', 'title')->fill([1, 2, 3], true);
-//        $elements = $radio->getElements();
-//        $this->assertNull($elements[0]->getAttr('checked'));
-//        $this->assertNull($elements[1]->getAttr('checked'));
-//        $this->assertFalse($elements[2]->getAttr('checked'));
-//    }
-//
-//    public function test_setDefault_simple()
-//    {
-//        $this->markTestSkipped('Проверить тест');
-//        $form = new Form();
-//        $form->setOption('Defaults', [
-//            'name' => 2
-//        ]);
-//        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
-//        $elements = $radio->getElements();
-//        $this->assertFalse($elements[0]->getAttr('checked'));
-//        $this->assertNull($elements[1]->getAttr('checked'));
-//        $this->assertFalse($elements[2]->getAttr('checked'));
-//    }
+    public function test_setDefault()
+    {
+
+        $form = new Form();
+        $form->setDefaults([
+            'name' => [1, 2]
+        ]);
+        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
+        $elements = $radio->getElements();
+        $this->assertNotNull($elements[0]->getAttr('checked'));
+        $this->assertNotNull($elements[1]->getAttr('checked'));
+        $this->assertNull($elements[2]->getAttr('checked'));
+    }
+
+
+    public function test_setDefault_simple()
+    {
+
+        $form = new Form();
+        $form->setDefaults([
+            'name' => 2
+        ]);
+        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
+        $elements = $radio->getElements();
+        $this->assertNull($elements[0]->getAttr('checked'));
+        $this->assertNotNull($elements[1]->getAttr('checked'));
+        $this->assertNull($elements[2]->getAttr('checked'));
+    }
 
     public function test_basehtml()
     {

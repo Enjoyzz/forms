@@ -2,14 +2,15 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
+use PHPUnit\Framework\TestCase;
 
 
-class SelectTest
+class SelectTest extends TestCase
 {
 
     public function test_title()
@@ -138,7 +139,7 @@ class SelectTest
     {
 
         $obj = new Select('name', 'title');
-        $obj->setAttr(new Attribute('multiple'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getAttr('id')->getValueString());
@@ -158,7 +159,7 @@ class SelectTest
     {
 
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(new Attribute('multiple'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name[]', $obj->getAttr('id')->getValueString());
@@ -168,8 +169,8 @@ class SelectTest
     {
 
         $obj = new Select('name', 'title');
-        $obj->setAttr(new Attribute('multiple'));
-        $obj->setAttr(new Attribute('disabled'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
+        $obj->setAttr(AttributeFactory::create('disabled'));
 
         $this->assertSame('name[]', $obj->getName());
         $this->assertSame('name', $obj->getAttr('id')->getValueString());
@@ -179,8 +180,8 @@ class SelectTest
     {
 
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(new Attribute('id', 'test'));
-        $obj->setAttr(new Attribute('multiple'));
+        $obj->setAttr(AttributeFactory::create('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
@@ -188,8 +189,8 @@ class SelectTest
     {
 
         $obj = new Select('name', 'title');
-        $obj->setAttr(new Attribute('id', 'test'));
-        $obj->setAttr(new Attribute('multiple'));
+        $obj->setAttr(AttributeFactory::create('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
@@ -197,8 +198,8 @@ class SelectTest
     {
 
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(new Attribute('multiple'));
-        $obj->setAttr(new Attribute('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
+        $obj->setAttr(AttributeFactory::create('id', 'test'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
@@ -206,8 +207,8 @@ class SelectTest
     {
 
         $obj = new Select('name', 'title');
-        $obj->setAttr(new Attribute('multiple'));
-        $obj->setAttr(new Attribute('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('multiple'));
+        $obj->setAttr(AttributeFactory::create('id', 'test'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
@@ -215,15 +216,15 @@ class SelectTest
     {
 
         $obj = new Select('name', 'title');
-        $obj->setAttr(new Attribute('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('id', 'test'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
     public function test_defaults1()
     {
-        $this->markTestSkipped('Проверить тест');
+
         $form = new Form();
-        $form->setOption('Defaults', [
+        $form->setDefaults( [
             'name' => 2
         ]);
         $form->select('name', 'title')->fill([
@@ -232,16 +233,15 @@ class SelectTest
 
         /** @var Select $select */
         $select = $form->getElements()['name'];
-        /** @var Option $option */
-        $option = $select->getElements()[1];
-        $this->assertNull($option->getAttr('selected')?->getValueString());
+
+        $this->assertNotNull($select->getElements()[1]->getAttr('selected'));
+        $this->assertNull($select->getElements()[0]->getAttr('selected'));
     }
 
     public function test_defaults2()
     {
-        $this->markTestSkipped('Проверить тест');
         $form = new Form();
-        $form->setOption('Defaults', [
+        $form->setDefaults([
             'name' => [1, 2]
         ]);
         $select = $form->select('name[]', 'title')->fill([
@@ -249,64 +249,47 @@ class SelectTest
         ], true);
 
         /** @var Select $select */
-        $this->assertNull($select->getElements()[0]->getAttr('selected'));
-        $this->assertNull($select->getElements()[1]->getAttr('selected'));
-    }
-
-    public function test_defaults3()
-    {
-        $this->markTestSkipped('Проверить тест');
-        $form = new Form();
-        $form->setOption('Defaults', [
-            'name' => [1, 2]
-        ]);
-        $form->select('name', 'title')->fill([
-            1, 2, 3
-        ], true);
-
-        /** @var Select $select */
-        $select = $form->getElements()['name'];
-        $this->assertNull($select->getElements()[0]->getAttr('selected'));
-        $this->assertNull($select->getElements()[1]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[1]->getAttr('selected'));
+        $this->assertNull($select->getElements()[2]->getAttr('selected'));
     }
 
     public function test_defaults4_attr_before_fill()
     {
-        $this->markTestSkipped('Проверить тест');
+
         $form = new Form();
         $form->setDefaults([
             'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')
-                ->setAttributes(['multiple'])
+                ->setAttrs(AttributeFactory::createFromArray(['multiple']))
                 ->fill([1, 2, 3], true)
         ;
 
         /** @var Select $select */
         $select = $form->getElements()['name2'];
-        $this->assertNull($select->getElements()[0]->getAttr('selected'));
-        $this->assertFalse($select->getElements()[1]->getAttr('selected'));
-        $this->assertNull($select->getElements()[2]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertNull($select->getElements()[1]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[2]->getAttr('selected'));
     }
 
-//    public function test_defaults4_attr_after_fill()
-//    {
-//        $this->markTestSkipped('Не корректно работает, тест выше, почти такое же корректно работает');
-//        $form = new \Enjoys\Forms\Form();
-//        $form->setDefaults([
-//            'name2' => [0, 2]
-//        ]);
-//        $form->select('name2', 'title')
-//                ->fill([1, 2, 3], true)
-//                ->setAttributes(['multiple'])
-//        ;
-//
-//        /** @var \Enjoys\Forms\Elements\Select $select */
-//        $select = $form->getElements()['name2'];
-//        $this->assertNull($select->getElements()[0]->getAttr('selected'));
-//        $this->assertFalse($select->getElements()[1]->getAttr('selected'));
-//        $this->assertNull($select->getElements()[2]->getAttr('selected'));
-//    }
+    public function test_defaults4_attr_after_fill()
+    {
+        $form = new Form();
+        $form->setDefaults([
+            'name2' => [1, 3]
+        ]);
+        $form->select('name2', 'title')
+                ->fill([1, 2, 3], true)
+                ->setAttrs(AttributeFactory::createFromArray(['multiple']))
+        ;
+
+        /** @var Select $select */
+        $select = $form->getElements()['name2'];
+        $this->assertNotNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertNull($select->getElements()[1]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[2]->getAttr('selected'));
+    }
 
     public function test_optgroup()
     {
