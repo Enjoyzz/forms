@@ -8,8 +8,8 @@ namespace Tests\Enjoys\Forms\Rule;
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\Upload;
-use Enjoys\Http\ServerRequest;
 use Enjoys\ServerRequestWrapper;
+use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use PHPUnit\Framework\TestCase;
 use Tests\Enjoys\Forms\Reflection;
@@ -24,7 +24,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
                     'type' => 'application/pdf',
@@ -48,7 +48,7 @@ class UploadTest extends TestCase
     {
         $fileElement = new File('foo');
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
                 'food' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
                     'type' => 'application/pdf',
@@ -74,7 +74,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
                     'type' => 'application/pdf',
@@ -121,7 +121,7 @@ class UploadTest extends TestCase
     {
         $fileElement = new File('foo');
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
                     'type' => 'application/pdf',
@@ -152,7 +152,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
                     'type' => 'application/pdf',
@@ -181,7 +181,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -213,7 +213,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -265,7 +265,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -299,7 +299,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -332,7 +332,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -382,7 +382,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -412,7 +412,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -442,7 +442,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
@@ -496,7 +496,7 @@ class UploadTest extends TestCase
         $fileElement = new File('foo');
 
         $request = new ServerRequestWrapper(
-            new \HttpSoft\Message\ServerRequest(uploadedFiles: [
+            new ServerRequest(uploadedFiles: [
 
                 'foo' => UploadedFileCreator::createFromArray([
                     'name' => 'test.pdf',
