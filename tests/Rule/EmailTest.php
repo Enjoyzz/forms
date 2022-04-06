@@ -25,7 +25,7 @@ class EmailTest
 
 
 
-        $text->setRequestWrapper(new ServerRequestWrapper(
+        $text->setRequest(new ServerRequestWrapper(
                                 ServerRequestCreator::createFromGlobals(
                                         null,
                                         null,

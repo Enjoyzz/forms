@@ -60,7 +60,7 @@ use Enjoys\Forms\Elements\Time;
 use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Elements\Url;
 use Enjoys\Forms\Elements\Week;
-use Enjoys\Forms\Exception\ExceptionElement;
+use Webmozart\Assert\Assert;
 
 /**
  * @method Text text(string $name, string $label = null)
@@ -107,19 +107,10 @@ trait Container
      */
     private array $elements = [];
 
-    /**
-     * @param string $name
-     * @param array $arguments
-     *
-     * @return Element
-     * @throws ExceptionElement
-     */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): Element
     {
         $class_name = '\Enjoys\\Forms\\Elements\\' . ucfirst($name);
-        if (!class_exists($class_name)) {
-            throw new ExceptionElement("Class <b>{$class_name}</b> not found");
-        }
+        Assert::classExists($class_name);
         /** @var Element $element */
         $element = new $class_name(...$arguments);
         $this->addElement($element);
@@ -130,16 +121,18 @@ trait Container
      *
      * @param Element $element
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function addElement(Element $element): self
+    public function addElement(Element $element)
     {
-        $element->setRequestWrapper($this->getRequest());
+        $element->setRequest($this->getRequest());
         $this->elements[$element->getName()] = $element;
         return $this;
     }
 
+
     /**
-     * @return array<object>
+     * @return Element[]
      */
     public function getElements(): array
     {

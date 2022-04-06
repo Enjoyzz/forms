@@ -134,7 +134,7 @@ class DefaultsTest
         $captcha = new Defaults('code invalid');
 
         $element = new Captcha($captcha);
-        $element->setRequestWrapper($request);
+        $element->setRequest($request);
 
         $element->validate();
 

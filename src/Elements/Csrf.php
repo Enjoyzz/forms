@@ -33,7 +33,7 @@ class Csrf extends Hidden
             Rules::CALLBACK,
             'CSRF Attack detected',
             function () use ($csrf_key) {
-                return password_verify($csrf_key, $this->getRequestWrapper()->getPostData(Form::_TOKEN_CSRF_, ''));
+                return password_verify($csrf_key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''));
             }
         );
     }

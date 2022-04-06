@@ -28,7 +28,7 @@ class Captcha extends Element implements Ruled
     {
         parent::__construct(\uniqid('captcha'));
 
-        $this->captcha->setRequestWrapper($this->getRequestWrapper());
+        $this->captcha->setRequestWrapper($this->getRequest());
 
 
         $this->setName($this->captcha->getName());

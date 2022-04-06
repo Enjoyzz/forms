@@ -44,7 +44,7 @@ class UploadTest
         $uploadRule = new Upload(null, [
             'required'
         ]);
-        $uploadRule->setRequestWrapper($request);
+        $uploadRule->setRequest($request);
         $this->assertEquals(true, $uploadRule->validate($fileElement));
     }
 
@@ -71,7 +71,7 @@ class UploadTest
         $uploadRule = new Upload(null, [
             'required'
         ]);
-        $uploadRule->setRequestWrapper($request);
+        $uploadRule->setRequest($request);
         $this->assertEquals(false, $uploadRule->validate($fileElement));
     }
 

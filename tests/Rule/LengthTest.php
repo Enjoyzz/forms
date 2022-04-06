@@ -32,7 +32,7 @@ class LengthTest
             '>' => 5
         ]);
         
-        $rule->setRequestWrapper(new ServerRequestWrapper(
+        $rule->setRequest(new ServerRequestWrapper(
                         ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,

@@ -8,15 +8,13 @@ namespace Enjoys\Forms\Attributes;
 
 use Enjoys\Forms\Attribute;
 
-final class ClassAttr extends Attribute
+final class Action extends Attribute
 {
-
-    protected string $name = 'class';
+    protected string $name = 'action';
 
     public function __construct()
     {
-        $this->setMultiple(true);
+        $this->setFillNameAsValue(false);
         $this->setWithoutValue(false);
     }
-
 }

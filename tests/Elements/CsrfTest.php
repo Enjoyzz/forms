@@ -44,7 +44,7 @@ class CsrfTest
 
 
         $csrf = new Csrf($key);
-        $csrf->setRequestWrapper($request);
+        $csrf->setRequest($request);
 
         /** @var Callback $rule */
         $rule = $csrf->getRules()[0];
@@ -68,7 +68,7 @@ class CsrfTest
 
 
         $csrf = new Csrf($key);
-        $csrf->setRequestWrapper($request);
+        $csrf->setRequest($request);
 
         /** @var Callback $rule */
         $rule = $csrf->getRules()[0];

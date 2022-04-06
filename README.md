@@ -11,6 +11,29 @@ $form = new Form('get');
 $form = new Form('get', 'action.php');
 ```
 
+### Added Elements
+```php
+use Enjoys\Forms\Form;
+use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\Rules;
+use Enjoys\Forms\Elements;
+
+$form = new Form();
+
+$form
+    ->text('name', 'label')
+    ->setAttr(AttributeFactory::create('id', uniqid()))
+    ->addRule(Rules::REQUIRED)
+;
+
+//or
+$textElement = (new Elements\Text('name', 'label'))
+    ->setAttr(AttributeFactory::create('id', uniqid()))
+    ->addRule(Rules::REQUIRED)
+;
+$form->addElement($textElement);
+```
+
 ```php
 \Enjoys\Forms\AttributeFactory::create('name', 'value') // return AttributeInterface (string: name="value")
 \Enjoys\Forms\AttributeFactory::createFromArray([

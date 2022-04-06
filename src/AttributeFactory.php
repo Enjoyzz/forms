@@ -7,8 +7,9 @@ namespace Enjoys\Forms;
 
 
 use Closure;
+use Enjoys\Forms\Attributes\Action;
 use Enjoys\Forms\Attributes\Base;
-use Enjoys\Forms\Attributes\ClassAttr;
+use Enjoys\Forms\Attributes\Class_;
 use Enjoys\Forms\Attributes\Id;
 use Webmozart\Assert\Assert;
 
@@ -23,10 +24,13 @@ final class AttributeFactory
     {
         $mappedClasses = [
             'class' => function (): AttributeInterface {
-                return new ClassAttr();
+                return new Class_();
             },
             'id' => function (): AttributeInterface {
                 return new Id();
+            },
+            'action' => function (): AttributeInterface {
+                return new Action();
             },
         ];
 

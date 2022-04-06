@@ -20,11 +20,11 @@ class Submit extends Rules implements RuleInterface
     public function validate(Ruled $element): bool
     {
 
-        $method = $this->getRequestWrapper()->getRequest()->getMethod();
+        $method = $this->getRequest()->getRequest()->getMethod();
 
         $requestData = match(strtolower($method)){
-            'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
-            'post' => $this->getRequestWrapper()->getPostData()->getAll(),
+            'get' => $this->getRequest()->getQueryData()->getAll(),
+            'post' => $this->getRequest()->getPostData()->getAll(),
             default => []
         };
 

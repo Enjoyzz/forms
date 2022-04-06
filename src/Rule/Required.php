@@ -32,9 +32,9 @@ class Required extends Rules implements RuleInterface
      */
     public function validate(Ruled $element): bool
     {
-        $requestData = match(strtolower($this->getRequestWrapper()->getRequest()->getMethod())){
-            'get' => $this->getRequestWrapper()->getQueryData()->getAll(),
-            'post' => $this->getRequestWrapper()->getPostData()->getAll(),
+        $requestData = match(strtolower($this->getRequest()->getRequest()->getMethod())){
+            'get' => $this->getRequest()->getQueryData()->getAll(),
+            'post' => $this->getRequest()->getPostData()->getAll(),
             default => []
         };
         $_value = \getValueByIndexPath($element->getName(), $requestData);

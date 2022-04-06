@@ -28,20 +28,12 @@ class Form
         addElement as private parentAddElement;
     }
 
-    /**
-     * Разрешенные методы формы
-     */
+
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
 
-    /**
-     * Название переменной для хранения токена для проверки от аттак CSRF
-     */
     public const _TOKEN_CSRF_ = '_token_csrf';
-
-    /**
-     * Название переменной для хранения токена для проверки отправлена форма или нет
-     */
     public const _TOKEN_SUBMIT_ = '_token_submit';
+
     //public const _FLAG_FORMMETHOD_ = '_form_method';
     public const ATTRIBUTES_DESC = '_desc_attributes_';
     public const ATTRIBUTES_VALIDATE = '_validate_attributes_';
@@ -60,16 +52,22 @@ class Form
     public function __construct(
         string $method = 'POST',
         string $action = null,
+        ServerRequestWrapper $request = null,
         DefaultsHandlerInterface $defaultsHandler = null
     ) {
-        $this->request = new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
-        $this->setMethod($method);
-        $this->setAction($action);
+        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
+        $this->setMethod($method);
+        $this->setAction($action);
 
-        $this->addElement(new TockenSubmit(md5(json_encode($this->getOptions()))));
-        $this->setSubmitted();
+        $tokenSubmit = new TockenSubmit(md5(json_encode($this->getOptions())));
+        $this->addElement($tokenSubmit);
+        $this->setSubmitted($tokenSubmit->getSubmitted());
+
+        if ($this->submitted === true) {
+            $this->setDefaults([]);
+        }
 
 //
 //        static::$formCounter++;
@@ -116,10 +114,80 @@ class Form
         return true;
     }
 
-    public function setRequest(ServerRequestWrapper $request = null): Form
+
+
+//    public function __destruct()
+//    {
+//        static::$formCounter = 0;
+//    }
+//
+//    public function getFormCounter(): int
+//    {
+//        return static::$formCounter;
+//    }
+
+
+    /**
+     * @param array|Closure():array $data
+     * @return $this
+     * @noinspection PhpMissingParamTypeInspection
+     */
+    public function setDefaults($data): self
     {
-        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        if ($data instanceof Closure) {
+            $data = $data();
+        }
+
+        Assert::isArray($data);
+
+        if ($this->submitted === true) {
+            $data = [];
+
+            $requestData = match ($this->getMethod()) {
+                'get' => $this->getRequest()->getQueryData()?->getAll(),
+                'post' => $this->getRequest()->getPostData()?->getAll(),
+                default => [],
+            };
+            foreach ($requestData as $key => $items) {
+                if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
+                    continue;
+                }
+                $data[$key] = $items;
+            }
+        }
+        $this->defaultsHandler->setData($data);
         return $this;
+    }
+
+
+    /**
+     *
+     * Если prepare() ничего не возвращает (NULL), то элемент добавляется,
+     * если что-то вернула функция, то элемент добавлен в коллекцию не будет.
+     * @use Element::setForm()
+     * @use Element::prepare()
+     * @param Element $element
+     * @return $this
+     */
+    public function addElement(Element $element): self
+    {
+        $element->setForm($this);
+        if ($element->prepare() !== null) {
+            return $this;
+        }
+        return $this->parentAddElement($element);
+    }
+
+    /**
+     * Вывод формы в Renderer
+     * @param RendererInterface $renderer
+     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
+     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
+     */
+    public function render(Renderer\RendererInterface $renderer)
+    {
+        $renderer->setForm($this);
+        return $renderer->render();
     }
 
     public function getRequest(): ServerRequestWrapper
@@ -131,16 +199,6 @@ class Form
     {
         return $this->defaultsHandler;
     }
-
-//    public function __destruct()
-//    {
-//        static::$formCounter = 0;
-//    }
-//
-//    public function getFormCounter(): int
-//    {
-//        return static::$formCounter;
-//    }
 
     public function setMethod(string $method): void
     {
@@ -169,97 +227,6 @@ class Form
     {
         return $this->action;
     }
-
-    /**
-     * Set \Enjoys\Forms\DefaultsHandlerInterface $defaultsHandler
-     * @param array|Closure():array $data
-     * @return $this
-     */
-    public function setDefaults($data): self
-    {
-        if ($data instanceof Closure) {
-            $data = $data();
-        }
-
-        Assert::isArray($data);
-
-        if ($this->submitted === true) {
-            $data = [];
-            $requestData = match ($this->getMethod()) {
-                'get' => $this->getRequest()->getQueryData()->getAll(),
-                'post' => $this->getRequest()->getPostData()->getAll(),
-                default => []
-            };
-            foreach ($requestData as $key => $items) {
-                if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
-                    continue;
-                }
-                $data[$key] = $items;
-            }
-        }
-        $this->defaultsHandler->setData($data);
-        return $this;
-    }
-
-
-    /**
-     * Получение имени формы
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-
-    /**
-     * Установка аттрибута формы name
-     * @param string|null $name
-     * @return $this
-     */
-    protected function setName(?string $name = null): self
-    {
-        $this->name = $name;
-        $this->setAttr(AttributeFactory::create('name', $this->name));
-
-        if (is_null($name)) {
-            $this->getAttributeCollection()->remove('name');
-        }
-
-        return $this;
-    }
-
-
-    /**
-     *
-     * Если prepare() ничего не возвращает (NULL), то элемент добавляется,
-     * если что-то вернула фунция, то элемент добален в коллекцию не будет.
-     * @use Element::setForm()
-     * @use Element::prepare()
-     * @param Element $element
-     * @return $this
-     */
-    public function addElement(Element $element): self
-    {
-        $element->setForm($this);
-        if ($element->prepare() !== null) {
-            return $this;
-        }
-        return $this->parentAddElement($element);
-    }
-
-    /**
-     * Вывод формы в Renderer
-     * @param RendererInterface $renderer
-     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
-     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
-     */
-    public function render(Renderer\RendererInterface $renderer)
-    {
-        $renderer->setForm($this);
-        return $renderer->render();
-    }
-
 
 }
 

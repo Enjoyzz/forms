@@ -2,8 +2,16 @@
 
 namespace Tests\Enjoys\Forms;
 
+use Enjoys\Forms\DefaultsHandler;
+use Enjoys\Forms\Elements\Image;
+use Enjoys\Forms\Elements\Select;
+use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Rules;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Webmozart\Assert\InvalidArgumentException;
 
 
 class FormTest extends TestCase
@@ -25,7 +33,6 @@ class FormTest extends TestCase
      */
     public function testInitFormWithParams($params, $expect)
     {
-
         $form = $params === null ? new Form() : new Form($params[0], $params[1]);
         $this->assertSame($expect[0], $form->getMethod());
         $this->assertSame($expect[1], $form->getAction());
@@ -62,145 +69,118 @@ class FormTest extends TestCase
         $form->setMethod($method);
         $this->assertSame($expected, $form->getMethod());
     }
-//
-//    public function test_setName_1_0()
-//    {
-//        $form = new Form();
-//        $form->setOption('name', 'test_form');
-//        $this->assertEquals('test_form', $form->getOption('name'));
-//        $this->assertEquals('test_form', $form->getAttr('name')->getValueString());
-//        $form->setOption('name', null);
-//        $this->assertEquals(false, $form->getOption('name', false));
-//        $this->assertEquals(false, $form->getAttr('name')?->getValueString());
-//    }
-//
 
-//
-//    public function test_addElement_1_0()
+//    public function testSetAttrName()
 //    {
 //        $form = new Form();
-//        $element = new Text('foo');
-//        $form->addElement($element);
-//        $this->assertCount(2, $form->getElements());
+//        $form->setAttr(AttributeFactory::create('name', 'test_form'));
+//        $this->assertEquals('test_form', $form->getAttr('name')->getValueString());
 //    }
-//
-//    public function test_count_elements()
-//    {
-//        $form = new Form();
-//        $form->text('foo');
-//        $form->hidden('bar');
-//        $form->password('baz');
-//        //+1 submit_tokene element
-//        $this->assertCount(4, $form->getElements());
-//    }
-//
-//    public function test_addElement_rewrite()
-//    {
-//        $form = new Form();
-//        $form->image('foo');
-//        $this->assertEquals(true, $form->getElements()['foo'] instanceof Image);
-//        $form->text('foo');
-//        $this->assertEquals(true, $form->getElements()['foo'] instanceof Text);
-//    }
-//
-//    public function test_removeElement_1_0()
-//    {
-//        $form = new Form();
-//        $form->text('foo');
-//        $this->assertEquals(true, isset($form->getElements()['foo']));
-//        $form->removeElement($form->getElements()['foo']);
-//        $this->assertEquals(true, !isset($form->getElements()['foo']));
-//    }
-//
-//    public function test_getFormDefaults()
-//    {
-//        $form = new Form();
-//        //$form->setOption('defaults', ['foo' => 'bar']);
-//        $this->assertEquals(true, $form->getDefaultsHandler() instanceof DefaultsHandler);
-//        $this->assertEquals([], $form->getDefaultsHandler()->getDefaults());
-//        $form->setDefaults([1]);
-//        $this->assertEquals([1], $form->getDefaultsHandler()->getDefaults());
-//    }
-//
-//    /**
-//     *
-//     * @dataProvider dataForConstruct
-//     */
-//    public function testConstruct($method, $action, $expectedMethod, $expectedAction)
-//    {
-//        $this->form = new Form([
-//            'action' => $action,
-//            'method' => $method
-//        ]);
-//        $this->assertSame($expectedMethod, $this->form->getAttr('method')?->getValueString());
-//        $this->assertSame($expectedAction, $this->form->getAttr('action')?->getValueString());
-//    }
-//
-//    public function dataForConstruct()
-//    {
-//        return [
-//            ['get', '/action.php', 'GET', '/action.php'],
-//            ['get', null, 'GET', null],
-//            [null, null, null, null],
-//            ['Post', null, 'POST', null],
-//        ];
-//    }
-//
-//    public function test_call_valid()
-//    {
-//        $form = new Form();
-//        $select = $form->select('select');
-//        $this->assertInstanceOf(Select::class, $select);
-//    }
-//
-//    public function test_call_invalid()
-//    {
-//        $this->expectException(ExceptionElement::class);
-//        $form = new Form();
-//        $select = $form->invalid();
-//    }
-//
-//    public function test_remove_elements()
-//    {
-//        //$this->markTestIncomplete();
-//        $form = new Form();
-//        $form->text('foo');
-//        $form->hidden('bar');
-//        $form->removeElement($form->getElement(Form::_TOKEN_SUBMIT_));
-//        $form->removeElement($form->getElement('foo'));
-//        $form->removeElement($form->getElement('notisset'));
-//        $this->assertCount(1, $form->getElements());
-//    }
-//
-//    public function test_setDefaults_1_0()
-//    {
-//        $form = new Form();
-//        $form->setDefaults([
-//            'foo' => 'bar'
-//        ]);
-//        $element = $form->text('foo');
-//        $this->assertSame('bar', $element->getAttr('value')->getValueString());
-//    }
-//
-//    public function test_setDefaults_closure_1()
-//    {
-//        $form = new Form();
-//        $form->setDefaults(function () {
-//            return [
-//                'foo' => 'bar'
-//            ];
-//        });
-//        $element = $form->text('foo');
-//        $this->assertSame('bar', $element->getAttr('value')->getValueString());
-//    }
-//
-//    public function test_setDefaults_invalid_data()
-//    {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $form = new Form();
-//        $form->setDefaults('value');
-//    }
-//
+
+
+    public function testAddElement()
+    {
+        $form = new Form();
+        $element = new Text('foo');
+        $form->addElement($element);
+        $this->assertCount(2, $form->getElements());
+    }
+
+    public function testCountElements()
+    {
+        $form = new Form();
+        $form->text('foo');
+        $form->hidden('bar');
+        $form->password('baz');
+        //+1 submit_tokene element
+        $this->assertCount(4, $form->getElements());
+    }
+
+    public function testAddElementRewrite()
+    {
+        $form = new Form();
+        $form->image('foo');
+        $this->assertInstanceOf(Image::class, $form->getElements()['foo']);
+        $form->text('foo');
+        $this->assertInstanceOf(Text::class, $form->getElements()['foo']);
+    }
+
+    public function testRemoveElement()
+    {
+        $form = new Form();
+        $el = $form->text('foo');
+        $this->assertSame(true, isset($form->getElements()['foo']));
+        $form->removeElement($el);
+        $this->assertSame(true, !isset($form->getElements()['foo']));
+    }
+
+    public function testGetFormDefaults()
+    {
+        $form = new Form();
+
+        $this->assertInstanceOf(DefaultsHandler::class, $form->getDefaultsHandler());
+
+        $this->assertEquals([], $form->getDefaultsHandler()->getDefaults());
+        $form->setDefaults([1]);
+        $this->assertEquals([1], $form->getDefaultsHandler()->getDefaults());
+    }
+
+
+    public function testCallValid()
+    {
+        $form = new Form();
+        $select = $form->select('select');
+        $this->assertInstanceOf(Select::class, $select);
+    }
+
+    public function testCallInvalid()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $form = new Form();
+        $form->invalid();
+    }
+
+    public function test_remove_elements()
+    {
+        //$this->markTestIncomplete();
+        $form = new Form();
+        $form->text('foo');
+        $form->hidden('bar');
+        $form->removeElement($form->getElement(Form::_TOKEN_SUBMIT_));
+        $form->removeElement($form->getElement('foo'));
+        $form->removeElement($form->getElement('notisset'));
+        $this->assertCount(1, $form->getElements());
+    }
+
+    public function testSetDefaults()
+    {
+        $form = new Form();
+        $form->setDefaults([
+            'foo' => 'bar'
+        ]);
+        $element = $form->text('foo');
+        $this->assertSame('bar', $element->getAttr('value')->getValueString());
+    }
+
+    public function testSetDefaultsClosure()
+    {
+        $form = new Form();
+        $form->setDefaults(function () {
+            return [
+                'foo' => 'bar'
+            ];
+        });
+        $element = $form->text('foo');
+        $this->assertSame('bar', $element->getAttr('value')->getValueString());
+    }
+
+    public function testSetDefaultsInvalidData()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $form = new Form();
+        $form->setDefaults('value');
+    }
+
 //
 //    public function test_setDefaults_1_1()
 //    {
@@ -303,40 +283,48 @@ class FormTest extends TestCase
 //        $this->assertEquals('zed', $element->getAttr('value')->getValueString());
 //    }
 //
-//    public function test_isSubmitted_false()
-//    {
-//        $form = new Form();
-//        $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
-//        $property->setValue($form, false);
-//        $this->assertFalse($form->isSubmitted());
-//    }
-//
-//    public function test_validate_false_after_submit()
-//    {
-//        $form = new Form();
-//        $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
-//        $property->setValue($form, true);
-//        $form->text('foo')->addRule(Rules::REQUIRED);
-//        $this->assertFalse($form->isSubmitted());
-//    }
-//
-//    public function test_skip_validate()
-//    {
-//        $form = new Form();
-//        $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
-//        $property->setValue($form, true);
-//        $form->text('foo')->addRule(Rules::REQUIRED);
-//        $this->assertTrue($form->isSubmitted(false));
-//    }
-//
-//    public function test_validate_true_after_submit()
-//    {
-//        $form = new Form();
-//        $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
-//        $property->setValue($form, true);
-//        $this->assertTrue($form->isSubmitted());
-//    }
-//
+    public function testIsSubmitted()
+    {
+        $form = new Form();
+        $this->assertFalse($form->isSubmitted());
+    }
+
+    public function testValidateFalseAfterSubmit()
+    {
+        $form = new Form();
+        $property = $this->getPrivateProperty(Form::class, 'submitted');
+        $property->setValue($form, true);
+        $form->text('foo')->addRule(Rules::REQUIRED);
+        $this->assertFalse($form->isSubmitted());
+    }
+
+    public function testSkipValidate()
+    {
+        $form = new Form();
+        $property = $this->getPrivateProperty(Form::class, 'submitted');
+        $property->setValue($form, true);
+        $form->text('foo')->addRule(Rules::REQUIRED);
+        $this->assertTrue($form->isSubmitted(false));
+    }
+
+    public function testValidateTrueAfterSubmit()
+    {
+        $form = new Form(
+            request: new ServerRequestWrapper(
+                new ServerRequest(
+                    parsedBody: [
+                        'foo' => 'test'
+                    ],
+                    method: 'POST'
+                )
+            )
+        );
+        $property = $this->getPrivateProperty(Form::class, 'submitted');
+        $property->setValue($form, true);
+        $form->text('foo')->addRule(Rules::REQUIRED);
+        $this->assertTrue($form->isSubmitted());
+    }
+
 //    public function test_formCount_1_0()
 //    {
 //        $form1 = new Form();

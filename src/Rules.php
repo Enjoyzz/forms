@@ -36,7 +36,7 @@ class Rules
      * @var array
      */
     private array $params = [];
-    private ServerRequestWrapper $requestWrapper;
+    private ServerRequestWrapper $request;
 
     /**
      *
@@ -48,7 +48,7 @@ class Rules
 
         $this->message = $this->setMessage($message);
         $this->setParams($params);
-        $this->setRequestWrapper();
+        $this->setRequest();
     }
 
     /**
@@ -108,13 +108,13 @@ class Rules
         return $this->message;
     }
 
-    public function setRequestWrapper(ServerRequestWrapper $requestWrapper = null)
+    public function setRequest(ServerRequestWrapper $request = null)
     {
-        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
     }
 
-    public function getRequestWrapper(): ServerRequestWrapper
+    public function getRequest(): ServerRequestWrapper
     {
-        return $this->requestWrapper;
+        return $this->request;
     }
 }

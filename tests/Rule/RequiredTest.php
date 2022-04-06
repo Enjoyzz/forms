@@ -21,7 +21,7 @@ class RequiredTest
         $element = new Checkbox('name');
 
 
-        $element->setRequestWrapper(new ServerRequestWrapper(
+        $element->setRequest(new ServerRequestWrapper(
                         ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,
@@ -36,7 +36,7 @@ class RequiredTest
     public function test_required_2()
     {
         $element = new Checkbox('name');
-        $element->setRequestWrapper(new ServerRequestWrapper(
+        $element->setRequest(new ServerRequestWrapper(
                         ServerRequestCreator::createFromGlobals(
                                 null,
                                 null,

@@ -45,7 +45,7 @@ abstract class Element implements ElementInterface
      * @var Form|null
      */
     protected ?Form $form = null;
-    private ServerRequestWrapper $requestWrapper;
+    private ServerRequestWrapper $request;
 
     /**
      * @param string $name
@@ -53,7 +53,7 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
-        $this->setRequestWrapper();
+        $this->setRequest();
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -86,14 +86,14 @@ abstract class Element implements ElementInterface
         return $this->form ?? new Form();
     }
 
-    public function setRequestWrapper(ServerRequestWrapper $requestWrapper = null)
+    public function setRequest(ServerRequestWrapper $request = null)
     {
-        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
     }
 
-    public function getRequestWrapper(): ServerRequestWrapper
+    public function getRequest(): ServerRequestWrapper
     {
-        return $this->requestWrapper;
+        return $this->request;
     }
 
     /**
