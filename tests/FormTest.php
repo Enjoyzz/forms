@@ -83,7 +83,8 @@ class FormTest extends TestCase
         $form = new Form();
         $element = new Text('foo');
         $form->addElement($element);
-        $this->assertCount(2, $form->getElements());
+        //incl CSRF token, because method POST
+        $this->assertCount(3, $form->getElements());
     }
 
     public function testCountElements()
@@ -92,8 +93,10 @@ class FormTest extends TestCase
         $form->text('foo');
         $form->hidden('bar');
         $form->password('baz');
-        //+1 submit_tokene element
-        $this->assertCount(4, $form->getElements());
+
+        //incl Submit token
+        //incl CSRF token, because method POST
+        $this->assertCount(5, $form->getElements());
     }
 
     public function testAddElementRewrite()
@@ -147,8 +150,10 @@ class FormTest extends TestCase
         $form->text('foo');
         $form->hidden('bar');
         $form->removeElement($form->getElement(Form::_TOKEN_SUBMIT_));
+        $form->removeElement($form->getElement(Form::_TOKEN_CSRF_));
         $form->removeElement($form->getElement('foo'));
         $form->removeElement($form->getElement('notisset'));
+
         $this->assertCount(1, $form->getElements());
     }
 
@@ -292,6 +297,7 @@ class FormTest extends TestCase
     public function testValidateFalseAfterSubmit()
     {
         $form = new Form();
+        $form->removeElement($form->getElement(Form::_TOKEN_CSRF_));
         $property = $this->getPrivateProperty(Form::class, 'submitted');
         $property->setValue($form, true);
         $form->text('foo')->addRule(Rules::REQUIRED);
@@ -319,6 +325,7 @@ class FormTest extends TestCase
                 )
             )
         );
+        $form->removeElement($form->getElement(Form::_TOKEN_CSRF_));
         $property = $this->getPrivateProperty(Form::class, 'submitted');
         $property->setValue($form, true);
         $form->text('foo')->addRule(Rules::REQUIRED);

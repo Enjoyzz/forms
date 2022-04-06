@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Exception\CsrfAttackDetected;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
@@ -33,7 +34,10 @@ class Csrf extends Hidden
             Rules::CALLBACK,
             'CSRF Attack detected',
             function () use ($csrf_key) {
-                return password_verify($csrf_key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''));
+                if (password_verify($csrf_key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))){
+                    return true;
+                }
+                throw new CsrfAttackDetected('CSRF Token is invalid');
             }
         );
     }

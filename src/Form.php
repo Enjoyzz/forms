@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Closure;
+use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
@@ -207,7 +208,7 @@ class Form
         }
         $this->setAttr(AttributeFactory::create('method', $this->method));
         $this->setOption('method', $method, false);
-//        $this->csrf();
+        $this->addElement(new Csrf());
     }
 
     public function getMethod(): string

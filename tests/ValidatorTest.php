@@ -74,7 +74,7 @@ class ValidatorTest extends TestCase
                 'foo' => 'v_foo'
             ], method: 'get')
         );
-        $form = new Form(request: $request);
+        $form = new Form('get', request: $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->text('foo')->addRule(Rules::REQUIRED);
@@ -89,7 +89,7 @@ class ValidatorTest extends TestCase
             ], method: 'get')
         );
 
-        $form = new Form(request: $request);
+        $form = new Form('get', request: $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->reset('reset');
