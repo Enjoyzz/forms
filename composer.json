@@ -13,10 +13,10 @@
     "ext-json": "*",
     "ext-gd": "*",
     "guzzlehttp/guzzle": "^7.1",
-    "enjoys/http": "^1.0",
     "enjoys/traits": "^1.1",
     "enjoys/session": "^2.0",
     "enjoys/server-request-wrapper": "^1.0",
+    "httpsoft/http-server-request": "^1.0",
     "enjoys/functions": "^2.1",
     "gabrielelana/byte-units": "0.5.0",
     "webmozart/assert": "^1.10"
