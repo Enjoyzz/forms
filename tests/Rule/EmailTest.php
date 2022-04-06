@@ -9,10 +9,11 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
 use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use HttpSoft\Message\ServerRequest;
+use PHPUnit\Framework\TestCase;
 
 
-class EmailTest
+class EmailTest extends TestCase
 {
 
     /**
@@ -20,19 +21,14 @@ class EmailTest
      */
     public function test_validate($name, $request, $expect)
     {
-
         $text = new Text($name);
 
 
-
-        $text->setRequest(new ServerRequestWrapper(
-                                ServerRequestCreator::createFromGlobals(
-                                        null,
-                                        null,
-                                        null,
-                                        $request,
-                                )
-        ));
+        $text->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: $request, parsedBody: [], method: 'get')
+            )
+        );
         $text->addRule(Rules::EMAIL);
         $this->assertEquals($expect, Validator::check([$text]));
     }

@@ -8,9 +8,10 @@ namespace Tests\Enjoys\Forms\Rule;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
 use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use HttpSoft\Message\ServerRequest;
+use PHPUnit\Framework\TestCase;
 
-class EqualTest
+class EqualTest extends TestCase
 {
 
     /**
@@ -20,14 +21,11 @@ class EqualTest
     {
         $class = "Enjoys\Forms\Elements\\" . $type;
         $text = new $class($name);
-        $text->setRequestWrapper(new ServerRequestWrapper(
-                        ServerRequestCreator::createFromGlobals(
-                                null,
-                                null,
-                                null,
-                                $request,
-                        )
-        ));
+        $text->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: $request, parsedBody: [], method: 'get')
+            )
+        );
         $text->addRule(Rules::EQUAL, null, $rule);
         $this->assertEquals($expect, Validator::check([$text]));
     }

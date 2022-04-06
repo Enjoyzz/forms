@@ -10,7 +10,7 @@ use Enjoys\Forms\Rule\RuleInterface;
 
 interface Ruled
 {
-    public function addRule(string $ruleClass, ?string $message = null, mixed $params): self;
+    public function addRule(string $ruleClass, ?string $message = null, mixed $params = null): self;
     public function setRuleError(?string $message): void;
     public function getRuleErrorMessage(): ?string;
     public function isRuleError(): bool;

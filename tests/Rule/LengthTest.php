@@ -9,14 +9,14 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\Length;
 use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
-use Tests\Enjoys\Forms\Reflection;
+use HttpSoft\Message\ServerRequest;
+use PHPUnit\Framework\TestCase;
 
 
-class LengthTest
+class LengthTest extends TestCase
 {
 
-    use Reflection;
+    use \Enjoys\Traits\Reflection;
 
 
     /**
@@ -31,18 +31,10 @@ class LengthTest
         $rule = new Length(null, [
             '>' => 5
         ]);
-        
-        $rule->setRequest(new ServerRequestWrapper(
-                        ServerRequestCreator::createFromGlobals(
-                                null,
-                                null,
-                                null,
-                                ['foo' => $value]
-                        )
-        ));
-        
-     
 
+        $rule->setRequest(new ServerRequestWrapper(
+            new ServerRequest(queryParams:  ['foo' => $value], parsedBody: [], method: 'get')
+        ));
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));
     }
