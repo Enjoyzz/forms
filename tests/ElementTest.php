@@ -13,40 +13,6 @@ class ElementTest extends TestCase
 {
 //    use Reflection;
 
-
-    public function testSetForm()
-    {
-        $this->markTestIncomplete();
-        $element = $this->getMockForAbstractClass(Element::class, [
-            'name' => 'Foo'
-        ]);
-    }
-
-    public function testGetForm()
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testSetRequestWrapper()
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetRequestWrapper()
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testUnsetForm()
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testPrepare()
-    {
-        $this->markTestSkipped();
-    }
-
     public function testGetType()
     {
         $element = $this->getMockBuilder(Element::class)->setConstructorArgs([
@@ -75,11 +41,6 @@ class ElementTest extends TestCase
             'label' => 'barzzzz'
         ]);
         $this->assertSame('barzzzz', $element->getLabel());
-    }
-
-    public function testSetDefault()
-    {
-        $this->markTestSkipped();
     }
 
     public function testBaseHtml()

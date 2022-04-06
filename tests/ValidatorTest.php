@@ -7,72 +7,74 @@ use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
 use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use HttpSoft\Message\ServerRequest;
+use PHPUnit\Framework\TestCase;
 
-class ValidatorTest
+class ValidatorTest extends TestCase
 {
 
-//
-//    public function test_validate_true()
-//    {
-//        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
-//                    'foo' => 'v_foo',
-//                    'bar' => 'v_bar'
-//        ]));
-//
-//        $elements = [
-//            $form->text('foo')->addRule('required'),
-//            $form->text('bar')->addRule('required'),
-//        ];
-//
-//        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
-//    }
-//
-//    public function test_validate_false()
-//    {
-//        $form = new \Enjoys\Forms\Form([], new \Enjoys\Forms\Http\Request([
-//                    'foo' => 'v_foo',
-//        ]));
-//
-//        $elements = [
-//            $form->text('foo')->addRule('required'),
-//            $form->text('bar')->addRule('required'),
-//        ];
-//
-//        $this->assertFalse(\Enjoys\Forms\Validator::check($elements));
-//    }
-//
-//    public function test_validate_without_rules()
-//    {
-//        $form = new \Enjoys\Forms\Form();
-//        $elements = [
-//            $form->text('foo'),
-//            $form->text('bar'),
-//        ];
-//
-//        $this->assertTrue(\Enjoys\Forms\Validator::check($elements));
-//    }
-//
-//    public function test_validate_without_elements()
-//    {
-//        $this->assertTrue(\Enjoys\Forms\Validator::check([]));
-//    }
+
+    public function test_validate_true()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'bar',
+                'bar' => 'foo',
+            ], method: 'get')
+        );
+
+        $form = new Form(method: 'get', request: $request);
+
+        $elements = [
+            $form->text('foo')->addRule(Rules::REQUIRED),
+            $form->text('bar')->addRule(Rules::REQUIRED),
+        ];
+
+        $this->assertTrue(Validator::check($elements));
+    }
+
+    public function test_validate_false()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'bar',
+            ], method: 'get')
+        );
+
+        $form = new Form(method: 'get', request: $request);
+
+        $elements = [
+            $form->text('foo')->addRule(Rules::REQUIRED),
+            $form->text('bar')->addRule(Rules::REQUIRED),
+        ];
+
+        $this->assertFalse(Validator::check($elements));
+    }
+
+    public function test_validate_without_rules()
+    {
+        $form = new Form();
+        $elements = [
+            $form->text('foo'),
+            $form->text('bar'),
+        ];
+
+        $this->assertTrue(Validator::check($elements));
+    }
+
+    public function test_validate_without_elements()
+    {
+        $this->assertTrue(Validator::check([]));
+    }
 
     public function test_validate_groups_true()
     {
-
-
         $request = new ServerRequestWrapper(
-                ServerRequestCreator::createFromGlobals(
-                        null,
-                        null,
-                        null,
-                        [
-                            'foo' => 'v_foo'
-                        ]
-                )
+            new ServerRequest(queryParams: [
+                'foo' => 'v_foo'
+            ], method: 'get')
         );
-        $form = new Form([], $request);
+        $form = new Form(request: $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->text('foo')->addRule(Rules::REQUIRED);
@@ -81,19 +83,13 @@ class ValidatorTest
 
     public function test_validate_groups_false()
     {
-
         $request = new ServerRequestWrapper(
-                ServerRequestCreator::createFromGlobals(
-                        null,
-                        null,
-                        null,
-                        [
-                            'food' => 'v_foo'
-                        ]
-                )
+            new ServerRequest(queryParams: [
+                'food' => 'v_foo'
+            ], method: 'get')
         );
 
-        $form = new Form([], $request);
+        $form = new Form(request: $request);
         $group = $form->group();
         $group->textarea('bararea');
         $group->reset('reset');

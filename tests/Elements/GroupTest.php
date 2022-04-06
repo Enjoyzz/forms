@@ -11,10 +11,12 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Form;
 use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use HttpSoft\Message\ServerRequest;
+use PHPUnit\Framework\TestCase;
+use Webmozart\Assert\InvalidArgumentException;
 
 
-class GroupTest
+class GroupTest extends TestCase
 {
 
     public function test_init_group()
@@ -31,61 +33,51 @@ class GroupTest
 
     public function test_invalid_element()
     {
-        $this->expectException('\Enjoys\Forms\Exception\ExceptionElement');
+        $this->expectException(InvalidArgumentException::class);
         $g = new Group('group1');
         $g->invalid();
     }
 
     public function test_setDefaultsArraysForGroupSelect()
     {
-        $this->markTestSkipped('Проверить тест');
+        self::markTestSkipped();
         $request = new ServerRequestWrapper(
-            ServerRequestCreator::createFromGlobals(
-                ['REQUEST_METHOD' => 'POST'],
-                null,
-                null,
-                null,
-                [
-                    'foo1' => 'a',
-                    'foo2' => [
-                        1 => [
-                            'test' => [
-                                2 => 'b'
-                            ]
+            new ServerRequest(parsedBody: [
+                'foo1' => 'a',
+                'foo2' => [
+                    1 => [
+                        'test' => [
+                            2 => 'b'
                         ]
-                    ],
-                    'foo3' => [
-                        1 => 'c'
-                    ],
-                ]
-            )
+                    ]
+                ],
+                'foo3' => [
+                    1 => 'c'
+                ],
+            ], method: 'post')
         );
 
-        $tockenSubmitMock = $this->getMockBuilder(TockenSubmit::class)
+        $tokenSubmitMock = $this->getMockBuilder(TockenSubmit::class)
             ->disableOriginalConstructor()
-            ->getMock();
-        $tockenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
+            ->getMock()
+        ;
+        $tokenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
 
         $form = $this->getMockBuilder(Form::class)
             ->disableOriginalConstructor()
             ->addMethods(['tockenSubmit'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $form->expects($this->once())->method('tockenSubmit')->will(
             $this->returnCallback(
-                function () use ($tockenSubmitMock) {
-                    return $tockenSubmitMock;
+                function () use ($tokenSubmitMock) {
+                    return $tokenSubmitMock;
                 }
             )
         );
 
-        $form->__construct(
-            [
-                'method' => 'post'
-            ],
-            $request
-        );
-
+        $form->__construct('post', request: $request);
 
         $fill = [
             'false',
@@ -107,10 +99,10 @@ class GroupTest
             ]
         );
 
-        $this->assertEquals('POST', $form->getRequestWrapper()->getRequest()->getMethod());
+        $this->assertEquals('POST', $form->getMethod());
 
-        $this->assertNull($element1->getElements()[1]->getAttr('selected'));
-        $this->assertNull($element2->getElements()[2]->getAttr('selected'));
+        $this->assertSame([], $element1->getElements()[1]->getAttr('selected')->getValues());
+        $this->assertSame([], $element2->getElements()[2]->getAttr('selected')->getValues());
         $this->assertSame('c', $element3->getAttr('value')->getValueString());
     }
 }

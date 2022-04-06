@@ -6,9 +6,10 @@ use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
+use PHPUnit\Framework\TestCase;
 
 
-class CheckboxTest
+class CheckboxTest extends TestCase
 {
 
 
@@ -181,7 +182,6 @@ class CheckboxTest
 
     public function test_setDefault()
     {
-        $this->markTestSkipped('Проверить тест');
         $form = new Form();
         $form->setDefaults([
             'name' => [
@@ -191,16 +191,15 @@ class CheckboxTest
         ]);
         $obj = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
         $elements = $obj->getElements();
-        $this->assertNull($elements[0]->getAttr('checked'));
-        $this->assertNull($elements[1]->getAttr('checked'));
-        $this->assertNotNull($elements[2]->getAttr('checked'));
+        $this->assertNotNull($elements[0]->getAttr('checked'));
+        $this->assertNotNull($elements[1]->getAttr('checked'));
+        $this->assertNull($elements[2]->getAttr('checked'));
     }
 
     public function test_setDefault_simple()
     {
-        $this->markTestSkipped('Проверить тест');
         $form = new Form();
-        $form->setOption('Defaults', [
+        $form->setOption('defaults', [
             'name' => ['baaa']
         ]);
         $radio = $form->checkbox('name', 'title')->fill([
@@ -209,9 +208,9 @@ class CheckboxTest
             'aggg' => 5,
         ]);
         $elements = $radio->getElements();
-        $this->assertFalse($elements[0]->getAttr('checked'));
-        $this->assertNull($elements[1]->getAttr('checked'));
-        $this->assertFalse($elements[2]->getAttr('checked'));
+        $this->assertNull($elements[0]->getAttr('checked'));
+        $this->assertNotNull($elements[1]->getAttr('checked'));
+        $this->assertNull($elements[2]->getAttr('checked'));
     }
 
     public function test_basehtml()

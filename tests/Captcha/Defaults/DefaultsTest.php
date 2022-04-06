@@ -7,15 +7,18 @@ use Enjoys\Forms\Elements\Captcha;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
+use Enjoys\Traits\Reflection;
 use HttpSoft\ServerRequest\ServerRequestCreator;
+use PHPUnit\Framework\TestCase;
 
 
 new Session();
 
 
-class DefaultsTest
+class DefaultsTest extends TestCase
 {
 
+    use Reflection;
 
     private Session $session;
 

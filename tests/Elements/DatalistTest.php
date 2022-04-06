@@ -4,9 +4,10 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Datalist;
+use PHPUnit\Framework\TestCase;
 
 
-class DatalistTest
+class DatalistTest extends TestCase
 {
 
     public function test_init_datalist()

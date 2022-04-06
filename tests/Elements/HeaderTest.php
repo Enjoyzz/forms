@@ -2,12 +2,13 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Header;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Forms;
+use PHPUnit\Framework\TestCase;
 
 
-class HeaderTest
+class HeaderTest extends TestCase
 {
 
 

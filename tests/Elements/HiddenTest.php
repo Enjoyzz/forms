@@ -3,10 +3,10 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Hidden;
-use Enjoys\Forms\Forms;
+use PHPUnit\Framework\TestCase;
 
 
-class HiddenTest
+class HiddenTest extends TestCase
 {
 
     /**

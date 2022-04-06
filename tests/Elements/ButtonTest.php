@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Button;
+use PHPUnit\Framework\TestCase;
 
 
-class ButtonTest
+class ButtonTest extends TestCase
 {
     public function test_baseHtml()
     {

@@ -5,16 +5,18 @@ namespace Tests\Enjoys\Forms;
 
 
 use Enjoys\Forms\Rules;
+use PHPUnit\Framework\TestCase;
 
-class RulesTest
+class RulesTest extends TestCase
 {
 
     public function test_setParams_1_0()
     {
         $rules = new Rules('message', [1]);
-        $this->assertEquals([1], $rules->getParams());
+        $this->assertSame([1], $rules->getParams());
         $this->assertEquals('message', $rules->getMessage());
-        $this->assertNull($rules->getParam('test'));
+        $this->assertNull($rules->getParam('not-isset-param'));
+        $this->assertSame(1, $rules->getParam(0));
     }
 
     public function test_setParams_1_1()

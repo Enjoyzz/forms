@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Option;
+use PHPUnit\Framework\TestCase;
 
 
-class OptionTest
+class OptionTest extends TestCase
 {
     public function test_baseHtml()
     {

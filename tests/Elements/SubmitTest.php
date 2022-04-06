@@ -3,9 +3,10 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Submit;
+use PHPUnit\Framework\TestCase;
 
 
-class SubmitTest
+class SubmitTest extends TestCase
 {
 
     public function test_init()

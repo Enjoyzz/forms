@@ -6,12 +6,16 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Captcha\Defaults\Defaults;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Captcha;
+use Enjoys\Session\Session;
+use Enjoys\Traits\Reflection;
+use PHPUnit\Framework\TestCase;
 
+new Session();
 
-class CaptchaTest
+class CaptchaTest extends TestCase
 {
 
-
+    use Reflection;
 
     public function test_init_captcha()
     {
@@ -28,7 +32,6 @@ class CaptchaTest
         $method = $this->getPrivateMethod(Captcha::class, 'getMessage');
         $this->assertSame('test', $method->invoke($rule));
     }
-
 
 
 }
