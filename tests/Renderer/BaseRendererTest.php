@@ -8,7 +8,7 @@ namespace Tests\Enjoys\Forms\Renderer;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\BaseRenderer;
-use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\TestCase;
 
 
 class BaseRendererTest extends TestCase
