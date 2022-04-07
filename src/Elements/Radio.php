@@ -32,7 +32,7 @@ class Radio extends Element implements FillableInterface, Ruled
             'id' => $this->getPrefixId() . $name,
             'value' => $name,
         ]));
-        $this->getAttributeCollection()->remove('name');
+        $this->removeAttr('name');
     }
 
     public function setPrefixId(string $prefix): self
@@ -82,9 +82,9 @@ class Radio extends Element implements FillableInterface, Ruled
 
     public function baseHtml(): string
     {
-        $this->setAttr(AttributeFactory::create('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
-        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy(), Form::ATTRIBUTES_LABEL);
-        $this->setAttrs(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
-        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
+        $this->setAttr($this->getAttr('id')->withName('for'), Form::ATTRIBUTES_LABEL);
+//        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy(), Form::ATTRIBUTES_LABEL);
+        $this->setAttr(AttributeFactory::create('name',$this->getParentName()));
+        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>";
     }
 }

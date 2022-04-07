@@ -61,11 +61,7 @@ abstract class Element implements ElementInterface
         }
     }
 
-    /**
-     * @param Form $form
-     *
-     * @return void
-     */
+
     public function setForm(Form $form): void
     {
         $this->form = $form;

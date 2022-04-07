@@ -9,7 +9,7 @@ use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Form;
 
 
-class BaseRenderer implements RendererInterface
+class BaseRenderer implements RendererInterfaceOld
 {
 
     protected Form $form;

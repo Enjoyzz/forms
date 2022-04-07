@@ -7,7 +7,6 @@ namespace Enjoys\Forms;
 use Closure;
 use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Elements\TockenSubmit;
-use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Options;
@@ -179,17 +178,17 @@ class Form
         return $this->parentAddElement($element);
     }
 
-    /**
-     * Вывод формы в Renderer
-     * @param RendererInterface $renderer
-     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
-     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
-     */
-    public function render(Renderer\RendererInterface $renderer)
-    {
-        $renderer->setForm($this);
-        return $renderer->render();
-    }
+//    /**
+//     * Вывод формы в Renderer
+//     * @param RendererInterface $renderer
+//     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
+//     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
+//     */
+//    public function render(Renderer\RendererInterface $renderer)
+//    {
+//        $renderer->setForm($this);
+//        return $renderer->render();
+//    }
 
     public function getRequest(): ServerRequestWrapper
     {

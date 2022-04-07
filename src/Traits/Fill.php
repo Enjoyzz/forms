@@ -7,6 +7,7 @@ namespace Enjoys\Forms\Traits;
 use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
+use Enjoys\Forms\ElementInterface;
 use Enjoys\Forms\FillHandler;
 
 
@@ -68,7 +69,7 @@ trait Fill
 
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
-            $element->setParentName($this->getName());
+
             $element->setAttrs(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
             /**
@@ -77,16 +78,16 @@ trait Fill
             /** @var AttributeCollection $fillCollection */
             $fillCollection = $element->getAttributeCollection('fill');
             foreach ($fillCollection as $attr) {
-                if (in_array($attr->getName(), ['id', 'name', 'disabled', 'readonly'])) {
+              //  if (in_array($attr->getName(), ['id', 'name', 'disabled', 'readonly'])) {
                     $element->setAttr($attr);
                  //   $fillCollection->remove($attr);
-                }
+               // }
             }
 
 
-            $element->setDefault($this->defaultValue);
 
-            $this->elements[] = $element;
+
+            $this->addElement($element);
         }
         return $this;
     }
@@ -112,6 +113,27 @@ trait Fill
     public function setDefaultValue(mixed $defaultValue): void
     {
         $this->defaultValue = $defaultValue;
+    }
+
+
+    public function addElement(ElementInterface $element)
+    {
+        $element->setParentName($this->getName());
+        $element->setDefault($this->defaultValue);
+        $this->elements[] = $element;
+        return $this;
+    }
+
+    /**
+     * @param ElementInterface[] $elements
+     * @return Fill
+     */
+    public function addElements(array $elements)
+    {
+        foreach ($elements as $element){
+            $this->addElement($element);
+        }
+        return $this;
     }
 
 
