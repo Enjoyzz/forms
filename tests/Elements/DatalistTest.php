@@ -4,24 +4,27 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Datalist;
-use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\TestCase;
 
 
 class DatalistTest extends TestCase
 {
 
-    public function test_init_datalist()
+    public function testInitDataList()
     {
  
         $el = new Datalist('foo', 'title1');
-//        $this->assertIn($el instanceof Datalist);
-        $this->assertNull($el->getAttr('id')?->getValueString());
-        $this->assertSame('foo', $el->getAttr('list')->getValueString());
+        $this->assertSame('foo', $el->getAttr('id')->getValueString());
+        $this->assertSame('foo-list', $el->getAttr('list')->getValueString());
     }
     
-    public function test_basehtml()
+    public function testBaseHtml()
     {
         $el = new Datalist('foo', 'title1');
-        $this->assertEquals('', $el->baseHtml());
+        $this->assertEquals($this->stringOneLine(<<<HTML
+<input id="foo" name="foo" list="foo-list">
+<datalist id='foo-list'>
+</datalist>
+HTML), $this->stringOneLine($el->baseHtml()));
     }
 }

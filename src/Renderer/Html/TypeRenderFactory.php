@@ -24,8 +24,10 @@ final class TypeRenderFactory
         TypesRender\Radio::class => Elements\Radio::class,
         TypesRender\Checkbox::class => Elements\Checkbox::class,
         TypesRender\Select::class => Elements\Select::class,
-        TypesRender\Header::class => Elements\Header::class,
-        TypesRender\Html::class => Elements\Html::class,
+        TypesRender\Html::class => [
+            Elements\Html::class,
+            Elements\Header::class
+        ],
         TypesRender\Textarea::class => Elements\Textarea::class,
         TypesRender\Group::class => Elements\Group::class,
         TypesRender\DataList::class => Elements\Datalist::class

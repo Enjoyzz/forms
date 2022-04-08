@@ -10,6 +10,6 @@ class Button extends Input
 {
     public function render(): string
     {
-        return $this->bodyRender();
+        return $this->bodyRender($this->getElement());
     }
 }

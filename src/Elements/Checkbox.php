@@ -86,8 +86,6 @@ class Checkbox extends Element implements FillableInterface, Ruled
     public function baseHtml(): string
     {
         $this->setAttr(AttributeFactory::create('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
-
-
         $this->setAttrs(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>";
     }

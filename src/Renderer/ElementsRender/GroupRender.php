@@ -28,12 +28,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Renderer\ElementsRender;
 
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Elements\Group;
+
 /**
  * Description of GroupRender
  *
  * @author Enjoys
  */
-class GroupRender extends BaseElement
+class GroupRender
 {
 
     /**
@@ -52,12 +55,12 @@ class GroupRender extends BaseElement
     /**
      * @return string
      */
-    protected function renderGroup(\Enjoys\Forms\Element $element): string
+    protected function renderGroup(Element $element): string
     {
         $return = '';
         /**
-         * @var \Enjoys\Forms\Elements\Group $element
-         * @var \Enjoys\Forms\Element $data
+         * @var Group $element
+         * @var Element $data
          */
         foreach ($element->getElements() as $data) {
             $return .= "<div>";

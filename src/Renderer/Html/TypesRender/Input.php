@@ -32,11 +32,6 @@ class Input implements TypesRenderInterface
             $this->descriptionRender(),
             $this->validationRender(),
         );
-//            $this->renderLabel($this->element) .
-//            $this->renderBody($this->element) .
-//            $this->renderDescription($this->element) .
-//            $this->renderValidation($this->element) .
-//            '';
     }
 
     protected function bodyRender(Element $element): string

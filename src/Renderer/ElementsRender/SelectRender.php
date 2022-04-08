@@ -37,7 +37,7 @@ use Enjoys\Forms\Elements\Select;
  *
  * @author Enjoys
  */
-class SelectRender extends BaseElement
+class SelectRender
 {
 
     /**

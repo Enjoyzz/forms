@@ -83,7 +83,6 @@ class Radio extends Element implements FillableInterface, Ruled
     public function baseHtml(): string
     {
         $this->setAttr($this->getAttr('id')->withName('for'), Form::ATTRIBUTES_LABEL);
-//        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy(), Form::ATTRIBUTES_LABEL);
         $this->setAttr(AttributeFactory::create('name',$this->getParentName()));
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>";
     }

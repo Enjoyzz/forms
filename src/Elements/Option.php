@@ -56,6 +56,11 @@ class Option extends Element implements FillableInterface
     public function baseHtml(): string
     {
         $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy());
+
+        if ($this->getLabel() === null){
+            return "<option{$this->getAttributesString()}>";
+        }
+
         return "<option{$this->getAttributesString()}>{$this->getLabel()}</option>";
     }
 }

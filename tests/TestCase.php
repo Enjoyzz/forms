@@ -11,5 +11,8 @@ new Session();
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-
+    public function stringOneLine(string $input): string
+    {
+        return str_replace(["\n", "\r\n", "\r"], "", $input);
+    }
 }
