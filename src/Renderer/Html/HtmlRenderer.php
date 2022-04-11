@@ -26,8 +26,10 @@ class HtmlRenderer implements RendererInterface
             Elements\Reset::class,
             Elements\Image::class
         ],
-        TypesRender\Radio::class => Elements\Radio::class,
-        TypesRender\Checkbox::class => Elements\Checkbox::class,
+        TypesRender\Radio::class => [
+            Elements\Radio::class,
+            Elements\Checkbox::class
+        ],
         TypesRender\Select::class => Elements\Select::class,
         TypesRender\Html::class => [
             Elements\Html::class,
