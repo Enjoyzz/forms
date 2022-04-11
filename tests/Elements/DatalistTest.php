@@ -4,10 +4,10 @@
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Datalist;
-use Tests\Enjoys\Forms\TestCase;
+use Tests\Enjoys\Forms\_TestCase;
 
 
-class DatalistTest extends TestCase
+class DatalistTest extends _TestCase
 {
 
     public function testInitDataList()

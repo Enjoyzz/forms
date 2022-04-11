@@ -10,9 +10,9 @@ use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
-use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
+use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
-class RadioTest extends TestCaseHtmlRenderer
+class RadioTest extends _TestCaseHtmlRenderer
 {
     public function testRadio()
     {

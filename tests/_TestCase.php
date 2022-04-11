@@ -6,10 +6,11 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms;
 
 use Enjoys\Session\Session;
+use PHPUnit\Framework\TestCase;
 
 new Session();
 
-class TestCase extends \PHPUnit\Framework\TestCase
+class _TestCase extends TestCase
 {
     public function stringOneLine(string $input, bool $replaceTab = true): string
     {

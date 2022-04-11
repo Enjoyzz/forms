@@ -9,9 +9,9 @@ use Enjoys\Forms\Elements\Textarea;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Enjoys\Traits\Reflection;
-use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
+use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
-class TextareaTest extends TestCaseHtmlRenderer
+class TextareaTest extends _TestCaseHtmlRenderer
 {
 
 

@@ -8,9 +8,9 @@ use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Datalist;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
-use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
+use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
-class DataListTest extends TestCaseHtmlRenderer
+class DataListTest extends _TestCaseHtmlRenderer
 {
     public function testDataList()
     {

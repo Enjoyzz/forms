@@ -9,9 +9,9 @@ use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
-use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
+use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
-class CheckboxTest extends TestCaseHtmlRenderer
+class CheckboxTest extends _TestCaseHtmlRenderer
 {
     public function testCheckbox()
     {

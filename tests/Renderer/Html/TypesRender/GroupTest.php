@@ -12,9 +12,9 @@ use Enjoys\Forms\Elements\Submit;
 use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
-use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
+use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
-class GroupTest extends TestCaseHtmlRenderer
+class GroupTest extends _TestCaseHtmlRenderer
 {
     public function testBaseRender()
     {
