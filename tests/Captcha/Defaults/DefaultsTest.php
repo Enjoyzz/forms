@@ -8,7 +8,7 @@ use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use Enjoys\Traits\Reflection;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
 
@@ -124,14 +124,9 @@ class DefaultsTest extends TestCase
     public function test_renderHtml()
     {
         $request = new ServerRequestWrapper(
-            ServerRequestCreator::createFromGlobals(
-                null,
-                null,
-                null,
-                [
-                    'captcha_defaults' => 'testcode_fail'
-                ]
-            )
+            new ServerRequest(parsedBody: [
+                'captcha_defaults' => 'testcode_fail'
+            ], method: 'post')
         );
 
         $captcha = new Defaults('code invalid');
@@ -155,14 +150,9 @@ class DefaultsTest extends TestCase
     public function test_validate()
     {
         $request = new ServerRequestWrapper(
-            ServerRequestCreator::createFromGlobals(
-                null,
-                null,
-                null,
-                [
-                    'captcha_defaults' => 'testcode'
-                ]
-            )
+            new ServerRequest(queryParams: [
+                'captcha_defaults' => 'testcode'
+            ], method: 'get')
         );
         $captcha = new Defaults();
 
@@ -172,14 +162,9 @@ class DefaultsTest extends TestCase
         $this->assertTrue($element->validate());
 
         $request = new ServerRequestWrapper(
-            ServerRequestCreator::createFromGlobals(
-                null,
-                null,
-                null,
-                [
-                    'captcha_defaults' => 'testcode_fail'
-                ]
-            )
+            new ServerRequest(queryParams: [
+                'captcha_defaults' => 'testcode_fail'
+            ], method: 'get')
         );
 
         $captcha->setRequestWrapper($request);
