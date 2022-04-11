@@ -6,11 +6,26 @@ use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
-use PHPUnit\Framework\TestCase;
+use Enjoys\Traits\Reflection;
+use Tests\Enjoys\Forms\_TestCase;
 
 
-class CheckboxTest extends TestCase
+class CheckboxTest extends _TestCase
 {
+
+    use Reflection;
+
+    public function testCheckRemoveAttributeName()
+    {
+        $el = new Checkbox('foo');
+        $this->assertNull($el->getAttr('name'));
+    }
+
+    public function testGetPrefixId()
+    {
+        $el = new Checkbox('foo');
+        $this->assertSame('cb_', $el->getPrefixId());
+    }
 
 
     public function test_title()

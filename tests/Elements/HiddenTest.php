@@ -17,14 +17,14 @@ class HiddenTest extends TestCase
 //        $this->markTestSkipped('Проверить тест');
         $obj = new Hidden($name, $value);
         $this->assertSame($expectName, $obj->getAttr('name')->getValueString());
-        $this->assertSame($expectValue, $obj->getAttr('value')->getValueString());
+        $this->assertSame($expectValue, $obj->getAttr('value')->__toString());
         $this->assertSame(null, $obj->getAttr('id')?->getValueString());
     }
 
     public function dataForConstruct()
     {
         return [
-            ['name', 'value', 'name', 'value'],
+            ['name', 'value', 'name', 'value="value"'],
             ['name', null, 'name', '']
         ];
     }

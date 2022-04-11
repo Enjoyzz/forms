@@ -20,7 +20,6 @@ class Hidden extends Element implements Ruled
     {
         parent::__construct($name);
         $this->setAttr(AttributeFactory::create('value', $value)->setWithoutValue(false))
-            ->getAttributeCollection()
-            ->remove('id');
+            ->removeAttr('id');
     }
 }

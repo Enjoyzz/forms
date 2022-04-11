@@ -40,7 +40,9 @@ class Checkbox extends Element implements FillableInterface, Ruled
                 'value' => $name,
             ])
         );
-        $this->getAttributeCollection()->remove('name');
+
+        $this->removeAttr('name');
+
     }
 
 
@@ -64,8 +66,7 @@ class Checkbox extends Element implements FillableInterface, Ruled
 
     protected function setDefault($value = null): self
     {
-        $this->defaultValue = $value ?? $this->getForm()->getDefaultsHandler()->getValue(trim($this->getName()));
-
+        $this->defaultValue = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
 
         if (is_array($value)) {
             if (in_array($this->getAttr('value')->getValueString(), $value)) {
