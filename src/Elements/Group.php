@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Enjoys\Forms\Traits\Container;
 use Enjoys\Forms\Traits\Description;
@@ -37,7 +38,7 @@ class Group extends Element
         foreach ($this->getElements() as $data) {
 //            $data->setAttr(AttributeFactory::create('placeholder', $data->getLabel()));
 //            $data->setLabel(null);
-            $return .= TypeRenderFactory::create($data)->render();
+            $return .= HtmlRenderer::createTypeRender($data)->render();
         }
         $return .= '</div>';
         return $return;

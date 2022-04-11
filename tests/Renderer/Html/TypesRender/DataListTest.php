@@ -6,6 +6,7 @@ namespace Tests\Enjoys\Forms\Renderer\Html\TypesRender;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Datalist;
+use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
 
@@ -15,7 +16,7 @@ class DataListTest extends TestCaseHtmlRenderer
     {
         $el = new Datalist('test', 'Label');
         $el->fill([1, 'notvalue' => 'value', 3]);
-        $render = TypeRenderFactory::create($el);
+        $render = HtmlRenderer::createTypeRender($el);
         $this->assertSame(
             $this->stringOneLine(
                 <<<HTML
@@ -38,7 +39,7 @@ HTML
         $el->setAttr(AttributeFactory::create('id', 'new-id'));
         $el->fill([1, 2, 3]);
 
-        $render = TypeRenderFactory::create($el);
+        $render = HtmlRenderer::createTypeRender($el);
         $this->assertSame(
             $this->stringOneLine(
                 <<<HTML

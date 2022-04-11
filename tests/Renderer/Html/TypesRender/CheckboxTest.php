@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Renderer\Html\TypesRender;
 
 use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Tests\Enjoys\Forms\Renderer\Html\TestCaseHtmlRenderer;
 
@@ -13,14 +15,14 @@ class CheckboxTest extends TestCaseHtmlRenderer
 {
     public function testCheckbox()
     {
-        $el = new \Enjoys\Forms\Elements\Checkbox('test', 'Test Label');
+        $el = new Checkbox('test', 'Test Label');
 
         $el->fill([
             ['no', ['test', 'id' => 'new']],
             'yes'
         ]);
 
-        $render = TypeRenderFactory::create($el);
+        $render = HtmlRenderer::createTypeRender($el);
         $this->assertSame(
             $this->stringOneLine(
                 <<<HTML
@@ -36,15 +38,15 @@ HTML
     public function testCheckboxWidthCustomAttributes()
     {
         //   self::markTestSkipped();
-        $el = new \Enjoys\Forms\Elements\Checkbox('test', 'Test Label');
+        $el = new Checkbox('test', 'Test Label');
         $el->addElements([
-            (new \Enjoys\Forms\Elements\Checkbox('Yes', 'Yes Label'))->setAttr(AttributeFactory::create('id', 'new-id')),
-            (new \Enjoys\Forms\Elements\Checkbox('No'))
+            (new Checkbox('Yes', 'Yes Label'))->setAttr(AttributeFactory::create('id', 'new-id')),
+            (new Checkbox('No'))
                 ->addAttr(AttributeFactory::create('test', ''))
                 ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
         ]);
 
-        $render = TypeRenderFactory::create($el);
+        $render = HtmlRenderer::createTypeRender($el);
 
         $this->assertSame(
             $this->stringOneLine(

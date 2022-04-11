@@ -9,6 +9,7 @@ use Enjoys\Forms\Elements\Color;
 use Enjoys\Forms\Elements\Image;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Enjoys\Forms\Renderer\Html\TypesRender\Button;
 use Enjoys\Forms\Renderer\Html\TypesRender\Input;
@@ -55,6 +56,6 @@ class TypeRenderFactoryTest extends TestCaseHtmlRenderer
         if(!($element instanceof Element)){
             $this->expectError();
         }
-        $this->assertInstanceOf($expect, TypeRenderFactory::create($element));
+        $this->assertInstanceOf($expect, HtmlRenderer::createTypeRender($element));
     }
 }
