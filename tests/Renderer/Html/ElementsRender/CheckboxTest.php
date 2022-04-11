@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Enjoys\Forms\Renderer\Html\ElemetsRender;
+namespace Tests\Enjoys\Forms\Renderer\Html\ElementsRender;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Checkbox;
