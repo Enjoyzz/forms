@@ -28,9 +28,7 @@ final class TypeRenderFactory
             Elements\Html::class,
             Elements\Header::class
         ],
-        TypesRender\Textarea::class => Elements\Textarea::class,
-        TypesRender\Group::class => Elements\Group::class,
-        TypesRender\DataList::class => Elements\Datalist::class
+        TypesRender\Textarea::class => Elements\Textarea::class
     ];
 
     public static function create(Element $element): TypesRenderInterface

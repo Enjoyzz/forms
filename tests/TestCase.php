@@ -11,8 +11,13 @@ new Session();
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public function stringOneLine(string $input): string
+    public function stringOneLine(string $input, bool $replaceTab = true): string
     {
-        return str_replace(["\n", "\r\n", "\r"], "", $input);
+        if ($replaceTab) {
+            $input = str_replace(["\t", str_repeat(" ", 4)], "", $input);
+        }
+
+        return str_replace(["\r\n", "\r", "\n"], "", $input);
     }
+
 }

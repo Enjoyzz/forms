@@ -31,7 +31,7 @@ class HtmlRenderer implements RendererInterface
     {
         $html = [];
         foreach ($this->getForm()->getElements() as $element) {
-            $html[] = $element->baseHtml();
+            $html[] = "<div>".TypeRenderFactory::create($element)->render()."</div>";
         }
         return implode("\n", $html);
     }

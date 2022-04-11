@@ -12,11 +12,10 @@ use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Form;
 use Enjoys\ServerRequestWrapper;
 use HttpSoft\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
 
-class GroupTest extends TestCase
+class GroupTest
 {
 
     public function test_init_group()
