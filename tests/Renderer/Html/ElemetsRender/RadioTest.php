@@ -18,12 +18,7 @@ class RadioTest extends _TestCaseHtmlRenderer
     {
 
         $el = new Radio('test', 'Test Label');
-//        $el->addElements([
-//            new Radio('Yes'),
-//            (new Radio('No'))
-//                ->addAttr(AttributeFactory::create('test', ''))
-//                ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
-//        ]);
+
         $el->fill([
             ['no', ['test', 'id' => 'new']],
             'yes'
@@ -56,6 +51,12 @@ HTML), $this->stringOneLine($render->render()));
 HTML), $this->stringOneLine($render->render()));
     }
 
-
+    public function testRadioWithError()
+    {
+        $el = (new Radio('foo'))->fill([1,2,3]);
+        $el->setRuleError('error');
+        $output = HtmlRenderer::createTypeRender($el);
+        $this->assertStringContainsString('class="is-invalid"', $output->render());
+}
 
 }
