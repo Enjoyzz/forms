@@ -12,7 +12,7 @@ use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Helper;
 use Enjoys\Forms\Interfaces\RendererInterface;
 use Enjoys\Forms\Interfaces\TypeRenderInterface;
-use Enjoys\Forms\Renderer\RendererTrait;
+use Enjoys\Forms\Traits\RendererTrait;
 
 class HtmlRenderer implements RendererInterface
 {
