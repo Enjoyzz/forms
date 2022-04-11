@@ -3,7 +3,7 @@
 namespace Enjoys\Forms\Renderer;
 
 
-interface TypesRenderInterface
+interface TypeRenderInterface
 {
     public function render();
 }

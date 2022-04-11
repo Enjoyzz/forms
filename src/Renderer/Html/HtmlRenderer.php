@@ -12,7 +12,7 @@ use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Helper;
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Forms\Renderer\RendererTrait;
-use Enjoys\Forms\Renderer\TypesRenderInterface;
+use Enjoys\Forms\Renderer\TypeRenderInterface;
 
 class HtmlRenderer implements RendererInterface
 {
@@ -36,7 +36,7 @@ class HtmlRenderer implements RendererInterface
         TypesRender\Textarea::class => Elements\Textarea::class
     ];
 
-    public static function createTypeRender(Element $element): TypesRenderInterface
+    public static function createTypeRender(Element $element): TypeRenderInterface
     {
         $typeRenderClass = Helper::arrayRecursiveSearchKeyMap(get_class($element), self::_MAP_)[0] ?? false;
         if ($typeRenderClass === false || !class_exists($typeRenderClass)) {

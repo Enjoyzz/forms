@@ -8,9 +8,9 @@ namespace Enjoys\Forms\Renderer\Html\TypesRender;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Renderer\TypesRenderInterface;
+use Enjoys\Forms\Renderer\TypeRenderInterface;
 
-class Input implements TypesRenderInterface
+class Input implements TypeRenderInterface
 {
 
     public function __construct(private Element $element)
