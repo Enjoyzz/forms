@@ -10,9 +10,9 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Helper;
-use Enjoys\Forms\Renderer\RendererInterface;
+use Enjoys\Forms\Interfaces\RendererInterface;
+use Enjoys\Forms\Interfaces\TypeRenderInterface;
 use Enjoys\Forms\Renderer\RendererTrait;
-use Enjoys\Forms\Renderer\TypeRenderInterface;
 
 class HtmlRenderer implements RendererInterface
 {

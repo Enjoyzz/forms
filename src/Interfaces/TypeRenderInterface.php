@@ -1,6 +1,6 @@
 <?php
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Interfaces;
 
 
 interface TypeRenderInterface

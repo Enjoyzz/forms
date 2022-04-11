@@ -7,8 +7,8 @@ namespace Enjoys\Forms\Traits;
 use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\ElementInterface;
 use Enjoys\Forms\FillHandler;
+use Enjoys\Forms\Interfaces\ElementInterface;
 
 
 trait Fill

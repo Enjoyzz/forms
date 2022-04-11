@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Interfaces\ElementInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\ServerRequestWrapper;
 use HttpSoft\ServerRequest\ServerRequestCreator;

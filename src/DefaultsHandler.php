@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
+
 class DefaultsHandler implements DefaultsHandlerInterface
 {
 

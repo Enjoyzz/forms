@@ -11,6 +11,7 @@ use Enjoys\Forms\Attributes\Action;
 use Enjoys\Forms\Attributes\Base;
 use Enjoys\Forms\Attributes\Class_;
 use Enjoys\Forms\Attributes\Id;
+use Enjoys\Forms\Interfaces\AttributeInterface;
 use Webmozart\Assert\Assert;
 
 final class AttributeFactory

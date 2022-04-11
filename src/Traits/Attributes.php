@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Traits;
 
 use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
-use Enjoys\Forms\AttributeInterface;
+use Enjoys\Forms\Interfaces\AttributeInterface;
 
 trait Attributes
 {

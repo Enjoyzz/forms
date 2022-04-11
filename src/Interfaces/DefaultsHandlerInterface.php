@@ -24,20 +24,23 @@
  * THE SOFTWARE.
  */
 
-declare(strict_types=1);
-
-namespace Enjoys\Forms;
+namespace Enjoys\Forms\Interfaces;
 
 /**
  *
  * @author Enjoys
  */
-interface ElementInterface
+interface DefaultsHandlerInterface
 {
-
+    /**
+     * @return mixed
+     */
+    public function getDefaults();
     /**
      *
-     * @return string
+     * @return mixed
      */
-    public function baseHtml(): string;
+    public function getValue(?string $param);
+
+    public function setData(array $data = []): void;
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
-use Enjoys\Forms\AttributeInterface;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Interfaces\AttributeInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;

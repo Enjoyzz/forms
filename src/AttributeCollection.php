@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 
+use Enjoys\Forms\Interfaces\AttributeInterface;
+
 final class AttributeCollection implements \Countable, \IteratorAggregate
 {
 

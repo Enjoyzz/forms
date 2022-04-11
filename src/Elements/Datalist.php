@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;

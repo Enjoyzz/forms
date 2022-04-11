@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Renderer;
+namespace Enjoys\Forms\Interfaces;
 
 use Enjoys\Forms\Form;
 

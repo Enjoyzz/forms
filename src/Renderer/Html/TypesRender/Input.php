@@ -8,7 +8,7 @@ namespace Enjoys\Forms\Renderer\Html\TypesRender;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Renderer\TypeRenderInterface;
+use Enjoys\Forms\Interfaces\TypeRenderInterface;
 
 class Input implements TypeRenderInterface
 {
