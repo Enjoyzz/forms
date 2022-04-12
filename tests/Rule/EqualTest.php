@@ -15,25 +15,34 @@ class EqualTest extends TestCase
 {
 
     /**
-     * @dataProvider data_for_test_validate
+     * @dataProvider dataForTestValidate
      */
-    public function test_validate($type, $name, $request, $rule, $expect)
+    public function testValidate($type, $name, $request, $rule, $expect)
     {
         $class = "Enjoys\Forms\Elements\\" . $type;
-        $text = new $class($name);
-        $text->setRequest(
+        $el = new $class($name);
+        $el->setRequest(
             new ServerRequestWrapper(
-                new ServerRequest(queryParams: $request, parsedBody: [], method: 'get')
+                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
             )
         );
-        $text->addRule(Rules::EQUAL, null, $rule);
-        $this->assertEquals($expect, Validator::check([$text]));
+        $el->addRule(Rules::EQUAL, null, $rule);
+
+        $resultCheck = Validator::check([$el]);
+        $this->assertEquals($expect, $resultCheck);
+        if (!$resultCheck) {
+            $this->assertSame(
+                'Допустимые значения (указаны через запятую): ' . implode(', ', $rule),
+                $el->getRuleErrorMessage()
+            );
+        }
     }
 
-    public function data_for_test_validate()
+    public function dataForTestValidate()
     {
         return [
             ['Text', 'foo', ['foo' => 'test'], ['test'], true],
+            ['Text', 'foo', ['foo' => true], '1', true],
             ['Text', 'foo', ['foo' => 'valid'], ['test', 'valid'], true],
             ['Text', 'foo', ['foo' => ['2']], ['test', 2], true],
             ['Text', 'foo', ['foo' => ['test']], ['test', 2], true],

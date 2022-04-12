@@ -9,6 +9,8 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
+use Psr\Http\Message\UploadedFileInterface;
+use Webmozart\Assert\Assert;
 
 
 class Upload extends Rules implements RuleInterface
@@ -46,6 +48,7 @@ class Upload extends Rules implements RuleInterface
      */
     public function validate(Ruled $element): bool
     {
+        /** @var UploadedFileInterface|false $value */
         $value = \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->getAll());
 
         if (false === $this->check($value, $element)) {
@@ -55,26 +58,32 @@ class Upload extends Rules implements RuleInterface
     }
 
 
+    /**
+     * @param false|UploadedFileInterface $value
+     * @param Ruled $element
+     * @return bool
+     * @throws ExceptionRule
+     */
     private function check($value, Ruled $element): bool
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
-            // $method = 'unknown';
             if (is_int($rule) && is_string($ruleOpts)) {
                 $rule = $ruleOpts;
                 $ruleOpts = null;
             }
-            $method = 'check' . \ucfirst($rule);
+            $method = 'check' . $rule;
             if (!method_exists(Upload::class, $method)) {
                 throw new ExceptionRule(\sprintf('Unknown Upload Rule [%s]', $method));
             }
-            if (!$this->$method($value, $ruleOpts, $element)) {
-                return false;
-            }
+            return $this->$method($value, $ruleOpts, $element);
         }
         return true;
     }
 
-    private function checkSystem($value, $message, Ruled $element)
+    /**
+     * @param false|UploadedFileInterface $value
+     */
+    private function checkSystem($value, $message, Ruled $element): bool
     {
         if ($value === false) {
             return true;
@@ -88,7 +97,10 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    private function checkRequired($value, ?string $message, Ruled $element)
+    /**
+     * @param false|UploadedFileInterface $value
+     */
+    private function checkRequired($value, ?string $message, Ruled $element): bool
     {
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
@@ -103,7 +115,10 @@ class Upload extends Rules implements RuleInterface
         return true;
     }
 
-    private function checkMaxsize($value, $ruleOpts, Ruled $element)
+    /**
+     * @param false|UploadedFileInterface $value
+     */
+    private function checkMaxsize($value, int|array|string $ruleOpts, Ruled $element): bool
     {
         if ($value === false) {
             return true;
@@ -111,14 +126,16 @@ class Upload extends Rules implements RuleInterface
 
         $parsed = $this->parseRuleOpts($ruleOpts);
 
-        $threshold_size = (int)$parsed['param'];
+        $threshold_size = $parsed['param'];
+        Assert::numeric($threshold_size);
+
         $message = $parsed['message'];
 
         if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes((int)$value->getSize())->format(null, " ") . ')'
+            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(null, " ") . ')'
                 . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
         }
-        $this->setMessage((string)$message);
+        $this->setMessage($message);
 
         if ($value->getSize() > $threshold_size) {
             $element->setRuleError($this->getMessage());
@@ -128,7 +145,10 @@ class Upload extends Rules implements RuleInterface
     }
 
 
-    private function checkExtensions($value, $ruleOpts, Ruled $element)
+    /**
+     * @param false|UploadedFileInterface $value
+     */
+    private function checkExtensions($value, string|array $ruleOpts, Ruled $element): bool
     {
         if ($value === false) {
             return true;
@@ -139,12 +159,12 @@ class Upload extends Rules implements RuleInterface
         $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
         $message = $parsed['message'];
 
-        $extension = pathinfo((string)$value->getClientFilename(), PATHINFO_EXTENSION);
+        $extension = pathinfo($value->getClientFilename(), PATHINFO_EXTENSION);
 
         if (is_null($message)) {
             $message = 'Загрузка файлов с расширением .' . $extension . ' запрещена';
         }
-        $this->setMessage((string)$message);
+        $this->setMessage($message);
 
         if (!in_array($extension, $expected_extensions)) {
             $element->setRuleError($this->getMessage());
@@ -161,6 +181,8 @@ class Upload extends Rules implements RuleInterface
             $opts[1] = null;
         }
         list($param, $message) = $opts;
+
+        Assert::nullOrString($message);
 
         return [
             'param' => $param,

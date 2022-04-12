@@ -13,6 +13,7 @@ use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use PHPUnit\Framework\TestCase;
+use Webmozart\Assert\InvalidArgumentException;
 
 
 class UploadTest extends TestCase
@@ -20,7 +21,7 @@ class UploadTest extends TestCase
 
     use Reflection;
 
-    public function test_validate_uploadrule()
+    public function testValidateUploadRule()
     {
         $fileElement = new File('foo');
 
@@ -45,7 +46,7 @@ class UploadTest extends TestCase
         $this->assertEquals(true, $uploadRule->validate($fileElement));
     }
 
-    public function test_validate_uploadrule2()
+    public function testValidateUploadRuleFail()
     {
         $fileElement = new File('foo');
         $request = new ServerRequestWrapper(
@@ -60,9 +61,6 @@ class UploadTest extends TestCase
             ], parsedBody: [], method: 'post')
         );
 
-//        $uploadFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(__FILE__, 'test.pdf', 'application/pdf', 0, true);
-//        $requestMock = $this->createMock(\Enjoys\Forms\Http\Request::class);
-//        $requestMock->expects($this->any())->method('files')->will($this->returnCallback(fn() => ['food' => $uploadFile]));
         $uploadRule = new Upload(null, [
             'required'
         ]);
@@ -148,7 +146,7 @@ class UploadTest extends TestCase
         $this->assertEquals('no file selected', $fileElement->getRuleErrorMessage());
     }
 
-    public function test_checkMaxsize()
+    public function testCheckMaxsize()
     {
         $fileElement = new File('foo');
 
@@ -175,6 +173,8 @@ class UploadTest extends TestCase
                 $fileElement
             ])
         );
+
+        $this->assertSame("Размер файла (1000 B) превышает допустимый размер: 999 B", $fileElement->getRuleErrorMessage());
     }
 
     public function test_checkMaxsize2()
@@ -197,7 +197,7 @@ class UploadTest extends TestCase
 
 
         $uploadRule = new Upload(null, [
-            'maxsize' => 250000
+            'maxsize' => 1000
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(
@@ -259,6 +259,24 @@ class UploadTest extends TestCase
                 $fileElement
             ])
         );
+    }
+
+    public function testCheckMaxsizeInvalidThresholdParam()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $uploadRule = new Upload();
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'checkMaxsize');
+        $testedMethod->invokeArgs($uploadRule, [
+            'value' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ]),
+            'ruleOpts' => 'non numeric',
+            'element' => new File('foo')
+        ]);
     }
 
     public function test_checkExtensions()
@@ -356,6 +374,7 @@ class UploadTest extends TestCase
                 $fileElement
             ])
         );
+        $this->assertSame("Загрузка файлов с расширением .pdf запрещена", $fileElement->getRuleErrorMessage());
     }
 
     public function test_checkExtensions4()

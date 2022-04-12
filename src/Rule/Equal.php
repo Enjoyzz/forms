@@ -9,12 +9,10 @@ use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
 
 /**
- * Description of Equal
- *
- * $form->text($name, $title)->addRule('equal', $message, ['expect']); or
- * $form->text($name, $title)->addRule('equal', $message, (array) 'expect'); or
- * $form->text($name, $title)->addRule('equal', $message, ['expect', 1, '255']);
- *
+ * @example
+ * new Equal($message, ['expect']); or
+ * new Equal($message, (array) 'expect'); or
+ * new Equal($message, ['expect', 1, '255']);
  */
 class Equal extends Rules implements RuleInterface
 {
@@ -66,9 +64,7 @@ class Equal extends Rules implements RuleInterface
             }
             return true;
         }
-        /**
-         * @todo не пойму для чего это
-         */
-        return array_search(\trim((string) $value), $this->getParams());
+
+        return array_search($value, $this->getParams());
     }
 }

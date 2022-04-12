@@ -44,7 +44,7 @@ class RadioTest extends TestCase
 
     private function filldata()
     {
-        $obj = new Radio('name', 'title');
+        $obj = new Radio('name', 'title', true);
         $obj->setPrefixId('rb_');
         $obj->fill([
             'v1' => 't1',

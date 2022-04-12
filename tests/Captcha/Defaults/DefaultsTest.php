@@ -9,13 +9,11 @@ use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\_TestCase;
+use Webmozart\Assert\InvalidArgumentException;
 
 
-new Session();
-
-
-class DefaultsTest extends TestCase
+class DefaultsTest extends _TestCase
 {
 
     use Reflection;
@@ -52,6 +50,7 @@ class DefaultsTest extends TestCase
         $captcha_element = new Captcha($captcha);
         $captcha_element->renderHtml();
 
+
         $this->assertArrayHasKey('foo', $captcha->getOptions());
         $this->assertArrayHasKey('bar', $captcha->getOptions());
         $this->assertEquals('v_baz', $captcha->getOption('baz'));
@@ -59,12 +58,11 @@ class DefaultsTest extends TestCase
         $this->assertEquals('off', $captcha_element->getAttr('autocomplete')->getValueString());
     }
 
-    public function test_generateCode()
-    {
-        $element = $this->getMockBuilder(Captcha::class)
-            ->disableOriginalConstructor()
-            ->getMock();
 
+
+    public function testGenerateCode()
+    {
+        srand(0);
         $captcha = new Defaults();
         $captcha->setOptions(
             [
@@ -72,25 +70,70 @@ class DefaultsTest extends TestCase
             ]
         );
 
+        $el = new Captcha($captcha);
 
         $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'generateCode');
-        $method->invokeArgs($captcha, [$element]);
+        $method->invokeArgs($captcha, [$el]);
 
         $this->assertEquals(5, \strlen($captcha->getCode()));
+        $this->assertSame('o24ni', $captcha->getCode());
+        $this->assertSame('o24ni', $this->session->get($el->getName()));
+
+
     }
 
-    public function test_createImg()
+    public function testGenerateCodeWithInvalidSizeOption()
     {
-//        $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
-//                ->disableOriginalConstructor()
-//                ->getMock();
+        $this->expectException(InvalidArgumentException::class);
+        $captcha = new Defaults();
+        $captcha->setOptions(
+            [
+                'size' => 'not integer'
+            ]
+        );
+
+        $method = $this->getPrivateMethod(Defaults::class, 'generateCode');
+        $method->invokeArgs($captcha, [new Captcha($captcha)]);
+    }
+
+    public function testGenerateCodeWithZeroSizeOption()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $captcha = new Defaults();
+        $captcha->setOptions(
+            [
+                'size' => 0
+            ]
+        );
+
+        $method = $this->getPrivateMethod(Defaults::class, 'generateCode');
+        $method->invokeArgs($captcha, [new Captcha($captcha)]);
+    }
+
+    public function testCreateImgWithInvalidParams()
+    {
+        $this->expectError();
+        $captcha = new Defaults();
+        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'createImage');
+        $method->invoke($captcha, 'test', 'x', 'y');
+    }
+
+    public function testCreateImgWithDefaultParams()
+    {
+        $captcha = new Defaults();
+        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'createImage');
+        $img = $method->invoke($captcha, 'test');
+        $this->assertEquals(150, \imagesx($img));
+        $this->assertEquals(50, \imagesy($img));
+    }
+
+    public function testCreateImg()
+    {
+        srand(0);
 
         $captcha = new Defaults();
-
-        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'createImage');
-
-        $img = $method->invoke($captcha, 'test', 200, 100);
-        //$this->assertIsResource($img);
+        $method = $this->getPrivateMethod(Defaults::class, 'createImage');
+        $img = $method->invoke($captcha, 'test', '200', '100');
 
         $this->assertEquals(200, \imagesx($img));
         $this->assertEquals(100, \imagesy($img));
@@ -99,23 +142,25 @@ class DefaultsTest extends TestCase
     }
 
     /**
-     * @depends test_createImg
+     * @depends testCreateImg
      */
-    public function test_get_base64image($img)
+    public function testGetBase64image($img)
     {
-//        $element = $this->getMockBuilder(\Enjoys\Forms\Elements\Captcha::class)
-//                ->disableOriginalConstructor()
-//                ->getMock();
 
         $captcha = new Defaults();
+        $method = $this->getPrivateMethod(Defaults::class, 'getBase64Image');
 
+        $base64img = $method->invoke($captcha, $img);
+        $this->assertSame(
+            '/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBkZWZhdWx0IHF1YWxpdHkK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8AAEQgAZADIAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9eooooOMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIvtEe7b8+7GcbGzj8qlqv8A8xH/ALY/1qxQMKKKKBBRRRQAUUUUAFFFFABRVe7u47ONGcMxkcRoqjlmPQc8fnRDctLK0b208LBdwLgEEfUEjPt1quV2uOztcsUUUVIgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACs661ZILl7eMRF413P5swjGT0Az1P6e9aNVpLJWuDPHLJDIy7XMePn9MggjI9aat1NaTgn76H2tzHeWyXEROxxkZGCKmpkMQhhWMO77Rjc7bmP1NPpMiVuZ8uwUUUUElW/WJoF86CWZA6n90CWQ54YYOePbmqtn5n9qv5P2n7H5Az5+/8A1m7tv56enFalFWp2jYpSsrBRRRUEhQTgZNFFADEkVyQD0NPqNAyMw25BYnOe1SUl5jYUUUUxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//Z',
+            $base64img
+        );
 
-        $method = $this->getPrivateMethod('\Enjoys\Forms\Captcha\Defaults\Defaults', 'getBase64Image');
-
-        $result = \base64_decode($method->invoke($captcha, $img));
+        $result = \base64_decode($base64img);
         $size = \getimagesizefromstring($result);
         $this->assertEquals(200, $size[0]);
         $this->assertEquals(100, $size[1]);
+
     }
 
     /**

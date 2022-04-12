@@ -17,7 +17,7 @@ class RadioTest extends _TestCaseHtmlRenderer
     public function testRadio()
     {
 
-        $el = new Radio('test', 'Test Label');
+        $el = new Radio('test', 'Test Label', true);
 
         $el->fill([
             ['no', ['test', 'id' => 'new']],
@@ -35,7 +35,7 @@ HTML), $this->stringOneLine($render->render()));
        public function testRadioCustomAddElements()
     {
 
-        $el = new Radio('test', 'Test Label');
+        $el = new Radio('test', 'Test Label', true);
         $el->addElements([
             new Radio('yes', 'YES'),
             (new Radio('no', 'NO'))

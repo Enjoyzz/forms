@@ -10,6 +10,7 @@ use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Session\Session as Session;
+use Webmozart\Assert\Assert;
 
 class Defaults extends CaptchaBase implements CaptchaInterface
 {
@@ -82,9 +83,13 @@ class Defaults extends CaptchaBase implements CaptchaInterface
 
     private function generateCode(Element $element): void
     {
-        $max = (int)$this->getOption('size', 6);
+        $max = $this->getOption('size', 6);
+
+        Assert::notEq(0, $max);
+        Assert::integer($max);
+
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
-        $size = StrLen($chars) - 1;
+        $size = strlen($chars) - 1;
         // Определяем пустую переменную, в которую и будем записывать символы.
         $code = '';
         // Создаём пароль.
@@ -163,10 +168,8 @@ class Defaults extends CaptchaBase implements CaptchaInterface
 
     private function getBase64Image(\GdImage $img): string
     {
-        \ob_start();
-        \imagejpeg($img, null, 80);
-        $img_data = \ob_get_contents();
-        \ob_end_clean();
-        return \base64_encode($img_data);
+        ob_start();
+        imagejpeg($img);
+        return base64_encode(ob_get_clean());
     }
 }
