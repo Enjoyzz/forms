@@ -26,13 +26,18 @@ class Checkbox extends Element implements FillableInterface, Ruled
     private static string $prefix_id = 'cb_';
 
 
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, string $title = null, bool $flushPrefix = false)
     {
+
         $construct_name = $name;
         if (\substr($name, -2) !== '[]') {
             $construct_name = $name . '[]';
         }
         parent::__construct($construct_name, $title);
+
+        if ($flushPrefix){
+            $this->setPrefixId('cb_');
+        }
 
         $this->setAttrs(
             AttributeFactory::createFromArray([

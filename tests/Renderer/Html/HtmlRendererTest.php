@@ -96,7 +96,7 @@ class HtmlRendererTest extends _TestCaseHtmlRenderer
         <input type="text" id="foo" name="foo">
         <label for="bar">Bar</label>
         <select id="bar" name="bar">
-        <option id="0" value="0">1</option><option id="1" value="1">2</option><option id="2" value="2">3</option>
+        <option value="0">1</option><option value="1">2</option><option value="2">3</option>
         </select>
     </div>
 </div>

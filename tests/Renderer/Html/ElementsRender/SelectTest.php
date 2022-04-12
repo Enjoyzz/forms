@@ -29,14 +29,14 @@ class SelectTest extends _TestCaseHtmlRenderer
 <label for="foo">bar</label>
 <select id="foo" name="foo">
 <optgroup label="group1" class="text-danger">
-    <option id="0" value="0">1</option>
-    <option id="1" value="1">2</option>
-    <option id="2" value="2">3</option>
+    <option value="0">1</option>
+    <option value="1">2</option>
+    <option value="2">3</option>
 </optgroup>
 <optgroup label="group2">
-    <option id="0" value="0">4</option>
-    <option id="1" value="1">5</option>
-    <option id="2" value="2">6</option>
+    <option value="0">4</option>
+    <option value="1">5</option>
+    <option value="2">6</option>
 </optgroup>
 </select>
 HTML

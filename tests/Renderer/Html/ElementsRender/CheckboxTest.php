@@ -15,7 +15,7 @@ class CheckboxTest extends _TestCaseHtmlRenderer
 {
     public function testCheckbox()
     {
-        $el = new Checkbox('test', 'Test Label');
+        $el = new Checkbox('test', 'Test Label', true);
 
         $el->fill([
             ['no', ['test', 'id' => 'new']],
@@ -38,7 +38,7 @@ HTML
     public function testCheckboxWidthCustomAttributes()
     {
         //   self::markTestSkipped();
-        $el = new Checkbox('test', 'Test Label');
+        $el = new Checkbox('test', 'Test Label', true);
         $el->addElements([
             (new Checkbox('Yes', 'Yes Label'))->setAttr(AttributeFactory::create('id', 'new-id')),
             (new Checkbox('No'))

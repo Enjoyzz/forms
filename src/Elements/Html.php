@@ -13,8 +13,10 @@ class Html extends Element
     public function __construct(string $title)
     {
         parent::__construct(\uniqid('html'), $title);
-        $this->setLabel($title);
-        $this->getAttributeCollection()->remove('name')->remove('id');
+        $this->getAttributeCollection()
+            ->remove('name')
+            ->remove('id')
+        ;
     }
 
     public function baseHtml(): string

@@ -37,7 +37,6 @@ class Datalist extends Element implements FillableInterface, Ruled
 
         foreach ($this->getElements() as $data) {
             //$return .= "<option value=\"{$data->getLabel()}\">";
-            $data->removeAttr('id');
             $data->setAttr(AttributeFactory::create('value', $data->getLabel()));
             $data->setLabel(null);
             $return .= $data->baseHtml().PHP_EOL;

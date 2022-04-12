@@ -6,9 +6,9 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
-use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Enjoys\Forms\Traits\Container;
 use Enjoys\Forms\Traits\Description;
+use Webmozart\Assert\Assert;
 
 
 class Group extends Element
@@ -24,10 +24,9 @@ class Group extends Element
     public function add(array $elements = []): Group
     {
         foreach ($elements as $element) {
-            if ($element instanceof Element) {
-                $element->setForm($this->getForm());
-                $this->addElement($element);
-            }
+            Assert::isInstanceOf($element, Element::class);
+            $element->setForm($this->getForm());
+            $this->addElement($element);
         }
         return $this;
     }

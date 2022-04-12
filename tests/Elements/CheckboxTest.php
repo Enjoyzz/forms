@@ -23,7 +23,7 @@ class CheckboxTest extends _TestCase
 
     public function testGetPrefixId()
     {
-        $el = new Checkbox('foo');
+        $el = new Checkbox('foo', flushPrefix: true);
         $this->assertSame('cb_', $el->getPrefixId());
     }
 

@@ -63,13 +63,7 @@ class Optgroup extends Element implements FillableInterface
     protected string $type = 'option';
 
 
-    /**
-     *
-     * @param string $title
-     * @param string $parentName
-     * @param mixed $defaults
-     */
-    public function __construct(string $title, string $parentName, $defaults = '')
+    public function __construct(string $title, string $parentName, mixed $defaults = '')
     {
         parent::__construct(\uniqid('optgroup'), $title);
         $this->setAttrs(
@@ -84,12 +78,8 @@ class Optgroup extends Element implements FillableInterface
         $this->setDefault($defaults);
     }
 
-    /**
-     *
-     * @param mixed $value
-     * @return $this
-     */
-    protected function setDefault($value = null): self
+
+    protected function setDefault(mixed $value = null): self
     {
         $this->defaultValue = $value;
         return $this;

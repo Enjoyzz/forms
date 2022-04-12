@@ -64,7 +64,7 @@ class SelectTest extends TestCase
         $elements = $this->filldata();
         /** @var Option $v1 */
         $v1 = $elements[0];
-        $this->assertSame('v1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('v1', $v1->getAttr('value')->getValueString());
     }
 
     public function test_fill4()

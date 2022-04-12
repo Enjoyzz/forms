@@ -25,9 +25,14 @@ class Radio extends Element implements FillableInterface, Ruled
     private static string $prefix_id = 'rb_';
 
 
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, string $title = null, bool $flushPrefix = false)
     {
         parent::__construct($name, $title);
+
+        if ($flushPrefix){
+            $this->setPrefixId('rb_');
+        }
+
         $this->setAttrs(AttributeFactory::createFromArray([
             'id' => $this->getPrefixId() . $name,
             'value' => $name,

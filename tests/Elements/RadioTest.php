@@ -17,6 +17,18 @@ class RadioTest extends TestCase
         $this->assertSame('title', $obj->getLabel());
     }
 
+    public function testGetPrefixId()
+    {
+        $el = new Radio('foo', flushPrefix: true);
+        $this->assertSame('rb_', $el->getPrefixId());
+    }
+
+    public function testCheckRemoveAttributeName()
+    {
+        $el = new Radio('foo');
+        $this->assertNull($el->getAttr('name'));
+    }
+
     public function test_title2()
     {
         $obj = new Radio('name', 'title');

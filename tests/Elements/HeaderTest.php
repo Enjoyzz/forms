@@ -12,10 +12,12 @@ class HeaderTest extends TestCase
 {
 
 
-    public function test_full_construct()
+    public function testInitElement()
     {
-        $obj = new Header('title');
-        $this->assertSame('title', $obj->getLabel());
+        $el = new Header('title');
+        $this->assertSame('title', $el->getLabel());
+        $this->assertNull($el->getAttr('id'));
+        $this->assertNull($el->getAttr('name'));
     }
 
     public function test_attr_legend()

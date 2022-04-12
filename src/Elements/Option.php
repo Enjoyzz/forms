@@ -21,13 +21,11 @@ class Option extends Element implements FillableInterface
         parent::__construct($name, $title);
         $this->setAttrs(
             AttributeFactory::createFromArray([
-                'id' => $name,
                 'value' => $name,
             ])
-        )
-            ->getAttributeCollection()
-            ->remove('name')
-        ;
+        );
+        $this->removeAttr('name');
+        $this->removeAttr('id');
     }
 
     /**
@@ -57,7 +55,7 @@ class Option extends Element implements FillableInterface
     {
         $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy());
 
-        if ($this->getLabel() === null){
+        if ($this->getLabel() === null) {
             return "<option{$this->getAttributesString()}>";
         }
 
