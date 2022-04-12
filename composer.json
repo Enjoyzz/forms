@@ -30,7 +30,10 @@
   "scripts": {
     "psalm": "./vendor/bin/psalm",
     "psalm-ext": "./vendor/bin/psalm --show-info=true",
-    "infection": "XDEBUG_MODE=coverage ./infection.phar --only-covered --show-mutations --logger-html='mutation-report.html'"
+    "infection": [
+      "Composer\\Config::disableProcessTimeout",
+      "XDEBUG_MODE=coverage ./infection.phar --only-covered --show-mutations --logger-html='mutation-report.html'"
+    ]
   },
   "autoload": {
     "psr-4": {
