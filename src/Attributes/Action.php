@@ -14,7 +14,6 @@ final class Action extends Attribute
 
     public function __construct()
     {
-        $this->setFillNameAsValue(false);
         $this->setWithoutValue(false);
     }
 }

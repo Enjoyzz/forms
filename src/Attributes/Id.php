@@ -14,7 +14,6 @@ final class Id extends Attribute
 
     public function __construct()
     {
-        $this->setFillNameAsValue(false);
         $this->setWithoutValue(false);
     }
 }

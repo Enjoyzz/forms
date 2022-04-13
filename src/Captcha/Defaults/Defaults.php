@@ -37,7 +37,7 @@ class Defaults extends CaptchaBase implements CaptchaInterface
     public function validate(Ruled $element): bool
     {
         $method = $this->getRequest()->getRequest()->getMethod();
-        $requestData = match(strtolower($method)){
+        $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryData()->getAll(),
             'post' => $this->getRequest()->getPostData()->getAll(),
             default => []
@@ -62,23 +62,27 @@ class Defaults extends CaptchaBase implements CaptchaInterface
         );
 
         $this->generateCode($element);
-        $img = $this->createImage(
-            $this->getCode(),
-            (int)$this->getOption('width', 150),
-            (int)$this->getOption('height', 50)
-        );
+
+        $w = $this->getOption('width', 150);
+        Assert::integer($w, 'Width parameter must be integer');
+
+        $h = $this->getOption('height', 50);
+        Assert::integer($h, 'Height parameter must be integer');
+
+        $img = $this->createImage($this->getCode(), $w, $h);
 
         //dump($this->session->get($this->getName()));
-        $html = '';
+        //  $html = '';
 
 //        if ($this->element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= '<img alt="captcha image" src="data:image/jpeg;base64,' . $this->getBase64Image(
-                $img
-            ) . '" /><br /><input' . $element->getAttributesString() . '>';
 
-        return $html;
+        return sprintf(
+            '<img alt="captcha image" src="data:image/jpeg;base64,%s" /><br /><input%s>',
+            $this->getBase64Image($img),
+            $element->getAttributesString()
+        );
     }
 
     private function generateCode(Element $element): void
@@ -154,11 +158,11 @@ class Defaults extends CaptchaBase implements CaptchaInterface
 
 
             // Изменяем регистр символа
-            if ($h == \rand(0, 1)) {
+            if (rand(0, 1)) {
                 $letter = \strtoupper($letter);
             }
             // Выводим символ на изображение
-            \imagestring($img, 6, $x, $y, $letter, $color);
+            \imagestring($img, 4, $x, $y, $letter, $color);
             $x++;
         }
 

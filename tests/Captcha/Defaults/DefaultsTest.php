@@ -88,7 +88,7 @@ class DefaultsTest extends _TestCase
         $captcha = new Defaults();
         $captcha->setOptions(
             [
-                'size' => 'not integer'
+                'size' => 'xl'
             ]
         );
 
@@ -141,6 +141,7 @@ class DefaultsTest extends _TestCase
         return $img;
     }
 
+
     /**
      * @depends testCreateImg
      */
@@ -152,7 +153,7 @@ class DefaultsTest extends _TestCase
 
         $base64img = $method->invoke($captcha, $img);
         $this->assertSame(
-            '/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBkZWZhdWx0IHF1YWxpdHkK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8AAEQgAZADIAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9eooooOMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIvtEe7b8+7GcbGzj8qlqv8A8xH/ALY/1qxQMKKKKBBRRRQAUUUUAFFFFABRVe7u47ONGcMxkcRoqjlmPQc8fnRDctLK0b208LBdwLgEEfUEjPt1quV2uOztcsUUUVIgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACs661ZILl7eMRF413P5swjGT0Az1P6e9aNVpLJWuDPHLJDIy7XMePn9MggjI9aat1NaTgn76H2tzHeWyXEROxxkZGCKmpkMQhhWMO77Rjc7bmP1NPpMiVuZ8uwUUUUElW/WJoF86CWZA6n90CWQ54YYOePbmqtn5n9qv5P2n7H5Az5+/8A1m7tv56enFalFWp2jYpSsrBRRRUEhQTgZNFFADEkVyQD0NPqNAyMw25BYnOe1SUl5jYUUUUxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//Z',
+            '/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBkZWZhdWx0IHF1YWxpdHkK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8AAEQgAZADIAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9eooooOMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIxOhbaN+f8AcP8AhUlRr/x8v/uL/M1JQMKKKKBBRRRQAUUUUAFFFFABRUc0ywRF2BPIAA6kk4A/EkU2C4853RonikUAlHxnBzg8Ejsfyp2drjtpcmooopCCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKpXV+tvP5OYFbaGJmm8sEEkccHPQ/pV2oJbbfL5iTSROVCsU2ncBnHUH1P501bqaU+W/vEkMqzwRzKCFkUMAeuCM0+iikQ99AooooEQ3YBtmzEZBkZUE5AyMkY5yOoxzxxzUVk7s8gBmaAAbGmQqwPORyASANvJ9Tyat0VSlpYq+lgoooqSQooooAarhiRg8eop1NAIduOCc5/CnUkMKKKKYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q==',
             $base64img
         );
 
@@ -163,10 +164,43 @@ class DefaultsTest extends _TestCase
 
     }
 
+
+    public function testRenderWithInvalidParametersWidth()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $captcha = new Defaults();
+        $captcha->setOptions([
+            'width' => '100'
+        ]);
+        $element = new Captcha($captcha);
+        $element->prepare();
+        $element->renderHtml();
+    }
+
+    public function testRenderWithInvalidParametersHeight()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $captcha = new Defaults();
+        $captcha->setOptions([
+            'height' => '100'
+        ]);
+        $element = new Captcha($captcha);
+        $element->prepare();
+        $element->renderHtml();
+    }
+
+    public function testRenderWithDefaultsParametersHeightAndWidth()
+    {
+        srand(0);
+        $element = new Captcha(new Defaults());
+        $element->prepare();
+        $this->assertSame('<img alt="captcha image" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBkZWZhdWx0IHF1YWxpdHkK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8AAEQgAMgCWAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9loopksqQqGcnk4AAJJPsByakltLVj6KZFKkylkJ4OCCCCD7g8in0AmnqgorE1SS+gkleK8kE5z9jtIY1cS4Uf6zKkgbzgsGVQCvIJzW3VONkmAUUUVIBRRUcsoi25VmLHaAo74J/pSbS1Y0rklFMjkEgPylSpwVPUHr/UU+mncAoqvcX0NtIkcvm7n+7shd89eMgHng8VYptNCCiiq0VycHerkeYyb8DA+YgD19P85qW7Bcs0UUUwCiiigAqG4jdzE8e0tG+4KxwDwR15x19KmooauJq6sQ28boZXk2hpH3FVOQOAOvGenpU1FFCVgSsrGW1hqMd/dXNte2qrOVOJrVpGUBQNoYSL8udzYx1Y+talFFU5N7jCqUUm+7jZhIHaNsqUIC8rx/9f8A+sKu0hUFw+PmAIB9jj/AUkUnYWmOm942zjY2768Ef1p9FJq4hiJseRs53tu+nAH9KfRRQlYDO1G6t4LuxWW4ijImLEO4GB5bjP0zxWjRRVN3SEFQ+R+62bv+Wm/OP9rdj+lTUVNgCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD//2Q==" /><br /><input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">', $element->renderHtml());
+    }
+
     /**
      * @throws ExceptionRule
      */
-    public function test_renderHtml()
+    public function testRenderHtml()
     {
         $request = new ServerRequestWrapper(
             new ServerRequest(parsedBody: [
@@ -177,7 +211,6 @@ class DefaultsTest extends _TestCase
         $captcha = new Defaults('code invalid');
 
         $element = new Captcha($captcha);
-        $element->setRequest($request);
         $element->prepare();
 
         $element->validate();
@@ -198,7 +231,7 @@ class DefaultsTest extends _TestCase
         $request = new ServerRequestWrapper(
             new ServerRequest(queryParams: [
                 'captcha_defaults' => 'testcode'
-            ], method: 'get')
+            ], method: 'gEt')
         );
         $captcha = new Defaults();
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Traits;
 
+use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Traits\Reflection;
@@ -71,7 +72,7 @@ class FillTest extends TestCase
 
         $data = [$class1, $class2];
         $select = new Select('select');
-        $select->fill(function () use ($data){
+        $select->fill(function () use ($data) {
             $ret = [];
             foreach ($data as $item) {
                 $ret[$item->id] = $item->name;
@@ -86,7 +87,7 @@ class FillTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $select = new Select('select');
-        $select->fill(function (){
+        $select->fill(function () {
             return 'invalid return';
         });
     }
@@ -151,11 +152,20 @@ class FillTest extends TestCase
         $this->assertSame('selected', $select->getElements()[1]->getAttr('selected')->__toString());
         $this->assertSame($returnObject, $select);
     }
-//
-//    public function testAccess()
-//    {
-//        /** @var Fill $traitFill */
-//        $traitFill = $this->getMockForTrait(Fill::class);
-//        $this->assertSame('', $traitFill->getDefaultValue());
-//    }
+
+    public function testAddElement()
+    {
+        $el = new Select('test');
+        $el->addElement(new Option('1'))->addElement(new Option('2'));
+        $this->assertCount(2, $el->getElements());
+    }
+
+    public function testAddElements()
+    {
+        $el = new Select('test');
+        $returnObject = $el->addElements([new Option('1'), new Option('2')]);
+        $this->assertCount(2, $el->getElements());
+        $this->assertSame($returnObject, $el);
+    }
+
 }

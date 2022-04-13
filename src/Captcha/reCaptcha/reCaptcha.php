@@ -57,7 +57,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     public function __construct()
     {
         $this->setName('recaptcha2');
-        $this->setRuleMessage(null);
+        //$this->setRuleMessage(null);
     }
 
     /**
@@ -76,12 +76,10 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     {
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 
-        $data = array(
+        $data = [
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
             'response' => $this->getRequest()->getPostData('g-recaptcha-response', $this->getRequest()->getQueryData('g-recaptcha-response'))
-        );
-
-
+        ];
 
         $response = $client->request('POST', $this->getOption('verify_url', $this->verifyUrl), [
             'form_params' => $data

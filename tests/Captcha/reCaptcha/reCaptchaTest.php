@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
+use Webmozart\Assert\Assert;
 
 class reCaptchaTest extends TestCase
 {
@@ -33,7 +34,9 @@ class reCaptchaTest extends TestCase
         $http = $this->getMockBuilder(Client::class)->setMethods(['request'])->getMock();
         $http->expects($this->any())->method('request')->will($this->returnCallback(function ($method, $address, array $options) use ($response) {
                     $this->lastRequestOptions = $options;
-
+                    Assert::keyExists($options, 'form_params');
+                    Assert::allKeyExists($options, 'response');
+                    Assert::allKeyExists($options, 'secret');
                     return $response;
                 }));
 
@@ -45,14 +48,14 @@ class reCaptchaTest extends TestCase
         return preg_replace('/\s+/', ' ', $multistring);
     }
 
-    public function test_init()
+    public function testInit()
     {
         $recaptcha = new reCaptcha();
         $captcha = new Captcha($recaptcha);
         $this->assertInstanceOf(Captcha::class, $captcha);
     }
 
-    public function test_init_add_rule()
+    public function testAddRule()
     {
 
         $recaptcha = new reCaptcha();
@@ -61,7 +64,7 @@ class reCaptchaTest extends TestCase
         $this->assertCount(1, $captcha->getRules());
     }
 
-    public function test_render()
+    public function testRender()
     {
 
         $recaptcha = new reCaptcha();
@@ -69,7 +72,7 @@ class reCaptchaTest extends TestCase
         $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
     }
 
-    public function test_validate_success()
+    public function testValidateSuccess()
     {
 
         $responseBody = \json_encode([
@@ -87,7 +90,7 @@ class reCaptchaTest extends TestCase
         $this->assertTrue($captcha_element->validate());
     }
 
-    public function test_validate_false()
+    public function testValidateFalse()
     {
         $responseBody = \json_encode([
             'success' => false,
@@ -109,7 +112,7 @@ class reCaptchaTest extends TestCase
         $this->assertEquals('The response parameter is missing.', $captcha->getRuleErrorMessage());
     }
 
-    public function test_validate_false_render()
+    public function testValidateFalseRender()
     {
 
         $responseBody = \json_encode([
@@ -133,7 +136,7 @@ class reCaptchaTest extends TestCase
         $this->assertEquals('The response parameter is missing., The secret parameter is invalid or malformed.', $captcha->getRuleErrorMessage());
     }
 
-    public function test_validate_false_render_width_setLanguage()
+    public function testValidateFalseRenderWidthSetLanguageViaOptions()
     {
         $recaptcha = new reCaptcha();
         $responseBody = \json_encode([
@@ -157,5 +160,31 @@ class reCaptchaTest extends TestCase
         $captcha->validate();
         $captcha->renderHtml();
         $this->assertEquals('Параметр ответа отсутствует., Секретный параметр является недопустимым или искаженным.', $captcha->getRuleErrorMessage());
+    }
+
+    public function testValidateFalseRenderWidthSetLanguageViaMethod()
+    {
+        $recaptcha = new reCaptcha();
+        $responseBody = \json_encode([
+            'success' => false,
+            'error-codes' =>
+                [
+                    0 => 'invalid-input-secret'
+                ],
+        ]);
+
+        $recaptcha->setOptions([
+            'httpClient' => $this->getHttpClient('text/plain', $responseBody),
+        ]);
+
+        $recaptcha->setLanguage('RU');
+
+        $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
+
+
+        $captcha->validate();
+        $captcha->renderHtml();
+        $this->assertEquals('Секретный параметр является недопустимым или искаженным.', $captcha->getRuleErrorMessage());
     }
 }
