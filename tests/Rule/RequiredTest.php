@@ -23,7 +23,7 @@ class RequiredTest extends TestCase
 
         $element->setRequest(
             new ServerRequestWrapper(
-                new ServerRequest(queryParams: ['name' => [1, 2]], parsedBody: [], method: 'get')
+                new ServerRequest(queryParams: ['name' => [1, 2]], parsedBody: [], method: 'gEt')
             )
         );
         $element->addRule(Rules::REQUIRED);

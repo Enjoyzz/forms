@@ -173,9 +173,6 @@ class Form
     public function addElement(Element $element): self
     {
         $element->setForm($this);
-        if ($element->prepare() !== null) {
-            return $this;
-        }
         return $this->parentAddElement($element);
     }
 

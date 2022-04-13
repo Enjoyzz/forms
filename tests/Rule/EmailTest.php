@@ -26,7 +26,7 @@ class EmailTest extends TestCase
 
         $text->setRequest(
             new ServerRequestWrapper(
-                new ServerRequest(queryParams: $request, parsedBody: [], method: 'get')
+                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
             )
         );
         $text->addRule(Rules::EMAIL);

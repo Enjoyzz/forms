@@ -5,9 +5,8 @@ namespace Tests\Enjoys\Forms;
 
 
 use Enjoys\Forms\Rules;
-use PHPUnit\Framework\TestCase;
 
-class RulesTest extends TestCase
+class RulesTest extends _TestCase
 {
 
     public function test_setParams_1_0()

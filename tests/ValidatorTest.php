@@ -8,9 +8,8 @@ use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
 use Enjoys\ServerRequestWrapper;
 use HttpSoft\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
 
-class ValidatorTest extends TestCase
+class ValidatorTest extends _TestCase
 {
 
 

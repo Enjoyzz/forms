@@ -178,6 +178,7 @@ class DefaultsTest extends _TestCase
 
         $element = new Captcha($captcha);
         $element->setRequest($request);
+        $element->prepare();
 
         $element->validate();
 

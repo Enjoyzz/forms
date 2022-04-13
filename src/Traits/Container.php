@@ -126,6 +126,9 @@ trait Container
     public function addElement(Element $element)
     {
         $element->setRequest($this->getRequest());
+        if ($element->prepare() !== null) {
+            return $this;
+        }
         $this->elements[$element->getName()] = $element;
         return $this;
     }

@@ -9,14 +9,14 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
 
-class FormTest extends TestCase
+class FormTest extends _TestCase
 {
-    use \Enjoys\Traits\Reflection;
+    use Reflection;
 
     public function dataForTestInitFormWithParams()
     {

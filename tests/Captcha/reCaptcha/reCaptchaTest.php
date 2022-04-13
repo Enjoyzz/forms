@@ -57,6 +57,7 @@ class reCaptchaTest extends TestCase
 
         $recaptcha = new reCaptcha();
         $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
         $this->assertCount(1, $captcha->getRules());
     }
 
@@ -81,6 +82,7 @@ class reCaptchaTest extends TestCase
         ]);
 
         $captcha_element = new Captcha($captcha);
+        $captcha_element->prepare();
 
         $this->assertTrue($captcha_element->validate());
     }
@@ -101,6 +103,7 @@ class reCaptchaTest extends TestCase
 
 
         $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
 
         $this->assertFalse($captcha->validate());
         $this->assertEquals('The response parameter is missing.', $captcha->getRuleErrorMessage());
@@ -122,7 +125,7 @@ class reCaptchaTest extends TestCase
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
         $captcha = new Captcha($recaptcha);
-
+        $captcha->prepare();
 
 
         $captcha->validate();
@@ -146,7 +149,9 @@ class reCaptchaTest extends TestCase
             'httpClient' => $this->getHttpClient('text/plain', $responseBody),
             'language' => 'ru'
         ]);
+
         $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
 
 
         $captcha->validate();

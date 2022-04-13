@@ -27,11 +27,12 @@ class Captcha extends Element implements Ruled
     public function __construct(private CaptchaInterface $captcha, string $message = null)
     {
         parent::__construct(\uniqid('captcha'));
-
-        $this->captcha->setRequestWrapper($this->getRequest());
-
-
         $this->setName($this->captcha->getName());
+    }
+
+    public function prepare()
+    {
+        $this->captcha->setRequestWrapper($this->getRequest());
         $this->addRule(Rules::CAPTCHA, $this->captcha->getRuleMessage());
     }
 
@@ -57,5 +58,13 @@ class Captcha extends Element implements Ruled
     public function baseHtml(): string
     {
         return $this->renderHtml();
+    }
+
+    /**
+     * @return CaptchaBase&CaptchaInterface|CaptchaInterface
+     */
+    public function getCaptcha()
+    {
+        return $this->captcha;
     }
 }
