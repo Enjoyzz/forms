@@ -33,7 +33,7 @@ class CaptchaTest extends TestCase
         $form = new Form(request: $request);
         $element = $form->captcha(new Defaults());
         $this->assertSame($request, $element->getRequest());
-        $this->assertSame($request, $element->getCaptcha()->getRequestWrapper());
+        $this->assertSame($request, $element->getCaptcha()->getRequest());
     }
 
 //    public function testCaptchaValidate()

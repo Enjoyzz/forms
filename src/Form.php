@@ -11,7 +11,6 @@ use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Options;
-use HttpSoft\ServerRequest\ServerRequestCreator;
 use Webmozart\Assert\Assert;
 
 use function json_encode;
@@ -27,6 +26,9 @@ class Form
     use Options;
     use Traits\Container {
         addElement as private parentAddElement;
+    }
+    use Traits\Request{
+        setRequest as private;
     }
 
 
@@ -45,7 +47,7 @@ class Form
 
     private string $method = 'POST';
     private ?string $action = null;
-    private ServerRequestWrapper $request;
+
     private DefaultsHandlerInterface $defaultsHandler;
 
     private bool $submitted = false;
@@ -56,7 +58,7 @@ class Form
         ServerRequestWrapper $request = null,
         DefaultsHandlerInterface $defaultsHandler = null
     ) {
-        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        $this->setRequest($request);
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
         $this->setMethod($method);
@@ -88,6 +90,12 @@ class Form
 //            $this->setDefaults([]);
 //        }
     }
+
+
+//    private function setRequest(ServerRequestWrapper $request = null)
+//    {
+//        $this->setRequest($request);
+//    }
 
     public function setSubmitted(bool $submitted = false): Form
     {
@@ -187,11 +195,6 @@ class Form
 //        $renderer->setForm($this);
 //        return $renderer->render();
 //    }
-
-    public function getRequest(): ServerRequestWrapper
-    {
-        return $this->request;
-    }
 
     public function getDefaultsHandler(): DefaultsHandlerInterface
     {

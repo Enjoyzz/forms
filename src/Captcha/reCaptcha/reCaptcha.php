@@ -62,7 +62,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return string
      */
     public function renderHtml(Element $element): string
@@ -78,7 +78,7 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
 
         $data = array(
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
-            'response' => $this->getRequestWrapper()->getPostData('g-recaptcha-response', $this->getRequestWrapper()->getQueryData('g-recaptcha-response'))
+            'response' => $this->getRequest()->getPostData('g-recaptcha-response', $this->getRequest()->getQueryData('g-recaptcha-response'))
         );
 
 

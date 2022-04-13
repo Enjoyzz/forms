@@ -6,19 +6,18 @@ namespace Enjoys\Forms\Captcha;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
-use Enjoys\ServerRequestWrapper;
+use Enjoys\Forms\Traits\Request;
 use Enjoys\Traits\Options;
-use HttpSoft\ServerRequest\ServerRequestCreator;
 
 abstract class CaptchaBase implements CaptchaInterface
 {
     use Options;
+    use Request;
 
     protected string $name;
 
     protected ?string $ruleMessage = null;
 
-    private ServerRequestWrapper $requestWrapper;
 
     public function setName(string $name): void
     {
@@ -38,16 +37,6 @@ abstract class CaptchaBase implements CaptchaInterface
     public function setRuleMessage(?string $message = null): void
     {
         $this->ruleMessage = $message;
-    }
-
-    public function setRequestWrapper(ServerRequestWrapper $requestWrapper = null): void
-    {
-        $this->requestWrapper = $requestWrapper ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
-    }
-
-    public function getRequestWrapper(): ServerRequestWrapper
-    {
-        return $this->requestWrapper;
     }
 
     abstract public function renderHtml(Element $element): string;

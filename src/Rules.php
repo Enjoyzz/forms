@@ -6,14 +6,15 @@ namespace Enjoys\Forms;
 
 
 use Enjoys\Forms\Rule;
-use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * @author Enjoys
  */
 class Rules
 {
+
+    use Request;
 
 
     public const CALLBACK = Rule\Callback::class;
@@ -36,7 +37,7 @@ class Rules
      * @var array
      */
     private array $params = [];
-    private ServerRequestWrapper $request;
+
 
     /**
      *
@@ -47,7 +48,6 @@ class Rules
     {
         $this->setParams($params);
         $this->message = $this->setMessage($message);
-        $this->setRequest();
     }
 
     /**
@@ -107,13 +107,5 @@ class Rules
         return $this->message;
     }
 
-    public function setRequest(ServerRequestWrapper $request = null)
-    {
-        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
-    }
 
-    public function getRequest(): ServerRequestWrapper
-    {
-        return $this->request;
-    }
 }

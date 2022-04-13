@@ -7,8 +7,7 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Interfaces\ElementInterface;
 use Enjoys\Forms\Interfaces\FillableInterface;
 use Enjoys\Forms\Traits\Attributes;
-use Enjoys\ServerRequestWrapper;
-use HttpSoft\ServerRequest\ServerRequestCreator;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * Class Element
@@ -17,6 +16,7 @@ use HttpSoft\ServerRequest\ServerRequestCreator;
 abstract class Element implements ElementInterface
 {
     use Attributes;
+    use Request;
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -47,7 +47,6 @@ abstract class Element implements ElementInterface
      * @var Form|null
      */
     protected ?Form $form = null;
-    private ServerRequestWrapper $request;
 
     /**
      * @param string $name
@@ -84,15 +83,6 @@ abstract class Element implements ElementInterface
         return $this->form ?? new Form();
     }
 
-    public function setRequest(ServerRequestWrapper $request = null)
-    {
-        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
-    }
-
-    public function getRequest(): ServerRequestWrapper
-    {
-        return $this->request;
-    }
 
     /**
      *

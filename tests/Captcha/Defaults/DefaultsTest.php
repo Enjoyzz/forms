@@ -203,7 +203,7 @@ class DefaultsTest extends _TestCase
         $captcha = new Defaults();
 
         $element = new Captcha($captcha);
-        $captcha->setRequestWrapper($request);
+        $captcha->setRequest($request);
         $this->assertSame('captcha_defaults', $captcha->getName());
         $this->assertTrue($element->validate());
 
@@ -213,7 +213,7 @@ class DefaultsTest extends _TestCase
             ], method: 'get')
         );
 
-        $captcha->setRequestWrapper($request);
+        $captcha->setRequest($request);
         $this->assertFalse($element->validate());
     }
 }

@@ -32,7 +32,7 @@ class Captcha extends Element implements Ruled
 
     public function prepare()
     {
-        $this->captcha->setRequestWrapper($this->getRequest());
+        $this->captcha->setRequest($this->getRequest());
         $this->addRule(Rules::CAPTCHA, $this->captcha->getRuleMessage());
     }
 
