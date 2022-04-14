@@ -11,8 +11,6 @@ use Enjoys\Forms\Interfaces\Ruled;
 interface RuleInterface
 {
 
-    public function __construct(string $message = null);
-
     /**
      * @param Ruled&Element $element
      * @return bool

@@ -33,17 +33,17 @@ class Option extends Element implements FillableInterface
      * @param mixed $value
      * @return $this
      */
-    protected function setDefault($value = null): self
+    protected function setDefault(mixed $value = null): self
     {
         if (is_array($value)) {
-            if (in_array($this->getAttr('value')->getValueString(), $value)) {
+            if (in_array($this->getAttr('value')?->getValueString(), $value)) {
                 $this->setAttr(AttributeFactory::create('selected'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttr('value')->getValueString() == $value) {
+            if ($this->getAttr('value')?->getValueString() == $value) {
                 $this->setAttr(AttributeFactory::create('selected'));
                 return $this;
             }
@@ -53,12 +53,10 @@ class Option extends Element implements FillableInterface
 
     public function baseHtml(): string
     {
-        $this->setAttrs($this->getAttributeCollection('fill')->getIterator()->getArrayCopy());
-
         if ($this->getLabel() === null) {
-            return "<option{$this->getAttributesString()}>";
+            return sprintf("<option%s>", $this->getAttributesString());
         }
 
-        return "<option{$this->getAttributesString()}>{$this->getLabel()}</option>";
+        return sprintf("<option%s>%s</option>", $this->getAttributesString(), $this->getLabel());
     }
 }

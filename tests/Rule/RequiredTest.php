@@ -6,15 +6,19 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Rule\Required;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
 use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\_TestCase;
 
 
-class RequiredTest extends TestCase
+class RequiredTest extends _TestCase
 {
+
+    use Reflection;
 
     public function test_required_()
     {
@@ -28,6 +32,7 @@ class RequiredTest extends TestCase
         );
         $element->addRule(Rules::REQUIRED);
         $this->assertTrue(Validator::check([$element]));
+
     }
 
     public function test_required_2()
@@ -40,6 +45,8 @@ class RequiredTest extends TestCase
         );
         $element->addRule(Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
+        $this->assertSame('Обязательно для заполнения, или выбора', $element->getRuleErrorMessage());
+
     }
 
     public function test_required_3()
@@ -47,5 +54,26 @@ class RequiredTest extends TestCase
         $element = new Checkbox('name');
         $element->addRule(Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
+    }
+
+    /**
+     * @dataProvider dataForTestPrivateMethodCheck
+     */
+    public function testPrivateMethodCheck($input, $expect)
+    {
+        $rule = new Required();
+        $method = $this->getPrivateMethod(Required::class, 'check');
+        $result = $method->invokeArgs($rule, [$input]);
+        $this->assertSame($expect, $result);
+    }
+
+    public function dataForTestPrivateMethodCheck()
+    {
+        return [
+            [1, true],
+            ['    ', false],
+            [[], false],
+            [[1], true],
+        ];
     }
 }

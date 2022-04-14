@@ -38,6 +38,9 @@ class LengthTest extends TestCase
         ));
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));
+        if(!$expect){
+            $this->assertSame('Ошибка ввода', $text->getRuleErrorMessage());
+        }
     }
 
     public function dataForTest_1_1()
@@ -45,6 +48,7 @@ class LengthTest extends TestCase
         return [
             ['test12', true],
             ['123 45', true],
+            [123456, true],
             ['привет', true],
             ['кот23', false],
             ['      ', false],

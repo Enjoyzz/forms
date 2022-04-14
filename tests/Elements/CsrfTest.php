@@ -16,13 +16,23 @@ new Session();
 class CsrfTest extends TestCase
 {
 
-    public function test_remove_hidden()
+    public function testRemoveHidden()
     {
         $form = new Form('post');
         $this->assertTrue($form->getElement(Form::_TOKEN_CSRF_) instanceof Csrf);
 
         $form->setMethod('get');
         $this->assertNull($form->getElement(Form::_TOKEN_CSRF_));
+    }
+
+    public function testUnsetFormAfterPrepareWhenValid()
+    {
+        $form = new Form('post', '/action');
+        $csrf = new Csrf();
+        $csrf->setForm($form);
+        $this->assertEquals($form, $csrf->getForm());
+        $csrf->prepare();
+        $this->assertNotEquals($form, $csrf->getForm());
     }
 
     public function testValidateCsrfTrue()

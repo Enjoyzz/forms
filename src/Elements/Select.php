@@ -38,10 +38,9 @@ class Select extends Element implements FillableInterface, Ruled
 
     private function isMultiple(): void
     {
-        if ($this->getAttr('multiple') !== null && \substr($this->getName(), -2) !== '[]') {
+        if ($this->getAttr('multiple') !== null && !str_ends_with($this->getName(), '[]')) {
             $id = $this->getAttr('id') ?? AttributeFactory::create('id', $this->getName());
             $this->setName($this->getName() . '[]');
-            $this->setParentName($this->getName());
             //т.к. id уже переписан ,восстанавливаем его
             $this->setAttr($id);
         }

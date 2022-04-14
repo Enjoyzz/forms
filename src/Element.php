@@ -94,7 +94,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @return int|void
+     * @return true|void
      */
     public function prepare()
     {

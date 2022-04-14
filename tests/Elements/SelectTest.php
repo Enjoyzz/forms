@@ -51,7 +51,6 @@ class SelectTest extends TestCase
 
     public function test_fill()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v1 */
         $v1 = $elements[0];
@@ -60,7 +59,6 @@ class SelectTest extends TestCase
 
     public function test_fill3()
     {
-
         $elements = $this->filldata();
         /** @var Option $v1 */
         $v1 = $elements[0];
@@ -69,7 +67,6 @@ class SelectTest extends TestCase
 
     public function test_fill4()
     {
-
         $elements = $this->filldata();
         /** @var Option $v2 */
         $v2 = $elements[1];
@@ -78,7 +75,6 @@ class SelectTest extends TestCase
 
     public function test_fill5()
     {
-
         $elements = $this->filldata();
         /** @var Option $v2 */
         $v2 = $elements[1];
@@ -87,7 +83,6 @@ class SelectTest extends TestCase
 
     public function test_fill6()
     {
-
         $elements = $this->filldata();
         /** @var Option $v2 */
         $v2 = $elements[1];
@@ -106,10 +101,11 @@ class SelectTest extends TestCase
 
     public function test_count_option_element()
     {
-
         $obj = new Select('name', 'title');
         $obj->fill([
-            1, 2, 3
+            1,
+            2,
+            3
         ], true);
 
         $this->assertCount(3, $obj->getElements());
@@ -117,10 +113,11 @@ class SelectTest extends TestCase
 
     public function test_count_option_element2()
     {
-
         $obj = new Select('name', 'title');
         $obj->fill([
-            1, 1, 3
+            1,
+            1,
+            3
         ], true);
 
         $this->assertCount(3, $obj->getElements());
@@ -128,7 +125,6 @@ class SelectTest extends TestCase
 
     public function test_count_option_element3()
     {
-
         $obj = new Select('name', 'title');
         $obj->fill([1], true)->fill([1], true);
 
@@ -137,7 +133,6 @@ class SelectTest extends TestCase
 
     public function test_multiple_name_add_array()
     {
-
         $obj = new Select('name', 'title');
         $obj->setAttr(AttributeFactory::create('multiple'));
 
@@ -147,7 +142,6 @@ class SelectTest extends TestCase
 
     public function test_multiple_name_add_array_2_1()
     {
-
         $obj = new Select('name', 'title');
         $obj->setMultiple();
 
@@ -157,7 +151,6 @@ class SelectTest extends TestCase
 
     public function test_multiple_name_add_array_1_2()
     {
-
         $obj = new Select('name[]', 'title');
         $obj->setAttr(AttributeFactory::create('multiple'));
 
@@ -167,7 +160,6 @@ class SelectTest extends TestCase
 
     public function test_multiple_name_add_array2()
     {
-
         $obj = new Select('name', 'title');
         $obj->setAttr(AttributeFactory::create('multiple'));
         $obj->setAttr(AttributeFactory::create('disabled'));
@@ -178,7 +170,6 @@ class SelectTest extends TestCase
 
     public function test_multiple_id_begin_id()
     {
-
         $obj = new Select('name[]', 'title');
         $obj->setAttr(AttributeFactory::create('id', 'test'));
         $obj->setAttr(AttributeFactory::create('multiple'));
@@ -187,7 +178,6 @@ class SelectTest extends TestCase
 
     public function test_multiple_id_begin_id2()
     {
-
         $obj = new Select('name', 'title');
         $obj->setAttr(AttributeFactory::create('id', 'test'));
         $obj->setAttr(AttributeFactory::create('multiple'));
@@ -196,25 +186,24 @@ class SelectTest extends TestCase
 
     public function test_multiple_begin_multiple()
     {
-
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(AttributeFactory::create('multiple'));
-        $obj->setAttr(AttributeFactory::create('id', 'test'));
+        $obj->setAttr(AttributeFactory::create('multiple'))
+            ->setAttr(AttributeFactory::create('id', 'test'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
     public function test_multiple_begin_multiple2()
     {
-
         $obj = new Select('name', 'title');
-        $obj->setAttr(AttributeFactory::create('multiple'));
-        $obj->setAttr(AttributeFactory::create('id', 'test'));
+        $obj->setAttrs(AttributeFactory::createFromArray([
+            'multiple',
+            'id' => 'test'
+        ]));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
     }
 
     public function test_id()
     {
-
         $obj = new Select('name', 'title');
         $obj->setAttr(AttributeFactory::create('id', 'test'));
         $this->assertSame('test', $obj->getAttr('id')->getValueString());
@@ -222,13 +211,14 @@ class SelectTest extends TestCase
 
     public function test_defaults1()
     {
-
         $form = new Form();
-        $form->setDefaults( [
+        $form->setDefaults([
             'name' => 2
         ]);
         $form->select('name', 'title')->fill([
-            1, 2, 3
+            1,
+            2,
+            3
         ], true);
 
         /** @var Select $select */
@@ -245,7 +235,9 @@ class SelectTest extends TestCase
             'name' => [1, 2]
         ]);
         $select = $form->select('name[]', 'title')->fill([
-            1, 2, 3
+            1,
+            2,
+            3
         ], true);
 
         /** @var Select $select */
@@ -254,16 +246,15 @@ class SelectTest extends TestCase
         $this->assertNull($select->getElements()[2]->getAttr('selected'));
     }
 
-    public function test_defaults4_attr_before_fill()
+    public function testDefaultsAttrMultipleBeforeFill()
     {
-
         $form = new Form();
         $form->setDefaults([
             'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')
-                ->setAttrs(AttributeFactory::createFromArray(['multiple']))
-                ->fill([1, 2, 3], true)
+            ->setAttr(AttributeFactory::create('multiple'))
+            ->fill([1, 2, 3], true)
         ;
 
         /** @var Select $select */
@@ -273,15 +264,15 @@ class SelectTest extends TestCase
         $this->assertNotNull($select->getElements()[2]->getAttr('selected'));
     }
 
-    public function test_defaults4_attr_after_fill()
+    public function testDefaultsAttrMultipleAfterFill()
     {
         $form = new Form();
         $form->setDefaults([
             'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')
-                ->fill([1, 2, 3], true)
-                ->setAttrs(AttributeFactory::createFromArray(['multiple']))
+            ->fill([1, 2, 3], true)
+            ->setAttr(AttributeFactory::create('multiple'))
         ;
 
         /** @var Select $select */
@@ -291,12 +282,14 @@ class SelectTest extends TestCase
         $this->assertNotNull($select->getElements()[2]->getAttr('selected'));
     }
 
-    public function test_optgroup()
+    public function testOptgroup()
     {
         $select = new Select('name');
         $select->setOptgroup('foo', [
-            1, 2, 3
-        ], [],true);
+            1,
+            2,
+            3
+        ], [], true);
 
         $this->assertInstanceOf('\Enjoys\Forms\Elements\Optgroup', $select->getElements()[0]);
         $options = $select->getElements()[0]->getElements();

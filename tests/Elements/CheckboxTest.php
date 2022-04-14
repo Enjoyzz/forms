@@ -21,6 +21,17 @@ class CheckboxTest extends _TestCase
         $this->assertNull($el->getAttr('name'));
     }
 
+    public function testFlushPrefix()
+    {
+        (new Checkbox('foo'))->setPrefixId('test_');
+        $el = new Checkbox('foo');
+        $this->assertSame('test_', $el->getPrefixId());
+
+        $el = new Checkbox('foo', flushPrefix: true);
+        $this->assertSame('cb_', $el->getPrefixId());
+    }
+
+
     public function testGetPrefixId()
     {
         $el = new Checkbox('foo', flushPrefix: true);
@@ -204,8 +215,9 @@ class CheckboxTest extends _TestCase
                 2
             ]
         ]);
-        $obj = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
-        $elements = $obj->getElements();
+        $el = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
+        $elements = $el->getElements();
+        $this->assertSame([1,2], $el->getDefaultValue());
         $this->assertNotNull($elements[0]->getAttr('checked'));
         $this->assertNotNull($elements[1]->getAttr('checked'));
         $this->assertNull($elements[2]->getAttr('checked'));
@@ -217,16 +229,28 @@ class CheckboxTest extends _TestCase
         $form->setOption('defaults', [
             'name' => ['baaa']
         ]);
-        $radio = $form->checkbox('name', 'title')->fill([
+        $el = $form->checkbox('name', 'title')->fill([
             'val1' => 'Hello',
             'baaa' => 'Hello2',
             'aggg' => 5,
         ]);
-        $elements = $radio->getElements();
+        $elements = $el->getElements();
+        $this->assertSame('baaa', $el->getDefaultValue());
         $this->assertNull($elements[0]->getAttr('checked'));
         $this->assertNotNull($elements[1]->getAttr('checked'));
         $this->assertNull($elements[2]->getAttr('checked'));
     }
+
+    public function testDefaultValue()
+    {
+        $form = new Form();
+        $form->setDefaults([
+            'name' => null
+        ]);
+        $el = $form->checkbox('name');
+        $this->assertSame(false, $el->getDefaultValue());
+    }
+
 
     public function test_basehtml()
     {

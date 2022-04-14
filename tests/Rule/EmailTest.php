@@ -17,9 +17,9 @@ class EmailTest extends TestCase
 {
 
     /**
-     * @dataProvider data_for_test_validate
+     * @dataProvider dataForTestValidate
      */
-    public function test_validate($name, $request, $expect)
+    public function testValidate($name, $request, $expect)
     {
         $text = new Text($name);
 
@@ -31,9 +31,13 @@ class EmailTest extends TestCase
         );
         $text->addRule(Rules::EMAIL);
         $this->assertEquals($expect, Validator::check([$text]));
+        if(!$expect){
+            $this->assertSame('Не правильно введен email', $text->getRuleErrorMessage());
+        }
+
     }
 
-    public function data_for_test_validate()
+    public function dataForTestValidate()
     {
         return [
             ['foo', ['foo' => 'test@test.com'], true],

@@ -534,4 +534,41 @@ class UploadTest extends TestCase
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $testedMethod->invokeArgs($uploadRule, [$request->getFilesData('foo'), $fileElement]);
     }
+
+    public function testValidateIfEmptyRulesParams()
+    {
+        $rule = new Upload();
+        $method = $this->getPrivateMethod(Upload::class, 'check');
+        $this->assertEquals(
+            true,
+            $method->invokeArgs($rule, [
+                [],
+                new File('foo')
+            ])
+        );
+    }
+
+    /**
+     * @dataProvider dataForTestParseRuleOpts
+     */
+    public function testParseRuleOpts($input, $expect)
+    {
+        if ($expect === false){
+            $this->expectException(InvalidArgumentException::class);
+        }
+        $rule = new Upload();
+        $method = $this->getPrivateMethod(Upload::class, 'parseRuleOpts');
+        $result = $method->invokeArgs($rule, [$input]);
+        $this->assertSame($expect, $result);
+    }
+
+    public function dataForTestParseRuleOpts()
+    {
+        return [
+               [[1, 2], false],
+               [[1, '2'], ['param' => 1, 'message' => '2']],
+               [[[1], null], ['param' => [1], 'message' => null]],
+               ['xl', ['param' => 'xl', 'message' => null]],
+        ];
+    }
 }

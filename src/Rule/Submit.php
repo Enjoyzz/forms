@@ -12,6 +12,16 @@ use Enjoys\Forms\Rules;
 class Submit extends Rules implements RuleInterface
 {
 
+    public function __construct(string $token)
+    {
+        parent::__construct(null, $token);
+    }
+
+    private function getToken()
+    {
+        return $this->getParams()[0];
+    }
+
     /**
      * @psalm-suppress PossiblyNullReference
      * @param Ruled&Element $element
@@ -36,6 +46,6 @@ class Submit extends Rules implements RuleInterface
 
     private function check($value): bool
     {
-        return $value == $this->getParams()[0];
+        return $value == $this->getToken();
     }
 }

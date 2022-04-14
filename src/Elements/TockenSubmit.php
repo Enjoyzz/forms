@@ -20,7 +20,7 @@ class TockenSubmit extends Hidden
 
     public function getSubmitted(): bool
     {
-        $rule = new \Enjoys\Forms\Rule\Submit(null, $this->token);
+        $rule = new \Enjoys\Forms\Rule\Submit($this->token);
         $rule->setRequest($this->getRequest());
         return $rule->validate($this);
     }

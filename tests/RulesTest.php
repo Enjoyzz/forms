@@ -9,6 +9,13 @@ use Enjoys\Forms\Rules;
 class RulesTest extends _TestCase
 {
 
+    public function testSetParamPublicCall()
+    {
+        $rules = new Rules();
+        $rules->setParams([1]);
+        $this->assertSame([1], $rules->getParams());
+    }
+
     public function test_setParams_1_0()
     {
         $rules = new Rules('message', [1]);

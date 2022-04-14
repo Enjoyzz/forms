@@ -23,22 +23,24 @@ class Csrf extends Hidden
      */
     public function __construct(string $csrf_key = null)
     {
-        $session = new Session();
-        $csrf_key = $csrf_key ?? '#$' . $session->getSessionId();
-//        $salt = $salt ?? '$2a$07$' . md5($session->getSessionId()) . '$';
-        $hash = password_hash($csrf_key, PASSWORD_DEFAULT);
 
-        parent::__construct(Form::_TOKEN_CSRF_, $hash);
+        $csrf_key = $csrf_key ?? $this->makeCsrfKey();
+
+
+        parent::__construct(Form::_TOKEN_CSRF_, password_hash($csrf_key, PASSWORD_DEFAULT));
 
         $this->addRule(
             Rules::CALLBACK,
             'CSRF Attack detected',
-            function () use ($csrf_key) {
-                if (password_verify($csrf_key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))){
-                    return true;
-                }
-                throw new CsrfAttackDetected('CSRF Token is invalid');
-            }
+            [
+                function (string $key) {
+                    if (password_verify($key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))) {
+                        return true;
+                    }
+                    throw new CsrfAttackDetected('CSRF Token is invalid');
+                },
+                $csrf_key
+            ]
         );
     }
 
@@ -51,9 +53,15 @@ class Csrf extends Hidden
             $this->getForm()->removeElement($this);
 
             //возвращаем 1 что бы не добавлять элемент.
-            return 1;
+            return true;
         }
 
         $this->unsetForm();
+    }
+
+    private function makeCsrfKey()
+    {
+        $session = new Session();
+        return '#$' . $session->getSessionId();
     }
 }

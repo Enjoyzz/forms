@@ -88,10 +88,6 @@ class Callback extends Rules implements RuleInterface
     {
         $callback = $this->getParam(0);
 
-        if ($callback instanceof \Closure) {
-            return $callback();
-        }
-
         if (is_object($callback) && (new \ReflectionClass($callback))->isAnonymous()) {
             $func = 'execute';
             if (isset($callback->execute)) {

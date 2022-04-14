@@ -17,6 +17,12 @@ class TextareaTest extends TestCase
         $this->assertEquals('textarea', $el->getType());
     }
 
+    public function testGetValue()
+    {
+        $el = (new Textarea('foo', 'bar'))->setValue('<b>text</b>');
+        $this->assertSame('<b>text</b>', $el->getValue());
+    }
+
     public function testSetCols()
     {
         $el = new Textarea('foo');

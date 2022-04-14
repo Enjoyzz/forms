@@ -65,9 +65,12 @@ class Radio extends Element implements FillableInterface, Ruled
      * @param mixed $value
      * @return $this
      */
-    protected function setDefault($value = null): self
+    protected function setDefault(mixed $value = null): self
     {
-        $this->defaultValue = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        if($value === null){
+            $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        }
+        $this->defaultValue = $value;
 
         if (is_array($value)) {
             if (in_array($this->getAttr('value')->getValueString(), $value)) {
