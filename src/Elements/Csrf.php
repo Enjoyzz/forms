@@ -16,8 +16,6 @@ use Enjoys\Session\Session;
  */
 class Csrf extends Hidden
 {
-
-
     /**
      * @throws ExceptionRule
      * @throws \Exception
@@ -67,7 +65,7 @@ class Csrf extends Hidden
     {
         $secret = (string) $this->session->get('csrf_secret');
 
-        if(empty($secret)){
+        if (empty($secret)) {
             $secret = $this->generateSecret();
         }
 

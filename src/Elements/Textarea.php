@@ -40,7 +40,7 @@ class Textarea extends Element implements Ruled
 
     private function getValidatedAttribute(mixed $value): mixed
     {
-        if ($value instanceof \Closure){
+        if ($value instanceof \Closure) {
             $value = $value();
         }
         Assert::numeric($value);

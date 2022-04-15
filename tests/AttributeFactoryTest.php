@@ -10,7 +10,6 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class AttributeFactoryTest extends TestCase
 {
-
     public function dataForCreateFromArray()
     {
         return [

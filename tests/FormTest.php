@@ -15,7 +15,6 @@ use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Webmozart\Assert\InvalidArgumentException;
 
-
 class FormTest extends _TestCase
 {
     use Reflection;

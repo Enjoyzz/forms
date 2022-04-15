@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class AttributeTest extends TestCase
 {
-
-
     public function testAttributesTrait_addAttrs_addAttr_setAttrs_setAttr(): void
     {
         /** @var Attributes $traitAttributes */
@@ -82,7 +80,8 @@ class AttributeTest extends TestCase
                 'id' => 'another',
                 'name' => 'another'
             ])
-        );;
+        );
+        ;
         $this->assertSame('id="another" name="another"', $traitAttributes->getAttrs()->__toString());
         $this->assertSame($returnedObject, $traitAttributes);
     }
@@ -102,7 +101,8 @@ class AttributeTest extends TestCase
                 'id' => 'another',
                 'name' => 'another'
             ])
-        );;
+        );
+        ;
         $this->assertSame('id="this" name="this"', $traitAttributes->getAttrs()->__toString());
         $this->assertSame($returnedObject, $traitAttributes);
     }
@@ -263,6 +263,4 @@ class AttributeTest extends TestCase
         $this->assertSame(null, $traitAttributes->getAttr('value', 'extra2'));
         $this->assertSame('', $traitAttributes->getAttributesString('extra3'));
     }
-
-
 }

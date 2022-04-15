@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Renderer\Html\ElementsRender;
 
-
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
@@ -32,15 +31,15 @@ class RadioTest extends _TestCaseHtmlRenderer
 HTML), $this->stringOneLine($render->render()));
     }
 
-       public function testRadioCustomAddElements()
+    public function testRadioCustomAddElements()
     {
 
         $el = new Radio('test', 'Test Label', true);
         $el->addElements([
-            new Radio('yes', 'YES'),
-            (new Radio('no', 'NO'))
-                ->addAttr(AttributeFactory::create('test', ''))
-                ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
+         new Radio('yes', 'YES'),
+         (new Radio('no', 'NO'))
+             ->addAttr(AttributeFactory::create('test', ''))
+             ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
         ]);
 
         $render = HtmlRenderer::createTypeRender($el);
@@ -57,6 +56,5 @@ HTML), $this->stringOneLine($render->render()));
         $el->setRuleError('error');
         $output = HtmlRenderer::createTypeRender($el);
         $this->assertStringContainsString('class="is-invalid"', $output->render());
-}
-
+    }
 }

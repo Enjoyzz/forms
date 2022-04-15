@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase
 {
-
     public function testWithNeedleString1()
     {
         $needle = 'test';

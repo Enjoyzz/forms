@@ -24,7 +24,4 @@ class CaptchaBaseTest extends _TestCase
         $captcha->setRuleMessage($errorMessage);
         $this->assertSame($errorMessage, $captcha->getRuleMessage());
     }
-
-
-
 }

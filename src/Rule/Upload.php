@@ -12,10 +12,8 @@ use Enjoys\Forms\Rules;
 use Psr\Http\Message\UploadedFileInterface;
 use Webmozart\Assert\Assert;
 
-
 class Upload extends Rules implements RuleInterface
 {
-
     private array $systemErrorMessage = [
         'unknown' => "Unknown upload error",
         \UPLOAD_ERR_INI_SIZE => "Размер принятого файла превысил максимально допустимый размер, 

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Interfaces\AttributeInterface;
@@ -157,6 +156,4 @@ abstract class Attribute implements AttributeInterface
 
         return ($value === null) ? null : (string)$value;
     }
-
-
 }

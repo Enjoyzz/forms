@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class CsrfAttackDetectedTest extends TestCase
 {
-
     public function testCsrfAttackException()
     {
         $exception = new CsrfAttackDetected();
@@ -17,5 +16,4 @@ class CsrfAttackDetectedTest extends TestCase
         $this->assertSame(0, $exception->getCode());
         $this->assertSame(null, $exception->getPrevious());
     }
-
 }

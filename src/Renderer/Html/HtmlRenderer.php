@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Renderer\Html;
-
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements;
@@ -16,7 +14,6 @@ use Enjoys\Forms\Traits\RendererTrait;
 
 class HtmlRenderer implements RendererInterface
 {
-
     use RendererTrait;
 
     private const _MAP_ = [
@@ -63,7 +60,7 @@ class HtmlRenderer implements RendererInterface
     {
         $html = [];
         foreach ($this->getForm()->getElements() as $element) {
-            $html[] = "<div>".self::createTypeRender($element)->render()."</div>";
+            $html[] = "<div>" . self::createTypeRender($element)->render() . "</div>";
         }
         return implode("\n", $html);
     }

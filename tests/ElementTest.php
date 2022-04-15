@@ -9,7 +9,6 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
 use Enjoys\Traits\Reflection;
 
-
 class ElementTest extends _TestCase
 {
     use Reflection;
@@ -118,7 +117,6 @@ class ElementTest extends _TestCase
             ->willReturn('option');
 
         $this->assertEquals('option', $element->getType());
-
     }
 
     public function testSetLabel()
@@ -145,7 +143,4 @@ class ElementTest extends _TestCase
         $element = $form->text('Foo[]', 'Bar');
         $this->assertEquals('first_string', $element->getAttr('value')->getValueString());
     }
-
-
-
 }

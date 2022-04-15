@@ -13,7 +13,6 @@ use Tests\Enjoys\Forms\_TestCase;
 
 class CsrfTest extends _TestCase
 {
-
     use Reflection;
 
     public function testGenerateSecret()
@@ -31,8 +30,6 @@ class CsrfTest extends _TestCase
 
         $form->setMethod('get');
         $this->assertNull($form->getElement(Form::_TOKEN_CSRF_));
-
-
     }
 
     public function testUnsetFormAfterPrepareWhenValid()
@@ -85,7 +82,6 @@ class CsrfTest extends _TestCase
         $csrf->setRequest($request);
 
         $csrf->getRules()[0]->validate($csrf);
-
     }
 
     public function testInvalidSessionSecret()
@@ -98,5 +94,4 @@ class CsrfTest extends _TestCase
 
         new Csrf($this->session);
     }
-
 }

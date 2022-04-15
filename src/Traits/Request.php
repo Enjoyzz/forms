@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Traits;
-
 
 use Enjoys\ServerRequestWrapper;
 use HttpSoft\ServerRequest\ServerRequestCreator;

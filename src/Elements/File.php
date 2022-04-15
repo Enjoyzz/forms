@@ -13,7 +13,6 @@ use Enjoys\Forms\Traits;
 
 use function iniSize2bytes;
 
-
 class File extends Element implements Ruled
 {
     use Traits\Description;

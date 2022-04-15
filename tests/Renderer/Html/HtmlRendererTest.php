@@ -53,7 +53,7 @@ class HtmlRendererTest extends _TestCaseHtmlRenderer
     public function testCreateTypeRender($closure, $expect)
     {
         $element = $closure();
-        if(!($element instanceof Element)){
+        if (!($element instanceof Element)) {
             $this->expectError();
         }
         $this->assertInstanceOf($expect, HtmlRenderer::createTypeRender($element));

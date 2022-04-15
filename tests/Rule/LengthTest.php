@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
@@ -13,21 +12,19 @@ use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
-
 class LengthTest extends TestCase
 {
-
     use Reflection;
 
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_1_1
      */
     public function test_1_1_validate_test($value, $expect)
     {
 
-        $text = new Text( 'foo');
+        $text = new Text('foo');
 
         $rule = new Length(null, [
             '>' => 5
@@ -38,7 +35,7 @@ class LengthTest extends TestCase
         ));
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));
-        if(!$expect){
+        if (!$expect) {
             $this->assertSame('Ошибка ввода', $text->getRuleErrorMessage());
         }
     }
@@ -58,7 +55,7 @@ class LengthTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_1_2
      */
     public function test_1_2($value, $expect)
@@ -85,7 +82,7 @@ class LengthTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_2_1
      */
     public function test_2_1($value, $expect)
@@ -112,7 +109,7 @@ class LengthTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_2_2
      */
     public function test_2_2($value, $expect)
@@ -139,7 +136,7 @@ class LengthTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_3_1
      */
     public function test_3_1($value, $expect)
@@ -166,7 +163,7 @@ class LengthTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_3_2
      */
     public function test_3_2($value, $expect)
@@ -193,7 +190,7 @@ class LengthTest extends TestCase
     }
 
     /**
-     * 
+     *
      * @dataProvider dataForTest_3_3
      */
     public function test_3_3($value, $expect)
@@ -229,5 +226,4 @@ class LengthTest extends TestCase
         $method = $this->getPrivateMethod(Length::class, 'check');
         $method->invokeArgs($rule, ['test']);
     }
-
 }

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Renderer\Html\TypesRender;
-
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
@@ -12,7 +10,6 @@ use Enjoys\Forms\Interfaces\TypeRenderInterface;
 
 class Input implements TypeRenderInterface
 {
-
     public function __construct(private Element $element)
     {
     }
@@ -36,7 +33,7 @@ class Input implements TypeRenderInterface
 
     protected function bodyRender(Element $element): string
     {
-        return  $element->baseHtml();
+        return $element->baseHtml();
     }
 
 
@@ -45,7 +42,11 @@ class Input implements TypeRenderInterface
         if (!method_exists($this->getElement(), 'getDescription') || empty($this->getElement()->getDescription())) {
             return '';
         }
-        return "<small{$this->getElement()->getAttributesString(Form::ATTRIBUTES_DESC)}>{$this->getElement()->getDescription()}</small>";
+        return sprintf(
+            '<small%s>%s</small>',
+            $this->getElement()->getAttributesString(Form::ATTRIBUTES_DESC),
+            $this->getElement()->getDescription()
+        );
     }
 
 
@@ -54,7 +55,11 @@ class Input implements TypeRenderInterface
         if (!method_exists($this->getElement(), 'isRuleError') || !$this->getElement()->isRuleError()) {
             return '';
         }
-        return "<div{$this->getElement()->getAttributesString(Form::ATTRIBUTES_VALIDATE)}>{$this->getElement()->getRuleErrorMessage()}</div>";
+        return sprintf(
+            '<div%s>%s</div>',
+            $this->getElement()->getAttributesString(Form::ATTRIBUTES_VALIDATE),
+            $this->getElement()->getRuleErrorMessage()
+        );
     }
 
 
@@ -72,8 +77,11 @@ class Input implements TypeRenderInterface
             $this->getElement()->setAttr($idAttribute->withName('for'), Form::ATTRIBUTES_LABEL);
         }
 
-        return "<label{$this->getElement()->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getElement()->getLabel()}{$star}</label>";
+        return sprintf(
+            '<label%s>%s%s</label>',
+            $this->getElement()->getAttributesString(Form::ATTRIBUTES_LABEL),
+            $this->getElement()->getLabel(),
+            $star
+        );
     }
-
-
 }

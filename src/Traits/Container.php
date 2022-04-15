@@ -100,7 +100,6 @@ use Webmozart\Assert\Assert;
  */
 trait Container
 {
-
     /**
      *
      * @var Element[]

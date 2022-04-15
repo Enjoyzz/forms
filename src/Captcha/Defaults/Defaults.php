@@ -14,7 +14,6 @@ use Webmozart\Assert\Assert;
 
 class Defaults extends CaptchaBase implements CaptchaInterface
 {
-
     private string $code = '';
     private Session $session;
 

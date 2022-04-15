@@ -9,7 +9,6 @@ use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
 
-
 class Datetime extends Element implements Ruled
 {
     use Description;

@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
@@ -13,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 class EqualTest extends TestCase
 {
-
     /**
      * @dataProvider dataForTestValidate
      */

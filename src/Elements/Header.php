@@ -6,10 +6,8 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 
-
 class Header extends Element
 {
-
     private int $closeAfterCountElements = 0;
 
     public function __construct(string $title)

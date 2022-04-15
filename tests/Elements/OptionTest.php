@@ -9,10 +9,8 @@ use Enjoys\Forms\Elements\Select;
 use Enjoys\Traits\Reflection;
 use Tests\Enjoys\Forms\_TestCase;
 
-
 class OptionTest extends _TestCase
 {
-
     use Reflection;
 
     public function testInitElement()
@@ -55,7 +53,6 @@ class OptionTest extends _TestCase
         $option->removeAttr('value');
         $method->invokeArgs($option, [['value1']]);
         $this->assertSame('<option>label1</option>', $option->baseHtml());
-
     }
 
     public function testSetDefaultWithString()
@@ -70,7 +67,5 @@ class OptionTest extends _TestCase
         $option->removeAttr('value');
         $method->invokeArgs($option, ['value1']);
         $this->assertSame('<option>label1</option>', $option->baseHtml());
-
     }
-
 }

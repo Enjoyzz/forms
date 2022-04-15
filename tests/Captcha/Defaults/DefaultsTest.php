@@ -11,10 +11,8 @@ use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
-
 class DefaultsTest extends _TestCase
 {
-
     use Reflection;
 
 

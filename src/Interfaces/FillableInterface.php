@@ -10,7 +10,6 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface FillableInterface
 {
-
     public function setParentName(string $parentName): void;
 
     public function getParentName(): string;

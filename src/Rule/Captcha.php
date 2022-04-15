@@ -17,7 +17,6 @@ use Enjoys\Forms\Rules;
  */
 class Captcha extends Rules implements RuleInterface
 {
-
     /**
      * @param Ruled&Element $element
      * @return bool

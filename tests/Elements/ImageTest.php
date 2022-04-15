@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Image;
 use PHPUnit\Framework\TestCase;
 
-
 class ImageTest extends TestCase
 {
     public function test_create_image_element()

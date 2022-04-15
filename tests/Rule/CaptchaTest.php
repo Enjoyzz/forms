@@ -8,10 +8,8 @@ use Enjoys\Forms\Elements\Captcha;
 use Enjoys\Forms\Rule;
 use PHPUnit\Framework\TestCase;
 
-
 class CaptchaTest extends TestCase
 {
-
     public function test_validate_success()
     {
         $mock_element = $this->getMockBuilder(Captcha::class)
@@ -35,5 +33,4 @@ class CaptchaTest extends TestCase
         $rule = new Rule\Captcha();
         $this->assertFalse($rule->validate($mock_element));
     }
-
 }

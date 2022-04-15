@@ -11,19 +11,21 @@ use Tests\Enjoys\Forms\_TestCase;
 
 class CallbackTest extends _TestCase
 {
-
     private $element;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         $form = new Form();
         $this->element = $form->text('foo');
     }
 
-    public function tearDown(): void {
+    public function tearDown(): void
+    {
         unset($this->element);
     }
 
-    public function testClosureFunctionFail() {
+    public function testClosureFunctionFail()
+    {
         $this->element->addRule(Rules::CALLBACK, null, function () {
             return false;
         });
@@ -31,19 +33,21 @@ class CallbackTest extends _TestCase
         $this->assertSame('Ошибка', $this->element->getRuleErrorMessage());
     }
 
-    public function testClosureFunctionTrue() {
+    public function testClosureFunctionTrue()
+    {
         $this->element->addRule(Rules::CALLBACK, null, function () {
             return true;
         });
         $this->assertTrue(Validator::check([$this->element]));
     }
 
-    public function testClosureFunctionWithParamsTrue() {
+    public function testClosureFunctionWithParamsTrue()
+    {
         $param1 = 'test';
         $param2 = 'test2';
         $this->element->addRule(Rules::CALLBACK, null, [
             function ($p1, $p2) {
-                if($p1 === 'test' && $p2 === 'test2'){
+                if ($p1 === 'test' && $p2 === 'test2') {
                     return true;
                 }
                 return false;
@@ -54,53 +58,65 @@ class CallbackTest extends _TestCase
         $this->assertTrue(Validator::check([$this->element]));
     }
 
-    public function testAnonimousClassFail() {
+    public function testAnonimousClassFail()
+    {
         $this->element->addRule(
-            Rules::CALLBACK, 'Error message', new class {
+            Rules::CALLBACK,
+            'Error message',
+            new class {
+                public $execute = 'testfunction';
 
-            public $execute = 'testfunction';
-
-            public
-                    function testfunction() {
-                return false;
+                public function testfunction()
+                {
+                    return false;
+                }
             }
-        });
+        );
         $this->assertFalse(Validator::check([$this->element]));
         $this->assertSame('Error message', $this->element->getRuleErrorMessage());
     }
 
-    public function testAnonimousClassTrue() {
+    public function testAnonimousClassTrue()
+    {
         $this->element->addRule(
-            Rules::CALLBACK, null, new class {
-
-            public function execute() {
-                return true;
+            Rules::CALLBACK,
+            null,
+            new class {
+                public function execute()
+                {
+                    return true;
+                }
             }
-        });
+        );
         $this->assertTrue(Validator::check([$this->element]));
     }
 
-    public function testCallbackFunctionFail() {
+    public function testCallbackFunctionFail()
+    {
         $this->element->addRule(Rules::CALLBACK, null, 'Tests\Enjoys\Forms\Rule\checkFunctionReturnFalse');
         $this->assertFalse(Validator::check([$this->element]));
     }
 
-    public function testCallbackFunctionTrue() {
+    public function testCallbackFunctionTrue()
+    {
         $this->element->addRule(Rules::CALLBACK, null, 'Tests\Enjoys\Forms\Rule\checkFunctionReturnTrue');
         $this->assertTrue(Validator::check([$this->element]));
     }
 
-    public function testCallbackStaticClassFalse() {
+    public function testCallbackStaticClassFalse()
+    {
         $this->element->addRule(Rules::CALLBACK, null, 'Tests\Enjoys\Forms\Rule\ClassCheck::isFalse');
         $this->assertFalse(Validator::check([$this->element]));
     }
 
-    public function testCallbackStaticClassTrue() {
+    public function testCallbackStaticClassTrue()
+    {
         $this->element->addRule(Rules::CALLBACK, null, 'Tests\Enjoys\Forms\Rule\ClassCheck::isTrue');
         $this->assertTrue(Validator::check([$this->element]));
     }
 
-    public function testCallbackClassFalse() {
+    public function testCallbackClassFalse()
+    {
         $this->element->addRule(Rules::CALLBACK, null, [
             [
                 new ClassCheck(),
@@ -110,7 +126,8 @@ class CallbackTest extends _TestCase
         $this->assertFalse(Validator::check([$this->element]));
     }
 
-    public function testCallbackClassTrue() {
+    public function testCallbackClassTrue()
+    {
         $this->element->addRule(Rules::CALLBACK, null, [
             [
                 new ClassCheck(),
@@ -119,34 +136,37 @@ class CallbackTest extends _TestCase
         ]);
         $this->assertTrue(Validator::check([$this->element]));
     }
-
 }
 
-function checkFunctionReturnFalse() {
+function checkFunctionReturnFalse()
+{
     return false;
 }
 
-function checkFunctionReturnTrue() {
+function checkFunctionReturnTrue()
+{
     return true;
 }
 
 class ClassCheck
 {
-
-    public static function isFalse() {
+    public static function isFalse()
+    {
         return false;
     }
 
-    public static function isTrue() {
+    public static function isTrue()
+    {
         return true;
     }
 
-    public function _checkFalse() {
+    public function _checkFalse()
+    {
         return false;
     }
 
-    public function _checkTrue() {
+    public function _checkTrue()
+    {
         return true;
     }
-
 }

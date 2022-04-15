@@ -8,10 +8,8 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
 
-
 class Email extends Rules implements RuleInterface
 {
-
 //    private $idn_to_ascii = false;
 
     public function setMessage(?string $message = null): ?string
@@ -31,7 +29,7 @@ class Email extends Rules implements RuleInterface
     {
 
         $method = $this->getRequest()->getRequest()->getMethod();
-        $requestData = match(strtolower($method)){
+        $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryData()->getAll(),
             'post' => $this->getRequest()->getPostData()->getAll(),
             default => []

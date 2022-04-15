@@ -6,7 +6,6 @@ namespace Enjoys\Forms;
 
 class FillHandler
 {
-
     private array $attributes = [];
     /**
      * @var mixed

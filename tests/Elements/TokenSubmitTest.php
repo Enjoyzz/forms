@@ -9,7 +9,6 @@ use Tests\Enjoys\Forms\_TestCase;
 
 class TokenSubmitTest extends _TestCase
 {
-
     public function testTockenSubmitIfInclCounterDefault()
     {
         $form1 = new Form();

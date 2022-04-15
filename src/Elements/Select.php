@@ -13,7 +13,6 @@ use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-
 class Select extends Element implements FillableInterface, Ruled
 {
     use Fill;

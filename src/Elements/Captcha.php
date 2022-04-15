@@ -12,7 +12,6 @@ use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Traits;
 
-
 class Captcha extends Element implements Ruled
 {
     use Traits\Description;

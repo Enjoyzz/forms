@@ -13,7 +13,6 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class GroupTest extends _TestCase
 {
-
     public function test_init_group()
     {
         $g = new Group('group1');
@@ -49,8 +48,7 @@ class GroupTest extends _TestCase
                 'foo3' => [
                     1 => 'c'
                 ]
-            ]
-        );
+            ]);
 
         $fill = [
             'false',

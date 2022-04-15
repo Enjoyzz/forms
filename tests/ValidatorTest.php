@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\Form;
@@ -11,8 +10,6 @@ use HttpSoft\Message\ServerRequest;
 
 class ValidatorTest extends _TestCase
 {
-
-
     public function test_validate_true()
     {
         $request = new ServerRequestWrapper(

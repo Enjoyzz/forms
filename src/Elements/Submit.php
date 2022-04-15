@@ -9,7 +9,6 @@ use Enjoys\Forms\Element;
 
 class Submit extends Element
 {
-
     protected string $type = 'submit';
 
     public function __construct(string $name, string $title = null)

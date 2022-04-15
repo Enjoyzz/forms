@@ -9,7 +9,6 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Rules;
 
-
 class Hidden extends Element implements Ruled
 {
     use Rules;

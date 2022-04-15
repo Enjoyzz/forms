@@ -7,10 +7,8 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Elements\Group;
 use Enjoys\Forms\Interfaces\Ruled;
 
-
 class Validator
 {
-
     /**
      * Валидация формы
      * @param Element[] $elements

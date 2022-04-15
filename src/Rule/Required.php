@@ -17,7 +17,6 @@ use Enjoys\Forms\Rules;
  */
 class Required extends Rules implements RuleInterface
 {
-
     public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {
@@ -32,7 +31,7 @@ class Required extends Rules implements RuleInterface
      */
     public function validate(Ruled $element): bool
     {
-        $requestData = match(strtolower($this->getRequest()->getRequest()->getMethod())){
+        $requestData = match (strtolower($this->getRequest()->getRequest()->getMethod())) {
             'get' => $this->getRequest()->getQueryData()->getAll(),
             'post' => $this->getRequest()->getPostData()->getAll(),
             default => []

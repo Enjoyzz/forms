@@ -7,11 +7,8 @@ use Enjoys\Forms\Elements\Header;
 use Enjoys\Forms\Form;
 use PHPUnit\Framework\TestCase;
 
-
 class HeaderTest extends TestCase
 {
-
-
     public function testInitElement()
     {
         $el = new Header('title');
@@ -61,5 +58,4 @@ class HeaderTest extends TestCase
         $obj = new Header('title');
         $this->assertSame('title', $obj->baseHtml());
     }
-
 }

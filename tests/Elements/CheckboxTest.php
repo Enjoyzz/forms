@@ -9,10 +9,8 @@ use Enjoys\Forms\Form;
 use Enjoys\Traits\Reflection;
 use Tests\Enjoys\Forms\_TestCase;
 
-
 class CheckboxTest extends _TestCase
 {
-
     use Reflection;
 
     public function testCheckRemoveAttributeName()

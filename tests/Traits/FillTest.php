@@ -10,10 +10,8 @@ use Enjoys\Forms\Traits\Fill;
 use Enjoys\Traits\Reflection;
 use PHPUnit\Framework\TestCase;
 
-
 class FillTest extends TestCase
 {
-
     use Reflection;
 
     public function testSetIndexKeyFill()
@@ -167,5 +165,4 @@ class FillTest extends TestCase
         $this->assertCount(2, $el->getElements());
         $this->assertSame($returnObject, $el);
     }
-
 }

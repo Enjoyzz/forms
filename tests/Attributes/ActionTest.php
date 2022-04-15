@@ -9,7 +9,6 @@ use Tests\Enjoys\Forms\_TestCase;
 
 class ActionTest extends _TestCase
 {
-
     public function testRenderIfNotAddedValue()
     {
         $attr = new Action();

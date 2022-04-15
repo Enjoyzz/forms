@@ -33,7 +33,9 @@
     "infection": [
       "Composer\\Config::disableProcessTimeout",
       "XDEBUG_MODE=coverage ./infection.phar --logger-html='mutation-report.html'"
-    ]
+    ],
+    "phpcs": "./vendor/bin/phpcs --standard=PSR12 src",
+    "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 src"
   },
   "autoload": {
     "psr-4": {

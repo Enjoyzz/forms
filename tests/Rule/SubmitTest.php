@@ -12,7 +12,6 @@ use Tests\Enjoys\Forms\_TestCase;
 
 class SubmitTest extends _TestCase
 {
-
     public function testValidateTrue()
     {
         $request = new ServerRequestWrapper(

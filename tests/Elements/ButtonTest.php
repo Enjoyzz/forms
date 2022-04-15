@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Button;
 use PHPUnit\Framework\TestCase;
 
-
 class ButtonTest extends TestCase
 {
     public function test_baseHtml()

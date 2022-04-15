@@ -13,7 +13,6 @@ use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-
 class Checkbox extends Element implements FillableInterface, Ruled
 {
     use Fill;
@@ -35,7 +34,7 @@ class Checkbox extends Element implements FillableInterface, Ruled
         }
         parent::__construct($construct_name, $title);
 
-        if ($flushPrefix){
+        if ($flushPrefix) {
             $this->setPrefixId('cb_');
         }
 
@@ -47,7 +46,6 @@ class Checkbox extends Element implements FillableInterface, Ruled
         );
 
         $this->removeAttr('name');
-
     }
 
 
@@ -71,7 +69,7 @@ class Checkbox extends Element implements FillableInterface, Ruled
 
     protected function setDefault(mixed $value = null): self
     {
-        if($value === null){
+        if ($value === null) {
             $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
         }
         $this->defaultValue = $value;
@@ -96,6 +94,12 @@ class Checkbox extends Element implements FillableInterface, Ruled
     {
         $this->setAttr(AttributeFactory::create('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
         $this->setAttrs(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
-        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>";
+        return sprintf(
+            '<input type="%s"%s><label%s>%s</label>',
+            $this->getType(),
+            $this->getAttributesString(),
+            $this->getAttributesString(Form::ATTRIBUTES_LABEL),
+            $this->getLabel()
+        );
     }
 }

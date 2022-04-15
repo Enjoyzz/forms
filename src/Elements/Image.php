@@ -9,7 +9,6 @@ use Enjoys\Forms\Element;
 
 class Image extends Element
 {
-
     protected string $type = 'image';
 
     public function __construct(string $name, string $src = null)

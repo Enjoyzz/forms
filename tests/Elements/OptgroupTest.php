@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Elements;
 
-
 use Enjoys\Forms\Elements\Optgroup;
 use Enjoys\Forms\Form;
 use Tests\Enjoys\Forms\_TestCase;
 
 class OptgroupTest extends _TestCase
 {
-
     public function testBaseHtml()
     {
         $form = new Form();
         $og = $form->optgroup(
-                'foo',
-                'parentname'
+            'foo',
+            'parentname'
         );
         $this->assertEquals(null, $og->baseHtml());
     }
@@ -33,7 +31,7 @@ class OptgroupTest extends _TestCase
         $el = new Optgroup('Title', 'ParentName');
         $this->assertSame('Title', $el->getLabel());
     }
-    
+
     public function testSetDefaults()
     {
         $form = new Form();

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Exception;
-
 
 final class CsrfAttackDetected extends ExceptionRule
 {

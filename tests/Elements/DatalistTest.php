@@ -1,23 +1,20 @@
 <?php
 
-
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Datalist;
 use Tests\Enjoys\Forms\_TestCase;
 
-
 class DatalistTest extends _TestCase
 {
-
     public function testInitDataList()
     {
- 
+
         $el = new Datalist('foo', 'title1');
         $this->assertSame('foo', $el->getAttr('id')->getValueString());
         $this->assertSame('foo-list', $el->getAttr('list')->getValueString());
     }
-    
+
     public function testBaseHtml()
     {
         $el = new Datalist('foo');

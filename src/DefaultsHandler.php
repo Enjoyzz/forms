@@ -8,7 +8,6 @@ use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 
 class DefaultsHandler implements DefaultsHandlerInterface
 {
-
     private array $defaults = [];
 
     public function __construct(array $data = [])

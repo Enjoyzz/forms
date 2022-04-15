@@ -9,10 +9,8 @@ use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
 use PHPUnit\Framework\TestCase;
 
-
 class SelectTest extends TestCase
 {
-
     public function test_title()
     {
         $obj = new Select('name', 'title');

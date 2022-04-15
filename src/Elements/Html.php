@@ -6,10 +6,8 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 
-
 class Html extends Element
 {
-
     public function __construct(string $title)
     {
         parent::__construct(\uniqid('html'), $title);

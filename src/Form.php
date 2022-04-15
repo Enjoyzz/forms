@@ -28,7 +28,7 @@ class Form
     use Traits\Container {
         addElement as private parentAddElement;
     }
-    use Traits\Request{
+    use Traits\Request {
         setRequest as private;
     }
 
@@ -229,7 +229,4 @@ class Form
     {
         return $this->action;
     }
-
 }
-
-

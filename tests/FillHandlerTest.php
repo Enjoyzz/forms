@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class FillHandlerTest extends TestCase
 {
-
     /**
      * @dataProvider data
      */
@@ -37,5 +36,4 @@ class FillHandlerTest extends TestCase
             [0, [1, ['test']], true, '1', '1', [0 => 'test']],
         ];
     }
-
 }

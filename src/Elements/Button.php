@@ -8,7 +8,6 @@ use Enjoys\Forms\Element;
 
 class Button extends Element
 {
-
     public function baseHtml(): string
     {
         return "<button{$this->getAttributesString()}>{$this->getLabel()}</button>";

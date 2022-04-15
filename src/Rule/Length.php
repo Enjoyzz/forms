@@ -11,7 +11,6 @@ use Enjoys\Forms\Rules;
 
 class Length extends Rules implements RuleInterface
 {
-
     private array $operatorToMethodTranslation = [
         '==' => 'equal',
         '!=' => 'notEqual',
@@ -39,7 +38,7 @@ class Length extends Rules implements RuleInterface
     {
 
         $method = $this->getRequest()->getRequest()->getMethod();
-        $requestData = match(strtolower($method)){
+        $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryData()->getAll(),
             'post' => $this->getRequest()->getPostData()->getAll(),
             default => []

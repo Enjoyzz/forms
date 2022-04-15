@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
@@ -15,10 +14,8 @@ use HttpSoft\ServerRequest\UploadedFileCreator;
 use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
-
 class UploadTest extends TestCase
 {
-
     use Reflection;
 
     public function testValidateUploadRule()
@@ -553,7 +550,7 @@ class UploadTest extends TestCase
      */
     public function testParseRuleOpts($input, $expect)
     {
-        if ($expect === false){
+        if ($expect === false) {
             $this->expectException(InvalidArgumentException::class);
         }
         $rule = new Upload();

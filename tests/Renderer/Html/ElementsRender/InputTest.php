@@ -10,7 +10,6 @@ use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
 class InputTest extends _TestCaseHtmlRenderer
 {
-
     public function testGetElement()
     {
         $el = new Text('foo');

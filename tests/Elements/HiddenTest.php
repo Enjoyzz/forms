@@ -5,10 +5,8 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Hidden;
 use PHPUnit\Framework\TestCase;
 
-
 class HiddenTest extends TestCase
 {
-
     /**
      * @dataProvider dataForConstruct
      */

@@ -34,7 +34,6 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface ElementInterface
 {
-
     /**
      *
      * @return string

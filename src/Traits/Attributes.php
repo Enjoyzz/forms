@@ -10,7 +10,6 @@ use Enjoys\Forms\Interfaces\AttributeInterface;
 
 trait Attributes
 {
-
     private array $attributes = [];
 
     private array $attr = [];

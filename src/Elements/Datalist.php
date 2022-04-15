@@ -39,7 +39,7 @@ class Datalist extends Element implements FillableInterface, Ruled
             //$return .= "<option value=\"{$data->getLabel()}\">";
             $data->setAttr(AttributeFactory::create('value', $data->getLabel()));
             $data->setLabel(null);
-            $return .= $data->baseHtml().PHP_EOL;
+            $return .= $data->baseHtml() . PHP_EOL;
         }
         $return .= "</datalist>";
         return $return;

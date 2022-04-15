@@ -10,7 +10,6 @@ use Enjoys\Forms\Traits\Container;
 use Enjoys\Forms\Traits\Description;
 use Webmozart\Assert\Assert;
 
-
 class Group extends Element
 {
     use Description;
@@ -46,6 +45,4 @@ class Group extends Element
     public function prepare()
     {
     }
-
-
 }

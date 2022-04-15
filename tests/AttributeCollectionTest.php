@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class AttributeCollectionTest extends TestCase
 {
-
     public function testAddToCollection()
     {
         $collection = new AttributeCollection();
@@ -156,5 +155,4 @@ class AttributeCollectionTest extends TestCase
             $this->assertInstanceOf(Attribute::class, $item);
         }
     }
-
 }

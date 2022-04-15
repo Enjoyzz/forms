@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Tests\Enjoys\Forms;
-
 
 use Enjoys\Forms\Rules;
 
 class RulesTest extends _TestCase
 {
-
     public function testSetParamPublicCall()
     {
         $rules = new Rules();

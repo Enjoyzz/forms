@@ -8,7 +8,6 @@ use Enjoys\Forms\Form;
 
 interface RendererInterface
 {
-
     public function setForm(Form $form): Form;
 
     public function output(): string;

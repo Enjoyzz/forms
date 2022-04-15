@@ -10,10 +10,8 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
 use Enjoys\Forms\Interfaces\ElementInterface;
 
-
 trait Fill
 {
-
     private array $elements = [];
     private string $parentName = '';
     /**
@@ -130,11 +128,9 @@ trait Fill
      */
     public function addElements(array $elements)
     {
-        foreach ($elements as $element){
+        foreach ($elements as $element) {
             $this->addElement($element);
         }
         return $this;
     }
-
-
 }

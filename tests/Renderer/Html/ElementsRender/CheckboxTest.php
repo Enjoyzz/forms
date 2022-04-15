@@ -59,5 +59,4 @@ HTML
             $this->stringOneLine($render->render())
         );
     }
-
 }

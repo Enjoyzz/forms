@@ -6,7 +6,6 @@ use Enjoys\Forms\Exception\ExceptionRule;
 
 trait Rules
 {
-
     /**
      * Когда $rule_error === true выводится это сообщение
      */

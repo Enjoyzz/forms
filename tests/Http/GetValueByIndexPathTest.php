@@ -2,15 +2,10 @@
 
 namespace Tests\Enjoys\Forms\Http;
 
-
-
-
 use PHPUnit\Framework\TestCase;
 
 class GetValueByIndexPathTest extends TestCase
 {
-
-
     /**
      * этот тест надо перенести в проект functions
      * можно оставить  еще и тут , что бы наблюдать за этой фунцией и отсюда

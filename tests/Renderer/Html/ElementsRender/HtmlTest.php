@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class HtmlTest extends TestCase
 {
-
     public function testHtmlBase()
     {
         $el = new Html('<b>test</b>');
@@ -26,5 +25,4 @@ class HtmlTest extends TestCase
         $render = HtmlRenderer::createTypeRender($el);
         $this->assertSame('<div class="test test2"><b>test</b></div>', $render->render());
     }
-
 }

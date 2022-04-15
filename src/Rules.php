@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
-
 use Enjoys\Forms\Rule;
 use Enjoys\Forms\Traits\Request;
 
@@ -13,7 +12,6 @@ use Enjoys\Forms\Traits\Request;
  */
 class Rules
 {
-
     use Request;
 
 
@@ -106,6 +104,4 @@ class Rules
 
         return $this->message;
     }
-
-
 }

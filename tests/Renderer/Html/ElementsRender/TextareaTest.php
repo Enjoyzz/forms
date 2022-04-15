@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Renderer\Html\ElementsRender;
 
-
 use Enjoys\Forms\Elements\Textarea;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
@@ -13,8 +12,6 @@ use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
 class TextareaTest extends _TestCaseHtmlRenderer
 {
-
-
     use Reflection;
 
     public function testBaseRender()
@@ -83,5 +80,4 @@ HTML), $this->stringOneLine($output->render()));
 <div>this field is required</div>
 HTML), $this->stringOneLine($output->render()));
     }
-
 }

@@ -9,7 +9,6 @@ use Enjoys\Forms\Interfaces\Ruled;
 
 interface CaptchaInterface
 {
-
     public function getName(): string;
 
     public function getRuleMessage(): ?string;

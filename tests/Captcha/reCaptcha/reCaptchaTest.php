@@ -2,18 +2,16 @@
 
 namespace Tests\Enjoys\Forms\Captcha\reCaptcha;
 
-
 use Enjoys\Forms\Captcha\reCaptcha\reCaptcha;
 use Enjoys\Forms\Elements\Captcha;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
-use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\_TestCase;
 use Webmozart\Assert\Assert;
 
-class reCaptchaTest extends TestCase
+class reCaptchaTest extends _TestCase
 {
-
     private function getHttpClient($contentType, $responseBody, $extraHeaders = [])
     {
         $extraHeaders['Content-Type'] = $contentType;
@@ -21,10 +19,10 @@ class reCaptchaTest extends TestCase
         $response = $this->getMockBuilder(Response::class)->setMethods(['hasHeader', 'getHeader', 'getBody'])->getMock();
         $response->expects($this->any())->method('hasHeader')->will($this->returnCallback(function ($headerName) use ($extraHeaders) {
                     return \array_key_exists($headerName, $extraHeaders);
-                }));
+        }));
         $response->expects($this->any())->method('getHeader')->will($this->returnCallback(function ($headerName) use ($extraHeaders) {
                     return [$extraHeaders[$headerName]];
-                }));
+        }));
 
         $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->setMethods(['__toString', 'getContents'])->getMock();
         $stream->expects($this->any())->method('__toString')->willReturn($responseBody);
@@ -38,7 +36,7 @@ class reCaptchaTest extends TestCase
                     Assert::allKeyExists($options, 'response');
                     Assert::allKeyExists($options, 'secret');
                     return $response;
-                }));
+        }));
 
         return $http;
     }
@@ -69,7 +67,7 @@ class reCaptchaTest extends TestCase
 
         $recaptcha = new reCaptcha();
         $captcha = new Captcha($recaptcha);
-        $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
+        $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script> <div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"></div>', $this->toOneString($captcha->renderHtml()));
     }
 
     public function testValidateSuccess()

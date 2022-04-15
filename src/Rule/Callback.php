@@ -63,7 +63,6 @@ use Enjoys\Forms\Rules;
  */
 class Callback extends Rules implements RuleInterface
 {
-
     public function setMessage(?string $message = null): ?string
     {
         if (is_null($message)) {

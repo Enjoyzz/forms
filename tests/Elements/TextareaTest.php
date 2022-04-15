@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Textarea;
@@ -10,7 +9,6 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class TextareaTest extends TestCase
 {
-
     public function testTextareaInit()
     {
         $el = new Textarea('foo', 'title1');
@@ -30,7 +28,7 @@ class TextareaTest extends TestCase
         $this->assertEquals('5', $el->getAttr('cols')->getValueString());
         $el->setCols('25');
         $this->assertEquals('25', $el->getAttr('cols')->getValueString());
-        $el->setCols(function (){
+        $el->setCols(function () {
             return 1;
         });
         $this->assertEquals('1', $el->getAttr('cols')->getValueString());
@@ -43,7 +41,7 @@ class TextareaTest extends TestCase
         $this->assertEquals('50', $el->getAttr('rows')->getValueString());
         $el->setRows('250');
         $this->assertEquals('250', $el->getAttr('rows')->getValueString());
-        $el->setRows(function (){
+        $el->setRows(function () {
             return 1;
         });
         $this->assertEquals('1', $el->getAttr('rows')->getValueString());

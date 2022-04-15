@@ -1,16 +1,13 @@
 <?php
 
-
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
 use PHPUnit\Framework\TestCase;
 
-
 class RadioTest extends TestCase
 {
-
     public function test_title()
     {
         $obj = new Radio('name', 'title');

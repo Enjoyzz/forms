@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
@@ -12,10 +11,8 @@ use Enjoys\ServerRequestWrapper;
 use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
-
 class EmailTest extends TestCase
 {
-
     /**
      * @dataProvider dataForTestValidate
      */
@@ -31,10 +28,9 @@ class EmailTest extends TestCase
         );
         $text->addRule(Rules::EMAIL);
         $this->assertEquals($expect, Validator::check([$text]));
-        if(!$expect){
+        if (!$expect) {
             $this->assertSame('Не правильно введен email', $text->getRuleErrorMessage());
         }
-
     }
 
     public function dataForTestValidate()

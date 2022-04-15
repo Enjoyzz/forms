@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Tests\Enjoys\Forms;
 
 use Enjoys\Session\Session;
@@ -33,5 +32,4 @@ class _TestCase extends TestCase
 
         return str_replace(["\r\n", "\r", "\n"], "", $input);
     }
-
 }

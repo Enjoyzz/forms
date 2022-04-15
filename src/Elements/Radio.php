@@ -29,23 +29,27 @@ class Radio extends Element implements FillableInterface, Ruled
     {
         parent::__construct($name, $title);
 
-        if ($flushPrefix){
+        if ($flushPrefix) {
             $this->setPrefixId('rb_');
         }
 
-        $this->setAttrs(AttributeFactory::createFromArray([
-            'id' => $this->getPrefixId() . $name,
-            'value' => $name,
-        ]));
+        $this->setAttrs(
+            AttributeFactory::createFromArray([
+                'id' => $this->getPrefixId() . $name,
+                'value' => $name,
+            ])
+        );
         $this->removeAttr('name');
     }
 
     public function setPrefixId(string $prefix): self
     {
         static::$prefix_id = $prefix;
-        $this->setAttrs(AttributeFactory::createFromArray([
-            'id' => static::$prefix_id . $this->getName()
-        ]));
+        $this->setAttrs(
+            AttributeFactory::createFromArray([
+                'id' => static::$prefix_id . $this->getName()
+            ])
+        );
 
         return $this;
     }
@@ -67,7 +71,7 @@ class Radio extends Element implements FillableInterface, Ruled
      */
     protected function setDefault(mixed $value = null): self
     {
-        if($value === null){
+        if ($value === null) {
             $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
         }
         $this->defaultValue = $value;
@@ -91,7 +95,13 @@ class Radio extends Element implements FillableInterface, Ruled
     public function baseHtml(): string
     {
         $this->setAttr($this->getAttr('id')->withName('for'), Form::ATTRIBUTES_LABEL);
-        $this->setAttr(AttributeFactory::create('name',$this->getParentName()));
-        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>";
+        $this->setAttr(AttributeFactory::create('name', $this->getParentName()));
+        return sprintf(
+            '<input type="%s"%s><label%s>%s</label>',
+            $this->getType(),
+            $this->getAttributesString(),
+            $this->getAttributesString(Form::ATTRIBUTES_LABEL),
+            $this->getLabel()
+        );
     }
 }

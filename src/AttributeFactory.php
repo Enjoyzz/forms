@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms;
-
 
 use Closure;
 use Enjoys\Forms\Attributes\Action;
@@ -16,7 +14,6 @@ use Webmozart\Assert\Assert;
 
 final class AttributeFactory
 {
-
     /**
      * @param string $className
      * @return Closure(string):AttributeInterface
@@ -37,7 +34,7 @@ final class AttributeFactory
 
         return $mappedClasses[strtolower($className)] ?? function (string $name): AttributeInterface {
                 return (new Base())->withName($name);
-            };
+        };
     }
 
     public static function create(string $name, mixed $value = null): AttributeInterface

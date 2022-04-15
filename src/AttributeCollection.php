@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms;
-
 
 use Enjoys\Forms\Interfaces\AttributeInterface;
 
 final class AttributeCollection implements \Countable, \IteratorAggregate
 {
-
     /**
      * @var Attribute[]
      */
@@ -93,7 +90,4 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
     {
         return new \ArrayIterator($this->collection);
     }
-
-
-
 }

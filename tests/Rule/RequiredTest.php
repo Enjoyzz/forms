@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
@@ -14,10 +13,8 @@ use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
 
-
 class RequiredTest extends _TestCase
 {
-
     use Reflection;
 
     public function test_required_()
@@ -32,7 +29,6 @@ class RequiredTest extends _TestCase
         );
         $element->addRule(Rules::REQUIRED);
         $this->assertTrue(Validator::check([$element]));
-
     }
 
     public function test_required_2()
@@ -46,7 +42,6 @@ class RequiredTest extends _TestCase
         $element->addRule(Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
         $this->assertSame('Обязательно для заполнения, или выбора', $element->getRuleErrorMessage());
-
     }
 
     public function test_required_3()

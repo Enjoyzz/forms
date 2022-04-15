@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Renderer\Html\TypesRender;
-
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
@@ -13,7 +11,6 @@ use Enjoys\Forms\Interfaces\Ruled;
 
 class Radio extends Input
 {
-
     /**
      * @param Element&FillableInterface&Ruled $element
      * @return string

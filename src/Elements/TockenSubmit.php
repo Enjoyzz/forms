@@ -6,10 +6,8 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Form;
 
-
 class TockenSubmit extends Hidden
 {
-
     private string $token;
 
     public function __construct(string $token)

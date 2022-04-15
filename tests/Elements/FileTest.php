@@ -2,7 +2,6 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
@@ -10,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class FileTest extends TestCase
 {
-
     public function test_max_file_size()
     {
 
@@ -22,7 +20,7 @@ class FileTest extends TestCase
 
     public function test_max_file_size2()
     {
- 
+
         $form = new Form();
         $form->file('file');
         $elements = $form->getElements()['MAX_FILE_SIZE'];

@@ -2,7 +2,6 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-
 use Enjoys\Forms\Captcha\Defaults\Defaults;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
@@ -16,7 +15,6 @@ new Session();
 
 class CaptchaTest extends TestCase
 {
-
     use Reflection;
 
     public function testAddedRulesCapchta()
@@ -24,7 +22,7 @@ class CaptchaTest extends TestCase
         $form = new Form();
         $element = $form->captcha(new Defaults());
         $this->assertNotEmpty($element->getRules());
-        $this->assertContainsOnlyInstancesOf(Rules::CAPTCHA,  $element->getRules());
+        $this->assertContainsOnlyInstancesOf(Rules::CAPTCHA, $element->getRules());
     }
 
     public function testSetRequestFromForm()
@@ -43,6 +41,4 @@ class CaptchaTest extends TestCase
 //        $element = $form->captcha(new Defaults());
 //        Validator::check([$element]);
 //    }
-
-
 }
