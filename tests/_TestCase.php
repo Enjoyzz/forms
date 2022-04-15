@@ -8,15 +8,12 @@ namespace Tests\Enjoys\Forms;
 use Enjoys\Session\Session;
 use PHPUnit\Framework\TestCase;
 
-
-if (isset($_SESSION['csrf_secret'])){
-    unset($_SESSION['csrf_secret']);
-}
-
+new Session();
 
 class _TestCase extends TestCase
 {
     protected Session $session;
+
     protected function setUp(): void
     {
         $this->session = new Session();

@@ -4,14 +4,44 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Forms;
-use PHPUnit\Framework\TestCase;
+use Enjoys\Forms\Form;
+use Enjoys\Traits\Reflection;
 
 
-class ElementTest extends TestCase
+class ElementTest extends _TestCase
 {
-//    use Reflection;
+    use Reflection;
+
+
+    public function testGetForm()
+    {
+        $element = $this->getMockForAbstractClass(Element::class, ['foo']);
+        $form = new Form(action: '/action');
+        $element->setForm($form);
+        $this->assertEquals($form, $element->getForm());
+    }
+
+    public function testPrepare()
+    {
+        $element = $this->getMockForAbstractClass(Element::class, ['foo']);
+        $form = new Form(action: '/action');
+        $element->setForm($form);
+        $element->prepare();
+        $this->assertNotEquals($form, $element->getForm());
+    }
+
+    public function testUnsetForm()
+    {
+        $element = $this->getMockForAbstractClass(Element::class, ['foo']);
+        $form = new Form(action: '/action');
+        $element->setForm($form);
+        $element->unsetForm();
+
+        $privateProperty = $this->getPrivateProperty(Element::class, 'form');
+        $this->assertNull($privateProperty->getValue($element));
+    }
 
     public function testGetType()
     {
@@ -59,86 +89,63 @@ class ElementTest extends TestCase
         $this->assertEquals('<input type="text">', $element->baseHtml());
     }
 
-//
-//
-//    protected Form $form;
-//
-//    protected function setUp(): void
-//    {
-//        $this->form = new Form();
-//        if (isset($this->form->getElements()[Form::_TOKEN_SUBMIT_])) {
-//            $this->form->removeElement($this->form->getElements()[Form::_TOKEN_SUBMIT_]);
-//        }
-//
-//        if (isset($this->form->getElements()[Form::_TOKEN_CSRF_])) {
-//            $this->form->removeElement($this->form->getElements()[Form::_TOKEN_CSRF_]);
-//        }
-//    }
-//
-//    protected function tearDown(): void
-//    {
-//        unset($this->form);
-//    }
-//
-//    public function testSetName()
-//    {
-//        $element = $this->getMockForAbstractClass(Element::class, [
-//            'name' => 'Foo'
-//        ]);
-//        $this->assertEquals('Foo', $element->getName());
-//    }
-//
-//    public function testSetId()
-//    {
-//        $element = $this->getMockForAbstractClass(Element::class, [
-//            'name' => 'Foo'
-//        ]);
-//        $this->assertSame('Foo', $element->getAttr('id')->getValueString());
-//        $element->setAttr(AttributeFactory::create('id', 'Baz'));
-//        $this->assertSame('Baz', $element->getAttr('id')->getValueString());
-//    }
-//
-//    public function test_getType_1_0()
-//    {
-//        $element = $this->getMockBuilder(Element::class)->setConstructorArgs([
-//            'name' => 'Foo'
-//        ])->onlyMethods(['getType'])->getMock();
-//
-//        $element->expects($this->once())
-//            ->method('getType')
-//            ->willReturn('option');
-//
-//        $this->assertEquals('option', $element->getType());
-//
-//
-////        $text = $this->form->text('Bar');
-////        $this->assertEquals('text', $text->getType());
-//    }
-//
-//    public function testSetLabel()
-//    {
-//        $element = $this->getMockForAbstractClass(Element::class, [
-//            'name' => 'Foo',
-//            'label' => 'Bar'
-//        ]);
-//        $this->assertEquals('Bar', $element->getLabel());
-//        $element->setLabel('Baz');
-//        $this->assertEquals('Baz', $element->getLabel());
-//    }
-//
-//    public function test_setFormDefaults_1_1()
-//    {
-//        $this->form->setDefaults([
-//            'Foo' => [
-//                'first_string',
-//                'second_string'
-//            ]
-//        ]);
-//
-//        $element = $this->form->text('Foo[]', 'Bar');
-//        $this->assertEquals('first_string', $element->getAttr('value')->getValueString());
-//    }
-//
+    public function testSetName()
+    {
+        $element = $this->getMockForAbstractClass(Element::class, [
+            'name' => 'Foo'
+        ]);
+        $this->assertEquals('Foo', $element->getName());
+    }
+
+    public function testSetId()
+    {
+        $element = $this->getMockForAbstractClass(Element::class, [
+            'name' => 'Foo'
+        ]);
+        $this->assertSame('Foo', $element->getAttr('id')->getValueString());
+        $element->setAttr(AttributeFactory::create('id', 'Baz'));
+        $this->assertSame('Baz', $element->getAttr('id')->getValueString());
+    }
+
+    public function test_getType_1_0()
+    {
+        $element = $this->getMockBuilder(Element::class)->setConstructorArgs([
+            'name' => 'Foo'
+        ])->onlyMethods(['getType'])->getMock();
+
+        $element->expects($this->once())
+            ->method('getType')
+            ->willReturn('option');
+
+        $this->assertEquals('option', $element->getType());
+
+    }
+
+    public function testSetLabel()
+    {
+        $element = $this->getMockForAbstractClass(Element::class, [
+            'name' => 'Foo',
+            'label' => 'Bar'
+        ]);
+        $this->assertEquals('Bar', $element->getLabel());
+        $element->setLabel('Baz');
+        $this->assertEquals('Baz', $element->getLabel());
+    }
+
+    public function test_setFormDefaults_1_1()
+    {
+        $form = new Form();
+        $form->setDefaults([
+            'Foo' => [
+                'first_string',
+                'second_string'
+            ]
+        ]);
+
+        $element = $form->text('Foo[]', 'Bar');
+        $this->assertEquals('first_string', $element->getAttr('value')->getValueString());
+    }
+
 
 
 }

@@ -96,12 +96,7 @@ class Form
     }
 
 
-//    private function setRequest(ServerRequestWrapper $request = null)
-//    {
-//        $this->setRequest($request);
-//    }
-
-    public function setSubmitted(bool $submitted = false): Form
+    private function setSubmitted(bool $submitted): Form
     {
         $this->submitted = $submitted;
         return $this;
@@ -156,11 +151,12 @@ class Form
         if ($this->submitted === true) {
             $data = [];
 
-            $requestData = match ($this->getMethod()) {
+            $requestData = match (strtolower($this->getMethod())) {
                 'get' => $this->getRequest()->getQueryData()?->getAll(),
                 'post' => $this->getRequest()->getPostData()?->getAll(),
                 default => [],
             };
+
             foreach ($requestData as $key => $items) {
                 if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
                     continue;
@@ -214,7 +210,6 @@ class Form
             $this->method = strtoupper($method);
         }
         $this->setAttr(AttributeFactory::create('method', $this->method));
-        $this->setOption('method', $method, false);
         $this->addElement(new Csrf($this->session));
     }
 
@@ -227,7 +222,6 @@ class Form
     {
         $this->action = $action;
         $this->setAttr(AttributeFactory::create('action', $this->action));
-        $this->setOption('action', $this->action, false);
         return $this;
     }
 

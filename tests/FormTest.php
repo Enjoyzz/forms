@@ -6,6 +6,7 @@ use Enjoys\Forms\DefaultsHandler;
 use Enjoys\Forms\Elements\Image;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Elements\Text;
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\ServerRequestWrapper;
@@ -43,8 +44,10 @@ class FormTest extends _TestCase
         $form = new Form();
         $form->setAction('test');
         $this->assertSame('test', $form->getAction());
+        $this->assertSame('action="test"', $form->getAttr('action')->__toString());
         $form->setAction();
         $this->assertNull($form->getAction());
+        $this->assertSame('', $form->getAttr('action')->__toString());
     }
 
 
@@ -68,6 +71,7 @@ class FormTest extends _TestCase
         $form = new Form();
         $form->setMethod($method);
         $this->assertSame($expected, $form->getMethod());
+        $this->assertSame($expected, $form->getAttr('method')->getValueString());
     }
 
 //    public function testSetAttrName()
@@ -155,6 +159,65 @@ class FormTest extends _TestCase
         $form->removeElement($form->getElement('notisset'));
 
         $this->assertCount(1, $form->getElements());
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testSetDefaultsIfSubmittedMethodGet(): void
+    {
+        $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
+            'foo' => 'baz',
+        ], method: 'get'));
+        $form = new Form('get', request: $request);
+
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setValue($form, true);
+
+        $form->setDefaults([
+            'foo' => 'bar'
+        ]);
+
+        $element = $form->text('foo');
+        $this->assertSame('baz', $element->getAttr('value')->getValueString());
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testSetDefaultsIfSubmittedMethodPost(): void
+    {
+        $request = new ServerRequestWrapper(new ServerRequest(parsedBody: [
+            'foo' => 'baz',
+        ], method: 'Post'));
+        $form = new Form('Post', request: $request);
+
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setValue($form, true);
+
+        $form->setDefaults([
+            'foo' => 'bar'
+        ]);
+
+        $element = $form->text('foo');
+        $this->assertSame('baz', $element->getAttr('value')->getValueString());
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testSetDefaultsIfSubmittedReal(): void
+    {
+        $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
+            Form::_TOKEN_SUBMIT_ => 'd751713988987e9331980363e24189ce',
+            'foo' => 'baz'
+        ]));
+        $defaultsHandler = new DefaultsHandler([
+            'foo' => 'bar'
+        ]);
+        $form = new Form('get', request: $request, defaultsHandler: $defaultsHandler);
+        $element = $form->text('foo');
+        $this->assertSame('baz', $element->getAttr('value')->getValueString());
     }
 
     public function testSetDefaults()
@@ -304,7 +367,24 @@ class FormTest extends _TestCase
         $this->assertFalse($form->isSubmitted());
     }
 
-    public function testSkipValidate()
+    /**
+     * @throws \ReflectionException
+     */
+    public function testSetSubmitted(): void
+    {
+        $form = new Form();
+        $method = $this->getPrivateMethod(Form::class, 'setSubmitted');
+        $method->invokeArgs($form, [true]);
+        $this->assertTrue($form->isSubmitted(false));
+        $method->invokeArgs($form, [false]);
+        $this->assertFalse($form->isSubmitted(false));
+    }
+
+    /**
+     * @throws \ReflectionException
+     * @throws ExceptionRule
+     */
+    public function testSkipValidate(): void
     {
         $form = new Form();
         $property = $this->getPrivateProperty(Form::class, 'submitted');
@@ -313,7 +393,11 @@ class FormTest extends _TestCase
         $this->assertTrue($form->isSubmitted(false));
     }
 
-    public function testValidateTrueAfterSubmit()
+    /**
+     * @throws \ReflectionException
+     * @throws ExceptionRule
+     */
+    public function testValidateTrueAfterSubmit(): void
     {
         $form = new Form(
             request: new ServerRequestWrapper(

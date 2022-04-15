@@ -77,6 +77,8 @@ class HtmlRendererTest extends _TestCaseHtmlRenderer
         $_token_csrf = $form->getElement(Form::_TOKEN_CSRF_)->getAttr('value')->getValueString();
         $_token_submit = $form->getElement(Form::_TOKEN_SUBMIT_)->getAttr('value')->getValueString();
 
+        $this->assertEquals($form, $renderer->getForm());
+
         $this->assertSame(
             $this->stringOneLine(
                 <<<HTML

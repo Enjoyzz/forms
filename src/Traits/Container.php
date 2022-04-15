@@ -103,7 +103,7 @@ trait Container
 
     /**
      *
-     * @var array objects \Enjoys\Forms\Element
+     * @var Element[]
      */
     private array $elements = [];
 
@@ -180,7 +180,7 @@ trait Container
      */
     private function elementExists(string $name): bool
     {
-        if (array_key_exists($name, $this->elements) && $this->elements[$name] instanceof Element) {
+        if (array_key_exists($name, $this->elements)) {
             return true;
         }
         return false;

@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Elements;
@@ -11,7 +10,6 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Form;
 use Tests\Enjoys\Forms\_TestCase;
 use Webmozart\Assert\InvalidArgumentException;
-
 
 class GroupTest extends _TestCase
 {
@@ -37,42 +35,6 @@ class GroupTest extends _TestCase
 
     public function testSetDefaultsArraysForGroupSelect()
     {
-//        $request = new ServerRequestWrapper(
-//            new ServerRequest(parsedBody: [
-//                'foo1' => 'a',
-//                'foo2' => [
-//                    1 => [
-//                        'test' => [
-//                            2 => 'b'
-//                        ]
-//                    ]
-//                ],
-//                'foo3' => [
-//                    1 => 'c'
-//                ],
-//            ], method: 'post')
-//        );
-//
-//        $tokenSubmitMock = $this->getMockBuilder(TockenSubmit::class)
-//            ->disableOriginalConstructor()
-//            ->getMock()
-//        ;
-//        $tokenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
-//
-//        $form = $this->getMockBuilder(Form::class)
-//            ->disableOriginalConstructor()
-//            ->addMethods(['tockenSubmit'])
-//            ->getMock()
-//        ;
-//
-//        $form->expects($this->once())->method('tockenSubmit')->will(
-//            $this->returnCallback(
-//                function () use ($tokenSubmitMock) {
-//                    return $tokenSubmitMock;
-//                }
-//            )
-//        );
-
         $form = new Form();
 
         $form->setDefaults([
@@ -123,5 +85,15 @@ class GroupTest extends _TestCase
         $el->add([
             'not element'
         ]);
+    }
+
+    public function testAddElementOuter()
+    {
+        $el = new Group();
+        $el->addElement(new Text('foo1'))
+            ->addElement(new Text('foo2'))
+        ;
+
+        $this->assertCount(2, $el->getElements());
     }
 }
