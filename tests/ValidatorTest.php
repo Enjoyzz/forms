@@ -95,4 +95,19 @@ class ValidatorTest extends _TestCase
         $group->text('foo')->addRule(Rules::REQUIRED);
         $this->assertEquals(false, Validator::check($form->getElements()));
     }
+
+    public function testValidateGroupsTrueAndOtherElementsFalse()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'v_foo',
+            ], method: 'get')
+        );
+        $form = new Form('get', request: $request);
+        $group = $form->group();
+        $group->textarea('bararea');
+        $group->text('foo')->addRule(Rules::REQUIRED);
+        $form->text('bar')->addRule(Rules::REQUIRED);
+        $this->assertFalse(Validator::check($form->getElements()));
+    }
 }

@@ -29,8 +29,8 @@ class AttributeFactoryTest extends TestCase
             ],
             [
                 [
-                    'id' => null,
-                    'class' => 'test case'
+                    'Id' => null,
+                    'Class' => 'test case'
                 ],
                 [
                     [
