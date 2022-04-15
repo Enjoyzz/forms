@@ -8,10 +8,26 @@ namespace Tests\Enjoys\Forms;
 use Enjoys\Session\Session;
 use PHPUnit\Framework\TestCase;
 
-new Session();
+
+if (isset($_SESSION['csrf_secret'])){
+    unset($_SESSION['csrf_secret']);
+}
+
 
 class _TestCase extends TestCase
 {
+    protected Session $session;
+    protected function setUp(): void
+    {
+        $this->session = new Session();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->session->delete('csrf_secret');
+        unset($this->session);
+    }
+
     public function stringOneLine(string $input, bool $replaceTab = true): string
     {
         if ($replaceTab) {

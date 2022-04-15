@@ -7,15 +7,23 @@ use Enjoys\Forms\Exception\CsrfAttackDetected;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Callback;
 use Enjoys\ServerRequestWrapper;
-use Enjoys\Session\Session;
+use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\_TestCase;
 
-new Session();
-
-class CsrfTest extends TestCase
+class CsrfTest extends _TestCase
 {
 
+    use Reflection;
+
+    public function testGenerateSecret()
+    {
+        $csrf = new Csrf($this->session);
+        $method = $this->getPrivateMethod(Csrf::class, 'generateSecret');
+        $result = $method->invoke($csrf);
+        $this->assertTrue($this->session->has('csrf_secret'));
+        $this->assertSame(32, strlen(base64_decode($result, true)));
+    }
     public function testRemoveHidden()
     {
         $form = new Form('post');
@@ -23,12 +31,14 @@ class CsrfTest extends TestCase
 
         $form->setMethod('get');
         $this->assertNull($form->getElement(Form::_TOKEN_CSRF_));
+
+
     }
 
     public function testUnsetFormAfterPrepareWhenValid()
     {
         $form = new Form('post', '/action');
-        $csrf = new Csrf();
+        $csrf = new Csrf($this->session);
         $csrf->setForm($form);
         $this->assertEquals($form, $csrf->getForm());
         $csrf->prepare();
@@ -38,13 +48,22 @@ class CsrfTest extends TestCase
     public function testValidateCsrfTrue()
     {
         $key = 'test';
+
+        $this->session->set([
+            'csrf_secret' => $key
+        ]);
+
+        $csrf = new Csrf($this->session);
+
+
+
         $request = new ServerRequestWrapper(
             new ServerRequest(parsedBody: [
-                Form::_TOKEN_CSRF_ => password_hash($key, PASSWORD_DEFAULT)
+                Form::_TOKEN_CSRF_ => $csrf->getCsrfToken($key)
             ], method: 'post')
         );
 
-        $csrf = new Csrf($key);
+
         $csrf->setRequest($request);
 
         /** @var Callback $rule */
@@ -55,18 +74,29 @@ class CsrfTest extends TestCase
     public function testValidateCsrfFalse()
     {
         $this->expectException(CsrfAttackDetected::class);
-        $key = 'test';
+
         $request = new ServerRequestWrapper(
             new ServerRequest(parsedBody: [
                 Form::_TOKEN_CSRF_ => 'invalid_token'
             ], method: 'post')
         );
 
-        $csrf = new Csrf($key);
+        $csrf = new Csrf($this->session);
         $csrf->setRequest($request);
 
         $csrf->getRules()[0]->validate($csrf);
 
+    }
+
+    public function testInvalidSessionSecret()
+    {
+        $this->expectError();
+
+        $this->session->set([
+            'csrf_secret' => []
+        ]);
+
+        new Csrf($this->session);
     }
 
 }

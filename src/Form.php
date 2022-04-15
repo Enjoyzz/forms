@@ -10,6 +10,7 @@ use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\ServerRequestWrapper;
+use Enjoys\Session\Session;
 use Enjoys\Traits\Options;
 use Webmozart\Assert\Assert;
 
@@ -51,14 +52,17 @@ class Form
     private DefaultsHandlerInterface $defaultsHandler;
 
     private bool $submitted = false;
+    private Session $session;
 
     public function __construct(
         string $method = 'POST',
         string $action = null,
         ServerRequestWrapper $request = null,
-        DefaultsHandlerInterface $defaultsHandler = null
+        DefaultsHandlerInterface $defaultsHandler = null,
+        Session $session = null
     ) {
         $this->setRequest($request);
+        $this->session = $session ?? new Session();
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
         $this->setMethod($method);
@@ -201,6 +205,9 @@ class Form
         return $this->defaultsHandler;
     }
 
+    /**
+     * @throws Exception\ExceptionRule
+     */
     public function setMethod(string $method): void
     {
         if (in_array(strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
@@ -208,7 +215,7 @@ class Form
         }
         $this->setAttr(AttributeFactory::create('method', $this->method));
         $this->setOption('method', $method, false);
-        $this->addElement(new Csrf());
+        $this->addElement(new Csrf($this->session));
     }
 
     public function getMethod(): string

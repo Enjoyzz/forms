@@ -17,17 +17,18 @@ use Enjoys\Session\Session;
 class Csrf extends Hidden
 {
 
+
     /**
-     * @psalm-suppress PossiblyNullArgument
      * @throws ExceptionRule
+     * @throws \Exception
      */
-    public function __construct(string $csrf_key = null)
+    public function __construct(private Session $session)
     {
+        $csrfSecret = $this->getCsrfSecret();
+        $token = $this->getCsrfToken($csrfSecret);
 
-        $csrf_key = $csrf_key ?? $this->makeCsrfKey();
 
-
-        parent::__construct(Form::_TOKEN_CSRF_, password_hash($csrf_key, PASSWORD_DEFAULT));
+        parent::__construct(Form::_TOKEN_CSRF_, $token);
 
         $this->addRule(
             Rules::CALLBACK,
@@ -39,7 +40,7 @@ class Csrf extends Hidden
                     }
                     throw new CsrfAttackDetected('CSRF Token is invalid');
                 },
-                $csrf_key
+                $csrfSecret
             ]
         );
     }
@@ -55,13 +56,41 @@ class Csrf extends Hidden
             //возвращаем 1 что бы не добавлять элемент.
             return true;
         }
-
         $this->unsetForm();
+        return false;
     }
 
-    private function makeCsrfKey()
+    /**
+     * @throws \Exception
+     */
+    private function getCsrfSecret(): string
     {
-        $session = new Session();
-        return '#$' . $session->getSessionId();
+        $secret = (string) $this->session->get('csrf_secret');
+
+        if(empty($secret)){
+            $secret = $this->generateSecret();
+        }
+
+        return $secret;
+    }
+
+
+
+    public function getCsrfToken(string $secret): string
+    {
+        return password_hash($secret, PASSWORD_DEFAULT);
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function generateSecret(): string
+    {
+        $secret = base64_encode(random_bytes(32));
+        $this->session->set([
+            'csrf_secret' => $secret
+        ]);
+        return $secret;
     }
 }
