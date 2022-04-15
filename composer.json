@@ -32,7 +32,7 @@
     "psalm-ext": "./vendor/bin/psalm --show-info=true",
     "infection": [
       "Composer\\Config::disableProcessTimeout",
-      "XDEBUG_MODE=coverage ./infection.phar --only-covered --show-mutations --logger-html='mutation-report.html'"
+      "XDEBUG_MODE=coverage ./infection.phar --logger-html='mutation-report.html'"
     ]
   },
   "autoload": {
