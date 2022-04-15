@@ -10,6 +10,7 @@ use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\ServerRequestWrapper;
+use Enjoys\Session\Session;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Webmozart\Assert\InvalidArgumentException;
@@ -248,6 +249,29 @@ class FormTest extends _TestCase
         $form = new Form();
         $form->setDefaults('value');
     }
+
+    public function testSetAndGetDefaultsHandler()
+    {
+        $defaultsHandler = new DefaultsHandler([1,2,3]);
+        $form = new Form(defaultsHandler: $defaultsHandler);
+        $this->assertEquals($defaultsHandler, $form->getDefaultsHandler());
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testSetAndGetSession()
+    {
+        self::markTestIncomplete('Доделать');
+        $session = new Session(options: [
+            'use_cookies' => false
+        ]);
+
+        $form = new Form(session: $session);
+        $property = $this->getPrivateProperty(Form::class, 'session');
+        $this->assertEquals($session, $property->getValue($form));
+    }
+
 
 //
 //    public function test_setDefaults_1_1()
