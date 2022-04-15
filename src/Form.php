@@ -152,8 +152,8 @@ class Form
             $data = [];
 
             $requestData = match (strtolower($this->getMethod())) {
-                'get' => $this->getRequest()->getQueryData()?->getAll(),
-                'post' => $this->getRequest()->getPostData()?->getAll(),
+                'get' => $this->getRequest()->getQueryData()->getAll(),
+                'post' => $this->getRequest()->getPostData()->getAll(),
                 default => [],
             };
 

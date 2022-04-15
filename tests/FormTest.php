@@ -211,6 +211,7 @@ class FormTest extends _TestCase
     {
         $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
             Form::_TOKEN_SUBMIT_ => 'd751713988987e9331980363e24189ce',
+            Form::_TOKEN_CSRF_ => 'csrf_token_stub',
             'foo' => 'baz'
         ]));
         $defaultsHandler = new DefaultsHandler([
@@ -219,6 +220,7 @@ class FormTest extends _TestCase
         $form = new Form('get', request: $request, defaultsHandler: $defaultsHandler);
         $element = $form->text('foo');
         $this->assertSame('baz', $element->getAttr('value')->getValueString());
+        $this->assertSame(['foo' => 'baz'], $form->getDefaultsHandler()->getDefaults());
     }
 
     public function testSetDefaults()
@@ -262,14 +264,11 @@ class FormTest extends _TestCase
      */
     public function testSetAndGetSession()
     {
-        self::markTestIncomplete('Доделать');
-        $session = new Session(options: [
-            'use_cookies' => false
-        ]);
 
+        $session = clone new Session();
         $form = new Form(session: $session);
         $property = $this->getPrivateProperty(Form::class, 'session');
-        $this->assertEquals($session, $property->getValue($form));
+        $this->assertSame($session, $property->getValue($form));
     }
 
 
