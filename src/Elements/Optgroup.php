@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -62,32 +63,23 @@ class Optgroup extends Element implements FillableInterface
     protected string $type = 'option';
 
 
-    /**
-     *
-     * @param string $title
-     * @param string $parentName
-     * @param mixed $defaults
-     */
-    public function __construct(string $title, string $parentName, $defaults = '')
+    public function __construct(string $title, string $parentName, mixed $defaults = '')
     {
         parent::__construct(\uniqid('optgroup'), $title);
-        $this->setAttributes(
-            [
+        $this->setAttrs(
+            AttributeFactory::createFromArray([
                 'label' => $title
-            ]
+            ])
         );
         $this->setName($parentName);
-        $this->removeAttribute('name');
-        $this->removeAttribute('id');
+        $this->getAttributeCollection()
+            ->remove('name')
+            ->remove('id');
         $this->setDefault($defaults);
     }
 
-    /**
-     *
-     * @param mixed $value
-     * @return $this
-     */
-    protected function setDefault($value = null): self
+
+    protected function setDefault(mixed $value = null): self
     {
         $this->defaultValue = $value;
         return $this;

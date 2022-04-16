@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Exception\CsrfAttackDetected;
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\Session\Session;
@@ -11,27 +13,33 @@ use Enjoys\Session\Session;
 /**
  * Включает защиту от CSRF.
  * Сross Site Request Forgery — «Подделка межсайтовых запросов», также известен как XSRF
- *
- * @author Enjoys
  */
 class Csrf extends Hidden
 {
-
-    public function __construct(string $csrf_key = null)
+    /**
+     * @throws ExceptionRule
+     * @throws \Exception
+     */
+    public function __construct(private Session $session)
     {
-        $session = new Session();
-        $csrf_key = $csrf_key ?? '#$' . $session->getSessionId();
-//        $salt = $salt ?? '$2a$07$' . md5($session->getSessionId()) . '$';
-        $hash = password_hash($csrf_key, PASSWORD_DEFAULT);
+        $csrfSecret = $this->getCsrfSecret();
+        $token = $this->getCsrfToken($csrfSecret);
 
-        parent::__construct(Form::_TOKEN_CSRF_, $hash);
+
+        parent::__construct(Form::_TOKEN_CSRF_, $token);
 
         $this->addRule(
             Rules::CALLBACK,
             'CSRF Attack detected',
-            function () use ($csrf_key) {
-                return password_verify($csrf_key, $this->getRequest()->post(Form::_TOKEN_CSRF_, ''));
-            }
+            [
+                function (string $key) {
+                    if (password_verify($key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))) {
+                        return true;
+                    }
+                    throw new CsrfAttackDetected('CSRF Token is invalid');
+                },
+                $csrfSecret
+            ]
         );
     }
 
@@ -44,9 +52,43 @@ class Csrf extends Hidden
             $this->getForm()->removeElement($this);
 
             //возвращаем 1 что бы не добавлять элемент.
-            return 1;
+            return true;
+        }
+        $this->unsetForm();
+        return false;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function getCsrfSecret(): string
+    {
+        $secret = (string) $this->session->get('csrf_secret');
+
+        if (empty($secret)) {
+            $secret = $this->generateSecret();
         }
 
-        $this->unsetForm();
+        return $secret;
+    }
+
+
+
+    public function getCsrfToken(string $secret): string
+    {
+        return password_hash($secret, PASSWORD_DEFAULT);
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function generateSecret(): string
+    {
+        $secret = base64_encode(random_bytes(32));
+        $this->session->set([
+            'csrf_secret' => $secret
+        ]);
+        return $secret;
     }
 }

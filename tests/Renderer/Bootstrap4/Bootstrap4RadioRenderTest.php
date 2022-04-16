@@ -7,9 +7,8 @@ namespace Tests\Enjoys\Forms\Renderer\Bootstrap4;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\Bootstrap4\Bootstrap4RadioRender;
-use PHPUnit\Framework\TestCase;
 
-class Bootstrap4RadioRenderTest extends TestCase
+class Bootstrap4RadioRenderTest
 {
     public function testAttributesGroupInRadioCheckbox()
     {

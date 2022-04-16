@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Enjoys\Forms\Interfaces\ElementInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
 
@@ -52,6 +54,7 @@ abstract class Element implements ElementInterface
      */
     public function __construct(string $name, string $label = null)
     {
+        $this->setRequest();
         $this->setName($name);
 
         if (!is_null($label)) {
@@ -59,16 +62,15 @@ abstract class Element implements ElementInterface
         }
     }
 
-    /**
-     * @param Form $form
-     *
-     * @return void
-     */
-    public function setForm(Form $form): void
+
+    public function setForm(?Form $form): void
     {
+        if ($form === null) {
+            return;
+        }
         $this->form = $form;
         $this->setDefault();
-        if($this instanceof FillableInterface){
+        if ($this instanceof FillableInterface) {
             foreach ($this->getElements() as $element) {
                 $element->setDefault($this->getDefaultValue());
             }
@@ -79,10 +81,11 @@ abstract class Element implements ElementInterface
      *
      * @return Form
      */
-    public function getForm(): Form
+    public function getForm(): ?Form
     {
-        return $this->form ?? new Form();
+        return $this->form;
     }
+
 
     /**
      *
@@ -94,7 +97,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @return int|void
+     * @return true|void
      */
     public function prepare()
     {
@@ -118,11 +121,11 @@ abstract class Element implements ElementInterface
     protected function setName(string $name): self
     {
         $this->name = $name;
-        $this->setAttributes(
-            [
+        $this->setAttrs(
+            AttributeFactory::createFromArray([
                 'id' => $this->name,
                 'name' => $this->name
-            ]
+            ])
         );
 
         return $this;
@@ -164,24 +167,20 @@ abstract class Element implements ElementInterface
     {
         $value = $this->getForm()
             ->getDefaultsHandler()
-            ->getValue($this->getName());
-
+            ->getValue($this->getName())
+        ;
 
 
         if (is_array($value)) {
-            $this->setAttributes(
-                [
-                    'value' => $value[0]
-                ]
+            $this->setAttr(
+                AttributeFactory::create('value', $value[0])
             );
         }
 
         if (is_string($value) || is_numeric($value)) {
             // $this->setValue($value);
-            $this->setAttributes(
-                [
-                    'value' => $value
-                ]
+            $this->setAttr(
+                AttributeFactory::create('value', $value)
             );
         }
         return $this;

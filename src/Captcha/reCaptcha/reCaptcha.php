@@ -31,6 +31,7 @@ namespace Enjoys\Forms\Captcha\reCaptcha;
 use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
 use GuzzleHttp\Client;
 
 /**
@@ -40,7 +41,6 @@ use GuzzleHttp\Client;
  */
 class reCaptcha extends CaptchaBase implements CaptchaInterface
 {
-
     private string $privateKey = '6LdUGNEZAAAAAPPz685RwftPySFeCLbV1xYJJjsk'; //localhost
     private string $publicKey = '6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy'; //localhost
     private string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
@@ -56,36 +56,36 @@ class reCaptcha extends CaptchaBase implements CaptchaInterface
     public function __construct()
     {
         $this->setName('recaptcha2');
-        $this->setRuleMessage(null);
+        //$this->setRuleMessage(null);
     }
 
     /**
      *
-     * @param \Enjoys\Forms\Element $element
+     * @param Element $element
      * @return string
      */
     public function renderHtml(Element $element): string
     {
-        $html = "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>";
-        $html .= "<div class=\"g-recaptcha\" data-sitekey=\"{$this->getOption('publickey', $this->getOption('publickey', $this->publicKey))}\"> </div>";
-        return $html;
+        return sprintf(
+            <<<HTML
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<div class="g-recaptcha" data-sitekey="%s"></div>
+HTML,
+            $this->getOption('publickey', $this->getOption('publickey', $this->publicKey))
+        );
     }
 
-    /**
-     *
-     * @param \Enjoys\Forms\Element $element
-     * @return bool
-     */
-    public function validate(Element $element): bool
+    public function validate(Ruled $element): bool
     {
         $client = $this->getOption('httpClient', $this->getGuzzleClient());
 
-        $data = array(
+        $data = [
             'secret' => $this->getOption('privatekey', $this->getOption('privatekey', $this->privateKey)),
-            'response' => $this->getRequest()->post('g-recaptcha-response', $this->getRequest()->get('g-recaptcha-response'))
-        );
-
-
+            'response' => $this->getRequest()->getPostData(
+                'g-recaptcha-response',
+                $this->getRequest()->getQueryData('g-recaptcha-response')
+            )
+        ];
 
         $response = $client->request('POST', $this->getOption('verify_url', $this->verifyUrl), [
             'form_params' => $data

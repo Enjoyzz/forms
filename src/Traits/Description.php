@@ -32,7 +32,6 @@ namespace Enjoys\Forms\Traits;
  */
 trait Description
 {
-
     /**
      *
      * @var string|null

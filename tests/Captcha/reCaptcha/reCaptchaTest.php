@@ -1,62 +1,42 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace Tests\Enjoys\Forms\Captcha\reCaptcha;
 
-/**
- * Class reCaptchaTest
- *
- * @author Enjoys
- */
-class reCaptchaTest extends \PHPUnit\Framework\TestCase
-{
+use Enjoys\Forms\Captcha\reCaptcha\reCaptcha;
+use Enjoys\Forms\Elements\Captcha;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
+use Tests\Enjoys\Forms\_TestCase;
+use Webmozart\Assert\Assert;
 
+class reCaptchaTest extends _TestCase
+{
     private function getHttpClient($contentType, $responseBody, $extraHeaders = [])
     {
         $extraHeaders['Content-Type'] = $contentType;
 
-        $response = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)->setMethods(['hasHeader', 'getHeader', 'getBody'])->getMock();
+        $response = $this->getMockBuilder(Response::class)->setMethods(['hasHeader', 'getHeader', 'getBody'])->getMock();
         $response->expects($this->any())->method('hasHeader')->will($this->returnCallback(function ($headerName) use ($extraHeaders) {
                     return \array_key_exists($headerName, $extraHeaders);
-                }));
+        }));
         $response->expects($this->any())->method('getHeader')->will($this->returnCallback(function ($headerName) use ($extraHeaders) {
                     return [$extraHeaders[$headerName]];
-                }));
+        }));
 
-        $stream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)->disableOriginalConstructor()->setMethods(['__toString', 'getContents'])->getMock();
+        $stream = $this->getMockBuilder(Stream::class)->disableOriginalConstructor()->setMethods(['__toString', 'getContents'])->getMock();
         $stream->expects($this->any())->method('__toString')->willReturn($responseBody);
         $response->expects($this->any())->method('getBody')->willReturn($stream);
         $stream->expects($this->any())->method('getContents')->willReturn($responseBody);
 
-        $http = $this->getMockBuilder(\GuzzleHttp\Client::class)->setMethods(['request'])->getMock();
+        $http = $this->getMockBuilder(Client::class)->setMethods(['request'])->getMock();
         $http->expects($this->any())->method('request')->will($this->returnCallback(function ($method, $address, array $options) use ($response) {
                     $this->lastRequestOptions = $options;
-
+                    Assert::keyExists($options, 'form_params');
+                    Assert::allKeyExists($options, 'response');
+                    Assert::allKeyExists($options, 'secret');
                     return $response;
-                }));
+        }));
 
         return $http;
     }
@@ -66,47 +46,49 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
         return preg_replace('/\s+/', ' ', $multistring);
     }
 
-    public function test_init()
+    public function testInit()
     {
-        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
-        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
-        $this->assertInstanceOf('\Enjoys\Forms\Elements\Captcha', $captcha);
+        $recaptcha = new reCaptcha();
+        $captcha = new Captcha($recaptcha);
+        $this->assertInstanceOf(Captcha::class, $captcha);
     }
 
-    public function test_init_add_rule()
+    public function testAddRule()
     {
 
-        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
-        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
+        $recaptcha = new reCaptcha();
+        $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
         $this->assertCount(1, $captcha->getRules());
     }
 
-    public function test_render()
+    public function testRender()
     {
 
-        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
-        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
-        $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"> </div>', $this->toOneString($captcha->renderHtml()));
+        $recaptcha = new reCaptcha();
+        $captcha = new Captcha($recaptcha);
+        $this->assertStringContainsString('<script src="https://www.google.com/recaptcha/api.js" async defer></script> <div class="g-recaptcha" data-sitekey="6LdUGNEZAAAAANA5cPI_pCmOqbq-6_srRkcGOwRy"></div>', $this->toOneString($captcha->renderHtml()));
     }
 
-    public function test_validate_success()
+    public function testValidateSuccess()
     {
 
         $responseBody = \json_encode([
             'success' => true,
         ]);
 
-        $captcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $captcha = new reCaptcha();
         $captcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
 
-        $captcha_element = new \Enjoys\Forms\Elements\Captcha($captcha);
+        $captcha_element = new Captcha($captcha);
+        $captcha_element->prepare();
 
         $this->assertTrue($captcha_element->validate());
     }
 
-    public function test_validate_false()
+    public function testValidateFalse()
     {
         $responseBody = \json_encode([
             'success' => false,
@@ -115,19 +97,20 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
                 0 => 'missing-input-response',
             ],
         ]);
-        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $recaptcha = new reCaptcha();
         $recaptcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
 
 
-        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
+        $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
 
         $this->assertFalse($captcha->validate());
         $this->assertEquals('The response parameter is missing.', $captcha->getRuleErrorMessage());
     }
 
-    public function test_validate_false_render()
+    public function testValidateFalseRender()
     {
 
         $responseBody = \json_encode([
@@ -138,12 +121,12 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
                 1 => 'invalid-input-secret'
             ],
         ]);
-        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $recaptcha = new reCaptcha();
         $recaptcha->setOptions([
             'httpClient' => $this->getHttpClient('text/plain', $responseBody)
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
-
+        $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
 
 
         $captcha->validate();
@@ -151,9 +134,9 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('The response parameter is missing., The secret parameter is invalid or malformed.', $captcha->getRuleErrorMessage());
     }
 
-    public function test_validate_false_render_width_setLanguage()
+    public function testValidateFalseRenderWidthSetLanguageViaOptions()
     {
-        $recaptcha = new \Enjoys\Forms\Captcha\reCaptcha\reCaptcha();
+        $recaptcha = new reCaptcha();
         $responseBody = \json_encode([
             'success' => false,
             'error-codes' =>
@@ -167,11 +150,39 @@ class reCaptchaTest extends \PHPUnit\Framework\TestCase
             'httpClient' => $this->getHttpClient('text/plain', $responseBody),
             'language' => 'ru'
         ]);
-        $captcha = new \Enjoys\Forms\Elements\Captcha($recaptcha);
+
+        $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
 
 
         $captcha->validate();
         $captcha->renderHtml();
         $this->assertEquals('Параметр ответа отсутствует., Секретный параметр является недопустимым или искаженным.', $captcha->getRuleErrorMessage());
+    }
+
+    public function testValidateFalseRenderWidthSetLanguageViaMethod()
+    {
+        $recaptcha = new reCaptcha();
+        $responseBody = \json_encode([
+            'success' => false,
+            'error-codes' =>
+                [
+                    0 => 'invalid-input-secret'
+                ],
+        ]);
+
+        $recaptcha->setOptions([
+            'httpClient' => $this->getHttpClient('text/plain', $responseBody),
+        ]);
+
+        $recaptcha->setLanguage('RU');
+
+        $captcha = new Captcha($recaptcha);
+        $captcha->prepare();
+
+
+        $captcha->validate();
+        $captcha->renderHtml();
+        $this->assertEquals('Секретный параметр является недопустимым или искаженным.', $captcha->getRuleErrorMessage());
     }
 }

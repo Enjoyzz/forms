@@ -1,83 +1,74 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Elements\Checkbox;
+use Enjoys\Forms\Rule\Required;
+use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use PHPUnit\Framework\TestCase;
+use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Reflection;
+use HttpSoft\Message\ServerRequest;
+use Tests\Enjoys\Forms\_TestCase;
 
-/**
- * Class RequiredTest
- *
- * @author Enjoys
- */
-class RequiredTest extends TestCase
+class RequiredTest extends _TestCase
 {
+    use Reflection;
 
     public function test_required_()
     {
-
         $element = new Checkbox('name');
 
 
-        $element->setRequest(new \Enjoys\Http\ServerRequest(
-                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
-                                null,
-                                null,
-                                null,
-                                ['name' => [1, 2]]
-                        )
-        ));
-        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $element->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: ['name' => [1, 2]], parsedBody: [], method: 'gEt')
+            )
+        );
+        $element->addRule(Rules::REQUIRED);
         $this->assertTrue(Validator::check([$element]));
     }
 
     public function test_required_2()
     {
         $element = new Checkbox('name');
-        $element->setRequest(new \Enjoys\Http\ServerRequest(
-                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
-                                null,
-                                null,
-                                null,
-                                ['name' => []]
-                        )
-        ));
-        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $element->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: ['name' => []], parsedBody: [], method: 'get')
+            )
+        );
+        $element->addRule(Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
+        $this->assertSame('Обязательно для заполнения, или выбора', $element->getRuleErrorMessage());
     }
 
     public function test_required_3()
     {
-
         $element = new Checkbox('name');
-        $element->addRule(\Enjoys\Forms\Rules::REQUIRED);
+        $element->addRule(Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));
+    }
+
+    /**
+     * @dataProvider dataForTestPrivateMethodCheck
+     */
+    public function testPrivateMethodCheck($input, $expect)
+    {
+        $rule = new Required();
+        $method = $this->getPrivateMethod(Required::class, 'check');
+        $result = $method->invokeArgs($rule, [$input]);
+        $this->assertSame($expect, $result);
+    }
+
+    public function dataForTestPrivateMethodCheck()
+    {
+        return [
+            [1, true],
+            ['    ', false],
+            [[], false],
+            [[1], true],
+        ];
     }
 }

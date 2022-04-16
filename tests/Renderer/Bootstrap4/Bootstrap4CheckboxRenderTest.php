@@ -7,9 +7,8 @@ namespace Tests\Enjoys\Forms\Renderer\Bootstrap4;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\Bootstrap4\Bootstrap4CheckboxRender;
-use PHPUnit\Framework\TestCase;
 
-class Bootstrap4CheckboxRenderTest extends TestCase
+class Bootstrap4CheckboxRenderTest
 {
     public function testAttributesGroup()
     {

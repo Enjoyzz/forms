@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 
 /**
@@ -37,7 +38,6 @@ use Enjoys\Forms\Element;
  */
 class Reset extends Element
 {
-
     protected string $type = 'reset';
 
     public function __construct(string $name = null, string $title = null)
@@ -46,7 +46,7 @@ class Reset extends Element
 
         parent::__construct($name, $title);
         if (!is_null($title)) {
-            $this->setAttribute('value', $title);
+            $this->setAttr(AttributeFactory::create('value', $title));
         }
     }
 }

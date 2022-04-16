@@ -4,31 +4,20 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Http\ServerRequest;
-use Enjoys\Http\ServerRequestInterface;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 
-/**
- * Trait Request
- * @package Enjoys\Forms\Traits
- */
 trait Request
 {
+    private ServerRequestWrapper $request;
 
-    protected ?ServerRequestInterface $request = null;
-
-    /**
-     * @psalm-suppress InvalidNullableReturnType
-     */
-    public function getRequest(): ServerRequestInterface
+    public function setRequest(ServerRequestWrapper $request = null)
     {
-        if ($this->request === null) {
-            $this->setRequest();
-        }
-        return $this->request;
+        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
     }
 
-    public function setRequest(ServerRequestInterface $request = null): void
+    public function getRequest(): ServerRequestWrapper
     {
-        $this->request = $request ?? new ServerRequest();
+        return $this->request;
     }
 }

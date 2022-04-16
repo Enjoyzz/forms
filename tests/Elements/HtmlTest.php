@@ -11,7 +11,9 @@ class HtmlTest extends TestCase
 {
     public function test_basehtml()
     {
-        $obj = new Html('<b></b>');
-        $this->assertSame('<b></b>', $obj->baseHtml());
+        $el = new Html('<b></b>');
+        $this->assertSame('<b></b>', $el->baseHtml());
+        $this->assertNull($el->getAttr('id'));
+        $this->assertNull($el->getAttr('name'));
     }
 }

@@ -1,61 +1,58 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 deadl.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace Tests\Enjoys\Forms\Elements;
 
-/**
- * Description of RadioTest
- *
- * @author deadl
- */
-class RadioTest extends \PHPUnit\Framework\TestCase
-{
+use Enjoys\Forms\Elements\Radio;
+use Enjoys\Forms\Form;
+use PHPUnit\Framework\TestCase;
 
+class RadioTest extends TestCase
+{
     public function test_title()
     {
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $this->assertSame('title', $obj->getLabel());
+    }
+
+    public function testFlushPrefix()
+    {
+        (new Radio('foo'))->setPrefixId('test_');
+        $el = new Radio('foo');
+        $this->assertSame('test_', $el->getPrefixId());
+
+        $el = new Radio('foo', flushPrefix: true);
+        $this->assertSame('rb_', $el->getPrefixId());
+    }
+
+
+    public function testGetPrefixId()
+    {
+        $el = new Radio('foo', flushPrefix: true);
+        $this->assertSame('rb_', $el->getPrefixId());
+    }
+
+    public function testCheckRemoveAttributeName()
+    {
+        $el = new Radio('foo');
+        $this->assertNull($el->getAttr('name'));
     }
 
     public function test_title2()
     {
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->setLabel('title2');
         $this->assertSame('title2', $obj->getLabel());
     }
 
     public function test_name()
     {
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $this->assertSame('name', $obj->getName());
     }
 
     private function filldata()
     {
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title', true);
         $obj->setPrefixId('rb_');
         $obj->fill([
             'v1' => 't1',
@@ -75,7 +72,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
         $this->assertSame('t1', $v1->getLabel());
     }
@@ -84,7 +81,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
         $this->assertSame('v1', $v1->getName());
     }
@@ -93,16 +90,16 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('rb_v1', $v1->getAttribute('id'));
+        $this->assertSame('rb_v1', $v1->getAttr('id')->getValueString());
     }
 
     public function test_fill4()
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
         $this->assertSame('t2', $v2->getLabel());
     }
@@ -111,7 +108,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
         $this->assertSame('v2', $v2->getName());
     }
@@ -120,50 +117,50 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     {
 
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertSame('i2', $v2->getAttribute('id'));
+        $this->assertSame('i2', $v2->getAttr('id')->getValueString());
     }
 
     public function test_fill7()
     {
-
+        $this->markAsRisky();
         $elements = $this->filldata();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertNull($v2->getAttribute('disabled'));
-        $this->assertNotNull($v2->getAttribute('id'));
+        $this->assertSame('', $v2->getAttr('disabled')->getValueString());
+        $this->assertNotNull($v2->getAttr('id'));
     }
 
     public function test_prefix()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => 't1'
         ]);
 
         $elements = $obj->getElements();
-        /** @var \Enjoys\Forms\Elements\Radio $v2 */
+        /** @var Radio $v2 */
         $v1 = $elements[0];
-        $this->assertSame('prefix_v1', $v1->getAttribute('id'));
+        $this->assertSame('prefix_v1', $v1->getAttr('id')->getValueString());
     }
 
     public function test_prefix2()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
 
-        $obj2 = new \Enjoys\Forms\Elements\Radio('name', 'title');
-        $this->assertSame('prefix_name', $obj2->getAttribute('id'));
+        $obj2 = new Radio('name', 'title');
+        $this->assertSame('prefix_name', $obj2->getAttr('id')->getValueString());
     }
 
     public function test_prefix3()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
             'v1' => [
@@ -173,15 +170,15 @@ class RadioTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $elements = $obj->getElements();
-        /** @var \Enjoys\Forms\Elements\Radio $v1 */
+        /** @var Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('id1', $v1->getAttribute('id'));
+        $this->assertSame('id1', $v1->getAttr('id')->getValueString());
     }
 
     public function test_count_radio_element()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->fill([
             1, 2, 3
         ], true);
@@ -192,7 +189,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_count_radio_element2()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->fill([
             1, 1, 3
         ], true);
@@ -203,7 +200,7 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_count_radio_element3()
     {
 
-        $obj = new \Enjoys\Forms\Elements\Radio('name', 'title');
+        $obj = new Radio('name', 'title');
         $obj->fill([1], true)->fill([1], true);
 
         $this->assertCount(2, $obj->getElements());
@@ -212,49 +209,36 @@ class RadioTest extends \PHPUnit\Framework\TestCase
     public function test_setDefault()
     {
 
-        $form = new \Enjoys\Forms\Form();
-        $form->setOption('Defaults', [
+        $form = new Form();
+        $form->setDefaults([
             'name' => [1, 2]
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
-        $this->assertNull($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
+        $this->assertNotNull($elements[0]->getAttr('checked'));
+        $this->assertNotNull($elements[1]->getAttr('checked'));
+        $this->assertNull($elements[2]->getAttr('checked'));
     }
 
-    public function test_setDefault_2()
-    {
-
-        $form = new \Enjoys\Forms\Form();
-        $form->setOption('Defaults', [
-            'name' => [1, 2]
-        ]);
-        $radio = $form->radio('name[]', 'title')->fill([1, 2, 3], true);
-        $elements = $radio->getElements();
-        $this->assertNull($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
-    }
 
     public function test_setDefault_simple()
     {
 
-        $form = new \Enjoys\Forms\Form();
-        $form->setOption('Defaults', [
+        $form = new Form();
+        $form->setDefaults([
             'name' => 2
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
-        $this->assertFalse($elements[0]->getAttribute('checked'));
-        $this->assertNull($elements[1]->getAttribute('checked'));
-        $this->assertFalse($elements[2]->getAttribute('checked'));
+        $this->assertNull($elements[0]->getAttr('checked'));
+        $this->assertNotNull($elements[1]->getAttr('checked'));
+        $this->assertNull($elements[2]->getAttr('checked'));
     }
 
     public function test_basehtml()
     {
-        $rb = new \Enjoys\Forms\Elements\Radio('foo', 'bar');
+        $rb = new Radio('foo', 'bar');
         $rb->resetPrefixId();
-        $this->assertStringContainsString('<input type="radio" id="rb_foo" value="foo" name=""><label for="rb_foo">bar</label>', $rb->baseHtml());
+        $this->assertStringContainsString('<input type="radio" value="foo" id="rb_foo" name=""><label for="rb_foo">bar</label>', $rb->baseHtml());
     }
 }

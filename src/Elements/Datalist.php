@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-/**
- * Class Datalist
- * @package Enjoys\Forms\Elements
- */
-class Datalist extends Element implements FillableInterface
+class Datalist extends Element implements FillableInterface, Ruled
 {
     use Fill;
     use Description;
@@ -26,12 +24,24 @@ class Datalist extends Element implements FillableInterface
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttribute('list', $this->getAttribute('id'));
-        $this->removeAttribute('id');
+        $this->setAttr(AttributeFactory::create('list', $name . '-list'));
     }
 
     public function baseHtml(): string
     {
-        return '';
+        $return = sprintf(
+            "<input%s>\n<datalist id='%s'>\n",
+            $this->getAttributesString(),
+            $this->getAttr('list')->getValueString()
+        );
+
+        foreach ($this->getElements() as $data) {
+            //$return .= "<option value=\"{$data->getLabel()}\">";
+            $data->setAttr(AttributeFactory::create('value', $data->getLabel()));
+            $data->setLabel(null);
+            $return .= $data->baseHtml() . PHP_EOL;
+        }
+        $return .= "</datalist>";
+        return $return;
     }
 }

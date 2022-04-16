@@ -1,67 +1,46 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 deadl.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Rule;
 
+use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
+use Enjoys\ServerRequestWrapper;
+use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Description of EqualTest
- *
- * @author deadl
- */
 class EqualTest extends TestCase
 {
-
     /**
-     * @dataProvider data_for_test_validate
+     * @dataProvider dataForTestValidate
      */
-    public function test_validate($type, $name, $request, $rule, $expect)
+    public function testValidate($type, $name, $request, $rule, $expect)
     {
         $class = "Enjoys\Forms\Elements\\" . $type;
-        $text = new $class($name);
-        $text->setRequest(new \Enjoys\Http\ServerRequest(
-                        \HttpSoft\ServerRequest\ServerRequestCreator::createFromGlobals(
-                                null,
-                                null,
-                                null,
-                                $request,
-                        )
-        ));
-        $text->addRule(\Enjoys\Forms\Rules::EQUAL, null, $rule);
-        $this->assertEquals($expect, Validator::check([$text]));
+        $el = new $class($name);
+        $el->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
+            )
+        );
+        $el->addRule(Rules::EQUAL, null, $rule);
+
+        $resultCheck = Validator::check([$el]);
+        $this->assertEquals($expect, $resultCheck);
+        if (!$resultCheck) {
+            $this->assertSame(
+                'Допустимые значения (указаны через запятую): ' . implode(', ', $rule),
+                $el->getRuleErrorMessage()
+            );
+        }
     }
 
-    public function data_for_test_validate()
+    public function dataForTestValidate()
     {
         return [
             ['Text', 'foo', ['foo' => 'test'], ['test'], true],
+            ['Text', 'foo', ['foo' => true], '1', true],
             ['Text', 'foo', ['foo' => 'valid'], ['test', 'valid'], true],
             ['Text', 'foo', ['foo' => ['2']], ['test', 2], true],
             ['Text', 'foo', ['foo' => ['test']], ['test', 2], true],

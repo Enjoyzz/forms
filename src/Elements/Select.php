@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FillableInterface;
+use Enjoys\Forms\Interfaces\AttributeInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-/**
- * Class Select
- * @package Enjoys\Forms\Elements
- */
-class Select extends Element implements FillableInterface
+class Select extends Element implements FillableInterface, Ruled
 {
     use Fill;
     use Description;
     use Rules;
 
-    /**
-     *
-     * @var string
-     */
+
     protected string $type = 'option';
 
 
@@ -35,49 +31,31 @@ class Select extends Element implements FillableInterface
 
     public function setMultiple(): self
     {
-        $this->setAttribute('multiple');
+        $this->setAttr(AttributeFactory::create('multiple'));
         return $this;
     }
 
     private function isMultiple(): void
     {
-        if ($this->getAttribute('multiple') !== false && \substr($this->getName(), -2) !== '[]') {
-            $_id = $this->getAttribute('id');
+        if ($this->getAttr('multiple') !== null && !str_ends_with($this->getName(), '[]')) {
+            $id = $this->getAttr('id') ?? AttributeFactory::create('id', $this->getName());
             $this->setName($this->getName() . '[]');
-            $this->setParentName($this->getName());
             //т.к. id уже переписан ,восстанавливаем его
-            $this->setAttributes([
-                'id' => $_id
-            ]);
+            $this->setAttr($id);
         }
     }
 
     /**
-     * @psalm-suppress MethodSignatureMismatch
-     * @param string $name
-     * @param string|null|false $value
-     * @param string $namespace
      * @return $this
      */
-    public function setAttribute(string $name, $value = null, string $namespace = 'general'): self
+    public function setAttr(AttributeInterface $attribute, string $namespace = 'general')
     {
-        parent::setAttribute($name, $value, $namespace);
+        parent::setAttr($attribute, $namespace);
         $this->isMultiple();
         return $this;
     }
 
-    /**
-     * @psalm-suppress MethodSignatureMismatch
-     * @param array $attributes
-     * @param string $namespace
-     * @return $this
-     */
-    public function setAttributes(array $attributes, string $namespace = 'general'): self
-    {
-        parent::setAttributes($attributes, $namespace);
-        $this->isMultiple();
-        return $this;
-    }
+
 
     /**
      *
@@ -85,7 +63,8 @@ class Select extends Element implements FillableInterface
      */
     protected function setDefault(): self
     {
-        $this->defaultValue = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+//        $this->defaultValue = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        $this->setDefaultValue($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
         return $this;
     }
 
@@ -102,7 +81,7 @@ class Select extends Element implements FillableInterface
     public function setOptgroup(string $label, array $data = [], array $attributes = [], $useTitleAsValue = false): self
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaultValue);
-        $optgroup->setAttributes($attributes);
+        $optgroup->setAttrs(AttributeFactory::createFromArray($attributes));
         $optgroup->fill($data, $useTitleAsValue);
         $this->elements[] = $optgroup;
         return $this;

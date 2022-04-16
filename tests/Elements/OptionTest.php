@@ -1,43 +1,71 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Elements;
 
-/**
- * Description of OptionTest
- *
- * @author Enjoys
- */
-class OptionTest extends \PHPUnit\Framework\TestCase
+use Enjoys\Forms\Elements\Option;
+use Enjoys\Forms\Elements\Select;
+use Enjoys\Traits\Reflection;
+use Tests\Enjoys\Forms\_TestCase;
+
+class OptionTest extends _TestCase
 {
+    use Reflection;
+
+    public function testInitElement()
+    {
+        $el = new Option('foo');
+        $this->assertNull($el->getAttr('name'));
+        $this->assertSame('foo', $el->getAttr('value')->getValueString());
+    }
+
     public function test_baseHtml()
     {
-        $option = new \Enjoys\Forms\Elements\Option('foo', 'bar');
-        $this->assertEquals('<option id="foo" value="foo">bar</option>', $option->baseHtml());
+        $option = new Option('foo', 'bar');
+        $this->assertSame('<option value="foo">bar</option>', $option->baseHtml());
+    }
+
+    public function testOptionWithSelect()
+    {
+        $el = new Select('foo');
+        $el->fill([
+            'value1' => [
+                'label1',
+                [
+                    'class' => 'red'
+                ]
+            ]
+        ]);
+        $option = current($el->getElements());
+        $this->assertSame('<option value="value1" class="red">label1</option>', $option->baseHtml());
+    }
+
+    public function testSetDefaultWithArray()
+    {
+        $method = $this->getPrivateMethod(Option::class, 'setDefault');
+
+        $option = new Option('value1', 'label1');
+        $method->invokeArgs($option, [['value1']]);
+        $this->assertSame('<option value="value1" selected>label1</option>', $option->baseHtml());
+
+        $option = new Option('value1', 'label1');
+        $option->removeAttr('value');
+        $method->invokeArgs($option, [['value1']]);
+        $this->assertSame('<option>label1</option>', $option->baseHtml());
+    }
+
+    public function testSetDefaultWithString()
+    {
+        $method = $this->getPrivateMethod(Option::class, 'setDefault');
+
+        $option = new Option('value1', 'label1');
+        $method->invokeArgs($option, ['value1']);
+        $this->assertSame('<option value="value1" selected>label1</option>', $option->baseHtml());
+
+        $option = new Option('value1', 'label1');
+        $option->removeAttr('value');
+        $method->invokeArgs($option, ['value1']);
+        $this->assertSame('<option>label1</option>', $option->baseHtml());
     }
 }

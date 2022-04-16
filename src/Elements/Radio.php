@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\FillableInterface;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-/**
- * Class Radio
- * @package Enjoys\Forms\Elements
- */
-class Radio extends Element implements FillableInterface
+class Radio extends Element implements FillableInterface, Ruled
 {
     use Fill;
     use Description;
@@ -23,30 +21,35 @@ class Radio extends Element implements FillableInterface
 
     private const DEFAULT_PREFIX = 'rb_';
 
-    /**
-     *
-     * @var string
-     */
     protected string $type = 'radio';
     private static string $prefix_id = 'rb_';
 
 
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, string $title = null, bool $flushPrefix = false)
     {
         parent::__construct($name, $title);
-        $this->setAttributes([
-            'value' => $name,
-            'id' => $this->getPrefixId() . $name
-        ]);
-        $this->removeAttribute('name');
+
+        if ($flushPrefix) {
+            $this->setPrefixId('rb_');
+        }
+
+        $this->setAttrs(
+            AttributeFactory::createFromArray([
+                'id' => $this->getPrefixId() . $name,
+                'value' => $name,
+            ])
+        );
+        $this->removeAttr('name');
     }
 
     public function setPrefixId(string $prefix): self
     {
         static::$prefix_id = $prefix;
-        $this->setAttributes([
-            'id' => static::$prefix_id . $this->getName()
-        ]);
+        $this->setAttrs(
+            AttributeFactory::createFromArray([
+                'id' => static::$prefix_id . $this->getName()
+            ])
+        );
 
         return $this;
     }
@@ -66,20 +69,23 @@ class Radio extends Element implements FillableInterface
      * @param mixed $value
      * @return $this
      */
-    protected function setDefault($value = null): self
+    protected function setDefault(mixed $value = null): self
     {
-        $this->defaultValue = $value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        if ($value === null) {
+            $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
+        }
+        $this->defaultValue = $value;
 
         if (is_array($value)) {
-            if (in_array($this->getAttribute('value'), $value)) {
-                $this->setAttribute('checked');
+            if (in_array($this->getAttr('value')->getValueString(), $value)) {
+                $this->setAttr(AttributeFactory::create('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value') == $value) {
-                $this->setAttribute('checked');
+            if ($this->getAttr('value')->getValueString() == $value) {
+                $this->setAttr(AttributeFactory::create('checked'));
                 return $this;
             }
         }
@@ -88,9 +94,14 @@ class Radio extends Element implements FillableInterface
 
     public function baseHtml(): string
     {
-        $this->setAttribute('for', $this->getAttribute('id'), Form::ATTRIBUTES_LABEL);
-        $this->setAttributes($this->getAttributes('fill'), Form::ATTRIBUTES_LABEL);
-        $this->setAttributes(['name' => $this->getParentName()]);
-        return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}><label{$this->getAttributesString(Form::ATTRIBUTES_LABEL)}>{$this->getLabel()}</label>\n";
+        $this->setAttr($this->getAttr('id')->withName('for'), Form::ATTRIBUTES_LABEL);
+        $this->setAttr(AttributeFactory::create('name', $this->getParentName()));
+        return sprintf(
+            '<input type="%s"%s><label%s>%s</label>',
+            $this->getType(),
+            $this->getAttributesString(),
+            $this->getAttributesString(Form::ATTRIBUTES_LABEL),
+            $this->getLabel()
+        );
     }
 }

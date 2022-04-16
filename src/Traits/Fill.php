@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
+use Enjoys\Forms\AttributeCollection;
+use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
+use Enjoys\Forms\Interfaces\ElementInterface;
 
-/**
- * Trait Fill
- * @package Enjoys\Forms\Traits
- */
 trait Fill
 {
-
     private array $elements = [];
     private string $parentName = '';
     /**
@@ -51,7 +50,7 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill($data, $useTitleAsValue = false): self
+    public function fill($data, bool $useTitleAsValue = false)
     {
         if ($data instanceof \Closure) {
             $data = $data();
@@ -68,32 +67,32 @@ trait Fill
 
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
-            $element->setParentName($this->getName());
-            $element->setAttributes($fillHandler->getAttributes(), 'fill');
+
+            $element->setAttrs(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
             /**
              * @todo слишком много вложенности if. подумать как переделать
              */
-            foreach ($element->getAttributes('fill') as $k => $v) {
-                if (in_array($k, ['id', 'name', 'disabled', 'readonly'])) {
-                    if ($element->getAttribute($k, 'fill') !== false) {
-                        $element->setAttribute($k, $element->getAttribute($k, 'fill'));
-                        $element->removeAttribute($k, 'fill');
-                    }
-                }
+            /** @var AttributeCollection $fillCollection */
+            $fillCollection = $element->getAttributeCollection('fill');
+            foreach ($fillCollection as $attr) {
+              //  if (in_array($attr->getName(), ['id', 'name', 'disabled', 'readonly'])) {
+                    $element->setAttr($attr);
+                 //   $fillCollection->remove($attr);
+               // }
             }
 
 
-            $element->setDefault($this->defaultValue);
 
-            $this->elements[] = $element;
+
+            $this->addElement($element);
         }
         return $this;
     }
 
     /**
      *
-     * @return array
+     * @return array|Element[]
      */
     public function getElements(): array
     {
@@ -109,4 +108,29 @@ trait Fill
     }
 
 
+    public function setDefaultValue(mixed $defaultValue): void
+    {
+        $this->defaultValue = $defaultValue;
+    }
+
+
+    public function addElement(ElementInterface $element)
+    {
+        $element->setParentName($this->getName());
+        $element->setDefault($this->defaultValue);
+        $this->elements[] = $element;
+        return $this;
+    }
+
+    /**
+     * @param ElementInterface[] $elements
+     * @return Fill
+     */
+    public function addElements(array $elements)
+    {
+        foreach ($elements as $element) {
+            $this->addElement($element);
+        }
+        return $this;
+    }
 }

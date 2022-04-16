@@ -4,29 +4,19 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Captcha\Defaults;
 
+use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\Captcha\CaptchaBase;
+use Enjoys\Forms\Captcha\CaptchaInterface;
+use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Session\Session as Session;
+use Webmozart\Assert\Assert;
 
-/**
- * Class Defaults
- * @package Enjoys\Forms\Captcha\Defaults
- */
-class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Forms\Captcha\CaptchaInterface
+class Defaults extends CaptchaBase implements CaptchaInterface
 {
-
-    /**
-     *
-     * @var string
-     */
     private string $code = '';
-    /**
-     * @var Session
-     */
     private Session $session;
 
-    /**
-     *
-     * @param string|null $message
-     */
     public function __construct(?string $message = null)
     {
         $this->session = new Session();
@@ -38,59 +28,71 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         $this->setRuleMessage($message);
     }
 
-
     /**
-     *
-     * @param \Enjoys\Forms\Element $element
+     * @psalm-suppress PossiblyNullReference
+     * @param Ruled&Element $element
      * @return bool
      */
-    public function validate(\Enjoys\Forms\Element $element): bool
+    public function validate(Ruled $element): bool
     {
-        $method = $this->getRequest()->getMethod();
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->$method());
+        $method = $this->getRequest()->getRequest()->getMethod();
+        $requestData = match (strtolower($method)) {
+            'get' => $this->getRequest()->getQueryData()->getAll(),
+            'post' => $this->getRequest()->getPostData()->getAll(),
+            default => []
+        };
+
+        $value = \getValueByIndexPath($element->getName(), $requestData);
 
         if ($this->session->get($element->getName()) !== $value) {
-            /** @psalm-suppress UndefinedMethod */
             $element->setRuleError($this->getRuleMessage());
             return false;
         }
         return true;
     }
 
-    public function renderHtml(\Enjoys\Forms\Element $element): string
+    public function renderHtml(Element $element): string
     {
-        $element->setAttributes(
-            [
+        $element->setAttrs(
+            AttributeFactory::createFromArray([
                 'type' => 'text',
                 'autocomplete' => 'off'
-            ]
+            ])
         );
 
         $this->generateCode($element);
-        $img = $this->createImage(
-            $this->getCode(),
-            (int)$this->getOption('width', 150),
-            (int)$this->getOption('height', 50)
-        );
+
+        $w = $this->getOption('width', 150);
+        Assert::integer($w, 'Width parameter must be integer');
+
+        $h = $this->getOption('height', 50);
+        Assert::integer($h, 'Height parameter must be integer');
+
+        $img = $this->createImage($this->getCode(), $w, $h);
 
         //dump($this->session->get($this->getName()));
-        $html = '';
+        //  $html = '';
 
 //        if ($this->element->isRuleError()) {
 //            $html .= "<p style=\"color: red\">{$this->element->getRuleErrorMessage()}</p>";
 //        }
-        $html .= '<img src="data:image/jpeg;base64,' . $this->getBase64Image(
-                $img
-            ) . '" /><br /><input' . $element->getAttributesString() . '>';
 
-        return $html;
+        return sprintf(
+            '<img alt="captcha image" src="data:image/jpeg;base64,%s" /><br /><input%s>',
+            $this->getBase64Image($img),
+            $element->getAttributesString()
+        );
     }
 
-    private function generateCode(\Enjoys\Forms\Element $element): void
+    private function generateCode(Element $element): void
     {
-        $max = (int)$this->getOption('size', 6);
+        $max = $this->getOption('size', 6);
+
+        Assert::notEq(0, $max);
+        Assert::integer($max);
+
         $chars = $this->getOption('chars', 'qwertyuiopasdfghjklzxcvbnm1234567890');
-        $size = StrLen($chars) - 1;
+        $size = strlen($chars) - 1;
         // Определяем пустую переменную, в которую и будем записывать символы.
         $code = '';
         // Создаём пароль.
@@ -110,14 +112,8 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
         return $this->code;
     }
 
-    /**
-     *
-     * @param string $code
-     * @param int $width
-     * @param int $height
-     * @return resource
-     */
-    private function createImage(string $code, int $width = 150, int $height = 50)
+
+    private function createImage(string $code, int $width = 150, int $height = 50): \GdImage
     {
         // Создаем пустое изображение
         $img = \imagecreatetruecolor($width, $height);
@@ -161,26 +157,22 @@ class Defaults extends \Enjoys\Forms\Captcha\CaptchaBase implements \Enjoys\Form
 
 
             // Изменяем регистр символа
-            if ($h == \rand(0, 1)) {
+            if (rand(0, 1)) {
                 $letter = \strtoupper($letter);
             }
             // Выводим символ на изображение
-            \imagestring($img, 6, $x, $y, $letter, $color);
+            \imagestring($img, 4, $x, $y, $letter, $color);
             $x++;
         }
 
         return $img;
     }
 
-    /**
-     * @param resource $img
-     */
-    private function getBase64Image($img): string
+
+    private function getBase64Image(\GdImage $img): string
     {
-        \ob_start();
-        \imagejpeg($img, null, 80);
-        $img_data = \ob_get_contents();
-        \ob_end_clean();
-        return \base64_encode($img_data);
+        ob_start();
+        imagejpeg($img);
+        return base64_encode(ob_get_clean());
     }
 }

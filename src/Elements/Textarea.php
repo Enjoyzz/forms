@@ -1,51 +1,21 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
+use Webmozart\Assert\Assert;
 
-/**
- * Description of Textarea
- *
- * @author Enjoys
- */
-class Textarea extends Element
+class Textarea extends Element implements Ruled
 {
     use Description;
     use Rules;
 
-    /**
-     *
-     * @var string
-     */
     protected string $type = 'textarea';
 
 
@@ -57,9 +27,9 @@ class Textarea extends Element
         $this->value = '';
     }
 
-    public function setValue(string $value): self
+    public function setValue(?string $value): Textarea
     {
-        $this->value = $value;
+        $this->value = $value ?? '';
         return $this;
     }
 
@@ -68,34 +38,42 @@ class Textarea extends Element
         return $this->value;
     }
 
-    /**
-     * rows Высота поля в строках текста.
-     * @param string|int $rows
-     * @return $this
-     */
-    public function setRows($rows): self
+    private function getValidatedAttribute(mixed $value): mixed
     {
-        $this->setAttribute('rows', (string) $rows);
+        if ($value instanceof \Closure) {
+            $value = $value();
+        }
+        Assert::numeric($value);
+        return $value;
+    }
+
+    /**
+     * Высота поля в строках текста.
+     */
+    public function setRows(mixed $rows): Textarea
+    {
+        $value = $this->getValidatedAttribute($rows);
+        $this->setAttr(AttributeFactory::create('rows', $value));
         return $this;
     }
 
     /**
-     * cols Ширина поля в символах.
-     * @param string|int $cols
-     * @return $this
+     * Ширина поля в символах.
      */
-    public function setCols($cols): self
+    public function setCols(mixed $cols): Textarea
     {
-        $this->setAttribute('cols', (string) $cols);
+        $value = $this->getValidatedAttribute($cols);
+        $this->setAttr(AttributeFactory::create('cols', $value));
         return $this;
     }
 
     public function baseHtml(): string
     {
-        $value = $this->getAttribute('value');
-        if ($value !== false) {
-            $this->setValue($value);
-            $this->removeAttribute('value');
+        $value = $this->getAttr('value');
+
+        if ($value !== null) {
+            $this->setValue($value->getValueString());
+            $this->getAttributeCollection()->remove('value');
         }
         return "<textarea{$this->getAttributesString()}>{$this->getValue()}</textarea>";
     }

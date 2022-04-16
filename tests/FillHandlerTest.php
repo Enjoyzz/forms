@@ -1,47 +1,24 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
-/**
- * Description of FillHandlerTest
- *
- * @author Enjoys
- */
-class FillHandlerTest extends \PHPUnit\Framework\TestCase
-{
+use Enjoys\Forms\FillHandler;
+use PHPUnit\Framework\TestCase;
 
+class FillHandlerTest extends TestCase
+{
     /**
      * @dataProvider data
      */
-    public function test_fillhandler($value, $title, $expectV, $expectL, $expectAttr)
+    public function testFillHandler($value, $label, $titleAsValue, $expectV, $expectL, $expectAttr)
     {
-        $handler = new \Enjoys\Forms\FillHandler($value, $title, true);
+        if ($titleAsValue) {
+            $handler = new FillHandler($value, $label, $titleAsValue);
+        } else {
+            $handler = new FillHandler($value, $label);
+        }
         $this->assertEquals($expectV, $handler->getValue());
         $this->assertEquals($expectL, $handler->getLabel());
         $this->assertEquals($expectAttr, $handler->getAttributes());
@@ -50,10 +27,13 @@ class FillHandlerTest extends \PHPUnit\Framework\TestCase
     public function data()
     {
         return [
-            [0, 1, '1', '1', []],
-            [' 0', 1, '0', '1', []],
-            [0, [1, ['id' => 'test']], '1', '1', ['id' => 'test']],
-            [0, [1, ['test']], '1', '1', [0 => 'test']],
+            [0, 1, true, '1', '1', []],
+            [0, 1, false, '0', '1', []],
+            [' 0', 1, true, '0', '1', []],
+            [0, [1, 2], false, '0', '1', []],
+            [0, [1 => [2]], false, '0', '', [2]],
+            [0, [1, ['id' => 'test']], true, '1', '1', ['id' => 'test']],
+            [0, [1, ['test']], true, '1', '1', [0 => 'test']],
         ];
     }
 }
