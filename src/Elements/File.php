@@ -32,6 +32,11 @@ class File extends Element implements Ruled
             'system'
         ]);
     }
+    public function setMultiple(): self
+    {
+        $this->setAttr(AttributeFactory::create('multiple'));
+        return $this;
+    }
 
     public function prepare()
     {
