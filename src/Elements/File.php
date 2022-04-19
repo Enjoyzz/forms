@@ -38,6 +38,33 @@ class File extends Element implements Ruled
         return $this;
     }
 
+    public function addAccept(string $accept): self
+    {
+        $attribute = $this->getAttr('accept');
+        if ($attribute === null){
+            $attribute = AttributeFactory::create('accept');
+            $attribute->setMultiple(true);
+            $attribute->setSeparator(',');
+            $this->setAttr($attribute);
+        }
+
+        $attribute->add($accept);
+        return $this;
+    }
+
+    /**
+     * @param string[] $accepts
+     * @return $this
+     */
+    public function setAccepts(array $accepts): self
+    {
+        $this->removeAttr('accept');
+        foreach ($accepts as $accept) {
+            $this->addAccept($accept);
+        }
+        return $this;
+    }
+
     public function prepare()
     {
         $this->getForm()->setAttr(AttributeFactory::create('enctype', 'multipart/form-data'));

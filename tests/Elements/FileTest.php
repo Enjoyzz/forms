@@ -2,6 +2,7 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
+use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
@@ -11,7 +12,6 @@ class FileTest extends TestCase
 {
     public function test_max_file_size()
     {
-
         $form = new Form();
         $form->file('file')->setMaxFileSize(25);
         $elements = $form->getElements()['MAX_FILE_SIZE'];
@@ -20,13 +20,14 @@ class FileTest extends TestCase
 
     public function test_max_file_size2()
     {
-
         $form = new Form();
         $form->file('file');
         $elements = $form->getElements()['MAX_FILE_SIZE'];
-        $this->assertSame((string) \iniSize2bytes(ini_get('upload_max_filesize')), $elements->getAttr('value')->getValueString());
+        $this->assertSame(
+            (string)\iniSize2bytes(ini_get('upload_max_filesize')),
+            $elements->getAttr('value')->getValueString()
+        );
     }
-
 
 
     public function test_enctype_method()
@@ -42,5 +43,30 @@ class FileTest extends TestCase
         $this->expectException(ExceptionRule::class);
         $form = new Form();
         $form->file('1')->addRule(Rules::REQUIRED);
+    }
+
+    public function testSetAccept()
+    {
+        $el = new File('name');
+        $el->addAccept('image/*');
+        $this->assertSame('<input type="file" id="name" name="name" accept="image/*">', $el->baseHtml());
+        $el->addAccept('video/*');
+        $this->assertSame('<input type="file" id="name" name="name" accept="image/*,video/*">', $el->baseHtml());
+    }
+
+    public function testSetAccepts()
+    {
+        $el = new File('name');
+        $el->addAccept('image/*');
+        $this->assertSame('<input type="file" id="name" name="name" accept="image/*">', $el->baseHtml());
+        $el->setAccepts(['video/*', 'image/jpeg']);
+        $this->assertSame('<input type="file" id="name" name="name" accept="video/*,image/jpeg">', $el->baseHtml());
+    }
+
+    public function testSetMultiple()
+    {
+        $el = new File('name');
+        $el->setMultiple();
+        $this->assertSame('<input type="file" id="name" name="name" multiple>', $el->baseHtml());
     }
 }
