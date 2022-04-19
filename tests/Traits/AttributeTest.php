@@ -81,7 +81,6 @@ class AttributeTest extends TestCase
                 'name' => 'another'
             ])
         );
-        ;
         $this->assertSame('id="another" name="another"', $traitAttributes->getAttrs()->__toString());
         $this->assertSame($returnedObject, $traitAttributes);
     }
@@ -102,7 +101,6 @@ class AttributeTest extends TestCase
                 'name' => 'another'
             ])
         );
-        ;
         $this->assertSame('id="this" name="this"', $traitAttributes->getAttrs()->__toString());
         $this->assertSame($returnedObject, $traitAttributes);
     }
