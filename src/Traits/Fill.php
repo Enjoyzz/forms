@@ -8,7 +8,6 @@ use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
-use Enjoys\Forms\Interfaces\ElementInterface;
 use Enjoys\Forms\Interfaces\FillableInterface;
 
 trait Fill
@@ -115,7 +114,11 @@ trait Fill
     }
 
 
-    public function addElement(ElementInterface $element): FillableInterface
+    /**
+     * @param FillableInterface&Element $element
+     * @return FillableInterface
+     */
+    public function addElement(FillableInterface $element): FillableInterface
     {
         $element->setParentName($this->getName());
         $element->setDefault($this->defaultValue);
@@ -124,7 +127,8 @@ trait Fill
     }
 
     /**
-     * @param ElementInterface[] $elements
+
+     * @param  array<FillableInterface&Element> $elements
      * @return FillableInterface
      */
     public function addElements(array $elements): FillableInterface
