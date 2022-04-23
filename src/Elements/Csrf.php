@@ -43,7 +43,9 @@ class Csrf extends Hidden
         );
     }
 
-
+    /**
+     * @return true|void
+     */
     public function prepare()
     {
         if (!in_array($this->getForm()->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
@@ -51,11 +53,10 @@ class Csrf extends Hidden
             //$this->getForm()->removeElement($this->getForm()->getElement(\Enjoys\Forms\Form::_TOKEN_CSRF_));
             $this->getForm()->removeElement($this);
 
-            //возвращаем 1 что бы не добавлять элемент.
+            //возвращаем true, чтобы не добавлять элемент.
             return true;
         }
         $this->unsetForm();
-        return false;
     }
 
     /**
