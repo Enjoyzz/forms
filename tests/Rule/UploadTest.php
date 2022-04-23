@@ -260,7 +260,7 @@ class UploadTest extends TestCase
 
     public function testCheckMaxsizeInvalidThresholdParam()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectError();
         $uploadRule = new Upload();
         $testedMethod = $this->getPrivateMethod(Upload::class, 'checkMaxsize');
         $testedMethod->invokeArgs($uploadRule, [
