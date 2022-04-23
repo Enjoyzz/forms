@@ -11,13 +11,12 @@ use Enjoys\Forms\Interfaces\Ruled;
 
 class Radio extends Input
 {
-    /**
-     * @param Element&FillableInterface&Ruled $element
-     * @return string
-     */
+
     protected function bodyRender(Element $element): string
     {
         $return = '';
+
+        /** @var Element&FillableInterface&Ruled  $element */
         foreach ($element->getElements() as $data) {
             if ($element->isRuleError()) {
                 $data->addClass('is-invalid');

@@ -3,6 +3,7 @@
 namespace Enjoys\Forms\Traits;
 
 use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Rule\RuleInterface;
 
 trait Rules
 {
@@ -85,6 +86,7 @@ trait Rules
 
     /**
      * Возвращает список всех правил валидации, установленных для элемента
+     * @return RuleInterface[]
      */
     public function getRules(): array
     {

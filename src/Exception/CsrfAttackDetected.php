@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Exception;
 
+use Throwable;
+
 final class CsrfAttackDetected extends ExceptionRule
 {
     public function __construct(string $message = "CSRF Attack detected", int $code = 0, ?Throwable $previous = null)

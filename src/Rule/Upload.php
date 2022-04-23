@@ -16,7 +16,7 @@ class Upload extends Rules implements RuleInterface
 {
     private array $systemErrorMessage = [
         'unknown' => "Unknown upload error",
-        \UPLOAD_ERR_INI_SIZE => "Размер принятого файла превысил максимально допустимый размер, 
+        \UPLOAD_ERR_INI_SIZE => "Размер принятого файла превысил максимально допустимый размер,
             который задан директивой upload_max_filesize конфигурационного файла php.ini.",
         \UPLOAD_ERR_FORM_SIZE => "Размер загружаемого файла превысил значение MAX_FILE_SIZE, указанное в HTML-форме.",
         \UPLOAD_ERR_PARTIAL => "Загружаемый файл был получен только частично.",
@@ -125,7 +125,7 @@ class Upload extends Rules implements RuleInterface
         $parsed = $this->parseRuleOpts($ruleOpts);
 
         $threshold_size = $parsed['param'];
-        Assert::numeric($threshold_size);
+       // Assert::in($threshold_size);
 
         $message = $parsed['message'];
 
