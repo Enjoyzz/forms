@@ -9,6 +9,7 @@ use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
 use Enjoys\Forms\Interfaces\ElementInterface;
+use Enjoys\Forms\Interfaces\FillableInterface;
 
 trait Fill
 {
@@ -38,7 +39,7 @@ trait Fill
     /**
      * @param array|\Closure $data
      * @param bool $useTitleAsValue
-     * @return $this
+     * @return FillableInterface
      * @since 3.4.1 Можно использовать замыкания для заполнения. Анонимная функция должна возвращать массив.
      * @since 3.4.0 Возвращен порядок установки value из индексированных массивов, т.к. неудобно,
      * по умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом
@@ -50,7 +51,7 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill($data, bool $useTitleAsValue = false)
+    public function fill($data, bool $useTitleAsValue = false): FillableInterface
     {
         if ($data instanceof \Closure) {
             $data = $data();
@@ -92,7 +93,7 @@ trait Fill
 
     /**
      *
-     * @return array|Element[]
+     * @return Element[]
      */
     public function getElements(): array
     {
@@ -114,7 +115,7 @@ trait Fill
     }
 
 
-    public function addElement(ElementInterface $element)
+    public function addElement(ElementInterface $element): FillableInterface
     {
         $element->setParentName($this->getName());
         $element->setDefault($this->defaultValue);
@@ -124,9 +125,9 @@ trait Fill
 
     /**
      * @param ElementInterface[] $elements
-     * @return Fill
+     * @return FillableInterface
      */
-    public function addElements(array $elements)
+    public function addElements(array $elements): FillableInterface
     {
         foreach ($elements as $element) {
             $this->addElement($element);
