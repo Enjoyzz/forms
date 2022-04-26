@@ -52,7 +52,7 @@ jobs:
     - name: Run psalm
       run: vendor/bin/psalm
 
-    - name: Code coverage
-      run: |
-        wget https://scrutinizer-ci.com/ocular.phar
-        php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
+#    - name: Code coverage
+#      run: |
+#        wget https://scrutinizer-ci.com/ocular.phar
+#        php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
