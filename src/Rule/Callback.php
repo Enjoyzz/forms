@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Rule;
 
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 
 /**
@@ -71,7 +71,7 @@ class Callback extends Rules implements RuleInterface
         return parent::setMessage($message);
     }
 
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
         if ($this->check() === false) {
             $element->setRuleError($this->getMessage());

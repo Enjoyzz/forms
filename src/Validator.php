@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Elements\Group;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 
 class Validator
 {
@@ -24,7 +24,7 @@ class Validator
                 continue;
             }
 
-            if (!($element instanceof Ruled)) {
+            if (!($element instanceof Ruleable)) {
                 continue;
             }
 

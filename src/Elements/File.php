@@ -8,13 +8,13 @@ use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Descriptionable;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Traits;
 
 use function iniSize2bytes;
 
-class File extends Element implements Ruled, Descriptionable
+class File extends Element implements Ruleable, Descriptionable
 {
     use Traits\Description;
     use Traits\Rules {

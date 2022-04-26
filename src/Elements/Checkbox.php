@@ -9,12 +9,12 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Fillable;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-class Checkbox extends Element implements Fillable, Ruled, Descriptionable
+class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 {
     use Fill;
     use Description;

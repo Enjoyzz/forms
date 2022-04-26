@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 
 class Length extends Rules implements RuleInterface
@@ -30,11 +30,11 @@ class Length extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress PossiblyNullReference
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      * @throws ExceptionRule
      */
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
 
         $method = $this->getRequest()->getRequest()->getMethod();

@@ -9,11 +9,11 @@ use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Descriptionable;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Traits;
 
-class Captcha extends Element implements Ruled, Descriptionable
+class Captcha extends Element implements Ruleable, Descriptionable
 {
     use Traits\Description;
     use Traits\Rules;

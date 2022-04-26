@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Captcha;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Traits\Request;
 use Enjoys\Traits\Options;
 
@@ -42,8 +42,8 @@ abstract class CaptchaBase implements CaptchaInterface
     abstract public function renderHtml(Element $element): string;
 
     /**
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      */
-    abstract public function validate(Ruled $element): bool;
+    abstract public function validate(Ruleable $element): bool;
 }

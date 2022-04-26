@@ -30,7 +30,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Descriptionable;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
 
@@ -40,7 +40,7 @@ use Enjoys\Forms\Traits\Rules;
  * @author Enjoys
  *
  */
-class Color extends Element implements Ruled, Descriptionable
+class Color extends Element implements Ruleable, Descriptionable
 {
     use Description;
     use Rules;

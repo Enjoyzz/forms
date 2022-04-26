@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 
 /**
@@ -18,10 +18,10 @@ use Enjoys\Forms\Rules;
 class Captcha extends Rules implements RuleInterface
 {
     /**
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      */
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
         /** @var \Enjoys\Forms\Elements\Captcha $element */
         return $element->validate();
