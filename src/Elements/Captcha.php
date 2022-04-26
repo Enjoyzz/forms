@@ -8,11 +8,12 @@ use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Traits;
 
-class Captcha extends Element implements Ruled
+class Captcha extends Element implements Ruled, Descriptionable
 {
     use Traits\Description;
     use Traits\Rules;

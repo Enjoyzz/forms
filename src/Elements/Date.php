@@ -6,11 +6,12 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
 
-class Date extends Element implements Ruled
+class Date extends Element implements Ruled, Descriptionable
 {
     use Description;
     use Rules;

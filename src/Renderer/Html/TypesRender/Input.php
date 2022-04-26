@@ -6,6 +6,7 @@ namespace Enjoys\Forms\Renderer\Html\TypesRender;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\TypeRenderInterface;
 
 class Input implements TypeRenderInterface
@@ -39,13 +40,15 @@ class Input implements TypeRenderInterface
 
     protected function descriptionRender(): string
     {
-        if (!method_exists($this->getElement(), 'getDescription') || empty($this->getElement()->getDescription())) {
+        $element = $this->getElement();
+          if (!($element instanceof Descriptionable) || empty($element->getDescription())) {
             return '';
         }
+        /** @var Element&Descriptionable $element */
         return sprintf(
             '<small%s>%s</small>',
-            $this->getElement()->getAttributesString(Form::ATTRIBUTES_DESC),
-            $this->getElement()->getDescription()
+            $element->getAttributesString(Form::ATTRIBUTES_DESC),
+            $element->getDescription()
         );
     }
 

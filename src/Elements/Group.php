@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
 use Enjoys\Forms\Traits\Container;
 use Enjoys\Forms\Traits\Description;
 use Webmozart\Assert\Assert;
 
-class Group extends Element
+class Group extends Element implements Descriptionable
 {
     use Description;
     use Container;
