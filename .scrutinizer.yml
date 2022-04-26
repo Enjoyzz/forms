@@ -1,0 +1,26 @@
+build:
+  environment:
+    php:
+      version: 8.0
+  nodes:
+    analysis:
+      project_setup:
+        override:
+          - 'true'
+      tests:
+        override:
+          - php-scrutinizer-run
+          - vendor/bin/phpcs - run
+filter:
+  excluded_paths:
+    - 'tests/*'
+    - 'example/*'
+checks:
+  php: true
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: true
+tools:
+  external_code_coverage: true
