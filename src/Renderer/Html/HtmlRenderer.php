@@ -28,8 +28,7 @@ class HtmlRenderer extends AbstractRenderer
         TypesRender\Html::class => [
             Elements\Html::class,
             Elements\Header::class
-        ],
-        TypesRender\Textarea::class => Elements\Textarea::class
+        ]
     ];
 
     public static function createTypeRender(Element $element): TypeRenderInterface
