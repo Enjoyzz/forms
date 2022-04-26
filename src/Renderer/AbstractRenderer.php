@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Renderer;
-
 
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\RendererInterface;
 
-abstract class AbstractRenderer  implements RendererInterface
+abstract class AbstractRenderer implements RendererInterface
 {
     private Form $form;
 

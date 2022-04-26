@@ -42,7 +42,7 @@ class File extends Element implements Ruleable, Descriptionable
     public function addAccept(string $accept): self
     {
         $attribute = $this->getAttr('accept');
-        if ($attribute === null){
+        if ($attribute === null) {
             $attribute = AttributeFactory::create('accept');
             $attribute->setMultiple(true);
             $attribute->setSeparator(',');

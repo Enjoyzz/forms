@@ -4,7 +4,6 @@ namespace Enjoys\Forms\Traits;
 
 trait Description
 {
-
     private ?string $description = null;
 
     /**

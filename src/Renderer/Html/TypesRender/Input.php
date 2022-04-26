@@ -41,7 +41,7 @@ class Input implements TypeRenderInterface
     protected function descriptionRender(): string
     {
         $element = $this->getElement();
-          if (!($element instanceof Descriptionable) || empty($element->getDescription())) {
+        if (!($element instanceof Descriptionable) || empty($element->getDescription())) {
             return '';
         }
         /** @var Element&Descriptionable $element */

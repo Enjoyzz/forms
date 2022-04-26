@@ -11,7 +11,6 @@ use Enjoys\Forms\Interfaces\Ruleable;
 
 class Radio extends Input
 {
-
     protected function bodyRender(Element $element): string
     {
         $return = '';
