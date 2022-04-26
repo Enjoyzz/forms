@@ -47,7 +47,7 @@ class Upload extends Rules implements RuleInterface
     public function validate(Ruleable $element): bool
     {
         /** @var UploadedFileInterface|false $value */
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->getAll());
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->toArray());
 
         if (false === $this->check($value, $element)) {
             return false;

@@ -34,8 +34,8 @@ class Equal extends Rules implements RuleInterface
 
         $method = $this->getRequest()->getRequest()->getMethod();
         $requestData = match (strtolower($method)) {
-            'get' => $this->getRequest()->getQueryData()->getAll(),
-            'post' => $this->getRequest()->getPostData()->getAll(),
+            'get' => $this->getRequest()->getQueryData()->toArray(),
+            'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
         $value = \getValueByIndexPath($element->getName(), $requestData);

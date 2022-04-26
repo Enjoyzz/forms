@@ -32,8 +32,8 @@ class Required extends Rules implements RuleInterface
     public function validate(Ruleable $element): bool
     {
         $requestData = match (strtolower($this->getRequest()->getRequest()->getMethod())) {
-            'get' => $this->getRequest()->getQueryData()->getAll(),
-            'post' => $this->getRequest()->getPostData()->getAll(),
+            'get' => $this->getRequest()->getQueryData()->toArray(),
+            'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
         $_value = \getValueByIndexPath($element->getName(), $requestData);
