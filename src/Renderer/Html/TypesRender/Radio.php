@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Renderer\Html\TypesRender;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Interfaces\Ruled;
 
 class Radio extends Input
@@ -16,7 +16,7 @@ class Radio extends Input
     {
         $return = '';
 
-        /** @var Element&FillableInterface&Ruled  $element */
+        /** @var Element&Fillable&Ruled  $element */
         foreach ($element->getElements() as $data) {
             if ($element->isRuleError()) {
                 $data->addClass('is-invalid');

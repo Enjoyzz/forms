@@ -8,7 +8,7 @@ namespace Enjoys\Forms\Interfaces;
  * Interface FillableInterface
  * @package Enjoys\Forms
  */
-interface FillableInterface
+interface Fillable
 {
     public function setParentName(string $parentName): void;
 

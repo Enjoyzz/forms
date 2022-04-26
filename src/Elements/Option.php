@@ -6,10 +6,10 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Fill;
 
-class Option extends Element implements FillableInterface
+class Option extends Element implements Fillable
 {
     use Fill;
 

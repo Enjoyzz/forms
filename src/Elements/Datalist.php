@@ -7,13 +7,13 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Descriptionable;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-class Datalist extends Element implements FillableInterface, Ruled, Descriptionable
+class Datalist extends Element implements Fillable, Ruled, Descriptionable
 {
     use Fill;
     use Description;

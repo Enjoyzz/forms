@@ -8,13 +8,13 @@ use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\AttributeInterface;
 use Enjoys\Forms\Interfaces\Descriptionable;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Interfaces\Ruled;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Fill;
 use Enjoys\Forms\Traits\Rules;
 
-class Select extends Element implements FillableInterface, Ruled, Descriptionable
+class Select extends Element implements Fillable, Ruled, Descriptionable
 {
     use Fill;
     use Description;
