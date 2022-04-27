@@ -144,11 +144,6 @@ class DefaultsTest extends _TestCase
         $method = $this->getPrivateMethod(Defaults::class, 'getBase64Image');
 
         $base64img = $method->invoke($captcha, $img);
-        $this->assertSame(
-            '/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBkZWZhdWx0IHF1YWxpdHkK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8AAEQgAZADIAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9eooooOMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIxOhbaN+f8AcP8AhUlRr/x8v/uL/M1JQMKKKKBBRRRQAUUUUAFFFFABRUc0ywRF2BPIAA6kk4A/EkU2C4853RonikUAlHxnBzg8Ejsfyp2drjtpcmooopCCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKpXV+tvP5OYFbaGJmm8sEEkccHPQ/pV2oJbbfL5iTSROVCsU2ncBnHUH1P501bqaU+W/vEkMqzwRzKCFkUMAeuCM0+iikQ99AooooEQ3YBtmzEZBkZUE5AyMkY5yOoxzxxzUVk7s8gBmaAAbGmQqwPORyASANvJ9Tyat0VSlpYq+lgoooqSQooooAarhiRg8eop1NAIduOCc5/CnUkMKKKKYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q==',
-            $base64img
-        );
-
         $result = \base64_decode($base64img);
         $size = \getimagesizefromstring($result);
         $this->assertEquals(200, $size[0]);
@@ -184,11 +179,23 @@ class DefaultsTest extends _TestCase
     {
         srand(0);
         $element = new Captcha(new Defaults());
+
         $element->prepare();
-        $this->assertSame(
-            '<img alt="captcha image" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA+Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBkZWZhdWx0IHF1YWxpdHkK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8AAEQgAMgCWAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9loopksqQqGcnk4AAJJPsByakltLVj6KZFKkylkJ4OCCCCD7g8in0AmnqgorE1SS+gkleK8kE5z9jtIY1cS4Uf6zKkgbzgsGVQCvIJzW3VONkmAUUUVIBRRUcsoi25VmLHaAo74J/pSbS1Y0rklFMjkEgPylSpwVPUHr/UU+mncAoqvcX0NtIkcvm7n+7shd89eMgHng8VYptNCCiiq0VycHerkeYyb8DA+YgD19P85qW7Bcs0UUUwCiiigAqG4jdzE8e0tG+4KxwDwR15x19KmooauJq6sQ28boZXk2hpH3FVOQOAOvGenpU1FFCVgSsrGW1hqMd/dXNte2qrOVOJrVpGUBQNoYSL8udzYx1Y+talFFU5N7jCqUUm+7jZhIHaNsqUIC8rx/9f8A+sKu0hUFw+PmAIB9jj/AUkUnYWmOm942zjY2768Ef1p9FJq4hiJseRs53tu+nAH9KfRRQlYDO1G6t4LuxWW4ijImLEO4GB5bjP0zxWjRRVN3SEFQ+R+62bv+Wm/OP9rdj+lTUVNgCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD//2Q==" /><br /><input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">',
-            $element->renderHtml()
+
+        $resultRenderer = $element->renderHtml();
+        $this->assertStringContainsString(
+            '<img alt="captcha image" src="data:image/jpeg;base64,',
+            $resultRenderer
         );
+        $this->assertStringContainsString(
+            '" /><br /><input id="captcha_defaults" name="captcha_defaults" type="text" autocomplete="off">',
+            $resultRenderer
+        );
+        preg_match_all('/"(.*?)"/i', $resultRenderer, $matches);
+        $result = \base64_decode(\str_replace('data:image/jpeg;base64,', '', $matches[1][1]));
+        $size = \getimagesizefromstring($result);
+        $this->assertEquals(150, $size[0]);
+        $this->assertEquals(50, $size[1]);
     }
 
     /**
