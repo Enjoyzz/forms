@@ -7,7 +7,7 @@ namespace Enjoys\Forms\Rule;
 use ByteUnits\Binary;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 use Psr\Http\Message\UploadedFileInterface;
 use Webmozart\Assert\Assert;
@@ -40,14 +40,14 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress PossiblyNullReference
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      * @throws ExceptionRule
      */
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
         /** @var UploadedFileInterface|false $value */
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->getAll());
+        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->toArray());
 
         if (false === $this->check($value, $element)) {
             return false;
@@ -58,11 +58,11 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
-     * @param Ruled $element
+     * @param Ruleable $element
      * @return bool
      * @throws ExceptionRule
      */
-    private function check($value, Ruled $element): bool
+    private function check($value, Ruleable $element): bool
     {
         foreach ($this->getParams() as $rule => $ruleOpts) {
             if (is_int($rule) && is_string($ruleOpts)) {
@@ -81,7 +81,7 @@ class Upload extends Rules implements RuleInterface
     /**
      * @param false|UploadedFileInterface $value
      */
-    private function checkSystem($value, $message, Ruled $element): bool
+    private function checkSystem($value, $message, Ruleable $element): bool
     {
         if ($value === false) {
             return true;
@@ -98,7 +98,7 @@ class Upload extends Rules implements RuleInterface
     /**
      * @param false|UploadedFileInterface $value
      */
-    private function checkRequired($value, ?string $message, Ruled $element): bool
+    private function checkRequired($value, ?string $message, Ruleable $element): bool
     {
         if (is_null($message)) {
             $message = 'Выберите файл для загрузки';
@@ -116,7 +116,7 @@ class Upload extends Rules implements RuleInterface
     /**
      * @param false|UploadedFileInterface $value
      */
-    private function checkMaxsize($value, int|array|string $ruleOpts, Ruled $element): bool
+    private function checkMaxsize($value, int|array|string $ruleOpts, Ruleable $element): bool
     {
         if ($value === false) {
             return true;
@@ -146,7 +146,7 @@ class Upload extends Rules implements RuleInterface
     /**
      * @param false|UploadedFileInterface $value
      */
-    private function checkExtensions($value, string|array $ruleOpts, Ruled $element): bool
+    private function checkExtensions($value, string|array $ruleOpts, Ruleable $element): bool
     {
         if ($value === false) {
             return true;

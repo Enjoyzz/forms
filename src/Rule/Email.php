@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 
 class Email extends Rules implements RuleInterface
@@ -22,16 +22,16 @@ class Email extends Rules implements RuleInterface
 
     /**
      * @psalm-suppress PossiblyNullReference
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      */
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
 
         $method = $this->getRequest()->getRequest()->getMethod();
         $requestData = match (strtolower($method)) {
-            'get' => $this->getRequest()->getQueryData()->getAll(),
-            'post' => $this->getRequest()->getPostData()->getAll(),
+            'get' => $this->getRequest()->getQueryData()->toArray(),
+            'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
         $value = \getValueByIndexPath($element->getName(), $requestData);

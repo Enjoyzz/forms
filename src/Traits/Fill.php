@@ -8,7 +8,7 @@ use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 
 trait Fill
 {
@@ -38,7 +38,7 @@ trait Fill
     /**
      * @param array|\Closure $data
      * @param bool $useTitleAsValue
-     * @return FillableInterface
+     * @return Fillable
      * @since 3.4.1 Можно использовать замыкания для заполнения. Анонимная функция должна возвращать массив.
      * @since 3.4.0 Возвращен порядок установки value из индексированных массивов, т.к. неудобно,
      * по умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом
@@ -50,7 +50,7 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill($data, bool $useTitleAsValue = false): FillableInterface
+    public function fill($data, bool $useTitleAsValue = false): Fillable
     {
         if ($data instanceof \Closure) {
             $data = $data();
@@ -115,10 +115,10 @@ trait Fill
 
 
     /**
-     * @param FillableInterface&Element $element
-     * @return FillableInterface
+     * @param Fillable&Element $element
+     * @return Fillable
      */
-    public function addElement(FillableInterface $element): FillableInterface
+    public function addElement(Fillable $element): Fillable
     {
         $element->setParentName($this->getName());
         $element->setDefault($this->defaultValue);
@@ -127,11 +127,10 @@ trait Fill
     }
 
     /**
-
-     * @param  array<FillableInterface&Element> $elements
-     * @return FillableInterface
+ * @param  array<Fillable&Element> $elements
+     * @return Fillable
      */
-    public function addElements(array $elements): FillableInterface
+    public function addElements(array $elements): Fillable
     {
         foreach ($elements as $element) {
             $this->addElement($element);

@@ -8,7 +8,7 @@ use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Captcha\CaptchaBase;
 use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Session\Session as Session;
 use Webmozart\Assert\Assert;
 
@@ -30,15 +30,15 @@ class Defaults extends CaptchaBase implements CaptchaInterface
 
     /**
      * @psalm-suppress PossiblyNullReference
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      */
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
         $method = $this->getRequest()->getRequest()->getMethod();
         $requestData = match (strtolower($method)) {
-            'get' => $this->getRequest()->getQueryData()->getAll(),
-            'post' => $this->getRequest()->getPostData()->getAll(),
+            'get' => $this->getRequest()->getQueryData()->toArray(),
+            'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
 

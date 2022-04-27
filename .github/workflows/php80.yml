@@ -1,4 +1,4 @@
-name: php 8.0 dev 5.x
+name: php 8.0
 
 on:
   push:
@@ -7,24 +7,24 @@ on:
     branches: [ 5.x ]
 
 jobs:
-  run:    
+  run:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+        operating-system: [ubuntu-latest, macOS-latest]
         php-versions: ['8.0']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      
+
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: intl, gd #optional
         ini-values: "post_max_size=256M" #optional
-        
+
     - name: Check PHP Version
       run: php -v
 
@@ -36,22 +36,22 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-v1-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-
+          ${{ runner.os }}-v1-php-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
-      
+
     - name: Run test suite
       run: |
         mkdir -p build/logs
-        vendor/bin/phpunit  tests --verbose --coverage-clover build/logs/clover.xml 
-      
-#    - name: Run psalm
-#      run: vendor/bin/psalm  --show-info=true
-#      
+        vendor/bin/phpunit  tests --verbose --coverage-clover build/logs/clover.xml
+
+    - name: Run psalm
+      run: vendor/bin/psalm
+
 #    - name: Code coverage
 #      run: |
 #        wget https://scrutinizer-ci.com/ocular.phar

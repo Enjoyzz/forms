@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Interfaces\ElementInterface;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
 
@@ -70,7 +70,7 @@ abstract class Element implements ElementInterface
         }
         $this->form = $form;
         $this->setDefault();
-        if ($this instanceof FillableInterface) {
+        if ($this instanceof Fillable) {
             foreach ($this->getElements() as $element) {
                 $element->setDefault($this->getDefaultValue());
             }

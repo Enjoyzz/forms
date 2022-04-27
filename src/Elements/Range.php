@@ -6,12 +6,13 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Descriptionable;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
 use Webmozart\Assert\Assert;
 
-class Range extends Element implements Ruled
+class Range extends Element implements Ruleable, Descriptionable
 {
     use Description;
     use Rules;

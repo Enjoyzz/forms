@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Descriptionable;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Traits\Description;
 use Enjoys\Forms\Traits\Rules;
 
-class Datetimelocal extends Element implements Ruled
+class Datetimelocal extends Element implements Ruleable, Descriptionable
 {
     use Description;
     use Rules;

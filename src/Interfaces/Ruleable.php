@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Interfaces;
 
 use Enjoys\Forms\Rule\RuleInterface;
 
-interface Ruled
+interface Ruleable
 {
     public function addRule(string $ruleClass, ?string $message = null, mixed $params = null): self;
     public function setRuleError(?string $message): void;

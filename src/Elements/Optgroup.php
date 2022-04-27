@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\FillableInterface;
+use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Fill;
 
 /**
@@ -56,7 +56,7 @@ use Enjoys\Forms\Traits\Fill;
  *
  * @since 2.4.0
  */
-class Optgroup extends Element implements FillableInterface
+class Optgroup extends Element implements Fillable
 {
     use Fill;
 

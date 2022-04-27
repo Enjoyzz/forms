@@ -6,10 +6,10 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Traits\Rules;
 
-class Hidden extends Element implements Ruled
+class Hidden extends Element implements Ruleable
 {
     use Rules;
 

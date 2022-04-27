@@ -8,14 +8,11 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Helper;
-use Enjoys\Forms\Interfaces\RendererInterface;
 use Enjoys\Forms\Interfaces\TypeRenderInterface;
-use Enjoys\Forms\Traits\RendererTrait;
+use Enjoys\Forms\Renderer\AbstractRenderer;
 
-class HtmlRenderer implements RendererInterface
+class HtmlRenderer extends AbstractRenderer
 {
-    use RendererTrait;
-
     private const _MAP_ = [
         TypesRender\Button::class => [
             Elements\Button::class,
@@ -31,8 +28,7 @@ class HtmlRenderer implements RendererInterface
         TypesRender\Html::class => [
             Elements\Html::class,
             Elements\Header::class
-        ],
-        TypesRender\Textarea::class => Elements\Textarea::class
+        ]
     ];
 
     public static function createTypeRender(Element $element): TypeRenderInterface
@@ -69,7 +65,7 @@ class HtmlRenderer implements RendererInterface
     {
         return sprintf(
             "<form%s>\n%s\n%s\n</form>",
-            $this->form->getAttributesString(),
+            $this->getForm()->getAttributesString(),
             $this->rendererHiddenElements(),
             $this->rendererElements()
         );

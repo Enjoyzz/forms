@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruled;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
 
 /**
@@ -26,14 +26,14 @@ class Required extends Rules implements RuleInterface
     }
     /**
      * @psalm-suppress PossiblyNullReference
-     * @param Ruled&Element $element
+     * @param Ruleable&Element $element
      * @return bool
      */
-    public function validate(Ruled $element): bool
+    public function validate(Ruleable $element): bool
     {
         $requestData = match (strtolower($this->getRequest()->getRequest()->getMethod())) {
-            'get' => $this->getRequest()->getQueryData()->getAll(),
-            'post' => $this->getRequest()->getPostData()->getAll(),
+            'get' => $this->getRequest()->getQueryData()->toArray(),
+            'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
         $_value = \getValueByIndexPath($element->getName(), $requestData);
