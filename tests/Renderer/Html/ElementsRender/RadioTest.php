@@ -25,9 +25,9 @@ class RadioTest extends _TestCaseHtmlRenderer
 
         $render = HtmlRenderer::createTypeRender($el);
         $this->assertSame($this->stringOneLine(<<<HTML
-<label for="rb_test">Test Label</label>
+<label for="test">Test Label</label>
 <div><input type="radio" value="0" test id="new" name="test"><label for="new">no</label></div>
-<div><input type="radio" id="rb_1" value="1" name="test"><label for="rb_1">yes</label></div>
+<div><input type="radio" id="test_1" value="1" name="test"><label for="test_1">yes</label></div>
 HTML), $this->stringOneLine($render->render()));
     }
 
@@ -36,7 +36,7 @@ HTML), $this->stringOneLine($render->render()));
 
         $el = new Radio('test', 'Test Label', true);
         $el->addElements([
-         new Radio('yes', 'YES'),
+         new Radio('yes', 'YES', false),
          (new Radio('no', 'NO'))
              ->addAttr(AttributeFactory::create('test', ''))
              ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
@@ -44,9 +44,9 @@ HTML), $this->stringOneLine($render->render()));
 
         $render = HtmlRenderer::createTypeRender($el);
         $this->assertSame($this->stringOneLine(<<<HTML
-<label for="rb_test">Test Label</label>
-<div><input type="radio" id="rb_yes" value="yes" name="test"><label for="rb_yes">YES</label></div>
-<div><input type="radio" id="rb_no" value="no" test="" name="test"><label test for="rb_no">NO</label></div>
+<label for="test">Test Label</label>
+<div><input type="radio" id="test_yes" value="yes" name="test"><label for="test_yes">YES</label></div>
+<div><input type="radio" value="no" id="no" test="" name="test"><label test for="no">NO</label></div>
 HTML), $this->stringOneLine($render->render()));
     }
 

@@ -19,21 +19,11 @@ class CheckboxTest extends _TestCase
         $this->assertNull($el->getAttr('name'));
     }
 
-    public function testFlushPrefix()
-    {
-        (new Checkbox('foo'))->setPrefixId('test_');
-        $el = new Checkbox('foo');
-        $this->assertSame('test_', $el->getPrefixId());
-
-        $el = new Checkbox('foo', flushPrefix: true);
-        $this->assertSame('cb_', $el->getPrefixId());
-    }
-
 
     public function testGetPrefixId()
     {
-        $el = new Checkbox('foo', flushPrefix: true);
-        $this->assertSame('cb_', $el->getPrefixId());
+        $el = new Checkbox('foo');
+        $this->assertSame('foo_', $el->getPrefixId());
     }
 
 
@@ -150,9 +140,10 @@ class CheckboxTest extends _TestCase
     {
         $obj = new Checkbox('name', 'title');
         $obj->setPrefixId('prefix_');
+        $this->assertSame('name', $obj->getAttr('id')->getValueString());
 
         $obj2 = new Checkbox('name', 'title');
-        $this->assertSame('prefix_name', $obj2->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj2->getAttr('id')->getValueString());
     }
 
     public function test_prefix3()
@@ -253,9 +244,8 @@ class CheckboxTest extends _TestCase
     public function test_basehtml()
     {
         $cb = new Checkbox('foo', 'bar');
-        $cb->resetPrefixId();
         $this->assertStringContainsString(
-            '<input type="checkbox" value="foo" id="cb_foo[]" name=""><label for="cb_foo[]">bar</label>',
+            '<input type="checkbox" value="foo" id="foo" name=""><label for="foo">bar</label>',
             $cb->baseHtml()
         );
     }

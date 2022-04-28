@@ -14,21 +14,11 @@ class RadioTest extends TestCase
         $this->assertSame('title', $obj->getLabel());
     }
 
-    public function testFlushPrefix()
-    {
-        (new Radio('foo'))->setPrefixId('test_');
-        $el = new Radio('foo');
-        $this->assertSame('test_', $el->getPrefixId());
-
-        $el = new Radio('foo', flushPrefix: true);
-        $this->assertSame('rb_', $el->getPrefixId());
-    }
-
 
     public function testGetPrefixId()
     {
-        $el = new Radio('foo', flushPrefix: true);
-        $this->assertSame('rb_', $el->getPrefixId());
+        $el = new Radio('foo');
+        $this->assertSame('foo_', $el->getPrefixId());
     }
 
     public function testCheckRemoveAttributeName()
@@ -52,7 +42,7 @@ class RadioTest extends TestCase
 
     private function filldata()
     {
-        $obj = new Radio('name', 'title', true);
+        $obj = new Radio('name', 'title');
         $obj->setPrefixId('rb_');
         $obj->fill([
             'v1' => 't1',
@@ -152,9 +142,10 @@ class RadioTest extends TestCase
 
         $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
+        $this->assertSame('name', $obj->getAttr('id')->getValueString());
 
         $obj2 = new Radio('name', 'title');
-        $this->assertSame('prefix_name', $obj2->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj2->getAttr('id')->getValueString());
     }
 
     public function test_prefix3()
@@ -238,7 +229,6 @@ class RadioTest extends TestCase
     public function test_basehtml()
     {
         $rb = new Radio('foo', 'bar');
-        $rb->resetPrefixId();
-        $this->assertStringContainsString('<input type="radio" value="foo" id="rb_foo" name=""><label for="rb_foo">bar</label>', $rb->baseHtml());
+        $this->assertStringContainsString('<input type="radio" value="foo" id="foo" name=""><label for="foo">bar</label>', $rb->baseHtml());
     }
 }

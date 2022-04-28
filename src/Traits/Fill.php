@@ -63,27 +63,18 @@ trait Fill
         foreach ($data as $value => $title) {
             $fillHandler = new FillHandler($value, $title, $useTitleAsValue);
 
+            /** @var class-string<Fillable&Element> $class */
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->getType());
 
-
-            $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
+            $element = new $class($fillHandler->getValue(), $fillHandler->getLabel(), false);
 
             $element->setAttrs(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
-            /**
-             * @todo слишком много вложенности if. подумать как переделать
-             */
             /** @var AttributeCollection $fillCollection */
             $fillCollection = $element->getAttributeCollection('fill');
             foreach ($fillCollection as $attr) {
-              //  if (in_array($attr->getName(), ['id', 'name', 'disabled', 'readonly'])) {
                     $element->setAttr($attr);
-                 //   $fillCollection->remove($attr);
-               // }
             }
-
-
-
 
             $this->addElement($element);
         }
@@ -91,7 +82,6 @@ trait Fill
     }
 
     /**
-     *
      * @return Element[]
      */
     public function getElements(): array
