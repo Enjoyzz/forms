@@ -20,53 +20,47 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
     use Description;
     use Rules;
 
-    private const DEFAULT_PREFIX = 'cb_';
-
     protected string $type = 'checkbox';
-    private static string $prefix_id = 'cb_';
+    private static ?string $prefix_id = null;
+    private bool $parent;
+    private string $originalName;
 
 
-    public function __construct(string $name, string $title = null, bool $flushPrefix = false)
+    public function __construct(string $name, string $title = null, bool $parent = true)
     {
+        $this->parent = $parent;
+        $this->originalName = $name;
 
-        $construct_name = $name;
-        if (\substr($name, -2) !== '[]') {
-            $construct_name = $name . '[]';
-        }
+        $construct_name = (!str_ends_with($name, '[]')) ? $name . '[]' : $name;
+
         parent::__construct($construct_name, $title);
-
-        if ($flushPrefix) {
-            $this->setPrefixId('cb_');
-        }
 
         $this->setAttrs(
             AttributeFactory::createFromArray([
-                'id' => $this->getPrefixId() . $name,
-                'value' => $name,
+                'id' => self::$prefix_id . $this->originalName,
+                'value' => $this->originalName,
             ])
         );
 
+        $this->setPrefixId($this->originalName . '_');
         $this->removeAttr('name');
+
     }
 
 
     public function setPrefixId(string $prefix): self
     {
-        static::$prefix_id = $prefix;
-        $this->setAttr(AttributeFactory::create('id', static::$prefix_id . $this->getName()));
+        if ($this->parent) {
+            static::$prefix_id = $prefix;
+            $this->setAttr(AttributeFactory::create('id', $this->originalName));
+        }
         return $this;
     }
 
-    public function getPrefixId(): string
+    public function getPrefixId(): ?string
     {
         return static::$prefix_id;
     }
-
-    public function resetPrefixId(): void
-    {
-        $this->setPrefixId(self::DEFAULT_PREFIX);
-    }
-
 
     protected function setDefault(mixed $value = null): self
     {

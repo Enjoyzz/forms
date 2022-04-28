@@ -66,7 +66,8 @@ trait Fill
             $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->getType());
 
 
-            $element = new $class($fillHandler->getValue(), $fillHandler->getLabel());
+            /** @var class-string<Fillable> $class */
+            $element = new $class($fillHandler->getValue(), $fillHandler->getLabel(), false);
 
             $element->setAttrs(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
