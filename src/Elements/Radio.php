@@ -20,49 +20,42 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
     use Description;
     use Rules;
 
-    private const DEFAULT_PREFIX = 'rb_';
-
     protected string $type = 'radio';
-    private static string $prefix_id = 'rb_';
+    private static ?string $prefix_id = null;
+    private bool $parent;
+    private string $originalName;
 
 
-    public function __construct(string $name, string $title = null, bool $flushPrefix = false)
+    public function __construct(string $name, string $title = null, bool $parent = true)
     {
+        $this->parent = $parent;
+        $this->originalName = $name;
+
         parent::__construct($name, $title);
 
-        if ($flushPrefix) {
-            $this->setPrefixId('rb_');
-        }
 
         $this->setAttrs(
             AttributeFactory::createFromArray([
-                'id' => $this->getPrefixId() . $name,
+                'id' => self::$prefix_id . $this->originalName,
                 'value' => $name,
             ])
         );
+        $this->setPrefixId($this->originalName . '_');
         $this->removeAttr('name');
     }
 
     public function setPrefixId(string $prefix): self
     {
-        static::$prefix_id = $prefix;
-        $this->setAttrs(
-            AttributeFactory::createFromArray([
-                'id' => static::$prefix_id . $this->getName()
-            ])
-        );
-
+        if ($this->parent) {
+            static::$prefix_id = $prefix;
+            $this->setAttr(AttributeFactory::create('id', $this->originalName));
+        }
         return $this;
     }
 
-    public function getPrefixId(): string
+    public function getPrefixId(): ?string
     {
         return static::$prefix_id;
-    }
-
-    public function resetPrefixId(): void
-    {
-        $this->setPrefixId(self::DEFAULT_PREFIX);
     }
 
     /**
