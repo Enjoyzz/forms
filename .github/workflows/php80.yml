@@ -2,9 +2,7 @@ name: php 8.0
 
 on:
   push:
-    branches: [ 5.x ]
   pull_request:
-    branches: [ 5.x ]
 
 jobs:
   run:
@@ -24,6 +22,7 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: intl, gd #optional
         ini-values: "post_max_size=256M" #optional
+        coverage: pcov
 
     - name: Check PHP Version
       run: php -v
@@ -56,3 +55,10 @@ jobs:
 #      run: |
 #        wget https://scrutinizer-ci.com/ocular.phar
 #        php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
+
+    - name: Run infection
+      if: matrix.operating-system == 'ubuntu-latest'
+      run: |
+        ./infection.phar -j2 --ignore-msi-with-no-mutations --only-covered
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
