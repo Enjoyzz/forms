@@ -55,12 +55,12 @@ class CaptchaTest extends TestCase
         $this->assertTrue($element->validate());
     }
 
-    public function testRenderHtml()
+    public function testBaseHtml()
     {
         $mockCaptcha = $this->getMockBuilder(CaptchaInterface::class)->getMock();
         $mockCaptcha->expects($this->any())->method('renderHtml')->willReturn('<test></test>');
         $element = new Captcha($mockCaptcha);
-        $this->assertSame('<test></test>', $element->renderHtml());
+        $this->assertSame('<test></test>', $element->baseHtml());
     }
 
     public function testSetRequestInConstruct()

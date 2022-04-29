@@ -36,15 +36,6 @@ class Captcha extends Element implements Ruleable, Descriptionable
 
     /**
      *
-     * @return string
-     */
-    public function renderHtml(): string
-    {
-        return $this->captcha->renderHtml($this);
-    }
-
-    /**
-     *
      * @return bool
      */
     public function validate(): bool
@@ -55,7 +46,7 @@ class Captcha extends Element implements Ruleable, Descriptionable
 
     public function baseHtml(): string
     {
-        return $this->renderHtml();
+        return $this->captcha->renderHtml($this);
     }
 
     public function getCaptcha(): CaptchaInterface
