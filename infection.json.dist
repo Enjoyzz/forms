@@ -10,6 +10,9 @@
         "summary": "logs/infection/summary.log",
         "json": "logs/infection/infection-log.json",
         "perMutator": "logs/infection/per-mutator.md"
+        "stryker": {
+            "report": "master"
+        }
     },
     "tmpDir": ".tmp",
     "mutators": {
