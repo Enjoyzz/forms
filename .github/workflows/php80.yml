@@ -56,3 +56,11 @@ jobs:
 #      run: |
 #        wget https://scrutinizer-ci.com/ocular.phar
 #        php ocular.phar code-coverage:upload  --format=php-clover build/logs/clover.xml
+
+    - name: Run infection
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        git fetch --depth=1 origin $GITHUB_BASE_REF
+        vendor/bin/infection -j2 --git-diff-filter=A --git-diff-base=origin/$GITHUB_BASE_REF --logger-github --ignore-msi-with-no-mutations --only-covered
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
