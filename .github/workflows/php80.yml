@@ -24,6 +24,7 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: intl, gd #optional
         ini-values: "post_max_size=256M" #optional
+        coverage: pcov
 
     - name: Check PHP Version
       run: php -v
