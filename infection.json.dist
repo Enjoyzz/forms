@@ -11,10 +11,7 @@
         "json": "logs/infection/infection-log.json",
         "perMutator": "logs/infection/per-mutator.md",
         "stryker": {
-            "report": [
-                "master",
-                "pull_request"
-            ]
+            "report":  "5.x"
         }
     },
     "tmpDir": ".tmp",
