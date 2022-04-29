@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Captcha\CaptchaBase;
-use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Interfaces\CaptchaInterface;
 use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
@@ -20,9 +18,8 @@ class Captcha extends Element implements Ruleable, Descriptionable
 
 
     /**
-     * @param CaptchaInterface&CaptchaBase $captcha
+     * @param CaptchaInterface $captcha
      * @param string|null $message
-     * @throws ExceptionRule
      */
     public function __construct(private CaptchaInterface $captcha, string $message = null)
     {
@@ -60,10 +57,7 @@ class Captcha extends Element implements Ruleable, Descriptionable
         return $this->renderHtml();
     }
 
-    /**
-     * @return CaptchaBase&CaptchaInterface|CaptchaInterface
-     */
-    public function getCaptcha()
+    public function getCaptcha(): CaptchaInterface
     {
         return $this->captcha;
     }

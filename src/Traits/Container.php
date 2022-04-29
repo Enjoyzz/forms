@@ -26,7 +26,6 @@
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Captcha\CaptchaInterface;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements\Button;
 use Enjoys\Forms\Elements\Captcha;
@@ -60,6 +59,7 @@ use Enjoys\Forms\Elements\Time;
 use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Elements\Url;
 use Enjoys\Forms\Elements\Week;
+use Enjoys\Forms\Interfaces\CaptchaInterface;
 use Webmozart\Assert\Assert;
 
 /**
