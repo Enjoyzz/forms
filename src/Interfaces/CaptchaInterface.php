@@ -24,8 +24,4 @@ interface CaptchaInterface
      * @return bool
      */
     public function validate(Ruleable $element): bool;
-
-
-
-
 }

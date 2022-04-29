@@ -4,9 +4,13 @@ namespace Tests\Enjoys\Forms\Elements;
 
 
 use Enjoys\Forms\Elements\Captcha;
+use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\CaptchaInterface;
+use Enjoys\Forms\Rules;
+use Enjoys\ServerRequestWrapper;
 use Enjoys\ServerRequestWrapperInterface;
 use Enjoys\Session\Session;
+use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
 new Session();
@@ -35,6 +39,7 @@ class CaptchaTest extends TestCase
             ->with($requestMock);
 
         $element->prepare();
+        $this->assertContainsOnlyInstancesOf(Rules::CAPTCHA, $element->getRules());
         $this->assertSame('rule-message', $element->getRules()[0]->getMessage());
     }
 
@@ -61,30 +66,15 @@ class CaptchaTest extends TestCase
         $this->assertSame('<test></test>', $element->renderHtml());
     }
 
-//
-//
-//    public function testAddedRulesCapchta()
-//    {
-//        $mockCaptcha = $this->getMockBuilder(CaptchaInterface::class)->getMock();
-//        $form = new Form();
-//
-//        $element = $form->captcha($mockCaptcha);
-//        $this->assertNotEmpty($element->getRules());
-//        $this->assertContainsOnlyInstancesOf(Rules::CAPTCHA, $element->getRules());
-//    }
-//
-//    public function testSetRequestFromForm()
-//    {
-//        $request = new ServerRequestWrapper(new ServerRequest(method: 'pOsT'));
-//        $mockCaptcha = $this->getMockBuilder(CaptchaInterface::class)->getMock();
-//
-//        $form = new Form(request: $request);
-//        $element = $form->captcha($mockCaptcha);
-//        $this->assertSame($request, $element->getRequest());
-//
-//        $mockCaptcha->expects($this->any())->method('getRequest')->willReturn($request);
-//        $this->assertSame($request, $element->getCaptcha()->getRequest());
-//    }
+    public function testSetRequestFromForm()
+    {
+        $request = new ServerRequestWrapper(new ServerRequest(method: 'pOsT'));
+        $mockCaptcha = $this->getMockBuilder(CaptchaInterface::class)->getMock();
+
+        $form = new Form(request: $request);
+        $element = $form->captcha($mockCaptcha);
+        $this->assertSame($request, $element->getRequest());
+    }
 
 
 }

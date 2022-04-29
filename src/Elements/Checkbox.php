@@ -44,7 +44,6 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
         $this->setPrefixId($this->originalName . '_');
         $this->removeAttr('name');
-
     }
 
 
