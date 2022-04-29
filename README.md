@@ -1,7 +1,7 @@
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/Enjoyzz/forms/badges/code-intelligence.svg?b=3.x)](https://scrutinizer-ci.com/code-intelligence)
-[![Code Coverage](https://scrutinizer-ci.com/g/Enjoyzz/forms/badges/coverage.png?b=3.x)](https://scrutinizer-ci.com/g/Enjoyzz/forms/?branch=3.x)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Enjoyzz/forms/badges/quality-score.png?b=3.x)](https://scrutinizer-ci.com/g/Enjoyzz/forms/?branch=3.x)
-![php 8.0](https://github.com/Enjoyzz/forms/workflows/php%208.0%20dev%205.x/badge.svg)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FEnjoyzz%2Fforms%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/Enjoyzz/forms/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Enjoyzz/forms/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Enjoyzz/forms/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Enjoyzz/forms/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Enjoyzz/forms/?branch=master)
+![php 8.0](https://github.com/Enjoyzz/forms/workflows/php%208.0/badge.svg)
 
 ### Init form
 ```php
