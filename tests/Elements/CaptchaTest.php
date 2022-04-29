@@ -4,13 +4,10 @@ namespace Tests\Enjoys\Forms\Elements;
 
 
 use Enjoys\Forms\Elements\Captcha;
-use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\CaptchaInterface;
 use Enjoys\Forms\Rules;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\ServerRequestWrapperInterface;
 use Enjoys\Session\Session;
-use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
 new Session();
@@ -66,14 +63,11 @@ class CaptchaTest extends TestCase
         $this->assertSame('<test></test>', $element->renderHtml());
     }
 
-    public function testSetRequestFromForm()
+    public function testSetRequestInConstruct()
     {
-        $request = new ServerRequestWrapper(new ServerRequest(method: 'pOsT'));
         $mockCaptcha = $this->getMockBuilder(CaptchaInterface::class)->getMock();
-
-        $form = new Form(request: $request);
-        $element = $form->captcha($mockCaptcha);
-        $this->assertSame($request, $element->getRequest());
+        $element = new Captcha($mockCaptcha);
+        $this->assertInstanceOf(ServerRequestWrapperInterface::class, $element->getRequest());
     }
 
 
