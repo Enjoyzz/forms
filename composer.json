@@ -11,8 +11,6 @@
   "require": {
     "php": ">= 8.0",
     "ext-json": "*",
-    "ext-gd": "*",
-    "guzzlehttp/guzzle": "^7.1",
     "enjoys/traits": "^1.1",
     "enjoys/session": "^2.0",
     "enjoys/server-request-wrapper": "^1.0",
