@@ -8,3 +8,6 @@
 /.phpdoc/
 /docs/
 /.idea/
+/.tmp/
+/logs/
+/.phpunit.result.cache
