@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Enjoys\Forms\Captcha;
+namespace Enjoys\Forms\Interfaces;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Interfaces\Ruleable;
+use Enjoys\ServerRequestWrapper;
 
 interface CaptchaInterface
 {
@@ -15,9 +15,13 @@ interface CaptchaInterface
 
     public function renderHtml(Element $element): string;
 
+    public function setRequest(ServerRequestWrapper $request);
+
     /**
      * @param Ruleable&Element $element
      * @return bool
      */
     public function validate(Ruleable $element): bool;
+
+
 }
