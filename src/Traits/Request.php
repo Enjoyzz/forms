@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Traits;
 
 use Enjoys\ServerRequestWrapper;
+use Enjoys\ServerRequestWrapperInterface;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 
 trait Request
 {
-    private ServerRequestWrapper $request;
+    private ServerRequestWrapperInterface $request;
 
-    public function setRequest(ServerRequestWrapper $request = null)
+    public function setRequest(ServerRequestWrapperInterface $request = null)
     {
         $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
     }
 
-    public function getRequest(): ServerRequestWrapper
+    public function getRequest(): ServerRequestWrapperInterface
     {
         return $this->request;
     }

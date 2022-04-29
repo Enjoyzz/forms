@@ -20,10 +20,11 @@ class Captcha extends Element implements Ruleable, Descriptionable
     /**
      * @param CaptchaInterface $captcha
      * @param string|null $message
+     * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct(private CaptchaInterface $captcha, string $message = null)
     {
-        parent::__construct(\uniqid('captcha'));
+        $this->setRequest();
         $this->setName($this->captcha->getName());
     }
 
