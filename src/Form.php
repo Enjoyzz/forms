@@ -9,7 +9,7 @@ use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Elements\TockenSubmit;
 use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
-use Enjoys\ServerRequestWrapper;
+use Enjoys\ServerRequestWrapperInterface;
 use Enjoys\Session\Session;
 use Enjoys\Traits\Options;
 use Webmozart\Assert\Assert;
@@ -57,7 +57,7 @@ class Form
     public function __construct(
         string $method = 'POST',
         string $action = null,
-        ServerRequestWrapper $request = null,
+        ServerRequestWrapperInterface $request = null,
         DefaultsHandlerInterface $defaultsHandler = null,
         Session $session = null
     ) {
