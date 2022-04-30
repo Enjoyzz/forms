@@ -11,8 +11,8 @@ class DatalistTest extends _TestCase
     {
 
         $el = new Datalist('foo', 'title1');
-        $this->assertSame('foo', $el->getAttr('id')->getValueString());
-        $this->assertSame('foo-list', $el->getAttr('list')->getValueString());
+        $this->assertSame('foo', $el->getAttribute('id')->getValueString());
+        $this->assertSame('foo-list', $el->getAttribute('list')->getValueString());
     }
 
     public function testBaseHtml()

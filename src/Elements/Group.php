@@ -35,7 +35,7 @@ class Group extends Element implements Descriptionable
     {
         $return = sprintf("<div id='%s'>", $this->getName());
         foreach ($this->getElements() as $data) {
-//            $data->setAttr(AttributeFactory::create('placeholder', $data->getLabel()));
+//            $data->setAttribute(AttributeFactory::create('placeholder', $data->getLabel()));
 //            $data->setLabel(null);
             $return .= HtmlRenderer::createTypeRender($data)->render();
         }

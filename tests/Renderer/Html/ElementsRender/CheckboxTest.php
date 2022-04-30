@@ -39,10 +39,10 @@ HTML
         //   self::markTestSkipped();
         $el = new Checkbox('test', 'Test Label');
         $el->addElements([
-            (new Checkbox('Yes', 'Yes Label'))->setAttr(AttributeFactory::create('id', 'new-id')),
+            (new Checkbox('Yes', 'Yes Label'))->setAttribute(AttributeFactory::create('id', 'new-id')),
             (new Checkbox('No'))
-                ->addAttr(AttributeFactory::create('test', ''))
-                ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
+                ->addAttribute(AttributeFactory::create('test', ''))
+                ->addAttribute(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
         ]);
 
         $render = HtmlRenderer::createTypeRender($el);

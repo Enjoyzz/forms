@@ -35,18 +35,18 @@ class File extends Element implements Ruleable, Descriptionable
     }
     public function setMultiple(): self
     {
-        $this->setAttr(AttributeFactory::create('multiple'));
+        $this->setAttribute(AttributeFactory::create('multiple'));
         return $this;
     }
 
     public function addAccept(string $accept): self
     {
-        $attribute = $this->getAttr('accept');
+        $attribute = $this->getAttribute('accept');
         if ($attribute === null) {
             $attribute = AttributeFactory::create('accept');
             $attribute->setMultiple(true);
             $attribute->setSeparator(',');
-            $this->setAttr($attribute);
+            $this->setAttribute($attribute);
         }
 
         $attribute->add($accept);
@@ -59,7 +59,7 @@ class File extends Element implements Ruleable, Descriptionable
      */
     public function setAccepts(array $accepts): self
     {
-        $this->removeAttr('accept');
+        $this->removeAttribute('accept');
         foreach ($accepts as $accept) {
             $this->addAccept($accept);
         }
@@ -68,7 +68,7 @@ class File extends Element implements Ruleable, Descriptionable
 
     public function prepare()
     {
-        $this->getForm()->setAttr(AttributeFactory::create('enctype', 'multipart/form-data'));
+        $this->getForm()->setAttribute(AttributeFactory::create('enctype', 'multipart/form-data'));
         $this->getForm()->setMethod('post');
         $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')));
     }

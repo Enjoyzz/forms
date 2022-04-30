@@ -24,7 +24,7 @@ class Number extends Element implements Ruleable, Descriptionable
     {
         Assert::numeric($min);
         $min = (int) $min;
-        $this->setAttr(AttributeFactory::create('min', $min));
+        $this->setAttribute(AttributeFactory::create('min', $min));
         return $this;
     }
 
@@ -33,7 +33,7 @@ class Number extends Element implements Ruleable, Descriptionable
     {
         Assert::numeric($max);
         $max = (int) $max;
-        $this->setAttr(AttributeFactory::create('max', $max));
+        $this->setAttribute(AttributeFactory::create('max', $max));
         return $this;
     }
 
@@ -45,7 +45,7 @@ class Number extends Element implements Ruleable, Descriptionable
     public function setStep(float|int|string $step): self
     {
         Assert::numeric($step);
-        $this->setAttr(AttributeFactory::create('step', $step));
+        $this->setAttribute(AttributeFactory::create('step', $step));
         return $this;
     }
 }

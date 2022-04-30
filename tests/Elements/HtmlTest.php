@@ -13,7 +13,7 @@ class HtmlTest extends TestCase
     {
         $el = new Html('<b></b>');
         $this->assertSame('<b></b>', $el->baseHtml());
-        $this->assertNull($el->getAttr('id'));
-        $this->assertNull($el->getAttr('name'));
+        $this->assertNull($el->getAttribute('id'));
+        $this->assertNull($el->getAttribute('name'));
     }
 }

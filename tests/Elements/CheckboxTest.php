@@ -16,7 +16,7 @@ class CheckboxTest extends _TestCase
     public function testCheckRemoveAttributeName()
     {
         $el = new Checkbox('foo');
-        $this->assertNull($el->getAttr('name'));
+        $this->assertNull($el->getAttribute('name'));
     }
 
 
@@ -85,7 +85,7 @@ class CheckboxTest extends _TestCase
         $elements = $this->filldata();
         /** @var Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('cb_v1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('cb_v1', $v1->getAttribute('id')->getValueString());
     }
 
     public function test_fill4()
@@ -110,7 +110,7 @@ class CheckboxTest extends _TestCase
 
         /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertSame('i2', $v2->getAttr('id')->getValueString());
+        $this->assertSame('i2', $v2->getAttribute('id')->getValueString());
     }
 
     public function test_fill7()
@@ -118,8 +118,8 @@ class CheckboxTest extends _TestCase
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertInstanceOf(Attribute::class, $v2->getAttr('disabled'));
-        $this->assertNotNull($v2->getAttr('id'));
+        $this->assertInstanceOf(Attribute::class, $v2->getAttribute('disabled'));
+        $this->assertNotNull($v2->getAttribute('id'));
     }
 
     public function test_prefix()
@@ -133,17 +133,17 @@ class CheckboxTest extends _TestCase
         $elements = $obj->getElements();
         /** @var Radio $v2 */
         $v1 = $elements[0];
-        $this->assertSame('prefix_v1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('prefix_v1', $v1->getAttribute('id')->getValueString());
     }
 
     public function test_prefix2()
     {
         $obj = new Checkbox('name', 'title');
         $obj->setPrefixId('prefix_');
-        $this->assertSame('name', $obj->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj->getAttribute('id')->getValueString());
 
         $obj2 = new Checkbox('name', 'title');
-        $this->assertSame('name', $obj2->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj2->getAttribute('id')->getValueString());
     }
 
     public function test_prefix3()
@@ -160,7 +160,7 @@ class CheckboxTest extends _TestCase
         $elements = $obj->getElements();
         /** @var Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('id1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('id1', $v1->getAttribute('id')->getValueString());
     }
 
     public function test_count_checkbox_element()
@@ -207,9 +207,9 @@ class CheckboxTest extends _TestCase
         $el = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
         $elements = $el->getElements();
         $this->assertSame([1,2], $el->getDefaultValue());
-        $this->assertNotNull($elements[0]->getAttr('checked'));
-        $this->assertNotNull($elements[1]->getAttr('checked'));
-        $this->assertNull($elements[2]->getAttr('checked'));
+        $this->assertNotNull($elements[0]->getAttribute('checked'));
+        $this->assertNotNull($elements[1]->getAttribute('checked'));
+        $this->assertNull($elements[2]->getAttribute('checked'));
     }
 
     public function test_setDefault_simple()
@@ -225,9 +225,9 @@ class CheckboxTest extends _TestCase
         ]);
         $elements = $el->getElements();
         $this->assertSame('baaa', $el->getDefaultValue());
-        $this->assertNull($elements[0]->getAttr('checked'));
-        $this->assertNotNull($elements[1]->getAttr('checked'));
-        $this->assertNull($elements[2]->getAttr('checked'));
+        $this->assertNull($elements[0]->getAttribute('checked'));
+        $this->assertNotNull($elements[1]->getAttribute('checked'));
+        $this->assertNull($elements[2]->getAttribute('checked'));
     }
 
     public function testDefaultValue()

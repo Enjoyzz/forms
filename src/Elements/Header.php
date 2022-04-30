@@ -13,8 +13,8 @@ class Header extends Element
     public function __construct(string $title)
     {
         parent::__construct(\uniqid('header'), $title);
-        $this->removeAttr('name');
-        $this->removeAttr('id');
+        $this->removeAttribute('name');
+        $this->removeAttribute('id');
     }
 
     public function closeAfter(int $countElements): void

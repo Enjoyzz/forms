@@ -11,6 +11,6 @@ class ResetTest extends TestCase
     {
         $el = new Reset('foo', 'title1');
         $this->assertTrue($el instanceof Reset);
-        $this->assertEquals('title1', $el->getAttr('value')->getValueString());
+        $this->assertEquals('title1', $el->getAttribute('value')->getValueString());
     }
 }

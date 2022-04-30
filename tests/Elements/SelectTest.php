@@ -60,7 +60,7 @@ class SelectTest extends TestCase
         $elements = $this->filldata();
         /** @var Option $v1 */
         $v1 = $elements[0];
-        $this->assertSame('v1', $v1->getAttr('value')->getValueString());
+        $this->assertSame('v1', $v1->getAttribute('value')->getValueString());
     }
 
     public function test_fill4()
@@ -84,7 +84,7 @@ class SelectTest extends TestCase
         $elements = $this->filldata();
         /** @var Option $v2 */
         $v2 = $elements[1];
-        $this->assertSame('i2', $v2->getAttr('id')->getValueString());
+        $this->assertSame('i2', $v2->getAttribute('id')->getValueString());
     }
 
     public function test_fill7()
@@ -93,8 +93,8 @@ class SelectTest extends TestCase
         $elements = $this->filldata();
         /** @var Option $v2 */
         $v2 = $elements[1];
-        $this->assertSame('', $v2->getAttr('disabled')->getValueString());
-        $this->assertNotNull($v2->getAttr('id'));
+        $this->assertSame('', $v2->getAttribute('disabled')->getValueString());
+        $this->assertNotNull($v2->getAttribute('id'));
     }
 
     public function test_count_option_element()
@@ -132,10 +132,10 @@ class SelectTest extends TestCase
     public function test_multiple_name_add_array()
     {
         $obj = new Select('name', 'title');
-        $obj->setAttr(AttributeFactory::create('multiple'));
+        $obj->setAttribute(AttributeFactory::create('multiple'));
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name', $obj->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_name_add_array_2_1()
@@ -144,67 +144,67 @@ class SelectTest extends TestCase
         $obj->setMultiple();
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name', $obj->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_name_add_array_1_2()
     {
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(AttributeFactory::create('multiple'));
+        $obj->setAttribute(AttributeFactory::create('multiple'));
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name[]', $obj->getAttr('id')->getValueString());
+        $this->assertSame('name[]', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_name_add_array2()
     {
         $obj = new Select('name', 'title');
-        $obj->setAttr(AttributeFactory::create('multiple'));
-        $obj->setAttr(AttributeFactory::create('disabled'));
+        $obj->setAttribute(AttributeFactory::create('multiple'));
+        $obj->setAttribute(AttributeFactory::create('disabled'));
 
         $this->assertSame('name[]', $obj->getName());
-        $this->assertSame('name', $obj->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_id_begin_id()
     {
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(AttributeFactory::create('id', 'test'));
-        $obj->setAttr(AttributeFactory::create('multiple'));
-        $this->assertSame('test', $obj->getAttr('id')->getValueString());
+        $obj->setAttribute(AttributeFactory::create('id', 'test'));
+        $obj->setAttribute(AttributeFactory::create('multiple'));
+        $this->assertSame('test', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_id_begin_id2()
     {
         $obj = new Select('name', 'title');
-        $obj->setAttr(AttributeFactory::create('id', 'test'));
-        $obj->setAttr(AttributeFactory::create('multiple'));
-        $this->assertSame('test', $obj->getAttr('id')->getValueString());
+        $obj->setAttribute(AttributeFactory::create('id', 'test'));
+        $obj->setAttribute(AttributeFactory::create('multiple'));
+        $this->assertSame('test', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_begin_multiple()
     {
         $obj = new Select('name[]', 'title');
-        $obj->setAttr(AttributeFactory::create('multiple'))
-            ->setAttr(AttributeFactory::create('id', 'test'));
-        $this->assertSame('test', $obj->getAttr('id')->getValueString());
+        $obj->setAttribute(AttributeFactory::create('multiple'))
+            ->setAttribute(AttributeFactory::create('id', 'test'));
+        $this->assertSame('test', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_multiple_begin_multiple2()
     {
         $obj = new Select('name', 'title');
-        $obj->setAttrs(AttributeFactory::createFromArray([
+        $obj->setAttributes(AttributeFactory::createFromArray([
             'multiple',
             'id' => 'test'
         ]));
-        $this->assertSame('test', $obj->getAttr('id')->getValueString());
+        $this->assertSame('test', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_id()
     {
         $obj = new Select('name', 'title');
-        $obj->setAttr(AttributeFactory::create('id', 'test'));
-        $this->assertSame('test', $obj->getAttr('id')->getValueString());
+        $obj->setAttribute(AttributeFactory::create('id', 'test'));
+        $this->assertSame('test', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_defaults1()
@@ -222,8 +222,8 @@ class SelectTest extends TestCase
         /** @var Select $select */
         $select = $form->getElements()['name'];
 
-        $this->assertNotNull($select->getElements()[1]->getAttr('selected'));
-        $this->assertNull($select->getElements()[0]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getAttribute('selected'));
     }
 
     public function test_defaults2()
@@ -239,9 +239,9 @@ class SelectTest extends TestCase
         ], true);
 
         /** @var Select $select */
-        $this->assertNotNull($select->getElements()[0]->getAttr('selected'));
-        $this->assertNotNull($select->getElements()[1]->getAttr('selected'));
-        $this->assertNull($select->getElements()[2]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[0]->getAttribute('selected'));
+        $this->assertNotNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[2]->getAttribute('selected'));
     }
 
     public function testDefaultsAttrMultipleBeforeFill()
@@ -251,15 +251,15 @@ class SelectTest extends TestCase
             'name2' => [1, 3]
         ]);
         $form->select('name2', 'title')
-            ->setAttr(AttributeFactory::create('multiple'))
+            ->setAttribute(AttributeFactory::create('multiple'))
             ->fill([1, 2, 3], true)
         ;
 
         /** @var Select $select */
         $select = $form->getElements()['name2'];
-        $this->assertNotNull($select->getElements()[0]->getAttr('selected'));
-        $this->assertNull($select->getElements()[1]->getAttr('selected'));
-        $this->assertNotNull($select->getElements()[2]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[0]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNotNull($select->getElements()[2]->getAttribute('selected'));
     }
 
     public function testDefaultsAttrMultipleAfterFill()
@@ -270,14 +270,14 @@ class SelectTest extends TestCase
         ]);
         $form->select('name2', 'title')
             ->fill([1, 2, 3], true)
-            ->setAttr(AttributeFactory::create('multiple'))
+            ->setAttribute(AttributeFactory::create('multiple'))
         ;
 
         /** @var Select $select */
         $select = $form->getElements()['name2'];
-        $this->assertNotNull($select->getElements()[0]->getAttr('selected'));
-        $this->assertNull($select->getElements()[1]->getAttr('selected'));
-        $this->assertNotNull($select->getElements()[2]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[0]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[1]->getAttribute('selected'));
+        $this->assertNotNull($select->getElements()[2]->getAttribute('selected'));
     }
 
     public function testOptgroup()

@@ -13,33 +13,33 @@ class HeaderTest extends TestCase
     {
         $el = new Header('title');
         $this->assertSame('title', $el->getLabel());
-        $this->assertNull($el->getAttr('id'));
-        $this->assertNull($el->getAttr('name'));
+        $this->assertNull($el->getAttribute('id'));
+        $this->assertNull($el->getAttribute('name'));
     }
 
     public function test_attr_legend()
     {
         $obj = new Header('title');
-        $obj->setAttr(AttributeFactory::create('id', 'test'));
-        $this->assertSame('test', $obj->getAttr('id')->getValueString());
+        $obj->setAttribute(AttributeFactory::create('id', 'test'));
+        $this->assertSame('test', $obj->getAttribute('id')->getValueString());
     }
 
     public function test_attr_fieldset()
     {
         $obj = new Header('title');
-        $obj->setAttrs(
+        $obj->setAttributes(
             AttributeFactory::createFromArray([
                 'id' => 'test'
             ]),
             Form::ATTRIBUTES_FIELDSET
         );
-        $this->assertSame('test', $obj->getAttr('id', Form::ATTRIBUTES_FIELDSET)->getValueString());
+        $this->assertSame('test', $obj->getAttribute('id', Form::ATTRIBUTES_FIELDSET)->getValueString());
     }
 
     public function test_attr_fieldset_get()
     {
         $obj = new Header('title');
-        $obj->setAttrs(AttributeFactory::createFromArray([
+        $obj->setAttributes(AttributeFactory::createFromArray([
             'id' => 'test',
             'disabled' => null
         ]), Form::ATTRIBUTES_FIELDSET);

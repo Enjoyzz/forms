@@ -66,7 +66,7 @@ class Optgroup extends Element implements Fillable
     public function __construct(string $title, string $parentName, mixed $defaults = '')
     {
         parent::__construct(\uniqid('optgroup'), $title);
-        $this->setAttrs(
+        $this->setAttributes(
             AttributeFactory::createFromArray([
                 'label' => $title
             ])

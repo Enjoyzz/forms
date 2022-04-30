@@ -20,7 +20,7 @@ class Email extends Element implements Ruleable, Descriptionable
 
     public function setMultiple(): self
     {
-        $this->setAttr(AttributeFactory::create('multiple'));
+        $this->setAttribute(AttributeFactory::create('multiple'));
         return $this;
     }
 }

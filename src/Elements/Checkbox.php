@@ -35,7 +35,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
         parent::__construct($construct_name, $title);
 
-        $this->setAttrs(
+        $this->setAttributes(
             AttributeFactory::createFromArray([
                 'id' => self::$prefix_id . $this->originalName,
                 'value' => $this->originalName,
@@ -43,7 +43,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
         );
 
         $this->setPrefixId($this->originalName . '_');
-        $this->removeAttr('name');
+        $this->removeAttribute('name');
     }
 
 
@@ -51,7 +51,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
     {
         if ($this->parent) {
             static::$prefix_id = $prefix;
-            $this->setAttr(AttributeFactory::create('id', $this->originalName));
+            $this->setAttribute(AttributeFactory::create('id', $this->originalName));
         }
         return $this;
     }
@@ -69,15 +69,15 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
         $this->defaultValue = $value;
 
         if (is_array($value)) {
-            if (in_array($this->getAttr('value')->getValueString(), $value)) {
-                $this->setAttr(AttributeFactory::create('checked'));
+            if (in_array($this->getAttribute('value')->getValueString(), $value)) {
+                $this->setAttribute(AttributeFactory::create('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttr('value')->getValueString() == $value) {
-                $this->setAttr(AttributeFactory::create('checked'));
+            if ($this->getAttribute('value')->getValueString() == $value) {
+                $this->setAttribute(AttributeFactory::create('checked'));
                 return $this;
             }
         }
@@ -86,8 +86,8 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
     public function baseHtml(): string
     {
-        $this->setAttr(AttributeFactory::create('for', $this->getAttr('id')->getValueString()), Form::ATTRIBUTES_LABEL);
-        $this->setAttrs(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
+        $this->setAttribute(AttributeFactory::create('for', $this->getAttribute('id')->getValueString()), Form::ATTRIBUTES_LABEL);
+        $this->setAttributes(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
         return sprintf(
             '<input type="%s"%s><label%s>%s</label>',
             $this->getType(),

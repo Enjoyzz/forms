@@ -19,13 +19,13 @@ class Option extends Element implements Fillable
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttrs(
+        $this->setAttributes(
             AttributeFactory::createFromArray([
                 'value' => $name,
             ])
         );
-        $this->removeAttr('name');
-        $this->removeAttr('id');
+        $this->removeAttribute('name');
+        $this->removeAttribute('id');
     }
 
     /**
@@ -36,15 +36,15 @@ class Option extends Element implements Fillable
     protected function setDefault(mixed $value = null): self
     {
         if (is_array($value)) {
-            if (in_array($this->getAttr('value')?->getValueString(), $value)) {
-                $this->setAttr(AttributeFactory::create('selected'));
+            if (in_array($this->getAttribute('value')?->getValueString(), $value)) {
+                $this->setAttribute(AttributeFactory::create('selected'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttr('value')?->getValueString() == $value) {
-                $this->setAttr(AttributeFactory::create('selected'));
+            if ($this->getAttribute('value')?->getValueString() == $value) {
+                $this->setAttribute(AttributeFactory::create('selected'));
                 return $this;
             }
         }

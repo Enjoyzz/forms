@@ -15,7 +15,7 @@ class Image extends Element
     {
         parent::__construct($name);
         if (!is_null($src)) {
-            $this->setAttr(AttributeFactory::create('src', $src));
+            $this->setAttribute(AttributeFactory::create('src', $src));
         }
     }
 }

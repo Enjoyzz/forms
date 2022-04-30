@@ -15,7 +15,7 @@ class FileTest extends TestCase
         $form = new Form();
         $form->file('file')->setMaxFileSize(25);
         $elements = $form->getElements()['MAX_FILE_SIZE'];
-        $this->assertSame('25', $elements->getAttr('value')->getValueString());
+        $this->assertSame('25', $elements->getAttribute('value')->getValueString());
     }
 
     public function test_max_file_size2()
@@ -25,7 +25,7 @@ class FileTest extends TestCase
         $elements = $form->getElements()['MAX_FILE_SIZE'];
         $this->assertSame(
             (string)\iniSize2bytes(ini_get('upload_max_filesize')),
-            $elements->getAttr('value')->getValueString()
+            $elements->getAttribute('value')->getValueString()
         );
     }
 
@@ -34,8 +34,8 @@ class FileTest extends TestCase
     {
         $form = new Form();
         $form->file('file');
-        $this->assertSame('POST', $form->getAttr('method')->getValueString());
-        $this->assertSame('multipart/form-data', $form->getAttr('enctype')->getValueString());
+        $this->assertSame('POST', $form->getAttribute('method')->getValueString());
+        $this->assertSame('multipart/form-data', $form->getAttribute('enctype')->getValueString());
     }
 
     public function test_invalid_add_rule()

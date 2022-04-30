@@ -101,9 +101,9 @@ class ElementTest extends _TestCase
         $element = $this->getMockForAbstractClass(Element::class, [
             'name' => 'Foo'
         ]);
-        $this->assertSame('Foo', $element->getAttr('id')->getValueString());
-        $element->setAttr(AttributeFactory::create('id', 'Baz'));
-        $this->assertSame('Baz', $element->getAttr('id')->getValueString());
+        $this->assertSame('Foo', $element->getAttribute('id')->getValueString());
+        $element->setAttribute(AttributeFactory::create('id', 'Baz'));
+        $this->assertSame('Baz', $element->getAttribute('id')->getValueString());
     }
 
     public function test_getType_1_0()
@@ -141,6 +141,6 @@ class ElementTest extends _TestCase
         ]);
 
         $element = $form->text('Foo[]', 'Bar');
-        $this->assertEquals('first_string', $element->getAttr('value')->getValueString());
+        $this->assertEquals('first_string', $element->getAttribute('value')->getValueString());
     }
 }

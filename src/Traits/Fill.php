@@ -68,12 +68,12 @@ trait Fill
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel(), false);
 
-            $element->setAttrs(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
+            $element->setAttributes(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
             /** @var AttributeCollection $fillCollection */
             $fillCollection = $element->getAttributeCollection('fill');
             foreach ($fillCollection as $attr) {
-                    $element->setAttr($attr);
+                    $element->setAttribute($attr);
             }
 
             $this->addElement($element);

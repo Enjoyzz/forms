@@ -44,10 +44,10 @@ class FormTest extends _TestCase
         $form = new Form();
         $form->setAction('test');
         $this->assertSame('test', $form->getAction());
-        $this->assertSame('action="test"', $form->getAttr('action')->__toString());
+        $this->assertSame('action="test"', $form->getAttribute('action')->__toString());
         $form->setAction();
         $this->assertNull($form->getAction());
-        $this->assertSame('', $form->getAttr('action')->__toString());
+        $this->assertSame('', $form->getAttribute('action')->__toString());
     }
 
 
@@ -71,14 +71,14 @@ class FormTest extends _TestCase
         $form = new Form();
         $form->setMethod($method);
         $this->assertSame($expected, $form->getMethod());
-        $this->assertSame($expected, $form->getAttr('method')->getValueString());
+        $this->assertSame($expected, $form->getAttribute('method')->getValueString());
     }
 
 //    public function testSetAttrName()
 //    {
 //        $form = new Form();
-//        $form->setAttr(AttributeFactory::create('name', 'test_form'));
-//        $this->assertEquals('test_form', $form->getAttr('name')->getValueString());
+//        $form->setAttribute(AttributeFactory::create('name', 'test_form'));
+//        $this->assertEquals('test_form', $form->getAttribute('name')->getValueString());
 //    }
 
 
@@ -179,7 +179,7 @@ class FormTest extends _TestCase
         ]);
 
         $element = $form->text('foo');
-        $this->assertSame('baz', $element->getAttr('value')->getValueString());
+        $this->assertSame('baz', $element->getAttribute('value')->getValueString());
     }
 
     /**
@@ -200,7 +200,7 @@ class FormTest extends _TestCase
         ]);
 
         $element = $form->text('foo');
-        $this->assertSame('baz', $element->getAttr('value')->getValueString());
+        $this->assertSame('baz', $element->getAttribute('value')->getValueString());
     }
 
     /**
@@ -218,7 +218,7 @@ class FormTest extends _TestCase
         ]);
         $form = new Form('get', request: $request, defaultsHandler: $defaultsHandler);
         $element = $form->text('foo');
-        $this->assertSame('baz', $element->getAttr('value')->getValueString());
+        $this->assertSame('baz', $element->getAttribute('value')->getValueString());
         $this->assertSame(['foo' => 'baz'], $form->getDefaultsHandler()->getDefaults());
     }
 
@@ -229,7 +229,7 @@ class FormTest extends _TestCase
             'foo' => 'bar'
         ]);
         $element = $form->text('foo');
-        $this->assertSame('bar', $element->getAttr('value')->getValueString());
+        $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }
 
     public function testSetDefaultsClosure()
@@ -241,7 +241,7 @@ class FormTest extends _TestCase
             ];
         });
         $element = $form->text('foo');
-        $this->assertSame('bar', $element->getAttr('value')->getValueString());
+        $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }
 
     public function testSetDefaultsInvalidData()
@@ -294,7 +294,7 @@ class FormTest extends _TestCase
 //
 //        $element = $form->text('foo');
 //
-//        $this->assertSame('zed', $element->getAttr('value')->getValueString());
+//        $this->assertSame('zed', $element->getAttribute('value')->getValueString());
 //        $this->assertFalse($form->getDefaultsHandler()->getValue('Form::_TOKEN_SUBMIT_'));
 //        $this->assertTrue($form->getDefaultsHandler()->getValue('bar'));
 //    }
@@ -329,7 +329,7 @@ class FormTest extends _TestCase
 //        $element = $form->text('foo');
 //
 //        $this->assertSame('GET', $form->getRequestWrapper()->getRequest()->getMethod());
-//        $this->assertSame('zed', $element->getAttr('value')->getValueString());
+//        $this->assertSame('zed', $element->getAttribute('value')->getValueString());
 //    }
 //
 //    public function test_setDefaults_1_2_2()
@@ -370,7 +370,7 @@ class FormTest extends _TestCase
 //        $element = $form->text('foo');
 //
 //        $this->assertEquals('POST', $form->getRequestWrapper()->getRequest()->getMethod());
-//        $this->assertEquals('zed', $element->getAttr('value')->getValueString());
+//        $this->assertEquals('zed', $element->getAttribute('value')->getValueString());
 //    }
 //
     public function testIsSubmitted()

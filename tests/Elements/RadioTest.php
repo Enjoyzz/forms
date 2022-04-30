@@ -24,7 +24,7 @@ class RadioTest extends TestCase
     public function testCheckRemoveAttributeName()
     {
         $el = new Radio('foo');
-        $this->assertNull($el->getAttr('name'));
+        $this->assertNull($el->getAttribute('name'));
     }
 
     public function test_title2()
@@ -82,7 +82,7 @@ class RadioTest extends TestCase
         $elements = $this->filldata();
         /** @var Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('rb_v1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('rb_v1', $v1->getAttribute('id')->getValueString());
     }
 
     public function test_fill4()
@@ -109,7 +109,7 @@ class RadioTest extends TestCase
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertSame('i2', $v2->getAttr('id')->getValueString());
+        $this->assertSame('i2', $v2->getAttribute('id')->getValueString());
     }
 
     public function test_fill7()
@@ -118,8 +118,8 @@ class RadioTest extends TestCase
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertSame('', $v2->getAttr('disabled')->getValueString());
-        $this->assertNotNull($v2->getAttr('id'));
+        $this->assertSame('', $v2->getAttribute('disabled')->getValueString());
+        $this->assertNotNull($v2->getAttribute('id'));
     }
 
     public function test_prefix()
@@ -134,7 +134,7 @@ class RadioTest extends TestCase
         $elements = $obj->getElements();
         /** @var Radio $v2 */
         $v1 = $elements[0];
-        $this->assertSame('prefix_v1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('prefix_v1', $v1->getAttribute('id')->getValueString());
     }
 
     public function test_prefix2()
@@ -142,10 +142,10 @@ class RadioTest extends TestCase
 
         $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
-        $this->assertSame('name', $obj->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj->getAttribute('id')->getValueString());
 
         $obj2 = new Radio('name', 'title');
-        $this->assertSame('name', $obj2->getAttr('id')->getValueString());
+        $this->assertSame('name', $obj2->getAttribute('id')->getValueString());
     }
 
     public function test_prefix3()
@@ -163,7 +163,7 @@ class RadioTest extends TestCase
         $elements = $obj->getElements();
         /** @var Radio $v1 */
         $v1 = $elements[0];
-        $this->assertSame('id1', $v1->getAttr('id')->getValueString());
+        $this->assertSame('id1', $v1->getAttribute('id')->getValueString());
     }
 
     public function test_count_radio_element()
@@ -206,9 +206,9 @@ class RadioTest extends TestCase
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
-        $this->assertNotNull($elements[0]->getAttr('checked'));
-        $this->assertNotNull($elements[1]->getAttr('checked'));
-        $this->assertNull($elements[2]->getAttr('checked'));
+        $this->assertNotNull($elements[0]->getAttribute('checked'));
+        $this->assertNotNull($elements[1]->getAttribute('checked'));
+        $this->assertNull($elements[2]->getAttribute('checked'));
     }
 
 
@@ -221,9 +221,9 @@ class RadioTest extends TestCase
         ]);
         $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
         $elements = $radio->getElements();
-        $this->assertNull($elements[0]->getAttr('checked'));
-        $this->assertNotNull($elements[1]->getAttr('checked'));
-        $this->assertNull($elements[2]->getAttr('checked'));
+        $this->assertNull($elements[0]->getAttribute('checked'));
+        $this->assertNotNull($elements[1]->getAttribute('checked'));
+        $this->assertNull($elements[2]->getAttribute('checked'));
     }
 
     public function test_basehtml()

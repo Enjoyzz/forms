@@ -18,7 +18,7 @@ class Hidden extends Element implements Ruleable
     public function __construct(string $name, ?string $value = null)
     {
         parent::__construct($name);
-        $this->setAttr(AttributeFactory::create('value', $value)->setWithoutValue(false))
-            ->removeAttr('id');
+        $this->setAttribute(AttributeFactory::create('value', $value)->setWithoutValue(false))
+            ->removeAttribute('id');
     }
 }

@@ -12,6 +12,7 @@ $form = new Form('get', 'action.php');
 ```
 
 ### Added Elements
+
 ```php
 use Enjoys\Forms\Form;
 use Enjoys\Forms\AttributeFactory;
@@ -22,13 +23,13 @@ $form = new Form();
 
 $form
     ->text('name', 'label')
-    ->setAttr(AttributeFactory::create('id', uniqid()))
+    ->setAttribute(AttributeFactory::create('id', uniqid()))
     ->addRule(Rules::REQUIRED)
 ;
 
 //or
 $textElement = (new Elements\Text('name', 'label'))
-    ->setAttr(AttributeFactory::create('id', uniqid()))
+    ->setAttribute(AttributeFactory::create('id', uniqid()))
     ->addRule(Rules::REQUIRED)
 ;
 $form->addElement($textElement);

@@ -32,26 +32,26 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
 
     public function setMultiple(): self
     {
-        $this->setAttr(AttributeFactory::create('multiple'));
+        $this->setAttribute(AttributeFactory::create('multiple'));
         return $this;
     }
 
     private function isMultiple(): void
     {
-        if ($this->getAttr('multiple') !== null && !str_ends_with($this->getName(), '[]')) {
-            $id = $this->getAttr('id') ?? AttributeFactory::create('id', $this->getName());
+        if ($this->getAttribute('multiple') !== null && !str_ends_with($this->getName(), '[]')) {
+            $id = $this->getAttribute('id') ?? AttributeFactory::create('id', $this->getName());
             $this->setName($this->getName() . '[]');
             //т.к. id уже переписан ,восстанавливаем его
-            $this->setAttr($id);
+            $this->setAttribute($id);
         }
     }
 
     /**
      * @return $this
      */
-    public function setAttr(AttributeInterface $attribute, string $namespace = 'general')
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general')
     {
-        parent::setAttr($attribute, $namespace);
+        parent::setAttribute($attribute, $namespace);
         $this->isMultiple();
         return $this;
     }
@@ -82,7 +82,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     public function setOptgroup(string $label, array $data = [], array $attributes = [], $useTitleAsValue = false): self
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaultValue);
-        $optgroup->setAttrs(AttributeFactory::createFromArray($attributes));
+        $optgroup->setAttributes(AttributeFactory::createFromArray($attributes));
         $optgroup->fill($data, $useTitleAsValue);
         $this->elements[] = $optgroup;
         return $this;

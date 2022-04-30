@@ -45,11 +45,11 @@ class OptgroupTest extends _TestCase
                 ->setOptgroup('alpha', ['a', 'b', 'c'], [], true)
                 ->setMultiple()
                 ;
-        $this->assertNotNull($select->getElements()[0]->getElements()[0]->getAttr('selected'));
-        $this->assertNull($select->getElements()[0]->getElements()[1]->getAttr('selected'));
-        $this->assertNotNull($select->getElements()[0]->getElements()[2]->getAttr('selected'));
-        $this->assertNull($select->getElements()[1]->getElements()[0]->getAttr('selected'));
-        $this->assertNotNull($select->getElements()[1]->getElements()[1]->getAttr('selected'));
-        $this->assertNotNull($select->getElements()[1]->getElements()[2]->getAttr('selected'));
+        $this->assertNotNull($select->getElements()[0]->getElements()[0]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[0]->getElements()[1]->getAttribute('selected'));
+        $this->assertNotNull($select->getElements()[0]->getElements()[2]->getAttribute('selected'));
+        $this->assertNull($select->getElements()[1]->getElements()[0]->getAttribute('selected'));
+        $this->assertNotNull($select->getElements()[1]->getElements()[1]->getAttribute('selected'));
+        $this->assertNotNull($select->getElements()[1]->getElements()[2]->getAttribute('selected'));
     }
 }

@@ -15,7 +15,7 @@ class Submit extends Element
     {
         parent::__construct($name, $title);
         if (!is_null($title)) {
-            $this->setAttr(AttributeFactory::create('value', $title));
+            $this->setAttribute(AttributeFactory::create('value', $title));
         }
     }
 }

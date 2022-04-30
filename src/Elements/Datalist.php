@@ -25,7 +25,7 @@ class Datalist extends Element implements Fillable, Ruleable, Descriptionable
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->setAttr(AttributeFactory::create('list', $name . '-list'));
+        $this->setAttribute(AttributeFactory::create('list', $name . '-list'));
     }
 
     public function baseHtml(): string
@@ -33,12 +33,12 @@ class Datalist extends Element implements Fillable, Ruleable, Descriptionable
         $return = sprintf(
             "<input%s>\n<datalist id='%s'>\n",
             $this->getAttributesString(),
-            $this->getAttr('list')->getValueString()
+            $this->getAttribute('list')->getValueString()
         );
 
         foreach ($this->getElements() as $data) {
             //$return .= "<option value=\"{$data->getLabel()}\">";
-            $data->setAttr(AttributeFactory::create('value', $data->getLabel()));
+            $data->setAttribute(AttributeFactory::create('value', $data->getLabel()));
             $data->setLabel(null);
             $return .= $data->baseHtml() . PHP_EOL;
         }
