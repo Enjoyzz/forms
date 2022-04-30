@@ -54,7 +54,7 @@ class Textarea extends Element implements Ruleable, Descriptionable
     public function setRows(mixed $rows): Textarea
     {
         $value = $this->getValidatedAttribute($rows);
-        $this->setAttr(AttributeFactory::create('rows', $value));
+        $this->setAttribute(AttributeFactory::create('rows', $value));
         return $this;
     }
 
@@ -64,13 +64,13 @@ class Textarea extends Element implements Ruleable, Descriptionable
     public function setCols(mixed $cols): Textarea
     {
         $value = $this->getValidatedAttribute($cols);
-        $this->setAttr(AttributeFactory::create('cols', $value));
+        $this->setAttribute(AttributeFactory::create('cols', $value));
         return $this;
     }
 
     public function baseHtml(): string
     {
-        $value = $this->getAttr('value');
+        $value = $this->getAttribute('value');
 
         if ($value !== null) {
             $this->setValue($value->getValueString());

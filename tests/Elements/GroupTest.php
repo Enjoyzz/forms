@@ -71,9 +71,9 @@ class GroupTest extends _TestCase
         );
 
         $this->assertEquals('POST', $form->getMethod());
-        $this->assertNotNull($element1->getElements()[1]->getAttr('selected'));
-        $this->assertNotNull($element2->getElements()[2]->getAttr('selected'));
-        $this->assertSame('c', $element3->getAttr('value')->getValueString());
+        $this->assertNotNull($element1->getElements()[1]->getAttribute('selected'));
+        $this->assertNotNull($element2->getElements()[2]->getAttribute('selected'));
+        $this->assertSame('c', $element3->getAttribute('value')->getValueString());
     }
 
     public function testAddInvalidElement()

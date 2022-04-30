@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms\Renderer\Html\ElementsRender;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Datalist;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
-use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
 class DataListTest extends _TestCaseHtmlRenderer
@@ -36,7 +35,7 @@ HTML
     public function testDataListChangeId()
     {
         $el = new Datalist('test', 'Label');
-        $el->setAttr(AttributeFactory::create('id', 'new-id'));
+        $el->setAttribute(AttributeFactory::create('id', 'new-id'));
         $el->fill([1, 2, 3]);
 
         $render = HtmlRenderer::createTypeRender($el);

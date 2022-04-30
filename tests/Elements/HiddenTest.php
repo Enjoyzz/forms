@@ -14,9 +14,9 @@ class HiddenTest extends TestCase
     {
 //        $this->markTestSkipped('Проверить тест');
         $obj = new Hidden($name, $value);
-        $this->assertSame($expectName, $obj->getAttr('name')->getValueString());
-        $this->assertSame($expectValue, $obj->getAttr('value')->__toString());
-        $this->assertSame(null, $obj->getAttr('id')?->getValueString());
+        $this->assertSame($expectName, $obj->getAttribute('name')->getValueString());
+        $this->assertSame($expectValue, $obj->getAttribute('value')->__toString());
+        $this->assertSame(null, $obj->getAttribute('id')?->getValueString());
     }
 
     public function dataForConstruct()

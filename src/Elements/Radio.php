@@ -34,21 +34,21 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
         parent::__construct($name, $title);
 
 
-        $this->setAttrs(
+        $this->setAttributes(
             AttributeFactory::createFromArray([
                 'id' => self::$prefix_id . $this->originalName,
                 'value' => $name,
             ])
         );
         $this->setPrefixId($this->originalName . '_');
-        $this->removeAttr('name');
+        $this->removeAttribute('name');
     }
 
     public function setPrefixId(string $prefix): self
     {
         if ($this->parent) {
             static::$prefix_id = $prefix;
-            $this->setAttr(AttributeFactory::create('id', $this->originalName));
+            $this->setAttribute(AttributeFactory::create('id', $this->originalName));
         }
         return $this;
     }
@@ -71,15 +71,15 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
         $this->defaultValue = $value;
 
         if (is_array($value)) {
-            if (in_array($this->getAttr('value')->getValueString(), $value)) {
-                $this->setAttr(AttributeFactory::create('checked'));
+            if (in_array($this->getAttribute('value')->getValueString(), $value)) {
+                $this->setAttribute(AttributeFactory::create('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttr('value')->getValueString() == $value) {
-                $this->setAttr(AttributeFactory::create('checked'));
+            if ($this->getAttribute('value')->getValueString() == $value) {
+                $this->setAttribute(AttributeFactory::create('checked'));
                 return $this;
             }
         }
@@ -88,8 +88,8 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
 
     public function baseHtml(): string
     {
-        $this->setAttr($this->getAttr('id')->withName('for'), Form::ATTRIBUTES_LABEL);
-        $this->setAttr(AttributeFactory::create('name', $this->getParentName()));
+        $this->setAttribute($this->getAttribute('id')->withName('for'), Form::ATTRIBUTES_LABEL);
+        $this->setAttribute(AttributeFactory::create('name', $this->getParentName()));
         return sprintf(
             '<input type="%s"%s><label%s>%s</label>',
             $this->getType(),

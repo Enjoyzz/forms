@@ -76,8 +76,8 @@ class Input implements TypeRenderInterface
             $star = "";
         }
 
-        if (null !== $idAttribute = $this->getElement()->getAttr('id')) {
-            $this->getElement()->setAttr($idAttribute->withName('for'), Form::ATTRIBUTES_LABEL);
+        if (null !== $idAttribute = $this->getElement()->getAttribute('id')) {
+            $this->getElement()->setAttribute($idAttribute->withName('for'), Form::ATTRIBUTES_LABEL);
         }
 
         return sprintf(

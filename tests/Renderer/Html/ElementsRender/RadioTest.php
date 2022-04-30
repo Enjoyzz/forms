@@ -8,7 +8,6 @@ use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\Html\HtmlRenderer;
-use Enjoys\Forms\Renderer\Html\TypeRenderFactory;
 use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
 class RadioTest extends _TestCaseHtmlRenderer
@@ -38,8 +37,8 @@ HTML), $this->stringOneLine($render->render()));
         $el->addElements([
          new Radio('yes', 'YES', false),
          (new Radio('no', 'NO'))
-             ->addAttr(AttributeFactory::create('test', ''))
-             ->addAttr(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
+             ->addAttribute(AttributeFactory::create('test', ''))
+             ->addAttribute(AttributeFactory::create('test'), Form::ATTRIBUTES_LABEL)
         ]);
 
         $render = HtmlRenderer::createTypeRender($el);

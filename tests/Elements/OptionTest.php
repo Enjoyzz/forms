@@ -16,8 +16,8 @@ class OptionTest extends _TestCase
     public function testInitElement()
     {
         $el = new Option('foo');
-        $this->assertNull($el->getAttr('name'));
-        $this->assertSame('foo', $el->getAttr('value')->getValueString());
+        $this->assertNull($el->getAttribute('name'));
+        $this->assertSame('foo', $el->getAttribute('value')->getValueString());
     }
 
     public function test_baseHtml()
@@ -50,7 +50,7 @@ class OptionTest extends _TestCase
         $this->assertSame('<option value="value1" selected>label1</option>', $option->baseHtml());
 
         $option = new Option('value1', 'label1');
-        $option->removeAttr('value');
+        $option->removeAttribute('value');
         $method->invokeArgs($option, [['value1']]);
         $this->assertSame('<option>label1</option>', $option->baseHtml());
     }
@@ -64,7 +64,7 @@ class OptionTest extends _TestCase
         $this->assertSame('<option value="value1" selected>label1</option>', $option->baseHtml());
 
         $option = new Option('value1', 'label1');
-        $option->removeAttr('value');
+        $option->removeAttribute('value');
         $method->invokeArgs($option, ['value1']);
         $this->assertSame('<option>label1</option>', $option->baseHtml());
     }

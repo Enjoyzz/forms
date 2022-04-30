@@ -53,9 +53,9 @@ class FillTest extends TestCase
                 3
             ]
         );
-        $this->assertEquals('46', $select->getElements()[0]->getAttr('value')->getValueString());
-        $this->assertEquals('47', $select->getElements()[1]->getAttr('value')->getValueString());
-        $this->assertEquals('48', $select->getElements()[2]->getAttr('value')->getValueString());
+        $this->assertEquals('46', $select->getElements()[0]->getAttribute('value')->getValueString());
+        $this->assertEquals('47', $select->getElements()[1]->getAttribute('value')->getValueString());
+        $this->assertEquals('48', $select->getElements()[2]->getAttribute('value')->getValueString());
     }
 
     public function testClosureFill()
@@ -77,8 +77,8 @@ class FillTest extends TestCase
             }
             return $ret;
         });
-        $this->assertEquals('52', $select->getElements()[0]->getAttr('value')->getValueString());
-        $this->assertEquals('36', $select->getElements()[1]->getAttr('value')->getValueString());
+        $this->assertEquals('52', $select->getElements()[0]->getAttribute('value')->getValueString());
+        $this->assertEquals('36', $select->getElements()[1]->getAttribute('value')->getValueString());
     }
 
     public function testClosureInvalidReturn()
@@ -112,9 +112,9 @@ class FillTest extends TestCase
             ],
             'baz' => 3
         ]);
-        $this->assertEquals('disabled', $element->getElements()[0]->getAttr('disabled')->__toString());
-        $this->assertEquals(null, $element->getElements()[1]->getAttr('disabled')?->getValueString());
-        $this->assertEquals('newfoz', $element->getElements()[1]->getAttr('id')->getValueString());
+        $this->assertEquals('disabled', $element->getElements()[0]->getAttribute('disabled')->__toString());
+        $this->assertEquals(null, $element->getElements()[1]->getAttribute('disabled')?->getValueString());
+        $this->assertEquals('newfoz', $element->getElements()[1]->getAttribute('id')->getValueString());
         $this->assertEquals($name, $element->getElements()[2]->getParentName());
     }
 
@@ -147,7 +147,7 @@ class FillTest extends TestCase
             ]
         );
 
-        $this->assertSame('selected', $select->getElements()[1]->getAttr('selected')->__toString());
+        $this->assertSame('selected', $select->getElements()[1]->getAttribute('selected')->__toString());
         $this->assertSame($returnObject, $select);
     }
 

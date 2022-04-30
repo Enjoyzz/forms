@@ -20,13 +20,13 @@ class Date extends Element implements Ruleable, Descriptionable
 
     public function setMin(\DateTimeInterface $date): self
     {
-        $this->setAttr(AttributeFactory::create('min', $date->format('Y-m-d')));
+        $this->setAttribute(AttributeFactory::create('min', $date->format('Y-m-d')));
         return $this;
     }
 
     public function setMax(\DateTimeInterface $date): self
     {
-        $this->setAttr(AttributeFactory::create('max', $date->format('Y-m-d')));
+        $this->setAttribute(AttributeFactory::create('max', $date->format('Y-m-d')));
         return $this;
     }
 }

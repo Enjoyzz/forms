@@ -7,40 +7,56 @@
 ```php
 use Enjoys\Forms\Form;
 $form = new Form();
-$form = new Form('get');
+//or
 $form = new Form('get', 'action.php');
 ```
 
 ### Added Elements
+
 ```php
 use Enjoys\Forms\Form;
-use Enjoys\Forms\AttributeFactory;
-use Enjoys\Forms\Rules;
 use Enjoys\Forms\Elements;
 
 $form = new Form();
-
-$form
-    ->text('name', 'label')
-    ->setAttr(AttributeFactory::create('id', uniqid()))
-    ->addRule(Rules::REQUIRED)
-;
+$form->text('name', 'label');
 
 //or
-$textElement = (new Elements\Text('name', 'label'))
-    ->setAttr(AttributeFactory::create('id', uniqid()))
-    ->addRule(Rules::REQUIRED)
-;
+$textElement = new Elements\Text('name', 'label');
 $form->addElement($textElement);
 ```
 
-```php
-\Enjoys\Forms\AttributeFactory::create('name', 'value') // return AttributeInterface (string: name="value")
-\Enjoys\Forms\AttributeFactory::createFromArray([
-    'name' => 'value',
-    'id' => 'my-id',
-]) // return AttributeInterface[] (string: [name="value", id="my-id"])
-```
+### List Elements
+
+- button
+- captcha (need CaptchaInterface Implement)
+- checkbox
+- color
+- datalist
+- date
+- datetime
+- datetimelocal
+- email
+- file
+- group
+- header
+- hidden
+- html
+- image
+- month
+- number
+- password
+- radio
+- range
+- reset
+- search
+- select
+- submit
+- tel
+- text
+- textarea
+- time
+- url
+- week
 
 
 ### Run built-in server for view example

@@ -209,7 +209,7 @@ class Form
         if (in_array(strtoupper($method), self::_ALLOWED_FORM_METHOD_)) {
             $this->method = strtoupper($method);
         }
-        $this->setAttr(AttributeFactory::create('method', $this->method));
+        $this->setAttribute(AttributeFactory::create('method', $this->method));
         $this->addElement(new Csrf($this->session));
     }
 
@@ -221,7 +221,7 @@ class Form
     public function setAction(?string $action = null): self
     {
         $this->action = $action;
-        $this->setAttr(AttributeFactory::create('action', $this->action));
+        $this->setAttribute(AttributeFactory::create('action', $this->action));
         return $this;
     }
 

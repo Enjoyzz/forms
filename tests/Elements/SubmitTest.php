@@ -10,6 +10,6 @@ class SubmitTest extends TestCase
     public function test_init()
     {
         $el = new Submit('foo', 'title1');
-        $this->assertEquals('title1', $el->getAttr('value')->getValueString());
+        $this->assertEquals('title1', $el->getAttribute('value')->getValueString());
     }
 }

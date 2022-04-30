@@ -23,7 +23,7 @@ trait Attributes
         return $this->attr[$namespace];
     }
 
-    public function getAttr(string $name, string $namespace = 'general'): AttributeInterface|null
+    public function getAttribute(string $name, string $namespace = 'general'): AttributeInterface|null
     {
         return $this->getAttributeCollection($namespace)->get($name);
     }
@@ -31,10 +31,10 @@ trait Attributes
     /**
      * @return $this
      */
-    public function setAttrsWithClear(array $attributes, string $namespace = 'general')
+    public function setAttributesWithClear(array $attributes, string $namespace = 'general')
     {
         $this->getAttributeCollection($namespace)->clear();
-        return $this->setAttrs($attributes, $namespace);
+        return $this->setAttributes($attributes, $namespace);
     }
 
     /**
@@ -42,10 +42,10 @@ trait Attributes
      * @param string $namespace
      * @return $this
      */
-    public function setAttrs(array $attributes, string $namespace = 'general')
+    public function setAttributes(array $attributes, string $namespace = 'general')
     {
         foreach ($attributes as $attribute) {
-            $this->setAttr($attribute, $namespace);
+            $this->setAttribute($attribute, $namespace);
         }
 
         return $this;
@@ -55,21 +55,21 @@ trait Attributes
     /**
      * @return $this
      */
-    public function setAttr(AttributeInterface $attribute, string $namespace = 'general')
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general')
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->remove($attribute);
-        $this->addAttr($attribute, $namespace);
+        $this->addAttribute($attribute, $namespace);
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function addAttrs(array $attributes, string $namespace = 'general')
+    public function addAttributes(array $attributes, string $namespace = 'general')
     {
         foreach ($attributes as $attribute) {
-            $this->addAttr($attribute, $namespace);
+            $this->addAttribute($attribute, $namespace);
         }
 
         return $this;
@@ -79,7 +79,7 @@ trait Attributes
     /**
      * @return $this
      */
-    public function addAttr(AttributeInterface $attribute, string $namespace = 'general')
+    public function addAttribute(AttributeInterface $attribute, string $namespace = 'general')
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->add($attribute);
@@ -90,7 +90,7 @@ trait Attributes
      * @return AttributeCollection
      * @see getAttributeCollection
      */
-    public function getAttrs(string $namespace = 'general'): AttributeCollection
+    public function getAttributes(string $namespace = 'general'): AttributeCollection
     {
         return $this->getAttributeCollection($namespace);
     }
@@ -114,7 +114,7 @@ trait Attributes
     /**
      * @return $this
      */
-    public function removeAttr(string|AttributeInterface $attribute, string $namespace = 'general')
+    public function removeAttribute(string|AttributeInterface $attribute, string $namespace = 'general')
     {
         $this->getAttributeCollection($namespace)->remove($attribute);
         return $this;
@@ -145,7 +145,7 @@ trait Attributes
 
     public function getClassesList(string $namespace = 'general'): array
     {
-        return $this->getAttr('class', $namespace)?->getValues() ?? [];
+        return $this->getAttribute('class', $namespace)?->getValues() ?? [];
     }
 
     /**
@@ -153,7 +153,7 @@ trait Attributes
      */
     public function removeClass(string $classValue, string $namespace = 'general')
     {
-        $this->getAttr('class', $namespace)?->remove($classValue);
+        $this->getAttribute('class', $namespace)?->remove($classValue);
         return $this;
     }
 }
