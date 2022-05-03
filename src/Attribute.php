@@ -154,6 +154,11 @@ abstract class Attribute implements AttributeInterface
 
         Assert::nullOrScalar($value);
 
-        return ($value === null) ? null : (string)$value;
+        return ($value === null) ? null : $this->safety((string)$value);
+    }
+
+    private function safety(string $value): string
+    {
+        return \htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
     }
 }
