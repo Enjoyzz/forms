@@ -209,7 +209,7 @@ class FormTest extends _TestCase
     public function testSetDefaultsIfSubmittedReal(): void
     {
         $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
-            Form::_TOKEN_SUBMIT_ => 'd751713988987e9331980363e24189ce',
+            Form::_TOKEN_SUBMIT_ => '288b1be43eb1b9118f5a4a72a4d3f594',
             Form::_TOKEN_CSRF_ => 'csrf_token_stub',
             'foo' => 'baz'
         ]));

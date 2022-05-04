@@ -68,10 +68,6 @@ class Form
         $this->setMethod($method);
         $this->setAction($action);
 
-        $tokenSubmit = new TockenSubmit(md5(json_encode($this->getOptions())));
-        $this->addElement($tokenSubmit);
-        $this->setSubmitted($tokenSubmit->getSubmitted());
-
         if ($this->submitted === true) {
             $this->setDefaults([]);
         }
@@ -210,7 +206,9 @@ class Form
             $this->method = strtoupper($method);
         }
         $this->setAttribute(AttributeFactory::create('method', $this->method));
+        $this->setOption('method', $this->method, false);
         $this->addElement(new Csrf($this->session));
+        $this->setTokenSubmitElement();
     }
 
     public function getMethod(): string
@@ -222,11 +220,21 @@ class Form
     {
         $this->action = $action;
         $this->setAttribute(AttributeFactory::create('action', $this->action));
+        $this->setOption('action', $this->action, false);
+        $this->setTokenSubmitElement();
         return $this;
     }
 
     public function getAction(): ?string
     {
         return $this->action;
+    }
+
+
+    private function setTokenSubmitElement(): void
+    {
+        $tokenSubmit = new TockenSubmit(md5(json_encode($this->getOptions())));
+        $this->addElement($tokenSubmit);
+        $this->setSubmitted($tokenSubmit->getSubmitted());
     }
 }
