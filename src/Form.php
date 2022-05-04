@@ -54,6 +54,9 @@ class Form
     private bool $submitted = false;
     private Session $session;
 
+    /**
+     * @throws Exception\ExceptionRule
+     */
     public function __construct(
         string $method = 'POST',
         string $action = null,
@@ -61,6 +64,8 @@ class Form
         DefaultsHandlerInterface $defaultsHandler = null,
         Session $session = null
     ) {
+        $this->setOption('_object_id', spl_object_id($this));
+
         $this->setRequest($request);
         $this->session = $session ?? new Session();
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
@@ -72,23 +77,6 @@ class Form
             $this->setDefaults([]);
         }
 
-//
-//        static::$formCounter++;
-//
-//
-//        $this->setOptions($options);
-//
-//        $tokenSubmit = $this->tockenSubmit(
-//            md5(
-//                json_encode($options)
-//                . ($this->getOption('inclCounter', false) ? $this->getFormCounter() : '')
-//            )
-//        );
-//        $this->formSubmitted = $tokenSubmit->getSubmitted();
-//
-//        if ($this->formSubmitted === true) {
-//            $this->setDefaults([]);
-//        }
     }
 
 
