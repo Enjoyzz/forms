@@ -12,7 +12,7 @@ trait Request
 {
     private ServerRequestWrapperInterface $request;
 
-    public function setRequest(ServerRequestWrapperInterface $request = null)
+    public function setRequest(ServerRequestWrapperInterface $request = null): void
     {
         $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
     }
