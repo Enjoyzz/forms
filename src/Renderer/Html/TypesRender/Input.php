@@ -8,7 +8,6 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Interfaces\TypeRenderInterface;
 
 class Input implements TypeRenderInterface
 {

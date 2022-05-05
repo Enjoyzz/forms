@@ -48,8 +48,12 @@ class Equal extends Rules implements RuleInterface
         return true;
     }
 
-
-    private function check($value)
+    /**
+     * @param mixed $value
+     * @return array-key|bool
+     * @noinspection PhpMissingReturnTypeInspection
+     */
+    private function check(mixed $value)
     {
 
         if ($value === false) {

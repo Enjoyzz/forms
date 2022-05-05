@@ -10,5 +10,5 @@ interface RendererInterface
 {
     public function setForm(Form $form): Form;
 
-    public function output();
+    public function output(): mixed;
 }

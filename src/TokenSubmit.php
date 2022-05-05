@@ -12,12 +12,12 @@ class TokenSubmit
     {
     }
 
-    public function getToken()
+    public function getToken(): string
     {
         return md5(json_encode($this->form->getOptions()));
     }
 
-    public function getElement()
+    public function getElement(): Hidden
     {
         return new Hidden(Form::_TOKEN_SUBMIT_, $this->getToken());
     }

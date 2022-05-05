@@ -36,7 +36,7 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
 
         $this->setAttributes(
             AttributeFactory::createFromArray([
-                'id' => self::$prefix_id . $this->originalName,
+                'id' => ((string)self::$prefix_id) . $this->originalName,
                 'value' => $name,
             ])
         );

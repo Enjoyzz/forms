@@ -15,7 +15,7 @@ interface CaptchaInterface
 
     public function renderHtml(Element $element): string;
 
-    public function setRequest(ServerRequestWrapperInterface $request);
+    public function setRequest(ServerRequestWrapperInterface $request): void;
 
     public function getRequest(): ServerRequestWrapperInterface;
 

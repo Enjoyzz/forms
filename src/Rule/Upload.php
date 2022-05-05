@@ -61,6 +61,7 @@ class Upload extends Rules implements RuleInterface
      * @param Ruleable $element
      * @return bool
      * @throws ExceptionRule
+     * @noinspection PhpMissingParamTypeInspection
      */
     private function check($value, Ruleable $element): bool
     {
@@ -80,6 +81,13 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @param mixed $message
+     * @param Ruleable $element
+     * @return bool
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedParameterInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
+     * @psalm-suppress UnusedParam     *
      */
     private function checkSystem($value, $message, Ruleable $element): bool
     {
@@ -97,6 +105,8 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function checkRequired($value, ?string $message, Ruleable $element): bool
     {
@@ -115,6 +125,8 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function checkMaxsize($value, int|array|string $ruleOpts, Ruleable $element): bool
     {
@@ -145,6 +157,8 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function checkExtensions($value, string|array $ruleOpts, Ruleable $element): bool
     {
@@ -172,7 +186,7 @@ class Upload extends Rules implements RuleInterface
     }
 
 
-    private function parseRuleOpts($opts): array
+    private function parseRuleOpts(mixed $opts): array
     {
         if (!is_array($opts)) {
             $opts = (array)$opts;

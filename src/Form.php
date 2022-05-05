@@ -115,6 +115,7 @@ class Form
 
         if ($data instanceof Closure) {
             $data = $data();
+            /** @psalm-suppress RedundantConditionGivenDocblockType */
             Assert::isArray($data);
         }
 

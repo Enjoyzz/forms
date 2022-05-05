@@ -14,7 +14,7 @@ interface Fillable
 
     public function getParentName(): string;
 
-    public function fill(array $data);
+    public function fill(array $data): Fillable;
 
     public function getElements(): array;
 

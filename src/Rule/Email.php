@@ -27,7 +27,6 @@ class Email extends Rules implements RuleInterface
      */
     public function validate(Ruleable $element): bool
     {
-
         $method = $this->getRequest()->getRequest()->getMethod();
         $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryData()->toArray(),
@@ -35,7 +34,7 @@ class Email extends Rules implements RuleInterface
             default => []
         };
         $value = \getValueByIndexPath($element->getName(), $requestData);
-        if (!$this->check(\trim($value))) {
+        if ($this->check(\trim($value)) === false) {
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -43,7 +42,7 @@ class Email extends Rules implements RuleInterface
     }
 
 
-    private function check(string $value)
+    private function check(string $value): bool
     {
         if (empty($value)) {
             return true;
@@ -53,6 +52,6 @@ class Email extends Rules implements RuleInterface
 //            $value = idn_to_ascii($value);
 //        }
 
-        return filter_var($value, \FILTER_VALIDATE_EMAIL);
+        return (bool)filter_var($value, \FILTER_VALIDATE_EMAIL);
     }
 }

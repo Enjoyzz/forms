@@ -37,7 +37,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
         $this->setAttributes(
             AttributeFactory::createFromArray([
-                'id' => self::$prefix_id . $this->originalName,
+                'id' => ((string)self::$prefix_id) . $this->originalName,
                 'value' => $this->originalName,
             ])
         );
@@ -86,7 +86,10 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
     public function baseHtml(): string
     {
-        $this->setAttribute(AttributeFactory::create('for', $this->getAttribute('id')?->getValueString()), Form::ATTRIBUTES_LABEL);
+        $this->setAttribute(
+            AttributeFactory::create('for', $this->getAttribute('id')?->getValueString()),
+            Form::ATTRIBUTES_LABEL
+        );
         $this->setAttributes(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
         return sprintf(
             '<input type="%s"%s><label%s>%s</label>',
