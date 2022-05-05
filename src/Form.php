@@ -6,7 +6,7 @@ namespace Enjoys\Forms;
 
 use Closure;
 use Enjoys\Forms\Elements\Csrf;
-use Enjoys\Forms\Elements\TockenSubmit;
+use Enjoys\Forms\Elements\TokenSubmit;
 use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\ServerRequestWrapperInterface;
@@ -238,7 +238,7 @@ class Form
 
     private function setTokenSubmitElement(): void
     {
-        $tokenSubmit = new TockenSubmit(md5(json_encode($this->getOptions())));
+        $tokenSubmit = new TokenSubmit(md5(json_encode($this->getOptions())));
         $this->addElement($tokenSubmit);
         $this->setSubmitted($tokenSubmit->getSubmitted());
     }

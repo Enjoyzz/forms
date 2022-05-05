@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Form;
 
-class TockenSubmit extends Hidden
+class TokenSubmit extends Hidden
 {
     private string $token;
 
