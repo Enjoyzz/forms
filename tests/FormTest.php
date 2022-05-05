@@ -166,9 +166,11 @@ class FormTest extends _TestCase
      */
     public function testSetDefaultsIfSubmittedMethodGet(): void
     {
-        $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
-            'foo' => 'baz',
-        ], method: 'get'));
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'baz',
+            ], method: 'get')
+        );
         $form = new Form('get', request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -187,9 +189,11 @@ class FormTest extends _TestCase
      */
     public function testSetDefaultsIfSubmittedMethodPost(): void
     {
-        $request = new ServerRequestWrapper(new ServerRequest(parsedBody: [
-            'foo' => 'baz',
-        ], method: 'Post'));
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'foo' => 'baz',
+            ], method: 'Post')
+        );
         $form = new Form('Post', request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -208,9 +212,11 @@ class FormTest extends _TestCase
      */
     public function testSetDefaultsIfSubmittedReal(): void
     {
-        $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
-            'foo' => 'baz'
-        ]));
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'baz'
+            ])
+        );
         $defaultsHandler = new DefaultsHandler([
             'foo' => 'bar'
         ]);
@@ -253,16 +259,40 @@ class FormTest extends _TestCase
         $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }
 
-    public function testSetDefaultsInvalidData()
+    public function testSetDefaultsClosureAfterSubmit()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'foo' => 'baz'
+            ])
+        );
+        $form = new Form(request: $request);
+
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setAccessible(true);
+        $submitted->setValue($form, true);
+
+        $form->setDefaults(function () {
+            return [
+                'foo' => 'bar'
+            ];
+        });
+        $element = $form->text('foo');
+        $this->assertSame('baz', $element->getAttribute('value')->getValueString());
+    }
+
+    public function testSetDefaultsInvalidClosureData()
     {
         $this->expectException(InvalidArgumentException::class);
         $form = new Form();
-        $form->setDefaults('value');
+        $form->setDefaults(function () {
+            return 'string';
+        });
     }
 
     public function testSetAndGetDefaultsHandler()
     {
-        $defaultsHandler = new DefaultsHandler([1,2,3]);
+        $defaultsHandler = new DefaultsHandler([1, 2, 3]);
         $form = new Form(defaultsHandler: $defaultsHandler);
         $this->assertEquals($defaultsHandler, $form->getDefaultsHandler());
     }
@@ -272,7 +302,6 @@ class FormTest extends _TestCase
      */
     public function testSetAndGetSession()
     {
-
         $session = clone new Session();
         $form = new Form(session: $session);
         $property = $this->getPrivateProperty(Form::class, 'session');

@@ -76,7 +76,6 @@ class Form
         if ($this->submitted === true) {
             $this->setDefaults([]);
         }
-
     }
 
     private function setSubmitted(bool $submitted): Form
@@ -109,32 +108,29 @@ class Form
     /**
      * @param array|Closure():array $data
      * @return $this
-     * @noinspection PhpMissingParamTypeInspection
      */
-    public function setDefaults($data): Form
+    public function setDefaults(array|Closure $data): Form
     {
-        if ($data instanceof Closure) {
-            $data = $data();
-        }
-
-        Assert::isArray($data);
 
         if ($this->submitted === true) {
-            $data = [];
-
-            $requestData = match (strtolower($this->getMethod())) {
-                'get' => $this->getRequest()->getQueryData()->toArray(),
-                'post' => $this->getRequest()->getPostData()->toArray(),
-                default => [],
-            };
-
-            foreach ($requestData as $key => $items) {
-                if (in_array($key, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_])) {
-                    continue;
-                }
-                $data[$key] = $items;
-            }
+            $data = array_filter(
+                match (strtolower($this->getMethod())) {
+                    'get' => $this->getRequest()->getQueryData()->toArray(),
+                    'post' => $this->getRequest()->getPostData()->toArray(),
+                    default => [],
+                },
+                function ($k) {
+                    return !in_array($k, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_]);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
         }
+
+        if ($data instanceof Closure) {
+            $data = $data();
+            Assert::isArray($data);
+        }
+
         $this->defaultsHandler->setData($data);
         return $this;
     }
