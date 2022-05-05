@@ -48,6 +48,7 @@ class Form
 
     private string $method = 'POST';
     private ?string $action = null;
+    private ?string $id = null;
 
     private DefaultsHandlerInterface $defaultsHandler;
 
@@ -60,24 +61,26 @@ class Form
     public function __construct(
         string $method = 'POST',
         string $action = null,
+        string $id = null,
         ServerRequestWrapperInterface $request = null,
         DefaultsHandlerInterface $defaultsHandler = null,
         Session $session = null
     ) {
-        $this->setOption('_object_id', spl_object_id($this));
-
         $this->setRequest($request);
         $this->session = $session ?? new Session();
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
         $this->setMethod($method);
         $this->setAction($action);
+        $this->setId($id);
 
         if ($this->submitted === true) {
             $this->setDefaults([]);
         }
 
     }
+
+
 
 
     private function setSubmitted(bool $submitted): Form
@@ -204,7 +207,7 @@ class Form
         return $this->method;
     }
 
-    public function setAction(?string $action = null): self
+    public function setAction(?string $action): self
     {
         $this->action = $action;
         $this->setAttribute(AttributeFactory::create('action', $this->action));
@@ -218,6 +221,20 @@ class Form
         return $this->action;
     }
 
+    public function setId(?string $id): Form
+    {
+        $this->id = $id;
+        $this->setAttribute(AttributeFactory::create('id', $this->id));
+        $this->setOption('id', $this->id, false);
+        $this->setTokenSubmitElement();
+        return $this;
+    }
+
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
 
     private function setTokenSubmitElement(): void
     {

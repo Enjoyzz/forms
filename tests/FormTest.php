@@ -45,7 +45,7 @@ class FormTest extends _TestCase
         $form->setAction('test');
         $this->assertSame('test', $form->getAction());
         $this->assertSame('action="test"', $form->getAttribute('action')->__toString());
-        $form->setAction();
+        $form->setAction(null);
         $this->assertNull($form->getAction());
         $this->assertSame('', $form->getAttribute('action')->__toString());
     }
