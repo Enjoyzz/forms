@@ -214,25 +214,20 @@ class FormTest extends _TestCase
     {
         $request = new ServerRequestWrapper(
             new ServerRequest(queryParams: [
-                'foo' => 'baz'
+                'foo' => 'baz',
+                Form::_TOKEN_SUBMIT_ => '57416ee9a4789178e6cf4de6bc797ebd'
             ])
         );
         $defaultsHandler = new DefaultsHandler([
             'foo' => 'bar'
         ]);
 
+        $this->assertSame(['foo' => 'bar'], $defaultsHandler->getDefaults());
 
         $form = new Form('get', request: $request, defaultsHandler: $defaultsHandler);
 
-        $this->assertSame(['foo' => 'bar'], $form->getDefaultsHandler()->getDefaults());
-
-
-        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
-        $submitted->setAccessible(true);
-        $submitted->setValue($form, true);
-        $form->setDefaults([]);
-
         $element = $form->text('foo');
+
         $this->assertSame('baz', $element->getAttribute('value')->getValueString());
         $this->assertSame(['foo' => 'baz'], $form->getDefaultsHandler()->getDefaults());
     }
@@ -243,6 +238,15 @@ class FormTest extends _TestCase
         $form->setDefaults([
             'foo' => 'bar'
         ]);
+        $element = $form->text('foo');
+        $this->assertSame('bar', $element->getAttribute('value')->getValueString());
+    }
+
+    public function testSetDefaultsWithInitialization()
+    {
+        $form = new Form(defaultsHandler: new DefaultsHandler([
+            'foo' => 'bar'
+        ]));
         $element = $form->text('foo');
         $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }

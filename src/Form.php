@@ -6,7 +6,6 @@ namespace Enjoys\Forms;
 
 use Closure;
 use Enjoys\Forms\Elements\Csrf;
-use Enjoys\Forms\Elements\TokenSubmit;
 use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
 use Enjoys\ServerRequestWrapper;
@@ -16,7 +15,6 @@ use Enjoys\Traits\Options;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 use Webmozart\Assert\Assert;
 
-use function json_encode;
 use function strtoupper;
 
 /**
@@ -212,9 +210,9 @@ class Form
 
     private function setTokenSubmitElement(): void
     {
-        $tokenSubmit = new TokenSubmit(md5(json_encode($this->getOptions())));
-        $this->addElement($tokenSubmit);
-        $this->setSubmitted($tokenSubmit->getSubmitted());
+        $tokenSubmit = new TokenSubmit($this);
+        $this->addElement($tokenSubmit->getElement());
+        $this->submitted = $tokenSubmit->validate();
     }
 
 //    /**
