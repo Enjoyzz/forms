@@ -9,10 +9,7 @@ use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
 
-/**
- * Class Element
- * @package Enjoys\Forms
- */
+
 abstract class Element implements ElementInterface
 {
     use Attributes;
@@ -20,14 +17,8 @@ abstract class Element implements ElementInterface
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
-     * @var string
      */
     protected string $name;
-
-    /**
-     *
-     * @var string
-     */
     protected string $type = '';
 
     /**
@@ -166,7 +157,7 @@ abstract class Element implements ElementInterface
     protected function setDefault(): self
     {
         $value = $this->getForm()
-            ->getDefaultsHandler()
+            ?->getDefaultsHandler()
             ->getValue($this->getName())
         ;
 

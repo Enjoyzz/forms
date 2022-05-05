@@ -19,4 +19,5 @@ interface AttributeInterface
     public function has(mixed $value): bool;
     public function add(mixed $value): AttributeInterface;
     public function remove(string $value): bool;
+    public function __toString(): string;
 }

@@ -33,6 +33,7 @@ class Csrf extends Hidden
             'CSRF Attack detected',
             [
                 function (string $key) {
+                    /** @psalm-suppress  PossiblyNullArgument */
                     if (password_verify($key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))) {
                         return true;
                     }
@@ -48,10 +49,10 @@ class Csrf extends Hidden
      */
     public function prepare()
     {
-        if (!in_array($this->getForm()->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
+        if (!in_array($this->getForm()?->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
             //удаляем элемент, если был заранее создан
             //$this->getForm()->removeElement($this->getForm()->getElement(\Enjoys\Forms\Form::_TOKEN_CSRF_));
-            $this->getForm()->removeElement($this);
+            $this->getForm()?->removeElement($this);
 
             //возвращаем true, чтобы не добавлять элемент.
             return true;
@@ -64,7 +65,7 @@ class Csrf extends Hidden
      */
     private function getCsrfSecret(): string
     {
-        $secret = (string) $this->session->get('csrf_secret');
+        $secret = (string)$this->session->get('csrf_secret');
 
         if (empty($secret)) {
             $secret = $this->generateSecret();
@@ -72,7 +73,6 @@ class Csrf extends Hidden
 
         return $secret;
     }
-
 
 
     public function getCsrfToken(string $secret): string

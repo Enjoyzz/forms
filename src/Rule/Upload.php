@@ -130,7 +130,7 @@ class Upload extends Rules implements RuleInterface
         $message = $parsed['message'];
 
         if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(null, " ") . ')'
+            $message = 'Размер файла (' . Binary::bytes($value->getSize() ?? 0)->format(null, " ") . ')'
                 . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
         }
         $this->setMessage($message);
@@ -157,7 +157,7 @@ class Upload extends Rules implements RuleInterface
         $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
         $message = $parsed['message'];
 
-        $extension = pathinfo($value->getClientFilename(), PATHINFO_EXTENSION);
+        $extension = pathinfo($value->getClientFilename() ?? '', PATHINFO_EXTENSION);
 
         if (is_null($message)) {
             $message = 'Загрузка файлов с расширением .' . $extension . ' запрещена';

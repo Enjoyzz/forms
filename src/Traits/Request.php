@@ -10,6 +10,9 @@ use HttpSoft\ServerRequest\ServerRequestCreator;
 
 trait Request
 {
+    /**
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private ServerRequestWrapperInterface $request;
 
     public function setRequest(ServerRequestWrapperInterface $request = null): void

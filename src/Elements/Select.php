@@ -65,7 +65,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     protected function setDefault(): self
     {
 //        $this->defaultValue = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
-        $this->setDefaultValue($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
+        $this->setDefaultValue($this->getForm()?->getDefaultsHandler()->getValue($this->getName()));
         return $this;
     }
 

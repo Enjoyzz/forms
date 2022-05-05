@@ -37,6 +37,7 @@ class HtmlRenderer extends AbstractRenderer
         if ($typeRenderClass === false || !class_exists($typeRenderClass)) {
             return new TypesRender\Input($element);
         }
+        /** @var class-string<TypeRenderInterface> $typeRenderClass */
         return new $typeRenderClass($element);
     }
 

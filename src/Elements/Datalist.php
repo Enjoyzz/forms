@@ -33,7 +33,7 @@ class Datalist extends Element implements Fillable, Ruleable, Descriptionable
         $return = sprintf(
             "<input%s>\n<datalist id='%s'>\n",
             $this->getAttributesString(),
-            $this->getAttribute('list')->getValueString()
+            $this->getAttribute('list')?->getValueString() ?? 'data-list'
         );
 
         foreach ($this->getElements() as $data) {
