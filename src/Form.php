@@ -9,9 +9,11 @@ use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Elements\TokenSubmit;
 use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
+use Enjoys\ServerRequestWrapper;
 use Enjoys\ServerRequestWrapperInterface;
 use Enjoys\Session\Session;
 use Enjoys\Traits\Options;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 use Webmozart\Assert\Assert;
 
 use function json_encode;
@@ -28,10 +30,6 @@ class Form
     use Traits\Container {
         addElement as private parentAddElement;
     }
-    use Traits\Request {
-        setRequest as private;
-    }
-
 
     private const _ALLOWED_FORM_METHOD_ = ['GET', 'POST'];
 
@@ -50,6 +48,7 @@ class Form
     private ?string $action = null;
     private ?string $id = null;
 
+    private ServerRequestWrapperInterface $request;
     private DefaultsHandlerInterface $defaultsHandler;
 
     private bool $submitted = false;
@@ -66,7 +65,7 @@ class Form
         DefaultsHandlerInterface $defaultsHandler = null,
         Session $session = null
     ) {
-        $this->setRequest($request);
+        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
         $this->session = $session ?? new Session();
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
@@ -79,9 +78,6 @@ class Form
         }
 
     }
-
-
-
 
     private function setSubmitted(bool $submitted): Form
     {
@@ -110,24 +106,12 @@ class Form
     }
 
 
-
-//    public function __destruct()
-//    {
-//        static::$formCounter = 0;
-//    }
-//
-//    public function getFormCounter(): int
-//    {
-//        return static::$formCounter;
-//    }
-
-
     /**
      * @param array|Closure():array $data
      * @return $this
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function setDefaults($data): self
+    public function setDefaults($data): Form
     {
         if ($data instanceof Closure) {
             $data = $data();
@@ -158,8 +142,8 @@ class Form
 
     /**
      *
-     * Если prepare() ничего не возвращает (NULL), то элемент добавляется,
-     * если что-то вернула функция, то элемент добавлен в коллекцию не будет.
+     * Если prepare() возвращает false, то элемент добавляется,
+     * если true, то элемент добавлен в коллекцию не будет.
      * @use Element::setForm()
      * @use Element::prepare()
      * @param Element $element
@@ -171,21 +155,15 @@ class Form
         return $this->parentAddElement($element);
     }
 
-//    /**
-//     * Вывод формы в Renderer
-//     * @param RendererInterface $renderer
-//     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
-//     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
-//     */
-//    public function render(Renderer\RendererInterface $renderer)
-//    {
-//        $renderer->setForm($this);
-//        return $renderer->render();
-//    }
 
     public function getDefaultsHandler(): DefaultsHandlerInterface
     {
         return $this->defaultsHandler;
+    }
+
+    public function getRequest(): ServerRequestWrapperInterface
+    {
+        return $this->request;
     }
 
     /**
@@ -242,4 +220,16 @@ class Form
         $this->addElement($tokenSubmit);
         $this->setSubmitted($tokenSubmit->getSubmitted());
     }
+
+//    /**
+//     * Вывод формы в Renderer
+//     * @param \Enjoys\Forms\Interfaces\RendererInterface $renderer
+//     * @return mixed Возвращается любой формат, в зависимоти от renderer`а, может
+//     * вернутся строка в html, или, например, xml или массив, все зависит от рендерера.
+//     */
+//    public function render(\Enjoys\Forms\Interfaces\RendererInterface $renderer): mixed
+//    {
+//        $renderer->setForm($this);
+//        return $renderer->output();
+//    }
 }
