@@ -17,10 +17,6 @@ use Webmozart\Assert\Assert;
 
 use function strtoupper;
 
-/**
- * Class Form
- * @package Enjoys\Forms
- */
 class Form
 {
     use Traits\Attributes;
@@ -34,7 +30,6 @@ class Form
     public const _TOKEN_CSRF_ = '_token_csrf';
     public const _TOKEN_SUBMIT_ = '_token_submit';
 
-    //public const _FLAG_FORMMETHOD_ = '_form_method';
     public const ATTRIBUTES_DESC = '_desc_attributes_';
     public const ATTRIBUTES_VALIDATE = '_validate_attributes_';
     public const ATTRIBUTES_LABEL = '_label_attributes_';
@@ -94,7 +89,7 @@ class Form
         if ($this->submitted === false) {
             return false;
         }
-        //  dump($this->getElements());
+
         if ($validate !== false) {
             return Validator::check($this->getElements());
         }
@@ -112,9 +107,9 @@ class Form
 
         if ($this->submitted === true) {
             $data = array_filter(
-                match (strtolower($this->getMethod())) {
-                    'get' => $this->getRequest()->getQueryData()->toArray(),
-                    'post' => $this->getRequest()->getPostData()->toArray(),
+                match ($this->getMethod()) {
+                    'GET' => $this->getRequest()->getQueryData()->toArray(),
+                    'POST' => $this->getRequest()->getPostData()->toArray(),
                     default => [],
                 },
                 function ($k) {

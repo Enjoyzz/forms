@@ -8,7 +8,6 @@ use Enjoys\Forms\Elements\Hidden;
 
 class TokenSubmit
 {
-
     public function __construct(private Form $form)
     {
     }

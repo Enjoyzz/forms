@@ -7,6 +7,7 @@ namespace Enjoys\Forms\Renderer\Html\TypesRender;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\Descriptionable;
+use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Interfaces\TypeRenderInterface;
 
 class Input implements TypeRenderInterface
@@ -48,42 +49,45 @@ class Input implements TypeRenderInterface
         return sprintf(
             '<small%s>%s</small>',
             $element->getAttributesString(Form::ATTRIBUTES_DESC),
-            $element->getDescription()
+            $element->getDescription() ?? ''
         );
     }
 
 
     protected function validationRender(): string
     {
-        if (!method_exists($this->getElement(), 'isRuleError') || !$this->getElement()->isRuleError()) {
+        $element = $this->getElement();
+        if (!($element instanceof Ruleable) || !$element->isRuleError()) {
             return '';
         }
         return sprintf(
             '<div%s>%s</div>',
-            $this->getElement()->getAttributesString(Form::ATTRIBUTES_VALIDATE),
-            $this->getElement()->getRuleErrorMessage()
+            $element->getAttributesString(Form::ATTRIBUTES_VALIDATE),
+            $element->getRuleErrorMessage() ?? ''
         );
     }
 
 
     protected function labelRender(string $star = "&nbsp;<sup>*</sup>"): string
     {
-        if (empty($this->getElement()->getLabel())) {
+        $element = $this->getElement();
+
+        if (empty($element->getLabel())) {
             return '';
         }
 
-        if (!method_exists($this->getElement(), 'isRequired') || !$this->getElement()->isRequired()) {
+        if (!method_exists($element, 'isRequired') || !$element->isRequired()) {
             $star = "";
         }
 
-        if (null !== $idAttribute = $this->getElement()->getAttribute('id')) {
-            $this->getElement()->setAttribute($idAttribute->withName('for'), Form::ATTRIBUTES_LABEL);
+        if (null !== $idAttribute = $element->getAttribute('id')) {
+            $element->setAttribute($idAttribute->withName('for'), Form::ATTRIBUTES_LABEL);
         }
 
         return sprintf(
             '<label%s>%s%s</label>',
-            $this->getElement()->getAttributesString(Form::ATTRIBUTES_LABEL),
-            $this->getElement()->getLabel(),
+            $element->getAttributesString(Form::ATTRIBUTES_LABEL),
+            $element->getLabel() ?? '',
             $star
         );
     }
