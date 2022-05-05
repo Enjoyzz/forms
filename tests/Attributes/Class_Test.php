@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Attributes;
 
-use Enjoys\Forms\Attributes\Class_;
+use Enjoys\Forms\Attributes\ClassAttribute;
 use Tests\Enjoys\Forms\_TestCase;
 
 class Class_Test extends _TestCase
 {
     public function testRenderIfNotAddedValue()
     {
-        $attr = new Class_();
+        $attr = new ClassAttribute();
         $this->assertSame('', $attr->__toString());
     }
 
     public function testRenderIfAddedValue()
     {
-        $attr = new Class_();
+        $attr = new ClassAttribute();
         $attr->set([
             'test',
             'test2'
