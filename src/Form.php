@@ -71,12 +71,6 @@ class Form
         }
     }
 
-    private function setSubmitted(bool $submitted): Form
-    {
-        $this->submitted = $submitted;
-        return $this;
-    }
-
     /**
      * Возвращает true если форма отправлена и валидна.
      * На валидацию форма проверяется по умолчанию, если использовать параметр $validate

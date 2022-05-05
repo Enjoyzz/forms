@@ -431,18 +431,6 @@ class FormTest extends _TestCase
         $this->assertFalse($form->isSubmitted());
     }
 
-    /**
-     * @throws \ReflectionException
-     */
-    public function testSetSubmitted(): void
-    {
-        $form = new Form();
-        $method = $this->getPrivateMethod(Form::class, 'setSubmitted');
-        $method->invokeArgs($form, [true]);
-        $this->assertTrue($form->isSubmitted(false));
-        $method->invokeArgs($form, [false]);
-        $this->assertFalse($form->isSubmitted(false));
-    }
 
     /**
      * @throws \ReflectionException
