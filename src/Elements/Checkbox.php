@@ -35,9 +35,10 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
         parent::__construct($construct_name, $title);
 
+        /** @psalm-suppress PossiblyNullOperand */
         $this->setAttributes(
             AttributeFactory::createFromArray([
-                'id' => ((string)self::$prefix_id) . $this->originalName,
+                'id' => self::$prefix_id . $this->originalName,
                 'value' => $this->originalName,
             ])
         );
