@@ -68,15 +68,15 @@ class File extends Element implements Ruleable, Descriptionable
 
     public function prepare()
     {
-        $this->getForm()->setAttribute(AttributeFactory::create('enctype', 'multipart/form-data'));
-        $this->getForm()->setMethod('post');
+        $this->getForm()?->setAttribute(AttributeFactory::create('enctype', 'multipart/form-data'));
+        $this->getForm()?->setMethod('post');
         $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')));
     }
 
 
     public function setMaxFileSize(int $bytes): self
     {
-        $this->getForm()->hidden('MAX_FILE_SIZE', (string) $bytes);
+        $this->getForm()?->hidden('MAX_FILE_SIZE', (string) $bytes);
         return $this;
     }
 
@@ -86,7 +86,7 @@ class File extends Element implements Ruleable, Descriptionable
      */
     public function addRule(string $ruleClass, ?string $message = null, mixed $params = []): File
     {
-        if (\strtolower($ruleClass) !== \strtolower(Rules::UPLOAD)) {
+        if ($ruleClass !== Rules::UPLOAD) {
             throw new ExceptionRule(
                 \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
             );

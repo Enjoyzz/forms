@@ -61,6 +61,7 @@ class Upload extends Rules implements RuleInterface
      * @param Ruleable $element
      * @return bool
      * @throws ExceptionRule
+     * @noinspection PhpMissingParamTypeInspection
      */
     private function check($value, Ruleable $element): bool
     {
@@ -80,6 +81,13 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @param mixed $message
+     * @param Ruleable $element
+     * @return bool
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedParameterInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
+     * @psalm-suppress UnusedParam     *
      */
     private function checkSystem($value, $message, Ruleable $element): bool
     {
@@ -97,6 +105,8 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function checkRequired($value, ?string $message, Ruleable $element): bool
     {
@@ -115,6 +125,8 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function checkMaxsize($value, int|array|string $ruleOpts, Ruleable $element): bool
     {
@@ -125,17 +137,18 @@ class Upload extends Rules implements RuleInterface
         $parsed = $this->parseRuleOpts($ruleOpts);
 
         $threshold_size = $parsed['param'];
-       // Assert::in($threshold_size);
 
         $message = $parsed['message'];
 
+        $file_size = $value->getSize() ?? 0;
+
         if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes($value->getSize())->format(null, " ") . ')'
+            $message = 'Размер файла (' . Binary::bytes($file_size)->format(null, " ") . ')'
                 . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
         }
         $this->setMessage($message);
 
-        if ($value->getSize() > $threshold_size) {
+        if ($file_size > $threshold_size) {
             $element->setRuleError($this->getMessage());
             return false;
         }
@@ -145,6 +158,8 @@ class Upload extends Rules implements RuleInterface
 
     /**
      * @param false|UploadedFileInterface $value
+     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function checkExtensions($value, string|array $ruleOpts, Ruleable $element): bool
     {
@@ -157,7 +172,7 @@ class Upload extends Rules implements RuleInterface
         $expected_extensions = \array_map('trim', \explode(",", $parsed['param']));
         $message = $parsed['message'];
 
-        $extension = pathinfo($value->getClientFilename(), PATHINFO_EXTENSION);
+        $extension = pathinfo($value->getClientFilename() ?? '', PATHINFO_EXTENSION);
 
         if (is_null($message)) {
             $message = 'Загрузка файлов с расширением .' . $extension . ' запрещена';
@@ -172,7 +187,7 @@ class Upload extends Rules implements RuleInterface
     }
 
 
-    private function parseRuleOpts($opts): array
+    private function parseRuleOpts(mixed $opts): array
     {
         if (!is_array($opts)) {
             $opts = (array)$opts;

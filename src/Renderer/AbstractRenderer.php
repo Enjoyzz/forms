@@ -16,7 +16,7 @@ abstract class AbstractRenderer implements RendererInterface
         $this->form = $form ?? new Form();
     }
 
-    abstract public function output(): string;
+    abstract public function output(): mixed;
 
     public function setForm(Form $form): Form
     {

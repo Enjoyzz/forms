@@ -35,6 +35,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
 
         parent::__construct($construct_name, $title);
 
+        /** @psalm-suppress PossiblyNullOperand */
         $this->setAttributes(
             AttributeFactory::createFromArray([
                 'id' => self::$prefix_id . $this->originalName,
@@ -61,12 +62,13 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
         return static::$prefix_id;
     }
 
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     protected function setDefault(mixed $value = null): self
     {
-        if ($value === null) {
-            $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
-        }
-        $this->defaultValue = $value;
+
+        $this->setDefaultValue($value);
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value')->getValueString(), $value)) {
@@ -81,19 +83,28 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
                 return $this;
             }
         }
+
+
+
         return $this;
     }
 
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     public function baseHtml(): string
     {
-        $this->setAttribute(AttributeFactory::create('for', $this->getAttribute('id')->getValueString()), Form::ATTRIBUTES_LABEL);
+        $this->setAttribute(
+            AttributeFactory::create('for', $this->getAttribute('id')->getValueString()),
+            Form::ATTRIBUTES_LABEL
+        );
         $this->setAttributes(AttributeFactory::createFromArray(['name' => $this->getParentName()]));
         return sprintf(
             '<input type="%s"%s><label%s>%s</label>',
             $this->getType(),
             $this->getAttributesString(),
             $this->getAttributesString(Form::ATTRIBUTES_LABEL),
-            $this->getLabel()
+            $this->getLabel() ?? ''
         );
     }
 }

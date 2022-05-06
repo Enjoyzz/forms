@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Element;
+use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\CaptchaInterface;
 use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Ruleable;
@@ -18,26 +19,23 @@ class Captcha extends Element implements Ruleable, Descriptionable
 
 
     /**
-     * @param CaptchaInterface $captcha
-     * @param string|null $message
      * @noinspection PhpMissingParentConstructorInspection
      */
-    public function __construct(private CaptchaInterface $captcha, string $message = null)
+    public function __construct(private CaptchaInterface $captcha)
     {
         $this->setRequest();
         $this->setName($this->captcha->getName());
     }
 
+    /**
+     * @throws ExceptionRule
+     */
     public function prepare()
     {
         $this->captcha->setRequest($this->getRequest());
         $this->addRule(Rules::CAPTCHA, $this->captcha->getRuleMessage());
     }
 
-    /**
-     *
-     * @return bool
-     */
     public function validate(): bool
     {
         return $this->captcha->validate($this);

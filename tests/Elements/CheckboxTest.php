@@ -6,7 +6,9 @@ use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
+use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
+use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
 
 class CheckboxTest extends _TestCase
@@ -210,6 +212,33 @@ class CheckboxTest extends _TestCase
         $this->assertNotNull($elements[0]->getAttribute('checked'));
         $this->assertNotNull($elements[1]->getAttribute('checked'));
         $this->assertNull($elements[2]->getAttribute('checked'));
+    }
+
+    public function testSetDefaultIfSubmitted()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'name' => [3],
+            ])
+        );
+
+        $form = new Form(request: $request);
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setAccessible(true);
+        $submitted->setValue($form, true);
+
+        $form->setDefaults([
+            'name' => [
+                1,
+                2
+            ]
+        ]);
+        $el = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
+        $elements = $el->getElements();
+      //  $this->assertSame([3], $el->getDefaultValue());
+        $this->assertNull($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[1]->getAttribute('checked'));
+        $this->assertNotNull($elements[2]->getAttribute('checked'));
     }
 
     public function test_setDefault_simple()

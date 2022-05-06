@@ -28,6 +28,9 @@ class Datalist extends Element implements Fillable, Ruleable, Descriptionable
         $this->setAttribute(AttributeFactory::create('list', $name . '-list'));
     }
 
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     public function baseHtml(): string
     {
         $return = sprintf(

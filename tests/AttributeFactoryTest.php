@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\AttributeFactory;
-use PHPUnit\Framework\TestCase;
+use Enjoys\Forms\Attributes\Base;
+use Enjoys\Traits\Reflection;
 use Webmozart\Assert\InvalidArgumentException;
 
-class AttributeFactoryTest extends TestCase
+class AttributeFactoryTest extends _TestCase
 {
+    use Reflection;
+
     public function dataForCreateFromArray()
     {
         return [
@@ -29,7 +32,7 @@ class AttributeFactoryTest extends TestCase
             [
                 [
                     'Id' => null,
-                    'Class' => 'test case'
+                    'ClAsS' => 'test case'
                 ],
                 [
                     [
@@ -74,4 +77,15 @@ class AttributeFactoryTest extends TestCase
             $this->assertSame($expect[$key]['value'], $attr->getValues());
         }
     }
+
+
+    public function testGetClass()
+    {
+        $method = $this->getPrivateMethod(AttributeFactory::class, 'getClass');
+        $result = $method->invokeArgs(null, ['fake']);
+        $this->assertInstanceOf(Base::class, $result);
+    }
 }
+
+namespace Enjoys\Forms\Attributes;
+class FakeAttribute {}

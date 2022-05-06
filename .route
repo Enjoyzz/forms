@@ -5,7 +5,7 @@ if(is_dir($f)){
     $fs=glob("$f/*");
     foreach($fs as $one){
         $one=str_replace($f.'/','',$one);
-        echo "<a href='$abf$one'>$one</a><br/>";
+        echo "<a href='$abf/$one'>$one</a><br/>";
     }
     return true;
 }else{

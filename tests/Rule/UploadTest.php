@@ -12,6 +12,7 @@ use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\UploadedFileInterface;
 use Webmozart\Assert\InvalidArgumentException;
 
 class UploadTest extends TestCase
@@ -274,6 +275,31 @@ class UploadTest extends TestCase
             'ruleOpts' => 'non numeric',
             'element' => new File('foo')
         ]);
+    }
+
+    public function testCheckMaxsizeIfIncorrectUploadFileSizeNull()
+    {
+        $fileElement = new File('foo');
+
+        $fileMock = $this->getMockBuilder(UploadedFileInterface::class)->getMock();
+        $fileMock->expects($this->any())->method('getSize')->willReturn(null);
+        $request = new ServerRequestWrapper(
+            new ServerRequest(uploadedFiles: [
+                'foo' => $fileMock
+            ])
+        );
+
+        $uploadRule = new Upload(null, [
+            'maxsize' => 0
+        ]);
+        $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
+        $this->assertEquals(
+            true,
+            $testedMethod->invokeArgs($uploadRule, [
+                $request->getFilesData('foo'),
+                $fileElement
+            ])
+        );
     }
 
     public function test_checkExtensions()

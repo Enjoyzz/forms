@@ -7,10 +7,15 @@ use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
-use PHPUnit\Framework\TestCase;
+use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Reflection;
+use HttpSoft\Message\ServerRequest;
+use Tests\Enjoys\Forms\_TestCase;
 
-class SelectTest extends TestCase
+class SelectTest extends _TestCase
 {
+    use Reflection;
+
     public function test_title()
     {
         $obj = new Select('name', 'title');
@@ -293,4 +298,28 @@ class SelectTest extends TestCase
         $options = $select->getElements()[0]->getElements();
         $this->assertInstanceOf('\Enjoys\Forms\Elements\Option', $options[0]);
     }
+
+    public function testSetDefaultIfSubmitted()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'name' => 3,
+            ])
+        );
+
+        $form = new Form(request: $request);
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setAccessible(true);
+        $submitted->setValue($form, true);
+
+        $form->setDefaults([
+            'name' => [1, 2]
+        ]);
+        $radio = $form->select('name', 'title')->fill([1, 2, 3], true);
+        $elements = $radio->getElements();
+        $this->assertNull($elements[0]->getAttribute('selected'));
+        $this->assertNull($elements[1]->getAttribute('selected'));
+        $this->assertNotNull($elements[2]->getAttribute('selected'));
+    }
+
 }

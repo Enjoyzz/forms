@@ -111,7 +111,7 @@ trait Fill
     public function addElement(Fillable $element): Fillable
     {
         $element->setParentName($this->getName());
-        $element->setDefault($this->defaultValue);
+        $element->setDefault($this->getDefaultValue());
         $this->elements[] = $element;
         return $this;
     }

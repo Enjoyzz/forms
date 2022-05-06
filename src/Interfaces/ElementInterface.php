@@ -34,9 +34,24 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface ElementInterface
 {
-    /**
-     *
-     * @return string
-     */
+//    public function setForm(?Form $form): void;
+//
+//    public function getForm(): ?Form;
+//
+//    public function unsetForm(): void;
+//
+//    /**
+//     * @return true|void
+//     */
+//    public function prepare();
+//
+//    public function getType(): string;
+//
+//    public function getName(): string;
+//
+//    public function setLabel(?string $title = null): ElementInterface;
+//
+//    public function getLabel(): ?string;
+
     public function baseHtml(): string;
 }

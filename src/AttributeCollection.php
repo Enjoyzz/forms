@@ -9,7 +9,7 @@ use Enjoys\Forms\Interfaces\AttributeInterface;
 final class AttributeCollection implements \Countable, \IteratorAggregate
 {
     /**
-     * @var Attribute[]
+     * @var AttributeInterface[]
      */
     private array $collection = [];
 
@@ -55,7 +55,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
         $this->collection = [];
     }
 
-    public function remove(string|Attribute $element): AttributeCollection
+    public function remove(string|AttributeInterface $element): AttributeCollection
     {
         $attributeName = ($element instanceof AttributeInterface) ? $element->getName() : $element;
 
@@ -78,12 +78,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
 
     public function __toString(): string
     {
-        return implode(
-            ' ',
-            array_filter($this->collection, function ($item) {
-                return !empty($item->__toString());
-            })
-        );
+        return implode(' ', array_filter($this->collection, fn($item) => !empty($item->__toString())));
     }
 
     public function getIterator(): \ArrayIterator

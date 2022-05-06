@@ -57,6 +57,6 @@ class Option extends Element implements Fillable
             return sprintf("<option%s>", $this->getAttributesString());
         }
 
-        return sprintf("<option%s>%s</option>", $this->getAttributesString(), $this->getLabel());
+        return sprintf("<option%s>%s</option>", $this->getAttributesString(), $this->getLabel() ?? '');
     }
 }

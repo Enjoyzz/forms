@@ -8,8 +8,8 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Helper;
-use Enjoys\Forms\Interfaces\TypeRenderInterface;
 use Enjoys\Forms\Renderer\AbstractRenderer;
+use Enjoys\Forms\Renderer\Html\TypesRender\TypeRenderInterface;
 
 class HtmlRenderer extends AbstractRenderer
 {
@@ -37,6 +37,7 @@ class HtmlRenderer extends AbstractRenderer
         if ($typeRenderClass === false || !class_exists($typeRenderClass)) {
             return new TypesRender\Input($element);
         }
+        /** @var class-string<TypeRenderInterface> $typeRenderClass */
         return new $typeRenderClass($element);
     }
 

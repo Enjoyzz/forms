@@ -45,7 +45,7 @@ class FormTest extends _TestCase
         $form->setAction('test');
         $this->assertSame('test', $form->getAction());
         $this->assertSame('action="test"', $form->getAttribute('action')->__toString());
-        $form->setAction();
+        $form->setAction(null);
         $this->assertNull($form->getAction());
         $this->assertSame('', $form->getAttribute('action')->__toString());
     }
@@ -74,13 +74,22 @@ class FormTest extends _TestCase
         $this->assertSame($expected, $form->getAttribute('method')->getValueString());
     }
 
-//    public function testSetAttrName()
-//    {
-//        $form = new Form();
-//        $form->setAttribute(AttributeFactory::create('name', 'test_form'));
-//        $this->assertEquals('test_form', $form->getAttribute('name')->getValueString());
-//    }
+    public function testSetIdDuringInit()
+    {
+        $form = new Form(id: 'my-id');
+        $this->assertSame('my-id', $form->getAttribute('id')->getValueString());
+        $this->assertSame('my-id', $form->getId());
+    }
 
+
+    public function testSetIdAfterInit()
+    {
+        $form = new Form();
+        $this->assertNull($form->getId());
+        $form->setId('my-id');
+        $this->assertSame('my-id', $form->getAttribute('id')->getValueString());
+        $this->assertSame('my-id', $form->getId());
+    }
 
     public function testAddElement()
     {
@@ -161,14 +170,13 @@ class FormTest extends _TestCase
         $this->assertCount(1, $form->getElements());
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public function testSetDefaultsIfSubmittedMethodGet(): void
     {
-        $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
-            'foo' => 'baz',
-        ], method: 'get'));
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'baz',
+            ], method: 'get')
+        );
         $form = new Form('get', request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -182,14 +190,13 @@ class FormTest extends _TestCase
         $this->assertSame('baz', $element->getAttribute('value')->getValueString());
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public function testSetDefaultsIfSubmittedMethodPost(): void
     {
-        $request = new ServerRequestWrapper(new ServerRequest(parsedBody: [
-            'foo' => 'baz',
-        ], method: 'Post'));
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'foo' => 'baz',
+            ], method: 'Post')
+        );
         $form = new Form('Post', request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -208,16 +215,23 @@ class FormTest extends _TestCase
      */
     public function testSetDefaultsIfSubmittedReal(): void
     {
-        $request = new ServerRequestWrapper(new ServerRequest(queryParams: [
-            Form::_TOKEN_SUBMIT_ => 'd751713988987e9331980363e24189ce',
-            Form::_TOKEN_CSRF_ => 'csrf_token_stub',
-            'foo' => 'baz'
-        ]));
+        $request = new ServerRequestWrapper(
+            new ServerRequest(queryParams: [
+                'foo' => 'baz',
+                Form::_TOKEN_SUBMIT_ => '57416ee9a4789178e6cf4de6bc797ebd',
+                Form::_TOKEN_CSRF_ => 'csrf-token-stub',
+            ])
+        );
         $defaultsHandler = new DefaultsHandler([
             'foo' => 'bar'
         ]);
+
+        $this->assertSame(['foo' => 'bar'], $defaultsHandler->getDefaults());
+
         $form = new Form('get', request: $request, defaultsHandler: $defaultsHandler);
+
         $element = $form->text('foo');
+
         $this->assertSame('baz', $element->getAttribute('value')->getValueString());
         $this->assertSame(['foo' => 'baz'], $form->getDefaultsHandler()->getDefaults());
     }
@@ -228,6 +242,15 @@ class FormTest extends _TestCase
         $form->setDefaults([
             'foo' => 'bar'
         ]);
+        $element = $form->text('foo');
+        $this->assertSame('bar', $element->getAttribute('value')->getValueString());
+    }
+
+    public function testSetDefaultsWithInitialization()
+    {
+        $form = new Form(defaultsHandler: new DefaultsHandler([
+            'foo' => 'bar'
+        ]));
         $element = $form->text('foo');
         $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }
@@ -244,16 +267,40 @@ class FormTest extends _TestCase
         $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }
 
-    public function testSetDefaultsInvalidData()
+    public function testSetDefaultsClosureAfterSubmit()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'foo' => 'baz'
+            ])
+        );
+        $form = new Form(request: $request);
+
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setAccessible(true);
+        $submitted->setValue($form, true);
+
+        $form->setDefaults(function () {
+            return [
+                'foo' => 'bar'
+            ];
+        });
+        $element = $form->text('foo');
+        $this->assertSame('baz', $element->getAttribute('value')->getValueString());
+    }
+
+    public function testSetDefaultsInvalidClosureData()
     {
         $this->expectException(InvalidArgumentException::class);
         $form = new Form();
-        $form->setDefaults('value');
+        $form->setDefaults(function () {
+            return 'string';
+        });
     }
 
     public function testSetAndGetDefaultsHandler()
     {
-        $defaultsHandler = new DefaultsHandler([1,2,3]);
+        $defaultsHandler = new DefaultsHandler([1, 2, 3]);
         $form = new Form(defaultsHandler: $defaultsHandler);
         $this->assertEquals($defaultsHandler, $form->getDefaultsHandler());
     }
@@ -263,116 +310,12 @@ class FormTest extends _TestCase
      */
     public function testSetAndGetSession()
     {
-
         $session = clone new Session();
         $form = new Form(session: $session);
         $property = $this->getPrivateProperty(Form::class, 'session');
         $this->assertSame($session, $property->getValue($form));
     }
 
-
-//
-//    public function test_setDefaults_1_1()
-//    {
-//        $property = $this->getPrivateProperty(Form::class, 'formSubmitted');
-//
-//        $form = new Form(
-//            [], new ServerRequestWrapper(
-//            ServerRequestCreator::createFromGlobals(null, null, null, [
-//                'foo' => 'zed',
-//                'bar' => true,
-//                Form::_TOKEN_SUBMIT_ => '~token~'
-//            ])
-//        )
-//        );
-//
-//        $property->setValue($form, true);
-//
-//        $form->setDefaults([
-//            'foo' => 'bar',
-//        ]);
-//
-//        $element = $form->text('foo');
-//
-//        $this->assertSame('zed', $element->getAttribute('value')->getValueString());
-//        $this->assertFalse($form->getDefaultsHandler()->getValue('Form::_TOKEN_SUBMIT_'));
-//        $this->assertTrue($form->getDefaultsHandler()->getValue('bar'));
-//    }
-//
-//    public function test_setDefaults_1_2()
-//    {
-//        $request = new ServerRequestWrapper(
-//            ServerRequestCreator::createFromGlobals(null, null, null, [
-//                'foo' => 'zed',
-//            ])
-//        );
-//
-//        $tockenSubmitMock = $this->getMockBuilder(TockenSubmit::class)
-//            ->disableOriginalConstructor()
-//            ->getMock()
-//        ;
-//        $tockenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
-//
-//        $form = $this->getMockBuilder(Form::class)
-//            ->disableOriginalConstructor()
-//            ->addMethods(['tockenSubmit'])
-//            ->getMock()
-//        ;
-//
-//        $form->expects($this->once())->method('tockenSubmit')->will(
-//            $this->returnCallback(function () use ($tockenSubmitMock) {
-//                return $tockenSubmitMock;
-//            })
-//        );
-//
-//        $form->__construct([], $request);
-//        $element = $form->text('foo');
-//
-//        $this->assertSame('GET', $form->getRequestWrapper()->getRequest()->getMethod());
-//        $this->assertSame('zed', $element->getAttribute('value')->getValueString());
-//    }
-//
-//    public function test_setDefaults_1_2_2()
-//    {
-//        $request = new ServerRequestWrapper(
-//            ServerRequestCreator::createFromGlobals(
-//                ['REQUEST_METHOD' => 'POST'],
-//                null,
-//                null,
-//                null,
-//                [
-//                    'foo' => 'zed'
-//                ]
-//            )
-//        );
-//
-//        $tockenSubmitMock = $this->getMockBuilder(TockenSubmit::class)
-//            ->disableOriginalConstructor()
-//            ->getMock()
-//        ;
-//        $tockenSubmitMock->expects($this->once())->method('getSubmitted')->will($this->returnValue(true));
-//
-//        $form = $this->getMockBuilder(Form::class)
-//            ->disableOriginalConstructor()
-//            ->addMethods(['tockenSubmit'])
-//            ->getMock()
-//        ;
-//
-//        $form->expects($this->once())->method('tockenSubmit')->will(
-//            $this->returnCallback(function () use ($tockenSubmitMock) {
-//                return $tockenSubmitMock;
-//            })
-//        );
-//
-//        $form->__construct([
-//            'method' => 'post'
-//        ], $request);
-//        $element = $form->text('foo');
-//
-//        $this->assertEquals('POST', $form->getRequestWrapper()->getRequest()->getMethod());
-//        $this->assertEquals('zed', $element->getAttribute('value')->getValueString());
-//    }
-//
     public function testIsSubmitted()
     {
         $form = new Form();
@@ -389,18 +332,6 @@ class FormTest extends _TestCase
         $this->assertFalse($form->isSubmitted());
     }
 
-    /**
-     * @throws \ReflectionException
-     */
-    public function testSetSubmitted(): void
-    {
-        $form = new Form();
-        $method = $this->getPrivateMethod(Form::class, 'setSubmitted');
-        $method->invokeArgs($form, [true]);
-        $this->assertTrue($form->isSubmitted(false));
-        $method->invokeArgs($form, [false]);
-        $this->assertFalse($form->isSubmitted(false));
-    }
 
     /**
      * @throws \ReflectionException
@@ -438,47 +369,5 @@ class FormTest extends _TestCase
         $this->assertTrue($form->isSubmitted());
     }
 
-//    public function test_formCount_1_0()
-//    {
-//        $form1 = new Form();
-//        $this->assertSame(1, $form1->getFormCounter());
-//        unset($form1);
-//    }
-//
-//    public function test_formCount_1_1()
-//    {
-//        $form1 = new Form();
-//        $this->assertNotSame(2, $form1->getFormCounter());
-//        unset($form1);
-//    }
-//
-//    public function test_formCount_2_0()
-//    {
-//        $form1 = new Form();
-//        $form1->file('myfile');
-//
-//        $this->assertSame(1, $form1->getFormCounter());
-//
-//        $form2 = new Form();
-//        $form2->file('myfile');
-//
-//        $this->assertSame(2, $form1->getFormCounter());
-//    }
-//
-//    public function test_formCount_2_1()
-//    {
-//        $form1 = new Form();
-//        $this->assertNotSame(2, $form1->getFormCounter());
-//        $form2 = new Form();
-//        $this->assertNotSame(1, $form2->getFormCounter());
-//    }
-//
-//    public function test_setDefaults_1_3()
-//    {
-//        $form1 = new Form();
-//        $form1->setOption('defaults', ['foo' => 'bar']);
-//        $form2 = new Form();
-//        $this->assertEquals(['foo' => 'bar'], $form1->getDefaultsHandler()->getDefaults());
-//        $this->assertEquals([], $form2->getDefaultsHandler()->getDefaults());
-//    }
+
 }

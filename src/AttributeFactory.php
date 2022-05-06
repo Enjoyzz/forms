@@ -5,42 +5,15 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Closure;
-use Enjoys\Forms\Attributes\Action;
 use Enjoys\Forms\Attributes\Base;
-use Enjoys\Forms\Attributes\Class_;
-use Enjoys\Forms\Attributes\Id;
 use Enjoys\Forms\Interfaces\AttributeInterface;
 use Webmozart\Assert\Assert;
 
 final class AttributeFactory
 {
-    /**
-     * @param string $className
-     * @return Closure(string):AttributeInterface
-     */
-    private static function getMappedClass(string $className): Closure
-    {
-        $mappedClasses = [
-            'class' => function (): AttributeInterface {
-                return new Class_();
-            },
-            'id' => function (): AttributeInterface {
-                return new Id();
-            },
-            'action' => function (): AttributeInterface {
-                return new Action();
-            },
-        ];
-
-        return $mappedClasses[strtolower($className)] ?? function (string $name): AttributeInterface {
-                return (new Base())->withName($name);
-        };
-    }
-
     public static function create(string $name, mixed $value = null): AttributeInterface
     {
-        $closure = self::getMappedClass($name);
-        return $closure($name)->add($value);
+        return self::getClass($name)->add($value);
     }
 
     /**
@@ -61,5 +34,24 @@ final class AttributeFactory
             $attributes[] = self::create($name, $value);
         }
         return $attributes;
+    }
+
+    /**
+     * @param string $name
+     * @return AttributeInterface
+     */
+    private static function getClass(string $name): AttributeInterface
+    {
+        $normalizeName = ucfirst(strtolower($name));
+
+        /** @var class-string<AttributeInterface> $classString */
+        $classString = sprintf('\Enjoys\Forms\Attributes\%sAttribute', $normalizeName);
+        $classFile = sprintf(__DIR__ . '/Attributes/%sAttribute.php', $normalizeName);
+
+        if (is_file($classFile) && class_exists($classString)) {
+            return new $classString();
+        }
+
+        return (new Base())->withName($name);
     }
 }

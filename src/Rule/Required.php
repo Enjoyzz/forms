@@ -45,8 +45,11 @@ class Required extends Rules implements RuleInterface
     }
 
 
-
-    private function check($value): bool
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    private function check(mixed $value): bool
     {
         if (is_array($value)) {
             return count($value) > 0;

@@ -21,9 +21,14 @@ class Group extends Element implements Descriptionable
         parent::__construct($id ?? \uniqid('group'), $title);
     }
 
+    /**
+     * @param Element[] $elements
+     * @return $this
+     */
     public function add(array $elements = []): Group
     {
         foreach ($elements as $element) {
+            /** @psalm-suppress RedundantConditionGivenDocblockType */
             Assert::isInstanceOf($element, Element::class);
             $element->setForm($this->getForm());
             $this->addElement($element);
