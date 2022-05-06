@@ -99,17 +99,20 @@ use Webmozart\Assert\Assert;
 trait Container
 {
     /**
-     *
      * @var Element[]
      */
     private array $elements = [];
 
+
+    /**
+     * @psalm-suppress UnsafeInstantiation https://psalm.dev/r/f310cf1537
+     */
     public function __call(string $name, array $arguments): Element
     {
-        $class_name = '\Enjoys\\Forms\\Elements\\' . ucfirst($name);
-        Assert::classExists($class_name);
-        /** @var Element $element */
-        $element = new $class_name(...$arguments);
+        $className = '\Enjoys\\Forms\\Elements\\' . ucfirst($name);
+        Assert::classExists($className);
+        /** @var class-string<Element> $className */
+        $element = new $className(...$arguments);
         $this->addElement($element);
         return $element;
     }
