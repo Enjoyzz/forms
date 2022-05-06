@@ -66,9 +66,6 @@ class Form
         $this->setAction($action);
         $this->setId($id);
 
-        if ($this->submitted === true) {
-            $this->setDefaults([]);
-        }
     }
 
     /**
@@ -200,9 +197,18 @@ class Form
 
     private function setTokenSubmitElement(): void
     {
+
         $tokenSubmit = new TokenSubmit($this);
         $this->addElement($tokenSubmit->getElement());
+
         $this->submitted = $tokenSubmit->validate();
+
+        // after every update the token submit, form needs check
+        // and update defaults if form has been submitted.
+        // Maybe in future will refactor this code
+        if ($this->submitted === true) {
+            $this->setDefaults([]);
+        }
     }
 
 //    /**

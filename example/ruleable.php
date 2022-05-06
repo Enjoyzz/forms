@@ -9,8 +9,10 @@ use Enjoys\Forms\Rules;
 require __DIR__ . '/../vendor/autoload.php';
 try {
     $form = new Form('get');
+    $form->setId('test');
     $form->text('test')->addRule(Rules::REQUIRED);
     $form->text('test2')->addRule(Rules::REQUIRED);
+    $form->checkbox('test3')->fill([1,2,3])->addRule(Rules::REQUIRED);
     $form->submit('submit1');
     if ($form->isSubmitted()) {
         var_dump($_REQUEST);
