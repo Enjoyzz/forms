@@ -137,17 +137,18 @@ class Upload extends Rules implements RuleInterface
         $parsed = $this->parseRuleOpts($ruleOpts);
 
         $threshold_size = $parsed['param'];
-       // Assert::in($threshold_size);
 
         $message = $parsed['message'];
 
+        $file_size = $value->getSize() ?? 0;
+
         if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes($value->getSize() ?? 0)->format(null, " ") . ')'
+            $message = 'Размер файла (' . Binary::bytes($file_size)->format(null, " ") . ')'
                 . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
         }
         $this->setMessage($message);
 
-        if ($value->getSize() > $threshold_size) {
+        if ($file_size > $threshold_size) {
             $element->setRuleError($this->getMessage());
             return false;
         }
