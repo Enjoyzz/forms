@@ -218,7 +218,8 @@ class FormTest extends _TestCase
         $request = new ServerRequestWrapper(
             new ServerRequest(queryParams: [
                 'foo' => 'baz',
-                Form::_TOKEN_SUBMIT_ => '57416ee9a4789178e6cf4de6bc797ebd'
+                Form::_TOKEN_SUBMIT_ => '57416ee9a4789178e6cf4de6bc797ebd',
+                Form::_TOKEN_CSRF_ => 'csrf-token-stub',
             ])
         );
         $defaultsHandler = new DefaultsHandler([

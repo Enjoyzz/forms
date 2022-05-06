@@ -47,13 +47,12 @@ final class AttributeFactory
 
         /** @var class-string<AttributeInterface> $classString */
         $classString = sprintf('\Enjoys\Forms\Attributes\%sAttribute', $normalizeName);
-        $classFile = __DIR__ . sprintf('/Attributes/%sAttribute.php', $normalizeName);
+        $classFile = sprintf(__DIR__ . '/Attributes/%sAttribute.php', $normalizeName);
 
-        if (file_exists($classFile) && class_exists($classString)) {
-            $attributeClass = new $classString();
-        } else {
-            $attributeClass = (new Base())->withName($name);
+        if (is_file($classFile) && class_exists($classString)) {
+            return new $classString();
         }
-        return $attributeClass;
+
+        return (new Base())->withName($name);
     }
 }
