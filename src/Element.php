@@ -53,14 +53,16 @@ abstract class Element implements ElementInterface
         }
     }
 
-
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     public function setForm(?Form $form): void
     {
         if ($form === null) {
             return;
         }
         $this->form = $form;
-        $this->setDefault();
+        $this->setDefault($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
         if ($this instanceof Fillable) {
             foreach ($this->getElements() as $element) {
                 $element->setDefault($this->getDefaultValue());
@@ -109,7 +111,7 @@ abstract class Element implements ElementInterface
      * @param string $name
      * @return $this
      */
-    protected function setName(string $name): self
+    protected function setName(string $name): ElementInterface
     {
         $this->name = $name;
         $this->setAttributes(
@@ -136,7 +138,7 @@ abstract class Element implements ElementInterface
      * @param string|null $title
      * @return $this
      */
-    public function setLabel(?string $title = null): self
+    public function setLabel(?string $title = null): ElementInterface
     {
         $this->label = $title;
         return $this;
@@ -151,17 +153,9 @@ abstract class Element implements ElementInterface
         return $this->label;
     }
 
-    /**
-     * @return $this
-     */
-    protected function setDefault(): self
+
+    protected function setDefault(mixed $value = null): ElementInterface
     {
-        $value = $this->getForm()
-            ?->getDefaultsHandler()
-            ->getValue($this->getName())
-        ;
-
-
         if (is_array($value)) {
             $this->setAttribute(
                 AttributeFactory::create('value', $value[0])

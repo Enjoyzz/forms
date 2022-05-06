@@ -59,9 +59,9 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     /**
      * @psalm-suppress PossiblyNullReference
      */
-    protected function setDefault(): Select
+    protected function setDefault(mixed $value = null): Select
     {
-        $this->setDefaultValue($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
+        $this->setDefaultValue($value ?? $this->getForm()->getDefaultsHandler()->getValue($this->getName()));
         return $this;
     }
 
