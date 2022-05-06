@@ -81,7 +81,7 @@ class Optgroup extends Element implements Fillable
 
     protected function setDefault(mixed $value = null): self
     {
-        $this->defaultValue = $value;
+        $this->setDefaultValue($value);
         return $this;
     }
 

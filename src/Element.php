@@ -63,6 +63,7 @@ abstract class Element implements ElementInterface
         }
         $this->form = $form;
         $this->setDefault($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
+
         if ($this instanceof Fillable) {
             foreach ($this->getElements() as $element) {
                 $element->setDefault($this->getDefaultValue());
@@ -154,7 +155,7 @@ abstract class Element implements ElementInterface
     }
 
 
-    protected function setDefault(mixed $value = null): ElementInterface
+    protected function setDefault(mixed $value = null): self
     {
         if (is_array($value)) {
             $this->setAttribute(

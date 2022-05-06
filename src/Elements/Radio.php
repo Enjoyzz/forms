@@ -67,10 +67,7 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
      */
     protected function setDefault(mixed $value = null): self
     {
-        if ($value === null) {
-            $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
-        }
-        $this->defaultValue = $value;
+        $this->setDefaultValue($value);
 
         if (is_array($value)) {
             if (in_array($this->getAttribute('value')->getValueString(), $value)) {

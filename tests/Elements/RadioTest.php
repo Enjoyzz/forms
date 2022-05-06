@@ -4,10 +4,15 @@ namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
-use PHPUnit\Framework\TestCase;
+use Enjoys\ServerRequestWrapper;
+use Enjoys\Traits\Reflection;
+use HttpSoft\Message\ServerRequest;
+use Tests\Enjoys\Forms\_TestCase;
 
-class RadioTest extends TestCase
+class RadioTest extends _TestCase
 {
+    use Reflection;
+
     public function test_title()
     {
         $obj = new Radio('name', 'title');
@@ -209,6 +214,29 @@ class RadioTest extends TestCase
         $this->assertNotNull($elements[0]->getAttribute('checked'));
         $this->assertNotNull($elements[1]->getAttribute('checked'));
         $this->assertNull($elements[2]->getAttribute('checked'));
+    }
+
+    public function testSetDefaultIfSubmitted()
+    {
+        $request = new ServerRequestWrapper(
+            new ServerRequest(parsedBody: [
+                'name' => 3,
+            ])
+        );
+
+        $form = new Form(request: $request);
+        $submitted = $this->getPrivateProperty(Form::class, 'submitted');
+        $submitted->setAccessible(true);
+        $submitted->setValue($form, true);
+
+        $form->setDefaults([
+            'name' => [1, 2]
+        ]);
+        $radio = $form->radio('name', 'title')->fill([1, 2, 3], true);
+        $elements = $radio->getElements();
+        $this->assertNull($elements[0]->getAttribute('checked'));
+        $this->assertNull($elements[1]->getAttribute('checked'));
+        $this->assertNotNull($elements[2]->getAttribute('checked'));
     }
 
 
