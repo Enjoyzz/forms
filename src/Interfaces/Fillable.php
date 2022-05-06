@@ -19,7 +19,7 @@ interface Fillable
     public function fill(array $data): Fillable;
 
     /**
-     * @return Element[]
+     * @psalm-return array<array-key, Element&Fillable>
      */
     public function getElements(): array;
 

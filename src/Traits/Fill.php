@@ -8,10 +8,14 @@ use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
+use Enjoys\Forms\Interfaces\AttributeInterface;
 use Enjoys\Forms\Interfaces\Fillable;
 
 trait Fill
 {
+    /**
+     * @var array<array-key, Element&Fillable>
+     */
     private array $elements = [];
     private string $parentName = '';
     /**
@@ -72,8 +76,10 @@ trait Fill
 
             /** @var AttributeCollection $fillCollection */
             $fillCollection = $element->getAttributeCollection('fill');
-            foreach ($fillCollection as $attr) {
-                    $element->setAttribute($attr);
+
+            /** @var AttributeInterface $attribute */
+            foreach ($fillCollection as $attribute) {
+                $element->setAttribute($attribute);
             }
 
             $this->addElement($element);
@@ -82,7 +88,7 @@ trait Fill
     }
 
     /**
-     * @return Element[]
+     * @psalm-return array<array-key, Element&Fillable>
      */
     public function getElements(): array
     {

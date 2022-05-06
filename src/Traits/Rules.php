@@ -17,8 +17,10 @@ trait Rules
      */
     private bool $rule_error = false;
 
+
     /**
      * Список правил для валидации
+     * @var RuleInterface[]
      */
     protected array $rules = [];
 
@@ -43,6 +45,7 @@ trait Rules
                 sprintf('Rule [%s] not found', $ruleClass)
             );
         }
+        /** @var class-string<RuleInterface&\Enjoys\Forms\Rules> $ruleClass */
         $rule = new $ruleClass($message, $params);
         $rule->setRequest($this->getRequest());
 
@@ -83,6 +86,7 @@ trait Rules
     {
         return $this->rule_error;
     }
+
 
     /**
      * Возвращает список всех правил валидации, установленных для элемента
