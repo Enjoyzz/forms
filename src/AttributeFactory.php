@@ -11,7 +11,6 @@ use Webmozart\Assert\Assert;
 
 final class AttributeFactory
 {
-
     public static function create(string $name, mixed $value = null): AttributeInterface
     {
         return self::getClass($name)->add($value);

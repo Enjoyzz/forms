@@ -9,7 +9,6 @@ use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Attributes;
 use Enjoys\Forms\Traits\Request;
 
-
 abstract class Element implements ElementInterface
 {
     use Attributes;

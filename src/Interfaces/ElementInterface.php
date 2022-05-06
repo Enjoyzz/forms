@@ -34,7 +34,6 @@ namespace Enjoys\Forms\Interfaces;
  */
 interface ElementInterface
 {
-
 //    public function setForm(?Form $form): void;
 //
 //    public function getForm(): ?Form;
