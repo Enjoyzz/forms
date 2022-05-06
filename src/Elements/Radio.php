@@ -62,23 +62,24 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
      *
      * @param mixed $value
      * @return $this
+     * @psalm-suppress PossiblyNullReference
      */
     protected function setDefault(mixed $value = null): self
     {
         if ($value === null) {
-            $value = $this->getForm()?->getDefaultsHandler()->getValue($this->getName());
+            $value = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
         }
         $this->defaultValue = $value;
 
         if (is_array($value)) {
-            if (in_array($this->getAttribute('value')?->getValueString(), $value)) {
+            if (in_array($this->getAttribute('value')->getValueString(), $value)) {
                 $this->setAttribute(AttributeFactory::create('checked'));
                 return $this;
             }
         }
 
         if (is_string($value) || is_numeric($value)) {
-            if ($this->getAttribute('value')?->getValueString() == $value) {
+            if ($this->getAttribute('value')->getValueString() == $value) {
                 $this->setAttribute(AttributeFactory::create('checked'));
                 return $this;
             }
@@ -86,10 +87,13 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
         return $this;
     }
 
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     public function baseHtml(): string
     {
         $this->setAttribute(
-            $this->getAttribute('id')?->withName('for') ?? AttributeFactory::create('for'),
+            $this->getAttribute('id')->withName('for'),
             Form::ATTRIBUTES_LABEL
         );
         $this->setAttribute(AttributeFactory::create('name', $this->getParentName()));

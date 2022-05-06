@@ -24,13 +24,12 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     protected string $type = 'option';
 
 
-
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
     }
 
-    public function setMultiple(): self
+    public function setMultiple(): Select
     {
         $this->setAttribute(AttributeFactory::create('multiple'));
         return $this;
@@ -49,7 +48,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     /**
      * @return $this
      */
-    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general')
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): Select
     {
         parent::setAttribute($attribute, $namespace);
         $this->isMultiple();
@@ -57,15 +56,12 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     }
 
 
-
     /**
-     *
-     * @return $this
+     * @psalm-suppress PossiblyNullReference
      */
-    protected function setDefault(): self
+    protected function setDefault(): Select
     {
-//        $this->defaultValue = $this->getForm()->getDefaultsHandler()->getValue($this->getName());
-        $this->setDefaultValue($this->getForm()?->getDefaultsHandler()->getValue($this->getName()));
+        $this->setDefaultValue($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
         return $this;
     }
 
@@ -79,7 +75,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
      * @since 3.4.0 added $useTitleAsValue, see Trait\Fill
      *
      */
-    public function setOptgroup(string $label, array $data = [], array $attributes = [], $useTitleAsValue = false): self
+    public function setOptgroup(string $label, array $data = [], array $attributes = [], bool $useTitleAsValue = false): Select
     {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaultValue);
         $optgroup->setAttributes(AttributeFactory::createFromArray($attributes));

@@ -28,12 +28,15 @@ class Datalist extends Element implements Fillable, Ruleable, Descriptionable
         $this->setAttribute(AttributeFactory::create('list', $name . '-list'));
     }
 
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     public function baseHtml(): string
     {
         $return = sprintf(
             "<input%s>\n<datalist id='%s'>\n",
             $this->getAttributesString(),
-            $this->getAttribute('list')?->getValueString() ?? 'data-list'
+            $this->getAttribute('list')->getValueString()
         );
 
         foreach ($this->getElements() as $data) {
