@@ -59,6 +59,7 @@ use Enjoys\Forms\Elements\Time;
 use Enjoys\Forms\Elements\Url;
 use Enjoys\Forms\Elements\Week;
 use Enjoys\Forms\Interfaces\CaptchaInterface;
+use Enjoys\Forms\Interfaces\ElementInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -104,15 +105,14 @@ trait Container
     private array $elements = [];
 
 
-    /**
-     * @psalm-suppress UnsafeInstantiation https://psalm.dev/r/f310cf1537
-     */
     public function __call(string $name, array $arguments): Element
     {
         $className = '\Enjoys\\Forms\\Elements\\' . ucfirst($name);
         Assert::classExists($className);
-        /** @var class-string<Element> $className */
+        /** @var class-string<ElementInterface> $className */
         $element = new $className(...$arguments);
+
+        /** @var Element $element */
         $this->addElement($element);
         return $element;
     }
