@@ -43,9 +43,13 @@ final class AttributeFactory
      */
     private static function getClass(string $name): AttributeInterface
     {
+        $normalizeName = ucfirst(strtolower($name));
+
         /** @var class-string<AttributeInterface> $classString */
-        $classString = sprintf('\Enjoys\Forms\Attributes\%sAttribute', ucfirst(strtolower($name)));
-        if (class_exists($classString)) {
+        $classString = sprintf('\Enjoys\Forms\Attributes\%sAttribute', $normalizeName);
+        $classFile = __DIR__ . sprintf('/Attributes/%sAttribute.php', $normalizeName);
+
+        if (file_exists($classFile) && class_exists($classString)) {
             $attributeClass = new $classString();
         } else {
             $attributeClass = (new Base())->withName($name);
