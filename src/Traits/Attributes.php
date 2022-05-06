@@ -10,17 +10,19 @@ use Enjoys\Forms\Interfaces\AttributeInterface;
 
 trait Attributes
 {
-    private array $attributes = [];
 
-    private array $attr = [];
+    /**
+     * @var array<string, AttributeCollection>
+     */
+    private array $attributes = [];
 
 
     public function getAttributeCollection(string $namespace = 'general'): AttributeCollection
     {
-        if (!array_key_exists($namespace, $this->attr)) {
-            $this->attr[$namespace] = new AttributeCollection();
+        if (!array_key_exists($namespace, $this->attributes)) {
+            $this->attributes[$namespace] = new AttributeCollection();
         }
-        return $this->attr[$namespace];
+        return $this->attributes[$namespace];
     }
 
     public function getAttribute(string $name, string $namespace = 'general'): AttributeInterface|null
@@ -29,7 +31,10 @@ trait Attributes
     }
 
     /**
+     * @param AttributeInterface[] $attributes
+     * @param string $namespace
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function setAttributesWithClear(array $attributes, string $namespace = 'general')
     {
@@ -41,6 +46,7 @@ trait Attributes
      * @param AttributeInterface[] $attributes
      * @param string $namespace
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function setAttributes(array $attributes, string $namespace = 'general')
     {
@@ -54,6 +60,7 @@ trait Attributes
 
     /**
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function setAttribute(AttributeInterface $attribute, string $namespace = 'general')
     {
@@ -64,7 +71,10 @@ trait Attributes
     }
 
     /**
+     * @param AttributeInterface[] $attributes
+     * @param string $namespace
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function addAttributes(array $attributes, string $namespace = 'general')
     {
@@ -78,6 +88,7 @@ trait Attributes
 
     /**
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function addAttribute(AttributeInterface $attribute, string $namespace = 'general')
     {
@@ -87,6 +98,7 @@ trait Attributes
     }
 
     /**
+     * @param string $namespace
      * @return AttributeCollection
      * @see getAttributeCollection
      */
@@ -96,7 +108,6 @@ trait Attributes
     }
 
     /**
-     *
      * @param string $namespace
      * @return string
      */
@@ -113,6 +124,7 @@ trait Attributes
 
     /**
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function removeAttribute(string|AttributeInterface $attribute, string $namespace = 'general')
     {
@@ -120,7 +132,11 @@ trait Attributes
         return $this;
     }
 
-    public function addClass(mixed $class, string $namespace = 'general'): self
+    /**
+     * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
+     */
+    public function addClass(mixed $class, string $namespace = 'general')
     {
         $attrCollection = $this->getAttributeCollection($namespace);
         $attr = $attrCollection->get('class');
@@ -134,6 +150,7 @@ trait Attributes
 
     /**
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function addClasses(array $classes, string $namespace = 'general')
     {
@@ -150,6 +167,7 @@ trait Attributes
 
     /**
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function removeClass(string $classValue, string $namespace = 'general')
     {
