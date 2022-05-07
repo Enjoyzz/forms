@@ -7,13 +7,9 @@ namespace Enjoys\Forms;
 use Enjoys\Forms\Rule;
 use Enjoys\Forms\Traits\Request;
 
-/**
- * @author Enjoys
- */
 class Rules
 {
     use Request;
-
 
     public const CALLBACK = Rule\Callback::class;
     public const CAPTCHA = Rule\Captcha::class;
@@ -24,36 +20,17 @@ class Rules
     public const REQUIRED = Rule\Required::class;
     public const UPLOAD = Rule\Upload::class;
 
-    /**
-     *
-     * @var string|null
-     */
-    private ?string $message;
 
-    /**
-     *
-     * @var array
-     */
+    private ?string $message;
     private array $params = [];
 
-
-    /**
-     *
-     * @param string|null $message
-     * @param mixed $params
-     */
-    public function __construct(?string $message = null, $params = [])
+    public function __construct(?string $message = null, mixed $params = [])
     {
         $this->setParams($params);
         $this->message = $this->setMessage($message);
     }
 
-    /**
-     *
-     * @param mixed $params
-     * @return void
-     */
-    public function setParams($params): void
+    public function setParams(mixed $params): void
     {
 
         if (is_array($params)) {
@@ -63,21 +40,16 @@ class Rules
         $this->params[] = $params;
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->params;
     }
 
     /**
-     *
-     * @param string|int $key
+     * @param array-key $key
      * @return mixed|null
      */
-    public function getParam($key)
+    public function getParam(int|string $key): mixed
     {
         if (isset($this->params[$key])) {
             return $this->params[$key];
@@ -85,23 +57,13 @@ class Rules
         return null;
     }
 
-    /**
-     *
-     * @param string|null $message
-     * @return string|null
-     */
     public function setMessage(?string $message = null): ?string
     {
         return $this->message = $message;
     }
 
-    /**
-     *
-     * @return string|null
-     */
     public function getMessage(): ?string
     {
-
         return $this->message;
     }
 }

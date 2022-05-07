@@ -95,10 +95,7 @@ class MaxsizeCheckTest extends _TestCase
         );
 
         $fileElement = new File('foo');
-        $uploadRule = new MaxsizeCheck($request->getFilesData('foo'), $fileElement, [
-            '10',
-            'big file'
-        ]);
+        $uploadRule = new MaxsizeCheck($request->getFilesData('foo'), $fileElement, 10, 'big file');
         $this->assertEquals(
             false,
             $uploadRule->check()
@@ -109,9 +106,7 @@ class MaxsizeCheckTest extends _TestCase
     public function test_checkMaxsize4()
     {
         $fileElement = new File('foo');
-        $uploadRule = new MaxsizeCheck(false, $fileElement, [
-            '10'
-        ]);
+        $uploadRule = new MaxsizeCheck(false, $fileElement, '10');
         $this->assertEquals(
             true,
             $uploadRule->check()

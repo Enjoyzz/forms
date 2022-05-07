@@ -9,7 +9,6 @@ namespace Enjoys\Forms\Rule\UploadCheck;
 use ByteUnits\Binary;
 use Enjoys\Forms\Interfaces\Ruleable;
 use Psr\Http\Message\UploadedFileInterface;
-use Webmozart\Assert\Assert;
 
 final class MaxsizeCheck implements UploadCheckInterface
 {
@@ -17,13 +16,15 @@ final class MaxsizeCheck implements UploadCheckInterface
 
     private UploadedFileInterface|false $value;
     private Ruleable $element;
-    private int|array|string $options;
+    private int|string $thresholdSize;
+    private ?string $message;
 
-    public function __construct(false|UploadedFileInterface $value, Ruleable $element, int|array|string $options)
+    public function __construct(false|UploadedFileInterface $value, Ruleable $element, int|string $thresholdSize, ?string $message = null)
     {
         $this->value = $value;
         $this->element = $element;
-        $this->options = $options;
+        $this->thresholdSize = $thresholdSize;
+        $this->message = $message;
     }
 
     public function check(): bool
@@ -32,39 +33,19 @@ final class MaxsizeCheck implements UploadCheckInterface
             return true;
         }
 
-        $parsed = $this->parseOptions($this->options);
-
-        $threshold_size =  $parsed['param'];
-
-        $message = $parsed['message'];
 
         $file_size = $this->value->getSize() ?? 0;
 
-        if (is_null($message)) {
-            $message = 'Размер файла (' . Binary::bytes($file_size)->format(null, " ") . ')'
-                . ' превышает допустимый размер: ' . Binary::bytes($threshold_size)->format(null, " ");
+        if (is_null($this->message)) {
+            $this->message = 'Размер файла (' . Binary::bytes($file_size)->format(null, " ") . ')'
+                . ' превышает допустимый размер: ' . Binary::bytes($this->thresholdSize)->format(null, " ");
         }
 
-        if ($file_size > $threshold_size) {
-            $this->element->setRuleError($message);
+        if ($file_size > $this->thresholdSize) {
+            $this->element->setRuleError($this->message);
             return false;
         }
         return true;
     }
 
-    private function parseOptions(int|array|string $opts): array
-    {
-        if (!is_array($opts)) {
-            $opts = (array)$opts;
-            $opts[1] = null;
-        }
-        list($param, $message) = $opts;
-
-        Assert::nullOrString($message);
-
-        return [
-            'param' => $param,
-            'message' => $message
-        ];
-    }
 }

@@ -63,6 +63,7 @@ class RequiredCheckTest extends _TestCase
                 $fileElement
             ])
         );
+        $this->assertEquals('Выберите файл для загрузки', $fileElement->getRuleErrorMessage());
     }
 
     public function test_checkRequired3()
