@@ -33,7 +33,7 @@ class Csrf extends Hidden
             'CSRF Attack detected',
             [
                 function (string $key) {
-                    /** @psalm-suppress  PossiblyNullArgument */
+                    /** @psalm-suppress  PossiblyNullArgument, MixedArgument */
                     if (password_verify($key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))) {
                         return true;
                     }
