@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Closure;
 use Enjoys\Forms\Interfaces\ElementInterface;
 use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Attributes;
@@ -157,6 +158,7 @@ abstract class Element implements ElementInterface
     protected function setDefault(mixed $value = null): self
     {
         if (is_array($value)) {
+            /** @var array<Closure|scalar|null>  $value */
             $this->setAttribute(
                 AttributeFactory::create('value', $value[0])
             );

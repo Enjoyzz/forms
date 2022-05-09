@@ -136,7 +136,7 @@ trait Attributes
      * @return $this
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function addClass(mixed $class, string $namespace = 'general')
+    public function addClass(string $class, string $namespace = 'general')
     {
         $attrCollection = $this->getAttributeCollection($namespace);
         $attr = $attrCollection->get('class');
@@ -149,6 +149,8 @@ trait Attributes
     }
 
     /**
+     * @param string[] $classes
+     * @param string $namespace
      * @return $this
      * @noinspection PhpMissingReturnTypeInspection
      */
