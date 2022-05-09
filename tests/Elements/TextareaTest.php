@@ -26,7 +26,7 @@ class TextareaTest extends TestCase
         $el = new Textarea('foo');
         $el->setCols(5);
         $this->assertEquals('5', $el->getAttribute('cols')->getValueString());
-        $el->setCols('25');
+        $el->setCols(25);
         $this->assertEquals('25', $el->getAttribute('cols')->getValueString());
         $el->setCols(function () {
             return 1;
@@ -39,7 +39,7 @@ class TextareaTest extends TestCase
         $el = new Textarea('foo');
         $el->setRows(50);
         $this->assertEquals('50', $el->getAttribute('rows')->getValueString());
-        $el->setRows('250');
+        $el->setRows(250);
         $this->assertEquals('250', $el->getAttribute('rows')->getValueString());
         $el->setRows(function () {
             return 1;
@@ -49,9 +49,19 @@ class TextareaTest extends TestCase
 
     public function testInvalidSetCols()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectError();
         (new Textarea('foo'))->setCols('not number');
     }
+
+    public function testInvalidSetRows()
+    {
+      $this->expectException(InvalidArgumentException::class);
+        (new Textarea('foo'))->setCols(function (){
+            return 'not number';
+        });
+
+    }
+
 
     public function testBaseHtml()
     {

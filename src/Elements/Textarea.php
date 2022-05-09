@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Elements;
 
+use Closure;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Descriptionable;
@@ -39,32 +40,36 @@ class Textarea extends Element implements Ruleable, Descriptionable
         return $this->value;
     }
 
-    private function getValidatedAttribute(mixed $value): mixed
-    {
-        if ($value instanceof \Closure) {
-            $value = $value();
-        }
-        Assert::numeric($value);
-        return $value;
-    }
 
     /**
      * Высота поля в строках текста.
+     * @param int|Closure():int $rows
+     * @return Textarea
+     * @psalm-suppress RedundantConditionGivenDocblockType
      */
-    public function setRows(mixed $rows): Textarea
+    public function setRows(int|Closure $rows): Textarea
     {
-        $value = $this->getValidatedAttribute($rows);
-        $this->setAttribute(AttributeFactory::create('rows', $value));
+        if ($rows instanceof Closure) {
+            $rows = $rows();
+            Assert::integer($rows);
+        }
+        $this->setAttribute(AttributeFactory::create('rows', $rows));
         return $this;
     }
 
     /**
      * Ширина поля в символах.
+     * @param int|Closure():int $cols
+     * @return Textarea
+     * @psalm-suppress RedundantConditionGivenDocblockType
      */
-    public function setCols(mixed $cols): Textarea
+    public function setCols(int|Closure $cols): Textarea
     {
-        $value = $this->getValidatedAttribute($cols);
-        $this->setAttribute(AttributeFactory::create('cols', $value));
+        if ($cols instanceof Closure) {
+            $cols = $cols();
+            Assert::integer($cols);
+        }
+        $this->setAttribute(AttributeFactory::create('cols', $cols));
         return $this;
     }
 
