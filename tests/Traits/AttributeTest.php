@@ -109,7 +109,7 @@ class AttributeTest extends TestCase
     {
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
-        $returnedObject = $traitAttributes->addClasses([1, 2]);
+        $returnedObject = $traitAttributes->addClasses(['1', '2']);
         $this->assertSame('1 2', $traitAttributes->getAttribute('class')->getValueString());
         $this->assertSame($returnedObject, $traitAttributes);
     }
@@ -120,7 +120,7 @@ class AttributeTest extends TestCase
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $traitAttributes->removeClass('3');
         $this->assertSame(null, $traitAttributes->getAttribute('class'));
-        $traitAttributes->addClasses([1, 2]);
+        $traitAttributes->addClasses(['1', '2']);
         $this->assertSame('1 2', $traitAttributes->getAttribute('class')->getValueString());
         $returnedObject = $traitAttributes->removeClass('1');
         $this->assertSame('2', $traitAttributes->getAttribute('class')->getValueString());
@@ -132,7 +132,7 @@ class AttributeTest extends TestCase
         /** @var Attributes $traitAttributes */
         $traitAttributes = $this->getMockForTrait(Attributes::class);
         $this->assertSame([], $traitAttributes->getClassesList());
-        $traitAttributes->addClasses([1, 2]);
+        $traitAttributes->addClasses(['1', '2']);
         $this->assertSame(['1', '2'], $traitAttributes->getClassesList());
     }
 
@@ -194,8 +194,8 @@ class AttributeTest extends TestCase
 
         $traitAttributes->addClasses(
             [
-                1,
-                2
+                '1',
+                '2'
             ]
         );
 

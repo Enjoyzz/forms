@@ -6,7 +6,6 @@ namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\AttributeFactory;
 use PHPUnit\Framework\TestCase;
-use Webmozart\Assert\InvalidArgumentException;
 
 class AttributeTest extends TestCase
 {
@@ -165,7 +164,8 @@ class AttributeTest extends TestCase
 
     public function testInvalidClosureAttributeValue()
     {
-        $this->expectException(InvalidArgumentException::class);
+//        $this->expectException(InvalidArgumentException::class);
+        $this->expectError();
         AttributeFactory::create('id', function () {
             return new \stdClass();
         });
