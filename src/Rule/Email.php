@@ -33,6 +33,7 @@ class Email extends Rules implements RuleInterface
             'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
+        /** @var string $value */
         $value = \getValueByIndexPath($element->getName(), $requestData);
         if ($this->check(\trim($value)) === false) {
             $element->setRuleError($this->getMessage());
