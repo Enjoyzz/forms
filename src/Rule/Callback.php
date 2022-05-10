@@ -85,15 +85,8 @@ class Callback extends Rules implements RuleInterface
      */
     private function check(): bool
     {
+        /** @var callable(mixed...):bool $callback */
         $callback = $this->getParam(0);
-
-        if (is_object($callback) && (new \ReflectionClass($callback))->isAnonymous()) {
-            $func = 'execute';
-            if (isset($callback->execute)) {
-                $func = $callback->execute;
-            }
-            return $callback->$func();
-        }
 
         $params = $this->getParams();
         array_shift($params);

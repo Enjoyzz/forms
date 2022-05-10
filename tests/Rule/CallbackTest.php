@@ -58,39 +58,6 @@ class CallbackTest extends _TestCase
         $this->assertTrue(Validator::check([$this->element]));
     }
 
-    public function testAnonimousClassFail()
-    {
-        $this->element->addRule(
-            Rules::CALLBACK,
-            'Error message',
-            new class {
-                public $execute = 'testfunction';
-
-                public function testfunction()
-                {
-                    return false;
-                }
-            }
-        );
-        $this->assertFalse(Validator::check([$this->element]));
-        $this->assertSame('Error message', $this->element->getRuleErrorMessage());
-    }
-
-    public function testAnonimousClassTrue()
-    {
-        $this->element->addRule(
-            Rules::CALLBACK,
-            null,
-            new class {
-                public function execute()
-                {
-                    return true;
-                }
-            }
-        );
-        $this->assertTrue(Validator::check([$this->element]));
-    }
-
     public function testCallbackFunctionFail()
     {
         $this->element->addRule(Rules::CALLBACK, null, 'Tests\Enjoys\Forms\Rule\checkFunctionReturnFalse');
@@ -147,6 +114,7 @@ function checkFunctionReturnTrue()
 {
     return true;
 }
+
 
 class ClassCheck
 {
