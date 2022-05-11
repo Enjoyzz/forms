@@ -15,7 +15,7 @@ use Enjoys\Forms\Traits\Request;
  * $form->text($name, $title)->addRule('required', $message);
  *
  */
-class Required  implements RuleInterface
+class Required implements RuleInterface
 {
     use Request;
 

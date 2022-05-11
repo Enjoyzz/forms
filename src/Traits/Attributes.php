@@ -10,7 +10,6 @@ use Enjoys\Forms\Interfaces\AttributeInterface;
 
 trait Attributes
 {
-
     /**
      * @var array<string, AttributeCollection>
      */

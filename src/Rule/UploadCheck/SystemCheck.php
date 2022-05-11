@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Rule\UploadCheck;
-
 
 use Enjoys\Forms\Interfaces\Ruleable;
 use Psr\Http\Message\UploadedFileInterface;
 
 final class SystemCheck implements UploadCheckInterface
 {
-
-
     private UploadedFileInterface|false $value;
     private Ruleable $element;
     private ?string $message;

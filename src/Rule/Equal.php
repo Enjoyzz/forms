@@ -31,7 +31,6 @@ class Equal implements RuleInterface
 
         $this->params = (array) $params;
         $this->message = $message ?? 'Допустимые значения (указаны через запятую): ' . \implode(', ', $this->params);
-
     }
 
 

@@ -2,23 +2,19 @@
 
 declare(strict_types=1);
 
-
 namespace Enjoys\Forms\Rule\UploadCheck;
-
 
 use Enjoys\Forms\Interfaces\Ruleable;
 use Psr\Http\Message\UploadedFileInterface;
 
 final class ExtensionsCheck implements UploadCheckInterface
 {
-
-
     private UploadedFileInterface|false $value;
     private Ruleable $element;
     private array $expectedExtensions;
     private ?string $message;
 
-    public function __construct(false|UploadedFileInterface $value, Ruleable $element, string  $expectedExtensions, ?string $message = null)
+    public function __construct(false|UploadedFileInterface $value, Ruleable $element, string $expectedExtensions, ?string $message = null)
     {
         $this->value = $value;
         $this->element = $element;

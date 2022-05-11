@@ -65,7 +65,6 @@ class Form
         $this->setMethod($method);
         $this->setAction($action);
         $this->setId($id);
-
     }
 
     /**

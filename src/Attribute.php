@@ -170,5 +170,4 @@ abstract class Attribute implements AttributeInterface
         Assert::nullOrScalar($value);
         return ($value === null) ? null : \htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
     }
-
 }

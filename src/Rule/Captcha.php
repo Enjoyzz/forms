@@ -33,7 +33,7 @@ class Captcha implements RuleInterface
     public function validate(Ruleable $element): bool
     {
         /** @var \Enjoys\Forms\Elements\Captcha $element */
-        if ($element->validate() === false){
+        if ($element->validate() === false) {
             $element->setRuleError($this->message);
             return false;
         }
