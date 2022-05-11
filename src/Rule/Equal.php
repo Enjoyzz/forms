@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * @example
@@ -14,15 +14,26 @@ use Enjoys\Forms\Rules;
  * new Equal($message, (array) 'expect'); or
  * new Equal($message, ['expect', 1, '255']);
  */
-class Equal extends Rules implements RuleInterface
+class Equal implements RuleInterface
 {
-    public function setMessage(?string $message = null): ?string
+    use Request;
+
+    private string $message;
+    private array $params;
+
+
+    /**
+     * @param array<array-key, scalar>|scalar $params
+     * @param string|null $message
+     */
+    public function __construct(mixed $params, string $message = null)
     {
-        if (is_null($message)) {
-            $message = 'Допустимые значения (указаны через запятую): ' . \implode(', ', $this->getParams());
-        }
-        return parent::setMessage($message);
+
+        $this->params = (array) $params;
+        $this->message = $message ?? 'Допустимые значения (указаны через запятую): ' . \implode(', ', $this->params);
+
     }
+
 
     /**
      * @psalm-suppress PossiblyNullReference
@@ -38,10 +49,12 @@ class Equal extends Rules implements RuleInterface
             'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
+
+        /** @var mixed $value */
         $value = \getValueByIndexPath($element->getName(), $requestData);
 
         if (false === $this->check($value)) {
-            $element->setRuleError($this->getMessage());
+            $element->setRuleError($this->message);
             return false;
         }
 
@@ -68,6 +81,6 @@ class Equal extends Rules implements RuleInterface
             return true;
         }
 
-        return array_search($value, $this->getParams());
+        return array_search($value, $this->params);
     }
 }

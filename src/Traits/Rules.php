@@ -37,7 +37,7 @@ trait Rules
     /**
      * @throws ExceptionRule
      */
-    public function addRule(string $ruleClass, ?string $message = null, mixed $params = null): self
+    public function addRule(string $ruleClass, mixed ...$params): self
     {
 
         if (!class_exists($ruleClass)) {
@@ -45,8 +45,8 @@ trait Rules
                 sprintf('Rule [%s] not found', $ruleClass)
             );
         }
-        /** @var class-string<RuleInterface&\Enjoys\Forms\Rules> $ruleClass */
-        $rule = new $ruleClass($message, $params);
+        /** @var class-string<RuleInterface> $ruleClass */
+        $rule = new $ruleClass(...$params);
         $rule->setRequest($this->getRequest());
 
         //установка обязательности элемента

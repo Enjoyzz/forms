@@ -29,7 +29,7 @@ class File extends Element implements Ruleable, Descriptionable
     public function __construct(string $name, string $title = null)
     {
         parent::__construct($name, $title);
-        $this->addRule(Rules::UPLOAD, null, [
+        $this->addRule(Rules::UPLOAD, [
             'system'
         ]);
     }
@@ -84,13 +84,13 @@ class File extends Element implements Ruleable, Descriptionable
     /**
      * @throws ExceptionRule
      */
-    public function addRule(string $ruleClass, ?string $message = null, mixed $params = []): File
+    public function addRule(string $ruleClass, mixed ...$params): File
     {
         if ($ruleClass !== Rules::UPLOAD) {
             throw new ExceptionRule(
                 \sprintf("К элементу [%s] можно подключить только правило: [%s]", __CLASS__, Rules::UPLOAD)
             );
         }
-        return $this->parentAddRule($ruleClass, $message, $params);
+        return $this->parentAddRule($ruleClass, ...$params);
     }
 }

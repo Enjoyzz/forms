@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * Description of Captcha
@@ -15,8 +15,17 @@ use Enjoys\Forms\Rules;
  * $form->captcha();
  * Enjoy!
  */
-class Captcha extends Rules implements RuleInterface
+class Captcha implements RuleInterface
 {
+    use Request;
+
+    private ?string $message;
+
+    public function __construct(?string $message = null)
+    {
+        $this->message = $message ;
+    }
+
     /**
      * @param Ruleable&Element $element
      * @return bool
@@ -24,6 +33,16 @@ class Captcha extends Rules implements RuleInterface
     public function validate(Ruleable $element): bool
     {
         /** @var \Enjoys\Forms\Elements\Captcha $element */
-        return $element->validate();
+        if ($element->validate() === false){
+            $element->setRuleError($this->message);
+            return false;
+        }
+        return true;
+    }
+
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
     }
 }

@@ -34,12 +34,7 @@ class ExtensionsCheckTest extends _TestCase
 
             ], parsedBody: [], method: 'post')
         );
-        $uploadRule = new Upload(null, [
-            'extensions' => [
-                'doc, jpg',
-                'not support'
-            ]
-        ]);
+        $uploadRule = new Upload(['extensions' => ['doc, jpg', 'not support']]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(
             false,
@@ -68,7 +63,7 @@ class ExtensionsCheckTest extends _TestCase
 
             ], parsedBody: [], method: 'post')
         );
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'extensions' => [
                 'doc, jpg, pdf',
                 'not support'
@@ -101,7 +96,7 @@ class ExtensionsCheckTest extends _TestCase
 
             ], parsedBody: [], method: 'post')
         );
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'extensions' => 'doc'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
@@ -119,7 +114,7 @@ class ExtensionsCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
         //$uploadFile = false;
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'extensions' => [
                 'doc, jpg',
                 'not support'

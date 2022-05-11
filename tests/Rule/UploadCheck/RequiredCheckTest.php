@@ -33,7 +33,7 @@ class RequiredCheckTest extends _TestCase
             ], parsedBody: [], method: 'post')
         );
 
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'required'
         ]);
         // $uploadRule->setRequest($request);
@@ -52,7 +52,7 @@ class RequiredCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'required'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
@@ -82,7 +82,7 @@ class RequiredCheckTest extends _TestCase
         );
 
 
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'required' => 'no file selected'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');

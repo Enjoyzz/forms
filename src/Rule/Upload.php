@@ -7,12 +7,23 @@ namespace Enjoys\Forms\Rule;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rule\UploadCheck\UploadCheckInterface;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 use Psr\Http\Message\UploadedFileInterface;
 use Webmozart\Assert\Assert;
 
-class Upload extends Rules implements RuleInterface
+class Upload implements RuleInterface
 {
+    use Request;
+
+    public const REQUIRED = 'required';
+    public const EXTENSIONS = 'extensions';
+
+    private array $params;
+
+    public function __construct(array $params)
+    {
+        $this->params = $params;
+    }
 
     /**
      * @psalm-suppress PossiblyNullReference
@@ -32,17 +43,23 @@ class Upload extends Rules implements RuleInterface
 
     private function check(UploadedFileInterface|false $value, Ruleable $element): bool
     {
-
-        foreach ($this->getParams() as $rule => $options) {
+        /** @var array|scalar $options */
+        foreach ($this->params as $rule => $options) {
             if (is_int($rule) && is_string($options)) {
                 $rule = $options;
                 $options = [];
             }
 
-            /** @var class-string<UploadCheckInterface> $className */
+
+            /** @var string $rule */
             $className = sprintf('\Enjoys\Forms\Rule\UploadCheck\%sCheck', ucfirst($rule));
+
+            /** @var class-string<UploadCheckInterface> $className */
             Assert::classExists($className, sprintf('Unknown Check Upload: [%s]', $className));
-            return (new $className($value, $element, ...(array)$options))->check();
+
+            if ((new $className($value, $element, ...(array)$options))->check() === false) {
+                return false;
+            }
         }
         return true;
     }

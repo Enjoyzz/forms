@@ -142,7 +142,7 @@ class MaxsizeCheckTest extends _TestCase
             ])
         );
 
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'maxsize' => 0
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');

@@ -34,7 +34,7 @@ class SystemCheckTest extends _TestCase
 
             ])
         );
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'system'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
@@ -65,7 +65,7 @@ class SystemCheckTest extends _TestCase
 
             ])
         );
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'system'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
@@ -95,7 +95,7 @@ class SystemCheckTest extends _TestCase
 
             ])
         );
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'system'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
@@ -118,7 +118,7 @@ class SystemCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 //        $uploadFile = false;
-        $uploadRule = new Upload(null, [
+        $uploadRule = new Upload([
             'system'
         ]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');

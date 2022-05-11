@@ -7,10 +7,12 @@ namespace Enjoys\Forms\Rule;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
-class Length extends Rules implements RuleInterface
+class Length implements RuleInterface
 {
+    use Request;
+
     /**
      * @var string[]
      */
@@ -22,14 +24,16 @@ class Length extends Rules implements RuleInterface
         '>=' => 'greaterThanOrEqual',
         '<=' => 'lessThanOrEqual',
     ];
+    private string $message;
+    private array $params;
 
-    public function setMessage(?string $message = null): ?string
+    public function __construct(?string $message = null, array $params)
     {
-        if (is_null($message)) {
-            $message = 'Ошибка ввода';
-        }
-        return parent::setMessage($message);
+        $this->message = $message ?? 'Ошибка ввода';
+        $this->params = $params;
     }
+
+
 
     /**
      * @psalm-suppress PossiblyNullReference
@@ -50,7 +54,7 @@ class Length extends Rules implements RuleInterface
         $value = \getValueByIndexPath($element->getName(), $requestData);
 
         if (!$this->check($value)) {
-            $element->setRuleError($this->getMessage());
+            $element->setRuleError($this->message);
             return false;
         }
 
@@ -76,7 +80,7 @@ class Length extends Rules implements RuleInterface
 
         /** @var string $operator */
         /** @var int|string $threshold */
-        foreach ($this->getParams() as $operator => $threshold) {
+        foreach ($this->params as $operator => $threshold) {
             $method = $this->operatorToMethodTranslation[$operator] ?? 'unknown';
 
             if (!method_exists(Length::class, $method)) {

@@ -6,6 +6,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
+use Enjoys\ServerRequestWrapperInterface;
 
 interface RuleInterface
 {
@@ -15,7 +16,7 @@ interface RuleInterface
      */
     public function validate(Ruleable $element): bool;
 
-    public function setMessage(?string $message = null): ?string;
+    public function setRequest(ServerRequestWrapperInterface $request = null): void;
 
-    public function getMessage(): ?string;
+
 }
