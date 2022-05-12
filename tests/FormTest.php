@@ -116,18 +116,18 @@ class FormTest extends _TestCase
     {
         $form = new Form();
         $form->image('foo');
-        $this->assertInstanceOf(Image::class, $form->getElements()['foo']);
+        $this->assertInstanceOf(Image::class, $form->getElement('foo'));
         $form->text('foo');
-        $this->assertInstanceOf(Text::class, $form->getElements()['foo']);
+        $this->assertInstanceOf(Text::class, $form->getElement('foo'));
     }
 
     public function testRemoveElement()
     {
         $form = new Form();
         $el = $form->text('foo');
-        $this->assertSame(true, isset($form->getElements()['foo']));
+        $this->assertNotNull($form->getElement('foo'));
         $form->removeElement($el);
-        $this->assertSame(true, !isset($form->getElements()['foo']));
+        $this->assertNull($form->getElement('foo'));
     }
 
     public function testGetFormDefaults()
