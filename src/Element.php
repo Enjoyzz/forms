@@ -62,7 +62,7 @@ abstract class Element implements ElementInterface
             return;
         }
         $this->form = $form;
-        $this->setDefault($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
+        $this->setDefault($this->getForm()->getDefaultsHandler()->getValue(trim($this->getName())));
 
         if ($this instanceof Fillable) {
             foreach ($this->getElements() as $element) {
