@@ -143,4 +143,23 @@ class ElementTest extends _TestCase
         $element = $form->text('Foo[]', 'Bar');
         $this->assertEquals('first_string', $element->getAttribute('value')->getValueString());
     }
+
+    public function testSetFormDefaultsForFillableElementsIfNameWithSpaces()
+    {
+        $form = new Form();
+        $form->setDefaults([
+            'foo' => [
+                2,4
+            ]
+        ]);
+
+        $element = $form->checkbox('foo', 'foo1')->fill([1,2,3], true);
+        $element2 = $form->checkbox(' foo', 'foo2')->fill([4,5,6], true);
+        $this->assertNull($element->getElements()[0]->getAttribute('checked'));
+        $this->assertNotNull($element->getElements()[1]->getAttribute('checked'));
+        $this->assertNull($element->getElements()[2]->getAttribute('checked'));
+        $this->assertNotNull($element2->getElements()[0]->getAttribute('checked'));
+        $this->assertNull($element2->getElements()[1]->getAttribute('checked'));
+        $this->assertNull($element2->getElements()[2]->getAttribute('checked'));
+    }
 }
