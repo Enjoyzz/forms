@@ -86,7 +86,7 @@ abstract class Element implements ElementInterface
 
     protected function setName(string $name): ElementInterface
     {
-        $this->name = $name;
+        $this->name = trim($name);
         $this->setAttributes(
             AttributeFactory::createFromArray([
                 'id' => $this->name,
