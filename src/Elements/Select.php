@@ -20,9 +20,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     use Description;
     use Rules;
 
-
     protected string $type = 'option';
-
 
     public function __construct(string $name, string $title = null)
     {

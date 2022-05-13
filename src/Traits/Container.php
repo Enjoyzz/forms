@@ -129,7 +129,17 @@ trait Container
         if ($element->prepare() === true) {
             return $this;
         }
-        $this->elements[$element->getName()] = $element;
+
+
+        if ($element->isAllowSameNames() === false
+            && false !== $keyElement = $this->getElementKeyByName($element->getName())
+        ) {
+            $this->elements[$keyElement] = $element;
+            return $this;
+        }
+
+
+        $this->elements[] = $element;
         return $this;
     }
 
@@ -149,8 +159,8 @@ trait Container
      */
     public function getElement(string $name): ?Element
     {
-        if ($this->elementExists($name)) {
-            return $this->elements[$name];
+        if (false !== $key = $this->getElementKeyByName($name)) {
+            return $this->elements[$key];
         }
 
         return null;
@@ -167,22 +177,24 @@ trait Container
             return $this;
         }
 
-        if ($this->elementExists($element->getName())) {
-            unset($this->elements[$element->getName()]);
+        $key = $this->getElementKeyByName($element->getName());
+
+        if ($key !== false) {
+            unset($this->elements[$key]);
         }
         return $this;
     }
 
-    /**
-     *
-     * @param string $name
-     * @return bool
-     */
-    private function elementExists(string $name): bool
+    private function getElementKeyByName(string $name): int|false
     {
-        if (array_key_exists($name, $this->elements)) {
-            return true;
+        foreach ($this->elements as $key => $element) {
+            if ($element->getName() === $name) {
+                /** @var int $key */
+                return $key;
+            }
         }
         return false;
     }
+
+
 }

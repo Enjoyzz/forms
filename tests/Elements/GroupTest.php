@@ -22,7 +22,7 @@ class GroupTest extends _TestCase
                 new Text('foo', 'bar')
             ]
         );
-        $this->assertInstanceOf('\Enjoys\Forms\Element', $g->getElements()['foo']);
+        $this->assertInstanceOf('\Enjoys\Forms\Element', $g->getElement('foo'));
     }
 
     public function test_invalid_element()

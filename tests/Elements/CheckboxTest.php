@@ -278,4 +278,31 @@ class CheckboxTest extends _TestCase
             $cb->baseHtml()
         );
     }
+
+
+
+    public function testElementsWithSameNames()
+    {
+        $form = new Form();
+        $form->removeElement($form->getElement(Form::_TOKEN_SUBMIT_));
+        $form->removeElement($form->getElement(Form::_TOKEN_CSRF_));
+
+        $form->setDefaults([
+            'foo' => [
+                2,4
+            ]
+        ]);
+
+        $element = $form->checkbox('foo', 'foo1')->fill([1,2,3], true);
+        $element2 = $form->checkbox('foo', 'foo2')->fill([4,5,6], true);
+
+        $this->assertCount(2, $form->getElements());
+
+        $this->assertNull($element->getElements()[0]->getAttribute('checked'));
+        $this->assertNotNull($element->getElements()[1]->getAttribute('checked'));
+        $this->assertNull($element->getElements()[2]->getAttribute('checked'));
+        $this->assertNotNull($element2->getElements()[0]->getAttribute('checked'));
+        $this->assertNull($element2->getElements()[1]->getAttribute('checked'));
+        $this->assertNull($element2->getElements()[2]->getAttribute('checked'));
+    }
 }
