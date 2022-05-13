@@ -1,99 +1,47 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2020 Enjoys.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
 use Enjoys\Forms\Element;
-use Enjoys\Forms\Elements\Button;
-use Enjoys\Forms\Elements\Captcha;
-use Enjoys\Forms\Elements\Checkbox;
-use Enjoys\Forms\Elements\Color;
-use Enjoys\Forms\Elements\Csrf;
-use Enjoys\Forms\Elements\Datalist;
-use Enjoys\Forms\Elements\Date;
-use Enjoys\Forms\Elements\Datetime;
-use Enjoys\Forms\Elements\Datetimelocal;
-use Enjoys\Forms\Elements\Email;
-use Enjoys\Forms\Elements\File;
-use Enjoys\Forms\Elements\Group;
-use Enjoys\Forms\Elements\Header;
-use Enjoys\Forms\Elements\Hidden;
-use Enjoys\Forms\Elements\Html;
-use Enjoys\Forms\Elements\Image;
-use Enjoys\Forms\Elements\Month;
-use Enjoys\Forms\Elements\Number;
-use Enjoys\Forms\Elements\Password;
-use Enjoys\Forms\Elements\Radio;
-use Enjoys\Forms\Elements\Range;
-use Enjoys\Forms\Elements\Reset;
-use Enjoys\Forms\Elements\Search;
-use Enjoys\Forms\Elements\Select;
-use Enjoys\Forms\Elements\Submit;
-use Enjoys\Forms\Elements\Tel;
-use Enjoys\Forms\Elements\Text;
-use Enjoys\Forms\Elements\Textarea;
-use Enjoys\Forms\Elements\Time;
-use Enjoys\Forms\Elements\Url;
-use Enjoys\Forms\Elements\Week;
+use Enjoys\Forms\Elements;
 use Enjoys\Forms\Interfaces\CaptchaInterface;
 use Enjoys\Forms\Interfaces\ElementInterface;
 use Webmozart\Assert\Assert;
 
 /**
- * @method Text text(string $name, string $label = null)
- * @method Hidden hidden(string $name, string $value = null)
- * @method Password password(string $name, string $label = null)
- * @method Submit submit(string $name, string $title = null)
- * @method Header header(string $title = null)
- * @method Color color(string $name, string $label = null)
- * @method Date date(string $name, string $label = null)
- * @method Datetime datetime(string $name, string $label = null)
- * @method Datetimelocal datetimelocal(string $name, string $label = null)
- * @method Email email(string $name, string $label = null)
- * @method Number number(string $name, string $label = null)
- * @method Range range(string $name, string $label = null)
- * @method Search search(string $name, string $label = null)
- * @method Tel tel(string $name, string $label = null)
- * @method Time time(string $name, string $label = null)
- * @method Url url(string $name, string $label = null)
- * @method Month month(string $name, string $label = null)
- * @method Week week(string $name, string $label = null)
- * @method Textarea textarea(string $name, string $label = null)
- * @method Select select(string $name, string $label = null)
- * @method Button button(string $name, string $title = null)
- * @method Datalist datalist(string $name, string $label = null)
- * @method Checkbox checkbox(string $name, string $label = null)
- * @method Image image(string $name, string $src = null)
- * @method Radio radio(string $name, string $title = null)
- * @method Reset reset(string $name, string $title = null)
- * @method Captcha captcha(CaptchaInterface $captcha)
- * @method Group group(string $title = null)
- * @method File file(string $name, string $label = null)
- * @method Csrf csrf()
- * @method Html html(string $html)
+ * @method Elements\Text text(string $name, string $label = null)
+ * @method Elements\Hidden hidden(string $name, string $value = null)
+ * @method Elements\Password password(string $name, string $label = null)
+ * @method Elements\Submit submit(string $name, string $title = null)
+ * @method Elements\Header header(string $title = null)
+ * @method Elements\Color color(string $name, string $label = null)
+ * @method Elements\Date date(string $name, string $label = null)
+ * @method Elements\Datetime datetime(string $name, string $label = null)
+ * @method Elements\Datetimelocal datetimelocal(string $name, string $label = null)
+ * @method Elements\Email email(string $name, string $label = null)
+ * @method Elements\Number number(string $name, string $label = null)
+ * @method Elements\Range range(string $name, string $label = null)
+ * @method Elements\Search search(string $name, string $label = null)
+ * @method Elements\Tel tel(string $name, string $label = null)
+ * @method Elements\Time time(string $name, string $label = null)
+ * @method Elements\Url url(string $name, string $label = null)
+ * @method Elements\Month month(string $name, string $label = null)
+ * @method Elements\Week week(string $name, string $label = null)
+ * @method Elements\Textarea textarea(string $name, string $label = null)
+ * @method Elements\Select select(string $name, string $label = null)
+ * @method Elements\Button button(string $name, string $title = null)
+ * @method Elements\Datalist datalist(string $name, string $label = null)
+ * @method Elements\Checkbox checkbox(string $name, string $label = null)
+ * @method Elements\Image image(string $name, string $src = null)
+ * @method Elements\Radio radio(string $name, string $title = null)
+ * @method Elements\Reset reset(string $name, string $title = null)
+ * @method Elements\Captcha captcha(CaptchaInterface $captcha)
+ * @method Elements\Group group(string $title = null)
+ * @method Elements\File file(string $name, string $label = null)
+ * @method Elements\Csrf csrf()
+ * @method Elements\Html html(string $html)
  *
  * @author Enjoys
  */
@@ -118,7 +66,6 @@ trait Container
     }
 
     /**
-     *
      * @param Element $element
      * @return $this
      * @noinspection PhpMissingReturnTypeInspection
@@ -132,9 +79,9 @@ trait Container
 
 
         if ($element->isAllowSameNames() === false
-            && false !== $keyElement = $this->getElementKeyByName($element->getName())
+            && false !== $key = $this->getElementKey($element)
         ) {
-            $this->elements[$keyElement] = $element;
+            $this->elements[$key] = $element;
             return $this;
         }
 
@@ -152,14 +99,9 @@ trait Container
         return $this->elements;
     }
 
-    /**
-     *
-     * @param string $name
-     * @return Element|null
-     */
     public function getElement(string $name): ?Element
     {
-        if (false !== $key = $this->getElementKeyByName($name)) {
+        if (false !== $key = $this->getElementKey($name)) {
             return $this->elements[$key];
         }
 
@@ -167,28 +109,28 @@ trait Container
     }
 
     /**
-     *
      * @param Element|null $element
      * @return $this
+     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function removeElement(?Element $element = null): self
+    public function removeElement(?Element $element = null)
     {
         if (null === $element) {
             return $this;
         }
 
-        $key = $this->getElementKeyByName($element->getName());
-
-        if ($key !== false) {
+        if (false !== $key = $this->getElementKey($element)) {
             unset($this->elements[$key]);
         }
         return $this;
     }
 
-    private function getElementKeyByName(string $name): int|false
+    private function getElementKey(string|Element $element): int|false
     {
-        foreach ($this->elements as $key => $element) {
-            if ($element->getName() === $name) {
+        $name = ($element instanceof Element) ? $element->getName() : $element;
+
+        foreach ($this->elements as $key => $el) {
+            if ($el->getName() === $name) {
                 /** @var int $key */
                 return $key;
             }
