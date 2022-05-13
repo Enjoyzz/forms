@@ -7,6 +7,8 @@ namespace Tests\Enjoys\Forms\Rule;
 use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\Length;
+use Enjoys\Forms\Rules;
+use Enjoys\Forms\Validator;
 use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
@@ -26,7 +28,7 @@ class LengthTest extends TestCase
 
         $text = new Text('foo');
 
-        $rule = new Length(null, [
+        $rule = new Length([
             '>' => 5
         ]);
 
@@ -60,7 +62,7 @@ class LengthTest extends TestCase
      */
     public function test_1_2($value, $expect)
     {
-        $rule = new Length(null, [
+        $rule = new Length([
             '<' => 5
         ]);
         $method = $this->getPrivateMethod(Length::class, 'check');
@@ -87,7 +89,7 @@ class LengthTest extends TestCase
      */
     public function test_2_1($value, $expect)
     {
-        $rule = new Length(null, [
+        $rule = new Length([
             '>=' => 5
         ]);
         $method = $this->getPrivateMethod(Length::class, 'check');
@@ -114,7 +116,7 @@ class LengthTest extends TestCase
      */
     public function test_2_2($value, $expect)
     {
-        $rule = new Length(null, [
+        $rule = new Length([
             '<=' => 5
         ]);
         $method = $this->getPrivateMethod(Length::class, 'check');
@@ -141,7 +143,7 @@ class LengthTest extends TestCase
      */
     public function test_3_1($value, $expect)
     {
-        $rule = new Length(null, [
+        $rule = new Length([
             '==' => 5
         ]);
         $method = $this->getPrivateMethod(Length::class, 'check');
@@ -168,7 +170,7 @@ class LengthTest extends TestCase
      */
     public function test_3_2($value, $expect)
     {
-        $rule = new Length(null, [
+        $rule = new Length([
             '!=' => 5
         ]);
         $method = $this->getPrivateMethod(Length::class, 'check');
@@ -195,7 +197,7 @@ class LengthTest extends TestCase
      */
     public function test_3_3($value, $expect)
     {
-        $rule = new Length(null, [
+        $rule = new Length([
             '!=' => 5
         ]);
 
@@ -220,10 +222,39 @@ class LengthTest extends TestCase
     public function test_invalid_operator()
     {
         $this->expectException(ExceptionRule::class);
-        $rule = new Length(null, [
+        $rule = new Length([
             '!==' => 5
         ]);
         $method = $this->getPrivateMethod(Length::class, 'check');
         $method->invokeArgs($rule, ['test']);
+    }
+
+    /**
+     * @dataProvider dataForTestValidate
+     */
+    public function testValidateInForm($message, $rule, $request, $expect)
+    {
+        self::markTestIncomplete();
+        $text = new Text('foo');
+
+        $text->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
+            )
+        );
+        $text->addRule(Rules::LENGTH, $rule, $message);
+        $this->assertEquals($expect, Validator::check([$text]));
+        if (!$expect) {
+            $this->assertSame($message === null ? 'Ошибка' : $message, $text->getRuleErrorMessage());
+        }
+    }
+
+    public function dataForTestValidate()
+    {
+        return [
+            [null, [] ,['foo' => 'test@test.com'], true],
+            [null, [], ['foo' => 'test@localhost'], false],
+            [null, [], ['foo' => '    '], true],
+        ];
     }
 }

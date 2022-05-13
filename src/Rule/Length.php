@@ -27,7 +27,7 @@ class Length implements RuleInterface
     private string $message;
     private array $params;
 
-    public function __construct(?string $message = null, array $params)
+    public function __construct(array $params, ?string $message = null)
     {
         $this->message = $message ?? 'Ошибка ввода';
         $this->params = $params;
