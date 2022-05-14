@@ -25,16 +25,17 @@ class LengthTest extends TestCase
      */
     public function test_1_1_validate_test($value, $expect)
     {
-
         $text = new Text('foo');
 
         $rule = new Length([
             '>' => 5
         ]);
 
-        $rule->setRequest(new ServerRequestWrapper(
-            new ServerRequest(queryParams:  ['foo' => $value], parsedBody: [], method: 'gEt')
-        ));
+        $rule->setRequest(
+            new ServerRequestWrapper(
+                new ServerRequest(queryParams: ['foo' => $value], parsedBody: [], method: 'gEt')
+            )
+        );
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));
         if (!$expect) {
@@ -234,7 +235,11 @@ class LengthTest extends TestCase
      */
     public function testValidateInForm($message, $rule, $request, $expect)
     {
-        self::markTestIncomplete();
+
+        if ($expect === \TypeError::class){
+            $this->expectError();
+        }
+//        self::markTestIncomplete();
         $text = new Text('foo');
 
         $text->setRequest(
@@ -245,16 +250,26 @@ class LengthTest extends TestCase
         $text->addRule(Rules::LENGTH, $rule, $message);
         $this->assertEquals($expect, Validator::check([$text]));
         if (!$expect) {
-            $this->assertSame($message === null ? 'Ошибка' : $message, $text->getRuleErrorMessage());
+            $this->assertSame($message === null ? 'Ошибка ввода' : $message, $text->getRuleErrorMessage());
         }
     }
 
     public function dataForTestValidate()
     {
         return [
-            [null, [] ,['foo' => 'test@test.com'], true],
-            [null, [], ['foo' => 'test@localhost'], false],
-            [null, [], ['foo' => '    '], true],
+            [null, ['>' => 5], ['foo' => 'abcdef'], true],
+            [null, ['>' => 5], ['foo' => 'abcde'], false],
+            [null, ['<' => 5], ['foo' => 'abcd'], true],
+            [null, ['<' => 5], ['foo' => 'abcde'], false],
+            [null, ['>=' => 5], ['foo' => 'abcde'], true],
+            [null, ['<=' => 5], ['foo' => 'abcde'], true],
+            [null, ['==' => 5], ['foo' => 'abcde'], true],
+            [null, ['!=' => 5], ['foo' => 'abcde'], false],
+            ['Custom error message', ['!=' => 5], ['foo' => 'abcde'], false],
+            [null, 5, [], \TypeError::class],
+            [null, '5', [], \TypeError::class],
+            [null, new \stdClass(), [], \TypeError::class],
+            [null, 3.14, [], \TypeError::class],
         ];
     }
 }
