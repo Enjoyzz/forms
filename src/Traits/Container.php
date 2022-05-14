@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  * @method Elements\Text text(string $name, string $label = null)
  * @method Elements\Hidden hidden(string $name, string $value = null)
  * @method Elements\Password password(string $name, string $label = null)
- * @method Elements\Submit submit(string $name, string $title = null)
+ * @method Elements\Submit submit(string $name = null, string $title = null)
  * @method Elements\Header header(string $title = null)
  * @method Elements\Color color(string $name, string $label = null)
  * @method Elements\Date date(string $name, string $label = null)
