@@ -7,10 +7,15 @@ namespace Enjoys\Forms\Rule;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
-class Length extends Rules implements RuleInterface
+class Length implements RuleInterface
 {
+    use Request;
+
+    /**
+     * @var string[]
+     */
     private array $operatorToMethodTranslation = [
         '==' => 'equal',
         '!=' => 'notEqual',
@@ -19,14 +24,16 @@ class Length extends Rules implements RuleInterface
         '>=' => 'greaterThanOrEqual',
         '<=' => 'lessThanOrEqual',
     ];
+    private string $message;
+    private array $params;
 
-    public function setMessage(?string $message = null): ?string
+    public function __construct(array $params, ?string $message = null)
     {
-        if (is_null($message)) {
-            $message = 'Ошибка ввода';
-        }
-        return parent::setMessage($message);
+        $this->message = $message ?? 'Ошибка ввода';
+        $this->params = $params;
     }
+
+
 
     /**
      * @psalm-suppress PossiblyNullReference
@@ -36,47 +43,45 @@ class Length extends Rules implements RuleInterface
      */
     public function validate(Ruleable $element): bool
     {
-
         $method = $this->getRequest()->getRequest()->getMethod();
         $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryData()->toArray(),
             'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
+
+        /** @var string|int|array|false $value */
         $value = \getValueByIndexPath($element->getName(), $requestData);
 
-        // $input_value = $request->post($element->getName(), $request->get($element->getName(), ''));
         if (!$this->check($value)) {
-            $element->setRuleError($this->getMessage());
+            $element->setRuleError($this->message);
             return false;
         }
 
         return true;
     }
 
+
     /**
-     *
-     * @param mixed $value
+     * @param string|int|array|false $value
      * @return bool
      * @throws ExceptionRule
      */
-    private function check($value): bool
+    private function check(string|int|array|false $value): bool
     {
-        if (is_array($value)) {
+        if (is_array($value) || $value === false) {
             return true;
         }
 
-        $length = \mb_strlen(\trim((string) $value), 'UTF-8');
+        $length = \mb_strlen(\trim((string)$value), 'UTF-8');
         if (empty($value)) {
             return true;
         }
 
-        foreach ($this->getParams() as $operator => $threshold) {
-            $method = 'unknown';
-
-            if (isset($this->operatorToMethodTranslation[$operator])) {
-                $method = $this->operatorToMethodTranslation[$operator];
-            }
+        /** @var string $operator */
+        /** @var int|string $threshold */
+        foreach ($this->params as $operator => $threshold) {
+            $method = $this->operatorToMethodTranslation[$operator] ?? 'unknown';
 
             if (!method_exists(Length::class, $method)) {
                 throw new ExceptionRule('Unknown Compare Operator.');
@@ -92,66 +97,66 @@ class Length extends Rules implements RuleInterface
 
     /**
      *
-     * @param mixed $value
-     * @param mixed $threshold
+     * @param int $value
+     * @param int|string $threshold
      * @return bool
      */
-    private function equal($value, $threshold): bool
+    private function equal(int $value, int|string $threshold): bool
     {
         return $value == $threshold;
     }
 
     /**
      *
-     * @param mixed $value
-     * @param mixed $threshold
+     * @param int $value
+     * @param int|string $threshold
      * @return bool
      */
-    private function notEqual($value, $threshold): bool
+    private function notEqual(int $value, int|string $threshold): bool
     {
         return $value != $threshold;
     }
 
     /**
      *
-     * @param mixed $value
-     * @param mixed $threshold
+     * @param int $value
+     * @param int|string $threshold
      * @return bool
      */
-    private function greaterThan($value, $threshold): bool
+    private function greaterThan(int $value, int|string $threshold): bool
     {
         return $value > $threshold;
     }
 
     /**
      *
-     * @param mixed $value
-     * @param mixed $threshold
+     * @param int $value
+     * @param int|string $threshold
      * @return bool
      */
-    private function lessThan($value, $threshold): bool
+    private function lessThan(int $value, int|string $threshold): bool
     {
         return $value < $threshold;
     }
 
     /**
      *
-     * @param mixed $value
-     * @param mixed $threshold
+     * @param int $value
+     * @param int|string $threshold
      * @return bool
      */
-    private function greaterThanOrEqual($value, $threshold): bool
+    private function greaterThanOrEqual(int $value, int|string $threshold): bool
     {
         return $value >= $threshold;
     }
 
     /**
      *
-     * @param mixed $value
-     * @param mixed $threshold
+     * @param int $value
+     * @param int|string $threshold
      * @return bool
      */
-    private function lessThanOrEqual($value, $threshold): bool
+    private function lessThanOrEqual(int $value, int|string $threshold): bool
     {
         return $value <= $threshold;
     }

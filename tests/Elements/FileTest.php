@@ -14,7 +14,7 @@ class FileTest extends TestCase
     {
         $form = new Form();
         $form->file('file')->setMaxFileSize(25);
-        $elements = $form->getElements()['MAX_FILE_SIZE'];
+        $elements = $form->getElement('MAX_FILE_SIZE');
         $this->assertSame('25', $elements->getAttribute('value')->getValueString());
     }
 
@@ -22,7 +22,7 @@ class FileTest extends TestCase
     {
         $form = new Form();
         $form->file('file');
-        $elements = $form->getElements()['MAX_FILE_SIZE'];
+        $elements = $form->getElement('MAX_FILE_SIZE');
         $this->assertSame(
             (string)\iniSize2bytes(ini_get('upload_max_filesize')),
             $elements->getAttribute('value')->getValueString()

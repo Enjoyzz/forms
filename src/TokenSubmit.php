@@ -22,8 +22,10 @@ class TokenSubmit
         return new Hidden(Form::_TOKEN_SUBMIT_, $this->getToken());
     }
 
+
     public function validate(): bool
     {
+        /** @var string $value */
         $value = \getValueByIndexPath(
             Form::_TOKEN_SUBMIT_,
             match ($this->form->getMethod()) {

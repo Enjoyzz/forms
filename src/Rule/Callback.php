@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * Description of Callback
@@ -48,56 +48,45 @@ use Enjoys\Forms\Rules;
  *      return false;
  * });
  *
- *
- * @example Callback anonimous class
- *
- *  $form->text('foo')->addRule('callback', null, new class {
- *      public $execute = 'test';
- *      public function test() {
- *          return false;
- *      }
- *  });
- *
- *
- * @author Enjoys
  */
-class Callback extends Rules implements RuleInterface
+class Callback implements RuleInterface
 {
-    public function setMessage(?string $message = null): ?string
+    use Request;
+
+    private string $message;
+    private array $params;
+    /**
+     * @var callable(...mixed):bool $callback
+     */
+    private $callback;
+
+
+    /**
+     * @param string|null $message
+     * @param callable(...mixed):bool $callback
+     * @param mixed ...$params
+     */
+    public function __construct(?string $message, $callback, mixed ...$params)
     {
-        if (is_null($message)) {
-            $message = 'Ошибка';
-        }
-        return parent::setMessage($message);
+        $this->message = $message ?? 'Ошибка';
+        $this->callback = $callback;
+        $this->params = $params;
     }
+
 
     public function validate(Ruleable $element): bool
     {
-        if ($this->check() === false) {
-            $element->setRuleError($this->getMessage());
-            return false;
+        if ($this->check() === true) {
+            return true;
         }
-        return true;
+
+        $element->setRuleError($this->message);
+        return false;
     }
 
-    /**
-     * @throws \ReflectionException
-     */
+
     private function check(): bool
     {
-        $callback = $this->getParam(0);
-
-        if (is_object($callback) && (new \ReflectionClass($callback))->isAnonymous()) {
-            $func = 'execute';
-            if (isset($callback->execute)) {
-                $func = $callback->execute;
-            }
-            return $callback->$func();
-        }
-
-        $params = $this->getParams();
-        array_shift($params);
-        /** @psalm-suppress PossiblyNullFunctionCall */
-        return call_user_func($callback, ...$params);
+        return call_user_func_array($this->callback, $this->params);
     }
 }

@@ -24,7 +24,7 @@ class EqualTest extends TestCase
                 new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
             )
         );
-        $el->addRule(Rules::EQUAL, null, $rule);
+        $el->addRule(Rules::EQUAL, $rule);
 
         $resultCheck = Validator::check([$el]);
         $this->assertEquals($expect, $resultCheck);

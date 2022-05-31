@@ -45,7 +45,9 @@ class CallbackTest extends _TestCase
     {
         $param1 = 'test';
         $param2 = 'test2';
-        $this->element->addRule(Rules::CALLBACK, null, [
+        $this->element->addRule(
+            Rules::CALLBACK,
+            null,
             function ($p1, $p2) {
                 if ($p1 === 'test' && $p2 === 'test2') {
                     return true;
@@ -54,39 +56,6 @@ class CallbackTest extends _TestCase
             },
             $param1,
             $param2
-        ]);
-        $this->assertTrue(Validator::check([$this->element]));
-    }
-
-    public function testAnonimousClassFail()
-    {
-        $this->element->addRule(
-            Rules::CALLBACK,
-            'Error message',
-            new class {
-                public $execute = 'testfunction';
-
-                public function testfunction()
-                {
-                    return false;
-                }
-            }
-        );
-        $this->assertFalse(Validator::check([$this->element]));
-        $this->assertSame('Error message', $this->element->getRuleErrorMessage());
-    }
-
-    public function testAnonimousClassTrue()
-    {
-        $this->element->addRule(
-            Rules::CALLBACK,
-            null,
-            new class {
-                public function execute()
-                {
-                    return true;
-                }
-            }
         );
         $this->assertTrue(Validator::check([$this->element]));
     }
@@ -118,10 +87,8 @@ class CallbackTest extends _TestCase
     public function testCallbackClassFalse()
     {
         $this->element->addRule(Rules::CALLBACK, null, [
-            [
-                new ClassCheck(),
-                '_checkFalse'
-            ]
+            new ClassCheck(),
+            '_checkFalse'
         ]);
         $this->assertFalse(Validator::check([$this->element]));
     }
@@ -129,10 +96,8 @@ class CallbackTest extends _TestCase
     public function testCallbackClassTrue()
     {
         $this->element->addRule(Rules::CALLBACK, null, [
-            [
-                new ClassCheck(),
-                '_checkTrue'
-            ]
+            new ClassCheck(),
+            '_checkTrue'
         ]);
         $this->assertTrue(Validator::check([$this->element]));
     }
@@ -147,6 +112,7 @@ function checkFunctionReturnTrue()
 {
     return true;
 }
+
 
 class ClassCheck
 {

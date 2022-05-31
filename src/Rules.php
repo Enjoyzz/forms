@@ -5,15 +5,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms;
 
 use Enjoys\Forms\Rule;
-use Enjoys\Forms\Traits\Request;
 
-/**
- * @author Enjoys
- */
-class Rules
+interface Rules
 {
-    use Request;
-
 
     public const CALLBACK = Rule\Callback::class;
     public const CAPTCHA = Rule\Captcha::class;
@@ -24,84 +18,4 @@ class Rules
     public const REQUIRED = Rule\Required::class;
     public const UPLOAD = Rule\Upload::class;
 
-    /**
-     *
-     * @var string|null
-     */
-    private ?string $message;
-
-    /**
-     *
-     * @var array
-     */
-    private array $params = [];
-
-
-    /**
-     *
-     * @param string|null $message
-     * @param mixed $params
-     */
-    public function __construct(?string $message = null, $params = [])
-    {
-        $this->setParams($params);
-        $this->message = $this->setMessage($message);
-    }
-
-    /**
-     *
-     * @param mixed $params
-     * @return void
-     */
-    public function setParams($params): void
-    {
-
-        if (is_array($params)) {
-            $this->params = $params;
-            return;
-        }
-        $this->params[] = $params;
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
-     *
-     * @param string|int $key
-     * @return mixed|null
-     */
-    public function getParam($key)
-    {
-        if (isset($this->params[$key])) {
-            return $this->params[$key];
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @param string|null $message
-     * @return string|null
-     */
-    public function setMessage(?string $message = null): ?string
-    {
-        return $this->message = $message;
-    }
-
-    /**
-     *
-     * @return string|null
-     */
-    public function getMessage(): ?string
-    {
-
-        return $this->message;
-    }
 }

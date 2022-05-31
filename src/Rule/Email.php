@@ -6,19 +6,22 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
-class Email extends Rules implements RuleInterface
+class Email implements RuleInterface
 {
+    use Request;
+
 //    private $idn_to_ascii = false;
 
-    public function setMessage(?string $message = null): ?string
+    private string $message;
+
+    public function __construct(?string $message = null)
     {
-        if (is_null($message)) {
-            $message = 'Не правильно введен email';
-        }
-        return parent::setMessage($message);
+        $this->message = $message ?? 'Не правильно введен email';
     }
+
+
 
     /**
      * @psalm-suppress PossiblyNullReference
@@ -33,9 +36,10 @@ class Email extends Rules implements RuleInterface
             'post' => $this->getRequest()->getPostData()->toArray(),
             default => []
         };
+        /** @var string $value */
         $value = \getValueByIndexPath($element->getName(), $requestData);
         if ($this->check(\trim($value)) === false) {
-            $element->setRuleError($this->getMessage());
+            $element->setRuleError($this->message);
             return false;
         }
         return true;

@@ -31,16 +31,14 @@ class Csrf extends Hidden
         $this->addRule(
             Rules::CALLBACK,
             'CSRF Attack detected',
-            [
-                function (string $key) {
-                    /** @psalm-suppress  PossiblyNullArgument */
-                    if (password_verify($key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))) {
-                        return true;
-                    }
-                    throw new CsrfAttackDetected('CSRF Token is invalid');
-                },
-                $csrfSecret
-            ]
+            function (string $key) {
+                /** @psalm-suppress  PossiblyNullArgument, MixedArgument */
+                if (password_verify($key, $this->getRequest()->getPostData(Form::_TOKEN_CSRF_, ''))) {
+                    return true;
+                }
+                throw new CsrfAttackDetected('CSRF Token is invalid');
+            },
+            $csrfSecret
         );
     }
 

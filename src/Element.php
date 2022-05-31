@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Closure;
 use Enjoys\Forms\Interfaces\ElementInterface;
 use Enjoys\Forms\Interfaces\Fillable;
 use Enjoys\Forms\Traits\Attributes;
@@ -20,28 +21,18 @@ abstract class Element implements ElementInterface
     protected string $name;
     protected string $type = '';
 
-    /**
-     *
-     * @var string|null
-     */
     protected ?string $label = null;
 
     /**
      * Флаг для обозначения обязательности заполнения этого элемента или нет
-     * @var bool
      */
     protected bool $required = false;
 
-    /**
-     *
-     * @var Form|null
-     */
     protected ?Form $form = null;
 
-    /**
-     * @param string $name
-     * @param string|null $label
-     */
+    protected bool $allowSameNames = false;
+
+
     public function __construct(string $name, string $label = null)
     {
         $this->setRequest();
@@ -70,20 +61,11 @@ abstract class Element implements ElementInterface
         }
     }
 
-    /**
-     *
-     * @return Form
-     */
     public function getForm(): ?Form
     {
         return $this->form;
     }
 
-
-    /**
-     *
-     * @return void
-     */
     public function unsetForm(): void
     {
         $this->form = null;
@@ -97,23 +79,14 @@ abstract class Element implements ElementInterface
         $this->unsetForm();
     }
 
-    /**
-     *
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     *
-     * @param string $name
-     * @return $this
-     */
     protected function setName(string $name): ElementInterface
     {
-        $this->name = $name;
+        $this->name = trim($name);
         $this->setAttributes(
             AttributeFactory::createFromArray([
                 'id' => $this->name,
@@ -124,39 +97,26 @@ abstract class Element implements ElementInterface
         return $this;
     }
 
-    /**
-     *
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     *
-     * @param string|null $title
-     * @return $this
-     */
     public function setLabel(?string $title = null): ElementInterface
     {
         $this->label = $title;
         return $this;
     }
 
-    /**
-     *
-     * @return string|null
-     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
-
     protected function setDefault(mixed $value = null): self
     {
         if (is_array($value)) {
+            /** @var array<Closure|scalar|null> $value */
             $this->setAttribute(
                 AttributeFactory::create('value', $value[0])
             );
@@ -174,5 +134,10 @@ abstract class Element implements ElementInterface
     public function baseHtml(): string
     {
         return "<input type=\"{$this->getType()}\"{$this->getAttributesString()}>";
+    }
+
+    public function isAllowSameNames(): bool
+    {
+        return $this->allowSameNames;
     }
 }

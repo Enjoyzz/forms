@@ -11,7 +11,13 @@ use Webmozart\Assert\Assert;
 
 final class AttributeFactory
 {
-    public static function create(string $name, mixed $value = null): AttributeInterface
+    /**
+     * @param string $name
+     * @param Closure|scalar|null $value
+     * @return AttributeInterface
+     * @noinspection PhpMissingParamTypeInspection
+     */
+    public static function create(string $name, $value = null): AttributeInterface
     {
         return self::getClass($name)->add($value);
     }

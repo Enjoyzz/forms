@@ -6,8 +6,10 @@ namespace Enjoys\Forms;
 
 final class Helper
 {
+
     public static function arrayRecursiveSearchKeyMap(mixed $needle, array $haystack): array|null
     {
+        /** @psalm-suppress MixedAssignment */
         foreach ($haystack as $firsLevelKey => $value) {
             if ($needle === $value) {
                 return array($firsLevelKey);

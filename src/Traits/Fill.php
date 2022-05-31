@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Forms\AttributeCollection;
+use Closure;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
+use Enjoys\Forms\Interfaces\AttributeInterface;
 use Enjoys\Forms\Interfaces\Fillable;
 
 trait Fill
 {
+    /**
+     * @var array<array-key, Element&Fillable>
+     */
     private array $elements = [];
     private string $parentName = '';
     /**
@@ -36,7 +40,7 @@ trait Fill
 //    }
 
     /**
-     * @param array|\Closure $data
+     * @param array|Closure $data
      * @param bool $useTitleAsValue
      * @return Fillable
      * @since 3.4.1 Можно использовать замыкания для заполнения. Анонимная функция должна возвращать массив.
@@ -50,9 +54,10 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill($data, bool $useTitleAsValue = false): Fillable
+    public function fill(array|Closure $data, bool $useTitleAsValue = false): Fillable
     {
-        if ($data instanceof \Closure) {
+        if ($data instanceof Closure) {
+            /** @var mixed $data */
             $data = $data();
         }
 
@@ -60,7 +65,9 @@ trait Fill
             throw new \InvalidArgumentException('Fill data must be array or closure returned array');
         }
 
+        /** @var scalar|array $title */
         foreach ($data as $value => $title) {
+
             $fillHandler = new FillHandler($value, $title, $useTitleAsValue);
 
             /** @var class-string<Fillable&Element> $class */
@@ -70,10 +77,11 @@ trait Fill
 
             $element->setAttributes(AttributeFactory::createFromArray($fillHandler->getAttributes()), 'fill');
 
-            /** @var AttributeCollection $fillCollection */
             $fillCollection = $element->getAttributeCollection('fill');
-            foreach ($fillCollection as $attr) {
-                    $element->setAttribute($attr);
+
+            /** @var AttributeInterface $attribute */
+            foreach ($fillCollection as $attribute) {
+                $element->setAttribute($attribute);
             }
 
             $this->addElement($element);
@@ -82,7 +90,7 @@ trait Fill
     }
 
     /**
-     * @return Element[]
+     * @psalm-return array<array-key, Element&Fillable>
      */
     public function getElements(): array
     {

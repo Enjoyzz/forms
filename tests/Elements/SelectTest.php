@@ -225,7 +225,7 @@ class SelectTest extends _TestCase
         ], true);
 
         /** @var Select $select */
-        $select = $form->getElements()['name'];
+        $select = $form->getElement('name');
 
         $this->assertNotNull($select->getElements()[1]->getAttribute('selected'));
         $this->assertNull($select->getElements()[0]->getAttribute('selected'));
@@ -261,7 +261,7 @@ class SelectTest extends _TestCase
         ;
 
         /** @var Select $select */
-        $select = $form->getElements()['name2'];
+        $select = $form->getElement('name2[]');
         $this->assertNotNull($select->getElements()[0]->getAttribute('selected'));
         $this->assertNull($select->getElements()[1]->getAttribute('selected'));
         $this->assertNotNull($select->getElements()[2]->getAttribute('selected'));
@@ -279,7 +279,7 @@ class SelectTest extends _TestCase
         ;
 
         /** @var Select $select */
-        $select = $form->getElements()['name2'];
+        $select = $form->getElement('name2[]');
         $this->assertNotNull($select->getElements()[0]->getAttribute('selected'));
         $this->assertNull($select->getElements()[1]->getAttribute('selected'));
         $this->assertNotNull($select->getElements()[2]->getAttribute('selected'));
@@ -322,4 +322,33 @@ class SelectTest extends _TestCase
         $this->assertNotNull($elements[2]->getAttribute('selected'));
     }
 
+
+    /**
+     * Работает, если все элементы с одинаковыми иманами будут multiple
+     * @return void
+     */
+    public function testElementsWithSameNames()
+    {
+        $form = new Form();
+        $form->removeElement($form->getElement(Form::_TOKEN_SUBMIT_));
+        $form->removeElement($form->getElement(Form::_TOKEN_CSRF_));
+
+        $form->setDefaults([
+            'foo' => [
+                2,4
+            ]
+        ]);
+
+        $element = $form->select('foo', 'foo1')->setMultiple()->fill([1,2,3], true);
+        $element2 = $form->select('foo', 'foo2')->setMultiple()->fill([4,5,6], true);
+
+        $this->assertCount(2, $form->getElements());
+
+        $this->assertNull($element->getElements()[0]->getAttribute('selected'));
+        $this->assertNotNull($element->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($element->getElements()[2]->getAttribute('selected'));
+        $this->assertNotNull($element2->getElements()[0]->getAttribute('selected'));
+        $this->assertNull($element2->getElements()[1]->getAttribute('selected'));
+        $this->assertNull($element2->getElements()[2]->getAttribute('selected'));
+    }
 }

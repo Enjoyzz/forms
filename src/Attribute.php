@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms;
 
+use Closure;
 use Enjoys\Forms\Interfaces\AttributeInterface;
 use Webmozart\Assert\Assert;
 use Webmozart\Assert\InvalidArgumentException;
@@ -12,6 +13,9 @@ abstract class Attribute implements AttributeInterface
 {
     protected string $name = '';
 
+    /**
+     * @var string[]
+     */
     private array $values = [];
 
     protected bool $withoutValue = true;
@@ -77,6 +81,9 @@ abstract class Attribute implements AttributeInterface
         return sprintf('%s="%s"', $this->getName(), $this->getValueString());
     }
 
+    /**
+     * @return string[]
+     */
     public function getValues(): array
     {
         return $this->values;
@@ -87,6 +94,10 @@ abstract class Attribute implements AttributeInterface
         return implode($this->separator, $this->getValues());
     }
 
+    /**
+     * @param string[] $values
+     * @return void
+     */
     public function set(array $values): void
     {
         $this->clear();
@@ -100,14 +111,23 @@ abstract class Attribute implements AttributeInterface
         $this->values = [];
     }
 
-    public function has(mixed $value): bool
+    public function has(string $value): bool
     {
         return in_array($value, $this->values, true);
     }
 
 
-    public function add(mixed $value): AttributeInterface
+    /**
+     * @param Closure|scalar|null $value
+     * @return AttributeInterface
+     */
+    public function add($value): AttributeInterface
     {
+        if ($value instanceof Closure) {
+            /** @var null|scalar $value */
+            $value = $value();
+        }
+
         $value = $this->normalize($value);
 
         if ($value === null) {
@@ -116,10 +136,11 @@ abstract class Attribute implements AttributeInterface
 
         if (!$this->multiple) {
             $this->clear();
-        } else {
-            $value = explode($this->separator, $value);
         }
-        foreach ((array)$value as $item) {
+
+        $value = (!empty($this->separator)) ? explode($this->separator, $value) : (array) $value;
+
+        foreach ($value as $item) {
             if (!$this->has($item)) {
                 $this->values[] = $item;
             }
@@ -142,23 +163,11 @@ abstract class Attribute implements AttributeInterface
     }
 
     /**
-     * @param mixed $value
-     * @return string|null
      * @throws InvalidArgumentException
      */
-    private function normalize(mixed $value): ?string
+    private function normalize(float|bool|int|string|null $value): ?string
     {
-        if ($value instanceof \Closure) {
-            $value = $value();
-        }
-
         Assert::nullOrScalar($value);
-
-        return ($value === null) ? null : $this->safety((string)$value);
-    }
-
-    private function safety(string $value): string
-    {
-        return \htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
+        return ($value === null) ? null : \htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
     }
 }

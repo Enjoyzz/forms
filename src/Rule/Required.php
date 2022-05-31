@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\Forms\Rules;
+use Enjoys\Forms\Traits\Request;
 
 /**
  * Description of Required
@@ -15,15 +15,18 @@ use Enjoys\Forms\Rules;
  * $form->text($name, $title)->addRule('required', $message);
  *
  */
-class Required extends Rules implements RuleInterface
+class Required implements RuleInterface
 {
-    public function setMessage(?string $message = null): ?string
+    use Request;
+
+    private ?string $message;
+
+    public function __construct(?string $message = null)
     {
-        if (is_null($message)) {
-            $message = 'Обязательно для заполнения, или выбора';
-        }
-        return parent::setMessage($message);
+        $this->message = $message ?? 'Обязательно для заполнения, или выбора';
     }
+
+
     /**
      * @psalm-suppress PossiblyNullReference
      * @param Ruleable&Element $element
@@ -38,7 +41,7 @@ class Required extends Rules implements RuleInterface
         };
         $_value = \getValueByIndexPath($element->getName(), $requestData);
         if (!$this->check($_value)) {
-            $element->setRuleError($this->getMessage());
+            $element->setRuleError($this->message);
             return false;
         }
         return true;

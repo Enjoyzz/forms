@@ -33,6 +33,7 @@ class HtmlRenderer extends AbstractRenderer
 
     public static function createTypeRender(Element $element): TypeRenderInterface
     {
+        /** @var false|string $typeRenderClass */
         $typeRenderClass = Helper::arrayRecursiveSearchKeyMap(get_class($element), self::_MAP_)[0] ?? false;
         if ($typeRenderClass === false || !class_exists($typeRenderClass)) {
             return new TypesRender\Input($element);
