@@ -1,0 +1,10 @@
+.* export-ignore
+infection.phar export-ignore
+infection.phar.asc export-ignore
+infection.json.dist export-ignore
+phpunit.xml.dist export-ignore
+psalm.xml export-ignore
+TODO.md export-ignore
+tests/ export-ignore
+example/ export-ignore
+logs/ export-ignore
