@@ -26,17 +26,21 @@ class Upload implements RuleInterface
     }
 
     /**
-     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress MixedArgument
      * @param Ruleable&Element $element
      * @return bool
      */
     public function validate(Ruleable $element): bool
     {
-        /** @var UploadedFileInterface|false $value */
-        $value = \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->toArray());
+        /** @var UploadedFileInterface[] $uploadedFiles */
+        $uploadedFiles = $this->getUploadedFiles(
+            \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->toArray())
+        );
 
-        if (false === $this->check($value, $element)) {
-            return false;
+        foreach ($uploadedFiles as $uploadedFile) {
+            if (false === $this->check($uploadedFile, $element)) {
+                return false;
+            }
         }
         return true;
     }
@@ -62,5 +66,18 @@ class Upload implements RuleInterface
             }
         }
         return true;
+    }
+
+    /**
+     * @param false|UploadedFileInterface[]|UploadedFileInterface $item
+     * @return array
+     * @noinspection PhpMissingParamTypeInspection
+     */
+    private function getUploadedFiles($item): array
+    {
+        if (is_array($item)) {
+            return $item;
+        }
+        return [$item];
     }
 }

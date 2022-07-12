@@ -67,6 +67,6 @@ class FileTest extends TestCase
     {
         $el = new File('name');
         $el->setMultiple();
-        $this->assertSame('<input type="file" id="name" name="name" multiple>', $el->baseHtml());
+        $this->assertSame('<input type="file" multiple name="name[]" id="name">', $el->baseHtml());
     }
 }

@@ -7,6 +7,7 @@ namespace Enjoys\Forms\Elements;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Exception\ExceptionRule;
+use Enjoys\Forms\Interfaces\AttributeInterface;
 use Enjoys\Forms\Interfaces\Descriptionable;
 use Enjoys\Forms\Interfaces\Ruleable;
 use Enjoys\Forms\Rules;
@@ -37,6 +38,26 @@ class File extends Element implements Ruleable, Descriptionable
     {
         $this->setAttribute(AttributeFactory::create('multiple'));
         return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): File
+    {
+        parent::setAttribute($attribute, $namespace);
+        $this->isMultiple();
+        return $this;
+    }
+
+    private function isMultiple(): void
+    {
+        if ($this->getAttribute('multiple') !== null && !str_ends_with($this->getName(), '[]')) {
+            $id = $this->getAttribute('id') ?? AttributeFactory::create('id', $this->getName());
+            $this->setName($this->getName() . '[]');
+            // т.к. id уже переписан, восстанавливаем его
+            $this->setAttribute($id);
+        }
     }
 
     public function addAccept(string $accept): self
