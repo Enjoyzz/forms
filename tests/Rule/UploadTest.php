@@ -20,30 +20,30 @@ class UploadTest extends _TestCase
     use Reflection;
 
     public function testValidateUploadManyRuled()
-{
-    $fileElement = new File('foo');
+    {
+        $fileElement = new File('foo');
 
-    $request = new ServerRequestWrapper(
-        new ServerRequest(uploadedFiles: [
-            'foo' => UploadedFileCreator::createFromArray([
-                'name' => 'test.pdf',
-                'type' => 'application/pdf',
-                'size' => 1000,
-                'tmp_name' => 'test.pdf',
-                'error' => 0
-            ])
-        ], parsedBody: [], method: 'post')
-    );
+        $request = new ServerRequestWrapper(
+            new ServerRequest(uploadedFiles: [
+                'foo' => UploadedFileCreator::createFromArray([
+                    'name' => 'test.pdf',
+                    'type' => 'application/pdf',
+                    'size' => 1000,
+                    'tmp_name' => 'test.pdf',
+                    'error' => 0
+                ])
+            ], parsedBody: [], method: 'post')
+        );
 
-    $uploadRule = new Upload([
-        Upload::REQUIRED,
-        Upload::EXTENSIONS => [
-            'pdf'
-        ]
-    ]);
-    $uploadRule->setRequest($request);
-    $this->assertEquals(true, $uploadRule->validate($fileElement));
-}
+        $uploadRule = new Upload([
+            Upload::REQUIRED,
+            Upload::EXTENSIONS => [
+                'pdf'
+            ]
+        ]);
+        $uploadRule->setRequest($request);
+        $this->assertEquals(true, $uploadRule->validate($fileElement));
+    }
 
     public function testValidateUploadRuleFail()
     {
@@ -140,28 +140,69 @@ class UploadTest extends _TestCase
         );
     }
 
-//    /**
-//     * @dataProvider dataForTestParseRuleOpts
-//     */
-//    public function testParseRuleOpts($input, $expect)
-//    {
-//        self::markTestSkipped();
-//        if ($expect === false) {
-//            $this->expectException(InvalidArgumentException::class);
-//        }
-//        $rule = new Upload();
-//        $method = $this->getPrivateMethod(Upload::class, 'parseRuleOpts');
-//        $result = $method->invokeArgs($rule, [$input]);
-//        $this->assertSame($expect, $result);
-//    }
-//
-//    public function dataForTestParseRuleOpts()
-//    {
-//        return [
-//               [[1, 2], false],
-//               [[1, '2'], ['param' => 1, 'message' => '2']],
-//               [[[1], null], ['param' => [1], 'message' => null]],
-//               ['xl', ['param' => 'xl', 'message' => null]],
-//        ];
-//    }
+    public function testValidateUploadRuledWithMultiple()
+    {
+        $fileElement = new File('foo');
+        $fileElement->setMultiple();
+
+        $request = new ServerRequestWrapper(
+            new ServerRequest(uploadedFiles: [
+                'foo' => [
+                    UploadedFileCreator::createFromArray([
+                        'name' => 'test.pdf',
+                        'type' => 'application/pdf',
+                        'size' => 1000,
+                        'tmp_name' => 'test.pdf',
+                        'error' => 0
+                    ]),
+                    UploadedFileCreator::createFromArray([
+                        'name' => 'test2.pdf',
+                        'type' => 'application/pdf',
+                        'size' => 1002,
+                        'tmp_name' => 'test2.pdf',
+                        'error' => 0
+                    ])
+                ]
+            ], parsedBody: [], method: 'post')
+        );
+
+        $uploadRule = new Upload([
+            Upload::REQUIRED,
+            Upload::EXTENSIONS => [
+                'pdf'
+            ]
+        ]);
+        $uploadRule->setRequest($request);
+        $this->assertEquals(true, $uploadRule->validate($fileElement));
+    }
+
+    public function testValidateUploadRuleFailMultiple()
+    {
+        $fileElement = new File('foo');
+        $fileElement->setMultiple();
+        $request = new ServerRequestWrapper(
+            new ServerRequest(uploadedFiles: [
+                'food' => [
+                    UploadedFileCreator::createFromArray([
+                        'name' => 'test.pdf',
+                        'type' => 'application/pdf',
+                        'size' => 1000,
+                        'tmp_name' => 'test.pdf',
+                        'error' => 0
+                    ]),
+                    UploadedFileCreator::createFromArray([
+                        'name' => 'test2.pdf',
+                        'type' => 'application/pdf',
+                        'size' => 1000,
+                        'tmp_name' => 'test2.pdf',
+                        'error' => 0
+                    ])
+                ]
+            ], parsedBody: [], method: 'post')
+        );
+
+        $uploadRule = new Upload([Upload::REQUIRED]);
+        $uploadRule->setRequest($request);
+        $this->assertEquals(false, $uploadRule->validate($fileElement));
+    }
 }
