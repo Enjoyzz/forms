@@ -57,7 +57,7 @@ class ExtensionsCheckTest extends _TestCase
                     'name' => 'test.pdf',
                     'type' => 'application/pdf',
                     'size' => 1000,
-                    'tmp_name' => 'test.pdf',
+                    'tmp_name' => 'test.Pdf',
                     'error' => 0
                 ])
 
