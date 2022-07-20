@@ -18,7 +18,7 @@ final class ExtensionsCheck implements UploadCheckInterface
     {
         $this->value = $value;
         $this->element = $element;
-        $this->expectedExtensions = \array_map('trim', \explode(",", $expectedExtensions));
+        $this->expectedExtensions = \array_map('trim', \explode(",", \strtolower($expectedExtensions)));
         $this->message = $message;
     }
 
@@ -34,7 +34,7 @@ final class ExtensionsCheck implements UploadCheckInterface
         }
 
 
-        if (!in_array($extension, $this->expectedExtensions)) {
+        if (!in_array(\strtolower($extension), $this->expectedExtensions, true)) {
             $this->element->setRuleError($this->message);
             return false;
         }
