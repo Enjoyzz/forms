@@ -248,9 +248,11 @@ class FormTest extends _TestCase
 
     public function testSetDefaultsWithInitialization()
     {
-        $form = new Form(defaultsHandler: new DefaultsHandler([
+        $form = new Form(
+            defaultsHandler: new DefaultsHandler([
             'foo' => 'bar'
-        ]));
+        ])
+        );
         $element = $form->text('foo');
         $this->assertSame('bar', $element->getAttribute('value')->getValueString());
     }
@@ -367,6 +369,26 @@ class FormTest extends _TestCase
         $property->setValue($form, true);
         $form->text('foo')->addRule(Rules::REQUIRED);
         $this->assertTrue($form->isSubmitted());
+    }
+
+    public function testAddElementAfter()
+    {
+        $form = new Form(method: 'get');
+        $form->text('elem1');
+        $form->text('elem2');
+        $form->text('elem3');
+        $elemInjected = new Text('injected');
+        $form->addElement($elemInjected, 'elem1');
+        $this->assertSame([
+            '_token_submit',
+            'elem1',
+            'injected',
+            'elem2',
+            'elem3',
+        ],
+            array_map(function ($item) {
+                return $item->getName();
+            }, $form->getElements()));
     }
 
 

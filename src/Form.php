@@ -129,10 +129,10 @@ class Form
      * @param Element $element
      * @return $this
      */
-    public function addElement(Element $element): self
+    public function addElement(Element $element, string $after = null): self
     {
         $element->setForm($this);
-        return $this->parentAddElement($element);
+        return $this->parentAddElement($element, $after);
     }
 
 

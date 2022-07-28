@@ -70,7 +70,7 @@ trait Container
      * @return $this
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function addElement(Element $element)
+    public function addElement(Element $element, string $after = null)
     {
         $element->setRequest($this->getRequest());
         if ($element->prepare() === true) {
@@ -85,6 +85,10 @@ trait Container
             return $this;
         }
 
+        if ($after !== null) {
+            $this->elements = array_insert_after($this->elements, $this->getElementKey($after), $element);
+            return $this;
+        }
 
         $this->elements[] = $element;
         return $this;
