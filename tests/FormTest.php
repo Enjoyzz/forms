@@ -411,5 +411,26 @@ class FormTest extends _TestCase
             }, $form->getElements()));
     }
 
+    // The after property has high priority
+    public function testAddElementBeforeAndAfterAtTheSameTime()
+    {
+        $form = new Form(method: 'get');
+        $form->text('elem1');
+        $form->text('elem2');
+        $form->text('elem3');
+        $elemInjected = new Text('injected');
+        $form->addElement($elemInjected, before: 'elem2', after: 'elem2');
+        $this->assertSame([
+            '_token_submit',
+            'elem1',
+            'elem2',
+            'injected',
+            'elem3',
+        ],
+            array_map(function ($item) {
+                return $item->getName();
+            }, $form->getElements()));
+    }
+
 
 }
