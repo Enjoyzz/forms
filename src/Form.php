@@ -94,7 +94,6 @@ class Form
      */
     public function setDefaults(array|Closure $data): Form
     {
-
         if ($this->submitted === true) {
             $data = array_filter(
                 match ($this->getMethod()) {
@@ -127,12 +126,14 @@ class Form
      * @use Element::setForm()
      * @use Element::prepare()
      * @param Element $element
+     * @param string|null $before
+     * @param string|null $after
      * @return $this
      */
-    public function addElement(Element $element, string $after = null): self
+    public function addElement(Element $element, string $before = null, string $after = null): self
     {
         $element->setForm($this);
-        return $this->parentAddElement($element, $after);
+        return $this->parentAddElement($element, $before, $after);
     }
 
 
@@ -196,7 +197,6 @@ class Form
 
     private function setTokenSubmitElement(): void
     {
-
         $tokenSubmit = new TokenSubmit($this);
         $this->addElement($tokenSubmit->getElement());
 

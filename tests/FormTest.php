@@ -250,8 +250,8 @@ class FormTest extends _TestCase
     {
         $form = new Form(
             defaultsHandler: new DefaultsHandler([
-            'foo' => 'bar'
-        ])
+                'foo' => 'bar'
+            ])
         );
         $element = $form->text('foo');
         $this->assertSame('bar', $element->getAttribute('value')->getValueString());
@@ -378,7 +378,27 @@ class FormTest extends _TestCase
         $form->text('elem2');
         $form->text('elem3');
         $elemInjected = new Text('injected');
-        $form->addElement($elemInjected, 'elem1');
+        $form->addElement($elemInjected, after: 'elem1');
+        $this->assertSame([
+            '_token_submit',
+            'elem1',
+            'injected',
+            'elem2',
+            'elem3',
+        ],
+            array_map(function ($item) {
+                return $item->getName();
+            }, $form->getElements()));
+    }
+
+    public function testAddElementBefore()
+    {
+        $form = new Form(method: 'get');
+        $form->text('elem1');
+        $form->text('elem2');
+        $form->text('elem3');
+        $elemInjected = new Text('injected');
+        $form->addElement($elemInjected, before: 'elem2');
         $this->assertSame([
             '_token_submit',
             'elem1',

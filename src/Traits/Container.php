@@ -67,10 +67,13 @@ trait Container
 
     /**
      * @param Element $element
+     * @param string|null $before
+     * @param string|null $after
      * @return $this
      * @noinspection PhpMissingReturnTypeInspection
+     * @psalm-suppress MixedPropertyTypeCoercion
      */
-    public function addElement(Element $element, string $after = null)
+    public function addElement(Element $element, string $before = null, string $after = null)
     {
         $element->setRequest($this->getRequest());
         if ($element->prepare() === true) {
@@ -87,6 +90,11 @@ trait Container
 
         if ($after !== null) {
             $this->elements = array_insert_after($this->elements, $this->getElementKey($after), $element);
+            return $this;
+        }
+
+        if ($before !== null) {
+            $this->elements = array_insert_before($this->elements, $this->getElementKey($before), $element);
             return $this;
         }
 
