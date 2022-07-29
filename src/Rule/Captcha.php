@@ -23,7 +23,7 @@ class Captcha implements RuleInterface
 
     public function __construct(?string $message = null)
     {
-        $this->message = $message ;
+        $this->message = $message;
     }
 
     /**
@@ -33,11 +33,7 @@ class Captcha implements RuleInterface
     public function validate(Ruleable $element): bool
     {
         /** @var \Enjoys\Forms\Elements\Captcha $element */
-        if ($element->validate() === false) {
-            $element->setRuleError($this->message);
-            return false;
-        }
-        return true;
+        return $element->validate();
     }
 
 
