@@ -14,6 +14,10 @@ $form->setDefaults([
     'radio-3' => 1,
     'super' => 'super',
     'super-text' => 'super-text',
+    'select' => [
+        'test' => [2,3]
+    ],
+    'select2' => [2,3]
 ]);
 
 
@@ -22,6 +26,8 @@ $form->radio('radio2', 'radio2')->setDescription('checked: 3')->fill([1,2,3], tr
 $form->radio('radio-3', 'radio-3')->setDescription('checked: 1')->fill([1,2,3], true);
 $form->text('super-text', 'super-text')->setDescription('need fill `super-text`');
 $form->text('super', 'super')->setDescription('need fill `super`');
+$form->select('select[test][]')->setMultiple()->fill([1,2,3,4,5], true);
+$form->select('select2')->setMultiple()->fill([1,2,3,4,5], true);
 
 $renderer = new HtmlRenderer($form);
 echo $renderer->output();
