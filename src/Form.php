@@ -79,12 +79,15 @@ class Form
         if ($this->submitted === false) {
             return false;
         }
-
         if ($validate !== false) {
-            return Validator::check($this->getElements());
+            return $this->validate();
         }
-
         return true;
+    }
+
+    public function validate(): bool
+    {
+        return Validator::check($this->getElements());
     }
 
 
