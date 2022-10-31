@@ -42,7 +42,7 @@ class HtmlRenderer extends AbstractRenderer
         return new $typeRenderClass($element);
     }
 
-    private function rendererHiddenElements(): string
+    public function rendererHiddenElements(): string
     {
         $html = [];
         foreach ($this->getForm()->getElements() as $element) {
@@ -54,13 +54,19 @@ class HtmlRenderer extends AbstractRenderer
         return implode("\n", $html);
     }
 
-    private function rendererElements(): string
+    public function rendererElements(): string
     {
         $html = [];
         foreach ($this->getForm()->getElements() as $element) {
             $html[] = "<div>" . self::createTypeRender($element)->render() . "</div>";
         }
         return implode("\n", $html);
+    }
+
+    public function rendererElement(string $elementName): string
+    {
+        $element = $this->getForm()->getElement($elementName);
+        return "<div>" . self::createTypeRender($element)->render() . "</div>";
     }
 
     public function output(): string
