@@ -25,14 +25,16 @@ class TokenSubmit
 
     public function validate(): bool
     {
+        /** @var array $requestData */
+        $requestData = match ($this->form->getMethod()) {
+            'GET' => $this->form->getRequest()->getQueryParams(),
+            'POST' => $this->form->getRequest()->getParsedBody(),
+            default => []
+        };
         /** @var string $value */
         $value = \getValueByIndexPath(
             Form::_TOKEN_SUBMIT_,
-            match ($this->form->getMethod()) {
-                'GET' => $this->form->getRequest()->getQueryData()->toArray(),
-                'POST' => $this->form->getRequest()->getPostData()->toArray(),
-                default => []
-            }
+            $requestData
         );
 
         return $value == $this->getToken();

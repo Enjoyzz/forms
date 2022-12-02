@@ -7,7 +7,6 @@ use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
@@ -301,11 +300,9 @@ class SelectTest extends _TestCase
 
     public function testSetDefaultIfSubmitted()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                'name' => 3,
-            ])
-        );
+        $request = new ServerRequest(parsedBody: [
+            'name' => 3,
+        ]);
 
         $form = new Form(request: $request);
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');

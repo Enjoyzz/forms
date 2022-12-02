@@ -8,7 +8,6 @@ use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Rule\Required;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
@@ -23,9 +22,7 @@ class RequiredTest extends _TestCase
 
 
         $element->setRequest(
-            new ServerRequestWrapper(
-                new ServerRequest(queryParams: ['name' => [1, 2]], parsedBody: [], method: 'gEt')
-            )
+            new ServerRequest(queryParams: ['name' => [1, 2]], parsedBody: [], method: 'gEt')
         );
         $element->addRule(Rules::REQUIRED);
         $this->assertTrue(Validator::check([$element]));
@@ -35,9 +32,7 @@ class RequiredTest extends _TestCase
     {
         $element = new Checkbox('name');
         $element->setRequest(
-            new ServerRequestWrapper(
-                new ServerRequest(queryParams: ['name' => []], parsedBody: [], method: 'get')
-            )
+            new ServerRequest(queryParams: ['name' => []], parsedBody: [], method: 'get')
         );
         $element->addRule(Rules::REQUIRED);
         $this->assertFalse(Validator::check([$element]));

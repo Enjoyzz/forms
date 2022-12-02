@@ -81,7 +81,8 @@ trait Container
         }
 
 
-        if ($element->isAllowSameNames() === false
+        if (
+            $element->isAllowSameNames() === false
             && false !== $key = $this->getElementKey($element)
         ) {
             $this->elements[$key] = $element;
@@ -149,6 +150,4 @@ trait Container
         }
         return false;
     }
-
-
 }

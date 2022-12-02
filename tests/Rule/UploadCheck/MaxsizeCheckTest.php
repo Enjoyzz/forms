@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms\Rule\UploadCheck;
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\Forms\Rule\UploadCheck\MaxsizeCheck;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
@@ -21,22 +20,19 @@ class MaxsizeCheckTest extends _TestCase
 
     public function testCheckMaxsize()
     {
-
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
+        ], parsedBody: [], method: 'post');
 
-        $uploadRule = new MaxsizeCheck($request->getFilesData('foo'), $fileElement, 999);
+        $uploadRule = new MaxsizeCheck($request->getUploadedFiles()['foo'], $fileElement, 999);
 
 
         $this->assertEquals(
@@ -52,24 +48,21 @@ class MaxsizeCheckTest extends _TestCase
 
     public function test_checkMaxsize2()
     {
-
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
             ])
-        );
 
-        $uploadRule = new MaxsizeCheck($request->getFilesData('foo'), $fileElement, 1000);
+        ]);
+
+        $uploadRule = new MaxsizeCheck($request->getUploadedFiles()['foo'], $fileElement, 1000);
 
         $this->assertEquals(
             true,
@@ -79,23 +72,20 @@ class MaxsizeCheckTest extends _TestCase
 
     public function test_checkMaxsize3()
     {
+        $request = new ServerRequest(uploadedFiles: [
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
             ])
-        );
+
+        ]);
 
         $fileElement = new File('foo');
-        $uploadRule = new MaxsizeCheck($request->getFilesData('foo'), $fileElement, 10, 'big file');
+        $uploadRule = new MaxsizeCheck($request->getUploadedFiles()['foo'], $fileElement, 10, 'big file');
         $this->assertEquals(
             false,
             $uploadRule->check()
@@ -136,11 +126,9 @@ class MaxsizeCheckTest extends _TestCase
 
         $fileMock = $this->getMockBuilder(UploadedFileInterface::class)->getMock();
         $fileMock->expects($this->any())->method('getSize')->willReturn(null);
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => $fileMock
-            ])
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => $fileMock
+        ]);
 
         $uploadRule = new Upload([
             'maxsize' => 0
@@ -149,7 +137,7 @@ class MaxsizeCheckTest extends _TestCase
         $this->assertEquals(
             true,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );

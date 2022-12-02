@@ -4,7 +4,6 @@ namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
@@ -65,7 +64,6 @@ class RadioTest extends _TestCase
 
     public function test_fill()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v1 */
         $v1 = $elements[0];
@@ -74,7 +72,6 @@ class RadioTest extends _TestCase
 
     public function test_fill2()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v1 */
         $v1 = $elements[0];
@@ -83,7 +80,6 @@ class RadioTest extends _TestCase
 
     public function test_fill3()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v1 */
         $v1 = $elements[0];
@@ -92,7 +88,6 @@ class RadioTest extends _TestCase
 
     public function test_fill4()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
@@ -101,7 +96,6 @@ class RadioTest extends _TestCase
 
     public function test_fill5()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
@@ -110,7 +104,6 @@ class RadioTest extends _TestCase
 
     public function test_fill6()
     {
-
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
@@ -129,7 +122,6 @@ class RadioTest extends _TestCase
 
     public function test_prefix()
     {
-
         $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
@@ -144,7 +136,6 @@ class RadioTest extends _TestCase
 
     public function test_prefix2()
     {
-
         $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $this->assertSame('name', $obj->getAttribute('id')->getValueString());
@@ -155,7 +146,6 @@ class RadioTest extends _TestCase
 
     public function test_prefix3()
     {
-
         $obj = new Radio('name', 'title');
         $obj->setPrefixId('prefix_');
         $obj->fill([
@@ -173,10 +163,11 @@ class RadioTest extends _TestCase
 
     public function test_count_radio_element()
     {
-
         $obj = new Radio('name', 'title');
         $obj->fill([
-            1, 2, 3
+            1,
+            2,
+            3
         ], true);
 
         $this->assertCount(3, $obj->getElements());
@@ -184,10 +175,11 @@ class RadioTest extends _TestCase
 
     public function test_count_radio_element2()
     {
-
         $obj = new Radio('name', 'title');
         $obj->fill([
-            1, 1, 3
+            1,
+            1,
+            3
         ], true);
 
         $this->assertCount(3, $obj->getElements());
@@ -195,7 +187,6 @@ class RadioTest extends _TestCase
 
     public function test_count_radio_element3()
     {
-
         $obj = new Radio('name', 'title');
         $obj->fill([1], true)->fill([1], true);
 
@@ -204,7 +195,6 @@ class RadioTest extends _TestCase
 
     public function test_setDefault()
     {
-
         $form = new Form();
         $form->setDefaults([
             'name' => [1, 2]
@@ -218,11 +208,9 @@ class RadioTest extends _TestCase
 
     public function testSetDefaultIfSubmitted()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                'name' => 3,
-            ])
-        );
+        $request = new ServerRequest(parsedBody: [
+            'name' => 3,
+        ]);
 
         $form = new Form(request: $request);
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -242,7 +230,6 @@ class RadioTest extends _TestCase
 
     public function test_setDefault_simple()
     {
-
         $form = new Form();
         $form->setDefaults([
             'name' => 2
@@ -257,6 +244,9 @@ class RadioTest extends _TestCase
     public function test_basehtml()
     {
         $rb = new Radio('foo', 'bar');
-        $this->assertStringContainsString('<input type="radio" value="foo" id="foo" name=""><label for="foo">bar</label>', $rb->baseHtml());
+        $this->assertStringContainsString(
+            '<input type="radio" value="foo" id="foo" name=""><label for="foo">bar</label>',
+            $rb->baseHtml()
+        );
     }
 }

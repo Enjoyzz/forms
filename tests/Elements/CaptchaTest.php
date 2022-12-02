@@ -6,9 +6,9 @@ namespace Tests\Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Captcha;
 use Enjoys\Forms\Interfaces\CaptchaInterface;
 use Enjoys\Forms\Rules;
-use Enjoys\ServerRequestWrapperInterface;
 use Enjoys\Session\Session;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
 
 new Session();
 
@@ -25,7 +25,7 @@ class CaptchaTest extends TestCase
 
     public function testPrepare()
     {
-        $requestMock = $this->getMockBuilder(ServerRequestWrapperInterface::class)->getMock();
+        $requestMock = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $captchaMock = $this->getMockBuilder(CaptchaInterface::class)->getMock();
         $captchaMock->expects($this->any())->method('getRuleMessage')->willReturn('rule-message');
 
@@ -67,7 +67,7 @@ class CaptchaTest extends TestCase
     {
         $mockCaptcha = $this->getMockBuilder(CaptchaInterface::class)->getMock();
         $element = new Captcha($mockCaptcha);
-        $this->assertInstanceOf(ServerRequestWrapperInterface::class, $element->getRequest());
+        $this->assertInstanceOf(ServerRequestInterface::class, $element->getRequest());
     }
 
 

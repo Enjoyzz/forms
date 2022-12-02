@@ -66,6 +66,9 @@ class HtmlRenderer extends AbstractRenderer
     public function rendererElement(string $elementName): string
     {
         $element = $this->getForm()->getElement($elementName);
+        if ($element === null) {
+            return '';
+        }
         return "<div>" . self::createTypeRender($element)->render() . "</div>";
     }
 

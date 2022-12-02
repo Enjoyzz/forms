@@ -6,7 +6,6 @@ namespace Tests\Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\ServerRequestWrapper;
 use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -20,9 +19,7 @@ class EqualTest extends TestCase
         $class = "Enjoys\Forms\Elements\\" . $type;
         $el = new $class($name);
         $el->setRequest(
-            new ServerRequestWrapper(
-                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
-            )
+            new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
         );
         $el->addRule(Rules::EQUAL, $rule);
 

@@ -9,7 +9,6 @@ use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\Forms\Rules;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
@@ -23,17 +22,15 @@ class UploadTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
+        ], parsedBody: [], method: 'post');
 
         $uploadRule = new Upload([
             Upload::REQUIRED,
@@ -48,17 +45,15 @@ class UploadTest extends _TestCase
     public function testValidateUploadRuleFail()
     {
         $fileElement = new File('foo');
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'food' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'food' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
+        ], parsedBody: [], method: 'post');
 
         $uploadRule = new Upload([Upload::REQUIRED]);
         $uploadRule->setRequest($request);
@@ -73,19 +68,17 @@ class UploadTest extends _TestCase
         ]);
         $csrf = new Csrf($this->session);
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-            ], parsedBody: [
-                Form::_TOKEN_CSRF_ => $csrf->getCsrfToken($key)
-            ], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
+        ], parsedBody: [
+            Form::_TOKEN_CSRF_ => $csrf->getCsrfToken($key)
+        ], method: 'post');
 
         $form = new Form(request: $request);
 
@@ -109,22 +102,20 @@ class UploadTest extends _TestCase
         $this->expectExceptionMessage('Unknown Check Upload: [\Enjoys\Forms\Rule\UploadCheck\UnknownCheck]');
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => \UPLOAD_ERR_NO_FILE
-                ])
-
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => \UPLOAD_ERR_NO_FILE
             ])
-        );
+
+        ]);
         $uploadRule = new Upload(['unknown']);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
-        $testedMethod->invokeArgs($uploadRule, [$request->getFilesData('foo'), $fileElement]);
+        $testedMethod->invokeArgs($uploadRule, [$request->getUploadedFiles()['foo'], $fileElement]);
     }
 
     public function testValidateIfEmptyRulesParams()
@@ -145,26 +136,24 @@ class UploadTest extends _TestCase
         $fileElement = new File('foo');
         $fileElement->setMultiple();
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => [
-                    UploadedFileCreator::createFromArray([
-                        'name' => 'test.pdf',
-                        'type' => 'application/pdf',
-                        'size' => 1000,
-                        'tmp_name' => 'test.pdf',
-                        'error' => 0
-                    ]),
-                    UploadedFileCreator::createFromArray([
-                        'name' => 'test2.pdf',
-                        'type' => 'application/pdf',
-                        'size' => 1002,
-                        'tmp_name' => 'test2.pdf',
-                        'error' => 0
-                    ])
-                ]
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => [
+                UploadedFileCreator::createFromArray([
+                    'name' => 'test.pdf',
+                    'type' => 'application/pdf',
+                    'size' => 1000,
+                    'tmp_name' => 'test.pdf',
+                    'error' => 0
+                ]),
+                UploadedFileCreator::createFromArray([
+                    'name' => 'test2.pdf',
+                    'type' => 'application/pdf',
+                    'size' => 1002,
+                    'tmp_name' => 'test2.pdf',
+                    'error' => 0
+                ])
+            ]
+        ], parsedBody: [], method: 'post');
 
         $uploadRule = new Upload([
             Upload::REQUIRED,
@@ -180,26 +169,24 @@ class UploadTest extends _TestCase
     {
         $fileElement = new File('foo');
         $fileElement->setMultiple();
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'food' => [
-                    UploadedFileCreator::createFromArray([
-                        'name' => 'test.pdf',
-                        'type' => 'application/pdf',
-                        'size' => 1000,
-                        'tmp_name' => 'test.pdf',
-                        'error' => 0
-                    ]),
-                    UploadedFileCreator::createFromArray([
-                        'name' => 'test2.pdf',
-                        'type' => 'application/pdf',
-                        'size' => 1000,
-                        'tmp_name' => 'test2.pdf',
-                        'error' => 0
-                    ])
-                ]
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'food' => [
+                UploadedFileCreator::createFromArray([
+                    'name' => 'test.pdf',
+                    'type' => 'application/pdf',
+                    'size' => 1000,
+                    'tmp_name' => 'test.pdf',
+                    'error' => 0
+                ]),
+                UploadedFileCreator::createFromArray([
+                    'name' => 'test2.pdf',
+                    'type' => 'application/pdf',
+                    'size' => 1000,
+                    'tmp_name' => 'test2.pdf',
+                    'error' => 0
+                ])
+            ]
+        ], parsedBody: [], method: 'post');
 
         $uploadRule = new Upload([Upload::REQUIRED]);
         $uploadRule->setRequest($request);

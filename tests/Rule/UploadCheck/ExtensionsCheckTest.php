@@ -6,7 +6,6 @@ namespace Tests\Enjoys\Forms\Rule\UploadCheck;
 
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Rule\Upload;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
@@ -21,25 +20,23 @@ class ExtensionsCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
 
-            ], parsedBody: [], method: 'post')
-        );
+        ], parsedBody: [], method: 'post');
         $uploadRule = new Upload(['extensions' => ['doc, jpg', 'not support']]);
         $testedMethod = $this->getPrivateMethod(Upload::class, 'check');
         $this->assertEquals(
             false,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );
@@ -50,19 +47,16 @@ class ExtensionsCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.Pdf',
+                'error' => 0
+            ])
+        ], parsedBody: [], method: 'post');
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.Pdf',
-                    'error' => 0
-                ])
-
-            ], parsedBody: [], method: 'post')
-        );
         $uploadRule = new Upload([
             'extensions' => [
                 'doc, jpg, pdf',
@@ -73,7 +67,7 @@ class ExtensionsCheckTest extends _TestCase
         $this->assertEquals(
             true,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );
@@ -83,19 +77,18 @@ class ExtensionsCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
 
-            ], parsedBody: [], method: 'post')
-        );
+        ], parsedBody: [], method: 'post');
+
         $uploadRule = new Upload([
             'extensions' => 'doc'
         ]);
@@ -103,7 +96,7 @@ class ExtensionsCheckTest extends _TestCase
         $this->assertEquals(
             false,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );

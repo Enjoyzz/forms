@@ -6,6 +6,9 @@ namespace Enjoys\Forms;
 
 use Enjoys\Forms\Interfaces\AttributeInterface;
 
+/**
+ * @psalm-suppress MissingTemplateParam
+ */
 final class AttributeCollection implements \Countable, \IteratorAggregate
 {
     /**
@@ -80,6 +83,7 @@ final class AttributeCollection implements \Countable, \IteratorAggregate
     {
         return implode(' ', array_filter($this->collection, fn($item) => !empty($item->__toString())));
     }
+
 
     public function getIterator(): \ArrayIterator
     {

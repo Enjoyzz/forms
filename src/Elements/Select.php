@@ -68,10 +68,13 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
      * @return $this
      * @since 2.4.0
      * @since 3.4.0 added $useTitleAsValue, see Trait\Fill
-     *
      */
-    public function setOptgroup(string $label, array $data = [], array $attributes = [], bool $useTitleAsValue = false): Select
-    {
+    public function setOptgroup(
+        string $label,
+        array $data = [],
+        array $attributes = [],
+        bool $useTitleAsValue = false
+    ): Select {
         $optgroup = new Optgroup($label, $this->getName(), $this->defaultValue);
         $optgroup->setAttributes(AttributeFactory::createFromArray($attributes));
         $optgroup->fill($data, $useTitleAsValue);

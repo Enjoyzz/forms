@@ -1,13 +1,7 @@
 /phpmetrics/
 /vendor/
-/nbproject/private/
-/tests/coverage/
-/coverage/
-/*.cache
-/build/
-/.phpdoc/
-/docs/
-/.idea/
 /.tmp/
 /logs/
 /.phpunit.result.cache
+/composer.lock
+/phpunit.xml

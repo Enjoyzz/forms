@@ -67,7 +67,6 @@ trait Fill
 
         /** @var scalar|array $title */
         foreach ($data as $value => $title) {
-
             $fillHandler = new FillHandler($value, $title, $useTitleAsValue);
 
             /** @var class-string<Fillable&Element> $class */
