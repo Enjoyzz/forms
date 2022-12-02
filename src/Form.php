@@ -97,12 +97,14 @@ class Form
     public function setDefaults(array|Closure $data): Form
     {
         if ($this->submitted === true) {
+            /** @var array $requestData */
+            $requestData = match ($this->getMethod()) {
+                'GET' => $this->getRequest()->getQueryParams(),
+                'POST' => $this->getRequest()->getParsedBody(),
+                default => [],
+            };
             $data = array_filter(
-                match ($this->getMethod()) {
-                    'GET' => $this->getRequest()->getQueryParams(),
-                    'POST' => $this->getRequest()->getParsedBody(),
-                    default => [],
-                },
+                $requestData,
                 function ($k) {
                     return !in_array($k, [self::_TOKEN_CSRF_, self::_TOKEN_SUBMIT_]);
                 },

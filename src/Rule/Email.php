@@ -31,6 +31,7 @@ class Email implements RuleInterface
     public function validate(Ruleable $element): bool
     {
         $method = $this->getRequest()->getMethod();
+        /** @var array $requestData */
         $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryParams(),
             'post' => $this->getRequest()->getParsedBody(),

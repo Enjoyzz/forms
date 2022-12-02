@@ -43,6 +43,7 @@ class Equal implements RuleInterface
     {
 
         $method = $this->getRequest()->getMethod();
+        /** @var array $requestData */
         $requestData = match (strtolower($method)) {
             'get' => $this->getRequest()->getQueryParams(),
             'post' => $this->getRequest()->getParsedBody(),
