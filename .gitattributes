@@ -1,3 +1,5 @@
+* text=auto eol=lf
+
 .* export-ignore
 infection.phar export-ignore
 infection.phar.asc export-ignore
