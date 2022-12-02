@@ -15,8 +15,12 @@ final class MaxsizeCheck implements UploadCheckInterface
     private int|string $thresholdSize;
     private ?string $message;
 
-    public function __construct(false|UploadedFileInterface $value, Ruleable $element, int|string $thresholdSize, ?string $message = null)
-    {
+    public function __construct(
+        false|UploadedFileInterface $value,
+        Ruleable $element,
+        int|string $thresholdSize,
+        ?string $message = null
+    ) {
         $this->value = $value;
         $this->element = $element;
         $this->thresholdSize = $thresholdSize;

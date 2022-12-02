@@ -14,8 +14,12 @@ final class ExtensionsCheck implements UploadCheckInterface
     private array $expectedExtensions;
     private ?string $message;
 
-    public function __construct(false|UploadedFileInterface $value, Ruleable $element, string $expectedExtensions, ?string $message = null)
-    {
+    public function __construct(
+        false|UploadedFileInterface $value,
+        Ruleable $element,
+        string $expectedExtensions,
+        ?string $message = null
+    ) {
         $this->value = $value;
         $this->element = $element;
         $this->expectedExtensions = \array_map('trim', \explode(",", \strtolower($expectedExtensions)));

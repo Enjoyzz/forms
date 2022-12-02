@@ -13,7 +13,7 @@ class Submit extends Element
 
     public function __construct(string $name = null, string $title = null)
     {
-        if (is_null($name)){
+        if (is_null($name)) {
             $name = uniqid('submit');
         }
         parent::__construct($name, $title);

@@ -8,7 +8,6 @@ use Enjoys\Forms\Rule;
 
 interface Rules
 {
-
     public const CALLBACK = Rule\Callback::class;
     public const CAPTCHA = Rule\Captcha::class;
     public const EMAIL = Rule\Email::class;
@@ -17,5 +16,4 @@ interface Rules
     public const REGEXP = Rule\Regexp::class;
     public const REQUIRED = Rule\Required::class;
     public const UPLOAD = Rule\Upload::class;
-
 }

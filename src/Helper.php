@@ -6,7 +6,6 @@ namespace Enjoys\Forms;
 
 final class Helper
 {
-
     public static function arrayRecursiveSearchKeyMap(mixed $needle, array $haystack): array|null
     {
         /** @psalm-suppress MixedAssignment */
