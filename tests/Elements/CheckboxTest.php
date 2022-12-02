@@ -6,7 +6,6 @@ use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
@@ -208,7 +207,7 @@ class CheckboxTest extends _TestCase
         ]);
         $el = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
         $elements = $el->getElements();
-        $this->assertSame([1,2], $el->getDefaultValue());
+        $this->assertSame([1, 2], $el->getDefaultValue());
         $this->assertNotNull($elements[0]->getAttribute('checked'));
         $this->assertNotNull($elements[1]->getAttribute('checked'));
         $this->assertNull($elements[2]->getAttribute('checked'));
@@ -216,11 +215,9 @@ class CheckboxTest extends _TestCase
 
     public function testSetDefaultIfSubmitted()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                'name' => [3],
-            ])
-        );
+        $request = new ServerRequest(parsedBody: [
+            'name' => [3],
+        ]);
 
         $form = new Form(request: $request);
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -235,7 +232,7 @@ class CheckboxTest extends _TestCase
         ]);
         $el = $form->checkbox('name', 'title')->fill([1, 2, 3], true);
         $elements = $el->getElements();
-      //  $this->assertSame([3], $el->getDefaultValue());
+        //  $this->assertSame([3], $el->getDefaultValue());
         $this->assertNull($elements[0]->getAttribute('checked'));
         $this->assertNull($elements[1]->getAttribute('checked'));
         $this->assertNotNull($elements[2]->getAttribute('checked'));
@@ -280,7 +277,6 @@ class CheckboxTest extends _TestCase
     }
 
 
-
     public function testElementsWithSameNames()
     {
         $form = new Form();
@@ -289,12 +285,13 @@ class CheckboxTest extends _TestCase
 
         $form->setDefaults([
             'foo' => [
-                2,4
+                2,
+                4
             ]
         ]);
 
-        $element = $form->checkbox('foo', 'foo1')->fill([1,2,3], true);
-        $element2 = $form->checkbox('foo', 'foo2')->fill([4,5,6], true);
+        $element = $form->checkbox('foo', 'foo1')->fill([1, 2, 3], true);
+        $element2 = $form->checkbox('foo', 'foo2')->fill([4, 5, 6], true);
 
         $this->assertCount(2, $form->getElements());
 

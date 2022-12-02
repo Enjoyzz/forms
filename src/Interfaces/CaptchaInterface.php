@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Interfaces;
 
 use Enjoys\Forms\Element;
-use Enjoys\ServerRequestWrapperInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface CaptchaInterface
 {
@@ -15,9 +15,9 @@ interface CaptchaInterface
 
     public function renderHtml(Element $element): string;
 
-    public function setRequest(ServerRequestWrapperInterface $request): void;
+    public function setRequest(ServerRequestInterface $request): void;
 
-    public function getRequest(): ServerRequestWrapperInterface;
+    public function getRequest(): ServerRequestInterface;
 
     /**
      * @param Ruleable&Element $element

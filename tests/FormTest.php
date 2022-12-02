@@ -9,7 +9,6 @@ use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Session\Session;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
@@ -172,11 +171,9 @@ class FormTest extends _TestCase
 
     public function testSetDefaultsIfSubmittedMethodGet(): void
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'foo' => 'baz',
-            ], method: 'get')
-        );
+        $request =  new ServerRequest(queryParams: [
+            'foo' => 'baz',
+        ], method: 'get');
         $form = new Form('get', request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -192,11 +189,9 @@ class FormTest extends _TestCase
 
     public function testSetDefaultsIfSubmittedMethodPost(): void
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                'foo' => 'baz',
-            ], method: 'Post')
-        );
+        $request = new ServerRequest(parsedBody: [
+            'foo' => 'baz',
+        ], method: 'Post');
         $form = new Form('Post', request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -215,13 +210,11 @@ class FormTest extends _TestCase
      */
     public function testSetDefaultsIfSubmittedReal(): void
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'foo' => 'baz',
-                Form::_TOKEN_SUBMIT_ => '57416ee9a4789178e6cf4de6bc797ebd',
-                Form::_TOKEN_CSRF_ => 'csrf-token-stub',
-            ])
-        );
+        $request = new ServerRequest(queryParams: [
+            'foo' => 'baz',
+            Form::_TOKEN_SUBMIT_ => '57416ee9a4789178e6cf4de6bc797ebd',
+            Form::_TOKEN_CSRF_ => 'csrf-token-stub',
+        ]);
         $defaultsHandler = new DefaultsHandler([
             'foo' => 'bar'
         ]);
@@ -271,11 +264,9 @@ class FormTest extends _TestCase
 
     public function testSetDefaultsClosureAfterSubmit()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                'foo' => 'baz'
-            ])
-        );
+        $request = new ServerRequest(parsedBody: [
+            'foo' => 'baz'
+        ]);
         $form = new Form(request: $request);
 
         $submitted = $this->getPrivateProperty(Form::class, 'submitted');
@@ -355,13 +346,11 @@ class FormTest extends _TestCase
     public function testValidateTrueAfterSubmit(): void
     {
         $form = new Form(
-            request: new ServerRequestWrapper(
-                new ServerRequest(
-                    parsedBody: [
-                        'foo' => 'test'
-                    ],
-                    method: 'POST'
-                )
+            request: new ServerRequest(
+                parsedBody: [
+                    'foo' => 'test'
+                ],
+                method: 'POST'
             )
         );
         $form->removeElement($form->getElement(Form::_TOKEN_CSRF_));

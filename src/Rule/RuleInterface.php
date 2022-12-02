@@ -6,7 +6,7 @@ namespace Enjoys\Forms\Rule;
 
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Interfaces\Ruleable;
-use Enjoys\ServerRequestWrapperInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface RuleInterface
 {
@@ -16,5 +16,5 @@ interface RuleInterface
      */
     public function validate(Ruleable $element): bool;
 
-    public function setRequest(ServerRequestWrapperInterface $request = null): void;
+    public function setRequest(ServerRequestInterface $request = null): void;
 }

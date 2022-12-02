@@ -9,7 +9,6 @@ use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\Length;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
@@ -32,9 +31,8 @@ class LengthTest extends TestCase
         ]);
 
         $rule->setRequest(
-            new ServerRequestWrapper(
-                new ServerRequest(queryParams: ['foo' => $value], parsedBody: [], method: 'gEt')
-            )
+            new ServerRequest(queryParams: ['foo' => $value], parsedBody: [], method: 'gEt')
+
         );
         //$this->$assert(\Enjoys\Forms\Validator::check([$text]));
         $this->assertEquals($expect, $rule->validate($text));
@@ -243,9 +241,7 @@ class LengthTest extends TestCase
         $text = new Text('foo');
 
         $text->setRequest(
-            new ServerRequestWrapper(
-                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
-            )
+            new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
         );
         $text->addRule(Rules::LENGTH, $rule, $message);
         $this->assertEquals($expect, Validator::check([$text]));

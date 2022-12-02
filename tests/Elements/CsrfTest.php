@@ -6,7 +6,6 @@ use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Exception\CsrfAttackDetected;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Callback;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
@@ -54,11 +53,9 @@ class CsrfTest extends _TestCase
 
 
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                Form::_TOKEN_CSRF_ => $csrf->getCsrfToken($key)
-            ], method: 'post')
-        );
+        $request = new ServerRequest(parsedBody: [
+            Form::_TOKEN_CSRF_ => $csrf->getCsrfToken($key)
+        ], method: 'post');
 
 
         $csrf->setRequest($request);
@@ -72,11 +69,9 @@ class CsrfTest extends _TestCase
     {
         $this->expectException(CsrfAttackDetected::class);
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(parsedBody: [
-                Form::_TOKEN_CSRF_ => 'invalid_token'
-            ], method: 'post')
-        );
+        $request =  new ServerRequest(parsedBody: [
+            Form::_TOKEN_CSRF_ => 'invalid_token'
+        ], method: 'post');
 
         $csrf = new Csrf($this->session);
         $csrf->setRequest($request);

@@ -34,7 +34,7 @@ class Upload implements RuleInterface
     {
         /** @var UploadedFileInterface[] $uploadedFiles */
         $uploadedFiles = $this->getUploadedFiles(
-            \getValueByIndexPath($element->getName(), $this->getRequest()->getFilesData()->toArray())
+            \getValueByIndexPath($element->getName(), $this->getRequest()->getUploadedFiles())
         );
 
         foreach ($uploadedFiles as $uploadedFile) {

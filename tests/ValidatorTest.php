@@ -5,19 +5,16 @@ namespace Tests\Enjoys\Forms;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\ServerRequestWrapper;
 use HttpSoft\Message\ServerRequest;
 
 class ValidatorTest extends _TestCase
 {
     public function test_validate_true()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'foo' => 'bar',
-                'bar' => 'foo',
-            ], method: 'get')
-        );
+        $request = new ServerRequest(queryParams: [
+            'foo' => 'bar',
+            'bar' => 'foo',
+        ], method: 'get');
 
         $form = new Form(method: 'get', request: $request);
 
@@ -31,11 +28,9 @@ class ValidatorTest extends _TestCase
 
     public function test_validate_false()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'foo' => 'bar',
-            ], method: 'get')
-        );
+        $request = new ServerRequest(queryParams: [
+            'foo' => 'bar',
+        ], method: 'get');
 
         $form = new Form(method: 'get', request: $request);
 
@@ -65,11 +60,9 @@ class ValidatorTest extends _TestCase
 
     public function test_validate_groups_true()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'foo' => 'v_foo'
-            ], method: 'get')
-        );
+        $request = new ServerRequest(queryParams: [
+            'foo' => 'v_foo'
+        ], method: 'get');
         $form = new Form('get', request: $request);
         $group = $form->group();
         $group->textarea('bararea');
@@ -79,11 +72,9 @@ class ValidatorTest extends _TestCase
 
     public function test_validate_groups_false()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'food' => 'v_foo'
-            ], method: 'get')
-        );
+        $request = new ServerRequest(queryParams: [
+            'food' => 'v_foo'
+        ], method: 'get');
 
         $form = new Form('get', request: $request);
         $group = $form->group();
@@ -95,11 +86,9 @@ class ValidatorTest extends _TestCase
 
     public function testValidateGroupsTrueAndOtherElementsFalse()
     {
-        $request = new ServerRequestWrapper(
-            new ServerRequest(queryParams: [
-                'foo' => 'v_foo',
-            ], method: 'get')
-        );
+        $request = new ServerRequest(queryParams: [
+            'foo' => 'v_foo',
+        ], method: 'get');
         $form = new Form('get', request: $request);
         $group = $form->group();
         $group->textarea('bararea');

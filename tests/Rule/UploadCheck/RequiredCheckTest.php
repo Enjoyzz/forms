@@ -6,7 +6,6 @@ namespace Tests\Enjoys\Forms\Rule\UploadCheck;
 
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Rule\Upload;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
@@ -21,17 +20,15 @@ class RequiredCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => 0
-                ])
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => 0
+            ])
+        ], parsedBody: [], method: 'post');
 
         $uploadRule = new Upload([
             'required'
@@ -42,7 +39,7 @@ class RequiredCheckTest extends _TestCase
         $this->assertSame(
             true,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getRequest()->getUploadedFiles()['foo'],
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );
@@ -69,17 +66,15 @@ class RequiredCheckTest extends _TestCase
     public function test_checkRequired3()
     {
         $fileElement = new File('foo');
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => \UPLOAD_ERR_NO_FILE
-                ])
-            ], parsedBody: [], method: 'post')
-        );
+        $request = new ServerRequest(uploadedFiles: [
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => \UPLOAD_ERR_NO_FILE
+            ])
+        ], parsedBody: [], method: 'post');
 
 
         $uploadRule = new Upload([
@@ -89,7 +84,7 @@ class RequiredCheckTest extends _TestCase
         $this->assertEquals(
             false,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );

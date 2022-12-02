@@ -8,11 +8,10 @@ use Closure;
 use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Interfaces\DefaultsHandlerInterface;
 use Enjoys\Forms\Traits;
-use Enjoys\ServerRequestWrapper;
-use Enjoys\ServerRequestWrapperInterface;
 use Enjoys\Session\Session;
 use Enjoys\Traits\Options;
 use HttpSoft\ServerRequest\ServerRequestCreator;
+use Psr\Http\Message\ServerRequestInterface;
 use Webmozart\Assert\Assert;
 
 use function strtoupper;
@@ -41,7 +40,7 @@ class Form
     private ?string $action = null;
     private ?string $id = null;
 
-    private ServerRequestWrapperInterface $request;
+    private ServerRequestInterface $request;
     private DefaultsHandlerInterface $defaultsHandler;
 
     private bool $submitted = false;
@@ -54,11 +53,11 @@ class Form
         string $method = 'POST',
         string $action = null,
         string $id = null,
-        ServerRequestWrapperInterface $request = null,
+        ServerRequestInterface $request = null,
         DefaultsHandlerInterface $defaultsHandler = null,
         Session $session = null
     ) {
-        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        $this->request = $request ?? ServerRequestCreator::createFromGlobals();
         $this->session = $session ?? new Session();
         $this->defaultsHandler = $defaultsHandler ?? new DefaultsHandler();
 
@@ -100,8 +99,8 @@ class Form
         if ($this->submitted === true) {
             $data = array_filter(
                 match ($this->getMethod()) {
-                    'GET' => $this->getRequest()->getQueryData()->toArray(),
-                    'POST' => $this->getRequest()->getPostData()->toArray(),
+                    'GET' => $this->getRequest()->getQueryParams(),
+                    'POST' => $this->getRequest()->getParsedBody(),
                     default => [],
                 },
                 function ($k) {
@@ -145,7 +144,7 @@ class Form
         return $this->defaultsHandler;
     }
 
-    public function getRequest(): ServerRequestWrapperInterface
+    public function getRequest(): ServerRequestInterface
     {
         return $this->request;
     }

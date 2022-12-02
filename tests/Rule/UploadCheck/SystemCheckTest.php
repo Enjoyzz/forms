@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms\Rule\UploadCheck;
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\Forms\Rule\UploadCheck\UploadCheckInterface;
-use Enjoys\ServerRequestWrapper;
 use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
@@ -21,19 +20,17 @@ class SystemCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => \UPLOAD_ERR_OK
-                ])
-
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => \UPLOAD_ERR_OK
             ])
-        );
+
+        ]);
         $uploadRule = new Upload([
             'system'
         ]);
@@ -42,7 +39,7 @@ class SystemCheckTest extends _TestCase
         $this->assertEquals(
             true,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );
@@ -52,19 +49,17 @@ class SystemCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => \UPLOAD_ERR_NO_FILE
-                ])
-
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => \UPLOAD_ERR_NO_FILE
             ])
-        );
+
+        ]);
         $uploadRule = new Upload([
             'system'
         ]);
@@ -72,7 +67,7 @@ class SystemCheckTest extends _TestCase
         $this->assertEquals(
             true,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );
@@ -82,19 +77,17 @@ class SystemCheckTest extends _TestCase
     {
         $fileElement = new File('foo');
 
-        $request = new ServerRequestWrapper(
-            new ServerRequest(uploadedFiles: [
+        $request = new ServerRequest(uploadedFiles: [
 
-                'foo' => UploadedFileCreator::createFromArray([
-                    'name' => 'test.pdf',
-                    'type' => 'application/pdf',
-                    'size' => 1000,
-                    'tmp_name' => 'test.pdf',
-                    'error' => \UPLOAD_ERR_FORM_SIZE
-                ])
-
+            'foo' => UploadedFileCreator::createFromArray([
+                'name' => 'test.pdf',
+                'type' => 'application/pdf',
+                'size' => 1000,
+                'tmp_name' => 'test.pdf',
+                'error' => \UPLOAD_ERR_FORM_SIZE
             ])
-        );
+
+        ]);
         $uploadRule = new Upload([
             'system'
         ]);
@@ -102,7 +95,7 @@ class SystemCheckTest extends _TestCase
         $this->assertEquals(
             false,
             $testedMethod->invokeArgs($uploadRule, [
-                $request->getFilesData('foo'),
+                $request->getUploadedFiles()['foo'],
                 $fileElement
             ])
         );

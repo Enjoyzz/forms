@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms\Rule;
 use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\ServerRequestWrapper;
 use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -22,9 +21,7 @@ class EmailTest extends TestCase
 
 
         $text->setRequest(
-            new ServerRequestWrapper(
-                new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
-            )
+            new ServerRequest(queryParams: $request, parsedBody: [], method: 'gEt')
         );
         $text->addRule(Rules::EMAIL);
         $this->assertEquals($expect, Validator::check([$text]));

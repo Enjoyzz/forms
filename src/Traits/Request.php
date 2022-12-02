@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\ServerRequestWrapper;
-use Enjoys\ServerRequestWrapperInterface;
 use HttpSoft\ServerRequest\ServerRequestCreator;
+use Psr\Http\Message\ServerRequestInterface;
 
 trait Request
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
      */
-    private ServerRequestWrapperInterface $request;
+    private ServerRequestInterface $request;
 
-    public function setRequest(ServerRequestWrapperInterface $request = null): void
+    public function setRequest(ServerRequestInterface $request = null): void
     {
-        $this->request = $request ?? new ServerRequestWrapper(ServerRequestCreator::createFromGlobals());
+        $this->request = $request ?? ServerRequestCreator::createFromGlobals();
     }
 
-    public function getRequest(): ServerRequestWrapperInterface
+    public function getRequest(): ServerRequestInterface
     {
         return $this->request;
     }

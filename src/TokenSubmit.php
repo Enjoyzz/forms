@@ -29,8 +29,8 @@ class TokenSubmit
         $value = \getValueByIndexPath(
             Form::_TOKEN_SUBMIT_,
             match ($this->form->getMethod()) {
-                'GET' => $this->form->getRequest()->getQueryData()->toArray(),
-                'POST' => $this->form->getRequest()->getPostData()->toArray(),
+                'GET' => $this->form->getRequest()->getQueryParams(),
+                'POST' => $this->form->getRequest()->getParsedBody(),
                 default => []
             }
         );
