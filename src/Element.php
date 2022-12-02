@@ -71,12 +71,11 @@ abstract class Element implements ElementInterface
         $this->form = null;
     }
 
-    /**
-     * @return true|void
-     */
-    public function prepare()
+
+    public function prepare(): bool
     {
         $this->unsetForm();
+        return false;
     }
 
     public function getType(): string

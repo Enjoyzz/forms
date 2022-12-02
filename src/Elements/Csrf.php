@@ -42,21 +42,18 @@ class Csrf extends Hidden
         );
     }
 
-    /**
-     * @return true|void
-     * @psalm-suppress  PossiblyNullReference
-     */
-    public function prepare()
+    public function prepare(): bool
     {
-        if (!in_array($this->getForm()->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
+        if (!in_array($this->getForm()?->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'], true)) {
             //удаляем элемент, если был заранее создан
             //$this->getForm()->removeElement($this->getForm()->getElement(\Enjoys\Forms\Form::_TOKEN_CSRF_));
-            $this->getForm()->removeElement($this);
+            $this->getForm()?->removeElement($this);
 
             //возвращаем true, чтобы не добавлять элемент.
             return true;
         }
         $this->unsetForm();
+        return false;
     }
 
     /**

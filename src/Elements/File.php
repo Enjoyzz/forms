@@ -87,11 +87,12 @@ class File extends Element implements Ruleable, Descriptionable
         return $this;
     }
 
-    public function prepare()
+    public function prepare(): bool
     {
         $this->getForm()?->setAttribute(AttributeFactory::create('enctype', 'multipart/form-data'));
         $this->getForm()?->setMethod('post');
         $this->setMaxFileSize(iniSize2bytes(ini_get('upload_max_filesize')));
+        return false;
     }
 
 

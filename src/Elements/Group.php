@@ -48,7 +48,8 @@ class Group extends Element implements Descriptionable
         return $return;
     }
 
-    public function prepare()
+    public function prepare(): bool
     {
+        return false;
     }
 }

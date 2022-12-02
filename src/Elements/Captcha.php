@@ -30,10 +30,12 @@ class Captcha extends Element implements Ruleable, Descriptionable
     /**
      * @throws ExceptionRule
      */
-    public function prepare()
+    public function prepare(): bool
     {
         $this->captcha->setRequest($this->getRequest());
         $this->addRule(Rules::CAPTCHA, $this->captcha->getRuleMessage());
+
+        return false;
     }
 
     public function validate(): bool
