@@ -8,9 +8,9 @@ use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Rule\Required;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class RequiredTest extends _TestCase
 {

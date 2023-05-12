@@ -7,11 +7,11 @@ namespace Tests\Enjoys\Forms\Rule\UploadCheck;
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\Forms\Rule\UploadCheck\MaxsizeCheck;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use Psr\Http\Message\UploadedFileInterface;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class MaxsizeCheckTest extends _TestCase
 {
@@ -105,7 +105,8 @@ class MaxsizeCheckTest extends _TestCase
 
     public function testCheckMaxsizeInvalidThresholdParam()
     {
-        $this->expectError();
+        $this->expectException(\ValueError::class);
+
         $uploadRule = new MaxsizeCheck(
             UploadedFileCreator::createFromArray([
                 'name' => 'test.pdf',

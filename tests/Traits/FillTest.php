@@ -7,8 +7,8 @@ namespace Tests\Enjoys\Forms\Traits;
 use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Traits\Fill;
-use Enjoys\Traits\Reflection;
 use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class FillTest extends TestCase
 {

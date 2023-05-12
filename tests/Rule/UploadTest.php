@@ -9,10 +9,10 @@ use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\Forms\Rules;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class UploadTest extends _TestCase
 {

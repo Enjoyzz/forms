@@ -7,7 +7,6 @@ namespace Tests\Enjoys\Forms;
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Element;
 use Enjoys\Forms\Form;
-use Enjoys\Traits\Reflection;
 
 class ElementTest extends _TestCase
 {

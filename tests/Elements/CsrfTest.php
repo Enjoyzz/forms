@@ -6,9 +6,10 @@ use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Exception\CsrfAttackDetected;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Callback;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\ErrorException;
+use Tests\Enjoys\Forms\Reflection;
 
 class CsrfTest extends _TestCase
 {
@@ -81,7 +82,15 @@ class CsrfTest extends _TestCase
 
     public function testInvalidSessionSecret()
     {
-        $this->expectError();
+        set_error_handler(
+            static function ( $errno, $errstr ) {
+                restore_error_handler();
+                throw new ErrorException( $errstr, $errno );
+            },
+            E_ALL
+        );
+
+        $this->expectException(ErrorException::class);
 
         $this->session->set([
             'csrf_secret' => []

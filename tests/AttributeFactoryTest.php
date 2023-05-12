@@ -6,7 +6,6 @@ namespace Tests\Enjoys\Forms;
 
 use Enjoys\Forms\AttributeFactory;
 use Enjoys\Forms\Attributes\Base;
-use Enjoys\Traits\Reflection;
 use Webmozart\Assert\InvalidArgumentException;
 
 class AttributeFactoryTest extends _TestCase

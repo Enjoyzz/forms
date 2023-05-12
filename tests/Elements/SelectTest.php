@@ -7,9 +7,9 @@ use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class SelectTest extends _TestCase
 {

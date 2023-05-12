@@ -6,8 +6,8 @@ namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Option;
 use Enjoys\Forms\Elements\Select;
-use Enjoys\Traits\Reflection;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class OptionTest extends _TestCase
 {

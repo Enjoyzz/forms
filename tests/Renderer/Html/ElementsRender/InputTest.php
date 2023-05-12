@@ -7,7 +7,7 @@ namespace Tests\Enjoys\Forms\Renderer\Html\ElementsRender;
 use Enjoys\Forms\Elements\Button;
 use Enjoys\Forms\Elements\Text;
 use Enjoys\Forms\Renderer\Html\TypesRender\Input;
-use Enjoys\Traits\Reflection;
+use Tests\Enjoys\Forms\Reflection;
 use Tests\Enjoys\Forms\Renderer\Html\_TestCaseHtmlRenderer;
 
 class InputTest extends _TestCaseHtmlRenderer

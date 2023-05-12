@@ -54,7 +54,7 @@ class HtmlRendererTest extends _TestCaseHtmlRenderer
     {
         $element = $closure();
         if (!($element instanceof Element)) {
-            $this->expectError();
+            $this->expectException(\TypeError::class);
         }
         $this->assertInstanceOf($expect, HtmlRenderer::createTypeRender($element));
     }

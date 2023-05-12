@@ -9,9 +9,8 @@
     }
   ],
   "require": {
-    "php": ">= 8.0",
+    "php": "^8.0",
     "ext-json": "*",
-    "enjoys/traits": "^1.1",
     "enjoys/session": "^2.0",
     "httpsoft/http-server-request": "^1.0",
     "enjoys/functions": "^2.1",

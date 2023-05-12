@@ -4,9 +4,9 @@ namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class RadioTest extends _TestCase
 {

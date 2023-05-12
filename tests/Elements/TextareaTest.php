@@ -49,7 +49,7 @@ class TextareaTest extends TestCase
 
     public function testInvalidSetCols()
     {
-        $this->expectError();
+        $this->expectException(\TypeError::class);
         (new Textarea('foo'))->setCols('not number');
     }
 
