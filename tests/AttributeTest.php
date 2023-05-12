@@ -164,8 +164,7 @@ class AttributeTest extends TestCase
 
     public function testInvalidClosureAttributeValue()
     {
-//        $this->expectException(InvalidArgumentException::class);
-        $this->expectError();
+        $this->expectException(\TypeError::class);
         AttributeFactory::create('id', function () {
             return new \stdClass();
         });

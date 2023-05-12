@@ -235,7 +235,7 @@ class LengthTest extends TestCase
     {
 
         if ($expect === \TypeError::class){
-            $this->expectError();
+            $this->expectException(\TypeError::class);
         }
 //        self::markTestIncomplete();
         $text = new Text('foo');

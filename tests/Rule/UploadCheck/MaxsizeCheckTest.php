@@ -105,7 +105,8 @@ class MaxsizeCheckTest extends _TestCase
 
     public function testCheckMaxsizeInvalidThresholdParam()
     {
-        $this->expectError();
+        $this->expectException(\ValueError::class);
+
         $uploadRule = new MaxsizeCheck(
             UploadedFileCreator::createFromArray([
                 'name' => 'test.pdf',
