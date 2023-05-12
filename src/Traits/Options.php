@@ -4,27 +4,17 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-/**
- * Trait Options
- * @package Enjoys\Traits
- */
+use Enjoys\Forms\Form;
+
 trait Options
 {
     /**
      *
-     * @var array<mixed>
+     * @var array<string, mixed>
      */
     protected array $options = [];
 
-    /**
-     *
-     * @param string $key
-     * @param mixed $value
-     * @param bool $useInternalMethods Если есть внутренние методы установки $this->setKey()  использовать их, если false игнорировать
-     * @return $this
-     * @since 1.3.0 добавлен флаг $useInternalMethods
-     */
-    public function setOption(string $key, $value, bool $useInternalMethods = true): self
+    public function setOption(string $key, mixed $value, bool $useInternalMethods = true): self
     {
         $method = 'set' . ucfirst($key);
         if ($useInternalMethods === true && method_exists($this, $method)) {
@@ -36,15 +26,7 @@ trait Options
         return $this;
     }
 
-    /**
-     *
-     * @param string $key
-     * @param mixed $defaults
-     * @param bool $useInternalMethods Если есть внутренние методы получения $this->getKey()  использовать их, если false игнорировать
-     * @return mixed
-     * @since 1.3.0 добавлен флаг $useInternalMethods
-     */
-    public function getOption(string $key, $defaults = null, bool $useInternalMethods = true)
+    public function getOption(string $key, mixed $defaults = null, bool $useInternalMethods = true): mixed
     {
         $method = 'get' . ucfirst($key);
         if ($useInternalMethods === true && method_exists($this, $method)) {
@@ -58,23 +40,19 @@ trait Options
     }
 
     /**
-     *
-     * @param array<mixed> $options
-     * @param bool $useInternalMethods Если есть внутренние методы установки $this->setKey()  использовать их, если false игнорировать
-     * @return $this
-     * @since 1.3.0 добавлен флаг $useInternalMethods
+     * @param array<string, mixed> $options
+     * @psalm-suppress MixedAssignment
      */
     public function setOptions(array $options = [], bool $useInternalMethods = true): self
     {
         foreach ($options as $key => $value) {
-            $this->setOption((string)$key, $value, $useInternalMethods);
+            $this->setOption($key, $value, $useInternalMethods);
         }
         return $this;
     }
 
     /**
-     *
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function getOptions(): array
     {
