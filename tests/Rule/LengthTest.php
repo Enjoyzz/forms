@@ -9,9 +9,9 @@ use Enjoys\Forms\Exception\ExceptionRule;
 use Enjoys\Forms\Rule\Length;
 use Enjoys\Forms\Rules;
 use Enjoys\Forms\Validator;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class LengthTest extends TestCase
 {

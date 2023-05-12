@@ -7,10 +7,10 @@ namespace Tests\Enjoys\Forms\Rule\UploadCheck;
 use Enjoys\Forms\Elements\File;
 use Enjoys\Forms\Rule\Upload;
 use Enjoys\Forms\Rule\UploadCheck\UploadCheckInterface;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\ServerRequest\UploadedFileCreator;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class SystemCheckTest extends _TestCase
 {

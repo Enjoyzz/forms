@@ -6,9 +6,9 @@ use Enjoys\Forms\Elements\Csrf;
 use Enjoys\Forms\Exception\CsrfAttackDetected;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Rule\Callback;
-use Enjoys\Traits\Reflection;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
+use Tests\Enjoys\Forms\Reflection;
 
 class CsrfTest extends _TestCase
 {
