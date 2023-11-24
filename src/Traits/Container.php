@@ -66,14 +66,9 @@ trait Container
     }
 
     /**
-     * @param Element $element
-     * @param string|null $before
-     * @param string|null $after
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
      * @psalm-suppress MixedPropertyTypeCoercion
      */
-    public function addElement(Element $element, string $before = null, string $after = null)
+    public function addElement(Element $element, string $before = null, string $after = null): static
     {
         $element->setRequest($this->getRequest());
         if ($element->prepare() === true) {
@@ -121,12 +116,7 @@ trait Container
         return null;
     }
 
-    /**
-     * @param Element|null $element
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function removeElement(?Element $element = null)
+    public function removeElement(?Element $element = null): static
     {
         if (null === $element) {
             return $this;

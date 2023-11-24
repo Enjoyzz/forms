@@ -16,15 +16,12 @@ interface Fillable
 
     public function getParentName(): string;
 
-    public function fill(array $data): Fillable;
+    public function fill(array|\Closure $data, bool $useTitleAsValue = false): static;
 
     /**
      * @psalm-return array<array-key, Element&Fillable>
      */
     public function getElements(): array;
 
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue();
+    public function getDefaultValue(): mixed;
 }

@@ -37,7 +37,7 @@ trait Rules
     /**
      * @throws ExceptionRule
      */
-    public function addRule(string $ruleClass, mixed ...$params): self
+    public function addRule(string $ruleClass, mixed ...$params): static
     {
 
         if (!class_exists($ruleClass)) {
@@ -95,5 +95,11 @@ trait Rules
     public function getRules(): array
     {
         return $this->rules;
+    }
+
+    public function disableRules(): static
+    {
+        $this->rules = [];
+        return $this;
     }
 }

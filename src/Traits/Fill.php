@@ -10,6 +10,9 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\FillHandler;
 use Enjoys\Forms\Interfaces\AttributeInterface;
 use Enjoys\Forms\Interfaces\Fillable;
+use InvalidArgumentException;
+
+use function ucfirst;
 
 trait Fill
 {
@@ -21,12 +24,11 @@ trait Fill
     /**
      * @var mixed
      */
-    private $defaultValue = '';
+    private mixed $defaultValue = '';
 
     public function setParentName(string $parentName): void
     {
         $this->parentName = $parentName;
-//        $this->parent = false;
     }
 
     public function getParentName(): string
@@ -34,27 +36,19 @@ trait Fill
         return $this->parentName;
     }
 
-//    public function isParent(): bool
-//    {
-//        return $this->parent;
-//    }
-
     /**
-     * @param array|Closure $data
-     * @param bool $useTitleAsValue
-     * @return Fillable
      * @since 3.4.1 Можно использовать замыкания для заполнения. Анонимная функция должна возвращать массив.
      * @since 3.4.0 Возвращен порядок установки value из индексированных массивов, т.к. неудобно,
-     * по умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом
+     * По умолчанию теперь не надо добавлять пробел в ключи массива, чтобы value был числом,
      * но добавлен флаг $useTitleAsValue, если он установлен в true, то все будет работать как в версии 2.4.0
      * @since 2.4.0 Изменен принцип установки value и id из индексированных массивов
      * т.е. [1,2] значения будут 1 и 2 соответственно, а не 0 и 1 как раньше.
      * Чтобы использовать число в качестве value отличное от title, необходимо
-     * в массиве конкретно указать значение key. Например ["40 " => test] (обратите внимание на пробел).
+     * в массиве конкретно указать значение key. Например, ["40 " => test] (обратите внимание на пробел).
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill(array|Closure $data, bool $useTitleAsValue = false): Fillable
+    public function fill(array|Closure $data, bool $useTitleAsValue = false): static
     {
         if ($data instanceof Closure) {
             /** @var mixed $data */
@@ -62,7 +56,7 @@ trait Fill
         }
 
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('Fill data must be array or closure returned array');
+            throw new InvalidArgumentException('Fill data must be array or closure returned array');
         }
 
         /** @var scalar|array $title */
@@ -70,7 +64,7 @@ trait Fill
             $fillHandler = new FillHandler($value, $title, $useTitleAsValue);
 
             /** @var class-string<Fillable&Element> $class */
-            $class = '\Enjoys\Forms\Elements\\' . \ucfirst($this->getType());
+            $class = '\Enjoys\Forms\Elements\\' . ucfirst($this->getType());
 
             $element = new $class($fillHandler->getValue(), $fillHandler->getLabel(), false);
 
@@ -99,7 +93,7 @@ trait Fill
     /**
      * @return mixed
      */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
@@ -124,10 +118,9 @@ trait Fill
     }
 
     /**
- * @param  array<Fillable&Element> $elements
-     * @return Fillable
+     * @param array<Fillable&Element> $elements
      */
-    public function addElements(array $elements): Fillable
+    public function addElements(array $elements): static
     {
         foreach ($elements as $element) {
             $this->addElement($element);

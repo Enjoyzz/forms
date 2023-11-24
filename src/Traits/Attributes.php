@@ -31,11 +31,8 @@ trait Attributes
 
     /**
      * @param AttributeInterface[] $attributes
-     * @param string $namespace
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function setAttributesWithClear(array $attributes, string $namespace = 'general')
+    public function setAttributesWithClear(array $attributes, string $namespace = 'general'): static
     {
         $this->getAttributeCollection($namespace)->clear();
         return $this->setAttributes($attributes, $namespace);
@@ -43,11 +40,8 @@ trait Attributes
 
     /**
      * @param AttributeInterface[] $attributes
-     * @param string $namespace
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function setAttributes(array $attributes, string $namespace = 'general')
+    public function setAttributes(array $attributes, string $namespace = 'general'): static
     {
         foreach ($attributes as $attribute) {
             $this->setAttribute($attribute, $namespace);
@@ -57,11 +51,7 @@ trait Attributes
     }
 
 
-    /**
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general')
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): static
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->remove($attribute);
@@ -71,11 +61,8 @@ trait Attributes
 
     /**
      * @param AttributeInterface[] $attributes
-     * @param string $namespace
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function addAttributes(array $attributes, string $namespace = 'general')
+    public function addAttributes(array $attributes, string $namespace = 'general'): static
     {
         foreach ($attributes as $attribute) {
             $this->addAttribute($attribute, $namespace);
@@ -84,12 +71,7 @@ trait Attributes
         return $this;
     }
 
-
-    /**
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function addAttribute(AttributeInterface $attribute, string $namespace = 'general')
+    public function addAttribute(AttributeInterface $attribute, string $namespace = 'general'): static
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->add($attribute);
@@ -97,8 +79,6 @@ trait Attributes
     }
 
     /**
-     * @param string $namespace
-     * @return AttributeCollection
      * @see getAttributeCollection
      */
     public function getAttributes(string $namespace = 'general'): AttributeCollection
@@ -106,10 +86,6 @@ trait Attributes
         return $this->getAttributeCollection($namespace);
     }
 
-    /**
-     * @param string $namespace
-     * @return string
-     */
     public function getAttributesString(string $namespace = 'general'): string
     {
         $attributesStringed = (string)$this->getAttributeCollection($namespace);
@@ -121,21 +97,13 @@ trait Attributes
         return ' ' . $attributesStringed;
     }
 
-    /**
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function removeAttribute(string|AttributeInterface $attribute, string $namespace = 'general')
+    public function removeAttribute(string|AttributeInterface $attribute, string $namespace = 'general'): static
     {
         $this->getAttributeCollection($namespace)->remove($attribute);
         return $this;
     }
 
-    /**
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function addClass(string $class, string $namespace = 'general')
+    public function addClass(string $class, string $namespace = 'general'): static
     {
         $attrCollection = $this->getAttributeCollection($namespace);
         $attr = $attrCollection->get('class');
@@ -149,11 +117,8 @@ trait Attributes
 
     /**
      * @param string[] $classes
-     * @param string $namespace
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
      */
-    public function addClasses(array $classes, string $namespace = 'general')
+    public function addClasses(array $classes, string $namespace = 'general'): static
     {
         foreach ($classes as $class) {
             $this->addClass($class, $namespace);
@@ -166,11 +131,7 @@ trait Attributes
         return $this->getAttribute('class', $namespace)?->getValues() ?? [];
     }
 
-    /**
-     * @return $this
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function removeClass(string $classValue, string $namespace = 'general')
+    public function removeClass(string $classValue, string $namespace = 'general'): static
     {
         $this->getAttribute('class', $namespace)?->remove($classValue);
         return $this;

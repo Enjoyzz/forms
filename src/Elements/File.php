@@ -34,16 +34,16 @@ class File extends Element implements Ruleable, Descriptionable
             'system'
         ]);
     }
-    public function setMultiple(): self
+    public function setMultiple(): static
     {
         $this->setAttribute(AttributeFactory::create('multiple'));
         return $this;
     }
 
     /**
-     * @return $this
+     * @psalm-suppress MethodSignatureMismatch
      */
-    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): File
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): static
     {
         parent::setAttribute($attribute, $namespace);
         $this->isMultiple();
@@ -78,7 +78,7 @@ class File extends Element implements Ruleable, Descriptionable
      * @param string[] $accepts
      * @return $this
      */
-    public function setAccepts(array $accepts): self
+    public function setAccepts(array $accepts): static
     {
         $this->removeAttribute('accept');
         foreach ($accepts as $accept) {
@@ -96,7 +96,7 @@ class File extends Element implements Ruleable, Descriptionable
     }
 
 
-    public function setMaxFileSize(int $bytes): self
+    public function setMaxFileSize(int $bytes): static
     {
         $this->getForm()?->hidden('MAX_FILE_SIZE', (string) $bytes);
         return $this;
@@ -106,7 +106,7 @@ class File extends Element implements Ruleable, Descriptionable
     /**
      * @throws ExceptionRule
      */
-    public function addRule(string $ruleClass, mixed ...$params): File
+    public function addRule(string $ruleClass, mixed ...$params): static
     {
         if ($ruleClass !== Rules::UPLOAD) {
             throw new ExceptionRule(
