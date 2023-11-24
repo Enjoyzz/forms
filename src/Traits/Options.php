@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Traits;
 
-use Enjoys\Forms\Form;
-
 trait Options
 {
     /**
