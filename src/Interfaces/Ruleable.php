@@ -8,7 +8,7 @@ use Enjoys\Forms\Rule\RuleInterface;
 
 interface Ruleable
 {
-    public function addRule(string $ruleClass, mixed ...$params): self;
+    public function addRule(string $ruleClass, mixed ...$params): static;
     public function setRuleError(?string $message): void;
     public function getRuleErrorMessage(): ?string;
     public function isRuleError(): bool;

@@ -48,7 +48,7 @@ trait Fill
      * Из-за того что php преобразует строки, содержащие целое число к int, приходится добавлять
      * пробел либо в начало, либо в конец ключа. В итоге пробелы в начале и в конце удаляются автоматически.
      */
-    public function fill(array|Closure $data, bool $useTitleAsValue = false): self
+    public function fill(array|Closure $data, bool $useTitleAsValue = false): static
     {
         if ($data instanceof Closure) {
             /** @var mixed $data */
@@ -120,7 +120,7 @@ trait Fill
     /**
      * @param array<Fillable&Element> $elements
      */
-    public function addElements(array $elements): self
+    public function addElements(array $elements): static
     {
         foreach ($elements as $element) {
             $this->addElement($element);

@@ -44,9 +44,9 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     }
 
     /**
-     * @return $this
+     * @psalm-suppress MethodSignatureMismatch
      */
-    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): Select
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): static
     {
         parent::setAttribute($attribute, $namespace);
         $this->isMultiple();

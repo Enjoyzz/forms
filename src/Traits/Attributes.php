@@ -32,7 +32,7 @@ trait Attributes
     /**
      * @param AttributeInterface[] $attributes
      */
-    public function setAttributesWithClear(array $attributes, string $namespace = 'general'): self
+    public function setAttributesWithClear(array $attributes, string $namespace = 'general'): static
     {
         $this->getAttributeCollection($namespace)->clear();
         return $this->setAttributes($attributes, $namespace);
@@ -41,7 +41,7 @@ trait Attributes
     /**
      * @param AttributeInterface[] $attributes
      */
-    public function setAttributes(array $attributes, string $namespace = 'general'): self
+    public function setAttributes(array $attributes, string $namespace = 'general'): static
     {
         foreach ($attributes as $attribute) {
             $this->setAttribute($attribute, $namespace);
@@ -51,7 +51,7 @@ trait Attributes
     }
 
 
-    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): self
+    public function setAttribute(AttributeInterface $attribute, string $namespace = 'general'): static
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->remove($attribute);
@@ -62,7 +62,7 @@ trait Attributes
     /**
      * @param AttributeInterface[] $attributes
      */
-    public function addAttributes(array $attributes, string $namespace = 'general'): self
+    public function addAttributes(array $attributes, string $namespace = 'general'): static
     {
         foreach ($attributes as $attribute) {
             $this->addAttribute($attribute, $namespace);
@@ -71,7 +71,7 @@ trait Attributes
         return $this;
     }
 
-    public function addAttribute(AttributeInterface $attribute, string $namespace = 'general'): self
+    public function addAttribute(AttributeInterface $attribute, string $namespace = 'general'): static
     {
         $attributeCollection = $this->getAttributeCollection($namespace);
         $attributeCollection->add($attribute);
@@ -97,13 +97,13 @@ trait Attributes
         return ' ' . $attributesStringed;
     }
 
-    public function removeAttribute(string|AttributeInterface $attribute, string $namespace = 'general'): self
+    public function removeAttribute(string|AttributeInterface $attribute, string $namespace = 'general'): static
     {
         $this->getAttributeCollection($namespace)->remove($attribute);
         return $this;
     }
 
-    public function addClass(string $class, string $namespace = 'general'): self
+    public function addClass(string $class, string $namespace = 'general'): static
     {
         $attrCollection = $this->getAttributeCollection($namespace);
         $attr = $attrCollection->get('class');
@@ -118,7 +118,7 @@ trait Attributes
     /**
      * @param string[] $classes
      */
-    public function addClasses(array $classes, string $namespace = 'general'): self
+    public function addClasses(array $classes, string $namespace = 'general'): static
     {
         foreach ($classes as $class) {
             $this->addClass($class, $namespace);
@@ -131,7 +131,7 @@ trait Attributes
         return $this->getAttribute('class', $namespace)?->getValues() ?? [];
     }
 
-    public function removeClass(string $classValue, string $namespace = 'general'): self
+    public function removeClass(string $classValue, string $namespace = 'general'): static
     {
         $this->getAttribute('class', $namespace)?->remove($classValue);
         return $this;

@@ -37,7 +37,7 @@ trait Rules
     /**
      * @throws ExceptionRule
      */
-    public function addRule(string $ruleClass, mixed ...$params): self
+    public function addRule(string $ruleClass, mixed ...$params): static
     {
 
         if (!class_exists($ruleClass)) {

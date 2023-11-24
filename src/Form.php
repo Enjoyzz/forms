@@ -134,7 +134,7 @@ class Form
      * @param string|null $after
      * @return $this
      */
-    public function addElement(Element $element, string $before = null, string $after = null): self
+    public function addElement(Element $element, string $before = null, string $after = null): static
     {
         $element->setForm($this);
         return $this->parentAddElement($element, $before, $after);

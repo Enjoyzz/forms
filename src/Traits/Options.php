@@ -12,7 +12,7 @@ trait Options
      */
     protected array $options = [];
 
-    public function setOption(string $key, mixed $value, bool $useInternalMethods = true): self
+    public function setOption(string $key, mixed $value, bool $useInternalMethods = true): static
     {
         $method = 'set' . ucfirst($key);
         if ($useInternalMethods === true && method_exists($this, $method)) {
@@ -41,7 +41,7 @@ trait Options
      * @param array<string, mixed> $options
      * @psalm-suppress MixedAssignment
      */
-    public function setOptions(array $options = [], bool $useInternalMethods = true): self
+    public function setOptions(array $options = [], bool $useInternalMethods = true): static
     {
         foreach ($options as $key => $value) {
             $this->setOption($key, $value, $useInternalMethods);

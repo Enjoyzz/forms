@@ -68,7 +68,7 @@ trait Container
     /**
      * @psalm-suppress MixedPropertyTypeCoercion
      */
-    public function addElement(Element $element, string $before = null, string $after = null): self
+    public function addElement(Element $element, string $before = null, string $after = null): static
     {
         $element->setRequest($this->getRequest());
         if ($element->prepare() === true) {
@@ -116,7 +116,7 @@ trait Container
         return null;
     }
 
-    public function removeElement(?Element $element = null): self
+    public function removeElement(?Element $element = null): static
     {
         if (null === $element) {
             return $this;
