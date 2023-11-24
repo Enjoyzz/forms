@@ -96,4 +96,10 @@ trait Rules
     {
         return $this->rules;
     }
+
+    public function disableRules(): static
+    {
+        $this->rules = [];
+        return $this;
+    }
 }

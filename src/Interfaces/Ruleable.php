@@ -17,4 +17,5 @@ interface Ruleable
      * @return RuleInterface[]
      */
     public function getRules(): array;
+    public function disableRules(): static;
 }
