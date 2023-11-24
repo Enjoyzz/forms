@@ -25,4 +25,14 @@ class RulesTest extends TestCase
         $el->addRule(\Enjoys\Forms\Rules::REQUIRED);
         $this->assertTrue($el->isRequired());
     }
+
+    public function testDisableRules()
+    {
+        $el = new Text('foo');
+        $el->addRule(\Enjoys\Forms\Rules::REQUIRED)
+            ->addRule(\Enjoys\Forms\Rules::EMAIL);
+        $this->assertCount(2, $el->getRules());
+        $el->disableRules();
+        $this->assertCount(0, $el->getRules());
+    }
 }
