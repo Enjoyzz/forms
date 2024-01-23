@@ -18,10 +18,10 @@ abstract class AbstractRenderer implements RendererInterface
 
     abstract public function output(): mixed;
 
-    public function setForm(Form $form): Form
+    public function setForm(Form $form): self
     {
         $this->form = $form;
-        return $this->form;
+        return $this;
     }
 
     public function getForm(): Form
