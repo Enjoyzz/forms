@@ -6,6 +6,9 @@ namespace Enjoys\Forms\Interfaces;
 
 use Enjoys\Forms\Form;
 
+/**
+ * @deprecated remove in 6.x
+ */
 interface RendererInterface
 {
     public function setForm(Form $form): Form;

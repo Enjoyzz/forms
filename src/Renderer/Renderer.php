@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Enjoys\Forms\Renderer;
 
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Interfaces\RendererInterface;
 
-/**
- * @deprecated use \Enjoys\Forms\Renderer\Renderer, remove in 6.x
- */
-abstract class AbstractRenderer implements RendererInterface
+
+abstract class Renderer
 {
     private Form $form;
 

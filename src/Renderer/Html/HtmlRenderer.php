@@ -8,10 +8,11 @@ use Enjoys\Forms\Element;
 use Enjoys\Forms\Elements;
 use Enjoys\Forms\Elements\Hidden;
 use Enjoys\Forms\Helper;
-use Enjoys\Forms\Renderer\AbstractRenderer;
+use Enjoys\Forms\Interfaces\RendererInterface;
 use Enjoys\Forms\Renderer\Html\TypesRender\TypeRenderInterface;
+use Enjoys\Forms\Renderer\Renderer;
 
-class HtmlRenderer extends AbstractRenderer
+class HtmlRenderer extends Renderer implements RendererInterface
 {
     private const _MAP_ = [
         TypesRender\Button::class => [
