@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Enjoys\Forms\Elements;
 
 use Enjoys\Forms\Elements\Optgroup;
+use Enjoys\Forms\Elements\Select;
 use Enjoys\Forms\Form;
 use Tests\Enjoys\Forms\_TestCase;
 
@@ -79,11 +80,17 @@ class OptgroupTest extends _TestCase
                 ]
             ]
         ]);
-        $select = $form->select('s[s1][s2]')
+
+       $form->addElement((new Select('s[s1][s2]'))
+            ->setForm($form)
             ->fill(['null'])
             ->setOptgroup('numbers', [300 => 'opt1', 500 => 'opt2', 800 => 'opt3'])
-            ->setOptgroup('alpha', [350 => 'opt4', 548 => 'opt5', 795 => 'opt6']);
-        $this->assertNotNull($select->getElements()[1]->getElements()[1]->getAttribute('selected'));
-        $this->assertSame('opt2', $select->getElements()[1]->getElements()[1]->getLabel());
+            ->setOptgroup('alpha', [350 => 'opt4', 548 => 'opt5', 795 => 'opt6']));
+
+
+        $this->assertNotNull(
+            $form->getElement('s[s1][s2]')->getElements()[1]->getElements()[1]->getAttribute('selected')
+        );
+        $this->assertSame('opt2', $form->getElement('s[s1][s2]')->getElements()[1]->getElements()[1]->getLabel());
     }
 }
