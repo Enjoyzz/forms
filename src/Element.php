@@ -46,10 +46,10 @@ abstract class Element implements ElementInterface
     /**
      * @psalm-suppress PossiblyNullReference
      */
-    public function setForm(?Form $form): void
+    public function setForm(?Form $form): self
     {
         if ($form === null) {
-            return;
+            return $this;
         }
         $this->form = $form;
         $this->setDefault($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
@@ -59,6 +59,8 @@ abstract class Element implements ElementInterface
                 $element->setDefault($this->getDefaultValue());
             }
         }
+
+        return $this;
     }
 
     public function getForm(): ?Form
