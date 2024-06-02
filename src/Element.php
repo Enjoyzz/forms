@@ -43,16 +43,14 @@ abstract class Element implements ElementInterface
         }
     }
 
-    /**
-     * @psalm-suppress PossiblyNullReference
-     */
-    public function setForm(?Form $form): self
+
+    public function setForm(?Form $form): static
     {
         if ($form === null) {
             return $this;
         }
         $this->form = $form;
-        $this->setDefault($this->getForm()->getDefaultsHandler()->getValue($this->getName()));
+        $this->setDefault($this->form->getDefaultsHandler()->getValue($this->getName()));
 
         if ($this instanceof Fillable) {
             foreach ($this->getElements() as $element) {
@@ -85,7 +83,7 @@ abstract class Element implements ElementInterface
         return $this->type;
     }
 
-    protected function setName(string $name): ElementInterface
+    protected function setName(string $name): static
     {
         $this->name = trim($name);
         $this->setAttributes(
@@ -103,7 +101,7 @@ abstract class Element implements ElementInterface
         return $this->name;
     }
 
-    public function setLabel(?string $title = null): ElementInterface
+    public function setLabel(?string $title = null): static
     {
         $this->label = $title;
         return $this;
@@ -114,7 +112,7 @@ abstract class Element implements ElementInterface
         return $this->label;
     }
 
-    protected function setDefault(mixed $value = null): self
+    protected function setDefault(mixed $value = null): static
     {
         if (is_array($value)) {
             /** @var array<Closure|scalar|null> $value */

@@ -28,30 +28,7 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Interfaces;
 
-/**
- *
- * @author Enjoys
- */
 interface ElementInterface
 {
-//    public function setForm(?Form $form): void;
-//
-//    public function getForm(): ?Form;
-//
-//    public function unsetForm(): void;
-//
-//    /**
-//     * @return true|void
-//     */
-//    public function prepare();
-//
-//    public function getType(): string;
-//
-//    public function getName(): string;
-//
-//    public function setLabel(?string $title = null): ElementInterface;
-//
-//    public function getLabel(): ?string;
-
     public function baseHtml(): string;
 }

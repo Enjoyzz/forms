@@ -67,7 +67,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
     /**
      * @psalm-suppress PossiblyNullReference
      */
-    protected function setDefault(mixed $value = null): self
+    protected function setDefault(mixed $value = null): static
     {
 
         $this->setDefaultValue($value);

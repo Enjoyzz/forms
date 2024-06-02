@@ -7,19 +7,12 @@ namespace Enjoys\Forms;
 class FillHandler
 {
     private array $attributes = [];
-    /**
-     * @var mixed
-     */
-    private $value = null;
+
+    private mixed $value = null;
     private ?string $label = null;
 
-    /**
-     *
-     * @param mixed $value
-     * @param mixed $label
-     * @param bool $useTitleAsValue
-     */
-    public function __construct($value, $label, $useTitleAsValue = false)
+
+    public function __construct(mixed $value, mixed $label, bool $useTitleAsValue = false)
     {
         if (is_array($label)) {
             $this->label = (string)($label[0] ?? null);

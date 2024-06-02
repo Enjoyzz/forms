@@ -107,9 +107,8 @@ trait Fill
 
     /**
      * @param Fillable&Element $element
-     * @return Fillable
      */
-    public function addElement(Fillable $element): Fillable
+    public function addElement(Fillable $element): static
     {
         $element->setParentName($this->getName());
         $element->setDefault($this->getDefaultValue());

@@ -54,7 +54,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
     }
 
 
-    protected function setDefault(mixed $value = null): self
+    protected function setDefault(mixed $value = null): static
     {
         $this->setDefaultValue($value);
         return $this;

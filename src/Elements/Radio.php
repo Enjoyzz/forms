@@ -65,7 +65,7 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
      * @return $this
      * @psalm-suppress PossiblyNullReference
      */
-    protected function setDefault(mixed $value = null): self
+    protected function setDefault(mixed $value = null): static
     {
         $this->setDefaultValue($value);
 

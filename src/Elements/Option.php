@@ -33,7 +33,7 @@ class Option extends Element implements Fillable
      * @param mixed $value
      * @return $this
      */
-    protected function setDefault(mixed $value = null): self
+    protected function setDefault(mixed $value = null): static
     {
         if (is_array($value)) {
             if (in_array($this->getAttribute('value')?->getValueString(), $value)) {
