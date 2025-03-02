@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enjoys\Forms\Attributes;
 
-use Enjoys\Forms\Attribute;
+use Enjoys\Forms\HtmlAttribute;
 
-final class ClassAttribute extends Attribute
+final class ClassHtmlAttribute extends HtmlAttribute
 {
     protected string $name = 'class';
 

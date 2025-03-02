@@ -2,10 +2,10 @@
 
 namespace Tests\Enjoys\Forms\Elements;
 
-use Enjoys\Forms\Attribute;
 use Enjoys\Forms\Elements\Checkbox;
 use Enjoys\Forms\Elements\Radio;
 use Enjoys\Forms\Form;
+use Enjoys\Forms\HtmlAttribute;
 use HttpSoft\Message\ServerRequest;
 use Tests\Enjoys\Forms\_TestCase;
 use Tests\Enjoys\Forms\Reflection;
@@ -119,7 +119,7 @@ class CheckboxTest extends _TestCase
         $elements = $this->filldata();
         /** @var Radio $v2 */
         $v2 = $elements[1];
-        $this->assertInstanceOf(Attribute::class, $v2->getAttribute('disabled'));
+        $this->assertInstanceOf(HtmlAttribute::class, $v2->getAttribute('disabled'));
         $this->assertNotNull($v2->getAttribute('id'));
     }
 

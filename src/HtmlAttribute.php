@@ -9,7 +9,7 @@ use Enjoys\Forms\Interfaces\AttributeInterface;
 use Webmozart\Assert\Assert;
 use Webmozart\Assert\InvalidArgumentException;
 
-abstract class Attribute implements AttributeInterface
+abstract class HtmlAttribute implements AttributeInterface
 {
     protected string $name = '';
 

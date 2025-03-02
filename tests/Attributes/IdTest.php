@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms\Attributes;
 
-use Enjoys\Forms\Attributes\IdAttribute;
+use Enjoys\Forms\Attributes\IdHtmlAttribute;
 use PHPUnit\Framework\TestCase;
 
 class IdTest extends TestCase
 {
     public function testRenderIfNotAddedValue()
     {
-        $attr = new IdAttribute();
+        $attr = new IdHtmlAttribute();
         $this->assertSame('', $attr->__toString());
     }
 
     public function testRenderIfAddedValue()
     {
-        $attr = new IdAttribute();
+        $attr = new IdHtmlAttribute();
         $attr->set([
             'test',
             'test2'

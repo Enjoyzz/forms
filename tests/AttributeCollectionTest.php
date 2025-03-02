@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Enjoys\Forms;
 
-use Enjoys\Forms\Attribute;
 use Enjoys\Forms\AttributeCollection;
 use Enjoys\Forms\AttributeFactory;
+use Enjoys\Forms\HtmlAttribute;
 use PHPUnit\Framework\TestCase;
 
 class AttributeCollectionTest extends TestCase
@@ -57,7 +57,7 @@ class AttributeCollectionTest extends TestCase
             $collection->add($attr);
         }
 
-        $this->assertInstanceOf(Attribute::class, $collection->get('class'));
+        $this->assertInstanceOf(HtmlAttribute::class, $collection->get('class'));
         $this->assertNull($collection->get('not-found-attribute'));
     }
 
@@ -149,10 +149,10 @@ class AttributeCollectionTest extends TestCase
         }
 
         foreach ($collection as $item) {
-            $this->assertInstanceOf(Attribute::class, $item);
+            $this->assertInstanceOf(HtmlAttribute::class, $item);
         }
         foreach ($collection->getIterator() as $item) {
-            $this->assertInstanceOf(Attribute::class, $item);
+            $this->assertInstanceOf(HtmlAttribute::class, $item);
         }
     }
 }
