@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "php": "^8.0",
+    "php": "^8.3",
     "ext-json": "*",
     "enjoys/session": "^2.0",
     "httpsoft/http-server-request": "^1.0",
