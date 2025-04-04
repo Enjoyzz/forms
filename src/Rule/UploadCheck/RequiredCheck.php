@@ -13,7 +13,7 @@ final class RequiredCheck implements UploadCheckInterface
     private Ruleable $element;
     private ?string $message;
 
-    public function __construct(false|UploadedFileInterface $value, Ruleable $element, string $message = null)
+    public function __construct(false|UploadedFileInterface $value, Ruleable $element, ?string $message = null)
     {
         $this->value = $value;
         $this->element = $element;

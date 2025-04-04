@@ -14,7 +14,7 @@ trait Request
      */
     private ServerRequestInterface $request;
 
-    public function setRequest(ServerRequestInterface $request = null): void
+    public function setRequest(?ServerRequestInterface $request = null): void
     {
         $this->request = $request ?? ServerRequestCreator::createFromGlobals();
     }

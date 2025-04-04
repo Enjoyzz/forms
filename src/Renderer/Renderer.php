@@ -11,7 +11,7 @@ abstract class Renderer
 {
     private Form $form;
 
-    public function __construct(Form $form = null)
+    public function __construct(?Form $form = null)
     {
         $this->form = $form ?? new Form();
     }

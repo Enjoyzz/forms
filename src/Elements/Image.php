@@ -11,7 +11,7 @@ class Image extends Element
 {
     protected string $type = 'image';
 
-    public function __construct(string $name, string $src = null)
+    public function __construct(string $name, ?string $src = null)
     {
         parent::__construct($name);
         if (!is_null($src)) {

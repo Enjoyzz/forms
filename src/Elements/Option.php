@@ -16,7 +16,7 @@ class Option extends Element implements Fillable
     protected string $type = 'option';
 
 
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, ?string $title = null)
     {
         parent::__construct($name, $title);
         $this->setAttributes(

@@ -22,7 +22,7 @@ class Select extends Element implements Fillable, Ruleable, Descriptionable
 
     protected string $type = 'option';
 
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, ?string $title = null)
     {
         parent::__construct($name, $title);
     }

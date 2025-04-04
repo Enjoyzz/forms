@@ -11,35 +11,35 @@ use Enjoys\Forms\Interfaces\ElementInterface;
 use Webmozart\Assert\Assert;
 
 /**
- * @method Elements\Text text(string $name, string $label = null)
- * @method Elements\Hidden hidden(string $name, string $value = null)
- * @method Elements\Password password(string $name, string $label = null)
- * @method Elements\Submit submit(string $name = null, string $title = null)
- * @method Elements\Header header(string $title = null)
- * @method Elements\Color color(string $name, string $label = null)
- * @method Elements\Date date(string $name, string $label = null)
- * @method Elements\Datetime datetime(string $name, string $label = null)
- * @method Elements\Datetimelocal datetimelocal(string $name, string $label = null)
- * @method Elements\Email email(string $name, string $label = null)
- * @method Elements\Number number(string $name, string $label = null)
- * @method Elements\Range range(string $name, string $label = null)
- * @method Elements\Search search(string $name, string $label = null)
- * @method Elements\Tel tel(string $name, string $label = null)
- * @method Elements\Time time(string $name, string $label = null)
- * @method Elements\Url url(string $name, string $label = null)
- * @method Elements\Month month(string $name, string $label = null)
- * @method Elements\Week week(string $name, string $label = null)
- * @method Elements\Textarea textarea(string $name, string $label = null)
- * @method Elements\Select select(string $name, string $label = null)
- * @method Elements\Button button(string $name, string $title = null)
- * @method Elements\Datalist datalist(string $name, string $label = null)
- * @method Elements\Checkbox checkbox(string $name, string $label = null)
- * @method Elements\Image image(string $name, string $src = null)
- * @method Elements\Radio radio(string $name, string $title = null)
- * @method Elements\Reset reset(string $name, string $title = null)
+ * @method Elements\Text text(string $name, null|string $label = null)
+ * @method Elements\Hidden hidden(string $name, null|string $value = null)
+ * @method Elements\Password password(string $name, null|string $label = null)
+ * @method Elements\Submit submit(null|string $name = null, null|string $title = null)
+ * @method Elements\Header header(null|string $title = null)
+ * @method Elements\Color color(string $name, null|string $label = null)
+ * @method Elements\Date date(string $name, null|string $label = null)
+ * @method Elements\Datetime datetime(string $name, null|string $label = null)
+ * @method Elements\Datetimelocal datetimelocal(string $name, null|string $label = null)
+ * @method Elements\Email email(string $name, null|string $label = null)
+ * @method Elements\Number number(string $name, null|string $label = null)
+ * @method Elements\Range range(string $name, null|string $label = null)
+ * @method Elements\Search search(string $name, null|string $label = null)
+ * @method Elements\Tel tel(string $name, null|string $label = null)
+ * @method Elements\Time time(string $name, null|string $label = null)
+ * @method Elements\Url url(string $name, null|string $label = null)
+ * @method Elements\Month month(string $name, null|string $label = null)
+ * @method Elements\Week week(string $name, null|string $label = null)
+ * @method Elements\Textarea textarea(string $name, null|string $label = null)
+ * @method Elements\Select select(string $name, null|string $label = null)
+ * @method Elements\Button button(string $name, null|string $title = null)
+ * @method Elements\Datalist datalist(string $name, null|string $label = null)
+ * @method Elements\Checkbox checkbox(string $name, null|string $label = null)
+ * @method Elements\Image image(string $name, null|string $src = null)
+ * @method Elements\Radio radio(string $name, null|string $title = null)
+ * @method Elements\Reset reset(string $name, null|string $title = null)
  * @method Elements\Captcha captcha(CaptchaInterface $captcha)
- * @method Elements\Group group(string $title = null)
- * @method Elements\File file(string $name, string $label = null)
+ * @method Elements\Group group(null|string $title = null)
+ * @method Elements\File file(string $name, null|string $label = null)
  * @method Elements\Csrf csrf()
  * @method Elements\Html html(string $html)
  *
@@ -68,7 +68,7 @@ trait Container
     /**
      * @psalm-suppress MixedPropertyTypeCoercion
      */
-    public function addElement(Element $element, string $before = null, string $after = null): static
+    public function addElement(Element $element, ?string $before = null, ?string $after = null): static
     {
         $element->setRequest($this->getRequest());
         if ($element->prepare() === true) {

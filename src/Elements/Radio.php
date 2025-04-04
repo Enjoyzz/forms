@@ -26,7 +26,7 @@ class Radio extends Element implements Fillable, Ruleable, Descriptionable
     private string $originalName;
 
 
-    public function __construct(string $name, string $title = null, bool $parent = true)
+    public function __construct(string $name, ?string $title = null, bool $parent = true)
     {
         $this->parent = $parent;
         $this->originalName = $name;

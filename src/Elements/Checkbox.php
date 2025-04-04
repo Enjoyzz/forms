@@ -28,7 +28,7 @@ class Checkbox extends Element implements Fillable, Ruleable, Descriptionable
     protected bool $allowSameNames = true;
 
 
-    public function __construct(string $name, string $title = null, bool $parent = true)
+    public function __construct(string $name, ?string $title = null, bool $parent = true)
     {
         $this->parent = $parent;
         $this->originalName = trim($name);

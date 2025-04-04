@@ -33,7 +33,7 @@ abstract class Element implements ElementInterface
     protected bool $allowSameNames = false;
 
 
-    public function __construct(string $name, string $label = null)
+    public function __construct(string $name, ?string $label = null)
     {
         $this->setRequest();
         $this->setName($name);
