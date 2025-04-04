@@ -16,7 +16,7 @@ class Group extends Element implements Descriptionable
     use Description;
     use Container;
 
-    public function __construct(string $title = null, string $id = null)
+    public function __construct(?string $title = null, ?string $id = null)
     {
         parent::__construct($id ?? \uniqid('group'), $title);
     }

@@ -16,5 +16,5 @@ interface RuleInterface
      */
     public function validate(Ruleable $element): bool;
 
-    public function setRequest(ServerRequestInterface $request = null): void;
+    public function setRequest(?ServerRequestInterface $request = null): void;
 }

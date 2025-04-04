@@ -51,11 +51,11 @@ class Form
      */
     public function __construct(
         string $method = 'POST',
-        string $action = null,
-        string $id = null,
-        ServerRequestInterface $request = null,
-        DefaultsHandlerInterface $defaultsHandler = null,
-        Session $session = null
+        ?string $action = null,
+        ?string $id = null,
+        ?ServerRequestInterface $request = null,
+        ?DefaultsHandlerInterface $defaultsHandler = null,
+        ?Session $session = null
     ) {
         $this->request = $request ?? ServerRequestCreator::createFromGlobals();
         $this->session = $session ?? new Session();

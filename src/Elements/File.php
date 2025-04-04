@@ -27,7 +27,7 @@ class File extends Element implements Ruleable, Descriptionable
     /**
      * @throws ExceptionRule
      */
-    public function __construct(string $name, string $title = null)
+    public function __construct(string $name, ?string $title = null)
     {
         parent::__construct($name, $title);
         $this->addRule(Rules::UPLOAD, [

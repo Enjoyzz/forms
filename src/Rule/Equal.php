@@ -26,7 +26,7 @@ class Equal implements RuleInterface
      * @param array<array-key, scalar>|scalar $params
      * @param string|null $message
      */
-    public function __construct(mixed $params, string $message = null)
+    public function __construct(mixed $params, ?string $message = null)
     {
 
         $this->params = (array) $params;
