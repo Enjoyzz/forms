@@ -40,7 +40,7 @@ class Reset extends Element
 {
     protected string $type = 'reset';
 
-    public function __construct(string $name = null, ?string $title = null)
+    public function __construct(?string $name = null, ?string $title = null)
     {
         $name ??= uniqid('reset');
 

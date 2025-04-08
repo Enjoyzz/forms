@@ -11,7 +11,7 @@ class Submit extends Element
 {
     protected string $type = 'submit';
 
-    public function __construct(string $name = null, ?string $title = null)
+    public function __construct(?string $name = null, ?string $title = null)
     {
         if (is_null($name)) {
             $name = uniqid('submit');
