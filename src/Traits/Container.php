@@ -109,10 +109,19 @@ trait Container
 
     public function getElement(string $name): ?Element
     {
-        if (false !== $key = $this->getElementKey($name)) {
-            return $this->elements[$key];
-        }
+        foreach ($this->elements as $element) {
+            if ($element->getName() === $name) {
+                return $element;
+            }
 
+            if ($element instanceof Elements\Group) {
+                foreach ($element->getElements() as $el) {
+                    if ($el->getName() === $name) {
+                        return $el;
+                    }
+                }
+            }
+        }
         return null;
     }
 
